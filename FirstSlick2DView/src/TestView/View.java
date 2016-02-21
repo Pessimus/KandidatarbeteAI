@@ -45,6 +45,8 @@ public class View extends BasicGame {
 		charY = d.getHeight()/2;
 	}
 
+
+
 	@Override
 	public void update(GameContainer gameContainer, int i) throws SlickException {
 		Input in = gameContainer.getInput();
