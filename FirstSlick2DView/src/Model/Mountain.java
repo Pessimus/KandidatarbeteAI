@@ -8,7 +8,7 @@ public class Mountain extends WorldCell {
 		setTraversable(false);
 	}
 
-	protected Mountain(int x, int y){
+	public Mountain(int x, int y){
 		super(x, y, false);
 	}
 }

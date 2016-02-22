@@ -5,11 +5,11 @@ package Model;
  */
 public class Terrain extends WorldCell{
 
-	protected Terrain(){
+	public Terrain(){
 		setTraversable(true);
 	}
 
-	protected Terrain(int x, int y){
+	public Terrain(int x, int y){
 		super(x, y, true);
 	}
 

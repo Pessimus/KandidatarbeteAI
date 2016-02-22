@@ -40,13 +40,13 @@ public abstract class WorldCell{// implements Comparable{
 
 	private int posY;
 
-	private static final boolean DEFAULT_TRAVERSIBLE = true;
+	public static final boolean DEFAULT_TRAVERSIBLE = true;
 	private boolean traversable;
 
 	//    A* Pathfinding variables
 
-	private static final int DIAGONAL_COST = 1414;
-	private static final int DIRECT_COST = 1000;
+	public static final int DIAGONAL_COST = 1414;
+	public static final int DIRECT_COST = 1000;
 
 	private WorldCell parentCell = null;
 
