@@ -10,29 +10,23 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://D:/Programmering/Slick2D/lib" />
+          <root url="jar://$USER_HOME$/Desktop/Slick/lib/lwjgl.jar!/" />
+          <root url="jar://$USER_HOME$/Desktop/Slick/lib/slick.jar!/" />
+          <root url="file://$MODULE_DIR$/.." />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
-        <jarDirectory url="file://D:/Programmering/Slick2D/lib" recursive="false" />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../src" />
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://D:/Programmering/Slick2D" />
+          <root url="jar://$USER_HOME$/Desktop/Slick/lib/lwjgl_util.jar!/" />
         </CLASSES>
-        <JAVADOC>
-          <root url="file://D:/Programmering/Slick2D/javadoc" />
-        </JAVADOC>
-        <NATIVE>
-          <root url="file://D:/Programmering/Slick2D" />
-        </NATIVE>
-        <SOURCES>
-          <root url="file://D:/Programmering/Slick2D/src" />
-          <root url="file://D:/Programmering/Slick2D/tools" />
-        </SOURCES>
-        <jarDirectory url="file://D:/Programmering/Slick2D" recursive="false" />
+        <JAVADOC />
+        <SOURCES />
       </library>
     </orderEntry>
   </component>
