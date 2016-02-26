@@ -8,12 +8,11 @@ import java.util.LinkedList;
 public class World {
 
 	private LinkedList<ICollidable> collidables; //TODO custom list supporting buublesort and incrtionsort
-	private double with;
+	private double width;
 	private double height;
 
 	public World (double with, double height){
 		this.collidables = new LinkedList<ICollidable>();
-
 	}
 
 	public static World generateWorld(double with, double height, int nbrOfResources) {
