@@ -5,4 +5,6 @@ package Model;
  */
 public interface ICollidable {
 	double getX();
+	double getY();
+	double getRadius();
 }
