@@ -5,6 +5,8 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.tiled.TiledMap;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.*;
 
 import java.util.logging.Level;
@@ -13,9 +15,11 @@ import java.util.logging.Logger;
 /**
  * Created by Tobias on 2016-02-14.
  */
-public class View extends BasicGame {
+public class View extends BasicGame{
 
 	int testGathering = 0;	//testvariabel
+
+	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 	int farmImageId  = 9*21 +20;
 	int wheatImageId = 11*21 +16;
@@ -60,15 +64,14 @@ public class View extends BasicGame {
 		charX = d.getWidth()/2;
 		charY = d.getHeight()/2;
 
-
 		//Oskars testkod nedan
 		treeList.add(new Tree(4*32,4*32,5));
 		treeList.add(new Tree(6*32,6*32,10));
 		treeList.add(new Tree(0*32,0*32,10));
 
-		for(int i=1; i<map.getWidth(); i++) {
-			for(int j=1; j<map.getHeight(); j++) {
-			 	if(map.getTileId((i),(j),2) == stoneImageId)
+		for(int i=0; i<map.getWidth(); i++) {
+			for(int j=0; j<map.getHeight(); j++) {
+			 	if(map.getTileId(i,j,2) == stoneImageId)
 				{
 					stoneList.add(new Stone(i*32,j*32,5));
 				}
@@ -79,6 +82,7 @@ public class View extends BasicGame {
 	@Override
 	public void update(GameContainer gameContainer, int i) throws SlickException {
 
+
 		Input in = gameContainer.getInput();
 		//System.out.println(charX);
 		//System.out.println(d.getWidth());
@@ -86,6 +90,7 @@ public class View extends BasicGame {
 		if (in.isKeyDown(Input.KEY_LEFT) && charX > 0) {
 			if(map.getTileId((charX-1)/32, charY/32, 3) != collisionId)
 				charX -= 1;
+				//pcs.firePropertyChange();
 		}
 		if (in.isKeyDown(Input.KEY_RIGHT) && charX < d.getWidth() - character.getWidth()) {
 			if (map.getTileId((charX + 1) / 32, charY / 32, 3) != collisionId)
@@ -150,5 +155,17 @@ public class View extends BasicGame {
 		graphics.drawString(Integer.toString(testGathering),32,32);
 		graphics.drawString(Integer.toString(stoneList.size()),64,32);
 		graphics.drawString(Integer.toString(map.getTileId(charX/32,charY/32,2)), 96,32);
+		graphics.drawString(Integer.toString(map.getTileId(charX/32,charY/32,2)), 96,32);
+
+	}
+
+	public void addPropertyChangeListener(PropertyChangeListener listener){
+		pcs.addPropertyChangeListener(listener);
+	}
+	public void removePropertyChangeListener(PropertyChangeListener listener){
+		pcs.removePropertyChangeListener(listener);
+	}
+	private void notifyPropertyChangeListener(){
+		//pcs.firePropertyChange();   				//Data som ska skickas
 	}
 }

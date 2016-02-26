@@ -4,7 +4,7 @@
   <image source="terrain.png" width="672" height="736"/>
  </tileset>
  <tileset firstgid="484" name="Collision" tilewidth="32" tileheight="32" tilecount="2" columns="2">
-  <image source="../../../../../Pictures/Kandidat/Collision.png" width="64" height="32"/>
+  <image source="Collision.png" width="64" height="32"/>
  </tileset>
  <layer name="Background" width="30" height="30">
   <data encoding="base64" compression="gzip">
