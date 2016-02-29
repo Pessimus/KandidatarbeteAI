@@ -3,16 +3,11 @@ package Controller;
 import Model.World;
 import View.View;
 
-import javafx.util.Pair;
-import org.lwjgl.input.Keyboard;
-
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Set;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -45,6 +40,7 @@ public class Controller implements PropertyChangeListener {
 	public boolean setView(View view){
 		if(view != null){
 			gameView = view;
+			//gameView.addPropertyListener(this); // TODO: 'View' should use PropertyChangeSupport
 			return true;
 		}
 
@@ -54,6 +50,7 @@ public class Controller implements PropertyChangeListener {
 	public boolean setModel(World model){
 		if(model != null){
 			gameModel = model;
+			//gameModel.addPropertyListener(this); // TODO: 'Model' should use PropertyChangeSupport
 			return true;
 		}
 
