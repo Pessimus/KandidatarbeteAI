@@ -19,7 +19,7 @@ public class Controller implements PropertyChangeListener {
 	private World gameModel;
 	private View gameView;
 
-	private final Queue<Integer[]> keyboardInputQueue;
+	private final Queue<Integer> keyboardInputQueue;
 	private final Queue<Integer[]> mouseInputQueue;
 
 	private final Semaphore keyboardSema = new Semaphore(1);
@@ -47,7 +47,7 @@ public class Controller implements PropertyChangeListener {
 	public boolean setView(View view){
 		if(view != null){
 			gameView = view;
-			//gameView.addPropertyChangeListener(this); // TODO: 'View' should use PropertyChangeSupport
+			gameView.addPropertyChangeListener(this); // TODO: 'View' should use PropertyChangeSupport
 			return true;
 		}
 
@@ -77,18 +77,39 @@ public class Controller implements PropertyChangeListener {
 
 	}
 
-	private void handleViewEvent(PropertyChangeEvent evt){
-		if(evt.getPropertyName().equals("keyboard")) {
+	private void handleViewEvent(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals("keyDown")) {
 			// If the 'View' is sending 'Keyboard'-inputs, put them in the correct queue.
 			try {
-				Integer[] newValue = (Integer[]) evt.getNewValue();
+				Integer newValue = (Integer) evt.getNewValue();
 				keyboardSema.acquire();
 				keyboardInputQueue.offer(newValue);
 				keyboardSema.release();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		} else if(evt.getPropertyName().equals("mouse")){
+		} else if(evt.getPropertyName().equals("keyUp")){
+			// If the View is sending 'Mouse'-inputs, put them in the correct queue.
+			try{
+				Integer newValue = (Integer) evt.getNewValue();
+				mouseSema.acquire();
+				keyboardInputQueue.offer(newValue);
+				mouseSema.release();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+		} else if(evt.getPropertyName().equals("mouseDown")){
+			// If the View is sending 'Mouse'-inputs, put them in the correct queue.
+			try{
+				Integer[] newValue = (Integer[]) evt.getNewValue();
+				mouseSema.acquire();
+				mouseInputQueue.offer(newValue);
+				mouseSema.release();
+			} catch (InterruptedException e){
+				e.printStackTrace();
+			}
+		} else if(evt.getPropertyName().equals("mouseUp")){
 			// If the View is sending 'Mouse'-inputs, put them in the correct queue.
 			try{
 				Integer[] newValue = (Integer[]) evt.getNewValue();
