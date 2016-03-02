@@ -20,13 +20,14 @@ public class View extends BasicGameState implements InputListener{
     private int stateNr;
     private TiledMap map;
     List<Integer> listToRender;
-    private boolean initMap = true;
 
     //----------TESTVARIABLER UNDER, Ska kanske inte vara kvar ------------------
     int mouseX = 0;
     int mouseY = 0;
     int mouseXMoved = 0;
     int mouseYMoved = 0;
+
+    int collisionId = 21*23+1;
 
     public View(int i) {
         stateNr = i;
