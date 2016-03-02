@@ -22,9 +22,11 @@ public class View extends BasicGameState implements InputListener{
     List<Integer> listToRender;
     private boolean initMap = true;
 
-    //----------TESTVARIABLER UNDER, Ska ej vara kvar ------------------
+    //----------TESTVARIABLER UNDER, Ska kanske inte vara kvar ------------------
     int mouseX = 0;
     int mouseY = 0;
+    int mouseXMoved = 0;
+    int mouseYMoved = 0;
 
     public View(int i) {
         stateNr = i;
@@ -33,7 +35,6 @@ public class View extends BasicGameState implements InputListener{
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         map = new TiledMap("res/mapsquare.tmx");       //controller.getTiledMap();
-        //addPropertyChangeListener();
     }
 
 
@@ -44,10 +45,8 @@ public class View extends BasicGameState implements InputListener{
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-        map.render(0,0, mouseX/32,mouseY/32,25,20);
+        map.render(0,0, mouseX/32,mouseY/32,50,40);
 
-        graphics.drawString((Integer.toString(mouseX)),100,100);
-        graphics.drawString((Integer.toString(mouseY)),200,100);
         /*
         semaphore.acquire();
         List<> renderList = new LinkedList<>(listToRender);
@@ -65,7 +64,6 @@ public class View extends BasicGameState implements InputListener{
                 graphics.drawImage(obj.x, obj.y, treeImage);
             }
         }
-
         */
     }
 
@@ -77,29 +75,18 @@ public class View extends BasicGameState implements InputListener{
 
     public void keyPressed(int key, char c) {
 
-        //notifyPropertyChangeListener(key);
+        notifyKeyInput(key,"KEY_PRESSED");
     }
 
-    //public void keyReleased(int key, char c){
-    //}
+    public void keyReleased(int key, char c){
+        notifyKeyInput(key,"KEY_RELEASED");
+    }
 
-    public void mouseMoved(int oldx, int oldy, int newx, int newy){
-        if(oldx>1360){
-            mouseX = newx + 1360;
-        }
-        else if(oldx<1370){
-            mouseX = newx - 1360;
-        }
-        else{
-            mouseX = newx;
-        }
-        if(oldy>760){
-            mouseY = newy + 760;
-        }
-        else{
-            mouseY = newy;
-        }
-
+    public void mouseMoved(int oldx, int oldy, int newx, int newy){   //Ska denna flyttas till modell?
+        mouseXMoved = newx-oldx;
+        mouseYMoved = newy-oldy;
+        mouseX+=mouseXMoved;
+        mouseY+=mouseYMoved;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener){
@@ -109,7 +96,9 @@ public class View extends BasicGameState implements InputListener{
     public void removePropertyChangeListener(PropertyChangeListener listener){
         pcs.removePropertyChangeListener(listener);
     }
-    private void notifyPropertyChangeListener(int key){
-        pcs.firePropertyChange("newInput",0,key);
+    private void notifyKeyInput(int input, String control){   // control = "KEY_PRESSED" eller "KEY_RELEASED"
+
+        pcs.firePropertyChange(control,0,input);
     }
+    //private void notifyMouseInput(){}
 }

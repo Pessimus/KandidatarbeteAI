@@ -22,6 +22,7 @@ public class MainTesting extends StateBasedGame {
         try{
             MainTesting game = new MainTesting("test");
             AppGameContainer test = new AppGameContainer(game, 1366, 768, true);
+            test.setMouseGrabbed(true);
             test.setTargetFrameRate(60);
             test.start();
 
