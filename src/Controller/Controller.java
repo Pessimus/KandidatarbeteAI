@@ -2,6 +2,7 @@ package Controller;
 
 import Model.World;
 import View.View;
+import org.newdawn.slick.Input;
 
 import java.awt.Toolkit;
 import java.awt.Dimension;
@@ -19,11 +20,14 @@ public class Controller implements PropertyChangeListener {
 	private World gameModel;
 	private View gameView;
 
-	private final Queue<Integer> keyboardInputQueue;
+	private final Queue<Integer[]> keyboardInputQueue;
 	private final Queue<Integer[]> mouseInputQueue;
 
 	private final Semaphore keyboardSema = new Semaphore(1);
 	private final Semaphore mouseSema = new Semaphore(1);
+
+	public static final int KEYBOARD_PRESSED_INTEGER = 0;
+	public static final int KEYBOARD_RELEASED_INTEGER = 0;
 
 	// TODO: Remove this enum!
 	public enum objects{
@@ -73,33 +77,76 @@ public class Controller implements PropertyChangeListener {
 		//gameView.drawObjects(objectList);
 	}
 
-	private void updateModel(){
+	private void sendKeyboardInputToModel(Integer[][] keyboardClicks) {
+		// Keyboard input
+		if (keyboardClicks.length > 0) {
+			new Thread() {
+				@Override
+				public void run() {
+					// The array for key-clicks work like this:
+					// keyboardClicks[0] = If the key was pressed (0) or released (1)
+					// keyboardClicks[0][0] = What key was pressed, which is compared to Input static variables.
+					for (Integer[] clicks : keyboardClicks) {
+						if (clicks[0] == KEYBOARD_PRESSED_INTEGER)
+							if (clicks[1] == Input.KEY_UP) {
+								;
+							} else if (clicks[1] == Input.KEY_DOWN) {
+								;
+							} else if (clicks[1] == Input.KEY_LEFT) {
+								;
+							} else if (clicks[1] == Input.KEY_RIGHT) {
+								;
+							}
+					}
+				}
+			}.run();
+		}
+	}
 
+	private void sendMouseInputToModel(Integer[][] mouseClicks){
+		// Mouse input
+		if(mouseClicks.length > 0) {
+			new Thread() {
+				@Override
+				public void run() {
+					// Call methods in the model according to what key was pressed!
+					for(Integer[] clicks : mouseClicks) {
+						// clicks[0] = If the mouse button is pressed or released!
+
+						if (clicks[0] == Input.MOUSE_LEFT_BUTTON) {
+							;
+						} else if (clicks[0] == Input.MOUSE_RIGHT_BUTTON) {
+							;
+						}
+					}
+				}
+			}.run();
+		}
 	}
 
 	private void handleViewEvent(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals("keyDown")) {
+		if (evt.getPropertyName().equals("KEY_PRESSED")) {
 			// If the 'View' is sending 'Keyboard'-inputs, put them in the correct queue.
 			try {
-				Integer newValue = (Integer) evt.getNewValue();
+				Integer[] newValue = (Integer[]) evt.getNewValue();
 				keyboardSema.acquire();
 				keyboardInputQueue.offer(newValue);
 				keyboardSema.release();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		} else if(evt.getPropertyName().equals("keyUp")){
+		} else if(evt.getPropertyName().equals("KEY_RELEASED")){
 			// If the View is sending 'Mouse'-inputs, put them in the correct queue.
 			try{
-				Integer newValue = (Integer) evt.getNewValue();
-				mouseSema.acquire();
+				Integer[] newValue = (Integer[]) evt.getNewValue();
+				keyboardSema.acquire();
 				keyboardInputQueue.offer(newValue);
-				mouseSema.release();
+				keyboardSema.release();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 
-		} else if(evt.getPropertyName().equals("mouseDown")){
+		} else if(evt.getPropertyName().equals("LEFT_MOUSE_PRESSED")){
 			// If the View is sending 'Mouse'-inputs, put them in the correct queue.
 			try{
 				Integer[] newValue = (Integer[]) evt.getNewValue();
@@ -109,7 +156,7 @@ public class Controller implements PropertyChangeListener {
 			} catch (InterruptedException e){
 				e.printStackTrace();
 			}
-		} else if(evt.getPropertyName().equals("mouseUp")){
+		} else if(evt.getPropertyName().equals("RIGHT_MOUSE_PRESSED")){
 			// If the View is sending 'Mouse'-inputs, put them in the correct queue.
 			try{
 				Integer[] newValue = (Integer[]) evt.getNewValue();
@@ -130,14 +177,15 @@ public class Controller implements PropertyChangeListener {
 				Object[] tempList = keyboardInputQueue.toArray();
 				keyboardSema.release();
 
-				Integer[] keyInts = (Integer[])tempList;
+				Integer[][] keyInts = (Integer[][])tempList;
+				sendKeyboardInputToModel(keyInts);
 
 				mouseSema.acquire();
 				tempList = mouseInputQueue.toArray();
 				mouseSema.release();
-				Integer[] mouseInts = (Integer[])tempList;
 
-				//gameModel.provideInputs(keyInts, mouseInts); TODO: Implement a method in World that receives lists of integers.
+				Integer[][] mouseClicks = (Integer[][])tempList;
+				sendMouseInputToModel(mouseClicks);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
