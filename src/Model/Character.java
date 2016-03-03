@@ -29,10 +29,10 @@ public class Character implements ICollidable, ITimeable {
 	}
 
 	@Override
-	public double setX() {	return 0;}
+	public double setX(double x) {	return 0;}
 
 	@Override
-	public double setY() {	return 0;}
+	public double setY(double y) {	return 0;}
 
 	@Override
 	public double getRadius() {
