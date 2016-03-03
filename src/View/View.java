@@ -48,6 +48,8 @@ public class View extends BasicGameState implements InputListener{
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
         map.render(0,0, mouseX/32,mouseY/32,50,40);
 
+        //Test
+
         /*
         semaphore.acquire();
         List<> renderList = new LinkedList<>(listToRender);
