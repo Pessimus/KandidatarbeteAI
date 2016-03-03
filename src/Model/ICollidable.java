@@ -6,5 +6,7 @@ package Model;
 public interface ICollidable {
 	double getX();
 	double getY();
+	double setX();
+	double setY();
 	double getRadius();
 }
