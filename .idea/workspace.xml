@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d1adfda-72fd-41e9-b5b1-b85a73a01815" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/Character.java" afterPath="$PROJECT_DIR$/src/Model/Character.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/World.java" afterPath="$PROJECT_DIR$/src/Model/World.java" />
-    </list>
+    <list default="true" id="4d1adfda-72fd-41e9-b5b1-b85a73a01815" name="Default" comment="" />
     <ignored path="KandidatarbeteAI.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -28,7 +25,7 @@
       <file leaf-file-name="World.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Model/World.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5294118">
+            <state vertical-scroll-proportion="0.29411766">
               <caret line="36" column="30" selection-start-line="36" selection-start-column="30" selection-end-line="36" selection-end-column="30" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -550,7 +547,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Model/World.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5294118">
+        <state vertical-scroll-proportion="0.29411766">
           <caret line="36" column="30" selection-start-line="36" selection-start-column="30" selection-end-line="36" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
