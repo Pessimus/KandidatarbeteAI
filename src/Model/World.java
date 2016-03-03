@@ -16,8 +16,6 @@ public class World {
 		this.with = with;
 		this.height = height;
 		this.collidables = new LinkedList<ICollidable>();
-		this.timables = new LinkedList<ITimable>();
-
 	}
 
 	public static World generateWorld(double with, double height, int nbrOfResources) {
