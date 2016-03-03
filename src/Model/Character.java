@@ -1,5 +1,6 @@
 package Model;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -43,9 +44,26 @@ public class Character implements ICollidable, ITimeable {
 
 	@Override
 	public void update() {
-		//TODO Move
 		//TODO Update needs
 		//TODO Implement ageing etc...
+	}
+	/*
+	Method for checking where the character wants to move
+	 */
+	public double getNextXPossition(){
+		return this.xPoss+this.xSpeed;
+	}
+	/*
+	Method for checking where the character wants to move
+	 */
+	public double getNextYPossition(){
+		return this.yPoss+this.ySpeed;
+	}
+	public double moveX(){
+		return this.xPoss += this.xSpeed;
+	}
+	public double moveY(){
+		return this.yPoss += this.ySpeed;
 	}
 
 	public void walkRight(){
