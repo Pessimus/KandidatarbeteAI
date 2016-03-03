@@ -9,8 +9,8 @@ import java.util.LinkedList;
 public class World {
 
 	private HashMap<Integer,Character> characters;
-	private LinkedList<ICollidable> collidables; //TODO custom list supporting buublesort and incrtionsort
-	private LinkedList<ITimeable> timables; //TODO custom list supporting buublesort and incrtionsort
+	private LinkedList<ICollidable> collidables; //TODO custom (dual) list supporting buublesort and incrtionsort
+	private LinkedList<ITimeable> timeables;
 	private double width;
 	private double height;
 
@@ -18,23 +18,34 @@ public class World {
 		this.width = width;
 		this.height = height;
 		this.collidables = new LinkedList<ICollidable>();
-		this.timables = new LinkedList<ITimeable>();
+		this.timeables = new LinkedList<ITimeable>();
 		this.characters = new HashMap<>();
 	}
 
-	public static World generateWorld(double width, double height, int nbrOfResources) {
-		World world = new World(width,height);
+	public void update(){
 
-		return null;
+		for(Character character : characters.values()){
+			//TODO IF x
+			character.moveX();
+			//END TODO IF x
+			//TODO IF y
+			character.moveY();
+			//END TODO IF y
+		}
+
+		for(ITimeable timedObj : timeables){
+			timedObj.update();
+		}
+
 	}
 
 	public Character addCharacter(double xPoss, double yPoss, int key){
-		Character c = new Character(xPoss, yPoss);
+		Character character = new Character(xPoss, yPoss);
 
-		this.collidables.add(c);
-		this.characters.put(key,c);
+		this.collidables.add(character);
+		this.characters.put(key,character);
 
-		return c;
+		return character;
 	}
 
 	private boolean addCollidable(double xPoss, double yPoss, double radius){return false;}
@@ -45,7 +56,7 @@ public class World {
 			Vissible tmp = new Vissible();
 			tmp.xPoss = visible.getX();
 			tmp.yPoss = visible.getY();
-			tmp.radius = visible.getRadius();
+			tmp.radius = visible.getCollisionRadius();
 			//TODO ENUM for type
 			vissibles.add(tmp);
 		}
