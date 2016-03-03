@@ -21,7 +21,7 @@ public class ResourcePoint implements ICollidable {
 	}
 
 	@Override
-	public double getRadius() {
+	public double getCollisionRadius() {
 		return 0;
 	}
 }

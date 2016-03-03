@@ -39,7 +39,7 @@ public class Controller implements PropertyChangeListener {
 	public static void main(String[] args){
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		World model = new World(d.getWidth(), d.getHeight());
-		View view = new View(0);//0? 
+		View view = new View(0);//0?
 		new Controller(view, model);
 	}
 
@@ -48,6 +48,13 @@ public class Controller implements PropertyChangeListener {
 		mouseInputQueue = new LinkedList<>();
 		setView(view);
 		setModel(model);
+		//this.run();
+	}
+
+	private void run(){
+		while(true){
+
+		}
 	}
 
 	public boolean setView(View view){
