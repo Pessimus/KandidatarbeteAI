@@ -35,17 +35,21 @@ public class Character implements ICollidable, ITimeable {
 	}
 
 	@Override
+	public void update() {
+		
+	}
+/*
+	@Override
 	public double getTimeInterval() {
 		return 0;
 	}
-
 	@Override
 	public void setTimeInterval(double period) {
-
 	}
-
 	@Override
 	public void onUpdate() {
+	}*/
 
-	}
+
+
 }

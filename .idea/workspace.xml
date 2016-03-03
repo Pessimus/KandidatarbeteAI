@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4d1adfda-72fd-41e9-b5b1-b85a73a01815" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/Character.java" afterPath="$PROJECT_DIR$/src/Model/Character.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/ICollidable.java" afterPath="$PROJECT_DIR$/src/Model/ICollidable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/World.java" afterPath="$PROJECT_DIR$/src/Model/World.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/ITimeable.java" afterPath="$PROJECT_DIR$/src/Model/ITimeable.java" />
     </list>
     <ignored path="KandidatarbeteAI.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -51,8 +50,8 @@
       <file leaf-file-name="Character.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Model/Character.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5294118">
-              <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
+            <state vertical-scroll-proportion="0.6666667">
+              <caret line="38" column="8" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="8" />
               <folding>
                 <element signature="e#428#429#0" expanded="true" />
                 <element signature="e#452#453#0" expanded="true" />
@@ -77,7 +76,7 @@
         <entry file="file://$PROJECT_DIR$/src/Model/ITimeable.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+              <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -108,6 +107,7 @@
         <option value="$PROJECT_DIR$/src/Model/Vissible.java" />
         <option value="$PROJECT_DIR$/src/Model/ICollidable.java" />
         <option value="$PROJECT_DIR$/src/Model/World.java" />
+        <option value="$PROJECT_DIR$/src/Model/ITimeable.java" />
         <option value="$PROJECT_DIR$/src/Model/Character.java" />
       </list>
     </option>
@@ -457,14 +457,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/ITimeable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Model/Vissible.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -491,10 +483,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/ITimeable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Model/Character.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5294118">
-          <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.6666667">
+          <caret line="38" column="8" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="8" />
           <folding>
             <element signature="e#428#429#0" expanded="true" />
             <element signature="e#452#453#0" expanded="true" />
