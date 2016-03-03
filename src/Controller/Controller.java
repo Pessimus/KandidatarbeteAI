@@ -29,6 +29,8 @@ public class Controller implements PropertyChangeListener {
 	public static final int KEYBOARD_PRESSED_INTEGER = 0;
 	public static final int KEYBOARD_RELEASED_INTEGER = 0;
 
+	//Test
+
 	// TODO: Remove this enum!
 	public enum objects{
 		CHARACTER,STRUCTURE,TERRAIN;
