@@ -7,6 +7,5 @@ public class Vissible {
 	public double xPoss;
 	public double yPoss;
 	public double radius;
-
-
+	//TODO ENUM for type
 }

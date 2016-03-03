@@ -9,4 +9,5 @@ public interface ICollidable {
 	double setX(double x);
 	double setY(double y);
 	double getRadius();
+	//TODO ENUM for type
 }

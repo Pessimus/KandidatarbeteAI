@@ -42,13 +42,14 @@ public class World {
 
 	private boolean addCollidable(double xPoss, double yPoss, double radius){return false;}
 
-	public LinkedList<Vissible> getVisible(){
+	public LinkedList<Vissible> getVisibles(){
 		LinkedList<Vissible> vissibles = new LinkedList<>();
 		for(ICollidable visible : collidables){
 			Vissible tmp = new Vissible();
 			tmp.xPoss = visible.getX();
 			tmp.yPoss = visible.getY();
 			tmp.radius = visible.getRadius();
+			//TODO ENUM for type
 			vissibles.add(tmp);
 		}
 		return vissibles;
