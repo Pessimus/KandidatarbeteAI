@@ -26,9 +26,12 @@ public class View extends BasicGame{
 	int stoneImageId = 19*21 +21;
 	int emptyImageId = 11*21 +19;
 	int collisionId = 22*22;
+	int moveToX = 0;
+	int moveToY = 0;
 
 	Image character;
 	Image treeImage;
+	Boolean moving = false;
 	int charX;
 	int charY;
 	Dimension d;
@@ -79,6 +82,40 @@ public class View extends BasicGame{
 		}
 	}
 
+	public void moveTo (GameContainer gameContainer, int x, int y) {
+		Input input = gameContainer.getInput();
+		if ((x != charX) || (y != charY)) {
+			moving = true;
+			if (x >= charX && y >= charY) {
+				charX++;
+				charY++;
+			} else if ((x < charX) && (y > charY)) {
+				charX--;
+				charY++;
+			} else if ((x > charX) && (y < charY)) {
+				charX++;
+				charY--;
+			} else if ((x < charX) && (y < charY)) {
+				charX--;
+				charY--;
+			} else if ((x < charX) && (y < charY)) {
+				charX--;
+				charY--;
+			} else if ((x == charX) && (y < charY)) {
+				charY--;
+			} else if ((x < charX) && (y == charY)) {
+				charX--;
+			} else if ((x > charX) && (y == charY)) {
+				charX++;
+			} else if ((x == charX) && (y < charY)) {
+				charY++;
+			}
+
+		} else {
+				moving = false;
+			}
+	}
+
 	@Override
 	public void update(GameContainer gameContainer, int i) throws SlickException {
 
@@ -86,6 +123,15 @@ public class View extends BasicGame{
 		Input in = gameContainer.getInput();
 		//System.out.println(charX);
 		//System.out.println(d.getWidth());
+		if(in.isMousePressed(Input.MOUSE_RIGHT_BUTTON) || moving){
+			if(in.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) {
+				moveToX = in.getMouseX();
+				moveToY = in.getMouseY();
+			}
+			gameContainer.getGraphics().drawString(Integer.toString(moveToX), in.getMouseX() + 50,in.getMouseY() + 50);
+			gameContainer.getGraphics().drawString(Integer.toString(moveToY),in.getMouseX() + 100, in.getMouseY() + 100);
+			moveTo(gameContainer, moveToX, moveToY);
+		}
 
 		if (in.isKeyDown(Input.KEY_LEFT) && charX > 0) {
 			if(map.getTileId((charX-1)/32, charY/32, 3) != collisionId)
@@ -146,6 +192,7 @@ public class View extends BasicGame{
 		map.render(0,0,0); //renderar bakgrund...
 		map.render(0,0,1); //cover...
 		map.render(0,0,2); // och resurser.
+		Input in = gameContainer.getInput();
 
 		character.draw(charX, charY);
 
@@ -154,8 +201,9 @@ public class View extends BasicGame{
 		}
 		graphics.drawString(Integer.toString(testGathering),32,32);
 		graphics.drawString(Integer.toString(stoneList.size()),64,32);
-		graphics.drawString(Integer.toString(map.getTileId(charX/32,charY/32,2)), 96,32);
-		graphics.drawString(Integer.toString(map.getTileId(charX/32,charY/32,2)), 96,32);
+
+		//graphics.drawString(Integer.toString(map.getTileId(charX/32,charY/32,2)), 96,32);
+		//graphics.drawString(Integer.toString(map.getTileId(charX/32,charY/32,2)), 96,32);
 
 	}
 
