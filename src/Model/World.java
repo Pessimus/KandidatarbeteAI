@@ -1,5 +1,7 @@
 package Model;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -8,8 +10,10 @@ import java.util.LinkedList;
  */
 public class World {
 
+	PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
 	private HashMap<Integer,Character> characters;
-	private LinkedList<ICollidable> collidables; //TODO custom (dual) list supporting buublesort and incrtionsort
+	private LinkedList<ICollidable> collidables; //TODO custom (dual) list supporting bubblesort and incertionsort
 	private LinkedList<ITimeable> timeables;
 	private double width;
 	private double height;
@@ -50,17 +54,28 @@ public class World {
 
 	private boolean addCollidable(double xPoss, double yPoss, double radius){return false;}
 
-	public LinkedList<Vissible> getVisibles(){
-		LinkedList<Vissible> vissibles = new LinkedList<>();
+	public LinkedList<RenderObject> getRenderObjects(){
+		LinkedList<RenderObject> renderObjects = new LinkedList<>();
 		for(ICollidable visible : collidables){
-			Vissible tmp = new Vissible();
+			RenderObject tmp = new RenderObject();
 			tmp.xPoss = visible.getX();
 			tmp.yPoss = visible.getY();
 			tmp.radius = visible.getCollisionRadius();
 			//TODO ENUM for type
-			vissibles.add(tmp);
+			renderObjects.add(tmp);
 		}
-		return vissibles;
+		return renderObjects;
 	}
 
+	public void addPropertyChangeListener(PropertyChangeListener listener){
+		pcs.addPropertyChangeListener(listener);
+	}
+
+	public void removePropertyChangeListener(PropertyChangeListener listener){
+		pcs.removePropertyChangeListener(listener);
+	}
+
+	private void firePropertyChange(String type, Object property){
+		pcs.firePropertyChange(type, 0, property);
+	}
 }

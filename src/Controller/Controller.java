@@ -1,8 +1,10 @@
 package Controller;
 
+import Model.RenderObject;
 import Model.World;
 import View.*;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.state.StateBasedGame;
 
 import java.awt.Toolkit;
 import java.awt.Dimension;
@@ -18,7 +20,7 @@ import java.util.concurrent.Semaphore;
  */
 public class Controller implements PropertyChangeListener {
 	private World gameModel;
-	private StateViewInit gameView;
+	private volatile StateViewInit gameView;
 
 	private final Queue<Integer[]> keyboardInputQueue;
 	private final Queue<Integer[]> mouseInputQueue;
@@ -29,19 +31,21 @@ public class Controller implements PropertyChangeListener {
 	public static final int KEYBOARD_PRESSED_INTEGER = 0;
 	public static final int KEYBOARD_RELEASED_INTEGER = 0;
 
-	//Test
-
-	// TODO: Remove this enum!
-	public enum objects{
-		CHARACTER,STRUCTURE,TERRAIN;
-	}
-
 	public static void main(String[] args){
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		World model = new World(d.getWidth(), d.getHeight());
 		//View view = new View(0);//0?
-		StateViewInit view = new StateViewInit("HC");
-		new Controller(view, model).run();
+
+		new Thread(){
+			@Override
+			public void run() {
+				new StateViewInit("HC");
+			}
+		}.run();
+
+		System.out.println("VI BEHÖVER FLER TRÅDAR!");
+
+		new Controller(null, model).run();
 	}
 
 	public Controller(StateViewInit view, World model){
@@ -60,6 +64,7 @@ public class Controller implements PropertyChangeListener {
 	public boolean setView(StateViewInit view){
 		if(view != null){
 			gameView = view;
+			System.out.println("Added listener!");
 			gameView.addPropertyChangeListener(this); // TODO: 'View' should use PropertyChangeSupport
 			return true;
 		}
@@ -70,7 +75,7 @@ public class Controller implements PropertyChangeListener {
 	public boolean setModel(World model){
 		if(model != null){
 			gameModel = model;
-			//gameModel.addPropertyChangeListener(this); // TODO: 'Model' should use PropertyChangeSupport
+			gameModel.addPropertyChangeListener(this); // TODO: 'Model' should use PropertyChangeSupport
 			return true;
 		}
 
@@ -78,7 +83,7 @@ public class Controller implements PropertyChangeListener {
 	}
 
 	private void updateView(){
-		//List<Enum> objectList = gameModel.getViewableObjects();
+		List<RenderObject> objectList = gameModel.getRenderObjects();
 		// getViewableObjects() is expected to return a 'List' of 3 arrays:
 		// An array with all enum values for the objects;
 		// An array with the x-coordinates for these objects
@@ -211,6 +216,7 @@ public class Controller implements PropertyChangeListener {
 			if(!evt.getPropertyName().equals(null)){
 				//if(evt.getSource().equals(gameView)){
 					// If the source of the event is the 'View', handle that separately.
+					System.out.println("Event fired!");
 					handleViewEvent(evt);
 				//}
 

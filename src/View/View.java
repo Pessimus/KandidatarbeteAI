@@ -21,7 +21,7 @@ import java.beans.PropertyChangeSupport;
  */
 public class View extends BasicGameState implements InputListener{
 
-    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private Input input;
     private int stateNr;
     private TiledMap map;
@@ -83,7 +83,6 @@ public class View extends BasicGameState implements InputListener{
     }
 
     public void keyPressed(int key, char c) {
-
         notifyKeyInput(key,"KEY_PRESSED");
     }
 
@@ -99,14 +98,15 @@ public class View extends BasicGameState implements InputListener{
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener){
-
         pcs.addPropertyChangeListener(listener);
     }
     public void removePropertyChangeListener(PropertyChangeListener listener){
         pcs.removePropertyChangeListener(listener);
     }
     private void notifyKeyInput(int input, String control){   // control = "KEY_PRESSED" eller "KEY_RELEASED"
-        pcs.firePropertyChange(control,0,input);
+		System.out.println(pcs.getPropertyChangeListeners().length);
+		int[] i = {input};
+        pcs.firePropertyChange(control, 0, i);
     }
     //private void notifyMouseInput(){}
 /*

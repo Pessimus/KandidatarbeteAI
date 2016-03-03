@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  */
 
 
-public class StateViewInit  extends StateBasedGame {
+public class StateViewInit extends StateBasedGame {
 
 	private View view;
 
@@ -35,7 +35,6 @@ public class StateViewInit  extends StateBasedGame {
 			test.setMouseGrabbed(true);
 			test.setTargetFrameRate(60);
 			test.start();
-
 		}
 		catch(SlickException e){
 			//e.printStackTrace();
