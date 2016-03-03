@@ -29,10 +29,7 @@ public class World {
 	}
 
 	public Character addCharacter(double xPoss, double yPoss, int key){
-		Character c = new Character();
-
-		c.setX(xPoss);
-		c.setY(yPoss);
+		Character c = new Character(xPoss, yPoss);
 
 		this.collidables.add(c);
 		this.characters.put(key,c);

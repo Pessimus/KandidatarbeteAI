@@ -14,25 +14,20 @@ public class Character implements ICollidable, ITimeable {
 
 	private Inventory characterInventory;
 
-	public Character(){
+	public Character(double xPoss, double yPoss){
+
 		characterInventory = new Inventory();
 	}
 
 	@Override
 	public double getX() {
-		return 0;
+		return this.charX;
 	}
 
 	@Override
 	public double getY() {
-		return 0;
+		return this.charY;
 	}
-
-	@Override
-	public double setX(double x) {	return 0;}
-
-	@Override
-	public double setY(double y) {	return 0;}
 
 	@Override
 	public double getRadius() {
