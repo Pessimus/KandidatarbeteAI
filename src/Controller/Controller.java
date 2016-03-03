@@ -1,7 +1,7 @@
 package Controller;
 
 import Model.World;
-import View.View;
+import View.*;
 import org.newdawn.slick.Input;
 
 import java.awt.Toolkit;
@@ -18,7 +18,7 @@ import java.util.concurrent.Semaphore;
  */
 public class Controller implements PropertyChangeListener {
 	private World gameModel;
-	private View gameView;
+	private StateViewInit gameView;
 
 	private final Queue<Integer[]> keyboardInputQueue;
 	private final Queue<Integer[]> mouseInputQueue;
@@ -39,16 +39,16 @@ public class Controller implements PropertyChangeListener {
 	public static void main(String[] args){
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		World model = new World(d.getWidth(), d.getHeight());
-		View view = new View(0);//0?
-		new Controller(view, model);
+		//View view = new View(0);//0?
+		StateViewInit view = new StateViewInit("HC");
+		new Controller(view, model).run();
 	}
 
-	public Controller(View view, World model){
+	public Controller(StateViewInit view, World model){
 		keyboardInputQueue = new LinkedList<>();
 		mouseInputQueue = new LinkedList<>();
 		setView(view);
 		setModel(model);
-		//this.run();
 	}
 
 	private void run(){
@@ -57,7 +57,7 @@ public class Controller implements PropertyChangeListener {
 		}
 	}
 
-	public boolean setView(View view){
+	public boolean setView(StateViewInit view){
 		if(view != null){
 			gameView = view;
 			gameView.addPropertyChangeListener(this); // TODO: 'View' should use PropertyChangeSupport
@@ -134,6 +134,7 @@ public class Controller implements PropertyChangeListener {
 	}
 
 	private void handleViewEvent(PropertyChangeEvent evt) {
+		System.out.println(evt.toString());
 		if (evt.getPropertyName().equals("KEY_PRESSED")) {
 			// If the 'View' is sending 'Keyboard'-inputs, put them in the correct queue.
 			try {
@@ -208,10 +209,10 @@ public class Controller implements PropertyChangeListener {
 	public void propertyChange(PropertyChangeEvent evt) {
 		if(evt != null){
 			if(!evt.getPropertyName().equals(null)){
-				if(evt.getSource().equals(gameView)){
+				//if(evt.getSource().equals(gameView)){
 					// If the source of the event is the 'View', handle that separately.
 					handleViewEvent(evt);
-				}
+				//}
 
 				if(evt.getSource().equals(gameModel)){
 					// If the source of the event is the 'Model', handle that separately.

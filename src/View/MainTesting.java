@@ -18,7 +18,8 @@ public class MainTesting extends StateBasedGame {
     public static final int MENU_STATE = 0;
     public static final int PLAY_STATE = 1;
 
-    public static void main(String[] args){
+    public static AppGameContainer initAll(){
+    //public static void main(String[] args){
         try{
             MainTesting game = new MainTesting("test");
             AppGameContainer test = new AppGameContainer(game, 1366, 768, true);
@@ -26,10 +27,12 @@ public class MainTesting extends StateBasedGame {
             test.setTargetFrameRate(60);
             test.start();
 
+            return test;
         }
         catch(SlickException e){
             //e.printStackTrace();
             Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, e);
+            return null;
         }
     }  //Main initierar view
 

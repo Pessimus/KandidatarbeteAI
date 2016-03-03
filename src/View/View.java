@@ -106,7 +106,6 @@ public class View extends BasicGameState implements InputListener{
         pcs.removePropertyChangeListener(listener);
     }
     private void notifyKeyInput(int input, String control){   // control = "KEY_PRESSED" eller "KEY_RELEASED"
-
         pcs.firePropertyChange(control,0,input);
     }
     //private void notifyMouseInput(){}
