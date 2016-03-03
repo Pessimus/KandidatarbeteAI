@@ -6,6 +6,6 @@ package Model;
 public interface ICollidable {
 	double getX();
 	double getY();
-	double getRadius();
+	double getCollisionRadius();
 	//TODO ENUM for type
 }
