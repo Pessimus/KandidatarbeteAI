@@ -7,7 +7,7 @@ import java.util.LinkedList;
 
 
 // A class for containing a single step in a path and methods for moving towards that step
-class PathStep {
+public class PathStep {
 
     private double nodex;
     private double nodey;
