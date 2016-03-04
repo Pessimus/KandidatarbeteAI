@@ -167,4 +167,22 @@ public class Character implements ICollidable, ITimeable {
 		this.ySpeed -= this.stepLength;
 	}
 
+	/*
+	// TODO: HARDCODED TEST!!!!!
+	// TODO: HARDCODED TEST!!!!!
+	// TODO: HARDCODED TEST!!!!!
+	// TODO: HARDCODED TEST!!!!!
+	// TODO: HARDCODED TEST!!!!!
+	// TODO: HARDCODED TEST!!!!!
+	public void setPosition(int x, int y){
+		xPos = x;
+		yPos = y;
+	}
+	// TODO: HARDCODED TEST!!!!!
+	// TODO: HARDCODED TEST!!!!!
+	// TODO: HARDCODED TEST!!!!!
+	// TODO: HARDCODED TEST!!!!!
+	// TODO: HARDCODED TEST!!!!!
+	// TODO: HARDCODED TEST!!!!!
+	*/
 }

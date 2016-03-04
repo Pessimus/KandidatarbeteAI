@@ -7,8 +7,8 @@ package Model;
 public class Water extends InfiniteResource {
 	private IItemFactory factory;
 
-	private ResourceType resourceType = ResourceType.WATER;
-	private String resourceName = "Water";
+	public static final ResourceType resourceType = ResourceType.WATER;
+	public static final String resourceName = "Water";
 
 	@Override
 	public IItemFactory getItemFactory() {
