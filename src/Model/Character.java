@@ -34,8 +34,6 @@ public class Character implements ICollidable, ITimeable {
 	private int intimacy;
 	private int attention;
 
-
-
 	private final double stepLength = 10;
 
 	//private double timeableInterval;
