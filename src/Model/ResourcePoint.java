@@ -33,7 +33,7 @@ public class ResourcePoint implements ICollidable {
 	}
 
 	public String getResourceName(){
-		resource.getResourceName();
+		return resource.getResourceName();
 	}
 
 	public IItem gatherResource(){
