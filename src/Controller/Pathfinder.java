@@ -4,7 +4,6 @@ import Model.CollisionList;
 
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.PriorityQueue;
 /**
  * Created by Gustav on 2016-03-04.
  */
@@ -14,21 +13,21 @@ public class Pathfinder {
     private boolean[][] mask;
     private int width;
     private int height;
-    private double straightCost; // the cost of moving to an adjecent node
-    private double diagonalCost; // the cost of moving to a diagonal node (like Inf if diagonal not possible. Otherwise like sqrt(2*straightCost))
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     public Pathfinder (double grid, double worldx, double worldy, double sCost, double dCost) {
 =======
     public Pathfinder(double grid, double worldx, double worldy) {
 >>>>>>> origin/master
+=======
+    public Pathfinder (double grid, double worldx, double worldy) {
+>>>>>>> parent of fbbb004... Minor updates to Pathfinder and PathStep
         gridSize = grid;
         width = (int) (worldx / grid);
         height = (int) (worldy / grid);
         mask = new boolean[width][height];
         Arrays.fill(mask, false);
-        straightCost = sCost;
-        diagonalCost = dCost;
     }
 
     public void updateMask(CollisionList c) {
@@ -36,9 +35,7 @@ public class Pathfinder {
         while (c.next()) {
             mask[(int) (c.getX() / gridSize)][(int) (c.getY() / gridSize)] = false;
             for (double i = (c.getX() - c.getRadius())/gridSize; i < (c.getX() + c.getRadius())/gridSize; i = i+gridSize) {
-                for (double j = (c.getY() - c.getRadius())/gridSize; i < (c.getX() + c.getRadius())/gridSize; i = i+gridSize) {
-                    mask[(int) i][(int) j] = false;
-                }
+
             }
         }
     }
@@ -64,6 +61,7 @@ public class Pathfinder {
         return gridSize;
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     public LinkedList<PathStep> getPath (double startx, double starty, double endx, double endy) {
         LinkedList<PathStep> ret = new LinkedList<>();
@@ -134,4 +132,8 @@ public class Pathfinder {
     private double optimalDistance(int nodex, int nodey, int endx, int endy) {
 
     }
+=======
+    public LinkedList<PathStep> getPath(int startx, int starty, int endx, int endy) {return null;}
+
+>>>>>>> parent of fbbb004... Minor updates to Pathfinder and PathStep
 }
