@@ -96,7 +96,7 @@ public class Controller implements PropertyChangeListener {
 	}
 
 	private void updateView(){
-		//List<RenderObject> objectList = gameModel.getRenderObjects();
+		List<RenderObject> objectList = gameModel.getRenderObjects();
 		// getViewableObjects() is expected to return a 'List' of 3 arrays:
 		// An array with all enum values for the objects;
 		// An array with the x-coordinates for these objects
