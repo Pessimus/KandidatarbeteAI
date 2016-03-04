@@ -8,13 +8,13 @@ import java.util.LinkedList;
 public class TestPlanner {
 
     // instance variables
-    TestState startState;
-    int hungerLoss;         // hunger lost per timestep
-    int thirstLoss;         // thirst lost per timestep
-    int energyLoss;         // energy lost per timestep
-    LinkedList<TestAction> actionList;  // list of possible actions
-    LinkedList<TestState> unexploredStates; // states found that have not yet been explored
-    LinkedList<TestState> exploredStates; // states that have been explored
+    private TestState startState;
+    private int hungerLoss;         // hunger lost per timestep
+    private int thirstLoss;         // thirst lost per timestep
+    private int energyLoss;         // energy lost per timestep
+    private LinkedList<TestAction> actionList;  // list of possible actions
+    private LinkedList<TestState> unexploredStates; // states found that have not yet been explored
+    private LinkedList<TestState> exploredStates; // states that have been explored
 
     // constructor
     public TestPlanner(int cH, int cT, int cE, int hL, int tL, int eL) {
