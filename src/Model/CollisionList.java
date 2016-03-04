@@ -5,6 +5,15 @@ package Model;
  */
 public class CollisionList {
 
+	public double getX() {return currentNode.getValue().getX();}
+	public double getY() {return currentNode.getValue().getY();}
+	public double getRadius() {return currentNode.getValue().getCollisionRadius();}
+	public ICollidable getValue() {return currentNode.getValue();}
+	public boolean next() {if (currentNode.getNext() != null) {currentNode = currentNode.getNext(); return true;} else {return false;}}
+	public boolean previous() {if (currentNode.getPrevious() != null) {currentNode = currentNode.getPrevious(); return true;} else {return false;}}
+
+	private Node currentNode;
+
 	private class Node{
 
 		private ICollidable value;

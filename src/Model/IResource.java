@@ -6,5 +6,14 @@ package Model;
 public interface IResource {
 	IItemFactory getItemFactory();
 	IItem gatherResource();
+	ResourceType getResourceType();
 	String getResourceName();
+
+	enum ResourceType{
+		TREE,
+		WATER,
+		GOLD,
+		STONE,
+		FOOD
+	}
 }

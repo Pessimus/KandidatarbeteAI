@@ -14,7 +14,7 @@ public class Character implements ICollidable, ITimeable {
 	private Inventory inventory;
 	private double xSpeed;
 	private double ySpeed;
-	private final double stepLenght = 10;
+	private final double stepLength = 10;
 
 	//private double timeableInterval;
 
@@ -67,35 +67,35 @@ public class Character implements ICollidable, ITimeable {
 	}
 
 	public void walkRight(){
-		this.xSpeed += this.stepLenght;
+		this.xSpeed += this.stepLength;
 	}
 
 	public void walkLeft(){
-		this.xSpeed -= this.stepLenght;
+		this.xSpeed -= this.stepLength;
 	}
 
 	public void stopRight(){
-		this.xSpeed -= this.stepLenght;
+		this.xSpeed -= this.stepLength;
 	}
 
 	public void stopLeft(){
-		this.xSpeed += this.stepLenght;
+		this.xSpeed += this.stepLength;
 	}
 
 	public void walkUp(){
-		this.ySpeed -= this.stepLenght;
+		this.ySpeed -= this.stepLength;
 	}
 
 	public void walkDown(){
-		this.ySpeed += this.stepLenght;
+		this.ySpeed += this.stepLength;
 	}
 
 	public void stopUp(){
-		this.ySpeed += this.stepLenght;
+		this.ySpeed += this.stepLength;
 	}
 
 	public void stopDown(){
-		this.ySpeed -= this.stepLenght;
+		this.ySpeed -= this.stepLength;
 	}
 
 
