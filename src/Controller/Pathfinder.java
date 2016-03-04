@@ -14,7 +14,7 @@ public class Pathfinder {
     private int width;
     private int height;
 
-    public PathFinder(double grid, double worldx, double worldy) {
+    public Pathfinder (double grid, double worldx, double worldy) {
         gridSize = grid;
         width = (int) (worldx / grid);
         height = (int) (worldy / grid);
@@ -23,14 +23,21 @@ public class Pathfinder {
     }
 
     public void updateMask(CollisionList c) {
+        Arrays.fill(mask, true);
+        while (c.next()) {
+            mask[(int) (c.getX() / gridSize)][(int) (c.getY() / gridSize)] = false;
+            for (double i = (c.getX() - c.getRadius())/gridSize; i < (c.getX() + c.getRadius())/gridSize; i = i+gridSize) {
 
+            }
+        }
     }
 
-    public boolean isFree(double x, double y) {
-        if (((int) x * gridSize) > width || ((int) y * gridSize) > height) {
+    //returns whether or not the given position is empty in the mask. Always returns false for positions outside the grid.
+    public boolean isEmpty(double x, double y) {
+        if (((int) (x * gridSize)) > width || ((int) (y * gridSize)) > height) {
             return false;
         } else {
-            return mask[(int) x*gridSize][(int) y*gridSize];
+            return mask[(int)(x*gridSize)][(int)(y*gridSize)];
         }
     }
 
@@ -42,6 +49,6 @@ public class Pathfinder {
         return gridSize;
     }
 
-    public LinkedList<PathStep> getPath(int startx, int starty, int endx, int endy) {}
+    public LinkedList<PathStep> getPath(int startx, int starty, int endx, int endy) {return null;}
 
 }
