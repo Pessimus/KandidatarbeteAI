@@ -7,6 +7,15 @@ public interface IResource {
 
 	IItemFactory getItemFactory();
 	IItem gatherResource();
+	ResourceType getResourceType();
 	String getResourceName();
+
+	public enum ResourceType{
+		TREE,
+		WATER,
+		GOLD,
+		STONE,
+		FOOD
+	}
 
 }

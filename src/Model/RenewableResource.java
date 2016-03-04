@@ -11,13 +11,20 @@ public abstract class RenewableResource implements ITimeable, IResource{
 
 	protected RenewableResource(int initial) {
 		initialResources = initial;
+		resourcesLeft = initialResources;
 	}
 
 	public int getResourcesLeft(){
+
 		return resourcesLeft;
 	}
 
+	public void setResourceLeft(int amount){
+		resourcesLeft = amount;
+	}
+
 	public int getRenewRate(){
+
 		return renewRate;
 	}
 }
