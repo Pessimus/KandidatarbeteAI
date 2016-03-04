@@ -6,22 +6,37 @@ package Model;
 public class ResourcePoint implements ICollidable {
 	IResource resource;
 
-	public ResourcePoint(IResource resourceType){
+	private double xPos;
+	private double yPos;
+	private double collisionRadius;
+
+	public ResourcePoint(IResource resourceType, double x, double y, double radius){
 		resource = resourceType;
+		xPos = x;
+		yPos = y;
+		collisionRadius = radius;
 	}
 
 	@Override
 	public double getX() {
-		return 0;
+		return xPos;
 	}
 
 	@Override
 	public double getY() {
-		return 0;
+		return yPos;
 	}
 
 	@Override
 	public double getCollisionRadius() {
-		return 0;
+		return collisionRadius;
+	}
+
+	public String getResourceName(){
+		resource.getResourceName();
+	}
+
+	public IItem gatherResource(){
+		return resource.gatherResource();
 	}
 }

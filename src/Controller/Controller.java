@@ -55,7 +55,23 @@ public class Controller implements PropertyChangeListener {
 
 	private void run(){
 		while(true){
-			System.out.println("LOOP");
+			try {
+				keyboardSema.acquire();
+				Object[] tempList = keyboardInputQueue.toArray();
+				keyboardSema.release();
+
+				Integer[][] keyInts = (Integer[][])tempList;
+				sendKeyboardInputToModel(keyInts);
+
+				mouseSema.acquire();
+				tempList = mouseInputQueue.toArray();
+				mouseSema.release();
+
+				Integer[][] mouseClicks = (Integer[][])tempList;
+				sendMouseInputToModel(mouseClicks);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -88,7 +104,7 @@ public class Controller implements PropertyChangeListener {
 		//gameView.drawObjects(objectList);
 	}
 
-	private void sendKeyboardInputToModel(Integer[][] keyboardClicks) {
+	private synchronized void sendKeyboardInputToModel(Integer[][] keyboardClicks) {
 		// Keyboard input
 		if (keyboardClicks.length > 0) {
 			new Thread() {
@@ -117,7 +133,7 @@ public class Controller implements PropertyChangeListener {
 		}
 	}
 
-	private void sendMouseInputToModel(Integer[][] mouseClicks){
+	private synchronized void sendMouseInputToModel(Integer[][] mouseClicks){
 		// Mouse input
 		if(mouseClicks.length > 0) {
 			new Thread() {
@@ -165,26 +181,7 @@ public class Controller implements PropertyChangeListener {
 	}
 
 	private void handleModelEvent(PropertyChangeEvent evt){
-		if(evt.getPropertyName().equals("getInput")) {
-			// If the 'Model' is asking for inputs, provide that.
-			try {
-				keyboardSema.acquire();
-				Object[] tempList = keyboardInputQueue.toArray();
-				keyboardSema.release();
-
-				Integer[][] keyInts = (Integer[][])tempList;
-				sendKeyboardInputToModel(keyInts);
-
-				mouseSema.acquire();
-				tempList = mouseInputQueue.toArray();
-				mouseSema.release();
-
-				Integer[][] mouseClicks = (Integer[][])tempList;
-				sendMouseInputToModel(mouseClicks);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		} else if(evt.getPropertyName().equals("update")){
+		if(evt.getPropertyName().equals("update")){
 			// Get coordinates of all objects in the viewable area!
 			updateView();
 		}
