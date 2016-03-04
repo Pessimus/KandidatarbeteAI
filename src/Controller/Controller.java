@@ -20,7 +20,7 @@ import java.util.concurrent.Semaphore;
  */
 public class Controller implements PropertyChangeListener {
 	private World gameModel;
-	private volatile StateViewInit gameView;
+	private StateViewInit gameView;
 
 	private final Queue<Integer[]> keyboardInputQueue;
 	private final Queue<Integer[]> mouseInputQueue;
@@ -29,23 +29,19 @@ public class Controller implements PropertyChangeListener {
 	private final Semaphore mouseSema = new Semaphore(1);
 
 	public static final int KEYBOARD_PRESSED_INTEGER = 0;
-	public static final int KEYBOARD_RELEASED_INTEGER = 0;
+	public static final int KEYBOARD_RELEASED_INTEGER = 1;
+
+	public static final int 		TARGET_FRAMERATE = 60;
+
+	public static final boolean 	RUN_IN_FULLSCREEN = false;
+
 
 	public static void main(String[] args){
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		World model = new World(d.getWidth(), d.getHeight());
-		//View view = new View(0);//0?
+		StateViewInit view = new StateViewInit("HC", RUN_IN_FULLSCREEN, false, TARGET_FRAMERATE, (int)d.getWidth(), (int)d.getHeight());
 
-		new Thread(){
-			@Override
-			public void run() {
-				new StateViewInit("HC");
-			}
-		}.run();
-
-		System.out.println("VI BEHÖVER FLER TRÅDAR!");
-
-		new Controller(null, model).run();
+		new Controller(view, model).run();
 	}
 
 	public Controller(StateViewInit view, World model){
@@ -53,18 +49,19 @@ public class Controller implements PropertyChangeListener {
 		mouseInputQueue = new LinkedList<>();
 		setView(view);
 		setModel(model);
+
+		view.start();
 	}
 
 	private void run(){
 		while(true){
-
+			System.out.println("LOOP");
 		}
 	}
 
 	public boolean setView(StateViewInit view){
 		if(view != null){
 			gameView = view;
-			System.out.println("Added listener!");
 			gameView.addPropertyChangeListener(this); // TODO: 'View' should use PropertyChangeSupport
 			return true;
 		}
@@ -75,7 +72,7 @@ public class Controller implements PropertyChangeListener {
 	public boolean setModel(World model){
 		if(model != null){
 			gameModel = model;
-			gameModel.addPropertyChangeListener(this); // TODO: 'Model' should use PropertyChangeSupport
+			//gameModel.addPropertyChangeListener(this); // TODO: 'Model' should use PropertyChangeSupport
 			return true;
 		}
 
@@ -83,7 +80,7 @@ public class Controller implements PropertyChangeListener {
 	}
 
 	private void updateView(){
-		List<RenderObject> objectList = gameModel.getRenderObjects();
+		//List<RenderObject> objectList = gameModel.getRenderObjects();
 		// getViewableObjects() is expected to return a 'List' of 3 arrays:
 		// An array with all enum values for the objects;
 		// An array with the x-coordinates for these objects
@@ -98,17 +95,20 @@ public class Controller implements PropertyChangeListener {
 				@Override
 				public void run() {
 					// The array for key-clicks work like this:
-					// keyboardClicks[0] = If the key was pressed (0) or released (1)
-					// keyboardClicks[0][0] = What key was pressed, which is compared to Input static variables.
+					// keyboardClicks[0][0] = If the key was pressed (0) or released (1)
+					// keyboardClicks[0][1] = What key was pressed, which is compared to Input static variables.
 					for (Integer[] clicks : keyboardClicks) {
 						if (clicks[0] == KEYBOARD_PRESSED_INTEGER)
 							if (clicks[1] == Input.KEY_UP) {
 								;
-							} else if (clicks[1] == Input.KEY_DOWN) {
+							}
+							else if (clicks[1] == Input.KEY_DOWN) {
 								;
-							} else if (clicks[1] == Input.KEY_LEFT) {
+							}
+							else if (clicks[1] == Input.KEY_LEFT) {
 								;
-							} else if (clicks[1] == Input.KEY_RIGHT) {
+							}
+							else if (clicks[1] == Input.KEY_RIGHT) {
 								;
 							}
 					}
@@ -129,7 +129,8 @@ public class Controller implements PropertyChangeListener {
 
 						if (clicks[0] == Input.MOUSE_LEFT_BUTTON) {
 							;
-						} else if (clicks[0] == Input.MOUSE_RIGHT_BUTTON) {
+						}
+						else if (clicks[0] == Input.MOUSE_RIGHT_BUTTON) {
 							;
 						}
 					}
@@ -139,8 +140,7 @@ public class Controller implements PropertyChangeListener {
 	}
 
 	private void handleViewEvent(PropertyChangeEvent evt) {
-		System.out.println(evt.toString());
-		if (evt.getPropertyName().equals("KEY_PRESSED")) {
+		if (evt.getPropertyName().equals("KEY_PRESSED") || evt.getPropertyName().equals("KEY_RELEASED")) {
 			// If the 'View' is sending 'Keyboard'-inputs, put them in the correct queue.
 			try {
 				Integer[] newValue = (Integer[]) evt.getNewValue();
@@ -150,28 +150,8 @@ public class Controller implements PropertyChangeListener {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		} else if(evt.getPropertyName().equals("KEY_RELEASED")){
-			// If the View is sending 'Mouse'-inputs, put them in the correct queue.
-			try{
-				Integer[] newValue = (Integer[]) evt.getNewValue();
-				keyboardSema.acquire();
-				keyboardInputQueue.offer(newValue);
-				keyboardSema.release();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
-		} else if(evt.getPropertyName().equals("LEFT_MOUSE_PRESSED")){
-			// If the View is sending 'Mouse'-inputs, put them in the correct queue.
-			try{
-				Integer[] newValue = (Integer[]) evt.getNewValue();
-				mouseSema.acquire();
-				mouseInputQueue.offer(newValue);
-				mouseSema.release();
-			} catch (InterruptedException e){
-				e.printStackTrace();
-			}
-		} else if(evt.getPropertyName().equals("RIGHT_MOUSE_PRESSED")){
+		}
+		else if(evt.getPropertyName().equals("MOUSE_PRESSED") || evt.getPropertyName().equals("MOUSE_RELEASED")){
 			// If the View is sending 'Mouse'-inputs, put them in the correct queue.
 			try{
 				Integer[] newValue = (Integer[]) evt.getNewValue();
@@ -214,11 +194,10 @@ public class Controller implements PropertyChangeListener {
 	public void propertyChange(PropertyChangeEvent evt) {
 		if(evt != null){
 			if(!evt.getPropertyName().equals(null)){
-				//if(evt.getSource().equals(gameView)){
+				if(evt.getSource() instanceof StateBasedGame){
 					// If the source of the event is the 'View', handle that separately.
-					System.out.println("Event fired!");
 					handleViewEvent(evt);
-				//}
+				}
 
 				if(evt.getSource().equals(gameModel)){
 					// If the source of the event is the 'Model', handle that separately.

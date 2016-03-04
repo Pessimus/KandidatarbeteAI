@@ -1,5 +1,6 @@
 package View;
 
+import Model.RenderObject;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -25,7 +26,7 @@ public class View extends BasicGameState implements InputListener{
     private Input input;
     private int stateNr;
     private TiledMap map;
-    List<Integer> listToRender;
+    List<RenderObject> listToRender;
 
     //----------TESTVARIABLER UNDER, Ska kanske inte vara kvar ------------------
     int mouseX = 0;
@@ -81,7 +82,7 @@ public class View extends BasicGameState implements InputListener{
 
         return stateNr;
     }
-
+	/*
     public void keyPressed(int key, char c) {
         notifyKeyInput(key,"KEY_PRESSED");
     }
@@ -96,7 +97,8 @@ public class View extends BasicGameState implements InputListener{
         mouseX+=mouseXMoved;
         mouseY+=mouseYMoved;
     }
-
+    */
+	/*
     public void addPropertyChangeListener(PropertyChangeListener listener){
         pcs.addPropertyChangeListener(listener);
     }
@@ -104,31 +106,12 @@ public class View extends BasicGameState implements InputListener{
         pcs.removePropertyChangeListener(listener);
     }
     private void notifyKeyInput(int input, String control){   // control = "KEY_PRESSED" eller "KEY_RELEASED"
-		System.out.println(pcs.getPropertyChangeListeners().length);
-		int[] i = {input};
+		Integer[] i = {input};
         pcs.firePropertyChange(control, 0, i);
     }
-    //private void notifyMouseInput(){}
-/*
-// TODO: Discard this class when merging into 'master'!
-public class View extends StateBasedGame{
-	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
-	public View(String name){
-		super(name);
-	}
+    private void notifyMouseInput(){
 
-	@Override
-	public void initStatesList(GameContainer gameContainer) throws SlickException {
-
-	}
-
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		this.pcs.addPropertyChangeListener(listener);
-	}
-
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		this.pcs.removePropertyChangeListener(listener);
-	}
->>>>>>> dev-controller*/
+    }
+    */
 }
