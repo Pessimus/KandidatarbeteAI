@@ -32,7 +32,6 @@ public class Controller implements PropertyChangeListener {
 	public static final int KEYBOARD_RELEASED_INTEGER = 1;
 
 	public static final int 		TARGET_FRAMERATE = 60;
-
 	public static final boolean 	RUN_IN_FULLSCREEN = false;
 
 
@@ -50,7 +49,7 @@ public class Controller implements PropertyChangeListener {
 		setView(view);
 		setModel(model);
 
-		view.start();
+		new Thread(view).start();
 	}
 
 	private void run(){
@@ -189,6 +188,7 @@ public class Controller implements PropertyChangeListener {
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
+		System.out.println("EVENT");
 		if(evt != null){
 			if(!evt.getPropertyName().equals(null)){
 				if(evt.getSource() instanceof StateBasedGame){

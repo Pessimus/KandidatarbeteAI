@@ -7,34 +7,63 @@ import java.util.ArrayList;
  * Created by Tobias on 2016-02-26.
  */
 public class Character implements ICollidable, ITimeable {
-	private double xPoss;
-	private double yPoss;
+	//------------------Movement Variables---------------------
+	private double xPos;
+	private double yPos;
 	private double collisionRadius;
 	private double interactionRadius;
-	private Inventory inventory;
 	private double xSpeed;
 	private double ySpeed;
-	private final double stepLenght = 10;
+
+
+	private Inventory inventory;
+
+	//---------------NEEDS VARIABLES--------------------
+
+	private boolean alive;
+
+	//------------BASIC NEEDS--------------------
+	//Ranges between 0-100, 100 is good, 0 is bad..
+	private int hunger;
+	private int thirst;
+	private int energy;
+
+	//-------------SECONDARY NEEDS-------------------
+	//Ranges between 0-100, 100 is good, 0 is bad..
+	private int social;
+	private int intimacy;
+	private int attention;
+
+	private final double stepLength = 10;
 
 	//private double timeableInterval;
 
 
-	public Character(double xPoss, double yPoss){
-		this.xPoss = xPoss;
-		this.yPoss = yPoss;
-		inventory = new Inventory();
+	public Character(double xPos, double yPos){
+		this.alive = true;
+		//Initial position
+		this.xPos = xPos;
+		this.yPos = yPos;
 		this.xSpeed = 0;
 		this.ySpeed = 0;
+
+		//Create inventory
+		inventory = new Inventory();
+
+		this.hunger = 100;
+		this.thirst = 100;
+		this.energy = 100;
+
 	}
 
 	@Override
 	public double getX() {
-		return this.xPoss;
+		return this.xPos;
 	}
 
 	@Override
 	public double getY() {
-		return this.yPoss;
+		return this.yPos;
 	}
 
 	@Override
@@ -42,76 +71,100 @@ public class Character implements ICollidable, ITimeable {
 		return this.collisionRadius;
 	}
 
+
 	@Override
 	public void update() {
+
 		//TODO Update needs
 		//TODO Implement ageing etc...
+		updateNeeds();
+		isDead();
 	}
+
+	public void updateNeeds() {
+		this.hunger -= 1;
+		this.thirst -= 2;
+		this.energy -= 1;
+	}
+
+	//Check if character is alive
+	public void isDead() {
+		if (hunger <= 0 || thirst <= 0 || energy <= 0) {
+			alive = false;
+		}
+	}
+
+	//Getter for alive
+	public boolean isAlive() {
+		return alive;
+	}
+
+	//---------NEED REPLENESHING METHODS--------------
+
+	public void eat() {
+		this.hunger += 25;
+	}
+	public void drink() {
+		this.thirst += 10;
+	}
+	public void sleep() {
+		this.energy = 100;
+	}
+	public void rest() {
+		this.energy += 20;
+	}
+
 	/*
 	Method for checking where the character wants to move
 	 */
 	public double getNextXPossition(){
-		return this.xPoss+this.xSpeed;
+		return this.xPos+this.xSpeed;
 	}
+
+
 	/*
 	Method for checking where the character wants to move
 	 */
 	public double getNextYPossition(){
-		return this.yPoss+this.ySpeed;
+		return this.yPos+this.ySpeed;
 	}
 	public double moveX(){
-		return this.xPoss += this.xSpeed;
+		return this.xPos += this.xSpeed;
 	}
 	public double moveY(){
-		return this.yPoss += this.ySpeed;
+		return this.yPos += this.ySpeed;
 	}
 
 	public void walkRight(){
-		this.xSpeed += this.stepLenght;
+		this.xSpeed += this.stepLength;
 	}
 
 	public void walkLeft(){
-		this.xSpeed -= this.stepLenght;
+		this.xSpeed -= this.stepLength;
 	}
 
 	public void stopRight(){
-		this.xSpeed -= this.stepLenght;
+		this.xSpeed -= this.stepLength;
 	}
 
 	public void stopLeft(){
-		this.xSpeed += this.stepLenght;
+		this.xSpeed += this.stepLength;
 	}
 
 	public void walkUp(){
-		this.ySpeed -= this.stepLenght;
+		this.ySpeed -= this.stepLength;
 	}
 
 	public void walkDown(){
-		this.ySpeed += this.stepLenght;
+		this.ySpeed += this.stepLength;
 	}
 
 	public void stopUp(){
-		this.ySpeed += this.stepLenght;
+		this.ySpeed += this.stepLength;
 	}
 
 	public void stopDown(){
-		this.ySpeed -= this.stepLenght;
+		this.ySpeed -= this.stepLength;
 	}
-
-
-
-/*
-	@Override
-	public double getTimeInterval() {
-		return 0;
-	}
-	@Override
-	public void setTimeInterval(double period) {
-	}
-	@Override
-	public void onUpdate() {
-	}*/
-
-
 
 }

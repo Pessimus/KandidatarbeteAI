@@ -17,7 +17,11 @@ public class Pathfinder {
     private double straightCost; // the cost of moving to an adjecent node
     private double diagonalCost; // the cost of moving to a diagonal node (like Inf if diagonal not possible. Otherwise like sqrt(2*straightCost))
 
+<<<<<<< HEAD
     public Pathfinder (double grid, double worldx, double worldy, double sCost, double dCost) {
+=======
+    public Pathfinder(double grid, double worldx, double worldy) {
+>>>>>>> origin/master
         gridSize = grid;
         width = (int) (worldx / grid);
         height = (int) (worldy / grid);
@@ -44,7 +48,11 @@ public class Pathfinder {
         if (((int) (x * gridSize)) > width || ((int) (y * gridSize)) > height) {
             return false;
         } else {
+<<<<<<< HEAD
             return mask[(int)(x*gridSize)][(int)(y*gridSize)];
+=======
+            return mask[(int)(x*gridSize)][(int) (y*gridSize)];
+>>>>>>> origin/master
         }
     }
 
@@ -56,6 +64,7 @@ public class Pathfinder {
         return gridSize;
     }
 
+<<<<<<< HEAD
     public LinkedList<PathStep> getPath (double startx, double starty, double endx, double endy) {
         LinkedList<PathStep> ret = new LinkedList<>();
         for (Tuple t : helpPath((int)(startx/gridSize), (int)(starty/gridSize), (int)(endx/gridSize), (int)(endy/gridSize))) {
@@ -102,6 +111,11 @@ public class Pathfinder {
         public int y;
         public Tuple (int u, int v) {x=u; y=v;}
     }
+=======
+    public LinkedList<PathStep> getPath(int startx, int starty, int endx, int endy) {
+        return null;
+    }
+>>>>>>> origin/master
 
     private class Node {
         public int x;

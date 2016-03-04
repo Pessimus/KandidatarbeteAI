@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 
 
-public class StateViewInit extends StateBasedGame {
+public class StateViewInit extends StateBasedGame implements Runnable {
 
 	private View view;
 
@@ -23,8 +23,6 @@ public class StateViewInit extends StateBasedGame {
 	public static final int PLAY_STATE = 1;
 
 	private AppGameContainer gameContainer;
-
-	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 	/**
 	 * TODO: Javadoc!
@@ -54,46 +52,27 @@ public class StateViewInit extends StateBasedGame {
 
 	}
 
-	public void start(){
+	public void addPropertyChangeListener(PropertyChangeListener listener){
+		this.view.addPropertyChangeListener(listener);
+	}
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		this.view.removePropertyChangeListener(listener);
+	}
+
+
+	@Override
+	public void initStatesList(GameContainer gameContainer) throws SlickException {
+		this.getState(PLAY_STATE).init(gameContainer, this);
+		this.enterState(PLAY_STATE);
+	}
+
+	@Override
+	public void run() {
 		try {
 			gameContainer.start();
 		}
 		catch (SlickException e){
 			Logger.getLogger(StateViewInit.class.getName()).log(Level.SEVERE, null, e);
 		}
-	}
-
-	public void addPropertyChangeListener(PropertyChangeListener listener){
-		//this.view.addPropertyChangeListener(listener);
-		pcs.addPropertyChangeListener(listener);
-	}
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		//this.view.removePropertyChangeListener(listener);
-		pcs.addPropertyChangeListener(listener);
-	}
-
-	@Override
-	public void initStatesList(GameContainer gameContainer) throws SlickException {
-
-	}
-
-	public void keyPressed(int key, char c) {
-		notifyKeyInput(key,"KEY_PRESSED");
-	}
-	public void keyReleased(int key, char c){
-		notifyKeyInput(key,"KEY_RELEASED");
-	}
-
-	public void mouseMoved(int oldx, int oldy, int newx, int newy){   //Ska denna flyttas till modell?
-
-	}
-
-	private void notifyKeyInput(int input, String control){   // control = "KEY_PRESSED" eller "KEY_RELEASED"
-		Integer[] i = {input};
-		pcs.firePropertyChange(control, 0, i);
-	}
-
-	private void notifyMouseInput(){
-
 	}
 }

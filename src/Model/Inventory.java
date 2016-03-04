@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by Tobias on 2016-02-26.
  */
-public class Inventory {
+public class Inventory{
 	List<IItem> inventoryItems;
 
 	public Inventory(){
