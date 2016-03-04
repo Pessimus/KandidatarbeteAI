@@ -62,15 +62,15 @@ public class View extends BasicGameState implements InputListener{
         List<> renderList = new LinkedList<>(listToRender);
         semaphore.release();
 
-        for (obj: renderList) {
+        for (RenderObject obj: renderList) {
 
-            if(obj.name == "tree"){
+            if(obj.getName().equals("tree")){
                 graphics.drawImage(obj.x, obj.y, treeImage);
             }
-            if(obj.name == "stone"){
+            if(obj.getName().equals("stone")){
                 graphics.drawImage(obj.x, obj.y, treeImage);
             }
-            if(obj.name == "character"){
+            if(obj.getName().equals("character")){
                 graphics.drawImage(obj.x, obj.y, treeImage);
             }
         }
@@ -82,7 +82,6 @@ public class View extends BasicGameState implements InputListener{
 
         return stateNr;
     }
-	/*
     public void keyPressed(int key, char c) {
         notifyKeyInput(key,"KEY_PRESSED");
     }
@@ -97,8 +96,6 @@ public class View extends BasicGameState implements InputListener{
         mouseX+=mouseXMoved;
         mouseY+=mouseYMoved;
     }
-    */
-	/*
     public void addPropertyChangeListener(PropertyChangeListener listener){
         pcs.addPropertyChangeListener(listener);
     }
@@ -113,5 +110,4 @@ public class View extends BasicGameState implements InputListener{
     private void notifyMouseInput(){
 
     }
-    */
 }

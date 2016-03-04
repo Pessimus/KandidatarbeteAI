@@ -1,12 +1,14 @@
 package Model;
 
+
 /**
  * Created by Tobias on 2016-03-04.
  */
 public class Water extends InfiniteResource {
 	private IItemFactory factory;
 
-	private String resourceName;
+	private ResourceType resourceType = ResourceType.WATER;
+	private String resourceName = "Water";
 
 	@Override
 	public IItemFactory getItemFactory() {
@@ -15,11 +17,16 @@ public class Water extends InfiniteResource {
 
 	@Override
 	public IItem gatherResource() {
-		return null;
+		return getItemFactory().createItem(getResourceType());
 	}
 
 	@Override
-	public String getResourceName() {
-		return null;
+	public ResourceType getResourceType() {
+		return resourceType;
+	}
+
+	@Override
+	public String getResourceName(){
+		return resourceName;
 	}
 }
