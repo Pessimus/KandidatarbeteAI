@@ -12,6 +12,7 @@ import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,17 +33,21 @@ public class Controller implements PropertyChangeListener, Runnable {
 	public static final int KEYBOARD_PRESSED_INTEGER = 0;
 	public static final int KEYBOARD_RELEASED_INTEGER = 1;
 
-	public static final int 		TARGET_FRAMERATE = 60;
-	public static final boolean 	RUN_IN_FULLSCREEN = false;
+	public static final 	int 		TARGET_FRAMERATE 				= 60;
+	public static final 	boolean		GAME_GRAB_MOUSE					= false;
+	public static final 	boolean 	RUN_IN_FULLSCREEN 				= false;
 
+	public static final 	long		CONTROLLER_UPDATE_INTERVAL		= 17;			// Interval in milliseconds
 
 	public static void main(String[] args){
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		World model = new World(d.getWidth(), d.getHeight());
-		StateViewInit view = new StateViewInit("HC", RUN_IN_FULLSCREEN, false, TARGET_FRAMERATE, (int)d.getWidth(), (int)d.getHeight());
+		StateViewInit view = new StateViewInit("HC", RUN_IN_FULLSCREEN, GAME_GRAB_MOUSE, TARGET_FRAMERATE, (int)d.getWidth(), (int)d.getHeight());
 
 		//new Thread(new Controller(view, model)).start();
 		new Controller(view, model).run();
+
+		view.run();
 	}
 
 	public Controller(StateViewInit view, World model){
@@ -51,69 +56,27 @@ public class Controller implements PropertyChangeListener, Runnable {
 		setView(view);
 		setModel(model);
 
-		new Thread(view).start();
+		//new Thread(view).start();
 		//view.run();
 	}
 
+	@Override
 	public void run(){
-		while(true){
-			try {
-				keyboardSema.acquire();
-				Object[] tempList = keyboardInputQueue.toArray();
-				keyboardInputQueue.clear();
-				keyboardSema.release();
-
-				if (tempList.length > 0) {
-					Integer[][] tempKeyList = new Integer[tempList.length][];
-					for (int i = 0; i < tempList.length; i++) {
-						tempKeyList[i] = (Integer[]) tempList[i];
-					}
-					sendKeyboardInputToModel(tempKeyList);
-				}
-
-				mouseSema.acquire();
-				tempList = mouseInputQueue.toArray();
-				mouseInputQueue.clear();
-				mouseSema.release();
-
-				if (tempList.length > 0) {
-					Integer[][] tempMouseList = new Integer[tempList.length][];
-					for (int i = 0; i < tempList.length; i++) {
-						tempMouseList[i] = (Integer[]) tempList[i];
-					}
-					sendMouseInputToModel(tempMouseList);
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Semaphores were interrupted!", e);
-			} catch (ClassCastException e) {
-				e.printStackTrace();
-				Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Typecasting of input-arrays failed!", e);
-			}
-		}
-
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		/*
 		new Timer().scheduleAtFixedRate(new TimerTask(){
 			public void run() {
-				System.out.println("RUNNED");
 				try {
+					updateView();
+
 					keyboardSema.acquire();
 					Object[] tempList = keyboardInputQueue.toArray();
 					keyboardInputQueue.clear();
 					keyboardSema.release();
 
-					if (tempList.length > 0) {
-						Integer[][] tempKeyList = new Integer[tempList.length][];
-						for (int i = 0; i < tempList.length; i++) {
-							tempKeyList[i] = (Integer[]) tempList[i];
+					if (tempList != null) {
+						if (tempList.length > 0) {
+							Integer[][] tempKeyList = Arrays.copyOf(tempList, tempList.length, Integer[][].class);
+							sendMouseInputToModel(tempKeyList);
 						}
-						sendKeyboardInputToModel(tempKeyList);
 					}
 
 					mouseSema.acquire();
@@ -121,32 +84,24 @@ public class Controller implements PropertyChangeListener, Runnable {
 					mouseInputQueue.clear();
 					mouseSema.release();
 
-					if (tempList.length > 0) {
-						Integer[][] tempMouseList = new Integer[tempList.length][];
-						for (int i = 0; i < tempList.length; i++) {
-							tempMouseList[i] = (Integer[]) tempList[i];
+					if (tempList != null) {
+						if (tempList.length > 0) {
+							Integer[][] tempMouseList = Arrays.copyOf(tempList, tempList.length, Integer[][].class);
+							sendMouseInputToModel(tempMouseList);
 						}
-						sendMouseInputToModel(tempMouseList);
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-					Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Semaphores were interrupted!", e);
+					Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Semaphores were interrupted in 'run()' method!", e);
 				} catch (ClassCastException e) {
 					e.printStackTrace();
 					Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Typecasting of input-arrays failed!", e);
 				}
 			}
-		}, 1, 1);
-		*/
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
+		}, 0, CONTROLLER_UPDATE_INTERVAL);
 	}
 
-	public boolean setView(StateViewInit view){
+	public synchronized boolean setView(StateViewInit view){
 		if(view != null){
 			gameView = view;
 			gameView.addPropertyChangeListener(this); // TODO: 'View' should use PropertyChangeSupport
@@ -156,7 +111,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 		return false;
 	}
 
-	public boolean setModel(World model){
+	public synchronized boolean setModel(World model){
 		if(model != null){
 			gameModel = model;
 			gameModel.addPropertyChangeListener(this); // TODO: 'Model' should use PropertyChangeSupport
@@ -168,31 +123,16 @@ public class Controller implements PropertyChangeListener, Runnable {
 
 	private void updateView(){
 		List<RenderObject> objectList = gameModel.getRenderObjects();
-		// getViewableObjects() is expected to return a 'List' of 3 arrays:
-		// An array with all enum values for the objects;
-		// An array with the x-coordinates for these objects
-		// An array with the y-coordinates for these objects
-		//gameView.drawObjects(objectList);
-		/*
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		gameView.drawRenderObjects(gameModel.getCharacter());
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		*/
+		Object[] tmp = objectList.toArray();
+		RenderObject[] list = Arrays.copyOf(tmp, tmp.length, RenderObject[].class);
+		gameView.drawRenderObjects(list);
 	}
 
-	private synchronized void sendKeyboardInputToModel(Integer[][] keyboardClicks) {
+	private void sendKeyboardInputToModel(Integer[][] keyboardClicks) {
 		// Keyboard input
 		if (keyboardClicks.length > 0) {
+			// Call methods in the model according to what key was pressed!
+
 			new Thread() {
 				@Override
 				public void run() {
@@ -220,9 +160,11 @@ public class Controller implements PropertyChangeListener, Runnable {
 		}
 	}
 
-	private synchronized void sendMouseInputToModel(Integer[][] mouseClicks){
+	private void sendMouseInputToModel(Integer[][] mouseClicks){
 		// Mouse input
 		if(mouseClicks.length > 0) {
+			// Call methods in the model according to what button was pressed!
+
 			new Thread() {
 				@Override
 				public void run() {
@@ -235,7 +177,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 
 						if (clicks[0] == View.INPUT_ENUM.MOUSE_PRESSED.value) {
 							if(clicks[1] == Input.MOUSE_LEFT_BUTTON){
-								/*
+
 								// TODO: HARDCODED TEST!!!!!
 								// TODO: HARDCODED TEST!!!!!
 								// TODO: HARDCODED TEST!!!!!
@@ -243,14 +185,13 @@ public class Controller implements PropertyChangeListener, Runnable {
 								// TODO: HARDCODED TEST!!!!!
 								// TODO: HARDCODED TEST!!!!!
 								gameModel.moveCharacterTo(clicks[2], clicks[3]);
-								updateView();
 								// TODO: HARDCODED TEST!!!!!
 								// TODO: HARDCODED TEST!!!!!
 								// TODO: HARDCODED TEST!!!!!
 								// TODO: HARDCODED TEST!!!!!
 								// TODO: HARDCODED TEST!!!!!
 								// TODO: HARDCODED TEST!!!!!
-								*/
+
 							}
 						}
 						else if (clicks[0] == View.INPUT_ENUM.MOUSE_RELEASED.value) {
@@ -272,6 +213,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 				keyboardSema.release();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+				Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Semaphores were interrupted in 'handleViewEvent()' method!", e);
 			}
 		}
 		else if(evt.getPropertyName().equals(View.INPUT_ENUM.MOUSE_PRESSED.toString()) || evt.getPropertyName().equals(View.INPUT_ENUM.MOUSE_RELEASED.toString())){
@@ -283,6 +225,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 				mouseSema.release();
 			} catch (InterruptedException e){
 				e.printStackTrace();
+				Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Semaphores were interrupted in 'handleViewEvent()' method!", e);
 			}
 		}
 	}

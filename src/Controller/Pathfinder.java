@@ -4,6 +4,8 @@ import Model.CollisionList;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
+
 /**
  * Created by Gustav on 2016-03-04.
  */
@@ -14,15 +16,7 @@ public class Pathfinder {
     private int width;
     private int height;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     public Pathfinder (double grid, double worldx, double worldy, double sCost, double dCost) {
-=======
-    public Pathfinder(double grid, double worldx, double worldy) {
->>>>>>> origin/master
-=======
-    public Pathfinder (double grid, double worldx, double worldy) {
->>>>>>> parent of fbbb004... Minor updates to Pathfinder and PathStep
         gridSize = grid;
         width = (int) (worldx / grid);
         height = (int) (worldy / grid);
@@ -45,11 +39,7 @@ public class Pathfinder {
         if (((int) (x * gridSize)) > width || ((int) (y * gridSize)) > height) {
             return false;
         } else {
-<<<<<<< HEAD
             return mask[(int)(x*gridSize)][(int)(y*gridSize)];
-=======
-            return mask[(int)(x*gridSize)][(int) (y*gridSize)];
->>>>>>> origin/master
         }
     }
 
@@ -61,8 +51,6 @@ public class Pathfinder {
         return gridSize;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     public LinkedList<PathStep> getPath (double startx, double starty, double endx, double endy) {
         LinkedList<PathStep> ret = new LinkedList<>();
         for (Tuple t : helpPath((int)(startx/gridSize), (int)(starty/gridSize), (int)(endx/gridSize), (int)(endy/gridSize))) {
@@ -109,11 +97,10 @@ public class Pathfinder {
         public int y;
         public Tuple (int u, int v) {x=u; y=v;}
     }
-=======
+
     public LinkedList<PathStep> getPath(int startx, int starty, int endx, int endy) {
         return null;
     }
->>>>>>> origin/master
 
     private class Node {
         public int x;
@@ -129,11 +116,12 @@ public class Pathfinder {
         }
     }
 
+	//
     private double optimalDistance(int nodex, int nodey, int endx, int endy) {
-
+		// Maybe wrong math for what this method should do.
+		// I just assumed this was what was intended!
+		double dx = nodex-endx;
+		double dy = nodey-endy;
+		return Math.sqrt((dx*dx) + (dy*dy));
     }
-=======
-    public LinkedList<PathStep> getPath(int startx, int starty, int endx, int endy) {return null;}
-
->>>>>>> parent of fbbb004... Minor updates to Pathfinder and PathStep
 }

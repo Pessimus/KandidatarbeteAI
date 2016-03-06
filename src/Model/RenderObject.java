@@ -4,8 +4,8 @@ package Model;
  * Created by Martin on 03/03/2016.
  */
 public class RenderObject {
-	public double xPos;
-	public double yPos;
+	public float xPos;
+	public float yPos;
 	public double radius;
 
 	public RENDER_OBJECT_ENUM objectType;
@@ -23,10 +23,21 @@ public class RenderObject {
 		}
 	}
 
-	public RenderObject(double x, double y, double r, RENDER_OBJECT_ENUM type){
+	public RenderObject(RENDER_OBJECT_ENUM type){
+		objectType = type;
+	}
+
+	public RenderObject(float x, float y, double r, RENDER_OBJECT_ENUM type){
 		xPos = x;
 		yPos = y;
 		radius = r;
 		objectType = type;
+	}
+
+	public RenderObject(RenderObject obj){
+		xPos = obj.xPos;
+		yPos = obj.yPos;
+		radius = obj.radius;
+		objectType = obj.objectType;
 	}
 }

@@ -1,10 +1,13 @@
 package View;
 
 import Model.RenderObject;
+import org.lwjgl.opengl.GL45;
+import org.lwjgl.opengl.GLContext;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.opengl.GLUtils;
 import org.newdawn.slick.state.StateBasedGame;
 
 import java.beans.PropertyChangeListener;
@@ -50,7 +53,7 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 			gameContainer.setTargetFrameRate(targetFramerate);
 		}
 		catch(SlickException e){
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Exception in StateViewInit constructor when creating AppGameContainer!", e);
 		}
 
 	}
@@ -69,7 +72,8 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 		this.enterState(PLAY_STATE);
 	}
 
-	/*
+
+
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
@@ -77,15 +81,9 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
 	//private RenderObject[] renderObjectList;
-	public synchronized void drawRenderObjects(List<RenderObject> objectList){
-		System.out.println("RENDERING!");
-		//renderObjectList = (RenderObject[])objectList.toArray();
-		try {
-			RenderObject obj = objectList.get(0);
-			this.getContainer().getGraphics().drawImage(new Image((obj.objectType).pathToResource), (int)obj.xPos, (int)obj.yPos);
-		}
-		catch(SlickException e){
-			;
+	public void drawRenderObjects(RenderObject[] objectList) {
+		for (RenderObject o : objectList) {
+			view.addRenderObject(o);
 		}
 	}
 	// TODO: HARDCODED TEST!!!!!
@@ -94,7 +92,7 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
-	*/
+
 
 	@Override
 	public void run() {
@@ -102,7 +100,7 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 			gameContainer.start();
 		}
 		catch (SlickException e){
-			Logger.getLogger(StateViewInit.class.getName()).log(Level.SEVERE, null, e);
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "SlickException when starting the AppGameContainer in SlickViewInit!", e);
 		}
 	}
 }

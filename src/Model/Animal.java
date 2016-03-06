@@ -15,12 +15,12 @@ public class Animal implements ICollidable {
 	}
 
 	@Override
-	public double getX() {
+	public float getX() {
 		return 0;
 	}
 
 	@Override
-	public double getY() {
+	public float getY() {
 		return 0;
 	}
 

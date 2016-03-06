@@ -8,12 +8,12 @@ import java.util.ArrayList;
  */
 public class Character implements ICollidable, ITimeable {
 	//------------------Movement Variables---------------------
-	private double xPos;
-	private double yPos;
+	private float xPos;
+	private float yPos;
 	private double collisionRadius;
 	private double interactionRadius;
-	private double xSpeed;
-	private double ySpeed;
+	private float xSpeed;
+	private float ySpeed;
 
 
 	private Inventory inventory;
@@ -39,7 +39,7 @@ public class Character implements ICollidable, ITimeable {
 	//private double timeableInterval;
 
 
-	public Character(double xPos, double yPos){
+	public Character(float xPos, float yPos){
 		this.alive = true;
 		//Initial position
 		this.xPos = xPos;
@@ -57,12 +57,12 @@ public class Character implements ICollidable, ITimeable {
 	}
 
 	@Override
-	public double getX() {
+	public float getX() {
 		return this.xPos;
 	}
 
 	@Override
-	public double getY() {
+	public float getY() {
 		return this.yPos;
 	}
 
@@ -117,7 +117,7 @@ public class Character implements ICollidable, ITimeable {
 	/*
 	Method for checking where the character wants to move
 	 */
-	public double getNextXPossition(){
+	public double getNextXPosition(){
 		return this.xPos+this.xSpeed;
 	}
 
@@ -125,7 +125,7 @@ public class Character implements ICollidable, ITimeable {
 	/*
 	Method for checking where the character wants to move
 	 */
-	public double getNextYPossition(){
+	public double getNextYPosition(){
 		return this.yPos+this.ySpeed;
 	}
 	public double moveX(){
@@ -167,7 +167,7 @@ public class Character implements ICollidable, ITimeable {
 		this.ySpeed -= this.stepLength;
 	}
 
-	/*
+
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
@@ -184,5 +184,5 @@ public class Character implements ICollidable, ITimeable {
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
-	*/
+
 }
