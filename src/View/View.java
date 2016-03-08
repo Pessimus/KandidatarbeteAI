@@ -30,6 +30,7 @@ public class View extends BasicGameState implements InputListener{
     private Input input;
     private int stateNr;
     private TiledMap map;
+    private float scaleX, scaleY;
     List<RenderObject> listToRender = new LinkedList<>();
 
 	private Semaphore semaphore = new Semaphore(1);
@@ -79,6 +80,9 @@ public class View extends BasicGameState implements InputListener{
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
+        scaleX = gameContainer.getScreenWidth()/(50*32);
+        scaleY = gameContainer.getScreenWidth()/(40*32);
+        graphics.scale(scaleX,scaleY);
         map.render(0,0, mouseX/32,mouseY/32,50,40);
 
 		Object[] tempList = null;
@@ -143,13 +147,13 @@ public class View extends BasicGameState implements InputListener{
     @Override
     public void mousePressed(int button, int x, int y){
         //notifyMouseInput(new Integer[]{INPUT_ENUM.MOUSE_PRESSED.value, button, x, y});
-		pcs.firePropertyChange(INPUT_ENUM.MOUSE_PRESSED.toString(), 0, new Integer[]{INPUT_ENUM.MOUSE_PRESSED.value, button, x, y});
+		pcs.firePropertyChange(INPUT_ENUM.MOUSE_PRESSED.toString(), 0, new Integer[]{INPUT_ENUM.MOUSE_PRESSED.value, button, (int)(x/scaleX), (int)(y/scaleY)});
     }
 
 	@Override
 	public void mouseReleased(int button, int x, int y){
 		//notifyMouseInput(new Integer[]{INPUT_ENUM.MOUSE_PRESSED.value, button, x, y});
-		pcs.firePropertyChange(INPUT_ENUM.MOUSE_RELEASED.toString(), 0, new Integer[]{INPUT_ENUM.MOUSE_RELEASED.value, button, x, y});
+		pcs.firePropertyChange(INPUT_ENUM.MOUSE_RELEASED.toString(), 0, new Integer[]{INPUT_ENUM.MOUSE_RELEASED.value, button, (int)(x/scaleX), (int)(y/scaleY)});
 	}
 
     public void addPropertyChangeListener(PropertyChangeListener listener){
