@@ -16,10 +16,6 @@ public class Pathfinder {
     private int width;
     private int height;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 009aa26a5e72e2da9b4421192e2b593efd4ba953
     public Pathfinder (double grid, double worldx, double worldy, double sCost, double dCost) {
         gridSize = grid;
         width = (int) (worldx / grid);
@@ -122,14 +118,10 @@ public class Pathfinder {
 
 	//
     private double optimalDistance(int nodex, int nodey, int endx, int endy) {
-<<<<<<< HEAD
 		// Maybe wrong math for what this method should do.
 		// I just assumed this was what was intended!
 		double dx = nodex-endx;
 		double dy = nodey-endy;
 		return Math.sqrt((dx*dx) + (dy*dy));
-=======
-		return 0;
->>>>>>> 009aa26a5e72e2da9b4421192e2b593efd4ba953
     }
 }
