@@ -7,8 +7,8 @@ public class Tree extends RenewableResource {
     ResourceType resourceType = ResourceType.TREE;
     String resourceName = "Tree";
 
-    public Tree (int initial){
-        super(initial);
+    public Tree (int initial, int maxResources){
+        super(initial, maxResources);
     }
     @Override
     public IItemFactory getItemFactory() {
