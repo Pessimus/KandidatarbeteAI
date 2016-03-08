@@ -18,7 +18,6 @@ public class Pathfinder {
     private double adjacentCost;
     private double diagonalCost;
 
-
     public Pathfinder (double grid, double worldx, double worldy, double sCost, double dCost) {
         gridSize = grid;
         width = (int) (worldx / grid);
@@ -188,7 +187,9 @@ public class Pathfinder {
         }
     }
 
+	//
     private double optimalDistance(int nodex, int nodey, int endx, int endy) {
+<<<<<<< HEAD
         int movex = Math.abs(nodex - endx);
         int movey = Math.abs(nodey - endy);
         if (movex == 0 || movey == 0 || adjacentCost > diagonalCost/2) { //if we move in a straight line or its cheaper to move straight twice than to move diagonally
@@ -200,5 +201,12 @@ public class Pathfinder {
         } else {
             return movex*diagonalCost;
         }
+=======
+		// Maybe wrong math for what this method should do.
+		// I just assumed this was what was intended!
+		double dx = nodex-endx;
+		double dy = nodey-endy;
+		return Math.sqrt((dx*dx) + (dy*dy));
+>>>>>>> b77d096800899bede09d64ed42a2f345d96a9eb8
     }
 }

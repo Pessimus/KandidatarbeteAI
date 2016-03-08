@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Martin on 23/02/2016.
@@ -21,9 +22,23 @@ public class World {
 	public World (double width, double height){
 		this.width = width;
 		this.height = height;
-		this.collidables = new LinkedList<ICollidable>();
-		this.timeables = new LinkedList<ITimeable>();
+		this.collidables = new LinkedList<>();
+		this.timeables = new LinkedList<>();
 		this.characters = new HashMap<>();
+
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		character = addCharacter(100, 100, 1337);
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
 	}
 
 	public void update(){
@@ -43,7 +58,7 @@ public class World {
 
 	}
 
-	public Character addCharacter(double xPoss, double yPoss, int key){
+	public Character addCharacter(float xPoss, float yPoss, int key){
 		Character character = new Character(xPoss, yPoss);
 
 		this.collidables.add(character);
@@ -57,11 +72,7 @@ public class World {
 	public LinkedList<RenderObject> getRenderObjects(){
 		LinkedList<RenderObject> renderObjects = new LinkedList<>();
 		for(ICollidable visible : collidables){
-			RenderObject tmp = new RenderObject();
-			tmp.xPoss = visible.getX();
-			tmp.yPoss = visible.getY();
-			tmp.radius = visible.getCollisionRadius();
-			//TODO ENUM for type
+			RenderObject tmp = new RenderObject(visible.getX(), visible.getY(), visible.getCollisionRadius(), RenderObject.RENDER_OBJECT_ENUM.CHARACTER);
 			renderObjects.add(tmp);
 		}
 		return renderObjects;
@@ -78,4 +89,28 @@ public class World {
 	private void firePropertyChange(String type, Object property){
 		pcs.firePropertyChange(type, 0, property);
 	}
+
+
+	// TODO: HARDCODED TEST!!!!!
+	// TODO: HARDCODED TEST!!!!!
+	// TODO: HARDCODED TEST!!!!!
+	// TODO: HARDCODED TEST!!!!!
+	// TODO: HARDCODED TEST!!!!!
+	// TODO: HARDCODED TEST!!!!!
+	private Character character;
+	public void moveCharacterTo(int x, int y){
+		character.setPosition(x, y);
+	}
+/*	public List<RenderObject> getCharacter(){
+		LinkedList<RenderObject> list = new LinkedList<>();
+		list.add(new RenderObject(character.getX(), character.getY(), character.getCollisionRadius(), RenderObject.RENDER_OBJECT_ENUM.CHARACTER));
+		return list;
+	}*/
+	// TODO: HARDCODED TEST!!!!!
+	// TODO: HARDCODED TEST!!!!!
+	// TODO: HARDCODED TEST!!!!!
+	// TODO: HARDCODED TEST!!!!!
+	// TODO: HARDCODED TEST!!!!!
+	// TODO: HARDCODED TEST!!!!!
+
 }
