@@ -9,8 +9,13 @@ public class Tree extends RenewableResource {
     public static final ResourceType resourceType = ResourceType.TREE;
     public static final String resourceName = "Tree";
 
-    public Tree (int initial){
+
+    public Tree (int initial) {
         super(initial, MAX_TREE_RESOURCES);
+    }
+
+    public Tree (int initial, int maxResources){
+        super(initial, maxResources);
     }
     @Override
     public IItemFactory getItemFactory() {
