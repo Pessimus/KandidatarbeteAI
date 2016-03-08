@@ -6,20 +6,14 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
-import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.Semaphore;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
-
-import javax.imageio.ImageIO;
 
 /**
  * Created by Oskar on 2016-02-26.
@@ -30,6 +24,7 @@ public class View extends BasicGameState implements InputListener{
     private Input input;
     private int stateNr;
     private TiledMap map;
+
     private float scaleX, scaleY;
     List<RenderObject> listToRender = new LinkedList<>();
 
@@ -55,10 +50,6 @@ public class View extends BasicGameState implements InputListener{
 
     int collisionId = 21*23+1;
 
-	// Since all images needs to be initialized in the 'init()' method,
-	// they are stored in this map.
-	private Map<RenderObject.RENDER_OBJECT_ENUM, Image> resourceMap = new HashMap<>();
-
     public View(int i) {
         stateNr = i;
     }
@@ -66,10 +57,6 @@ public class View extends BasicGameState implements InputListener{
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         map = new TiledMap("res/mapsquare.tmx");       //controller.getTiledMap();
-
-		for(RenderObject.RENDER_OBJECT_ENUM e : RenderObject.RENDER_OBJECT_ENUM.values()){
-			resourceMap.put(e, new Image(e.pathToResource));
-		}
     }
 
 
@@ -85,37 +72,26 @@ public class View extends BasicGameState implements InputListener{
         graphics.scale(scaleX,scaleY);
         map.render(0,0, mouseX/32,mouseY/32,50,40);
 
-		Object[] tempList = null;
+        //Test
 
-		// Retrieve the 'listToRender' list as an array
-		try {
-			semaphore.acquire();
-			tempList = listToRender.toArray();
-			semaphore.release();
-		}
-		catch(InterruptedException e){
-			e.printStackTrace();
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
-		}
+        /*
+        semaphore.acquire();
+        List<> renderList = new LinkedList<>(listToRender);
+        semaphore.release();
 
-		if(tempList != null){
-			if(tempList.length > 0){
-				RenderObject[] renderList = Arrays.copyOf(tempList, tempList.length, RenderObject[].class);
-				for (RenderObject obj: renderList) {
-					resourceMap.get(obj.objectType).draw(obj.xPos, obj.yPos);
-				}
-			}
-		}
+        for (RenderObject obj: renderList) {
 
-		try {
-			semaphore.acquire();
-			listToRender.clear();
-			semaphore.release();
-		}
-		catch(InterruptedException e){
-			e.printStackTrace();
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
-		}
+            if(obj.getName().equals("tree")){
+                graphics.drawImage(obj.x, obj.y, treeImage);
+            }
+            if(obj.getName().equals("stone")){
+                graphics.drawImage(obj.x, obj.y, treeImage);
+            }
+            if(obj.getName().equals("character")){
+                graphics.drawImage(obj.x, obj.y, treeImage);
+            }
+        }
+        */
     }
 
     @Override
@@ -162,24 +138,6 @@ public class View extends BasicGameState implements InputListener{
     public void removePropertyChangeListener(PropertyChangeListener listener){
         pcs.removePropertyChangeListener(listener);
     }
-
-
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	public void addRenderObject(RenderObject obj){
-		listToRender.add(obj);
-	}
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-
 
 
 	// TODO: Maybe remove these if the above code is ok.
