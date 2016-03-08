@@ -74,7 +74,6 @@ public class Character implements ICollidable, ITimeable {
 
 	@Override
 	public void update() {
-
 		//TODO Update needs
 		//TODO Implement ageing etc...
 		updateNeeds();

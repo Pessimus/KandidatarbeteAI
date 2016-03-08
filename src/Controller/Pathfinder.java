@@ -16,6 +16,26 @@ public class Pathfinder {
     private int width;
     private int height;
 
+	private class Node {
+		public int x;
+		public int y;
+		public double g;
+		public double h;
+		public double f;
+		public Node successor;
+
+		public Node (int a, int b, double c, double d, Node n) {
+			x=a; y=b; g=c; h=d; successor = n;
+			f = g+h;
+		}
+	}
+
+	private class Tuple {
+		public int x;
+		public int y;
+		public Tuple (int u, int v) {x=u; y=v;}
+	}
+
     public Pathfinder (double grid, double worldx, double worldy, double sCost, double dCost) {
         gridSize = grid;
         width = (int) (worldx / grid);
@@ -92,28 +112,8 @@ public class Pathfinder {
         return new PathStep((double)(x*gridSize + gridSize/2), (double)(y*gridSize + gridSize/2));
     }
 
-    private class Tuple {
-        public int x;
-        public int y;
-        public Tuple (int u, int v) {x=u; y=v;}
-    }
-
     public LinkedList<PathStep> getPath(int startx, int starty, int endx, int endy) {
         return null;
-    }
-
-    private class Node {
-        public int x;
-        public int y;
-        public double g;
-        public double h;
-        public double f;
-        public Node successor;
-
-        public Node (int a, int b, double c, double d, Node n) {
-            x=a; y=b; g=c; h=d; successor = n;
-            f = g+h;
-        }
     }
 
 	//
