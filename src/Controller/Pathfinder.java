@@ -18,6 +18,7 @@ public class Pathfinder {
     private double adjacentCost;
     private double diagonalCost;
 
+
     public Pathfinder (double grid, double worldx, double worldy, double sCost, double dCost) {
         gridSize = grid;
         width = (int) (worldx / grid);
@@ -189,6 +190,7 @@ public class Pathfinder {
 
 	//
     private double optimalDistance(int nodex, int nodey, int endx, int endy) {
+
         
         int movex = Math.abs(nodex - endx);
         int movey = Math.abs(nodey - endy);

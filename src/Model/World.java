@@ -5,6 +5,10 @@ import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Martin on 23/02/2016.
@@ -19,6 +23,8 @@ public class World {
 	private double width;
 	private double height;
 
+	private Semaphore sema = new Semaphore(1);
+
 	public World (double width, double height){
 		this.width = width;
 		this.height = height;
@@ -32,7 +38,10 @@ public class World {
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
-		character = addCharacter(100, 100, 1337);
+		Random r = new Random();
+		for(int i = 0; i < 50; i++){
+			addCharacter(r.nextFloat() * 400 + 1, r.nextFloat() * 400 + 1, i);
+		}
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
@@ -42,27 +51,51 @@ public class World {
 	}
 
 	public void update(){
+		try {
+			sema.acquire();
+			for (Character character : characters.values()) {
+				character.update();
 
-		for(Character character : characters.values()){
-			//TODO IF x
-			character.moveX();
-			//END TODO IF x
-			//TODO IF y
-			character.moveY();
-			//END TODO IF y
+				if (!character.isAlive()) {
+					characters.remove(character.getKey(), character);
+					collidables.remove(character);
+					timeables.remove(character);
+					//character = null;
+				}
+				//TODO IF x
+
+				character.moveX();
+				//END TODO IF x
+				//TODO IF y
+				character.moveY();
+				//END TODO IF y
+			}
+
+			for (ITimeable timedObj : timeables) {
+				timedObj.update();
+			}
+			sema.release();
 		}
-
-		for(ITimeable timedObj : timeables){
-			timedObj.update();
+		catch(InterruptedException e){
+			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "interrupted when removing a dead character!", e);
 		}
-
 	}
 
 	public Character addCharacter(float xPoss, float yPoss, int key){
-		Character character = new Character(xPoss, yPoss);
+		Character character = new Character(xPoss, yPoss, key);
 
-		this.collidables.add(character);
-		this.characters.put(key,character);
+		try{
+			sema.acquire();
+			this.collidables.add(character);
+			this.timeables.add(character);
+			this.characters.put(key,character);
+			sema.release();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "interrupted when removing a dead character!", e);
+		}
 
 		return character;
 	}
@@ -71,10 +104,19 @@ public class World {
 
 	public LinkedList<RenderObject> getRenderObjects(){
 		LinkedList<RenderObject> renderObjects = new LinkedList<>();
-		for(ICollidable visible : collidables){
-			RenderObject tmp = new RenderObject(visible.getX(), visible.getY(), visible.getCollisionRadius(), RenderObject.RENDER_OBJECT_ENUM.CHARACTER);
-			renderObjects.add(tmp);
+
+		try {
+			sema.acquire();
+			for (ICollidable visible : collidables) {
+				RenderObject tmp = new RenderObject(visible.getX(), visible.getY(), visible.getCollisionRadius(), RenderObject.RENDER_OBJECT_ENUM.CHARACTER);
+				renderObjects.add(tmp);
+			}
+			sema.release();
 		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+		}
+
 		return renderObjects;
 	}
 
@@ -90,7 +132,7 @@ public class World {
 		pcs.firePropertyChange(type, 0, property);
 	}
 
-
+	/*
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
@@ -101,16 +143,16 @@ public class World {
 	public void moveCharacterTo(int x, int y){
 		character.setPosition(x, y);
 	}
-/*	public List<RenderObject> getCharacter(){
+	public List<RenderObject> getCharacter(){
 		LinkedList<RenderObject> list = new LinkedList<>();
 		list.add(new RenderObject(character.getX(), character.getY(), character.getCollisionRadius(), RenderObject.RENDER_OBJECT_ENUM.CHARACTER));
 		return list;
-	}*/
+	}
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
-
+	*/
 }

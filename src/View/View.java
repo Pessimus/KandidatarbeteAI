@@ -1,6 +1,7 @@
 package View;
 
 import Model.RenderObject;
+import org.lwjgl.Sys;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -8,10 +9,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,12 +61,34 @@ public class View extends BasicGameState implements InputListener{
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         map = new TiledMap("res/mapsquare.tmx");       //controller.getTiledMap();
-		resourceMap.put(RenderObject.RENDER_OBJECT_ENUM.CHARACTER, new Image(RenderObject.RENDER_OBJECT_ENUM.CHARACTER.pathToResource));
+
+		for(RenderObject.RENDER_OBJECT_ENUM e : RenderObject.RENDER_OBJECT_ENUM.values()){
+			resourceMap.put(e, new Image(e.pathToResource));
+		}
     }
 
+	RenderObject[] tempRenderList = null;
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
+		Object[] tempList = null;
+
+		try {
+			semaphore.acquire();
+			tempList = listToRender.toArray();
+			listToRender.clear();
+			semaphore.release();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
+		}
+
+		if(tempList != null){
+			if(tempList.length > 0){
+				tempRenderList = Arrays.copyOf(tempList, tempList.length, RenderObject[].class);
+			}
+		}
     }
 
     @Override
@@ -78,58 +98,16 @@ public class View extends BasicGameState implements InputListener{
         graphics.scale(scaleX,scaleY);
         map.render(0,0, mouseX/32,mouseY/32,50,40);
 
-		List<RenderObject> renderList = null;
+		if(tempRenderList != null){
 
-		renderList = new LinkedList<>(listToRender);
-		/*
-		try {
-			semaphore.acquire();
-			renderList = new LinkedList<>(listToRender);
-			semaphore.release();
-		}
-		catch(InterruptedException e){
-			e.printStackTrace();
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Semaphores were interrupted in 'render()' method!", e);
-		}
-		*/
-
-		if(renderList != null) {
-			if (renderList.size() > 0) {
-				for (RenderObject obj : renderList) {
-
-					if (obj.objectType == RenderObject.RENDER_OBJECT_ENUM.CHARACTER) {
-						graphics.drawImage(resourceMap.get(RenderObject.RENDER_OBJECT_ENUM.CHARACTER.pathToResource), obj.xPos, obj.yPos);
-					}
-					/*else if (obj.objectType == RenderObject.RENDER_OBJECT_ENUM.TREE) {
-						graphics.drawImage(obj.xPos, obj.yPos, treeImage);
-					} else if (obj.getName().equals("stone")) {
-						graphics.drawImage(obj.x, obj.y, treeImage);
-					} else if (obj.getName().equals("character")) {
-						graphics.drawImage(obj.x, obj.y, treeImage);
-					}
-					*/
-				}
+			for (RenderObject obj: tempRenderList) {
+				resourceMap.get(obj.objectType).draw(obj.xPos, obj.yPos);;
 			}
 		}
-
-		listToRender.clear();
-
-		/*
-		try {
-			semaphore.acquire();
-			listToRender.clear();
-			semaphore.release();
-		}
-		catch(InterruptedException e){
-			e.printStackTrace();
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Semaphores were interrupted in 'render()' method!", e);
-		}
-		*/
     }
 
     @Override
     public int getID() {
-
         return stateNr;
     }
     @Override
@@ -173,12 +151,23 @@ public class View extends BasicGameState implements InputListener{
     }
 
 	public boolean addRenderObject(RenderObject obj){
-		return listToRender.add(obj);
+		boolean returns = false;
+		try {
+			semaphore.acquire();
+			returns = listToRender.add(obj);
+			semaphore.release();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
+		}
+
+		return returns;
 	}
 
 	// TODO: Maybe remove these if the above code is ok.
     private void notifyKeyInput(Integer[] vars){   // control = "KEY_PRESSED" eller "KEY_RELEASED"
-        pcs.firePropertyChange(vars[0].toString(), 0, input);
+        pcs.firePropertyChange(vars[0].toString(), 0, vars);
     }
     private void notifyMouseInput(Integer[] vars){
         pcs.firePropertyChange(vars[0].toString(), 0, vars);
