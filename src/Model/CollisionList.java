@@ -54,6 +54,9 @@ public class CollisionList {
 				return -10000;
 			}
 
+			@Override
+			public RenderObject getRenderObject(){return null;}
+
 			//@Override
 			public boolean checkCollision(ICollidable rhs) {
 				return false;

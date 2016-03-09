@@ -3,18 +3,17 @@ package Model;
 /**
  * Created by Martin on 03/03/2016.
  */
-public class RenderObject {
-	public float xPos;
-	public float yPos;
-	public double radius;
+public final class RenderObject {
+	private final float xPos;
+	private final float yPos;
+	private final double radius;
 
-	public RENDER_OBJECT_ENUM objectType;
+	private RENDER_OBJECT_ENUM objectType;
 
 	//TODO ENUM for type
 
-	// A temporary enum
 	public enum RENDER_OBJECT_ENUM{
-		CHARACTER("res/Villager16x16.png");
+		CHARACTER("res/Villager16x16.png"), TREE("res/terrain.png");
 
 		public String pathToResource;
 
@@ -23,15 +22,12 @@ public class RenderObject {
 		}
 	}
 
-	public RenderObject(RENDER_OBJECT_ENUM type){
-		objectType = type;
-	}
-
 	public RenderObject(float x, float y, double r, RENDER_OBJECT_ENUM type){
 		xPos = x;
 		yPos = y;
 		radius = r;
 		objectType = type;
+
 	}
 
 	public RenderObject(RenderObject obj){
@@ -39,5 +35,21 @@ public class RenderObject {
 		yPos = obj.yPos;
 		radius = obj.radius;
 		objectType = obj.objectType;
+	}
+
+	public final float getxPos() {
+		return xPos;
+	}
+
+	public final float getyPos() {
+		return yPos;
+	}
+
+	public final double getRadius() {
+		return radius;
+	}
+
+	public final RENDER_OBJECT_ENUM getObjectType() {
+		return objectType;
 	}
 }

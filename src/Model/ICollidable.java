@@ -11,4 +11,6 @@ public interface ICollidable {
 	//public boolean checkCollision(ICollidable rhs);
 
 	//TODO ENUM for type
+
+	RenderObject getRenderObject();
 }

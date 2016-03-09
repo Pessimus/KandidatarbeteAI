@@ -20,6 +20,8 @@ public class Character implements ICollidable, ITimeable {
 	private final int updateThirst = 40;
 	private final int updateEnergy = 20;
 
+	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
+
 
 	private Inventory inventory;
 
@@ -78,6 +80,11 @@ public class Character implements ICollidable, ITimeable {
 	@Override
 	public double getCollisionRadius() {
 		return this.collisionRadius;
+	}
+
+	@Override
+	public RenderObject getRenderObject() {
+		return new RenderObject(getX(), getY(), getCollisionRadius(), renderObjectEnum);
 	}
 
 

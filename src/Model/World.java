@@ -41,7 +41,8 @@ public class World {
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		Random r = new Random();
-		addCharacter(r.nextFloat() * 400 + 1, r.nextFloat() * 400 + 1, 1);
+		for(int i = 0; i < 500; i++)
+			addCharacter(r.nextFloat() * 400 + 1, r.nextFloat() * 400 + 1, i);
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
@@ -66,7 +67,6 @@ public class World {
 					characters.remove(character.getKey(), character);
 					collidables.remove(character);
 					timeables.remove(character);
-					System.out.println("removed from lists");
 					//character = null;
 				}
 				//TODO IF x

@@ -3,18 +3,18 @@ package Model;
 /**
  * Created by Oskar on 2016-03-04.
  */
-public class Tree extends RenewableResource {
+public class Wood extends RenewableResource {
 
     public static final int MAX_TREE_RESOURCES = 150;
-    public static final ResourceType resourceType = ResourceType.TREE;
-    public static final String resourceName = "Tree";
+    public static final ResourceType resourceType = ResourceType.WOOD;
+    public static final String resourceName = "Wood";
 
 
-    public Tree (int initial) {
+    public Wood(int initial) {
         super(initial, MAX_TREE_RESOURCES);
     }
 
-    public Tree (int initial, int maxResources){
+    public Wood(int initial, int maxResources){
         super(initial, maxResources);
     }
     @Override

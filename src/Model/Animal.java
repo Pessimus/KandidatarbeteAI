@@ -28,4 +28,9 @@ public class Animal implements ICollidable {
 	public double getCollisionRadius() {
 		return 0;
 	}
+
+	@Override
+	public RenderObject getRenderObject() {
+		return null;
+	}
 }

@@ -10,7 +10,7 @@ public interface IResource {
 	String getResourceName();
 
 	enum ResourceType{
-		TREE,
+		WOOD,
 		WATER,
 		GOLD,
 		STONE,

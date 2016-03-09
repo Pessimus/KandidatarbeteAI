@@ -143,7 +143,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 				public void run() {
 					// The array for key-clicks work like this:
 					for (Integer[] clicks : keyboardClicks) {
-						// clicks[0] = Wether the key was pressed/released
+						// clicks[0] = Wether the key was pressed/released (1: Pressed, 0: Released)
 						// clicks[1] = What key was pressed/released
 
 						if (clicks[0] == View.INPUT_ENUM.KEY_PRESSED.value)
