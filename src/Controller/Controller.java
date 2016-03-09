@@ -64,39 +64,8 @@ public class Controller implements PropertyChangeListener, Runnable {
 	public void run(){
 		new Timer().scheduleAtFixedRate(new TimerTask(){
 			public void run() {
-				try {
-					updateView();
-
-					keyboardSema.acquire();
-					Object[] tempList = keyboardInputQueue.toArray();
-					keyboardInputQueue.clear();
-					keyboardSema.release();
-
-					if (tempList != null) {
-						if (tempList.length > 0) {
-							Integer[][] tempKeyList = Arrays.copyOf(tempList, tempList.length, Integer[][].class);
-							sendMouseInputToModel(tempKeyList);
-						}
-					}
-
-					mouseSema.acquire();
-					tempList = mouseInputQueue.toArray();
-					mouseInputQueue.clear();
-					mouseSema.release();
-
-					if (tempList != null) {
-						if (tempList.length > 0) {
-							Integer[][] tempMouseList = Arrays.copyOf(tempList, tempList.length, Integer[][].class);
-							sendMouseInputToModel(tempMouseList);
-						}
-					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-					Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Semaphores were interrupted in 'run()' method!", e);
-				} catch (ClassCastException e) {
-					e.printStackTrace();
-					Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Typecasting of input-arrays failed!", e);
-				}
+				updateView();
+				updateModel();
 			}
 		}, 0, CONTROLLER_UPDATE_INTERVAL);
 	}
@@ -126,6 +95,45 @@ public class Controller implements PropertyChangeListener, Runnable {
 		Object[] tmp = objectList.toArray();
 		RenderObject[] list = Arrays.copyOf(tmp, tmp.length, RenderObject[].class);
 		gameView.drawRenderObjects(list);
+	}
+
+	/**
+	 * Uses input from the View to manipulate the Model.
+	 */
+	private void updateModel(){
+		try {
+			keyboardSema.acquire();
+			Object[] tempList = keyboardInputQueue.toArray();
+			keyboardInputQueue.clear();
+			keyboardSema.release();
+
+			if (tempList != null) {
+				if (tempList.length > 0) {
+					Integer[][] tempKeyList = Arrays.copyOf(tempList, tempList.length, Integer[][].class);
+					sendMouseInputToModel(tempKeyList);
+				}
+			}
+
+			mouseSema.acquire();
+			tempList = mouseInputQueue.toArray();
+			mouseInputQueue.clear();
+			mouseSema.release();
+
+			if (tempList != null) {
+				if (tempList.length > 0) {
+					Integer[][] tempMouseList = Arrays.copyOf(tempList, tempList.length, Integer[][].class);
+					sendMouseInputToModel(tempMouseList);
+				}
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Semaphores were interrupted in 'run()' method!", e);
+		} catch (ClassCastException e) {
+			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Typecasting of input-arrays failed!", e);
+		}
+
+		gameModel.update();
 	}
 
 	private void sendKeyboardInputToModel(Integer[][] keyboardClicks) {

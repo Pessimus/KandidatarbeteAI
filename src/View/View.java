@@ -8,9 +8,13 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -28,7 +32,9 @@ public class View extends BasicGameState implements InputListener{
     private float scaleX, scaleY;
     List<RenderObject> listToRender = new LinkedList<>();
 
-	private Semaphore semaphore = new Semaphore(1);
+
+	private final Semaphore semaphore = new Semaphore(1);
+	private final Map<RenderObject.RENDER_OBJECT_ENUM, Image> resourceMap = new HashMap<>();
 
     public enum INPUT_ENUM {
 		KEY_RELEASED(0), KEY_PRESSED(1),
@@ -57,12 +63,12 @@ public class View extends BasicGameState implements InputListener{
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         map = new TiledMap("res/mapsquare.tmx");       //controller.getTiledMap();
+		resourceMap.put(RenderObject.RENDER_OBJECT_ENUM.CHARACTER, new Image(RenderObject.RENDER_OBJECT_ENUM.CHARACTER.pathToResource));
     }
 
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-
     }
 
     @Override
@@ -72,26 +78,53 @@ public class View extends BasicGameState implements InputListener{
         graphics.scale(scaleX,scaleY);
         map.render(0,0, mouseX/32,mouseY/32,50,40);
 
-        //Test
+		List<RenderObject> renderList = null;
 
-        /*
-        semaphore.acquire();
-        List<> renderList = new LinkedList<>(listToRender);
-        semaphore.release();
+		renderList = new LinkedList<>(listToRender);
+		/*
+		try {
+			semaphore.acquire();
+			renderList = new LinkedList<>(listToRender);
+			semaphore.release();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Semaphores were interrupted in 'render()' method!", e);
+		}
+		*/
 
-        for (RenderObject obj: renderList) {
+		if(renderList != null) {
+			if (renderList.size() > 0) {
+				for (RenderObject obj : renderList) {
 
-            if(obj.getName().equals("tree")){
-                graphics.drawImage(obj.x, obj.y, treeImage);
-            }
-            if(obj.getName().equals("stone")){
-                graphics.drawImage(obj.x, obj.y, treeImage);
-            }
-            if(obj.getName().equals("character")){
-                graphics.drawImage(obj.x, obj.y, treeImage);
-            }
-        }
-        */
+					if (obj.objectType == RenderObject.RENDER_OBJECT_ENUM.CHARACTER) {
+						graphics.drawImage(resourceMap.get(RenderObject.RENDER_OBJECT_ENUM.CHARACTER.pathToResource), obj.xPos, obj.yPos);
+					}
+					/*else if (obj.objectType == RenderObject.RENDER_OBJECT_ENUM.TREE) {
+						graphics.drawImage(obj.xPos, obj.yPos, treeImage);
+					} else if (obj.getName().equals("stone")) {
+						graphics.drawImage(obj.x, obj.y, treeImage);
+					} else if (obj.getName().equals("character")) {
+						graphics.drawImage(obj.x, obj.y, treeImage);
+					}
+					*/
+				}
+			}
+		}
+
+		listToRender.clear();
+
+		/*
+		try {
+			semaphore.acquire();
+			listToRender.clear();
+			semaphore.release();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Semaphores were interrupted in 'render()' method!", e);
+		}
+		*/
     }
 
     @Override
@@ -139,6 +172,9 @@ public class View extends BasicGameState implements InputListener{
         pcs.removePropertyChangeListener(listener);
     }
 
+	public boolean addRenderObject(RenderObject obj){
+		return listToRender.add(obj);
+	}
 
 	// TODO: Maybe remove these if the above code is ok.
     private void notifyKeyInput(Integer[] vars){   // control = "KEY_PRESSED" eller "KEY_RELEASED"
