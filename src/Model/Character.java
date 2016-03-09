@@ -59,9 +59,9 @@ public class Character implements ICollidable, ITimeable {
 		//Create inventory
 		inventory = new Inventory();
 
-		this.hunger = 10;
-		this.thirst = 10;
-		this.energy = 10;
+		this.hunger = 1000;
+		this.thirst = 1000;
+		this.energy = 1000;
 
 	}
 
@@ -86,6 +86,8 @@ public class Character implements ICollidable, ITimeable {
 	public RenderObject getRenderObject() {
 		return new RenderObject(getX(), getY(), getCollisionRadius(), renderObjectEnum);
 	}
+	
+	public int getHunger() {return this.hunger;}
 
 
 	@Override
@@ -100,6 +102,7 @@ public class Character implements ICollidable, ITimeable {
 	}
 
 	public void updateNeeds() {
+
 		if(updateCounter % 60 == 0) {
 			this.hunger -= 1;
 			this.thirst -= 1;

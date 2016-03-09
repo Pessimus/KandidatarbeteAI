@@ -1,15 +1,19 @@
 package View;
 
 import Model.RenderObject;
-import org.lwjgl.Sys;
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
+import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +30,9 @@ public class View extends BasicGameState implements InputListener{
     private Input input;
     private int stateNr;
     private TiledMap map;
+    private int renderpointx = 50;
+    private int renderpointy = 50;
+    java.awt.Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
     private float scaleX, scaleY;
     List<RenderObject> listToRender = new LinkedList<>();
@@ -82,6 +89,7 @@ public class View extends BasicGameState implements InputListener{
 		catch(InterruptedException e){
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
+            System.out.println(e);
 		}
 
 		if(tempList != null){
@@ -96,7 +104,8 @@ public class View extends BasicGameState implements InputListener{
         scaleX = gameContainer.getScreenWidth()/(50*32);
         scaleY = gameContainer.getScreenWidth()/(40*32);
         graphics.scale(scaleX,scaleY);
-        map.render(0,0, mouseX/32,mouseY/32,50,40);
+       // map.render(0,0, mouseX/32,mouseY/32,50,40);
+        map.render(0, 0, renderpointx, renderpointy, 50, 40);
 
 		if(tempRenderList != null){
 
@@ -104,8 +113,22 @@ public class View extends BasicGameState implements InputListener{
 				resourceMap.get(obj.getObjectType()).draw(obj.getxPos(), obj.getyPos());
 			}
 		}
+        //Functioanlity for moving the camera view around the map. Keep the mouse to one side to move the camera view.
+        if (Mouse.getX() > d.getWidth()-d.getWidth()/10) {
+            renderpointx += 1;
+        }
+        if (Mouse.getX() < d.getWidth()/10) {
+            renderpointx -= 1;
+        }
+        if (Mouse.getY() < d.getHeight()-d.getWidth()/10) {
+            renderpointy += 1;
+        }
+        if (Mouse.getY() > d.getHeight()/10) {
+            renderpointy -= 1;
+        }
 
 		tempRenderList = null;
+
     }
 
     @Override
@@ -130,6 +153,7 @@ public class View extends BasicGameState implements InputListener{
         mouseYMoved = newy-oldy;
         mouseX+=mouseXMoved;
         mouseY+=mouseYMoved;
+
 		//pcs.firePropertyChange(INPUT_ENUM.MOUSE_MOVED.toString(), 0, new Integer[]{INPUT_ENUM.MOUSE_MOVED.value,oldx, oldy, newx, newy});
     }
 

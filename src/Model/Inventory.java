@@ -23,4 +23,6 @@ public class Inventory{
 	boolean addItem(IItem item){
 		return inventoryItems.add(item);
 	}
+
+	boolean removeItem(IItem item){return inventoryItems.remove(item);	}
 }

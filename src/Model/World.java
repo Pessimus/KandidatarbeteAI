@@ -12,6 +12,7 @@ import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 /**
  * Created by Martin on 23/02/2016.
  */
@@ -40,9 +41,11 @@ public class World {
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
-		Random r = new Random();
-		for(int i = 0; i < 500; i++)
-			addCharacter(r.nextFloat() * 400 + 1, r.nextFloat() * 400 + 1, i);
+		for (int i = 0; i < 500; i += 1) {
+			int rx = (int) (Math.random()*1000);
+			int ry = (int) (Math.random()*1000);
+			addCharacter(rx, ry, i);
+		}
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
@@ -57,40 +60,42 @@ public class World {
 	 * Update collidables
 	 */
 	public void update(){
-
 		try {
 			sema.acquire();
 			for (Character character : characters.values()) {
 				character.update();
+
+				/*if (character.getKey() < 5) {
+					System.out.println(character.getHunger());
+				}*/
 
 				if (!character.isAlive()) {
 					characters.remove(character.getKey(), character);
 					collidables.remove(character);
 					timeables.remove(character);
 					//character = null;
+				} else {
+					//TODO IF x
+
+					character.moveX();
+					//END TODO IF x
+					//TODO IF y
+					character.moveY();
+					//END TODO IF y
 				}
-				//TODO IF x
-
-				character.moveX();
-				//END TODO IF x
-				//TODO IF y
-				character.moveY();
-				//END TODO IF y
 			}
-
-
-			/*
-			for (ITimeable timedObj : timeables) {
-				timedObj.update();
-			}
-			*/
-
-			sema.release();
 		}
 		catch(InterruptedException e){
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "interrupted when removing a dead character!", e);
 		}
+
+
+		for (ITimeable timedObj : timeables) {
+			timedObj.update();
+		}
+
+		sema.release();
 	}
 
 	public Character addCharacter(float xPoss, float yPoss, int key){
