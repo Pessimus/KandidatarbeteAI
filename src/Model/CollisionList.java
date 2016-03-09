@@ -30,12 +30,12 @@ public class CollisionList {
 	public CollisionList(){
 		this.startNode = new Node(new ICollidable() {
 			@Override
-			public double getX() {
+			public float getX() {
 				return -10000;
 			}
 
 			@Override
-			public double getY() {
+			public float getY() {
 				return -10000;
 			}
 
@@ -51,7 +51,6 @@ public class CollisionList {
 	//public CollissionItterator Iterator(){}
 
 	public void sort(){
-		int itter = 0;
 		if(startNode.next == null){
 			return;
 		}
@@ -65,15 +64,9 @@ public class CollisionList {
 					swap(sortNode.previous, sortNode);
 					hasChanged = true;
 				}
-				//System.out.println("............"+sortNode.value.getY());
-				//System.out.println("////////////"+sortNode.next.value.getY());
 				sortNode = sortNode.next;
 			}
-			//System.out.println("----");
-			//this.print();
-			itter++;
 		}
-		System.out.println("itter = " + itter);
 	}
 
 	public void add(ICollidable addValue){
