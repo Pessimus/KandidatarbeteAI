@@ -1,6 +1,7 @@
 package View;
 
 import Model.RenderObject;
+import org.lwjgl.Sys;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -63,7 +64,9 @@ public class View extends BasicGameState implements InputListener{
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         map = new TiledMap("res/mapsquare.tmx");       //controller.getTiledMap();
-		resourceMap.put(RenderObject.RENDER_OBJECT_ENUM.CHARACTER, new Image(RenderObject.RENDER_OBJECT_ENUM.CHARACTER.pathToResource));
+		for(RenderObject.RENDER_OBJECT_ENUM e : RenderObject.RENDER_OBJECT_ENUM.values()){
+			resourceMap.put(e, new Image(e.pathToResource));
+		}
     }
 
 
@@ -78,42 +81,39 @@ public class View extends BasicGameState implements InputListener{
         graphics.scale(scaleX,scaleY);
         map.render(0,0, mouseX/32,mouseY/32,50,40);
 
-		List<RenderObject> renderList = null;
+		Object[] tempList = null;
 
-		renderList = new LinkedList<>(listToRender);
+		// Retrieve the 'listToRender' list as an array
+
+		// Might not want to use semaphores in the render-method.
+		// I don't think we ever want to risk the possibility of this method
+		// waiting for access to the list.
+
 		/*
 		try {
 			semaphore.acquire();
-			renderList = new LinkedList<>(listToRender);
+			tempList = listToRender.toArray();
 			semaphore.release();
 		}
 		catch(InterruptedException e){
 			e.printStackTrace();
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Semaphores were interrupted in 'render()' method!", e);
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
 		}
 		*/
 
-		if(renderList != null) {
-			if (renderList.size() > 0) {
-				for (RenderObject obj : renderList) {
 
-					if (obj.objectType == RenderObject.RENDER_OBJECT_ENUM.CHARACTER) {
-						graphics.drawImage(resourceMap.get(RenderObject.RENDER_OBJECT_ENUM.CHARACTER.pathToResource), obj.xPos, obj.yPos);
-					}
-					/*else if (obj.objectType == RenderObject.RENDER_OBJECT_ENUM.TREE) {
-						graphics.drawImage(obj.xPos, obj.yPos, treeImage);
-					} else if (obj.getName().equals("stone")) {
-						graphics.drawImage(obj.x, obj.y, treeImage);
-					} else if (obj.getName().equals("character")) {
-						graphics.drawImage(obj.x, obj.y, treeImage);
-					}
-					*/
+
+		if(listToRender != null){
+			if(listToRender.size() > 0){
+				//RenderObject[] renderList = Arrays.copyOf(tempList, tempList.length, RenderObject[].class);
+
+				for (RenderObject obj: listToRender) {
+					resourceMap.get(obj.objectType).draw(obj.xPos, obj.yPos);;
 				}
 			}
 		}
 
 		listToRender.clear();
-
 		/*
 		try {
 			semaphore.acquire();
@@ -122,7 +122,7 @@ public class View extends BasicGameState implements InputListener{
 		}
 		catch(InterruptedException e){
 			e.printStackTrace();
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Semaphores were interrupted in 'render()' method!", e);
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
 		}
 		*/
     }
