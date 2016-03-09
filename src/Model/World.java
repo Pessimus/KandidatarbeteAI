@@ -61,6 +61,7 @@ public class World {
 					characters.remove(character.getKey(), character);
 					collidables.remove(character);
 					timeables.remove(character);
+					System.out.println("removed from lists");
 					//character = null;
 				}
 				//TODO IF x
@@ -73,9 +74,12 @@ public class World {
 			}
 
 
+			/*
 			for (ITimeable timedObj : timeables) {
 				timedObj.update();
 			}
+			*/
+
 			sema.release();
 		}
 		catch(InterruptedException e){
@@ -109,10 +113,12 @@ public class World {
 
 		try {
 			sema.acquire();
+
 			for (ICollidable visible : collidables) {
 				RenderObject tmp = new RenderObject(visible.getX(), visible.getY(), visible.getCollisionRadius(), RenderObject.RENDER_OBJECT_ENUM.CHARACTER);
 				renderObjects.add(tmp);
 			}
+
 			sema.release();
 		}
 		catch(InterruptedException e){
