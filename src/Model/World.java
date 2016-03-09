@@ -50,6 +50,11 @@ public class World {
 		// TODO: HARDCODED TEST!!!!!
 	}
 
+	/**
+	 * Update characters
+	 * Update timeables
+	 * Update collidables
+	 */
 	public void update(){
 		try {
 			sema.acquire();

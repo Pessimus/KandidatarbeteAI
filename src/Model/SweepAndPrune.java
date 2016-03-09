@@ -28,7 +28,7 @@ public class SweepAndPrune {
 		this.yList.remove(collidable);
 	}
 
-	public void collide(){
+	public void collideCheck(){
 
 	}
 
