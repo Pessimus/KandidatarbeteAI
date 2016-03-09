@@ -55,9 +55,6 @@ public class Controller implements PropertyChangeListener, Runnable {
 		mouseInputQueue = new LinkedList<>();
 		setView(view);
 		setModel(model);
-
-		//new Thread(view).start();
-		//view.run();
 	}
 
 	@Override

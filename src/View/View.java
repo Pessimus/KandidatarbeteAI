@@ -9,10 +9,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,14 +61,34 @@ public class View extends BasicGameState implements InputListener{
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         map = new TiledMap("res/mapsquare.tmx");       //controller.getTiledMap();
+
 		for(RenderObject.RENDER_OBJECT_ENUM e : RenderObject.RENDER_OBJECT_ENUM.values()){
 			resourceMap.put(e, new Image(e.pathToResource));
 		}
     }
 
+	RenderObject[] tempRenderList = null;
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
+		Object[] tempList = null;
+
+		try {
+			semaphore.acquire();
+			tempList = listToRender.toArray();
+			listToRender.clear();
+			semaphore.release();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
+		}
+
+		if(tempList != null){
+			if(tempList.length > 0){
+				tempRenderList = Arrays.copyOf(tempList, tempList.length, RenderObject[].class);
+			}
+		}
     }
 
     @Override
@@ -81,55 +98,16 @@ public class View extends BasicGameState implements InputListener{
         graphics.scale(scaleX,scaleY);
         map.render(0,0, mouseX/32,mouseY/32,50,40);
 
-		Object[] tempList = null;
+		if(tempRenderList != null){
 
-		// Retrieve the 'listToRender' list as an array
-
-		// Might not want to use semaphores in the render-method.
-		// I don't think we ever want to risk the possibility of this method
-		// waiting for access to the list.
-
-		/*
-		try {
-			semaphore.acquire();
-			tempList = listToRender.toArray();
-			semaphore.release();
-		}
-		catch(InterruptedException e){
-			e.printStackTrace();
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
-		}
-		*/
-
-
-
-		if(listToRender != null){
-			if(listToRender.size() > 0){
-				//RenderObject[] renderList = Arrays.copyOf(tempList, tempList.length, RenderObject[].class);
-
-				for (RenderObject obj: listToRender) {
-					resourceMap.get(obj.objectType).draw(obj.xPos, obj.yPos);;
-				}
+			for (RenderObject obj: tempRenderList) {
+				resourceMap.get(obj.objectType).draw(obj.xPos, obj.yPos);;
 			}
 		}
-
-		listToRender.clear();
-		/*
-		try {
-			semaphore.acquire();
-			listToRender.clear();
-			semaphore.release();
-		}
-		catch(InterruptedException e){
-			e.printStackTrace();
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
-		}
-		*/
     }
 
     @Override
     public int getID() {
-
         return stateNr;
     }
     @Override
@@ -178,7 +156,7 @@ public class View extends BasicGameState implements InputListener{
 
 	// TODO: Maybe remove these if the above code is ok.
     private void notifyKeyInput(Integer[] vars){   // control = "KEY_PRESSED" eller "KEY_RELEASED"
-        pcs.firePropertyChange(vars[0].toString(), 0, input);
+        pcs.firePropertyChange(vars[0].toString(), 0, vars);
     }
     private void notifyMouseInput(Integer[] vars){
         pcs.firePropertyChange(vars[0].toString(), 0, vars);
