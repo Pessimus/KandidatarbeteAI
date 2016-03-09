@@ -5,8 +5,14 @@ package Model;
  */
 public class CollisionList {
 
+	public enum Axis{
+		X,
+		Y
+	}
+
 	private Node currentNode;
 	private Node startNode;
+	private Axis axis;
 
 	public double getX() {return currentNode.getValue().getX();}
 	public double getY() {return currentNode.getValue().getY();}
@@ -27,7 +33,7 @@ public class CollisionList {
 
 
 
-	public CollisionList(){
+	public CollisionList(Axis axis){
 		this.startNode = new Node(new ICollidable() {
 			@Override
 			public float getX() {
@@ -45,6 +51,7 @@ public class CollisionList {
 			}
 		}, null, null);
 		this.currentNode = this.startNode;
+		this.axis = axis;
 
 	}
 
@@ -56,22 +63,52 @@ public class CollisionList {
 		}
 		boolean hasChanged = true;
 		Node sortNode;
-		while(hasChanged) {
-			sortNode = startNode.next.next;
-			hasChanged = false;
-			while (sortNode != null) {
-				if(sortNode.value.getY() < sortNode.previous.value.getY()){
-					swap(sortNode.previous, sortNode);
-					hasChanged = true;
+		switch (axis){
+			case X:
+				while(hasChanged) {
+					sortNode = startNode.next.next;
+					hasChanged = false;
+					while (sortNode != null) {
+						if(sortNode.value.getX() < sortNode.previous.value.getX()){
+							swap(sortNode.previous, sortNode);
+							hasChanged = true;
+						}
+						sortNode = sortNode.next;
+					}
 				}
-				sortNode = sortNode.next;
-			}
+			break;
+			case Y:
+				while(hasChanged) {
+					sortNode = startNode.next.next;
+					hasChanged = false;
+					while (sortNode != null) {
+						if(sortNode.value.getY() < sortNode.previous.value.getY()){
+							swap(sortNode.previous, sortNode);
+							hasChanged = true;
+						}
+						sortNode = sortNode.next;
+					}
+				}
+			break;
 		}
 	}
 
 	public void add(ICollidable addValue){
 		this.currentNode.next = new Node(addValue, currentNode,null);
 		this.currentNode = this.currentNode.next;
+	}
+
+
+	public void remove(ICollidable collidable) {
+		Node tmp = startNode.next;
+		while (tmp != null){
+			if (tmp.value == collidable){//Yes we want ==
+				tmp.previous.next = tmp.next;
+				tmp.next.previous = tmp.previous;
+				break;
+			}
+			tmp = tmp.next;
+		}
 	}
 
 	private void swap(Node previous, Node next) {
