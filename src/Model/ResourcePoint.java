@@ -6,11 +6,11 @@ package Model;
 public class ResourcePoint implements ICollidable {
 	IResource resource;
 
-	private double xPos;
-	private double yPos;
+	private float xPos;
+	private float yPos;
 	private double collisionRadius;
 
-	public ResourcePoint(IResource resourceType, double x, double y, double radius){
+	public ResourcePoint(IResource resourceType, float x, float y, double radius){
 		resource = resourceType;
 		xPos = x;
 		yPos = y;
@@ -18,12 +18,12 @@ public class ResourcePoint implements ICollidable {
 	}
 
 	@Override
-	public double getX() {
+	public float getX() {
 		return xPos;
 	}
 
 	@Override
-	public double getY() {
+	public float getY() {
 		return yPos;
 	}
 

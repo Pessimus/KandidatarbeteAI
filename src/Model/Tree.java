@@ -4,11 +4,18 @@ package Model;
  * Created by Oskar on 2016-03-04.
  */
 public class Tree extends RenewableResource {
-    ResourceType resourceType = ResourceType.TREE;
-    String resourceName = "Tree";
 
-    public Tree (int initial){
-        super(initial);
+    public static final int MAX_TREE_RESOURCES = 150;
+    public static final ResourceType resourceType = ResourceType.TREE;
+    public static final String resourceName = "Tree";
+
+
+    public Tree (int initial) {
+        super(initial, MAX_TREE_RESOURCES);
+    }
+
+    public Tree (int initial, int maxResources){
+        super(initial, maxResources);
     }
     @Override
     public IItemFactory getItemFactory() {
