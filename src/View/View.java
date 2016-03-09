@@ -101,9 +101,11 @@ public class View extends BasicGameState implements InputListener{
 		if(tempRenderList != null){
 
 			for (RenderObject obj: tempRenderList) {
-				resourceMap.get(obj.objectType).draw(obj.xPos, obj.yPos);;
+				resourceMap.get(obj.objectType).draw(obj.xPos, obj.yPos);
 			}
 		}
+
+		tempRenderList = null;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package Model;
 
+import View.View;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
@@ -39,9 +41,7 @@ public class World {
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		Random r = new Random();
-		for(int i = 0; i < 50; i++){
-			addCharacter(r.nextFloat() * 400 + 1, r.nextFloat() * 400 + 1, i);
-		}
+		addCharacter(r.nextFloat() * 400 + 1, r.nextFloat() * 400 + 1, 1);
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
@@ -56,6 +56,7 @@ public class World {
 	 * Update collidables
 	 */
 	public void update(){
+
 		try {
 			sema.acquire();
 			for (Character character : characters.values()) {
@@ -65,6 +66,7 @@ public class World {
 					characters.remove(character.getKey(), character);
 					collidables.remove(character);
 					timeables.remove(character);
+					System.out.println("removed from lists");
 					//character = null;
 				}
 				//TODO IF x
@@ -76,9 +78,13 @@ public class World {
 				//END TODO IF y
 			}
 
+
+			/*
 			for (ITimeable timedObj : timeables) {
 				timedObj.update();
 			}
+			*/
+
 			sema.release();
 		}
 		catch(InterruptedException e){
@@ -112,10 +118,12 @@ public class World {
 
 		try {
 			sema.acquire();
+
 			for (ICollidable visible : collidables) {
 				RenderObject tmp = new RenderObject(visible.getX(), visible.getY(), visible.getCollisionRadius(), RenderObject.RENDER_OBJECT_ENUM.CHARACTER);
 				renderObjects.add(tmp);
 			}
+
 			sema.release();
 		}
 		catch(InterruptedException e){
