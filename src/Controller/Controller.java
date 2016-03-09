@@ -189,7 +189,9 @@ public class Controller implements PropertyChangeListener, Runnable {
 								// TODO: HARDCODED TEST!!!!!
 								// TODO: HARDCODED TEST!!!!!
 								// TODO: HARDCODED TEST!!!!!
+
 								//           gameModel.moveCharacterTo(clicks[2], clicks[3]);
+
 								// TODO: HARDCODED TEST!!!!!
 								// TODO: HARDCODED TEST!!!!!
 								// TODO: HARDCODED TEST!!!!!

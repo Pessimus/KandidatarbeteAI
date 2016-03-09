@@ -1,11 +1,17 @@
 package Model;
 
+import View.View;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  * Created by Martin on 23/02/2016.
@@ -20,6 +26,8 @@ public class World {
 	private double width;
 	private double height;
 
+	private Semaphore sema = new Semaphore(1);
+
 	public World (double width, double height){
 		this.width = width;
 		this.height = height;
@@ -33,12 +41,16 @@ public class World {
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
+
 		for (int i = 0; i < 1; i += 1) {
 			int rx = (int) (Math.random()*1000);
 			int ry = (int) (Math.random()*1000);
 			addCharacter(rx, ry, i);
 		}
 		//character = addCharacter(100, 100, 1337);
+
+		Random r = new Random();
+
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
@@ -49,48 +61,69 @@ public class World {
 
 	public void update(){
 
+
 		for(ICollidable visible : collidables){
 			System.out.println(collidables);
 			
 		}
 
-		for(Character character : characters.values()) {
 
-			if (character.getKey() < 5) {
-				System.out.println(character.getHunger());
+
+
+			try {
+				sema.acquire();
+				for (Character character : characters.values()) {
+					character.update();
+
+					if (character.getKey() < 5) {
+						System.out.println(character.getHunger());
+					}
+
+					if (!character.isAlive()) {
+						characters.remove(character.getKey(), character);
+						collidables.remove(character);
+						timeables.remove(character);
+						//character = null;
+					} else {
+						//TODO IF x
+
+						character.moveX();
+						//END TODO IF x
+						//TODO IF y
+						character.moveY();
+						//END TODO IF y
+					}
+				}
 			}
-
-			character.update();
-			if (!character.isAlive()) {
-				characters.remove(character.getKey());
-				collidables.remove(character);
-				timeables.remove(character);
-				character = null;
 				/*if (characters.isEmpty()) {
-					addCharacter(100, 100, 100);
-				}*/
-			} else {
-				//TODO IF x
-
-				character.moveX();
-				//END TODO IF x
-				//TODO IF y
-				character.moveY();
-				//END TODO IF y
+					addCharacter(100, 100, 100);}*/
+			catch(InterruptedException e){
+				e.printStackTrace();
+				Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "interrupted when removing a dead character!", e);
 			}
 
-			for (ITimeable timedObj : timeables) {
-				timedObj.update();
-			}
-		}
 
+					for (ITimeable timedObj : timeables) {
+						timedObj.update();
+					}
+
+					sema.release();
 	}
 
 	public Character addCharacter(float xPoss, float yPoss, int key){
 		Character character = new Character(xPoss, yPoss, key);
 
-		this.collidables.add(character);
-		this.characters.put(key,character);
+		try{
+			sema.acquire();
+			this.collidables.add(character);
+			this.timeables.add(character);
+			this.characters.put(key,character);
+			sema.release();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "interrupted when removing a dead character!", e);
+		}
 
 		return character;
 	}
@@ -99,10 +132,19 @@ public class World {
 
 	public LinkedList<RenderObject> getRenderObjects(){
 		LinkedList<RenderObject> renderObjects = new LinkedList<>();
-		for(ICollidable visible : collidables){
-			RenderObject tmp = new RenderObject(visible.getX(), visible.getY(), visible.getCollisionRadius(), RenderObject.RENDER_OBJECT_ENUM.CHARACTER);
-			renderObjects.add(tmp);
+
+		try {
+			sema.acquire();
+			for (ICollidable visible : collidables) {
+				RenderObject tmp = new RenderObject(visible.getX(), visible.getY(), visible.getCollisionRadius(), RenderObject.RENDER_OBJECT_ENUM.CHARACTER);
+				renderObjects.add(tmp);
+			}
+			sema.release();
 		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+		}
+
 		return renderObjects;
 	}
 
@@ -118,7 +160,7 @@ public class World {
 		pcs.firePropertyChange(type, 0, property);
 	}
 
-
+	/*
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
@@ -129,16 +171,16 @@ public class World {
 	public void moveCharacterTo(int x, int y){
 		character.setPosition(x, y);
 	}
-/*	public List<RenderObject> getCharacter(){
+	public List<RenderObject> getCharacter(){
 		LinkedList<RenderObject> list = new LinkedList<>();
 		list.add(new RenderObject(character.getX(), character.getY(), character.getCollisionRadius(), RenderObject.RENDER_OBJECT_ENUM.CHARACTER));
 		return list;
-	}*/
+	}
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
-
+	*/
 }
