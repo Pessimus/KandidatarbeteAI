@@ -151,7 +151,18 @@ public class View extends BasicGameState implements InputListener{
     }
 
 	public boolean addRenderObject(RenderObject obj){
-		return listToRender.add(obj);
+		boolean returns = false;
+		try {
+			semaphore.acquire();
+			returns = listToRender.add(obj);
+			semaphore.release();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
+		}
+
+		return returns;
 	}
 
 	// TODO: Maybe remove these if the above code is ok.
