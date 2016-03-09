@@ -17,7 +17,7 @@ public class CollisionList {
 	private Node startNode;
 	//private Axis axis;
 	private int size = 0;
-/*
+
 	public double getX() {return currentNode.getValue().getX();}
 	public double getY() {return currentNode.getValue().getY();}
 	public double getRadius() {return currentNode.getValue().getCollisionRadius();}
@@ -34,7 +34,7 @@ public class CollisionList {
 	}
 	public boolean previous() {if (currentNode.getPrevious() != null) {currentNode = currentNode.getPrevious(); return true;} else {return false;}}
 
-*/
+
 
 
 	public CollisionList(/*Axis axis*/){
@@ -54,7 +54,7 @@ public class CollisionList {
 				return -10000;
 			}
 
-			@Override
+			//@Override
 			public boolean checkCollision(ICollidable rhs) {
 				return false;
 			}
@@ -137,7 +137,7 @@ public class CollisionList {
 	private void handleCollisionLeft(Node node, Node left){
 		//if(node.value.checkCollision(left.value)){
 		if(node.value.getX()-left.value.getX() <= node.value.getCollisionRadius()){
-			node.value.checkCollision(left.value);
+			//node.value.checkCollision(left.value);
 			handleCollisionLeft(node, left.previous);
 		}
 	}
@@ -145,7 +145,7 @@ public class CollisionList {
 	private void handleCollisionRight(Node node, Node right){
 		//if(node.value.checkCollision(right.value)){
 		if(node.value.getX()-right.value.getX() <= node.value.getCollisionRadius()){
-			node.value.checkCollision(right.value);
+			//node.value.checkCollision(right.value);
 			handleCollisionRight(node, right.previous);
 		}
 	}
