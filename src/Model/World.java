@@ -5,6 +5,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Martin on 23/02/2016.
@@ -32,8 +33,10 @@ public class World {
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
-		for (int i = 0; i < 1000; i += 2) {
-			addCharacter(i, 10, i);
+		for (int i = 0; i < 1; i += 1) {
+			int rx = (int) (Math.random()*1000);
+			int ry = (int) (Math.random()*1000);
+			addCharacter(rx, ry, i);
 		}
 		//character = addCharacter(100, 100, 1337);
 		// TODO: HARDCODED TEST!!!!!
@@ -46,24 +49,39 @@ public class World {
 
 	public void update(){
 
-		for(Character character : characters.values()){
-
-			character.update();
-			if(!character.isAlive()){
-				//characters.remove(character.getKey());
-				character = null;
-			}
-			//TODO IF x
-
-			character.moveX();
-			//END TODO IF x
-			//TODO IF y
-			character.moveY();
-			//END TODO IF y
+		for(ICollidable visible : collidables){
+			System.out.println(collidables);
+			
 		}
 
-		for(ITimeable timedObj : timeables){
-			timedObj.update();
+		for(Character character : characters.values()) {
+
+			if (character.getKey() < 5) {
+				System.out.println(character.getHunger());
+			}
+
+			character.update();
+			if (!character.isAlive()) {
+				characters.remove(character.getKey());
+				collidables.remove(character);
+				timeables.remove(character);
+				character = null;
+				/*if (characters.isEmpty()) {
+					addCharacter(100, 100, 100);
+				}*/
+			} else {
+				//TODO IF x
+
+				character.moveX();
+				//END TODO IF x
+				//TODO IF y
+				character.moveY();
+				//END TODO IF y
+			}
+
+			for (ITimeable timedObj : timeables) {
+				timedObj.update();
+			}
 		}
 
 	}

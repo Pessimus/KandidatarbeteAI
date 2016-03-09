@@ -82,6 +82,7 @@ public class View extends BasicGameState implements InputListener{
 		catch(InterruptedException e){
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
+            System.out.println(e);
 		}
 
 		if(tempList != null){
