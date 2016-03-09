@@ -57,9 +57,9 @@ public class Character implements ICollidable, ITimeable {
 		//Create inventory
 		inventory = new Inventory();
 
-		this.hunger = 10;
-		this.thirst = 10;
-		this.energy = 10;
+		this.hunger = 1000;
+		this.thirst = 1000;
+		this.energy = 1000;
 
 	}
 

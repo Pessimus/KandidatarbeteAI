@@ -42,7 +42,7 @@ public class World {
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 
-		for (int i = 0; i < 1; i += 1) {
+		for (int i = 0; i < 500; i += 1) {
 			int rx = (int) (Math.random()*1000);
 			int ry = (int) (Math.random()*1000);
 			addCharacter(rx, ry, i);
@@ -62,12 +62,6 @@ public class World {
 	public void update(){
 
 
-		for(ICollidable visible : collidables){
-			System.out.println(collidables);
-			
-		}
-
-
 
 
 			try {
@@ -75,9 +69,9 @@ public class World {
 				for (Character character : characters.values()) {
 					character.update();
 
-					if (character.getKey() < 5) {
+					/*if (character.getKey() < 5) {
 						System.out.println(character.getHunger());
-					}
+					}*/
 
 					if (!character.isAlive()) {
 						characters.remove(character.getKey(), character);
