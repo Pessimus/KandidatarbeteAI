@@ -5,6 +5,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Martin on 23/02/2016.
@@ -32,7 +33,10 @@ public class World {
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
-		character = addCharacter(100, 100, 1337);
+		Random r = new Random();
+		for(int i = 0; i < 50; i++){
+			addCharacter(r.nextFloat() * 400 + 1, r.nextFloat() * 400 + 1, i);
+		}
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
@@ -47,8 +51,8 @@ public class World {
 
 			character.update();
 			if(!character.isAlive()){
-				//characters.remove(character.getKey());
-				character = null;
+				characters.remove(character.getKey());
+				//character = null;
 			}
 			//TODO IF x
 
