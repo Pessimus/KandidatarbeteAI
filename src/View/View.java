@@ -84,6 +84,12 @@ public class View extends BasicGameState implements InputListener{
 		Object[] tempList = null;
 
 		// Retrieve the 'listToRender' list as an array
+
+		// Might not want to use semaphores in the render-method.
+		// I don't think we ever want to risk the possibility of this method
+		// waiting for access to the list.
+
+		/*
 		try {
 			semaphore.acquire();
 			tempList = listToRender.toArray();
@@ -93,16 +99,22 @@ public class View extends BasicGameState implements InputListener{
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
 		}
+		*/
+
+
 
 		if(tempList != null){
 			if(tempList.length > 0){
-				RenderObject[] renderList = Arrays.copyOf(tempList, tempList.length, RenderObject[].class);
-				for (RenderObject obj: renderList) {
+				//RenderObject[] renderList = Arrays.copyOf(tempList, tempList.length, RenderObject[].class);
+
+				for (RenderObject obj: listToRender) {
 					resourceMap.get(obj.objectType).draw(obj.xPos, obj.yPos);
 				}
 			}
 		}
 
+		listToRender.clear();
+		/*
 		try {
 			semaphore.acquire();
 			listToRender.clear();
@@ -112,6 +124,7 @@ public class View extends BasicGameState implements InputListener{
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
 		}
+		*/
     }
 
     @Override
