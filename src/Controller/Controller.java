@@ -65,8 +65,8 @@ public class Controller implements PropertyChangeListener, Runnable {
 		new Timer().scheduleAtFixedRate(new TimerTask(){
 			public void run() {
 				try {
+					gameModel.update();
 					updateView();
-
 					keyboardSema.acquire();
 					Object[] tempList = keyboardInputQueue.toArray();
 					keyboardInputQueue.clear();

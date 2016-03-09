@@ -37,22 +37,24 @@ public class Character implements ICollidable, ITimeable {
 	private final double stepLength = 10;
 
 	//private double timeableInterval;
+	private int key;
 
 
-	public Character(float xPos, float yPos){
+	public Character(float xPos, float yPos, int key){
 		this.alive = true;
 		//Initial position
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.xSpeed = 0;
 		this.ySpeed = 0;
+		this.key = key;
 
 		//Create inventory
 		inventory = new Inventory();
 
-		this.hunger = 100;
-		this.thirst = 100;
-		this.energy = 100;
+		this.hunger = 1000;
+		this.thirst = 1000;
+		this.energy = 1000;
 
 	}
 
@@ -65,6 +67,8 @@ public class Character implements ICollidable, ITimeable {
 	public float getY() {
 		return this.yPos;
 	}
+
+	public int getKey(){ return key;}
 
 	@Override
 	public double getCollisionRadius() {

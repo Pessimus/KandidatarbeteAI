@@ -44,7 +44,14 @@ public class World {
 	public void update(){
 
 		for(Character character : characters.values()){
+
+			character.update();
+			if(!character.isAlive()){
+				//characters.remove(character.getKey());
+				character = null;
+			}
 			//TODO IF x
+
 			character.moveX();
 			//END TODO IF x
 			//TODO IF y
@@ -59,7 +66,7 @@ public class World {
 	}
 
 	public Character addCharacter(float xPoss, float yPoss, int key){
-		Character character = new Character(xPoss, yPoss);
+		Character character = new Character(xPoss, yPoss, key);
 
 		this.collidables.add(character);
 		this.characters.put(key,character);

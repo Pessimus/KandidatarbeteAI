@@ -75,7 +75,6 @@ public class View extends BasicGameState implements InputListener{
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-
     }
 
     @Override
