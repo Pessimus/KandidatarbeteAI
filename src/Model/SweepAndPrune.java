@@ -9,8 +9,8 @@ public class SweepAndPrune {
 	private CollisionList yList;
 
 	public SweepAndPrune(){
-		xList = new CollisionList(CollisionList.Axis.X);
-		yList = new CollisionList(CollisionList.Axis.Y);
+		xList = new CollisionList();//CollisionList.Axis.X);
+		yList = new CollisionList();//CollisionList.Axis.Y);
 	}
 
 	public void sort(){
@@ -28,7 +28,7 @@ public class SweepAndPrune {
 		this.yList.remove(collidable);
 	}
 
-	public void collide(){
+	public void collideCheck(){
 
 	}
 

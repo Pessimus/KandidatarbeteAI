@@ -113,7 +113,7 @@ public class View extends BasicGameState implements InputListener{
 				resourceMap.get(obj.objectType).draw(obj.xPos, obj.yPos);
 			}
 		}
-        tempRenderList = null;
+        //Functioanlity for moving the camera view around the map. Keep the mouse to one side to move the camera view.
         if (Mouse.getX() > d.getWidth()-d.getWidth()/10) {
             renderpointx += 1;
         }
@@ -126,6 +126,9 @@ public class View extends BasicGameState implements InputListener{
         if (Mouse.getY() > d.getHeight()/10) {
             renderpointy -= 1;
         }
+
+		tempRenderList = null;
+
     }
 
     @Override

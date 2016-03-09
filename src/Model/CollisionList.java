@@ -1,18 +1,21 @@
 package Model;
 
+import javax.swing.text.html.HTMLDocument;
+import java.util.Iterator;
+
 /**
  * Created by Martin on 24/02/2016.
  */
 public class CollisionList {
-
+/*
 	public enum Axis{
 		X,
 		Y
 	}
-
+*/
 	private Node currentNode;
 	private Node startNode;
-	private Axis axis;
+	//private Axis axis;
 	private int size = 0;
 
 	public double getX() {return currentNode.getValue().getX();}
@@ -34,7 +37,7 @@ public class CollisionList {
 
 
 
-	public CollisionList(Axis axis){
+	public CollisionList(/*Axis axis*/){
 		this.startNode = new Node(new ICollidable() {
 			@Override
 			public float getX() {
@@ -50,13 +53,16 @@ public class CollisionList {
 			public double getCollisionRadius() {
 				return -10000;
 			}
+
+			//@Override
+			public boolean checkCollision(ICollidable rhs) {
+				return false;
+			}
 		}, null, null);
 		this.currentNode = this.startNode;
-		this.axis = axis;
+		//this.axis = axis;
 
 	}
-
-	//public CollissionItterator Iterator(){}
 
 	public void sort(){
 		if(startNode.next == null){
@@ -64,8 +70,8 @@ public class CollisionList {
 		}
 		boolean hasChanged = true;
 		Node sortNode;
-		switch (axis){
-			case X:
+		//switch (axis){
+		//	case X:
 				while(hasChanged) {
 					sortNode = startNode.next.next;
 					hasChanged = false;
@@ -77,7 +83,7 @@ public class CollisionList {
 						sortNode = sortNode.next;
 					}
 				}
-			break;
+		/*	break;
 			case Y:
 				while(hasChanged) {
 					sortNode = startNode.next.next;
@@ -91,7 +97,7 @@ public class CollisionList {
 					}
 				}
 			break;
-		}
+		}*/
 	}
 
 	public void add(ICollidable addValue){
@@ -99,7 +105,6 @@ public class CollisionList {
 		this.currentNode = this.currentNode.next;
 		this.size++;
 	}
-
 
 	public void remove(ICollidable collidable) {
 		Node tmp = startNode.next;
@@ -127,6 +132,35 @@ public class CollisionList {
 
 		next.previous.next = next;
 		previous.next.previous = previous;
+	}
+
+	private void handleCollisionLeft(Node node, Node left){
+		//if(node.value.checkCollision(left.value)){
+		if(node.value.getX()-left.value.getX() <= node.value.getCollisionRadius()){
+			//node.value.checkCollision(left.value);
+			handleCollisionLeft(node, left.previous);
+		}
+	}
+
+	private void handleCollisionRight(Node node, Node right){
+		//if(node.value.checkCollision(right.value)){
+		if(node.value.getX()-right.value.getX() <= node.value.getCollisionRadius()){
+			//node.value.checkCollision(right.value);
+			handleCollisionRight(node, right.previous);
+		}
+	}
+
+	//TODO null check
+	//TODO should not return void?
+	public void handleCollision(){
+		Node currentNode = startNode;
+
+		while (currentNode.next != null){
+			currentNode = currentNode.next;
+			handleCollisionLeft(currentNode, currentNode.previous);
+			handleCollisionRight(currentNode, currentNode.next);
+		}
+
 	}
 
 	public void print(){
@@ -173,8 +207,4 @@ public class CollisionList {
 		}
 
 	}
-
-
-
-
 }

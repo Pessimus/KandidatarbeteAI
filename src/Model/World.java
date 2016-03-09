@@ -59,9 +59,12 @@ public class World {
 		// TODO: HARDCODED TEST!!!!!
 	}
 
+	/**
+	 * Update characters
+	 * Update timeables
+	 * Update collidables
+	 */
 	public void update(){
-
-
 
 
 			try {
@@ -129,10 +132,12 @@ public class World {
 
 		try {
 			sema.acquire();
+
 			for (ICollidable visible : collidables) {
 				RenderObject tmp = new RenderObject(visible.getX(), visible.getY(), visible.getCollisionRadius(), RenderObject.RENDER_OBJECT_ENUM.CHARACTER);
 				renderObjects.add(tmp);
 			}
+
 			sema.release();
 		}
 		catch(InterruptedException e){
