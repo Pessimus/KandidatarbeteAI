@@ -13,6 +13,7 @@ public class CollisionList {
 	private Node currentNode;
 	private Node startNode;
 	private Axis axis;
+	private int size = 0;
 
 	public double getX() {return currentNode.getValue().getX();}
 	public double getY() {return currentNode.getValue().getY();}
@@ -96,6 +97,7 @@ public class CollisionList {
 	public void add(ICollidable addValue){
 		this.currentNode.next = new Node(addValue, currentNode,null);
 		this.currentNode = this.currentNode.next;
+		this.size++;
 	}
 
 
@@ -105,10 +107,15 @@ public class CollisionList {
 			if (tmp.value == collidable){//Yes we want ==
 				tmp.previous.next = tmp.next;
 				tmp.next.previous = tmp.previous;
+				this.size--;
 				break;
 			}
 			tmp = tmp.next;
 		}
+	}
+
+	public int getSize(){
+		return this.size;
 	}
 
 	private void swap(Node previous, Node next) {

@@ -10,7 +10,7 @@ public class SweepAndPrune {
 
 	public SweepAndPrune(){
 		xList = new CollisionList(CollisionList.Axis.X);
-		xList = new CollisionList(CollisionList.Axis.Y);
+		yList = new CollisionList(CollisionList.Axis.Y);
 	}
 
 	public void sort(){
@@ -26,6 +26,10 @@ public class SweepAndPrune {
 	public void remove(ICollidable collidable){
 		this.xList.remove(collidable);
 		this.yList.remove(collidable);
+	}
+
+	public void collide(){
+
 	}
 
 }
