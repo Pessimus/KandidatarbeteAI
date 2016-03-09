@@ -32,7 +32,10 @@ public class World {
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
-		character = addCharacter(100, 100, 1337);
+		for (int i = 0; i < 1000; i += 2) {
+			addCharacter(i, 10, i);
+		}
+		//character = addCharacter(100, 100, 1337);
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
