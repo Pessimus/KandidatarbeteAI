@@ -68,7 +68,7 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 
 	@Override
 	public void initStatesList(GameContainer gameContainer) throws SlickException {
-		this.getState(PLAY_STATE).init(gameContainer, this);
+		//this.getState(PLAY_STATE).init(gameContainer, this);
 		this.enterState(PLAY_STATE);
 	}
 
