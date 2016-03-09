@@ -15,6 +15,11 @@ public class Character implements ICollidable, ITimeable {
 	private float xSpeed;
 	private float ySpeed;
 
+	private int updateCounter = 0;
+	private final int updateHunger = 20;
+	private final int updateThirst = 40;
+	private final int updateEnergy = 20;
+
 
 	private Inventory inventory;
 
@@ -52,9 +57,9 @@ public class Character implements ICollidable, ITimeable {
 		//Create inventory
 		inventory = new Inventory();
 
-		this.hunger = 1000;
-		this.thirst = 1000;
-		this.energy = 1000;
+		this.hunger = 10;
+		this.thirst = 10;
+		this.energy = 10;
 
 	}
 
@@ -81,14 +86,19 @@ public class Character implements ICollidable, ITimeable {
 
 		//TODO Update needs
 		//TODO Implement ageing etc...
+
+		//Updates counter with one but doesn't exceed 60.
+		updateCounter = (updateCounter+1) % 60;
 		updateNeeds();
-		isDead();
 	}
 
 	public void updateNeeds() {
-		this.hunger -= 1;
-		this.thirst -= 2;
-		this.energy -= 1;
+		if(updateCounter % 60 == 0) {
+			this.hunger -= 1;
+			this.thirst -= 1;
+			this.energy -= 1;
+			isDead();
+		}
 	}
 
 	//Check if character is alive

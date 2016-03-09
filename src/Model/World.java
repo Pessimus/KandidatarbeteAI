@@ -1,5 +1,7 @@
 package Model;
 
+import View.View;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
@@ -34,9 +36,7 @@ public class World {
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		Random r = new Random();
-		for(int i = 0; i < 50; i++){
-			addCharacter(r.nextFloat() * 400 + 1, r.nextFloat() * 400 + 1, i);
-		}
+		addCharacter(r.nextFloat() * 400 + 1, r.nextFloat() * 400 + 1, 1);
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
@@ -51,15 +51,16 @@ public class World {
 
 			character.update();
 			if(!character.isAlive()){
-				characters.remove(character.getKey());
+				this.characters.remove(character.getKey());
+				this.collidables.remove(character);
+
 				//character = null;
+
 			}
 			//TODO IF x
 
-			character.moveX();
 			//END TODO IF x
 			//TODO IF y
-			character.moveY();
 			//END TODO IF y
 		}
 
