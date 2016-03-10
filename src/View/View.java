@@ -1,6 +1,7 @@
 package View;
 
 import Model.RenderObject;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
@@ -34,7 +35,7 @@ public class View extends BasicGameState implements InputListener{
     private int renderpointy = 50;
     java.awt.Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
-    private float scaler = 0.5f;
+    private float scaler = 3f;
     List<RenderObject> listToRender = new LinkedList<>();
 
 
@@ -58,6 +59,7 @@ public class View extends BasicGameState implements InputListener{
     int mouseY = 0;
     int mouseXMoved = 0;
     int mouseYMoved = 0;
+    int wheel = Mouse.getDWheel();
 
     int collisionId = 21*23+1;
 
@@ -99,18 +101,15 @@ public class View extends BasicGameState implements InputListener{
 		}
     }
 
-    public void zoomIn(){
-        if(scaler == 1f)
-            scaler = 2f;
-        else if(scaler == 2f)
-            scaler = 3f;
-    }
 
     public void zoomOut(){
-        if(scaler == 2f)
-            scaler = 1f;
-        else if(scaler == 3f){
-            scaler = 2f;
+        if(scaler > 0.5f)
+           scaler -= 0.05f;
+    }
+
+    public void zoomIn(){
+        if(scaler < 3f){
+            scaler += 0.05f;
         }
     }
 
@@ -145,6 +144,16 @@ public class View extends BasicGameState implements InputListener{
         if (Mouse.getY() > d.getHeight()/10 && renderpointy > 0) {
             renderpointy -= 1;
         }
+
+        if(Keyboard.isKeyDown(Input.KEY_ADD) || Keyboard.isKeyDown(Input.KEY_Z)) {
+            zoomIn();
+        }
+
+        if(Keyboard.isKeyDown(Input.KEY_SUBTRACT)|| Keyboard.isKeyDown(Input.KEY_X)) {
+            zoomOut();
+        }
+
+        //System.out.println(Keyboard.getKeyIndex("+"));
 
 		tempRenderList = null;
 
