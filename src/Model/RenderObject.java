@@ -37,11 +37,11 @@ public final class RenderObject {
 		objectType = obj.objectType;
 	}
 
-	public final float getxPos() {
+	public final float getX() {
 		return xPos;
 	}
 
-	public final float getyPos() {
+	public final float getY() {
 		return yPos;
 	}
 

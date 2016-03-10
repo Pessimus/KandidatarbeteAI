@@ -4,7 +4,7 @@ package Model;
  * Created by Tobias on 2016-02-26.
  */
 public interface IResource {
-	IItemFactory getItemFactory();
+	ItemFactory getItemFactory();
 	IItem gatherResource();
 	ResourceType getResourceType();
 	String getResourceName();
