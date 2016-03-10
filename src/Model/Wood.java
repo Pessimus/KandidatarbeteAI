@@ -18,7 +18,7 @@ public class Wood extends RenewableResource {
         super(initial, maxResources);
     }
     @Override
-    public IItemFactory getItemFactory() {
+    public ItemFactory getItemFactory() {
         return null;
     }
 

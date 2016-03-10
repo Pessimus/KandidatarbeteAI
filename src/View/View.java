@@ -110,7 +110,7 @@ public class View extends BasicGameState implements InputListener{
 		if(tempRenderList != null){
 
 			for (RenderObject obj: tempRenderList) {
-				resourceMap.get(obj.getObjectType()).draw(obj.getxPos(), obj.getyPos());
+				resourceMap.get(obj.getObjectType()).draw(obj.getX(), obj.getY());
 			}
 		}
         //Functioanlity for moving the camera view around the map. Keep the mouse to one side to move the camera view.
@@ -135,6 +135,7 @@ public class View extends BasicGameState implements InputListener{
     public int getID() {
         return stateNr;
     }
+
     @Override
     public void keyPressed(int key, char c) {
         //notifyKeyInput(new Integer[]{INPUT_ENUM.KEY_PRESSED.value, key});

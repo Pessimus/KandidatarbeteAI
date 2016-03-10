@@ -5,13 +5,13 @@ package Model;
  * Created by Tobias on 2016-03-04.
  */
 public class Water extends InfiniteResource {
-	private IItemFactory factory;
+	private ItemFactory factory;
 
 	public static final ResourceType resourceType = ResourceType.WATER;
 	public static final String resourceName = "Water";
 
 	@Override
-	public IItemFactory getItemFactory() {
+	public ItemFactory getItemFactory() {
 		return factory;
 	}
 

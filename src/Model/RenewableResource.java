@@ -15,7 +15,6 @@ public abstract class RenewableResource implements ITimeable, IResource{
 	}
 
 	public int getResourcesLeft(){
-
 		return resourcesLeft;
 	}
 
