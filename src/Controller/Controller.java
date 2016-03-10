@@ -145,7 +145,6 @@ public class Controller implements PropertyChangeListener, Runnable {
 					for (Integer[] clicks : keyboardClicks) {
 						// clicks[0] = Wether the key was pressed/released (1: Pressed, 0: Released)
 						// clicks[1] = What key was pressed/released
-
 						if (clicks[0] == View.INPUT_ENUM.KEY_PRESSED.value)
 							if (clicks[1] == Input.KEY_UP) {
 								;

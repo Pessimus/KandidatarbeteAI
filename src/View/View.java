@@ -34,7 +34,7 @@ public class View extends BasicGameState implements InputListener{
     private int renderpointy = 50;
     java.awt.Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
-    private float scaleX, scaleY;
+    private float scaler = 0.5f;
     List<RenderObject> listToRender = new LinkedList<>();
 
 
@@ -99,13 +99,32 @@ public class View extends BasicGameState implements InputListener{
 		}
     }
 
+    public void zoomIn(){
+        if(scaler == 1f)
+            scaler = 2f;
+        else if(scaler == 2f)
+            scaler = 3f;
+    }
+
+    public void zoomOut(){
+        if(scaler == 2f)
+            scaler = 1f;
+        else if(scaler == 3f){
+            scaler = 2f;
+        }
+    }
+
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-        scaleX = gameContainer.getScreenWidth()/(50*32);
-        scaleY = gameContainer.getScreenWidth()/(40*32);
-        graphics.scale(scaleX,scaleY);
+        int width = (int)Math.ceil(gameContainer.getScreenWidth()/map.getTileWidth()/scaler);
+        int height = (int)Math.ceil(gameContainer.getScreenHeight()/map.getTileWidth()/scaler);
+        graphics.scale(scaler,scaler);
        // map.render(0,0, mouseX/32,mouseY/32,50,40);
-        map.render(0, 0, renderpointx, renderpointy, 50, 40);
+        map.render(0,0, renderpointx, renderpointy, width, height);
+        System.out.println(width+" "+height);
+
+
+        //map.render(0, 0, renderpointx, renderpointy, 50, 40);
 
 		if(tempRenderList != null){
 
@@ -114,16 +133,16 @@ public class View extends BasicGameState implements InputListener{
 			}
 		}
         //Functioanlity for moving the camera view around the map. Keep the mouse to one side to move the camera view.
-        if (Mouse.getX() > d.getWidth()-d.getWidth()/10) {
+        if (Mouse.getX() > d.getWidth()-d.getWidth()/10 && renderpointx < map.getWidth()-width) {
             renderpointx += 1;
         }
-        if (Mouse.getX() < d.getWidth()/10) {
+        if (Mouse.getX() < d.getWidth()/10 && renderpointx > 0) {
             renderpointx -= 1;
         }
-        if (Mouse.getY() < d.getHeight()-d.getWidth()/10) {
+        if (Mouse.getY() < d.getHeight()-d.getHeight()/10 && renderpointy < map.getHeight()-height) {
             renderpointy += 1;
         }
-        if (Mouse.getY() > d.getHeight()/10) {
+        if (Mouse.getY() > d.getHeight()/10 && renderpointy > 0) {
             renderpointy -= 1;
         }
 
@@ -140,6 +159,7 @@ public class View extends BasicGameState implements InputListener{
     public void keyPressed(int key, char c) {
         //notifyKeyInput(new Integer[]{INPUT_ENUM.KEY_PRESSED.value, key});
 		pcs.firePropertyChange(INPUT_ENUM.KEY_PRESSED.toString(), 0, new Integer[]{INPUT_ENUM.KEY_PRESSED.value, key});
+
     }
 
     @Override
@@ -161,13 +181,13 @@ public class View extends BasicGameState implements InputListener{
     @Override
     public void mousePressed(int button, int x, int y){
         //notifyMouseInput(new Integer[]{INPUT_ENUM.MOUSE_PRESSED.value, button, x, y});
-		pcs.firePropertyChange(INPUT_ENUM.MOUSE_PRESSED.toString(), 0, new Integer[]{INPUT_ENUM.MOUSE_PRESSED.value, button, (int)(x/scaleX), (int)(y/scaleY)});
+		pcs.firePropertyChange(INPUT_ENUM.MOUSE_PRESSED.toString(), 0, new Integer[]{INPUT_ENUM.MOUSE_PRESSED.value, button, x, y});
     }
 
 	@Override
 	public void mouseReleased(int button, int x, int y){
 		//notifyMouseInput(new Integer[]{INPUT_ENUM.MOUSE_PRESSED.value, button, x, y});
-		pcs.firePropertyChange(INPUT_ENUM.MOUSE_RELEASED.toString(), 0, new Integer[]{INPUT_ENUM.MOUSE_RELEASED.value, button, (int)(x/scaleX), (int)(y/scaleY)});
+		pcs.firePropertyChange(INPUT_ENUM.MOUSE_RELEASED.toString(), 0, new Integer[]{INPUT_ENUM.MOUSE_RELEASED.value, button, x, y});
 	}
 
     public void addPropertyChangeListener(PropertyChangeListener listener){
