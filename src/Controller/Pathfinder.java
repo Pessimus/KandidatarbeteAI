@@ -33,8 +33,14 @@ public class Pathfinder {
         Arrays.fill(mask, true);
         while (c.next()) {
             mask[(int) (c.getX() / gridSize)][(int) (c.getY() / gridSize)] = false;
-            for (double i = (c.getX() - c.getRadius())/gridSize; i < (c.getX() + c.getRadius())/gridSize; i = i+gridSize) {
-
+            for (double i = c.getX() - c.getRadius(); i < c.getX() + c.getRadius(); i = i+gridSize) {
+                for (double j = c.getY() - c.getRadius(); j < c.getY() + c.getRadius(); j = j+gridSize) {
+                    if (i < width && i >= 0 && j < height && j >= 0) {
+                        mask[(int)(i/gridSize)][(int)(j/gridSize)] = false;
+                    }
+                    if (j + gridSize > c.getY() + c.getRadius()) {mask[(int)(i/gridSize)][(int)((c.getY() + c.getRadius())/gridSize)] = false;}
+                }
+                if (i + gridSize > c.getX() + c.getRadius()) {i = c.getX() + c.getRadius();}
             }
         }
     }
@@ -82,7 +88,6 @@ public class Pathfinder {
 
             //generate q's 8 successors and set their parents to q
             //for each successor
-            //if successor is the goal, stop the search
             //successor.g = q.g + distance between successor and q
             //successor.h = distance from goal to successor
             //successor.f = successor.g + successor.h
@@ -90,8 +95,18 @@ public class Pathfinder {
 
             for (Node s : successorList) {
                 boolean add = true;
+                //if successor is the goal, stop the search
                 //if a node with the same position as successor is in the OPEN list \
                 //which has a lower f than successor, skip this successor
+                if (s.x = endx && s.y = endy) {
+                    LinkedList<Node> ret = new LinkedList<Node>;
+                    while (s.parent != null) {
+                        ret.addLast(s);
+                        s = s.parent;
+                    }
+                    return ret;
+                }
+
                 for (Node o : open){
                     if (s.equals(o)) {
                         if (s.compareTo(o) > 0) {add = false;}
@@ -126,20 +141,20 @@ public class Pathfinder {
     private LinkedList<Node> successors(Node n, int endx, int endy) {
         LinkedList<Node> ret = new LinkedList<>();
         // adjacent nodes
-        if (n.x + 1 < width) {ret.add(new Node(n.x+1,n.y,n.g+adjacentCost,optimalDistance(n.x+1, n.y, endx, endy),n));}
-        if (n.x - 1 >= 0) {ret.add(new Node(n.x-1,n.y,n.g+adjacentCost,optimalDistance(n.x-1, n.y, endx, endy),n));}
-        if (n.y + 1 < height) {ret.add(new Node(n.x,n.y+1,n.g+adjacentCost,optimalDistance(n.x, n.y+1, endx, endy),n));}
-        if (n.y - 1 >= 0) {ret.add(new Node(n.x,n.y-1,n.g+adjacentCost,optimalDistance(n.x, n.y-1, endx, endy),n));}
+        if (n.x + 1 < width && mask[n.x+1][n.y]) {ret.add(new Node(n.x+1,n.y,n.g+adjacentCost,optimalDistance(n.x+1, n.y, endx, endy),n));}
+        if (n.x - 1 >= 0 && mask[n.x-1][n.y]) {ret.add(new Node(n.x-1,n.y,n.g+adjacentCost,optimalDistance(n.x-1, n.y, endx, endy),n));}
+        if (n.y + 1 < height && mask[n.x][n.y+1]) {ret.add(new Node(n.x,n.y+1,n.g+adjacentCost,optimalDistance(n.x, n.y+1, endx, endy),n));}
+        if (n.y - 1 >= 0 && mask[n.x][n.y-1]) {ret.add(new Node(n.x,n.y-1,n.g+adjacentCost,optimalDistance(n.x, n.y-1, endx, endy),n));}
 
         // diagonal nodes
         if (adjacentCost <= diagonalCost/2) {
             if (n.x + 1 < width) {
-                if (n.y + 1 < height) {ret.add(new Node(n.x+1,n.y+1,n.g+diagonalCost,optimalDistance(n.x+1, n.y+1, endx, endy),n));}
-                if (n.y - 1 >= 0) {ret.add(new Node(n.x+1,n.y-1,n.g+diagonalCost,optimalDistance(n.x+1, n.y-1, endx, endy),n));}
+                if (n.y + 1 < height && mask[n.x+1][n.y+1]) {ret.add(new Node(n.x+1,n.y+1,n.g+diagonalCost,optimalDistance(n.x+1, n.y+1, endx, endy),n));}
+                if (n.y - 1 >= 0 && mask[n.x+1][n.y-1]) {ret.add(new Node(n.x+1,n.y-1,n.g+diagonalCost,optimalDistance(n.x+1, n.y-1, endx, endy),n));}
             }
             if (n.x - 1 >= 0) {
-                if (n.y + 1 < height) {ret.add(new Node(n.x-1,n.y+1,n.g+diagonalCost,optimalDistance(n.x-1, n.y+1, endx, endy),n));}
-                if (n.y - 1 >= 0) {ret.add(new Node(n.x-1,n.y-1,n.g+diagonalCost,optimalDistance(n.x-1, n.y-1, endx, endy),n));}
+                if (n.y + 1 < height && mask[n.x-1][n.y+1]) {ret.add(new Node(n.x-1,n.y+1,n.g+diagonalCost,optimalDistance(n.x-1, n.y+1, endx, endy),n));}
+                if (n.y - 1 >= 0 && mask[n.x-1][n.y+1]) {ret.add(new Node(n.x-1,n.y-1,n.g+diagonalCost,optimalDistance(n.x-1, n.y-1, endx, endy),n));}
             }
         }
         return ret;
@@ -150,10 +165,6 @@ public class Pathfinder {
         public int y;
         public Tuple (int u, int v) {x=u; y=v;}
     }
-
-    public LinkedList<PathStep> getPath(int startx, int starty, int endx, int endy) {
-        return null;
-    } //unsure if needed
 
     private class Node implements Comparable<Node> {
         public int x;
