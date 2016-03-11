@@ -35,7 +35,7 @@ public class Pathfinder {
             mask[(int) (c.getX() / gridSize)][(int) (c.getY() / gridSize)] = false;
             for (double i = c.getX() - c.getRadius(); i < c.getX() + c.getRadius(); i = i+gridSize) {
                 for (double j = c.getY() - c.getRadius(); j < c.getY() + c.getRadius(); j = j+gridSize) {
-                    if (i < width && i >= 0 && j < height && j >= 0) {
+                    if (i < gridSize*width && i >= 0 && j < gridSize*height && j >= 0) {
                         mask[(int)(i/gridSize)][(int)(j/gridSize)] = false;
                     }
                     if (j + gridSize > c.getY() + c.getRadius()) {mask[(int)(i/gridSize)][(int)((c.getY() + c.getRadius())/gridSize)] = false;}
@@ -47,10 +47,10 @@ public class Pathfinder {
 
     //returns whether or not the given position is empty in the mask. Always returns false for positions outside the grid.
     public boolean isEmpty(double x, double y) {
-        if (((int) (x * gridSize)) > width || ((int) (y * gridSize)) > height) {
+        if (((int) (x / gridSize)) > width || ((int) (y / gridSize)) > height) {
             return false;
         } else {
-            return mask[(int)(x*gridSize)][(int)(y*gridSize)];
+            return mask[(int)(x/gridSize)][(int)(y/gridSize)];
         }
     }
 
