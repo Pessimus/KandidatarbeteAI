@@ -41,9 +41,9 @@ public class World {
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
-		for (int i = 0; i < 500; i += 1) {
-			int rx = (int) (Math.random()*1000);
-			int ry = (int) (Math.random()*1000);
+		for (int i = 0; i < 2; i += 1) {
+			int rx = (int) (Math.random()*1000)+500;
+			int ry = (int) (Math.random()*1000)+500;
 			addCharacter(rx, ry, i);
 		}
 		// TODO: HARDCODED TEST!!!!!
