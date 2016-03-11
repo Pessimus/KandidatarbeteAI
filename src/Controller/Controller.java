@@ -21,15 +21,21 @@ import java.util.logging.Logger;
  * Created by Tobias on 2016-02-26.
  */
 public class Controller implements PropertyChangeListener, Runnable {
+
+	/* MVC */
 	private World gameModel;
 	private StateViewInit gameView;
 
+	/* Help Objects */
 	private final Queue<Integer[]> keyboardInputQueue;
 	private final Queue<Integer[]> mouseInputQueue;
 
 	private final Semaphore keyboardSema = new Semaphore(1);
 	private final Semaphore mouseSema = new Semaphore(1);
 
+	public Pathfinder pathCalculator = new Pathfinder(16, 9600, 9600, 1, 1.4);
+
+	/* CONSTANTS */
 	public static final int KEYBOARD_PRESSED_INTEGER = 0;
 	public static final int KEYBOARD_RELEASED_INTEGER = 1;
 
