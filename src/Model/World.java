@@ -23,6 +23,7 @@ public class World {
 	private HashMap<Integer,Character> characters;
 	private LinkedList<ICollidable> collidables; //TODO custom (dual) list supporting bubblesort and incertionsort
 	private LinkedList<ITimeable> timeables;
+	private LinkedList<ICollidable> statics; //List containing all collidables that does not move (or get destroyed or created too often)
 	private double width;
 	private double height;
 
