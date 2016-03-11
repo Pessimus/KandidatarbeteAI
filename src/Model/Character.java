@@ -93,6 +93,21 @@ public class Character implements ICollidable, ITimeable {
 	}
 
 	@Override
+	public void addToCollideX() {
+		//TODO implement
+	}
+
+	@Override
+	public void addToCollideY() {
+		//TODO implement
+	}
+
+	@Override
+	public void checkCollision() {
+		//TODO implement
+	}
+
+	@Override
 	public RenderObject getRenderObject() {
 		return new RenderObject(getX(), getY(), getCollisionRadius(), renderObjectEnum);
 	}

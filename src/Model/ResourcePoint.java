@@ -35,6 +35,21 @@ public class ResourcePoint implements ICollidable {
 		return collisionRadius;
 	}
 
+	@Override
+	public void addToCollideX() {
+		//TODO implement
+	}
+
+	@Override
+	public void addToCollideY() {
+		//TODO implement
+	}
+
+	@Override
+	public void checkCollision() {
+		//TODO implement
+	}
+
 	public String getResourceName(){
 		return resource.getResourceName();
 	}
