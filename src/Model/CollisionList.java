@@ -51,7 +51,7 @@ public class CollisionList {
 
 			@Override
 			public double getCollisionRadius() {
-				return -10000;
+				return 0;
 			}
 
 			@Override

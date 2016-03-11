@@ -40,7 +40,7 @@ public class PathStep {
             c.walkRight();
         } else if (diffx < 0) {
             //if the character should move left
-            c.walkRight();
+            c.walkLeft();
         }
 
         if (diffy > 0) {
@@ -51,7 +51,7 @@ public class PathStep {
             c.walkUp();
         }
 
-        return reached(c.getX(), c.getY(), c.getCollisionRadius());
+        return reached(c.getX(), c.getY(), c.getSteplength());
     }
 
     // returns the direction (in degrees) from the given coordinates towards this node (not implemented)

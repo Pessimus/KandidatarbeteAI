@@ -1,8 +1,10 @@
 package Model;
 
+import Controller.Pathfinder;
+import Controller.PathStep;
 import java.awt.*;
 import java.util.ArrayList;
-
+import java.util.*;
 /**
  * Created by Tobias on 2016-02-26.
  */
@@ -26,6 +28,10 @@ public class Character implements ICollidable, ITimeable {
 
 	private Inventory inventory;
 
+	//TESTING
+	private Pathfinder pathTest;
+	private LinkedList<PathStep> stepTest;
+
 	//---------------NEEDS VARIABLES--------------------
 
 	private boolean alive;
@@ -42,7 +48,7 @@ public class Character implements ICollidable, ITimeable {
 	private int intimacy;
 	private int attention;
 
-	private final double stepLength = 10;
+	private final int stepLength = 3;
 
 	//private double timeableInterval;
 	private int key;
@@ -64,6 +70,9 @@ public class Character implements ICollidable, ITimeable {
 		this.thirst = 1000;
 		this.energy = 1000;
 
+		this.pathTest = new Pathfinder(16, 9600, 9600, 1, 1.4);
+		this.pathTest.updateMask(new CollisionList());
+		this.stepTest = null;
 	}
 
 	@Override
@@ -195,23 +204,28 @@ public class Character implements ICollidable, ITimeable {
 
 	public void moveAround(){
 		if(updateCounter % 30 == 0) {
-			if (walkingRight) {
-				if (xPos > 8000) {
-					walkLeft();
-					walkingRight = false;
-				} else {
-					walkRight();
-				}
-			} else {
-				if (xPos < 1000) {
-					walkRight();
-					walkingRight = true;
-				} else {
-					walkLeft();
+			if (Math.random() < 0.1) {
+				double endx = 1000;
+				double endy = 1000;
+
+				stepTest = pathTest.getPath(xPos, yPos, endx, endy);
+
+			}
+
+			if (stepTest != null) {
+				if (stepTest.getFirst().stepTowards(this)) {
+					stepTest.removeFirst();
+					if (stepTest.isEmpty())  {
+						stepTest = null;
+					}
 				}
 			}
 		}
 
+	}
+
+	public int getSteplength(){
+		return stepLength;
 	}
 
 
