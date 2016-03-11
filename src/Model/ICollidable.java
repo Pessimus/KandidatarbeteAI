@@ -8,8 +8,8 @@ public interface ICollidable {
 	float getY();
 	double getCollisionRadius();
 
-	public void addToCollideX();
-	public void addToCollideY();
+	public void addToCollideX(ICollidable rhs);
+	public void addToCollideY(ICollidable rhs);
 
 	public void checkCollision();
 

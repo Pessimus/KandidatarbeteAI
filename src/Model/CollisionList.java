@@ -49,10 +49,10 @@ public class CollisionList {
 			}
 
 			@Override
-			public void addToCollideX() {}
+			public void addToCollideX(ICollidable rhs) {}
 
 			@Override
-			public void addToCollideY() {}
+			public void addToCollideY(ICollidable rhs) {}
 
 			@Override
 			public RenderObject getRenderObject(){return null;}
@@ -77,10 +77,10 @@ public class CollisionList {
 			}
 
 			@Override
-			public void addToCollideX() {}
+			public void addToCollideX(ICollidable rhs) {}
 
 			@Override
-			public void addToCollideY() {}
+			public void addToCollideY(ICollidable rhs) {}
 
 			@Override
 			public RenderObject getRenderObject(){return null;}
@@ -145,7 +145,7 @@ public class CollisionList {
 		while (loopNodeY.next != null){
 			loopNodeY = loopNodeY.next;
 		}
-		loopNodeX.next = new Node(addValue, loopNodeY,null);
+		loopNodeY.next = new Node(addValue, loopNodeY,null);
 
 		this.size++;
 	}
@@ -190,14 +190,14 @@ public class CollisionList {
 
 	private void handleCollisionLeftX(Node node, Node left){
 		if(node.value.getX() - left.value.getX() <= node.value.getCollisionRadius()*2){
-			node.value.addToCollideX();
+			node.value.addToCollideX(left.value);
 			handleCollisionLeftX(node, left.previous);
 		}
 	}
 
 	private void handleCollisionRightX(Node node, Node right){
 		if(right.value.getX() - node.value.getX() <= node.value.getCollisionRadius()*2){
-			node.value.addToCollideX();
+			node.value.addToCollideX(right.value);
 			handleCollisionRightX(node, right.previous);
 		}
 	}
@@ -205,14 +205,14 @@ public class CollisionList {
 
 	private void handleCollisionLeftY(Node node, Node left){
 		if(node.value.getY() - left.value.getY() <= node.value.getCollisionRadius()*2){
-			node.value.addToCollideY();
+			node.value.addToCollideY(left.value);
 			handleCollisionLeftY(node, left.previous);
 		}
 	}
 
 	private void handleCollisionRightY(Node node, Node right){
 		if (right.value.getY() - node.value.getY() <= node.value.getCollisionRadius()*2){
-			node.value.addToCollideY();
+			node.value.addToCollideY(right.value);
 			handleCollisionRightY(node, right.previous);
 		}
 	}
@@ -220,19 +220,35 @@ public class CollisionList {
 	//TODO null check
 	//TODO should not return void?
 	public void handleCollision(){
-		Node loopXNode = startNodeX;
-		while (loopXNode.next != null){
-			loopXNode = loopXNode.next;
-			handleCollisionLeftX(loopXNode, loopXNode.previous);
-			handleCollisionRightX(loopXNode, loopXNode.next);
-		}
 
-		Node loopYNode = startNodeY;
-		while (loopYNode.next != null){
-			loopYNode = loopYNode.next;
-			handleCollisionLeftY(loopYNode, loopYNode.previous);
-			handleCollisionRightY(loopYNode, loopYNode.next);
-		}
+		//System.out.println("HandleCollision Lenght = "+this.size);
+
+		this.sortX();
+		this.sortY();
+
+		//try {
+			Node loopXNode = startNodeX;
+			while (loopXNode.next != null) {
+				loopXNode = loopXNode.next;
+				handleCollisionLeftX(loopXNode, loopXNode.previous);
+				handleCollisionRightX(loopXNode, loopXNode.next);
+			}
+
+			Node loopYNode = startNodeY;
+			while (loopYNode.next != null) {
+				loopYNode = loopYNode.next;
+				handleCollisionLeftY(loopYNode, loopYNode.previous);
+				handleCollisionRightY(loopYNode, loopYNode.next);
+			}
+
+			Node loop = startNodeX;
+			while (loop.next != null) {
+				loop = loop.next;
+				loop.value.checkCollision();
+			}
+		//}catch (Exception e){
+
+		//}
 
 	}
 

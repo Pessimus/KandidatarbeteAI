@@ -30,12 +30,12 @@ public class Animal implements ICollidable {
 	}
 
 	@Override
-	public void addToCollideX() {
+	public void addToCollideX(ICollidable rhs) {
 		//TODO implement
 	}
 
 	@Override
-	public void addToCollideY() {
+	public void addToCollideY(ICollidable rhs) {
 		//TODO implement
 	}
 

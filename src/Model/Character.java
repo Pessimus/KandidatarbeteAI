@@ -28,6 +28,10 @@ public class Character implements ICollidable, ITimeable {
 
 	private Inventory inventory;
 
+	//----------------Collision------------------
+	private LinkedList<ICollidable> collideX;
+	private LinkedList<ICollidable> collideY;
+
 	//TESTING
 	private Pathfinder pathTest;
 	private LinkedList<PathStep> stepTest;
@@ -73,6 +77,10 @@ public class Character implements ICollidable, ITimeable {
 		this.pathTest = new Pathfinder(16, 9600, 9600, 1, 1.4);
 		this.pathTest.updateMask(new CollisionList());
 		this.stepTest = null;
+
+		this.collideX = new LinkedList<>();
+		this.collideY = new LinkedList<>();
+		this.collisionRadius = 5;
 	}
 
 	@Override
@@ -93,18 +101,24 @@ public class Character implements ICollidable, ITimeable {
 	}
 
 	@Override
-	public void addToCollideX() {
-		//TODO implement
+	public void addToCollideX(ICollidable rhs) {
+		System.out.println("--------------------1-1-1-1-1-1-1-1--1-1-1-");
+		this.collideX.add(rhs);
 	}
 
 	@Override
-	public void addToCollideY() {
-		//TODO implement
+	public void addToCollideY(ICollidable rhs) {
+		System.out.println("--------------------2-2-2-2-2-2-2-2--2-2-2-");
+		this.collideY.add(rhs);
 	}
 
 	@Override
 	public void checkCollision() {
-		//TODO implement
+		for(ICollidable c : this.collideX){
+			if(this.collideY.contains(c)){
+				System.out.println("Krock med nåt!!!!!!!!!"+this.hashCode());
+			}
+		}
 	}
 
 	@Override

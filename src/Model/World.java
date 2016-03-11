@@ -21,7 +21,8 @@ public class World {
 	PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 	private HashMap<Integer,Character> characters;
-	private LinkedList<ICollidable> collidables; //TODO custom (dual) list supporting bubblesort and incertionsort
+	private LinkedList<ICollidable> collidablesR; //TODO custom (dual) list supporting bubblesort and incertionsort
+	private CollisionList collidables;
 	private LinkedList<ITimeable> timeables;
 	private LinkedList<ICollidable> statics; //List containing all collidables that does not move (or get destroyed or created too often)
 	private double width;
@@ -32,7 +33,8 @@ public class World {
 	public World (double width, double height){
 		this.width = width;
 		this.height = height;
-		this.collidables = new LinkedList<>();
+		this.collidables = new CollisionList();
+		this.collidablesR = new LinkedList<>();
 		this.timeables = new LinkedList<>();
 		this.characters = new HashMap<>();
 
@@ -42,7 +44,7 @@ public class World {
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
-		for (int i = 0; i < 1; i += 1) {
+		for (int i = 0; i < 2; i += 1) {
 			int rx = (int) (Math.random()*1000)+500;
 			int ry = (int) (Math.random()*1000)+500;
 			addCharacter(rx, ry, i);
@@ -63,6 +65,9 @@ public class World {
 	public void update(){
 		try {
 			sema.acquire();
+
+			//this.collidables.handleCollision();//TODO Collision in Y-axis is not working yet. 
+
 			for (Character character : characters.values()) {
 				character.update();
 
@@ -104,6 +109,7 @@ public class World {
 
 		try{
 			sema.acquire();
+			this.collidablesR.add(character);
 			this.collidables.add(character);
 			this.timeables.add(character);
 			this.characters.put(key,character);
@@ -125,7 +131,7 @@ public class World {
 		try {
 			sema.acquire();
 
-			for (ICollidable visible : collidables) {
+			for (ICollidable visible : collidablesR) {
 				RenderObject tmp = new RenderObject(visible.getX(), visible.getY(), visible.getCollisionRadius(), RenderObject.RENDER_OBJECT_ENUM.CHARACTER);
 				renderObjects.add(tmp);
 			}
