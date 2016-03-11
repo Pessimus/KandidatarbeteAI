@@ -33,7 +33,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 	private final Semaphore keyboardSema = new Semaphore(1);
 	private final Semaphore mouseSema = new Semaphore(1);
 
-	private Pathfinder pathCalculator = new Pathfinder(16, 9600, 9600, 1, 1.4);
+	public Pathfinder pathCalculator = new Pathfinder(16, 9600, 9600, 1, 1.4);
 
 	/* CONSTANTS */
 	public static final int KEYBOARD_PRESSED_INTEGER = 0;
