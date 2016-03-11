@@ -18,7 +18,6 @@ public class Pathfinder {
     private double adjacentCost;
     private double diagonalCost;
 
-
     public Pathfinder (double grid, double worldx, double worldy, double sCost, double dCost) {
         gridSize = grid;
         width = (int) (worldx / grid);
