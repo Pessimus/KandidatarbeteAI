@@ -60,7 +60,6 @@ public class View extends BasicGameState implements InputListener{
     int mouseXMoved = 0;
     int mouseYMoved = 0;
     int wheel = Mouse.getDWheel();
-
     int collisionId = 21*23+1;
 
     public View(int i) {
@@ -70,7 +69,6 @@ public class View extends BasicGameState implements InputListener{
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         map = new TiledMap("res/mapsquare.tmx");       //controller.getTiledMap();
-
 		for(RenderObject.RENDER_OBJECT_ENUM e : RenderObject.RENDER_OBJECT_ENUM.values()){
 			resourceMap.put(e, new Image(e.pathToResource));
 		}
@@ -104,12 +102,12 @@ public class View extends BasicGameState implements InputListener{
 
     public void zoomOut(){
         if(scaler > 0.5f)
-           scaler -= 0.05f;
+           scaler -= 0.1f;
     }
 
     public void zoomIn(){
         if(scaler < 3f){
-            scaler += 0.05f;
+            scaler += 0.1f;
         }
     }
 
@@ -120,7 +118,7 @@ public class View extends BasicGameState implements InputListener{
         graphics.scale(scaler,scaler);
        // map.render(0,0, mouseX/32,mouseY/32,50,40);
         map.render(0,0, renderpointx, renderpointy, width, height);
-        System.out.println(width+" "+height);
+
 
 
         //map.render(0, 0, renderpointx, renderpointy, 50, 40);
@@ -128,7 +126,8 @@ public class View extends BasicGameState implements InputListener{
 		if(tempRenderList != null){
 
 			for (RenderObject obj: tempRenderList) {
-				resourceMap.get(obj.getObjectType()).draw(obj.getX(), obj.getY());
+				resourceMap.get(obj.getObjectType()).draw(obj.getX()-renderpointx*32, obj.getY()-renderpointy*32);
+
 			}
 		}
         //Functioanlity for moving the camera view around the map. Keep the mouse to one side to move the camera view.
@@ -153,7 +152,12 @@ public class View extends BasicGameState implements InputListener{
             zoomOut();
         }
 
-        //System.out.println(Keyboard.getKeyIndex("+"));
+        if(Mouse.getEventDWheel() > 0)
+            zoomIn();
+
+        if(Mouse.getEventDWheel() < 0)
+            zoomOut();
+
 
 		tempRenderList = null;
 
