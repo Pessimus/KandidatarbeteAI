@@ -23,13 +23,19 @@ public class Pathfinder {
         width = (int) (worldx / grid);
         height = (int) (worldy / grid);
         mask = new boolean[width][height];
-        Arrays.fill(mask, false);
+        fill(mask, false);
         adjacentCost = sCost;
         diagonalCost = dCost;
     }
 
+    private void fill(boolean[][] m, boolean v)  {
+        for (int i = 0; i<width; i++)  {
+            Arrays.fill(m[i], v);
+        }
+    }
+
     public void updateMask(CollisionList c) {
-        Arrays.fill(mask, true);
+        fill(mask, true);
         while (c.next()) {
             mask[(int) (c.getX() / gridSize)][(int) (c.getY() / gridSize)] = false;
             for (double i = c.getX() - c.getRadius(); i < c.getX() + c.getRadius(); i = i+gridSize) {
@@ -97,10 +103,10 @@ public class Pathfinder {
                 //if successor is the goal, stop the search
                 //if a node with the same position as successor is in the OPEN list \
                 //which has a lower f than successor, skip this successor
-                if (s.x = endx && s.y = endy) {
-                    LinkedList<Node> ret = new LinkedList<Node>;
+                if (s.x == endx && s.y == endy) {
+                    LinkedList<Tuple> ret = new LinkedList<Tuple>();
                     while (s.parent != null) {
-                        ret.addLast(s);
+                        ret.addLast(new Tuple(s.x, s.y));
                         s = s.parent;
                     }
                     return ret;

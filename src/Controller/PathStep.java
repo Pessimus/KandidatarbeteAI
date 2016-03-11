@@ -56,9 +56,9 @@ public class PathStep {
 
     // returns the direction (in degrees) from the given coordinates towards this node (not implemented)
     public double direction (double x, double y) {
-        double diffx = nodex - x;
+        /*double diffx = nodex - x;
         double diffy = nodey - y;
-        double tangent diffy/diffx =
+        double tangent diffy/diffx =*/
         return 0;
     }
 }
