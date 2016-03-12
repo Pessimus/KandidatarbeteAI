@@ -18,21 +18,24 @@ import java.util.logging.Logger;
  * Created by Tobias on 2016-02-26.
  */
 public class Controller implements PropertyChangeListener, Runnable {
-	private float mouseX;
-	private float mouseY;
+	/* MVC */
+	private World gameModel;
+	private StateViewInit gameView;
 
+	/* Help Objects */
 	private final Queue<Integer[]> keyboardInputQueue;
 	private final Queue<Integer[]> mouseInputQueue;
 
 	private final Semaphore keyboardSema = new Semaphore(1);
 	private final Semaphore mouseSema = new Semaphore(1);
 
-
-	private World gameModel;
-	private StateViewInit gameView;
-
 	private Semaphore screenRectSema = new Semaphore(1);
 	private ModelToViewRectangle screenRect;
+
+	private float mouseX;
+	private float mouseY;
+
+	public Pathfinder pathCalculator = new Pathfinder(16, 9600, 9600, 1, 1.4);
 
 	private final class ModelToViewRectangle{
 		float rectWidth, rectHeight;
@@ -269,7 +272,6 @@ public class Controller implements PropertyChangeListener, Runnable {
 					for (Integer[] clicks : keyboardClicks) {
 						// clicks[0] = Whether the key was pressed/released (1: Pressed, 0: Released)
 						// clicks[1] = What key was pressed/released
-
 						if (clicks[0] == View.INPUT_ENUM.KEY_PRESSED.value)
 							if (clicks[1] == Input.KEY_UP) {
 								;

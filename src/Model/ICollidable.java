@@ -8,7 +8,10 @@ public interface ICollidable {
 	float getY();
 	double getCollisionRadius();
 
-	//public boolean checkCollision(ICollidable rhs);
+	public void addToCollideX(ICollidable rhs);
+	public void addToCollideY(ICollidable rhs);
+
+	public void checkCollision();
 
 	//TODO ENUM for type
 

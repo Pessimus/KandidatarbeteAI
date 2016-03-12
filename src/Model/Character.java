@@ -1,8 +1,10 @@
 package Model;
 
+import Controller.Pathfinder;
+import Controller.PathStep;
 import java.awt.*;
 import java.util.ArrayList;
-
+import java.util.*;
 /**
  * Created by Tobias on 2016-02-26.
  */
@@ -14,6 +16,7 @@ public class Character implements ICollidable, ITimeable {
 	private double interactionRadius;
 	private float xSpeed;
 	private float ySpeed;
+	private boolean walkingRight = true;
 
 	private int updateCounter = 0;
 	private final int updateHunger = 20;
@@ -24,6 +27,14 @@ public class Character implements ICollidable, ITimeable {
 
 
 	private Inventory inventory;
+
+	//----------------Collision------------------
+	private LinkedList<ICollidable> collideX;
+	private LinkedList<ICollidable> collideY;
+
+	//TESTING
+	private Pathfinder pathTest;
+	private LinkedList<PathStep> stepTest;
 
 	//---------------NEEDS VARIABLES--------------------
 
@@ -41,7 +52,7 @@ public class Character implements ICollidable, ITimeable {
 	private int intimacy;
 	private int attention;
 
-	private final double stepLength = 10;
+	private final int stepLength = 3;
 
 	//private double timeableInterval;
 	private int key;
@@ -63,6 +74,13 @@ public class Character implements ICollidable, ITimeable {
 		this.thirst = 1000;
 		this.energy = 1000;
 
+		this.pathTest = new Pathfinder(16, 9600, 9600, 1, 1.4);
+		this.pathTest.updateMask(new CollisionList());
+		this.stepTest = null;
+
+		this.collideX = new LinkedList<>();
+		this.collideY = new LinkedList<>();
+		this.collisionRadius = 5;
 	}
 
 	@Override
@@ -83,6 +101,27 @@ public class Character implements ICollidable, ITimeable {
 	}
 
 	@Override
+	public void addToCollideX(ICollidable rhs) {
+		System.out.println("--------------------1-1-1-1-1-1-1-1--1-1-1-");
+		this.collideX.add(rhs);
+	}
+
+	@Override
+	public void addToCollideY(ICollidable rhs) {
+		System.out.println("--------------------2-2-2-2-2-2-2-2--2-2-2-");
+		this.collideY.add(rhs);
+	}
+
+	@Override
+	public void checkCollision() {
+		for(ICollidable c : this.collideX){
+			if(this.collideY.contains(c)){
+				System.out.println("Krock med nåt!!!!!!!!!"+this.hashCode());
+			}
+		}
+	}
+
+	@Override
 	public RenderObject getRenderObject() {
 		return new RenderObject(getX(), getY(), getCollisionRadius(), renderObjectEnum);
 	}
@@ -99,6 +138,7 @@ public class Character implements ICollidable, ITimeable {
 		//Updates counter with one but doesn't exceed 60.
 		updateCounter = (updateCounter+1) % 60;
 		updateNeeds();
+		moveAround();
 	}
 
 	public void updateNeeds() {
@@ -160,11 +200,11 @@ public class Character implements ICollidable, ITimeable {
 	}
 
 	public void walkRight(){
-		this.xSpeed += this.stepLength;
+		this.xPos += this.stepLength;
 	}
 
 	public void walkLeft(){
-		this.xSpeed -= this.stepLength;
+		this.xPos -= this.stepLength;
 	}
 
 	public void stopRight(){
@@ -176,11 +216,11 @@ public class Character implements ICollidable, ITimeable {
 	}
 
 	public void walkUp(){
-		this.ySpeed -= this.stepLength;
+		this.yPos -= this.stepLength;
 	}
 
 	public void walkDown(){
-		this.ySpeed += this.stepLength;
+		this.yPos += this.stepLength;
 	}
 
 	public void stopUp(){
@@ -189,6 +229,32 @@ public class Character implements ICollidable, ITimeable {
 
 	public void stopDown(){
 		this.ySpeed -= this.stepLength;
+	}
+
+	public void moveAround(){
+		if(updateCounter % 30 == 0) {
+			if (Math.random() < 0.1) {
+				double endx = 1000;
+				double endy = 1000;
+
+				stepTest = pathTest.getPath(xPos, yPos, endx, endy);
+
+			}
+
+			if (stepTest != null) {
+				if (stepTest.getFirst().stepTowards(this)) {
+					stepTest.removeFirst();
+					if (stepTest.isEmpty())  {
+						stepTest = null;
+					}
+				}
+			}
+		}
+
+	}
+
+	public int getSteplength(){
+		return stepLength;
 	}
 
 

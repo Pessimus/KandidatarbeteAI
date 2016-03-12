@@ -30,6 +30,21 @@ public class Animal implements ICollidable {
 	}
 
 	@Override
+	public void addToCollideX(ICollidable rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void addToCollideY(ICollidable rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void checkCollision() {
+		//TODO implement
+	}
+
+	@Override
 	public RenderObject getRenderObject() {
 		return null;
 	}
