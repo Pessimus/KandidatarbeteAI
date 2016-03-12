@@ -30,13 +30,6 @@ public final class RenderObject {
 
 	}
 
-	public RenderObject(RenderObject obj){
-		xPos = obj.xPos;
-		yPos = obj.yPos;
-		radius = obj.radius;
-		objectType = obj.objectType;
-	}
-
 	public final float getX() {
 		return xPos;
 	}

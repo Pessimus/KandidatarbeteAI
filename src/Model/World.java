@@ -41,11 +41,12 @@ public class World {
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
-		for (int i = 0; i < 500; i += 1) {
+/*		for (int i = 0; i < 500; i += 1) {
 			int rx = (int) (Math.random()*1000);
 			int ry = (int) (Math.random()*1000);
 			addCharacter(rx, ry, i);
-		}
+		}*/
+		addCharacter(300, 300, 1000);
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
@@ -96,6 +97,8 @@ public class World {
 		}
 
 		sema.release();
+
+		firePropertyChange("update", 1);
 	}
 
 	public Character addCharacter(float xPoss, float yPoss, int key){
@@ -118,7 +121,7 @@ public class World {
 
 	private boolean addCollidable(double xPoss, double yPoss, double radius){return false;}
 
-	public LinkedList<RenderObject> getRenderObjects(){
+	public List<RenderObject> getRenderObjects(){
 		LinkedList<RenderObject> renderObjects = new LinkedList<>();
 
 		try {
@@ -148,6 +151,14 @@ public class World {
 
 	private void firePropertyChange(String type, Object property){
 		pcs.firePropertyChange(type, 0, property);
+	}
+
+	public double getWidth() {
+		return width;
+	}
+
+	public double getHeight() {
+		return height;
 	}
 
 	/*

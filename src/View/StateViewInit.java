@@ -3,6 +3,7 @@ package View;
 import Model.RenderObject;
 import org.lwjgl.opengl.GL45;
 import org.lwjgl.opengl.GLContext;
+import org.lwjgl.util.Dimension;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
@@ -72,8 +73,6 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 		this.enterState(PLAY_STATE);
 	}
 
-
-
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
@@ -81,7 +80,7 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
 	//private RenderObject[] renderObjectList;
-	public void drawRenderObjects(RenderObject[] objectList) {
+	public void drawRenderObjects(List<RenderObject> objectList) {
 		for (RenderObject o : objectList) {
 			view.addRenderObject(o);
 		}
@@ -102,5 +101,9 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 		catch (SlickException e){
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "SlickException when starting the AppGameContainer in SlickViewInit!", e);
 		}
+	}
+
+	public void setRenderPoint(float x, float y){
+		view.setRenderPoint(x, y);
 	}
 }

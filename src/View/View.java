@@ -1,7 +1,7 @@
 package View;
 
+import Model.Constants;
 import Model.RenderObject;
-import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -9,7 +9,6 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
-import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.*;
@@ -26,13 +25,13 @@ import org.newdawn.slick.SlickException;
  */
 public class View extends BasicGameState implements InputListener{
 
-    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-    private Input input;
+	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private int stateNr;
     private TiledMap map;
-    private int renderpointx = 50;
-    private int renderpointy = 50;
-    java.awt.Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+    private int renderPointX = (int)Constants.DEFAULT_WORLD_VIEW_X;
+    private int renderPointY = (int)Constants.DEFAULT_WORLD_VIEW_Y;
+
+	private Semaphore renderPointSema = new Semaphore(1);
 
     private float scaleX, scaleY;
     List<RenderObject> listToRender = new LinkedList<>();
@@ -72,6 +71,9 @@ public class View extends BasicGameState implements InputListener{
 		for(RenderObject.RENDER_OBJECT_ENUM e : RenderObject.RENDER_OBJECT_ENUM.values()){
 			resourceMap.put(e, new Image(e.pathToResource));
 		}
+
+		scaleX = gameContainer.getScreenWidth()/(Constants.HORIZONTAL_TILES * Constants.WORLD_TILE_SIZE);
+		scaleY = gameContainer.getScreenHeight()/(Constants.VERTICAL_TILES* Constants.WORLD_TILE_SIZE);
     }
 
 	RenderObject[] tempRenderList = null;
@@ -89,7 +91,6 @@ public class View extends BasicGameState implements InputListener{
 		catch(InterruptedException e){
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
-            System.out.println(e);
 		}
 
 		if(tempList != null){
@@ -101,18 +102,24 @@ public class View extends BasicGameState implements InputListener{
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-        scaleX = gameContainer.getScreenWidth()/(50*32);
-        scaleY = gameContainer.getScreenWidth()/(40*32);
         graphics.scale(scaleX,scaleY);
-       // map.render(0,0, mouseX/32,mouseY/32,50,40);
-        map.render(0, 0, renderpointx, renderpointy, 50, 40);
+		try {
+			renderPointSema.acquire();
+			map.render(0, 0, renderPointX / Constants.WORLD_TILE_SIZE, renderPointY / Constants.WORLD_TILE_SIZE, Constants.HORIZONTAL_TILES, Constants.VERTICAL_TILES);
+			renderPointSema.release();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
+		}
 
 		if(tempRenderList != null){
-
 			for (RenderObject obj: tempRenderList) {
 				resourceMap.get(obj.getObjectType()).draw(obj.getX(), obj.getY());
 			}
 		}
+
+		/*
         //Functioanlity for moving the camera view around the map. Keep the mouse to one side to move the camera view.
         if (Mouse.getX() > d.getWidth()-d.getWidth()/10) {
             renderpointx += 1;
@@ -126,7 +133,7 @@ public class View extends BasicGameState implements InputListener{
         if (Mouse.getY() > d.getHeight()/10) {
             renderpointy -= 1;
         }
-
+		*/
 		tempRenderList = null;
 
     }
@@ -150,12 +157,14 @@ public class View extends BasicGameState implements InputListener{
 
     @Override
     public void mouseMoved(int oldx, int oldy, int newx, int newy){   //Ska denna flyttas till modell?
+		/*
         mouseXMoved = newx-oldx;
         mouseYMoved = newy-oldy;
         mouseX+=mouseXMoved;
         mouseY+=mouseYMoved;
+        */
 
-		//pcs.firePropertyChange(INPUT_ENUM.MOUSE_MOVED.toString(), 0, new Integer[]{INPUT_ENUM.MOUSE_MOVED.value,oldx, oldy, newx, newy});
+		pcs.firePropertyChange(INPUT_ENUM.MOUSE_MOVED.toString(), 0, new Integer[]{INPUT_ENUM.MOUSE_MOVED.value,oldx, oldy, newx, newy});
     }
 
     @Override
@@ -192,11 +201,16 @@ public class View extends BasicGameState implements InputListener{
 		return returns;
 	}
 
-	// TODO: Maybe remove these if the above code is ok.
-    private void notifyKeyInput(Integer[] vars){   // control = "KEY_PRESSED" eller "KEY_RELEASED"
-        pcs.firePropertyChange(vars[0].toString(), 0, vars);
-    }
-    private void notifyMouseInput(Integer[] vars){
-        pcs.firePropertyChange(vars[0].toString(), 0, vars);
-    }
+	public void setRenderPoint(float x, float y){
+		try {
+			renderPointSema.acquire();
+			renderPointX = (int) x;
+			renderPointY = (int) y;
+			renderPointSema.release();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
+		}
+	}
 }
