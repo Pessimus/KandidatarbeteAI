@@ -35,7 +35,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 	private float mouseX;
 	private float mouseY;
 
-	public Pathfinder pathCalculator = new Pathfinder(16, 9600, 9600, 1, 1.4);
+	public Pathfinder pathCalculator = new Pathfinder(16, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, 1, 1.4);
 
 	private final class ModelToViewRectangle{
 		float rectWidth, rectHeight;
@@ -111,9 +111,9 @@ public class Controller implements PropertyChangeListener, Runnable {
 
 	public static void main(String[] args){
 		World model = new World(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
-		StateViewInit view = new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.WORLD_WIDTH, (int)Constants.WORLD_HEIGHT);
+		StateViewInit view = new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT);
 
-		new Controller(view, model).run();
+		new Thread(new Controller(view, model)).run();
 		view.run();
 	}
 
@@ -134,7 +134,6 @@ public class Controller implements PropertyChangeListener, Runnable {
 		new Timer().scheduleAtFixedRate(new TimerTask(){
 			public void run() {
 				updateModel();
-				updateView();
 			}
 		}, 0, Constants.CONTROLLER_UPDATE_INTERVAL);
 	}
@@ -160,6 +159,76 @@ public class Controller implements PropertyChangeListener, Runnable {
 	}
 
 	private void updateView(){
+		/*
+		new Thread(){
+			@Override
+			public void run() {
+				List<RenderObject> temp = new LinkedList<>();
+
+				try {
+					screenRectSema.acquire();
+					if (mouseX >= Constants.SCREEN_EDGE_TRIGGER_MAX_X) {
+						if (screenRect.getMaxX() < gameModel.getWidth()) {
+							//float temp = (float)(mouseX - Constants.SCREEN_EDGE_TRIGGER_MAX_X);
+							screenRect.translatePosition(Constants.SCREEN_SCROLL_SPEED_X / Constants.CONTROLLER_UPDATE_INTERVAL, 0);
+							System.out.println("Right side: " + screenRect.getMaxX());
+						} else {
+							//screenRect.translatePosition((float)gameModel.getWidth() - screenRect.getMaxX(), 0);
+							screenRect.setMaxX((float) gameModel.getWidth());
+						}
+					} else if (mouseX <= Constants.SCREEN_EDGE_TRIGGER_MIN_X) {
+						if (screenRect.getMinX() > 0) {
+							//float temp = (float)(mouseX - Constants.SCREEN_EDGE_TRIGGER_MIN_X);
+							screenRect.translatePosition(-Constants.SCREEN_SCROLL_SPEED_X / Constants.CONTROLLER_UPDATE_INTERVAL, 0);
+							System.out.println("Left side: " + screenRect.getMinX());
+						} else {
+							//screenRect.translatePosition(-screenRect.getMinX(), 0);
+							screenRect.setMinX(0);
+						}
+					}
+
+					if (mouseY >= Constants.SCREEN_EDGE_TRIGGER_MAX_Y) {
+						if (screenRect.getMaxY() < gameModel.getHeight()) {
+							//float temp = (float)(mouseY - Constants.SCREEN_EDGE_TRIGGER_MAX_Y);
+							screenRect.translatePosition(0, Constants.SCREEN_SCROLL_SPEED_Y / Constants.CONTROLLER_UPDATE_INTERVAL);
+						} else {
+							//screenRect.translatePosition(0, (float)gameModel.getHeight() - screenRect.getMaxY());
+							screenRect.setMaxY((float) gameModel.getHeight());
+						}
+					} else if (mouseY <= Constants.SCREEN_EDGE_TRIGGER_MIN_Y) {
+						if (screenRect.getMinY() > 0) {
+							//float temp = (float)(mouseY - Constants.SCREEN_EDGE_TRIGGER_MIN_Y);
+							screenRect.translatePosition(0, -Constants.SCREEN_SCROLL_SPEED_Y / Constants.CONTROLLER_UPDATE_INTERVAL);
+						} else {
+							//screenRect.translatePosition(0, -screenRect.getMinY());
+							screenRect.setMinY(0);
+						}
+					}
+					screenRectSema.release();
+
+					List<RenderObject> obj = gameModel.getRenderObjects();
+
+					for (RenderObject tempObj : obj) {
+						if (screenRect.contains(tempObj.getX(), tempObj.getY())) {
+							float[] tempInts = convertFromModelToViewCoords(tempObj.getX(), tempObj.getY());
+							temp.add(new RenderObject(tempInts[0], tempInts[1], tempObj.getRadius(), tempObj.getObjectType()));
+						}
+					}
+
+					gameView.setRenderPoint(screenRect.getMinX(), screenRect.getMinY());
+					screenRectSema.release();
+				}
+				catch (InterruptedException e){
+					e.printStackTrace();
+					Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Semaphores were interrupted in 'updateView()' method!", e);
+				}
+
+				if(temp.size() > 0) {
+					gameView.drawRenderObjects(temp);
+				}
+			}
+		}.run();
+		*/
 		List<RenderObject> temp = new LinkedList<>();
 
 		try {
@@ -168,6 +237,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 				if (screenRect.getMaxX() < gameModel.getWidth()) {
 					//float temp = (float)(mouseX - Constants.SCREEN_EDGE_TRIGGER_MAX_X);
 					screenRect.translatePosition(Constants.SCREEN_SCROLL_SPEED_X / Constants.CONTROLLER_UPDATE_INTERVAL, 0);
+					System.out.println("Right side: " + screenRect.getMaxX());
 				} else {
 					//screenRect.translatePosition((float)gameModel.getWidth() - screenRect.getMaxX(), 0);
 					screenRect.setMaxX((float) gameModel.getWidth());
@@ -176,6 +246,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 				if (screenRect.getMinX() > 0) {
 					//float temp = (float)(mouseX - Constants.SCREEN_EDGE_TRIGGER_MIN_X);
 					screenRect.translatePosition(-Constants.SCREEN_SCROLL_SPEED_X / Constants.CONTROLLER_UPDATE_INTERVAL, 0);
+					System.out.println("Left side: " + screenRect.getMinX());
 				} else {
 					//screenRect.translatePosition(-screenRect.getMinX(), 0);
 					screenRect.setMinX(0);
@@ -199,6 +270,8 @@ public class Controller implements PropertyChangeListener, Runnable {
 					screenRect.setMinY(0);
 				}
 			}
+			screenRectSema.release();
+
 			List<RenderObject> obj = gameModel.getRenderObjects();
 
 			for (RenderObject tempObj : obj) {
@@ -225,6 +298,47 @@ public class Controller implements PropertyChangeListener, Runnable {
 	 * Uses input from the View to manipulate the Model.
 	 */
 	private void updateModel(){
+		/*
+		new Thread(){
+			@Override
+			public void run() {
+				try {
+					keyboardSema.acquire();
+					Object[] tempList = keyboardInputQueue.toArray();
+					keyboardInputQueue.clear();
+					keyboardSema.release();
+
+					if (tempList != null) {
+						if (tempList.length > 0) {
+							Integer[][] tempKeyList = Arrays.copyOf(tempList, tempList.length, Integer[][].class);
+							sendKeyboardInputToModel(tempKeyList);
+						}
+					}
+
+					mouseSema.acquire();
+					tempList = mouseInputQueue.toArray();
+					mouseInputQueue.clear();
+					mouseSema.release();
+
+					if (tempList != null) {
+						if (tempList.length > 0) {
+							Integer[][] tempMouseList = Arrays.copyOf(tempList, tempList.length, Integer[][].class);
+							sendMouseInputToModel(tempMouseList);
+						}
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+					Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Semaphores were interrupted in 'run()' method!", e);
+				} catch (ClassCastException e) {
+					e.printStackTrace();
+					Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Typecasting of input-arrays failed!", e);
+				}
+
+				gameModel.update();
+			}
+		}.run();
+		*/
+
 		try {
 			keyboardSema.acquire();
 			Object[] tempList = keyboardInputQueue.toArray();
@@ -257,10 +371,10 @@ public class Controller implements PropertyChangeListener, Runnable {
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Typecasting of input-arrays failed!", e);
 		}
 
-		gameModel.update();
+		new Thread(gameModel).run();
 	}
 
-	private synchronized void sendKeyboardInputToModel(Integer[][] keyboardClicks) {
+	private void sendKeyboardInputToModel(Integer[][] keyboardClicks) {
 		// Keyboard input
 		if (keyboardClicks.length > 0) {
 			// Call methods in the model according to what key was pressed!
@@ -285,13 +399,19 @@ public class Controller implements PropertyChangeListener, Runnable {
 							else if (clicks[1] == Input.KEY_RIGHT) {
 								;
 							}
+							else if (clicks[1] == Input.KEY_ADD) {
+								; // TODO: Zoom in
+							}
+							else if (clicks[1] == Input.KEY_ADD) {
+								; // TODO: Zoom out
+							}
 					}
 				}
 			}.run();
 		}
 	}
 
-	private synchronized void sendMouseInputToModel(Integer[][] mouseClicks){
+	private void sendMouseInputToModel(Integer[][] mouseClicks){
 		// Mouse input
 		if(mouseClicks.length > 0) {
 			// Call methods in the model according to what button was pressed!

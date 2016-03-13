@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 /**
  * Created by Martin on 23/02/2016.
  */
-public class World {
+public class World implements Runnable{
 
 	PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
@@ -44,7 +44,7 @@ public class World {
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
-		for (int i = 0; i < 500; i += 1) {
+		for (int i = 0; i < 5; i += 1) {
 			int rx = (int) (Math.random()*1000);
 			int ry = (int) (Math.random()*1000);
 			addCharacter(rx, ry, i);
@@ -62,7 +62,7 @@ public class World {
 	 * Update timeables
 	 * Update collidables
 	 */
-	public void update(){
+/*	public void update(){
 		try {
 			sema.acquire();
 
@@ -71,13 +71,14 @@ public class World {
 			for (Character character : characters.values()) {
 				character.update();
 
-				/*if (character.getKey() < 5) {
+				*//*if (character.getKey() < 5) {
 					System.out.println(character.getHunger());
-				}*/
+				}*//*
 
 				if (!character.isAlive()) {
 					characters.remove(character.getKey(), character);
 					collidables.remove(character);
+					collidablesR.remove(character);
 					timeables.remove(character);
 					//character = null;
 				} else {
@@ -90,18 +91,66 @@ public class World {
 					//END TODO IF y
 				}
 			}
+			sema.release();
+
+			sema.acquire();
+			for (ITimeable timedObj : timeables) {
+				timedObj.update();
+			}
+
+			sema.release();
 		}
 		catch(InterruptedException e){
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "interrupted when removing a dead character!", e);
 		}
 
+		firePropertyChange("update", 1);
+	}*/
 
-		for (ITimeable timedObj : timeables) {
-			timedObj.update();
+	@Override
+	public void run() {
+		try {
+			sema.acquire();
+
+			//this.collidables.handleCollision();//TODO Collision in Y-axis is not working yet.
+
+			for (Character character : characters.values()) {
+				character.update();
+
+				/*if (character.getKey() < 5) {
+					System.out.println(character.getHunger());
+				}*/
+
+				if (!character.isAlive()) {
+					characters.remove(character.getKey(), character);
+					collidables.remove(character);
+					collidablesR.remove(character);
+					timeables.remove(character);
+					//character = null;
+				} else {
+					//TODO IF x
+
+					character.moveX();
+					//END TODO IF x
+					//TODO IF y
+					character.moveY();
+					//END TODO IF y
+				}
+			}
+			sema.release();
+
+			sema.acquire();
+			for (ITimeable timedObj : timeables) {
+				timedObj.update();
+			}
+
+			sema.release();
 		}
-
-		sema.release();
+		catch(InterruptedException e){
+			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "interrupted when removing a dead character!", e);
+		}
 
 		firePropertyChange("update", 1);
 	}
@@ -119,7 +168,7 @@ public class World {
 		}
 		catch(InterruptedException e){
 			e.printStackTrace();
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "interrupted when removing a dead character!", e);
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "interrupted when adding new character!", e);
 		}
 
 		return character;
@@ -134,14 +183,14 @@ public class World {
 			sema.acquire();
 
 			for (ICollidable visible : collidablesR) {
-				RenderObject tmp = new RenderObject(visible.getX(), visible.getY(), visible.getCollisionRadius(), RenderObject.RENDER_OBJECT_ENUM.CHARACTER);
-				renderObjects.add(tmp);
+				renderObjects.add(visible.getRenderObject());
 			}
 
 			sema.release();
 		}
 		catch(InterruptedException e){
 			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "interrupted when sending render objects!", e);
 		}
 
 		return renderObjects;

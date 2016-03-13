@@ -13,6 +13,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -81,9 +82,13 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 	// TODO: HARDCODED TEST!!!!!
 	//private RenderObject[] renderObjectList;
 	public void drawRenderObjects(List<RenderObject> objectList) {
+		/*
 		for (RenderObject o : objectList) {
 			view.addRenderObject(o);
 		}
+		*/
+		RenderObject[] tempList = Arrays.copyOf(objectList.toArray(), objectList.toArray().length, RenderObject[].class);
+		view.setRenderList(tempList);
 	}
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!

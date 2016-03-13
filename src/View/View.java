@@ -35,7 +35,8 @@ public class View extends BasicGameState implements InputListener{
 	private Semaphore renderPointSema = new Semaphore(1);
 
     private float scaler = 3f;
-    List<RenderObject> listToRender = new LinkedList<>();
+    //List<RenderObject> listToRender = new LinkedList<>();
+	RenderObject[] listToRender = {};
 
 
 	private final Semaphore semaphore = new Semaphore(1);
@@ -83,6 +84,7 @@ public class View extends BasicGameState implements InputListener{
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
 		Object[] tempList = null;
 
+		/*
 		try {
 			semaphore.acquire();
 			tempList = listToRender.toArray();
@@ -99,6 +101,7 @@ public class View extends BasicGameState implements InputListener{
 				tempRenderList = Arrays.copyOf(tempList, tempList.length, RenderObject[].class);
 			}
 		}
+		*/
     }
 
 
@@ -115,25 +118,29 @@ public class View extends BasicGameState implements InputListener{
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-		int width = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE/scaler);
-		int height = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE/scaler);
-		graphics.scale(scaler,scaler);
+		//int width = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE/scaler);
+		//int height = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE/scaler);
+		//graphics.scale(scaler,scaler);
 
 		try {
 			renderPointSema.acquire();
-			//map.render(0, 0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, Constants.HORIZONTAL_TILES, Constants.VERTICAL_TILES);
-			map.render(0, 0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, width, height);
+			map.render(0, 0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, Constants.HORIZONTAL_TILES, Constants.VERTICAL_TILES);
+			//map.render(0, 0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, width, height);
 			renderPointSema.release();
+
+			semaphore.acquire();
+			if(listToRender != null){
+				if(listToRender.length > 0) {
+					for (RenderObject obj : listToRender) {
+						resourceMap.get(obj.getObjectType()).draw(obj.getX(), obj.getY());
+					}
+				}
+			}
+			semaphore.release();
 		}
 		catch(InterruptedException e){
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
-		}
-
-		if(tempRenderList != null){
-			for (RenderObject obj: tempRenderList) {
-				resourceMap.get(obj.getObjectType()).draw(obj.getX(), obj.getY());
-			}
 		}
 
 		/*
@@ -168,7 +175,8 @@ public class View extends BasicGameState implements InputListener{
         */
 
 
-		tempRenderList = null;
+		//listToRender = null;
+		//tempRenderList = null;
 
     }
 
@@ -221,19 +229,16 @@ public class View extends BasicGameState implements InputListener{
         pcs.removePropertyChangeListener(listener);
     }
 
-	public boolean addRenderObject(RenderObject obj){
-		boolean returns = false;
+	public void setRenderList(RenderObject[] objList){
 		try {
 			semaphore.acquire();
-			returns = listToRender.add(obj);
+			listToRender = objList;
 			semaphore.release();
 		}
 		catch(InterruptedException e){
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
 		}
-
-		return returns;
 	}
 
 	public void setRenderPoint(float x, float y){
