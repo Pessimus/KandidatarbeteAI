@@ -67,7 +67,8 @@ public class View extends BasicGameState implements InputListener{
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        map = new TiledMap("res/mapsquare.tmx");       //controller.getTiledMap();
+        map = new TiledMap("res/mapSquare.tmx");       //controller.getTiledMap();
+
 		for(RenderObject.RENDER_OBJECT_ENUM e : RenderObject.RENDER_OBJECT_ENUM.values()){
 			resourceMap.put(e, new Image(e.pathToResource));
 		}
@@ -114,8 +115,8 @@ public class View extends BasicGameState implements InputListener{
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-		int width = (int)Math.ceil(gameContainer.getScreenWidth()/map.getTileWidth()/scaler);
-		int height = (int)Math.ceil(gameContainer.getScreenHeight()/map.getTileWidth()/scaler);
+		int width = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE/scaler);
+		int height = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE/scaler);
 		graphics.scale(scaler,scaler);
 
 		try {

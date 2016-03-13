@@ -161,6 +161,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 
 	private void updateView(){
 		List<RenderObject> temp = new LinkedList<>();
+
 		try {
 			screenRectSema.acquire();
 			if (mouseX >= Constants.SCREEN_EDGE_TRIGGER_MAX_X) {
@@ -198,7 +199,6 @@ public class Controller implements PropertyChangeListener, Runnable {
 					screenRect.setMinY(0);
 				}
 			}
-
 			List<RenderObject> obj = gameModel.getRenderObjects();
 
 			for (RenderObject tempObj : obj) {
@@ -213,7 +213,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 		}
 		catch (InterruptedException e){
 			e.printStackTrace();
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Semaphores were interrupted in 'run()' method!", e);
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Semaphores were interrupted in 'updateView()' method!", e);
 		}
 
 		if(temp.size() > 0) {
