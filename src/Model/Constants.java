@@ -19,12 +19,12 @@ public final class Constants {
 	public static final		float		SCREEN_SCROLL_SPEED_X				=	100f; // Pixels per second!
 	public static final		float		SCREEN_SCROLL_SPEED_Y				=	100f; // Pixels per second!
 
-	public static final 	float 		DEFAULT_WORLD_VIEW_X				= 	1000f;
-	public static final 	float 		DEFAULT_WORLD_VIEW_Y				= 	1000f;
+	public static final 	float 		DEFAULT_WORLD_VIEW_X				= 	100f;
+	public static final 	float 		DEFAULT_WORLD_VIEW_Y				= 	100f;
 
 	public static final		float		WORLD_WIDTH							=	9600f;
 	public static final		float		WORLD_HEIGHT						=	9600f;
-	public static final 	int 		TARGET_FRAMERATE 					= 	30;
+	public static final 	int 		TARGET_FRAMERATE 					= 	60;
 	public static final 	boolean		GAME_GRAB_MOUSE						= 	false;
 	public static final 	boolean 	RUN_IN_FULLSCREEN 					= 	false;
 	public static final 	long		CONTROLLER_UPDATE_INTERVAL			= 	17; // Interval in milliseconds

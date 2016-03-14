@@ -44,7 +44,7 @@ public class Wood extends RenewableResource {
         return resourceName;
     }
     @Override
-    public void update() { //öka mängd eller spawna nya träd?
+    public void updateTimeable() { //öka mängd eller spawna nya träd?
 
     }
 }
