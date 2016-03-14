@@ -35,18 +35,18 @@ public class PathStep {
         double diffx = nodex - c.getX();
         double diffy = nodey - c.getY();
 
-        if (diffx > 0) {
+        if (diffx > c.getSteplength()) {
             //if the character should move right
             c.walkRight();
-        } else if (diffx < 0) {
+        } else if (diffx < -c.getSteplength()) {
             //if the character should move left
             c.walkLeft();
         }
 
-        if (diffy > 0) {
+        if (diffy > c.getSteplength()) {
             //if the character should move down
             c.walkDown();
-        } else if (diffy < 0) {
+        } else if (diffy < -c.getSteplength()) {
             //if the character should move left
             c.walkUp();
         }
