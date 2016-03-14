@@ -89,32 +89,37 @@ public class Controller implements PropertyChangeListener, Runnable {
 
 
 		public void setMinX(float minX) {
-			this.maxX += minX - this.minX;
+			this.maxX += (minX - this.minX);
 			this.minX = minX;
 		}
 
 		public void setMinY(float minY) {
-			this.maxY += minY - this.minY;
+			this.maxY += (minY - this.minY);
 			this.minY = minY;
 		}
 
 		public void setMaxX(float maxX) {
-			this.minX += maxX - this.maxX;
+			this.minX += (maxX - this.maxX);
 			this.maxX = maxX;
 		}
 
 		public void setMaxY(float maxY) {
-			this.minY += maxY - this.maxY;
+			this.minY += (maxY - this.maxY);
 			this.maxY = maxY;
 		}
 	}
 
 	public static void main(String[] args){
-		World model = new World(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
+		World model = new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
 		StateViewInit view = new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT);
 
-		new Thread(new Controller(view, model)).run();
+		//new Thread(new Controller(view, model)).run();
+		//Controller control = new Controller(view, model);
+		new Controller(view, model).run();
+		//new Controller(view, model);
+
 		view.run();
+		//control.run();
 	}
 
 	public Controller(StateViewInit view, World model){
@@ -123,14 +128,17 @@ public class Controller implements PropertyChangeListener, Runnable {
 		setView(view);
 		setModel(model);
 
-		mouseX = ((float)Constants.SCREEN_WIDTH - Constants.DEFAULT_WORLD_VIEW_X)/2;
-		mouseY = ((float)Constants.SCREEN_HEIGHT - Constants.DEFAULT_WORLD_VIEW_Y)/2;
+		//mouseX = ((float)Constants.SCREEN_WIDTH - Constants.DEFAULT_WORLD_VIEW_X)/2;
+		//mouseY = ((float)Constants.SCREEN_HEIGHT - Constants.DEFAULT_WORLD_VIEW_Y)/2;
+		mouseX = (float)Constants.SCREEN_WIDTH/2;
+		mouseY = (float)Constants.SCREEN_HEIGHT/2;
 
 		screenRect = new ModelToViewRectangle(Constants.DEFAULT_WORLD_VIEW_X, Constants.DEFAULT_WORLD_VIEW_Y, (float)Constants.SCREEN_WIDTH, (float)Constants.SCREEN_HEIGHT);
 	}
 
 	@Override
 	public void run(){
+		//while(gameView.)
 		new Timer().scheduleAtFixedRate(new TimerTask(){
 			public void run() {
 				updateModel();
@@ -159,6 +167,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 	}
 
 	private void updateView(){
+		//System.out.println("Controller: updateView");
 		/*
 		new Thread(){
 			@Override
@@ -208,6 +217,8 @@ public class Controller implements PropertyChangeListener, Runnable {
 
 					List<RenderObject> obj = gameModel.getRenderObjects();
 
+					screenRectSema.acquire();
+
 					for (RenderObject tempObj : obj) {
 						if (screenRect.contains(tempObj.getX(), tempObj.getY())) {
 							float[] tempInts = convertFromModelToViewCoords(tempObj.getX(), tempObj.getY());
@@ -231,13 +242,13 @@ public class Controller implements PropertyChangeListener, Runnable {
 		*/
 		List<RenderObject> temp = new LinkedList<>();
 
-		try {
+		/*try {
 			screenRectSema.acquire();
 			if (mouseX >= Constants.SCREEN_EDGE_TRIGGER_MAX_X) {
 				if (screenRect.getMaxX() < gameModel.getWidth()) {
 					//float temp = (float)(mouseX - Constants.SCREEN_EDGE_TRIGGER_MAX_X);
 					screenRect.translatePosition(Constants.SCREEN_SCROLL_SPEED_X / Constants.CONTROLLER_UPDATE_INTERVAL, 0);
-					System.out.println("Right side: " + screenRect.getMaxX());
+					//System.out.println("Right side: " + screenRect.getMaxX());
 				} else {
 					//screenRect.translatePosition((float)gameModel.getWidth() - screenRect.getMaxX(), 0);
 					screenRect.setMaxX((float) gameModel.getWidth());
@@ -246,7 +257,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 				if (screenRect.getMinX() > 0) {
 					//float temp = (float)(mouseX - Constants.SCREEN_EDGE_TRIGGER_MIN_X);
 					screenRect.translatePosition(-Constants.SCREEN_SCROLL_SPEED_X / Constants.CONTROLLER_UPDATE_INTERVAL, 0);
-					System.out.println("Left side: " + screenRect.getMinX());
+					//System.out.println("Left side: " + screenRect.getMinX());
 				} else {
 					//screenRect.translatePosition(-screenRect.getMinX(), 0);
 					screenRect.setMinX(0);
@@ -274,6 +285,8 @@ public class Controller implements PropertyChangeListener, Runnable {
 
 			List<RenderObject> obj = gameModel.getRenderObjects();
 
+			screenRectSema.acquire();
+
 			for (RenderObject tempObj : obj) {
 				if (screenRect.contains(tempObj.getX(), tempObj.getY())) {
 					float[] tempInts = convertFromModelToViewCoords(tempObj.getX(), tempObj.getY());
@@ -287,7 +300,60 @@ public class Controller implements PropertyChangeListener, Runnable {
 		catch (InterruptedException e){
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Semaphores were interrupted in 'updateView()' method!", e);
+		}*/
+
+		if (mouseX >= Constants.SCREEN_EDGE_TRIGGER_MAX_X) {
+			if (screenRect.getMaxX() < gameModel.getWidth()) {
+				//float temp = (float)(mouseX - Constants.SCREEN_EDGE_TRIGGER_MAX_X);
+				screenRect.translatePosition(Constants.SCREEN_SCROLL_SPEED_X / Constants.CONTROLLER_UPDATE_INTERVAL, 0);
+				//System.out.println("Right side: " + screenRect.getMaxX());
+			} else {
+				//screenRect.translatePosition((float)gameModel.getWidth() - screenRect.getMaxX(), 0);
+				screenRect.setMaxX((float) gameModel.getWidth());
+			}
+		} else if (mouseX <= Constants.SCREEN_EDGE_TRIGGER_MIN_X) {
+			if (screenRect.getMinX() > 0) {
+				//float temp = (float)(mouseX - Constants.SCREEN_EDGE_TRIGGER_MIN_X);
+				screenRect.translatePosition(-Constants.SCREEN_SCROLL_SPEED_X / Constants.CONTROLLER_UPDATE_INTERVAL, 0);
+				//System.out.println("Left side: " + screenRect.getMinX());
+			} else {
+				//screenRect.translatePosition(-screenRect.getMinX(), 0);
+				screenRect.setMinX(0);
+			}
 		}
+
+		System.out.println(mouseX + ":" + mouseY);
+
+		if (mouseY >= Constants.SCREEN_EDGE_TRIGGER_MAX_Y) {
+			if (screenRect.getMaxY() < gameModel.getHeight()) {
+				//float temp = (float)(mouseY - Constants.SCREEN_EDGE_TRIGGER_MAX_Y);
+				System.out.println(screenRect.getMaxY());
+				screenRect.translatePosition(0, Constants.SCREEN_SCROLL_SPEED_Y / Constants.CONTROLLER_UPDATE_INTERVAL);
+			} else {
+				//screenRect.translatePosition(0, (float)gameModel.getHeight() - screenRect.getMaxY());
+				screenRect.setMaxY((float) gameModel.getHeight());
+			}
+		} else if (mouseY <= Constants.SCREEN_EDGE_TRIGGER_MIN_Y) {
+			if (screenRect.getMinY() > 0) {
+				//float temp = (float)(mouseY - Constants.SCREEN_EDGE_TRIGGER_MIN_Y);
+				System.out.println(screenRect.getMinY());
+				screenRect.translatePosition(0, -Constants.SCREEN_SCROLL_SPEED_Y / Constants.CONTROLLER_UPDATE_INTERVAL);
+			} else {
+				//screenRect.translatePosition(0, -screenRect.getMinY());
+				screenRect.setMinY(0);
+			}
+		}
+
+		List<RenderObject> obj = gameModel.getRenderObjects();
+
+		for (RenderObject tempObj : obj) {
+			if (screenRect.contains(tempObj.getX(), tempObj.getY())) {
+				float[] tempInts = convertFromModelToViewCoords(tempObj.getX(), tempObj.getY());
+				temp.add(new RenderObject(tempInts[0], tempInts[1], tempObj.getRadius(), tempObj.getObjectType()));
+			}
+		}
+
+		gameView.setRenderPoint(screenRect.getMinX(), screenRect.getMinY());
 
 		if(temp.size() > 0) {
 			gameView.drawRenderObjects(temp);
@@ -298,6 +364,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 	 * Uses input from the View to manipulate the Model.
 	 */
 	private void updateModel(){
+		//System.out.println("Controller: updateModel");
 		/*
 		new Thread(){
 			@Override
@@ -311,7 +378,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 					if (tempList != null) {
 						if (tempList.length > 0) {
 							Integer[][] tempKeyList = Arrays.copyOf(tempList, tempList.length, Integer[][].class);
-							sendKeyboardInputToModel(tempKeyList);
+							handleKeyboardInput(tempKeyList);
 						}
 					}
 
@@ -323,7 +390,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 					if (tempList != null) {
 						if (tempList.length > 0) {
 							Integer[][] tempMouseList = Arrays.copyOf(tempList, tempList.length, Integer[][].class);
-							sendMouseInputToModel(tempMouseList);
+							handleMouseInput(tempMouseList);
 						}
 					}
 				} catch (InterruptedException e) {
@@ -339,7 +406,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 		}.run();
 		*/
 
-		try {
+		/*try {
 			keyboardSema.acquire();
 			Object[] tempList = keyboardInputQueue.toArray();
 			keyboardInputQueue.clear();
@@ -348,7 +415,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 			if (tempList != null) {
 				if (tempList.length > 0) {
 					Integer[][] tempKeyList = Arrays.copyOf(tempList, tempList.length, Integer[][].class);
-					sendKeyboardInputToModel(tempKeyList);
+					handleKeyboardInput(tempKeyList);
 				}
 			}
 
@@ -360,7 +427,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 			if (tempList != null) {
 				if (tempList.length > 0) {
 					Integer[][] tempMouseList = Arrays.copyOf(tempList, tempList.length, Integer[][].class);
-					sendMouseInputToModel(tempMouseList);
+					handleMouseInput(tempMouseList);
 				}
 			}
 		} catch (InterruptedException e) {
@@ -369,12 +436,34 @@ public class Controller implements PropertyChangeListener, Runnable {
 		} catch (ClassCastException e) {
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Typecasting of input-arrays failed!", e);
+		}*/
+
+		Object[] tempList = keyboardInputQueue.toArray();
+		keyboardInputQueue.clear();
+
+		if (tempList != null) {
+			if (tempList.length > 0) {
+				Integer[][] tempKeyList = Arrays.copyOf(tempList, tempList.length, Integer[][].class);
+				handleKeyboardInput(tempKeyList);
+			}
 		}
 
-		new Thread(gameModel).run();
+		tempList = mouseInputQueue.toArray();
+		mouseInputQueue.clear();
+
+		if (tempList != null) {
+			if (tempList.length > 0) {
+				Integer[][] tempMouseList = Arrays.copyOf(tempList, tempList.length, Integer[][].class);
+				handleMouseInput(tempMouseList);
+			}
+		}
+
+		//new Thread(gameModel).run();
+		gameModel.run();
 	}
 
-	private void sendKeyboardInputToModel(Integer[][] keyboardClicks) {
+	private void handleKeyboardInput(Integer[][] keyboardClicks) {
+		//System.out.println("Controller: handleKeyboardInput()");
 		// Keyboard input
 		if (keyboardClicks.length > 0) {
 			// Call methods in the model according to what key was pressed!
@@ -411,11 +500,13 @@ public class Controller implements PropertyChangeListener, Runnable {
 		}
 	}
 
-	private void sendMouseInputToModel(Integer[][] mouseClicks){
+	private void handleMouseInput(Integer[][] mouseClicks){
+		//System.out.println("Controller: handleMouseInput()");
 		// Mouse input
 		if(mouseClicks.length > 0) {
 			// Call methods in the model according to what button was pressed!
 
+			/*
 			new Thread() {
 				@Override
 				public void run() {
@@ -463,11 +554,54 @@ public class Controller implements PropertyChangeListener, Runnable {
 					}
 				}
 			}.run();
+			*/
+			for(Integer[] clicks : mouseClicks) {
+				// clicks[0] = If the mouse button is pressed/released/moved!
+				// clicks[1] = What mouse-button was pressed/released
+				// clicks[2] = x-value of where the mouse was pressed/released
+				// clicks[3] = y-value of where the mouse was pressed/released
+
+				if (clicks[0] == View.INPUT_ENUM.MOUSE_PRESSED.value) {
+					if(clicks[1] == Input.MOUSE_LEFT_BUTTON){
+
+						// TODO: HARDCODED TEST!!!!!
+						// TODO: HARDCODED TEST!!!!!
+						// TODO: HARDCODED TEST!!!!!
+						// TODO: HARDCODED TEST!!!!!
+						// TODO: HARDCODED TEST!!!!!
+						// TODO: HARDCODED TEST!!!!!
+
+						//gameModel.moveCharacterTo(clicks[2], clicks[3]);
+
+						// TODO: HARDCODED TEST!!!!!
+						// TODO: HARDCODED TEST!!!!!
+						// TODO: HARDCODED TEST!!!!!
+						// TODO: HARDCODED TEST!!!!!
+						// TODO: HARDCODED TEST!!!!!
+						// TODO: HARDCODED TEST!!!!!
+
+					}
+				}
+				else if (clicks[0] == View.INPUT_ENUM.MOUSE_RELEASED.value) {
+					;
+				}
+
+				// clicks[0] = If the mouse button is pressed/released/moved!
+				// clicks[1] = x-value of the old mouse position
+				// clicks[2] = y-value of the old mouse position
+				// clicks[3] = x-value of the new mouse position
+				// clicks[4] = y-value of the new mouse position
+				else if (clicks[0] == View.INPUT_ENUM.MOUSE_MOVED.value) {
+					mouseX = clicks[3];
+					mouseY = clicks[4];
+				}
+			}
 		}
 	}
 
 	private void handleViewEvent(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(View.INPUT_ENUM.KEY_PRESSED.toString()) || evt.getPropertyName().equals(View.INPUT_ENUM.KEY_RELEASED.toString())) {
+		//System.out.println("Controller: handleViewEvent()");
+/*		if (evt.getPropertyName().equals(View.INPUT_ENUM.KEY_PRESSED.toString()) || evt.getPropertyName().equals(View.INPUT_ENUM.KEY_RELEASED.toString())) {
 			// If the 'View' is sending 'Keyboard'-inputs, put them in the correct queue.
 			try {
 				Integer[] newValue = (Integer[]) evt.getNewValue();
@@ -501,10 +635,29 @@ public class Controller implements PropertyChangeListener, Runnable {
 				e.printStackTrace();
 				Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Semaphores were interrupted in 'handleViewEvent()' method!", e);
 			}
+		}*/
+
+		if (evt.getPropertyName().equals(View.INPUT_ENUM.KEY_PRESSED.toString()) || evt.getPropertyName().equals(View.INPUT_ENUM.KEY_RELEASED.toString())) {
+			// If the 'View' is sending 'Keyboard'-inputs, put them in the correct queue.
+			Integer[] newValue = (Integer[]) evt.getNewValue();
+			keyboardInputQueue.offer(newValue);
+		}
+		else if(evt.getPropertyName().equals(View.INPUT_ENUM.MOUSE_PRESSED.toString()) || evt.getPropertyName().equals(View.INPUT_ENUM.MOUSE_RELEASED.toString())){
+			// If the View is sending 'Mouse'-inputs, put them in the correct queue.
+			Integer[] newValue = (Integer[]) evt.getNewValue();
+			mouseInputQueue.offer(newValue);
+		}
+		else if(evt.getPropertyName().equals(View.INPUT_ENUM.MOUSE_MOVED.toString())){
+			Integer[] newValue = (Integer[]) evt.getNewValue();
+			mouseInputQueue.offer(newValue);
+		}
+		else if(evt.getPropertyName().equals("updateModel")){
+			updateModel();
 		}
 	}
 
 	private void handleModelEvent(PropertyChangeEvent evt){
+		//System.out.println("Controller: handleMouseEvent()");
 		if(evt.getPropertyName().equals("update")){
 			// Get coordinates of all objects in the viewable area!
 			updateView();
@@ -513,6 +666,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
+		//System.out.println("Controller: propertyChange()");
 		if(evt != null){
 			if(!evt.getPropertyName().equals(null)){
 				if(evt.getSource() instanceof BasicGameState){

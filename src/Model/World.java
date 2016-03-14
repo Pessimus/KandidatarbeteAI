@@ -1,16 +1,11 @@
 package Model;
 
-import View.View;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.Semaphore;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 /**
@@ -95,7 +90,7 @@ public class World implements Runnable{
 
 			sema.acquire();
 			for (ITimeable timedObj : timeables) {
-				timedObj.update();
+				timedObj.updateTimeable();
 			}
 
 			sema.release();
@@ -110,7 +105,8 @@ public class World implements Runnable{
 
 	@Override
 	public void run() {
-		try {
+		//System.out.println("World: run()");
+/*		try {
 			sema.acquire();
 
 			//this.collidables.handleCollision();//TODO Collision in Y-axis is not working yet.
@@ -118,9 +114,9 @@ public class World implements Runnable{
 			for (Character character : characters.values()) {
 				character.update();
 
-				/*if (character.getKey() < 5) {
+				*//*if (character.getKey() < 5) {
 					System.out.println(character.getHunger());
-				}*/
+				}*//*
 
 				if (!character.isAlive()) {
 					characters.remove(character.getKey(), character);
@@ -142,7 +138,7 @@ public class World implements Runnable{
 
 			sema.acquire();
 			for (ITimeable timedObj : timeables) {
-				timedObj.update();
+				timedObj.updateTimeable();
 			}
 
 			sema.release();
@@ -150,7 +146,37 @@ public class World implements Runnable{
 		catch(InterruptedException e){
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "interrupted when removing a dead character!", e);
+		}*/
+
+		for (ITimeable timedObj : timeables) {
+			timedObj.updateTimeable();
 		}
+
+		//System.out.println("World: run() - 2:nd");
+
+		for (Character character : characters.values()) {
+			character.update();
+
+			if (!character.isAlive()) {
+				characters.remove(character.getKey(), character);
+				collidables.remove(character);
+				collidablesR.remove(character);
+				timeables.remove(character);
+				//System.out.println("World: run() - dead");
+				//character = null;
+			} else {
+				//TODO IF x
+
+				character.moveX();
+				//END TODO IF x
+				//TODO IF y
+				character.moveY();
+				//END TODO IF y
+				//System.out.println("World: run() - move");
+			}
+		}
+
+		//System.out.println("World: run() - 3:rd");
 
 		firePropertyChange("update", 1);
 	}
@@ -158,6 +184,7 @@ public class World implements Runnable{
 	public Character addCharacter(float xPoss, float yPoss, int key){
 		Character character = new Character(xPoss, yPoss, key);
 
+		/*
 		try{
 			sema.acquire();
 			this.collidablesR.add(character);
@@ -170,6 +197,12 @@ public class World implements Runnable{
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "interrupted when adding new character!", e);
 		}
+		*/
+
+		this.collidablesR.add(character);
+		this.collidables.add(character);
+		this.timeables.add(character);
+		this.characters.put(key,character);
 
 		return character;
 	}
@@ -177,9 +210,10 @@ public class World implements Runnable{
 	private boolean addCollidable(double xPoss, double yPoss, double radius){return false;}
 
 	public List<RenderObject> getRenderObjects(){
+		System.out.println("World: getRenderObjects()");
 		LinkedList<RenderObject> renderObjects = new LinkedList<>();
 
-		try {
+/*		try {
 			sema.acquire();
 
 			for (ICollidable visible : collidablesR) {
@@ -191,6 +225,10 @@ public class World implements Runnable{
 		catch(InterruptedException e){
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "interrupted when sending render objects!", e);
+		}*/
+
+		for (ICollidable visible : collidablesR) {
+			renderObjects.add(visible.getRenderObject());
 		}
 
 		return renderObjects;

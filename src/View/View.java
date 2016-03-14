@@ -74,6 +74,8 @@ public class View extends BasicGameState implements InputListener{
 			resourceMap.put(e, new Image(e.pathToResource));
 		}
 
+		System.out.println("View Init");
+
 		//scaleX = gameContainer.getScreenWidth()/(Constants.HORIZONTAL_TILES * Constants.WORLD_TILE_SIZE);
 		//scaleY = gameContainer.getScreenHeight()/(Constants.VERTICAL_TILES* Constants.WORLD_TILE_SIZE);
     }
@@ -83,6 +85,8 @@ public class View extends BasicGameState implements InputListener{
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
 		Object[] tempList = null;
+
+		pcs.firePropertyChange("getModel", false, true);
 
 		/*
 		try {
@@ -123,10 +127,10 @@ public class View extends BasicGameState implements InputListener{
 		//graphics.scale(scaler,scaler);
 
 		try {
-			renderPointSema.acquire();
+			//renderPointSema.acquire();
 			map.render(0, 0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, Constants.HORIZONTAL_TILES, Constants.VERTICAL_TILES);
 			//map.render(0, 0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, width, height);
-			renderPointSema.release();
+			//renderPointSema.release();
 
 			semaphore.acquire();
 			if(listToRender != null){
@@ -242,6 +246,9 @@ public class View extends BasicGameState implements InputListener{
 	}
 
 	public void setRenderPoint(float x, float y){
+		renderPointX = (int) x;
+		renderPointY = (int) y;
+		/*
 		try {
 			renderPointSema.acquire();
 			renderPointX = (int) x;
@@ -252,5 +259,6 @@ public class View extends BasicGameState implements InputListener{
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
 		}
+		*/
 	}
 }

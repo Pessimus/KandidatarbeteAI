@@ -116,7 +116,7 @@ public class Character implements ICollidable, ITimeable {
 	public void checkCollision() {
 		for(ICollidable c : this.collideX){
 			if(this.collideY.contains(c)){
-				System.out.println("Krock med nåt!!!!!!!!!"+this.hashCode());
+				System.out.println("Krock med nï¿½t!!!!!!!!!"+this.hashCode());
 			}
 		}
 	}
@@ -130,7 +130,7 @@ public class Character implements ICollidable, ITimeable {
 
 
 	@Override
-	public void update() {
+	public void updateTimeable() {
 
 		//TODO Update needs
 		//TODO Implement ageing etc...
@@ -138,7 +138,12 @@ public class Character implements ICollidable, ITimeable {
 		//Updates counter with one but doesn't exceed 60.
 		updateCounter = (updateCounter+1) % 60;
 		updateNeeds();
-		moveAround();
+		//moveAround();
+	}
+
+	public void update(){
+		//System.out.println("Character: update()");
+		//moveAround();
 	}
 
 	public void updateNeeds() {
