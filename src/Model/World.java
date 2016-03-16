@@ -39,7 +39,7 @@ public class World implements Runnable{
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
-		for (int i = 0; i < 5; i += 1) {
+		for (int i = 0; i < 1; i += 1) {
 			int rx = (int) (Math.random()*1000);
 			int ry = (int) (Math.random()*1000);
 			addCharacter(rx, ry, i);
@@ -210,7 +210,7 @@ public class World implements Runnable{
 	private boolean addCollidable(double xPoss, double yPoss, double radius){return false;}
 
 	public List<RenderObject> getRenderObjects(){
-		System.out.println("World: getRenderObjects()");
+		//System.out.println("World: getRenderObjects()");
 		LinkedList<RenderObject> renderObjects = new LinkedList<>();
 
 /*		try {

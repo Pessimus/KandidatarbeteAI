@@ -322,12 +322,12 @@ public class Controller implements PropertyChangeListener, Runnable {
 			}
 		}
 
-		System.out.println(mouseX + ":" + mouseY);
+		//System.out.println(mouseX + ":" + mouseY);
 
 		if (mouseY >= Constants.SCREEN_EDGE_TRIGGER_MAX_Y) {
 			if (screenRect.getMaxY() < gameModel.getHeight()) {
 				//float temp = (float)(mouseY - Constants.SCREEN_EDGE_TRIGGER_MAX_Y);
-				System.out.println(screenRect.getMaxY());
+				//System.out.println(screenRect.getMaxY());
 				screenRect.translatePosition(0, Constants.SCREEN_SCROLL_SPEED_Y / Constants.CONTROLLER_UPDATE_INTERVAL);
 			} else {
 				//screenRect.translatePosition(0, (float)gameModel.getHeight() - screenRect.getMaxY());
@@ -336,7 +336,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 		} else if (mouseY <= Constants.SCREEN_EDGE_TRIGGER_MIN_Y) {
 			if (screenRect.getMinY() > 0) {
 				//float temp = (float)(mouseY - Constants.SCREEN_EDGE_TRIGGER_MIN_Y);
-				System.out.println(screenRect.getMinY());
+				//System.out.println(screenRect.getMinY());
 				screenRect.translatePosition(0, -Constants.SCREEN_SCROLL_SPEED_Y / Constants.CONTROLLER_UPDATE_INTERVAL);
 			} else {
 				//screenRect.translatePosition(0, -screenRect.getMinY());
@@ -347,10 +347,11 @@ public class Controller implements PropertyChangeListener, Runnable {
 		List<RenderObject> obj = gameModel.getRenderObjects();
 
 		for (RenderObject tempObj : obj) {
-			if (screenRect.contains(tempObj.getX(), tempObj.getY())) {
-				float[] tempInts = convertFromModelToViewCoords(tempObj.getX(), tempObj.getY());
+			float[] tempInts = convertFromModelToViewCoords(tempObj.getX(), tempObj.getY());
+			if (tempObj.getX()>0 || tempObj.getY()>0) {
 				temp.add(new RenderObject(tempInts[0], tempInts[1], tempObj.getRadius(), tempObj.getObjectType()));
 			}
+			System.out.println("X-pos: "+tempInts[0]+" Y-pos: "+tempInts[1]);
 		}
 
 		gameView.setRenderPoint(screenRect.getMinX(), screenRect.getMinY());

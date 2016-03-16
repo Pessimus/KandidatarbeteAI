@@ -74,7 +74,7 @@ public class View extends BasicGameState implements InputListener{
 			resourceMap.put(e, new Image(e.pathToResource));
 		}
 
-		System.out.println("View Init");
+		//System.out.println("View Init");
 
 		//scaleX = gameContainer.getScreenWidth()/(Constants.HORIZONTAL_TILES * Constants.WORLD_TILE_SIZE);
 		//scaleY = gameContainer.getScreenHeight()/(Constants.VERTICAL_TILES* Constants.WORLD_TILE_SIZE);
@@ -128,7 +128,7 @@ public class View extends BasicGameState implements InputListener{
 
 		try {
 			//renderPointSema.acquire();
-			map.render(0, 0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, Constants.HORIZONTAL_TILES, Constants.VERTICAL_TILES);
+			map.render(0,0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, Constants.HORIZONTAL_TILES, Constants.VERTICAL_TILES);
 			//map.render(0, 0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, width, height);
 			//renderPointSema.release();
 
