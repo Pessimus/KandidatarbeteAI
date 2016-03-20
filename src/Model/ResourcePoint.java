@@ -10,14 +10,16 @@ public class ResourcePoint implements ICollidable {
 	private float yPos;
 	private double collisionRadius;
 
-	private RenderObject.RENDER_OBJECT_ENUM renderObjectenum;
+	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum;
+
+	private RenderObject latestRenderObject;
 
 	public ResourcePoint(IResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float x, float y, double radius){
 		resource = resourceType;
 		xPos = x;
 		yPos = y;
 		collisionRadius = radius;
-		renderObjectenum = renderEnum;
+		renderObjectEnum = renderEnum;
 	}
 
 	@Override
@@ -58,7 +60,19 @@ public class ResourcePoint implements ICollidable {
 		return resource.gatherResource();
 	}
 
-	public RenderObject getRenderObject(){
-		return new RenderObject(xPos, yPos, collisionRadius, RenderObject.RENDER_OBJECT_ENUM.TREE);
+	@Override
+	public RenderObject getRenderObject() {
+		if(latestRenderObject != null) {
+			if (latestRenderObject.compare(this)) {
+				return latestRenderObject;
+			}
+		}
+
+		return new RenderObject(getX(), getY(), getCollisionRadius(), renderObjectEnum);
+	}
+
+	@Override
+	public RenderObject.RENDER_OBJECT_ENUM getRenderType() {
+		return renderObjectEnum;
 	}
 }

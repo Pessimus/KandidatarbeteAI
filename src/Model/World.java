@@ -2,6 +2,7 @@ package Model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class World implements Runnable{
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
-		for (int i = 0; i < 1; i += 1) {
+		for (int i = 0; i < 10; i += 1) {
 			int rx = (int) (Math.random()*1000);
 			int ry = (int) (Math.random()*1000);
 			addCharacter(rx, ry, i);
@@ -209,9 +210,9 @@ public class World implements Runnable{
 
 	private boolean addCollidable(double xPoss, double yPoss, double radius){return false;}
 
-	public List<RenderObject> getRenderObjects(){
+	public RenderObject[] getRenderObjects(){
 		//System.out.println("World: getRenderObjects()");
-		LinkedList<RenderObject> renderObjects = new LinkedList<>();
+		RenderObject[] renderObjects = new RenderObject[collidables.getSize()];
 
 /*		try {
 			sema.acquire();
@@ -227,8 +228,8 @@ public class World implements Runnable{
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "interrupted when sending render objects!", e);
 		}*/
 
-		for (ICollidable visible : collidablesR) {
-			renderObjects.add(visible.getRenderObject());
+		for (int i = 0; i < collidablesR.size(); i++) {
+			renderObjects[i] = collidablesR.get(i).getRenderObject();
 		}
 
 		return renderObjects;

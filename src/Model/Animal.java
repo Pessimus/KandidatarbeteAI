@@ -6,6 +6,11 @@ package Model;
 public class Animal implements ICollidable {
 	IResource resource;
 
+	// TODO: Enum type for animal
+	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
+
+	private RenderObject latestRenderObject;
+
 	public Animal(){
 		;
 	}
@@ -46,6 +51,17 @@ public class Animal implements ICollidable {
 
 	@Override
 	public RenderObject getRenderObject() {
-		return null;
+		if(latestRenderObject != null) {
+			if (latestRenderObject.compare(this)) {
+				return latestRenderObject;
+			}
+		}
+
+		return new RenderObject(getX(), getY(), getCollisionRadius(), renderObjectEnum);
+	}
+
+	@Override
+	public RenderObject.RENDER_OBJECT_ENUM getRenderType() {
+		return renderObjectEnum;
 	}
 }

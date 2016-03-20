@@ -301,15 +301,15 @@ public class Controller implements PropertyChangeListener, Runnable {
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Semaphores were interrupted in 'updateView()' method!", e);
 		}*/
-
 		if (mouseX >= Constants.SCREEN_EDGE_TRIGGER_MAX_X) {
-			if (screenRect.getMaxX() < gameModel.getWidth()) {
+			float width = (float)gameModel.getWidth();
+			if (screenRect.getMaxX() < width) {
 				//float temp = (float)(mouseX - Constants.SCREEN_EDGE_TRIGGER_MAX_X);
 				screenRect.translatePosition(Constants.SCREEN_SCROLL_SPEED_X / Constants.CONTROLLER_UPDATE_INTERVAL, 0);
 				//System.out.println("Right side: " + screenRect.getMaxX());
 			} else {
 				//screenRect.translatePosition((float)gameModel.getWidth() - screenRect.getMaxX(), 0);
-				screenRect.setMaxX((float) gameModel.getWidth());
+				screenRect.setMaxX(width);
 			}
 		} else if (mouseX <= Constants.SCREEN_EDGE_TRIGGER_MIN_X) {
 			if (screenRect.getMinX() > 0) {
@@ -325,13 +325,14 @@ public class Controller implements PropertyChangeListener, Runnable {
 		//System.out.println(mouseX + ":" + mouseY);
 
 		if (mouseY >= Constants.SCREEN_EDGE_TRIGGER_MAX_Y) {
-			if (screenRect.getMaxY() < gameModel.getHeight()) {
+			float height = (float)gameModel.getHeight();
+			if (screenRect.getMaxY() < height) {
 				//float temp = (float)(mouseY - Constants.SCREEN_EDGE_TRIGGER_MAX_Y);
 				//System.out.println(screenRect.getMaxY());
 				screenRect.translatePosition(0, Constants.SCREEN_SCROLL_SPEED_Y / Constants.CONTROLLER_UPDATE_INTERVAL);
 			} else {
 				//screenRect.translatePosition(0, (float)gameModel.getHeight() - screenRect.getMaxY());
-				screenRect.setMaxY((float) gameModel.getHeight());
+				screenRect.setMaxY(height);
 			}
 		} else if (mouseY <= Constants.SCREEN_EDGE_TRIGGER_MIN_Y) {
 			if (screenRect.getMinY() > 0) {
@@ -344,14 +345,13 @@ public class Controller implements PropertyChangeListener, Runnable {
 			}
 		}
 
-		List<RenderObject> obj = gameModel.getRenderObjects();
+		RenderObject[] obj = gameModel.getRenderObjects();
 
 		for (RenderObject tempObj : obj) {
-			float[] tempInts = convertFromModelToViewCoords(tempObj.getX(), tempObj.getY());
 			if (tempObj.getX()>0 || tempObj.getY()>0) {
-				temp.add(new RenderObject(tempInts[0], tempInts[1], tempObj.getRadius(), tempObj.getObjectType()));
+				float[] tempInts = convertFromModelToViewCoords(tempObj.getX(), tempObj.getY());
+				temp.add(new RenderObject(tempInts[0], tempInts[1], tempObj.getRadius(), tempObj.getRenderType()));
 			}
-			System.out.println("X-pos: "+tempInts[0]+" Y-pos: "+tempInts[1]);
 		}
 
 		gameView.setRenderPoint(screenRect.getMinX(), screenRect.getMinY());

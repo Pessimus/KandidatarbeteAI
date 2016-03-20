@@ -29,14 +29,15 @@ public class View extends BasicGameState implements InputListener{
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private int stateNr;
     private TiledMap map;
-    private int renderPointX = (int)Constants.DEFAULT_WORLD_VIEW_X;
-    private int renderPointY = (int)Constants.DEFAULT_WORLD_VIEW_Y;
 
 	private Semaphore renderPointSema = new Semaphore(1);
 
-    private float scaler = 3f;
+	private volatile int renderPointX = (int)Constants.DEFAULT_WORLD_VIEW_X;
+	private volatile int renderPointY = (int)Constants.DEFAULT_WORLD_VIEW_Y;
+
+    private volatile float scaler = 1f;
     //List<RenderObject> listToRender = new LinkedList<>();
-	RenderObject[] listToRender = {};
+	private RenderObject[] listToRender = {};
 
 
 	private final Semaphore semaphore = new Semaphore(1);
@@ -44,7 +45,8 @@ public class View extends BasicGameState implements InputListener{
 
     public enum INPUT_ENUM {
 		KEY_RELEASED(0), KEY_PRESSED(1),
-		MOUSE_RELEASED(0), MOUSE_PRESSED(1), MOUSE_MOVED(2);
+		MOUSE_RELEASED(0), MOUSE_PRESSED(1), MOUSE_MOVED(2),
+		MOUSE_WHEEL_MOVED(0);
 
         public int value;
         //String
@@ -73,20 +75,14 @@ public class View extends BasicGameState implements InputListener{
 		for(RenderObject.RENDER_OBJECT_ENUM e : RenderObject.RENDER_OBJECT_ENUM.values()){
 			resourceMap.put(e, new Image(e.pathToResource));
 		}
-
-		//System.out.println("View Init");
-
-		//scaleX = gameContainer.getScreenWidth()/(Constants.HORIZONTAL_TILES * Constants.WORLD_TILE_SIZE);
-		//scaleY = gameContainer.getScreenHeight()/(Constants.VERTICAL_TILES* Constants.WORLD_TILE_SIZE);
     }
-
-	RenderObject[] tempRenderList = null;
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-		Object[] tempList = null;
-
 		pcs.firePropertyChange("getModel", false, true);
+
+		tempWidth = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE/scaler);
+		tempHeight = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE/scaler);
 
 		/*
 		try {
@@ -120,15 +116,16 @@ public class View extends BasicGameState implements InputListener{
         }
     }
 
+	private int tempWidth;
+	private int tempHeight;
+
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-		//int width = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE/scaler);
-		//int height = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE/scaler);
-		//graphics.scale(scaler,scaler);
+		graphics.scale(scaler,scaler);
 
 		try {
 			//renderPointSema.acquire();
-			map.render(0,0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, Constants.HORIZONTAL_TILES, Constants.VERTICAL_TILES);
+			map.render(0,0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, tempWidth, tempHeight);
 			//map.render(0, 0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, width, height);
 			//renderPointSema.release();
 
@@ -136,7 +133,7 @@ public class View extends BasicGameState implements InputListener{
 			if(listToRender != null){
 				if(listToRender.length > 0) {
 					for (RenderObject obj : listToRender) {
-						resourceMap.get(obj.getObjectType()).draw(obj.getX(), obj.getY());
+						resourceMap.get(obj.getRenderType()).draw(obj.getX(), obj.getY());
 					}
 				}
 			}
@@ -224,6 +221,11 @@ public class View extends BasicGameState implements InputListener{
 	public void mouseReleased(int button, int x, int y){
 		//notifyMouseInput(new Integer[]{INPUT_ENUM.MOUSE_PRESSED.value, button, x, y});
 		pcs.firePropertyChange(INPUT_ENUM.MOUSE_RELEASED.toString(), 0, new Integer[]{INPUT_ENUM.MOUSE_RELEASED.value, button, x, y});
+	}
+
+	@Override
+	public void mouseWheelMoved(int var){
+		pcs.firePropertyChange(INPUT_ENUM.MOUSE_WHEEL_MOVED.toString(), 0, new Integer[]{INPUT_ENUM.MOUSE_WHEEL_MOVED.value, var});
 	}
 
     public void addPropertyChangeListener(PropertyChangeListener listener){

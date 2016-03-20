@@ -28,6 +28,8 @@ public class Character implements ICollidable, ITimeable {
 
 	private Inventory inventory;
 
+	private volatile RenderObject latestRenderObject;
+
 	//----------------Collision------------------
 	private LinkedList<ICollidable> collideX;
 	private LinkedList<ICollidable> collideY;
@@ -123,9 +125,20 @@ public class Character implements ICollidable, ITimeable {
 
 	@Override
 	public RenderObject getRenderObject() {
+		if(latestRenderObject != null) {
+			if (latestRenderObject.compare(this)) {
+				return latestRenderObject;
+			}
+		}
+
 		return new RenderObject(getX(), getY(), getCollisionRadius(), renderObjectEnum);
 	}
-	
+
+	@Override
+	public RenderObject.RENDER_OBJECT_ENUM getRenderType() {
+		return renderObjectEnum;
+	}
+
 	public int getHunger() {return this.hunger;}
 
 
