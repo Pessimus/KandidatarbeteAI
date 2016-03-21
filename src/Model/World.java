@@ -24,6 +24,7 @@ public class World implements Runnable{
 	private double width;
 	private double height;
 
+
 	private Semaphore sema = new Semaphore(1);
 
 	public World (double width, double height){
@@ -33,6 +34,7 @@ public class World implements Runnable{
 		this.collidablesR = new LinkedList<>();
 		this.timeables = new LinkedList<>();
 		this.characters = new HashMap<>();
+		addCharacter(450,600,1);
 
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
@@ -40,11 +42,11 @@ public class World implements Runnable{
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
-		for (int i = 0; i < 10; i += 1) {
+		/*for (int i = 0; i < 10; i += 1) {
 			int rx = (int) (Math.random()*1000);
 			int ry = (int) (Math.random()*1000);
 			addCharacter(rx, ry, i);
-		}
+		}*/
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
@@ -278,4 +280,86 @@ public class World implements Runnable{
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
 	*/
+
+	public void movePlayerUp(){
+		for(Character c : characters.values()){
+			if(c.getKey() == 1){
+				c.startWalkingUp();
+			}
+		}
+	}
+
+	public void movePlayerDown(){
+		for(Character c : characters.values()){
+			if(c.getKey() == 1){
+				c.startWalkingDown();
+			}
+		}
+	}
+
+	public void movePlayerLeft(){
+		for(Character c : characters.values()){
+			if(c.getKey() == 1){
+				c.startWalkingLeft();
+			}
+		}
+	}
+
+	public void movePlayerRight(){
+		for(Character c : characters.values()){
+			if(c.getKey() == 1){
+				c.startWalkingRight();
+			}
+		}
+	}
+
+	public void stopPlayerUp(){
+		for(Character c : characters.values()){
+			if(c.getKey() == 1){
+				c.stopWalkingUp();
+			}
+		}
+	}
+
+	public void stopPlayerDown(){
+		for(Character c : characters.values()){
+			if(c.getKey() == 1){
+				c.stopWalkingDown();
+			}
+		}
+	}
+
+	public void stopPlayerRight(){
+		for(Character c : characters.values()){
+			if(c.getKey() == 1){
+				c.stopWalkingRight();
+			}
+		}
+	}
+
+	public void stopPlayerLeft(){
+		for(Character c : characters.values()){
+			if(c.getKey() == 1){
+				c.stopWalkingLeft();
+			}
+		}
+	}
+
+	public void playerRunning(){
+		for(Character c : characters.values()){
+			if(c.getKey() == 1){
+				c.startRunning();
+			}
+		}
+	}
+
+	public void playerWalking(){
+		for(Character c : characters.values()){
+			if(c.getKey() == 1){
+				c.stopRunning();
+			}
+		}
+	}
 }
+
+

@@ -16,12 +16,17 @@ public class Character implements ICollidable, ITimeable {
 	private double interactionRadius;
 	private float xSpeed;
 	private float ySpeed;
-	private boolean walkingRight = true;
 
 	private int updateCounter = 0;
 	private final int updateHunger = 20;
 	private final int updateThirst = 40;
 	private final int updateEnergy = 20;
+
+	// Tells the update function for each character if they are currently walking in any direction;
+	private boolean walkingUp = false;
+	private boolean walkingDown = false;
+	private boolean walkingLeft = false;
+	private boolean walkingRight = false;
 
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
 
@@ -54,7 +59,7 @@ public class Character implements ICollidable, ITimeable {
 	private int intimacy;
 	private int attention;
 
-	private final int stepLength = 3;
+	private int stepLength = 6;
 
 	//private double timeableInterval;
 	private int key;
@@ -150,7 +155,17 @@ public class Character implements ICollidable, ITimeable {
 
 		//Updates counter with one but doesn't exceed 60.
 		updateCounter = (updateCounter+1) % 60;
-		updateNeeds();
+		if(updateCounter % 60 == 0) {
+			if(walkingUp)
+				walkUp();
+			if(walkingDown)
+				walkDown();
+			if(walkingRight)
+				walkRight();
+			if(walkingLeft)
+				walkLeft();
+		}
+		//updateNeeds();
 		//moveAround();
 	}
 
@@ -269,6 +284,46 @@ public class Character implements ICollidable, ITimeable {
 			}
 		}
 
+	}
+
+	public void startWalkingUp(){
+		walkingUp=true;
+	}
+
+	public void startWalkingDown(){
+		walkingDown=true;
+	}
+
+	public void startWalkingRight(){
+		walkingRight=true;
+	}
+
+	public void startWalkingLeft(){
+		walkingLeft=true;
+	}
+
+	public void stopWalkingUp(){
+		walkingUp=false;
+	}
+
+	public void stopWalkingDown(){
+		walkingDown=false;
+	}
+
+	public void stopWalkingRight(){
+		walkingRight=false;
+	}
+
+	public void stopWalkingLeft(){
+		walkingLeft=false;
+	}
+
+	public void startRunning(){
+		stepLength = 12;
+	}
+
+	public void stopRunning(){
+		stepLength = 6;
 	}
 
 	public int getSteplength(){

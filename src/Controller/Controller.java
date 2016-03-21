@@ -476,25 +476,40 @@ public class Controller implements PropertyChangeListener, Runnable {
 					for (Integer[] clicks : keyboardClicks) {
 						// clicks[0] = Whether the key was pressed/released (1: Pressed, 0: Released)
 						// clicks[1] = What key was pressed/released
-						if (clicks[0] == View.INPUT_ENUM.KEY_PRESSED.value)
+						if (clicks[0] == View.INPUT_ENUM.KEY_PRESSED.value) {
+
 							if (clicks[1] == Input.KEY_UP) {
-								;
-							}
-							else if (clicks[1] == Input.KEY_DOWN) {
-								;
-							}
-							else if (clicks[1] == Input.KEY_LEFT) {
-								;
-							}
-							else if (clicks[1] == Input.KEY_RIGHT) {
-								;
-							}
-							else if (clicks[1] == Input.KEY_ADD) {
+								gameModel.movePlayerUp();
+							} else if (clicks[1] == Input.KEY_DOWN) {
+								gameModel.movePlayerDown();
+							} else if (clicks[1] == Input.KEY_LEFT) {
+								gameModel.movePlayerLeft();
+							} else if (clicks[1] == Input.KEY_RIGHT) {
+								gameModel.movePlayerRight();
+							} else if (clicks[1] == Input.KEY_ADD) {
 								; // TODO: Zoom in
-							}
-							else if (clicks[1] == Input.KEY_ADD) {
+							} else if (clicks[1] == Input.KEY_ADD) {
 								; // TODO: Zoom out
+							}else if(clicks[1] == Input.KEY_R){
+								gameModel.playerRunning();
 							}
+						}else if(clicks[0] == View.INPUT_ENUM.KEY_RELEASED.value){
+							if (clicks[1] == Input.KEY_UP) {
+								gameModel.stopPlayerUp();
+							} else if (clicks[1] == Input.KEY_DOWN) {
+								gameModel.stopPlayerDown();
+							} else if (clicks[1] == Input.KEY_LEFT) {
+								gameModel.stopPlayerLeft();
+							} else if (clicks[1] == Input.KEY_RIGHT) {
+								gameModel.stopPlayerRight();
+							} else if (clicks[1] == Input.KEY_ADD) {
+								; // TODO: Zoom in
+							} else if (clicks[1] == Input.KEY_ADD) {
+								; // TODO: Zoom out
+							}else if(clicks[1] == Input.KEY_R){
+								gameModel.playerWalking();
+							}
+						}
 					}
 				}
 			}.run();
