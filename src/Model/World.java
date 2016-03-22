@@ -282,83 +282,43 @@ public class World implements Runnable{
 	*/
 
 	public void movePlayerUp(){
-		for(Character c : characters.values()){
-			if(c.getKey() == 1){
-				c.startWalkingUp();
-			}
-		}
+		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingUp();
 	}
 
 	public void movePlayerDown(){
-		for(Character c : characters.values()){
-			if(c.getKey() == 1){
-				c.startWalkingDown();
-			}
-		}
+		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingDown();
 	}
 
 	public void movePlayerLeft(){
-		for(Character c : characters.values()){
-			if(c.getKey() == 1){
-				c.startWalkingLeft();
-			}
-		}
+		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingLeft();
 	}
 
 	public void movePlayerRight(){
-		for(Character c : characters.values()){
-			if(c.getKey() == 1){
-				c.startWalkingRight();
-			}
-		}
+		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingRight();
 	}
 
 	public void stopPlayerUp(){
-		for(Character c : characters.values()){
-			if(c.getKey() == 1){
-				c.stopWalkingUp();
-			}
-		}
+		characters.get(Constants.PLAYER_CHARACTER_KEY).stopWalkingUp();
 	}
 
 	public void stopPlayerDown(){
-		for(Character c : characters.values()){
-			if(c.getKey() == 1){
-				c.stopWalkingDown();
-			}
-		}
+		characters.get(Constants.PLAYER_CHARACTER_KEY).stopWalkingDown();
 	}
 
 	public void stopPlayerRight(){
-		for(Character c : characters.values()){
-			if(c.getKey() == 1){
-				c.stopWalkingRight();
-			}
-		}
+		characters.get(Constants.PLAYER_CHARACTER_KEY).stopWalkingRight();
 	}
 
 	public void stopPlayerLeft(){
-		for(Character c : characters.values()){
-			if(c.getKey() == 1){
-				c.stopWalkingLeft();
-			}
-		}
+		characters.get(Constants.PLAYER_CHARACTER_KEY).stopWalkingLeft();
 	}
 
 	public void playerRunning(){
-		for(Character c : characters.values()){
-			if(c.getKey() == 1){
-				c.startRunning();
-			}
-		}
+		characters.get(Constants.PLAYER_CHARACTER_KEY).startRunning();
 	}
 
 	public void playerWalking(){
-		for(Character c : characters.values()){
-			if(c.getKey() == 1){
-				c.stopRunning();
-			}
-		}
+		characters.get(Constants.PLAYER_CHARACTER_KEY).stopRunning();
 	}
 }
 
