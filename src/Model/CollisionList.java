@@ -78,7 +78,7 @@ public class CollisionList {
 
 			@Override
 			public double getCollisionRadius() {
-				return -10000;
+				return 0;
 			}
 
 			@Override
@@ -200,7 +200,9 @@ public class CollisionList {
 		previous.previous=next;
 
 		next.previous.next = next;
-		previous.next.previous = previous;
+		if (previous.next != null) {
+			previous.next.previous = previous;
+		}
 	}
 
 	private void handleCollisionLeftX(Node node, Node left){
@@ -211,9 +213,9 @@ public class CollisionList {
 	}
 
 	private void handleCollisionRightX(Node node, Node right){
-		if(right.value.getX() - node.value.getX() <= node.value.getCollisionRadius()*2){
+		if(right != null && right.value.getX() - node.value.getX() <= node.value.getCollisionRadius()*2){
 			node.value.addToCollideX(right.value);
-			handleCollisionRightX(node, right.previous);
+			handleCollisionRightX(node, right.next);
 		}
 	}
 
@@ -226,9 +228,9 @@ public class CollisionList {
 	}
 
 	private void handleCollisionRightY(Node node, Node right){
-		if (right.value.getY() - node.value.getY() <= node.value.getCollisionRadius()*2){
+		if (right != null && right.value.getY() - node.value.getY() <= node.value.getCollisionRadius()*2){
 			node.value.addToCollideY(right.value);
-			handleCollisionRightY(node, right.previous);
+			handleCollisionRightY(node, right.next);
 		}
 	}
 
@@ -240,6 +242,8 @@ public class CollisionList {
 
 		this.sortX();
 		this.sortY();
+
+		//this.print();
 
 		//try {
 			Node loopXNode = startNodeX;
@@ -271,9 +275,20 @@ public class CollisionList {
 		Node tmp = startNodeX.next;
 
 		while(tmp != null){
-			System.out.println(tmp.value.getY());
+			System.out.print(tmp.value.getX()+" - ");
 			tmp = tmp.next;
 		}
+		Node tmp2 = startNodeY.next;
+		System.out.println();
+		while(tmp2 != null){
+			System.out.print(tmp2.value.getY()+" - ");
+			tmp2 = tmp2.next;
+		}
+		System.out.println();
+		System.out.println();
+		System.out.println();
+
+
 	}
 
 	private class Node{

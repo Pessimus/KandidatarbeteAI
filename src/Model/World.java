@@ -49,7 +49,7 @@ public class World implements Runnable{
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
-		/*for (int i = 0; i < 10; i += 1) {
+		/*for (int i = 5; i < 500; i += 1) {
 			int rx = (int) (Math.random()*1000);
 			int ry = (int) (Math.random()*1000);
 			addCharacter(rx, ry, i);
@@ -71,7 +71,7 @@ public class World implements Runnable{
 		try {
 			sema.acquire();
 
-			//this.collidables.handleCollision();//TODO Collision in Y-axis is not working yet. 
+			//this.collidables.handleCollision();//TODO Collision in Y-axis is not working yet.
 
 			for (Character character : characters.values()) {
 				character.update();
@@ -183,7 +183,11 @@ public class World implements Runnable{
 				//System.out.println("World: run() - move");
 			}
 		}
-
+		//try{
+			this.collidables.handleCollision();//TODO Collision in Y-axis is not working yet.
+		//}catch (Exception e){
+			//e.printStackTrace();
+		//}
 		//System.out.println("World: run() - 3:rd");
 		removeObjects();
 		firePropertyChange("update", 1);
@@ -330,84 +334,50 @@ public class World implements Runnable{
 	*/
 
 	public void movePlayerUp(){
-		for(Character c : characters.values()){
-			if(c.getKey() == 1){
-				c.startWalkingUp();
-			}
-		}
+		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingUp();
 	}
 
 	public void movePlayerDown(){
-		for(Character c : characters.values()){
-			if(c.getKey() == 1){
-				c.startWalkingDown();
-			}
-		}
+		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingDown();
 	}
 
 	public void movePlayerLeft(){
-		for(Character c : characters.values()){
-			if(c.getKey() == 1){
-				c.startWalkingLeft();
-			}
-		}
+		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingLeft();
 	}
 
 	public void movePlayerRight(){
-		for(Character c : characters.values()){
-			if(c.getKey() == 1){
-				c.startWalkingRight();
-			}
-		}
+		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingRight();
 	}
 
 	public void stopPlayerUp(){
-		for(Character c : characters.values()){
-			if(c.getKey() == 1){
-				c.stopWalkingUp();
-			}
-		}
+		characters.get(Constants.PLAYER_CHARACTER_KEY).stopWalkingUp();
 	}
 
 	public void stopPlayerDown(){
-		for(Character c : characters.values()){
-			if(c.getKey() == 1){
-				c.stopWalkingDown();
-			}
-		}
+		characters.get(Constants.PLAYER_CHARACTER_KEY).stopWalkingDown();
 	}
 
 	public void stopPlayerRight(){
-		for(Character c : characters.values()){
-			if(c.getKey() == 1){
-				c.stopWalkingRight();
-			}
-		}
+		characters.get(Constants.PLAYER_CHARACTER_KEY).stopWalkingRight();
 	}
 
 	public void stopPlayerLeft(){
-		for(Character c : characters.values()){
-			if(c.getKey() == 1){
-				c.stopWalkingLeft();
-			}
-		}
+		characters.get(Constants.PLAYER_CHARACTER_KEY).stopWalkingLeft();
 	}
 
 	public void playerRunning(){
-		for(Character c : characters.values()){
-			if(c.getKey() == 1){
-				c.startRunning();
-			}
-		}
+		characters.get(Constants.PLAYER_CHARACTER_KEY).startRunning();
 	}
 
 	public void playerWalking(){
-		for(Character c : characters.values()){
-			if(c.getKey() == 1){
-				c.stopRunning();
-			}
-		}
+		characters.get(Constants.PLAYER_CHARACTER_KEY).stopRunning();
 	}
+
+	public void displayPlayerInventory(){
+		characters.get(Constants.PLAYER_CHARACTER_KEY).displayInventory();
+	}
+
+
 }
 
 

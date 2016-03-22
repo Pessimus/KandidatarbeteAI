@@ -2,7 +2,6 @@ package Controller;
 
 import Model.Character;
 
-import java.util.LinkedList;
 /**
  * Created by Gustav on 2016-03-04.
  */
@@ -34,6 +33,11 @@ public class PathStep {
     public boolean stepTowards (Character c) {
         double diffx = nodex - c.getX();
         double diffy = nodey - c.getY();
+        int ret = 0;
+
+        if (reached(c.getX(), c.getY(), c.getSteplength())) {
+            return true;
+        }
 
         if (diffx > c.getSteplength()) {
             //if the character should move right
@@ -41,6 +45,8 @@ public class PathStep {
         } else if (diffx < -c.getSteplength()) {
             //if the character should move left
             c.walkLeft();
+        } else {
+            ret += 1;
         }
 
         if (diffy > c.getSteplength()) {
@@ -49,9 +55,11 @@ public class PathStep {
         } else if (diffy < -c.getSteplength()) {
             //if the character should move left
             c.walkUp();
+        } else {
+            ret += 1;
         }
 
-        return reached(c.getX(), c.getY(), c.getSteplength());
+        return ret == 2;
     }
 
     // returns the direction (in degrees) from the given coordinates towards this node (not implemented)

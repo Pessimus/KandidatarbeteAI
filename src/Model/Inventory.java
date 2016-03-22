@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ public class Inventory{
 	List<IItem> inventoryItems;
 
 	public Inventory(){
-		;
+		inventoryItems = new LinkedList<IItem>();
 	}
 
 	public Inventory(List<IItem> startingItems){
@@ -24,5 +25,9 @@ public class Inventory{
 		return inventoryItems.add(item);
 	}
 
-	boolean removeItem(IItem item){return inventoryItems.remove(item);	}
+	boolean removeItem(IItem item){
+		return inventoryItems.remove(item);
+	}
+
+
 }

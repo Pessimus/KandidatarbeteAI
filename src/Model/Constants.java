@@ -29,6 +29,7 @@ public final class Constants {
 	public static final 	boolean 	RUN_IN_FULLSCREEN 					= 	false;
 	public static final 	long		CONTROLLER_UPDATE_INTERVAL			= 	1; // Interval in milliseconds
 
+	public static final		int			PLAYER_CHARACTER_KEY				= 	1;
 
 	public static final 	int 		WORLD_TILE_SIZE						= 	32;
 	public static final 	int 		VERTICAL_TILES						=	(int) (SCREEN_HEIGHT /WORLD_TILE_SIZE);

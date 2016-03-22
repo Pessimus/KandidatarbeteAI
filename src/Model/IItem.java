@@ -5,4 +5,6 @@ package Model;
  */
 public interface IItem {
 	String getActions();
+	int getAmount();
+	void setAmount(int value);
 }
