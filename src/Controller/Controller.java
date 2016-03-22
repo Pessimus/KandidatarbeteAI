@@ -35,6 +35,8 @@ public class Controller implements PropertyChangeListener, Runnable {
 	private float mouseX;
 	private float mouseY;
 
+	private boolean showingPlayerInventory = false;
+
 	public Pathfinder pathCalculator = new Pathfinder(16, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, 1, 1.4);
 
 	private final class ModelToViewRectangle{
@@ -510,6 +512,14 @@ public class Controller implements PropertyChangeListener, Runnable {
 								; // TODO: Zoom out
 							}else if(clicks[1] == Input.KEY_R){
 								gameModel.playerWalking();
+							}else if(clicks[1] == Input.KEY_I){
+								showingPlayerInventory = !showingPlayerInventory;
+								if(showingPlayerInventory){
+									gameModel.displayPlayerInventory();
+								}else{
+									System.out.println("Player Inventory Hidden");
+									//gameModel.hidePlayerInventory();
+								}
 							}
 						}
 					}

@@ -170,8 +170,11 @@ public class CollisionList {
 		Node tmpX = startNodeX.next;
 		while (tmpX != null){
 			if (tmpX.value == collidable){//Yes we want ==
-				tmpX.previous.next = tmpX.next;
-				tmpX.next.previous = tmpX.previous;
+
+				if(tmpX.next != null && tmpX.previous != null) {
+					tmpX.previous.next = tmpX.next;
+					tmpX.next.previous = tmpX.previous;
+				}
 				this.size--;
 				break;
 			}
@@ -181,8 +184,10 @@ public class CollisionList {
 		Node tmpY = startNodeY.next;
 		while (tmpY != null){
 			if (tmpY.value == collidable){//Yes we want ==
-				tmpY.previous.next = tmpY.next;
-				tmpY.next.previous = tmpY.previous;
+				if (tmpY.previous != null && tmpY.next != null) {
+					tmpY.previous.next = tmpY.next;
+					tmpY.next.previous = tmpY.previous;
+				}
 				break;
 			}
 			tmpY = tmpY.next;
