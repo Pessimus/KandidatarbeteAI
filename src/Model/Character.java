@@ -77,9 +77,9 @@ public class Character implements ICollidable, ITimeable {
 		//Create inventory
 		inventory = new Inventory();
 
-		this.hunger = 1000;
-		this.thirst = 1000;
-		this.energy = 1000;
+		this.hunger = 100;
+		this.thirst = 100;
+		this.energy = 100;
 
 		this.pathTest = new Pathfinder(16, 9600, 9600, 1, 1.4);
 		this.pathTest.updateMask(new CollisionList());
@@ -172,6 +172,7 @@ public class Character implements ICollidable, ITimeable {
 	public void update(){
 		//System.out.println("Character: update()");
 		//moveAround();
+		updateNeeds();
 	}
 
 	public void updateNeeds() {
