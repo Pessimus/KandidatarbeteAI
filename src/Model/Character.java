@@ -109,13 +109,11 @@ public class Character implements ICollidable, ITimeable {
 
 	@Override
 	public void addToCollideX(ICollidable rhs) {
-		System.out.println("--------------------1-1-1-1-1-1-1-1--1-1-1-");
 		this.collideX.add(rhs);
 	}
 
 	@Override
 	public void addToCollideY(ICollidable rhs) {
-		System.out.println("--------------------2-2-2-2-2-2-2-2--2-2-2-");
 		this.collideY.add(rhs);
 	}
 
@@ -126,6 +124,8 @@ public class Character implements ICollidable, ITimeable {
 				System.out.println("Krock med n�t!!!!!!!!!"+this.hashCode());
 			}
 		}
+		this.collideX.clear();
+		this.collideY.clear();
 	}
 
 	@Override
