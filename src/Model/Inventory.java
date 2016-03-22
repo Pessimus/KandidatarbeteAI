@@ -7,17 +7,17 @@ import java.util.List;
  * Created by Tobias on 2016-02-26.
  */
 public class Inventory{
-	List<IItem> inventoryItems;
+	LinkedList<IItem> inventoryItems;
 
 	public Inventory(){
 		inventoryItems = new LinkedList<IItem>();
 	}
 
-	public Inventory(List<IItem> startingItems){
+	public Inventory(LinkedList<IItem> startingItems){
 		inventoryItems = startingItems;
 	}
 
-	List<IItem> getItems(){
+	LinkedList<IItem> getItems(){
 		return inventoryItems;
 	}
 

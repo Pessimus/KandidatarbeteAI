@@ -18,4 +18,9 @@ public class StoneItem implements IItem {
 	public void setAmount(int value) {
 
 	}
+
+	@Override
+	public Type getType() {
+		return Type.STONE_ITEM;
+	}
 }

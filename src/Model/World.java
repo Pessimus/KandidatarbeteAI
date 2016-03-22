@@ -329,8 +329,8 @@ public class World implements Runnable{
 		characters.get(Constants.PLAYER_CHARACTER_KEY).stopRunning();
 	}
 
-	public void displayPlayerInventory(){
-		characters.get(Constants.PLAYER_CHARACTER_KEY).displayInventory();
+	public LinkedList<InventoryRender> displayPlayerInventory(){
+		return characters.get(Constants.PLAYER_CHARACTER_KEY).getInventory();
 	}
 
 

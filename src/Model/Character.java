@@ -286,15 +286,17 @@ public class Character implements ICollidable, ITimeable {
 
 	}
 
-	public void displayInventory(){
-		if(!inventory.getItems().isEmpty()) {
-			for(IItem item : inventory.getItems()){
-				System.out.println(item);
-			}
-		}else{
-			System.out.println("No items in inventory!");
-		}
+	public LinkedList<InventoryRender> getInventory(){
 
+		LinkedList<InventoryRender> list = new LinkedList<>();
+
+		for(IItem item : inventory.getItems()){
+			InventoryRender tmp = new InventoryRender();
+			tmp.amount=item.getAmount();
+			tmp.type=item.getType();
+			list.add(tmp);
+		}
+		return list;
 	}
 
 	public void startWalkingUp(){

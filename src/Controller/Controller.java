@@ -361,6 +361,10 @@ public class Controller implements PropertyChangeListener, Runnable {
 		if(temp.size() > 0) {
 			gameView.drawRenderObjects(temp);
 		}
+
+		if(showingPlayerInventory){
+			gameView.drawInventory(gameModel.displayPlayerInventory());
+		}
 	}
 
 	/**
@@ -512,12 +516,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 								gameModel.playerWalking();
 							}else if(clicks[1] == Input.KEY_I){
 								showingPlayerInventory = !showingPlayerInventory;
-								if(showingPlayerInventory){
-									gameModel.displayPlayerInventory();
-								}else{
-									System.out.println("Player Inventory Hidden");
-									//gameModel.hidePlayerInventory();
-								}
+
 							}
 						}
 					}
