@@ -35,6 +35,7 @@ public class World implements Runnable{
 		this.timeables = new LinkedList<>();
 		this.characters = new HashMap<>();
 		addCharacter(450,600,1);
+		addCharacter(700,700,2);
 
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
@@ -320,6 +321,12 @@ public class World implements Runnable{
 	public void playerWalking(){
 		characters.get(Constants.PLAYER_CHARACTER_KEY).stopRunning();
 	}
+
+	public void displayPlayerInventory(){
+		characters.get(Constants.PLAYER_CHARACTER_KEY).displayInventory();
+	}
+
+
 }
 
 
