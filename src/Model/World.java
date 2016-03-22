@@ -66,7 +66,7 @@ public class World {
 		try {
 			sema.acquire();
 
-			//this.collidables.handleCollision();//TODO Collision in Y-axis is not working yet. 
+			//this.collidables.handleCollision();//TODO Collision in Y-axis is not working yet.
 
 			for (Character character : characters.values()) {
 				character.update();
