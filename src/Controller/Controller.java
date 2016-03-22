@@ -502,6 +502,8 @@ public class Controller implements PropertyChangeListener, Runnable {
 								gameModel.stopPlayerLeft();
 							} else if (clicks[1] == Input.KEY_RIGHT) {
 								gameModel.stopPlayerRight();
+							} else if (clicks[1] == Input.KEY_F){
+								gameModel.hit();
 							} else if (clicks[1] == Input.KEY_ADD) {
 								; // TODO: Zoom in
 							} else if (clicks[1] == Input.KEY_ADD) {

@@ -10,9 +10,12 @@ public class Animal implements ICollidable {
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
 
 	private RenderObject latestRenderObject;
+	private double collisionRadius;
+	private double interactionRadius;
 
 	public Animal(){
-		;
+		this.collisionRadius = 5;
+		this.interactionRadius = 10;
 	}
 
 	public Animal(IResource resourceType){
@@ -31,7 +34,12 @@ public class Animal implements ICollidable {
 
 	@Override
 	public double getCollisionRadius() {
-		return 0;
+		return collisionRadius;
+	}
+
+	@Override
+	public double getInteractionRadius() {
+		return interactionRadius;
 	}
 
 	@Override

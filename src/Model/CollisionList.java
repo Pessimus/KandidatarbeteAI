@@ -47,6 +47,9 @@ public class CollisionList {
 			public double getCollisionRadius() {
 				return 0;
 			}
+			public double getInteractionRadius() {
+				return 0;
+			}
 
 			@Override
 			public void addToCollideX(ICollidable rhs) {}
@@ -78,6 +81,9 @@ public class CollisionList {
 
 			@Override
 			public double getCollisionRadius() {
+				return 0;
+			}
+			public double getInteractionRadius() {
 				return 0;
 			}
 
@@ -201,14 +207,14 @@ public class CollisionList {
 	}
 
 	private void handleCollisionLeftX(Node node, Node left){
-		if(node.value.getX() - left.value.getX() <= node.value.getCollisionRadius()*2){
+		if(node.value.getX() - left.value.getX() <= node.value.getInteractionRadius()*2){
 			node.value.addToCollideX(left.value);
 			handleCollisionLeftX(node, left.previous);
 		}
 	}
 
 	private void handleCollisionRightX(Node node, Node right){
-		if(right != null && right.value.getX() - node.value.getX() <= node.value.getCollisionRadius()*2){
+		if(right != null && right.value.getX() - node.value.getX() <= node.value.getInteractionRadius()*2){
 			node.value.addToCollideX(right.value);
 			handleCollisionRightX(node, right.next);
 		}
@@ -216,14 +222,14 @@ public class CollisionList {
 
 
 	private void handleCollisionLeftY(Node node, Node left){
-		if(node.value.getY() - left.value.getY() <= node.value.getCollisionRadius()*2){
+		if(node.value.getY() - left.value.getY() <= node.value.getInteractionRadius()*2){
 			node.value.addToCollideY(left.value);
 			handleCollisionLeftY(node, left.previous);
 		}
 	}
 
 	private void handleCollisionRightY(Node node, Node right){
-		if (right != null && right.value.getY() - node.value.getY() <= node.value.getCollisionRadius()*2){
+		if (right != null && right.value.getY() - node.value.getY() <= node.value.getInteractionRadius()*2){
 			node.value.addToCollideY(right.value);
 			handleCollisionRightY(node, right.next);
 		}
@@ -260,6 +266,8 @@ public class CollisionList {
 				loop = loop.next;
 				loop.value.checkCollision();
 			}
+
+			System.out.println("---------------------");
 		//}catch (Exception e){
 
 		//}
