@@ -58,6 +58,11 @@ public class CollisionList {
 			public RenderObject getRenderObject(){return null;}
 
 			@Override
+			public RenderObject.RENDER_OBJECT_ENUM getRenderType() {
+				return null;
+			}
+
+			@Override
 			public void checkCollision(){}
 		}, null, null);
 		this.startNodeY = new Node(new ICollidable() {
@@ -84,6 +89,11 @@ public class CollisionList {
 
 			@Override
 			public RenderObject getRenderObject(){return null;}
+
+			@Override
+			public RenderObject.RENDER_OBJECT_ENUM getRenderType() {
+				return null;
+			}
 
 			@Override
 			public void checkCollision(){}

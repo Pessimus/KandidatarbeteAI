@@ -16,4 +16,5 @@ public interface ICollidable {
 	//TODO ENUM for type
 
 	RenderObject getRenderObject();
+	RenderObject.RENDER_OBJECT_ENUM getRenderType();
 }
