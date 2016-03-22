@@ -69,10 +69,20 @@ public class Pathfinder {
 
     public LinkedList<PathStep> getPath (double startx, double starty, double endx, double endy) {
         LinkedList<PathStep> ret = new LinkedList<>();
-        for (Tuple t : helpPath((int)(startx/gridSize), (int)(starty/gridSize), (int)(endx/gridSize), (int)(endy/gridSize))) {
-            ret.add(createPathStep(t.x,t.y));
+        System.out.println("starting helpPath()");
+        LinkedList<Tuple> help = helpPath((int)(startx/gridSize), (int)(starty/gridSize), (int)(endx/gridSize), (int)(endy/gridSize));
+        boolean noway = true;
+        if (help != null) {
+            noway = false;
+            for (Tuple t : help) {
+                ret.add(createPathStep(t.x,t.y));
+            }
         }
-        return ret;
+        if (!noway) {
+            return ret;
+        } else {
+            return null;
+        }
     }
 
     private LinkedList<Tuple> helpPath (int startx, int starty, int endx, int endy) {
@@ -83,6 +93,8 @@ public class Pathfinder {
         //put the starting node on the open list (you can leave its f at zero)
         open.add(new Node(startx, starty, 0, optimalDistance(startx, starty, endx, endy), null));
 
+        int test= 0;
+
         Node q;
 
         //while the open list is not empty
@@ -90,6 +102,9 @@ public class Pathfinder {
             //find the node with the least f on the open list, call it "q"
             //pop q off the open list
             q = open.poll();
+            System.out.print(optimalDistance(q.x, q.y, endx, endy));
+            test++;
+            System.out.println(test + " checking " + q.toString());
 
             //generate q's 8 successors and set their parents to q
             //for each successor
@@ -129,7 +144,7 @@ public class Pathfinder {
                     }
                 }
                 //otherwise, add the node to the open list
-                if (add) {
+                if (add || true) { //test
                     open.add(s);
                 }
             }//end
@@ -189,9 +204,9 @@ public class Pathfinder {
         }
 
         public int compareTo(Node n) {
-            if (this.f > n.f) {
+            if (this.h > n.h) {
                 return 1;
-            } else if (this.f < n.f) {
+            } else if (this.h < n.h) {
                 return -1;
             } else {
                 return 0;
