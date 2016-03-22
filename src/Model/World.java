@@ -21,6 +21,12 @@ public class World implements Runnable{
 	private CollisionList collidables;
 	private LinkedList<ITimeable> timeables;
 	private LinkedList<ICollidable> statics; //List containing all collidables that does not move (or get destroyed or created too often)
+	//--------Remove lists--------------
+	private LinkedList<ICollidable> collidablestoberemoved = new LinkedList<>();
+	private LinkedList<ICollidable> collideablesrtoberemoved = new LinkedList<>();
+	private LinkedList<ITimeable> timeablestoberemoved = new LinkedList<>();
+
+	private LinkedList<Character> characterstoberemoved = new LinkedList<>();
 	private double width;
 	private double height;
 
@@ -35,9 +41,9 @@ public class World implements Runnable{
 		this.timeables = new LinkedList<>();
 		this.characters = new HashMap<>();
 		addCharacter(450,600,1);
-		addCharacter(700,700,2);
+		characters.get(1).setInteractionRadius(50);
 
-		addCharacter(600,450,2);
+		addCharacter(600, 450, 2);
 		addCharacter(500,500,3);
 
 		// TODO: HARDCODED TEST!!!!!
@@ -154,21 +160,19 @@ public class World implements Runnable{
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "interrupted when removing a dead character!", e);
 		}*/
-
 		for (ITimeable timedObj : timeables) {
 			timedObj.updateTimeable();
 		}
 
 		//System.out.println("World: run() - 2:nd");
-
 		for (Character character : characters.values()) {
 			character.update();
 
 			if (!character.isAlive()) {
-				characters.remove(character.getKey(), character);
-				collidables.remove(character);
-				collidablesR.remove(character);
-				timeables.remove(character);
+				collidablestoberemoved.add(character);
+				collideablesrtoberemoved.add(character);
+				timeablestoberemoved.add(character);
+				characterstoberemoved.add(character);
 				//System.out.println("World: run() - dead");
 				//character = null;
 			} else {
@@ -188,7 +192,7 @@ public class World implements Runnable{
 			//e.printStackTrace();
 		//}
 		//System.out.println("World: run() - 3:rd");
-
+		removeObjects();
 		firePropertyChange("update", 1);
 	}
 
@@ -218,7 +222,51 @@ public class World implements Runnable{
 		return character;
 	}
 
+	public void removeObjects() {
+		System.out.print("Collidables to remove: " + collidablestoberemoved.size() + "\n");
+		System.out.print("Characters to remove: " + characterstoberemoved.size() + "\n");
+		System.out.print("Timeables to remove: " + timeablestoberemoved.size() + "\n");
+		System.out.print("CollidablesR to remove: " + collideablesrtoberemoved.size() + "\n");
+		System.out.print("\n");
+		if(collidablestoberemoved != null ) {
+			for (ICollidable collidable : this.collidablestoberemoved) {
+				collidables.remove(collidable);
+			}
+			collidablestoberemoved.clear();
+		}
+		if(timeablestoberemoved != null ) {
+			for (ITimeable timeable : this.timeablestoberemoved) {
+				timeables.remove(timeable);
+			}
+			timeablestoberemoved.clear();
+		}
+
+		if (characters != null) {
+			for (Character character : this.characterstoberemoved) {
+				characters.remove(character.getKey());
+			}
+			characterstoberemoved.clear();
+		}
+
+		if (characters != null) {
+			for (ICollidable collidabler : this.collideablesrtoberemoved) {
+				collidablesR.remove(collidabler);
+			}
+			collideablesrtoberemoved.clear();
+		}
+
+		System.out.print("Collidables: " + collidables.getSize() + "\n");
+		System.out.print("Characters: " + characters.size() + "\n");
+		System.out.print("Timeables: " + timeables.size() + "\n");
+		System.out.print("CollidablesR: " + collidablesR.size() + "\n");
+		System.out.print("\n");
+
+
+
+	}
+
 	private boolean addCollidable(double xPoss, double yPoss, double radius){return false;}
+
 
 	public RenderObject[] getRenderObjects(){
 		//System.out.println("World: getRenderObjects()");
@@ -241,7 +289,6 @@ public class World implements Runnable{
 		for (int i = 0; i < collidablesR.size(); i++) {
 			renderObjects[i] = collidablesR.get(i).getRenderObject();
 		}
-
 		return renderObjects;
 	}
 
@@ -329,8 +376,12 @@ public class World implements Runnable{
 		characters.get(Constants.PLAYER_CHARACTER_KEY).stopRunning();
 	}
 
-	public LinkedList<InventoryRender> displayPlayerInventory(){
+	public LinkedList<InventoryRender> displayPlayerInventory() {
 		return characters.get(Constants.PLAYER_CHARACTER_KEY).getInventory();
+	}
+
+	public void hit() {
+		this.characters.get(1).hit();
 	}
 
 

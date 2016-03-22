@@ -14,6 +14,9 @@ public class Character implements ICollidable, ITimeable {
 	private float yPos;
 	private double collisionRadius;
 	private double interactionRadius;
+
+	private LinkedList<ICollidable>wir;//TODO general interaction
+
 	private float xSpeed;
 	private float ySpeed;
 
@@ -77,9 +80,9 @@ public class Character implements ICollidable, ITimeable {
 		//Create inventory
 		inventory = new Inventory();
 
-		this.hunger = 1000;
-		this.thirst = 1000;
-		this.energy = 1000;
+		this.hunger = 100;
+		this.thirst = 100;
+		this.energy = 100;
 
 		this.pathTest = new Pathfinder(16, 9600, 9600, 1, 1.4);
 		this.pathTest.updateMask(new CollisionList());
@@ -88,6 +91,8 @@ public class Character implements ICollidable, ITimeable {
 		this.collideX = new LinkedList<>();
 		this.collideY = new LinkedList<>();
 		this.collisionRadius = 5;
+		this.interactionRadius = 10;
+		this.wir = new LinkedList<>();
 	}
 
 	@Override
@@ -108,6 +113,15 @@ public class Character implements ICollidable, ITimeable {
 	}
 
 	@Override
+	public double getInteractionRadius(){
+		return this.interactionRadius;
+	}
+
+	public void setInteractionRadius(double radius){
+		this.interactionRadius = radius;
+	}
+
+	@Override
 	public void addToCollideX(ICollidable rhs) {
 		this.collideX.add(rhs);
 	}
@@ -119,9 +133,11 @@ public class Character implements ICollidable, ITimeable {
 
 	@Override
 	public void checkCollision() {
+		this.wir.clear();
 		for(ICollidable c : this.collideX){
 			if(this.collideY.contains(c)){
-				System.out.println("Krock med n�t!!!!!!!!!"+this.hashCode());
+				System.out.println("Krock med n�t!!!!!!!!!" + this.hashCode());
+				this.wir.add(c);
 			}
 		}
 		this.collideX.clear();
@@ -172,6 +188,7 @@ public class Character implements ICollidable, ITimeable {
 	public void update(){
 		//System.out.println("Character: update()");
 		//moveAround();
+		//updateNeeds();
 	}
 
 	public void updateNeeds() {
@@ -343,6 +360,14 @@ public class Character implements ICollidable, ITimeable {
 		return stepLength;
 	}
 
+
+	public void hit() {
+		for(ICollidable collidable : wir){
+			if(collidable.getClass().equals(this.getClass())){
+				((Character)collidable).alive = false;
+			}
+		}
+	}
 
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!
