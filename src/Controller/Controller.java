@@ -37,7 +37,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 
 	private boolean showingPlayerInventory = false;
 
-	public Pathfinder pathCalculator = new Pathfinder(16, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, 1, 1.4);
+	public static Pathfinder pathCalculator = new Pathfinder(16, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, 1, 1.4);
 
 	private final class ModelToViewRectangle{
 		float rectWidth, rectHeight;
