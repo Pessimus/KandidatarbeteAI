@@ -18,4 +18,9 @@ public class MeatItem implements IItem {
     public void setAmount(int value) {
 
     }
+
+    @Override
+    public IItem.Type getType() {
+        return Type.MEAT_ITEM;
+    }
 }

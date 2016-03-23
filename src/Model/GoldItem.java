@@ -19,4 +19,9 @@ public class GoldItem implements IItem {
     public void setAmount(int value) {
 
     }
+
+    @Override
+    public IItem.Type getType() {
+        return Type.GOLD_ITEM;
+    }
 }

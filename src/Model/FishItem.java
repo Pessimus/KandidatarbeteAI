@@ -18,4 +18,9 @@ public class FishItem implements IItem {
     public void setAmount(int value) {
 
     }
+
+    @Override
+    public IItem.Type getType() {
+        return Type.FISH_ITEM;
+    }
 }
