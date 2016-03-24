@@ -8,8 +8,12 @@ public class Fish extends FiniteResource {
     public static final ResourceType resourceType = ResourceType.FISH;
     public static final String resourceName = "Fish";
 
-    public Fish(int initial){
+    private float xPos, yPos;
+
+    public Fish(int initial, float x, float y){
         super(initial);
+        xPos = x;
+        yPos = y;
     }
 
     @Override

@@ -518,7 +518,11 @@ public class Controller implements PropertyChangeListener, Runnable {
 								gameModel.playerWalking();
 							}else if(clicks[1] == Input.KEY_I){
 								showingPlayerInventory = !showingPlayerInventory;
-
+								if(showingPlayerInventory){
+									gameView.drawInventory(gameModel.displayPlayerInventory());
+								}else{
+									gameView.hidePlayerInventory();
+								}
 							}
 						}
 					}

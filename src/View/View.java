@@ -38,10 +38,13 @@ public class View extends BasicGameState implements InputListener{
     private volatile float scaler = 1f;
     //List<RenderObject> listToRender = new LinkedList<>();
 	private RenderObject[] listToRender = {};
+	private Model.IItem.Type[] inventoryToRender = {};
 
+	private boolean displayInventory = false;
 
 	private final Semaphore semaphore = new Semaphore(1);
 	private final Map<RenderObject.RENDER_OBJECT_ENUM, Image> resourceMap = new HashMap<>();
+	private final Map<Model.IItem.Type, Image> inventoryMap = new HashMap<>();
 
     public enum INPUT_ENUM {
 		KEY_RELEASED(0), KEY_PRESSED(1),
@@ -75,6 +78,11 @@ public class View extends BasicGameState implements InputListener{
 		for(RenderObject.RENDER_OBJECT_ENUM e : RenderObject.RENDER_OBJECT_ENUM.values()){
 			resourceMap.put(e, new Image(e.pathToResource));
 		}
+
+		for(Model.IItem.Type e : Model.IItem.Type.values()){
+			inventoryMap.put(e, new Image(e.pathToResource));
+		}
+
     }
 
     @Override
@@ -135,6 +143,30 @@ public class View extends BasicGameState implements InputListener{
 					for (RenderObject obj : listToRender) {
 						resourceMap.get(obj.getRenderType()).draw(obj.getX(), obj.getY());
 					}
+				}
+			}
+
+
+			if (displayInventory) {
+				int x,y,i,j;
+				i=3;
+				j=3;
+				for(Model.IItem.Type type : inventoryToRender) {
+					x=gameContainer.getWidth()-64*i;
+					y=gameContainer.getHeight()-64*j;
+					graphics.drawRect(x, y, 64, 64);
+					graphics.drawImage(new Image(type.pathToResource), x, y);
+					i--;
+					/*for (int i = 0; i < 3; i++) {
+						for (int j = 0; j < 3; j++) {
+
+
+							graphics.fillRect(gameContainer.getWidth() - 30 - 64 * j, gameContainer.getHeight() - 30 - 64 * i, 30, 30);
+							graphics.setColor(Color.black);
+							graphics.drawString("3", gameContainer.getWidth() - 20 - 64 * j, gameContainer.getHeight() - 20 - 64 * i);
+							graphics.setColor(Color.white);
+						}
+					}*/
 				}
 			}
 			semaphore.release();
@@ -262,5 +294,20 @@ public class View extends BasicGameState implements InputListener{
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
 		}
 		*/
+	}
+
+	public void renderInventory(LinkedList<Model.InventoryRender> inventoryItems){
+		LinkedList<Model.IItem.Type> tmp = new LinkedList<>();
+		for(Model.InventoryRender inventoryRen : inventoryItems){
+			tmp.add(inventoryRen.type);
+		}
+
+		inventoryToRender = tmp.toArray(new Model.IItem.Type[tmp.size()]);
+		System.out.println(inventoryItems);
+		displayInventory = true;
+	}
+
+	public void hideInventory(){
+		displayInventory = false;
 	}
 }

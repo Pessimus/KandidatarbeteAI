@@ -10,7 +10,15 @@ public class Inventory{
 	LinkedList<IItem> inventoryItems;
 
 	public Inventory(){
+		GoldItem gi = new GoldItem();
+		FishItem fi = new FishItem();
+		WaterItem wi = new WaterItem();
+		StoneItem si = new StoneItem();
 		inventoryItems = new LinkedList<IItem>();
+		inventoryItems.add(gi);
+		inventoryItems.add(fi);
+		inventoryItems.add(wi);
+		inventoryItems.add(si);
 	}
 
 	public Inventory(LinkedList<IItem> startingItems){

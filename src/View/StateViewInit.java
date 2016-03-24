@@ -114,7 +114,10 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 	}
 
 	public void drawInventory(LinkedList<Model.InventoryRender> inventoryItems){
-		//TODO
-		//Tell view to render inventory
+		view.renderInventory(inventoryItems);
+	}
+
+	public void hidePlayerInventory(){
+		view.hideInventory();
 	}
 }
