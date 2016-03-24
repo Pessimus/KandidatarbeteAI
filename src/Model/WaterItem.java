@@ -18,4 +18,9 @@ public class WaterItem implements IItem {
 	public void setAmount(int value) {
 
 	}
+
+	@Override
+	public Type getType() {
+		return null;
+	}
 }
