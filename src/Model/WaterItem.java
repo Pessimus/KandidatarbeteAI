@@ -20,7 +20,8 @@ public class WaterItem implements IItem {
 	}
 
 	@Override
-	public Type getType() {
-		return null;
+
+	public IItem.Type getType() {
+		return Type.WATER_ITEM;
 	}
 }

@@ -20,7 +20,8 @@ public class MeatItem implements IItem {
     }
 
     @Override
-    public Type getType() {
-        return null;
+
+    public IItem.Type getType() {
+        return Type.MEAT_ITEM;
     }
 }

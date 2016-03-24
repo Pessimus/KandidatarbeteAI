@@ -20,7 +20,8 @@ public class CropsItem implements IItem {
     }
 
     @Override
-    public Type getType() {
-        return null;
+
+    public IItem.Type getType() {
+        return Type.CROPS_ITEM;
     }
 }
