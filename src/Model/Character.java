@@ -5,10 +5,12 @@ import Controller.PathStep;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.*;
+import java.util.List;
+
 /**
  * Created by Tobias on 2016-02-26.
  */
-public class Character implements ICollidable, ITimeable {
+public class Character implements ICollidable, ITimeable, ICharacterHandler {
 	//------------------Movement Variables---------------------
 	private float xPos;
 	private float yPos;
@@ -48,6 +50,10 @@ public class Character implements ICollidable, ITimeable {
 
 	//---------------NEEDS VARIABLES--------------------
 
+	public enum NEEDS_ENUM{
+		HUNGER, THIRST, ENERGY
+	}
+
 	private boolean alive;
 
 	//------------BASIC NEEDS--------------------
@@ -61,6 +67,12 @@ public class Character implements ICollidable, ITimeable {
 	private int social;
 	private int intimacy;
 	private int attention;
+
+	//---------------TRAITS VARIABLES--------------------
+
+	public enum TRAITS_ENUM{
+		HUNGER, THIRST, ENERGY
+	}
 
 	private int stepLength = 6;
 
@@ -173,22 +185,17 @@ public class Character implements ICollidable, ITimeable {
 		updateCounter = (updateCounter+1) % 60;
 		if(updateCounter % 60 == 0) {
 			if(walkingUp)
-				walkUp();
+				moveUp();
 			if(walkingDown)
-				walkDown();
+				moveDown();
 			if(walkingRight)
-				walkRight();
+				moveRight();
 			if(walkingLeft)
-				walkLeft();
+				moveLeft();
 		}
-		//updateNeeds();
-		//moveAround();
-	}
 
-	public void update(){
-		//System.out.println("Character: update()");
+		updateNeeds();
 		//moveAround();
-		//updateNeeds();
 	}
 
 	public void updateNeeds() {
@@ -197,8 +204,9 @@ public class Character implements ICollidable, ITimeable {
 			this.hunger -= 1;
 			this.thirst -= 1;
 			this.energy -= 1;
-			isDead();
 		}
+
+		isDead();
 	}
 
 	//Check if character is alive
@@ -242,6 +250,8 @@ public class Character implements ICollidable, ITimeable {
 	public double getNextYPosition(){
 		return this.yPos+this.ySpeed;
 	}
+
+	/*
 	public double moveX(){
 		return this.xPos += this.xSpeed;
 	}
@@ -280,6 +290,7 @@ public class Character implements ICollidable, ITimeable {
 	public void stopDown(){
 		this.ySpeed -= this.stepLength;
 	}
+	*/
 
 	public void moveAround(){
 		if(updateCounter % 30 == 0) {
@@ -303,8 +314,7 @@ public class Character implements ICollidable, ITimeable {
 
 	}
 
-	public LinkedList<InventoryRender> getInventory(){
-
+	public LinkedList<InventoryRender> getRenderInventory(){
 		LinkedList<InventoryRender> list = new LinkedList<>();
 
 		for(IItem item : inventory.getItems()){
@@ -313,7 +323,78 @@ public class Character implements ICollidable, ITimeable {
 			tmp.type=item.getType();
 			list.add(tmp);
 		}
+
 		return list;
+	}
+
+	@Override
+	public int[] getNeeds() {
+		return new int[0];
+	}
+
+	@Override
+	public int[] getSkills() {
+		return new int[0];
+	}
+
+	@Override
+	public int[] getTraits() {
+		return new int[0];
+	}
+
+	@Override
+	public void moveUp() {
+		this.yPos -= this.stepLength;
+	}
+
+	@Override
+	public void moveDown() {
+		this.yPos += this.stepLength;
+	}
+
+	@Override
+	public void moveLeft() {
+		this.xPos -= this.stepLength;
+	}
+
+	@Override
+	public void moveRight() {
+		this.xPos += this.stepLength;
+	}
+
+	@Override
+	public List<ICollidable> getSurroundings() {
+		return null;
+	}
+
+	@Override
+	public List<ICollidable> getInteractables() {
+		return null;
+	}
+
+	@Override
+	public List<IItem> getInventory(){
+		return inventory.getItems();
+	}
+
+	@Override
+	public void useItem(int inventoryIndex) {
+
+	}
+
+	@Override
+	public boolean interactWith(int interactablesIndex) {
+		return false;
+	}
+
+	@Override
+	public Outcome getOutcomeInventory(int inventoryIndex) {
+		return null;
+	}
+
+	@Override
+	public Outcome getOutcomeInteractables(int interactablesIndex) {
+		return null;
 	}
 
 	public void startWalkingUp(){
