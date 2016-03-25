@@ -113,6 +113,7 @@ public class View extends BasicGameState implements InputListener{
         }
     }
 
+
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
         int width = (int)Math.ceil(gameContainer.getScreenWidth()/map.getTileWidth()/scaler);
@@ -120,8 +121,6 @@ public class View extends BasicGameState implements InputListener{
         graphics.scale(scaler,scaler);
        // map.render(0,0, mouseX/32,mouseY/32,50,40);
         map.render(0,0, renderpointx, renderpointy, width, height);
-        System.out.println(width+" "+height);
-
 
         //map.render(0, 0, renderpointx, renderpointy, 50, 40);
 
@@ -145,6 +144,7 @@ public class View extends BasicGameState implements InputListener{
             renderpointy -= 1;
         }
 
+        //Functionality for zooming in and out
         if(Keyboard.isKeyDown(Input.KEY_ADD) || Keyboard.isKeyDown(Input.KEY_Z)) {
             zoomIn();
         }
@@ -152,6 +152,8 @@ public class View extends BasicGameState implements InputListener{
         if(Keyboard.isKeyDown(Input.KEY_SUBTRACT)|| Keyboard.isKeyDown(Input.KEY_X)) {
             zoomOut();
         }
+
+
 
         //System.out.println(Keyboard.getKeyIndex("+"));
 
