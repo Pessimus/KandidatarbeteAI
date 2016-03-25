@@ -120,8 +120,8 @@ public class Pathfinder {
 
                 for (Node o : open){
                     if (s.equals(o)) {
-                        if (s.compareTo(o) > 0) {add = false;}
-                        add = false; // temp fix
+                        if (s.g >= o.g) {add = false;}
+                        else {open.remove(o);}
                         break;
                     }
                 }
@@ -130,8 +130,8 @@ public class Pathfinder {
                     //which has a lower f than successor, skip this successor
                     for (Node c : closed){
                         if (s.equals(c)) {
-                            if (s.compareTo(c) > 0) {add = false;}
-                            add = false; //temp fix
+                            if (s.g >= c.g) {add = false;}
+                            else {closed.remove(c);}
                             break;
                         }
                     }
