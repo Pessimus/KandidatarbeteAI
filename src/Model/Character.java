@@ -1,8 +1,10 @@
 package Model;
 
+import Controller.Pathfinder;
+import Controller.PathStep;
 import java.awt.*;
 import java.util.ArrayList;
-
+import java.util.*;
 /**
  * Created by Tobias on 2016-02-26.
  */
@@ -12,6 +14,9 @@ public class Character implements ICollidable, ITimeable {
 	private float yPos;
 	private double collisionRadius;
 	private double interactionRadius;
+
+	private LinkedList<ICollidable>wir;//TODO general interaction
+
 	private float xSpeed;
 	private float ySpeed;
 
@@ -20,10 +25,26 @@ public class Character implements ICollidable, ITimeable {
 	private final int updateThirst = 40;
 	private final int updateEnergy = 20;
 
+	// Tells the update function for each character if they are currently walking in any direction;
+	private boolean walkingUp = false;
+	private boolean walkingDown = false;
+	private boolean walkingLeft = false;
+	private boolean walkingRight = false;
+
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
 
 
 	private Inventory inventory;
+
+	private volatile RenderObject latestRenderObject;
+
+	//----------------Collision------------------
+	private LinkedList<ICollidable> collideX;
+	private LinkedList<ICollidable> collideY;
+
+	//TESTING
+	private Pathfinder pathTest;
+	private LinkedList<PathStep> stepTest;
 
 	//---------------NEEDS VARIABLES--------------------
 
@@ -41,7 +62,7 @@ public class Character implements ICollidable, ITimeable {
 	private int intimacy;
 	private int attention;
 
-	private final double stepLength = 10;
+	private int stepLength = 6;
 
 	//private double timeableInterval;
 	private int key;
@@ -59,10 +80,19 @@ public class Character implements ICollidable, ITimeable {
 		//Create inventory
 		inventory = new Inventory();
 
-		this.hunger = 1000;
-		this.thirst = 1000;
-		this.energy = 1000;
+		this.hunger = 100;
+		this.thirst = 100;
+		this.energy = 100;
 
+		this.pathTest = new Pathfinder(16, 9600, 9600, 1, 1.4);
+		this.pathTest.updateMask(new CollisionList());
+		this.stepTest = null;
+
+		this.collideX = new LinkedList<>();
+		this.collideY = new LinkedList<>();
+		this.collisionRadius = 5;
+		this.interactionRadius = 10;
+		this.wir = new LinkedList<>();
 	}
 
 	@Override
@@ -83,22 +113,82 @@ public class Character implements ICollidable, ITimeable {
 	}
 
 	@Override
+	public double getInteractionRadius(){
+		return this.interactionRadius;
+	}
+
+	public void setInteractionRadius(double radius){
+		this.interactionRadius = radius;
+	}
+
+	@Override
+	public void addToCollideX(ICollidable rhs) {
+		this.collideX.add(rhs);
+	}
+
+	@Override
+	public void addToCollideY(ICollidable rhs) {
+		this.collideY.add(rhs);
+	}
+
+	@Override
+	public void checkCollision() {
+		this.wir.clear();
+		for(ICollidable c : this.collideX){
+			if(this.collideY.contains(c)){
+				System.out.println("Krock med n�t!!!!!!!!!" + this.hashCode());
+				this.wir.add(c);
+			}
+		}
+		this.collideX.clear();
+		this.collideY.clear();
+	}
+
+	@Override
 	public RenderObject getRenderObject() {
+		if(latestRenderObject != null) {
+			if (latestRenderObject.compare(this)) {
+				return latestRenderObject;
+			}
+		}
+
 		return new RenderObject(getX(), getY(), getCollisionRadius(), renderObjectEnum);
 	}
-	
+
+	@Override
+	public RenderObject.RENDER_OBJECT_ENUM getRenderType() {
+		return renderObjectEnum;
+	}
+
 	public int getHunger() {return this.hunger;}
 
 
 	@Override
-	public void update() {
+	public void updateTimeable() {
 
 		//TODO Update needs
 		//TODO Implement ageing etc...
 
 		//Updates counter with one but doesn't exceed 60.
 		updateCounter = (updateCounter+1) % 60;
-		updateNeeds();
+		if(updateCounter % 60 == 0) {
+			if(walkingUp)
+				walkUp();
+			if(walkingDown)
+				walkDown();
+			if(walkingRight)
+				walkRight();
+			if(walkingLeft)
+				walkLeft();
+		}
+		//updateNeeds();
+		//moveAround();
+	}
+
+	public void update(){
+		//System.out.println("Character: update()");
+		//moveAround();
+		//updateNeeds();
 	}
 
 	public void updateNeeds() {
@@ -160,11 +250,11 @@ public class Character implements ICollidable, ITimeable {
 	}
 
 	public void walkRight(){
-		this.xSpeed += this.stepLength;
+		this.xPos += this.stepLength;
 	}
 
 	public void walkLeft(){
-		this.xSpeed -= this.stepLength;
+		this.xPos -= this.stepLength;
 	}
 
 	public void stopRight(){
@@ -176,11 +266,11 @@ public class Character implements ICollidable, ITimeable {
 	}
 
 	public void walkUp(){
-		this.ySpeed -= this.stepLength;
+		this.yPos -= this.stepLength;
 	}
 
 	public void walkDown(){
-		this.ySpeed += this.stepLength;
+		this.yPos += this.stepLength;
 	}
 
 	public void stopUp(){
@@ -191,6 +281,93 @@ public class Character implements ICollidable, ITimeable {
 		this.ySpeed -= this.stepLength;
 	}
 
+	public void moveAround(){
+		if(updateCounter % 30 == 0) {
+			if (Math.random() < 0.1) {
+				double endx = 1000;
+				double endy = 1000;
+
+				stepTest = pathTest.getPath(xPos, yPos, endx, endy);
+
+			}
+
+			if (stepTest != null) {
+				if (stepTest.getFirst().stepTowards(this)) {
+					stepTest.removeFirst();
+					if (stepTest.isEmpty())  {
+						stepTest = null;
+					}
+				}
+			}
+		}
+
+	}
+
+	public LinkedList<InventoryRender> getInventory(){
+
+		LinkedList<InventoryRender> list = new LinkedList<>();
+
+		for(IItem item : inventory.getItems()){
+			InventoryRender tmp = new InventoryRender();
+			tmp.amount=item.getAmount();
+			tmp.type=item.getType();
+			list.add(tmp);
+		}
+		return list;
+	}
+
+	public void startWalkingUp(){
+		walkingUp=true;
+	}
+
+	public void startWalkingDown(){
+		walkingDown=true;
+	}
+
+	public void startWalkingRight(){
+		walkingRight=true;
+	}
+
+	public void startWalkingLeft(){
+		walkingLeft=true;
+	}
+
+	public void stopWalkingUp(){
+		walkingUp=false;
+	}
+
+	public void stopWalkingDown(){
+		walkingDown=false;
+	}
+
+	public void stopWalkingRight(){
+		walkingRight=false;
+	}
+
+	public void stopWalkingLeft(){
+		walkingLeft=false;
+	}
+
+	public void startRunning(){
+		stepLength = 12;
+	}
+
+	public void stopRunning(){
+		stepLength = 6;
+	}
+
+	public int getSteplength(){
+		return stepLength;
+	}
+
+
+	public void hit() {
+		for(ICollidable collidable : wir){
+			if(collidable.getClass().equals(this.getClass())){
+				((Character)collidable).alive = false;
+			}
+		}
+	}
 
 	// TODO: HARDCODED TEST!!!!!
 	// TODO: HARDCODED TEST!!!!!

@@ -1,7 +1,7 @@
 package View;
 
+import Model.Constants;
 import Model.RenderObject;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
@@ -10,7 +10,6 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
-import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.*;
@@ -27,24 +26,30 @@ import org.newdawn.slick.SlickException;
  */
 public class View extends BasicGameState implements InputListener{
 
-    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-    private Input input;
+	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private int stateNr;
     private TiledMap map;
-    private int renderpointx = 50;
-    private int renderpointy = 50;
-    java.awt.Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
-    private float scaler = 3f;
-    List<RenderObject> listToRender = new LinkedList<>();
+	private Semaphore renderPointSema = new Semaphore(1);
 
+	private volatile int renderPointX = (int)Constants.DEFAULT_WORLD_VIEW_X;
+	private volatile int renderPointY = (int)Constants.DEFAULT_WORLD_VIEW_Y;
+
+    private volatile float scaler = 1f;
+    //List<RenderObject> listToRender = new LinkedList<>();
+	private RenderObject[] listToRender = {};
+	private Model.IItem.Type[] inventoryToRender = {};
+
+	private boolean displayInventory = false;
 
 	private final Semaphore semaphore = new Semaphore(1);
 	private final Map<RenderObject.RENDER_OBJECT_ENUM, Image> resourceMap = new HashMap<>();
+	private final Map<Model.IItem.Type, Image> inventoryMap = new HashMap<>();
 
     public enum INPUT_ENUM {
 		KEY_RELEASED(0), KEY_PRESSED(1),
-		MOUSE_RELEASED(0), MOUSE_PRESSED(1), MOUSE_MOVED(2);
+		MOUSE_RELEASED(0), MOUSE_PRESSED(1), MOUSE_MOVED(2),
+		MOUSE_WHEEL_MOVED(0);
 
         public int value;
         //String
@@ -60,7 +65,6 @@ public class View extends BasicGameState implements InputListener{
     int mouseXMoved = 0;
     int mouseYMoved = 0;
     int wheel = Mouse.getDWheel();
-
     int collisionId = 21*23+1;
 
     public View(int i) {
@@ -69,19 +73,26 @@ public class View extends BasicGameState implements InputListener{
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        map = new TiledMap("res/mapsquare.tmx");       //controller.getTiledMap();
+        map = new TiledMap("res/mapSquare.tmx");       //controller.getTiledMap();
 
 		for(RenderObject.RENDER_OBJECT_ENUM e : RenderObject.RENDER_OBJECT_ENUM.values()){
 			resourceMap.put(e, new Image(e.pathToResource));
 		}
-    }
 
-	RenderObject[] tempRenderList = null;
+		for(Model.IItem.Type e : Model.IItem.Type.values()){
+			inventoryMap.put(e, new Image(e.pathToResource));
+		}
+
+    }
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-		Object[] tempList = null;
+		pcs.firePropertyChange("getModel", false, true);
 
+		tempWidth = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE/scaler);
+		tempHeight = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE/scaler);
+
+		/*
 		try {
 			semaphore.acquire();
 			tempList = listToRender.toArray();
@@ -91,7 +102,6 @@ public class View extends BasicGameState implements InputListener{
 		catch(InterruptedException e){
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
-            System.out.println(e);
 		}
 
 		if(tempList != null){
@@ -99,37 +109,77 @@ public class View extends BasicGameState implements InputListener{
 				tempRenderList = Arrays.copyOf(tempList, tempList.length, RenderObject[].class);
 			}
 		}
+		*/
     }
 
 
     public void zoomOut(){
         if(scaler > 0.5f)
-           scaler -= 0.05f;
+           scaler -= 0.1f;
     }
 
     public void zoomIn(){
         if(scaler < 3f){
-            scaler += 0.05f;
+            scaler += 0.1f;
         }
     }
 
 
+
+	private int tempWidth;
+	private int tempHeight;
+
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-        int width = (int)Math.ceil(gameContainer.getScreenWidth()/map.getTileWidth()/scaler);
-        int height = (int)Math.ceil(gameContainer.getScreenHeight()/map.getTileWidth()/scaler);
-        graphics.scale(scaler,scaler);
-       // map.render(0,0, mouseX/32,mouseY/32,50,40);
-        map.render(0,0, renderpointx, renderpointy, width, height);
+		graphics.scale(scaler,scaler);
 
-        //map.render(0, 0, renderpointx, renderpointy, 50, 40);
+		try {
+			//renderPointSema.acquire();
+			map.render(0,0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, tempWidth, tempHeight);
+			//map.render(0, 0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, width, height);
+			//renderPointSema.release();
 
-		if(tempRenderList != null){
 
-			for (RenderObject obj: tempRenderList) {
-				resourceMap.get(obj.getObjectType()).draw(obj.getX(), obj.getY());
+			semaphore.acquire();
+			if(listToRender != null){
+				if(listToRender.length > 0) {
+					for (RenderObject obj : listToRender) {
+						resourceMap.get(obj.getRenderType()).draw(obj.getX(), obj.getY());
+					}
+				}
 			}
+
+
+			if (displayInventory) {
+				int x,y,i,j;
+				i=3;
+				j=3;
+				for(Model.IItem.Type type : inventoryToRender) {
+					x=gameContainer.getWidth()-64*i;
+					y=gameContainer.getHeight()-64*j;
+					graphics.drawRect(x, y, 64, 64);
+					graphics.drawImage(new Image(type.pathToResource), x, y);
+					i--;
+					/*for (int i = 0; i < 3; i++) {
+						for (int j = 0; j < 3; j++) {
+
+
+							graphics.fillRect(gameContainer.getWidth() - 30 - 64 * j, gameContainer.getHeight() - 30 - 64 * i, 30, 30);
+							graphics.setColor(Color.black);
+							graphics.drawString("3", gameContainer.getWidth() - 20 - 64 * j, gameContainer.getHeight() - 20 - 64 * i);
+							graphics.setColor(Color.white);
+						}
+					}*/
+				}
+			}
+			semaphore.release();
 		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
+		}
+
+		/*
         //Functioanlity for moving the camera view around the map. Keep the mouse to one side to move the camera view.
         if (Mouse.getX() > d.getWidth()-d.getWidth()/10 && renderpointx < map.getWidth()-width) {
             renderpointx += 1;
@@ -144,7 +194,9 @@ public class View extends BasicGameState implements InputListener{
             renderpointy -= 1;
         }
 
+
         //Functionality for zooming in and out
+
         if(Keyboard.isKeyDown(Input.KEY_ADD) || Keyboard.isKeyDown(Input.KEY_Z)) {
             zoomIn();
         }
@@ -154,10 +206,15 @@ public class View extends BasicGameState implements InputListener{
         }
 
 
+        if(Mouse.getEventDWheel() > 0)
+            zoomIn();
 
-        //System.out.println(Keyboard.getKeyIndex("+"));
+        if(Mouse.getEventDWheel() < 0)
+            zoomOut();
+        */
 
-		tempRenderList = null;
+		//listToRender = null;
+		//tempRenderList = null;
 
     }
 
@@ -181,12 +238,14 @@ public class View extends BasicGameState implements InputListener{
 
     @Override
     public void mouseMoved(int oldx, int oldy, int newx, int newy){   //Ska denna flyttas till modell?
+		/*
         mouseXMoved = newx-oldx;
         mouseYMoved = newy-oldy;
         mouseX+=mouseXMoved;
         mouseY+=mouseYMoved;
+        */
 
-		//pcs.firePropertyChange(INPUT_ENUM.MOUSE_MOVED.toString(), 0, new Integer[]{INPUT_ENUM.MOUSE_MOVED.value,oldx, oldy, newx, newy});
+		pcs.firePropertyChange(INPUT_ENUM.MOUSE_MOVED.toString(), 0, new Integer[]{INPUT_ENUM.MOUSE_MOVED.value,oldx, oldy, newx, newy});
     }
 
     @Override
@@ -201,6 +260,11 @@ public class View extends BasicGameState implements InputListener{
 		pcs.firePropertyChange(INPUT_ENUM.MOUSE_RELEASED.toString(), 0, new Integer[]{INPUT_ENUM.MOUSE_RELEASED.value, button, x, y});
 	}
 
+	@Override
+	public void mouseWheelMoved(int var){
+		pcs.firePropertyChange(INPUT_ENUM.MOUSE_WHEEL_MOVED.toString(), 0, new Integer[]{INPUT_ENUM.MOUSE_WHEEL_MOVED.value, var});
+	}
+
     public void addPropertyChangeListener(PropertyChangeListener listener){
         pcs.addPropertyChangeListener(listener);
     }
@@ -208,26 +272,47 @@ public class View extends BasicGameState implements InputListener{
         pcs.removePropertyChangeListener(listener);
     }
 
-	public boolean addRenderObject(RenderObject obj){
-		boolean returns = false;
+	public void setRenderList(RenderObject[] objList){
 		try {
 			semaphore.acquire();
-			returns = listToRender.add(obj);
+			listToRender = objList;
 			semaphore.release();
 		}
 		catch(InterruptedException e){
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
 		}
-
-		return returns;
 	}
 
-	// TODO: Maybe remove these if the above code is ok.
-    private void notifyKeyInput(Integer[] vars){   // control = "KEY_PRESSED" eller "KEY_RELEASED"
-        pcs.firePropertyChange(vars[0].toString(), 0, vars);
-    }
-    private void notifyMouseInput(Integer[] vars){
-        pcs.firePropertyChange(vars[0].toString(), 0, vars);
-    }
+	public void setRenderPoint(float x, float y){
+		renderPointX = (int) x;
+		renderPointY = (int) y;
+		/*
+		try {
+			renderPointSema.acquire();
+			renderPointX = (int) x;
+			renderPointY = (int) y;
+			renderPointSema.release();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
+		}
+		*/
+	}
+
+	public void renderInventory(LinkedList<Model.InventoryRender> inventoryItems){
+		LinkedList<Model.IItem.Type> tmp = new LinkedList<>();
+		for(Model.InventoryRender inventoryRen : inventoryItems){
+			tmp.add(inventoryRen.type);
+		}
+
+		inventoryToRender = tmp.toArray(new Model.IItem.Type[tmp.size()]);
+		System.out.println(inventoryItems);
+		displayInventory = true;
+	}
+
+	public void hideInventory(){
+		displayInventory = false;
+	}
 }

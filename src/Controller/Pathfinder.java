@@ -18,33 +18,44 @@ public class Pathfinder {
     private double adjacentCost;
     private double diagonalCost;
 
-
     public Pathfinder (double grid, double worldx, double worldy, double sCost, double dCost) {
         gridSize = grid;
         width = (int) (worldx / grid);
         height = (int) (worldy / grid);
         mask = new boolean[width][height];
-        Arrays.fill(mask, false);
+        fill(mask, false);
         adjacentCost = sCost;
         diagonalCost = dCost;
     }
 
+    private void fill(boolean[][] m, boolean v)  {
+        for (int i = 0; i<width; i++)  {
+            Arrays.fill(m[i], v);
+        }
+    }
+
     public void updateMask(CollisionList c) {
-        Arrays.fill(mask, true);
+        fill(mask, true);
         while (c.next()) {
             mask[(int) (c.getX() / gridSize)][(int) (c.getY() / gridSize)] = false;
-            for (double i = (c.getX() - c.getRadius())/gridSize; i < (c.getX() + c.getRadius())/gridSize; i = i+gridSize) {
-
+            for (double i = c.getX() - c.getRadius(); i < c.getX() + c.getRadius(); i = i+gridSize) {
+                for (double j = c.getY() - c.getRadius(); j < c.getY() + c.getRadius(); j = j+gridSize) {
+                    if (i < gridSize*width && i >= 0 && j < gridSize*height && j >= 0) {
+                        mask[(int)(i/gridSize)][(int)(j/gridSize)] = false;
+                    }
+                    if (j + gridSize > c.getY() + c.getRadius()) {mask[(int)(i/gridSize)][(int)((c.getY() + c.getRadius())/gridSize)] = false;}
+                }
+                if (i + gridSize > c.getX() + c.getRadius()) {i = c.getX() + c.getRadius();}
             }
         }
     }
 
     //returns whether or not the given position is empty in the mask. Always returns false for positions outside the grid.
     public boolean isEmpty(double x, double y) {
-        if (((int) (x * gridSize)) > width || ((int) (y * gridSize)) > height) {
+        if (((int) (x / gridSize)) > width || ((int) (y / gridSize)) > height) {
             return false;
         } else {
-            return mask[(int)(x*gridSize)][(int)(y*gridSize)];
+            return mask[(int)(x/gridSize)][(int)(y/gridSize)];
         }
     }
 
@@ -58,10 +69,16 @@ public class Pathfinder {
 
     public LinkedList<PathStep> getPath (double startx, double starty, double endx, double endy) {
         LinkedList<PathStep> ret = new LinkedList<>();
-        for (Tuple t : helpPath((int)(startx/gridSize), (int)(starty/gridSize), (int)(endx/gridSize), (int)(endy/gridSize))) {
-            ret.add(createPathStep(t.x,t.y));
+        LinkedList<Tuple> help = helpPath((int)(startx/gridSize), (int)(starty/gridSize), (int)(endx/gridSize), (int)(endy/gridSize));
+        if (help != null) {
+            for (Tuple t : help) {
+                ret.add(createPathStep(t.x,t.y));
+            }
+            ret.add(new PathStep(endx, endy));
+            return ret;
+        } else {
+            return null;
         }
-        return ret;
     }
 
     private LinkedList<Tuple> helpPath (int startx, int starty, int endx, int endy) {
@@ -82,7 +99,6 @@ public class Pathfinder {
 
             //generate q's 8 successors and set their parents to q
             //for each successor
-            //if successor is the goal, stop the search
             //successor.g = q.g + distance between successor and q
             //successor.h = distance from goal to successor
             //successor.f = successor.g + successor.h
@@ -90,11 +106,22 @@ public class Pathfinder {
 
             for (Node s : successorList) {
                 boolean add = true;
+                //if successor is the goal, stop the search
                 //if a node with the same position as successor is in the OPEN list \
                 //which has a lower f than successor, skip this successor
+                if (s.x == endx && s.y == endy) {
+                    LinkedList<Tuple> ret = new LinkedList<Tuple>();
+                    while (s.parent != null) {
+                        ret.addLast(new Tuple(s.x, s.y));
+                        s = s.parent;
+                    }
+                    return ret;
+                }
+
                 for (Node o : open){
                     if (s.equals(o)) {
-                        if (s.compareTo(o) > 0) {add = false;}
+                        if (s.g >= o.g) {add = false;}
+                        else {open.remove(o);}
                         break;
                     }
                 }
@@ -103,7 +130,8 @@ public class Pathfinder {
                     //which has a lower f than successor, skip this successor
                     for (Node c : closed){
                         if (s.equals(c)) {
-                            if (s.compareTo(c) > 0) {add = false;}
+                            if (s.g >= c.g) {add = false;}
+                            else {closed.remove(c);}
                             break;
                         }
                     }
@@ -126,20 +154,20 @@ public class Pathfinder {
     private LinkedList<Node> successors(Node n, int endx, int endy) {
         LinkedList<Node> ret = new LinkedList<>();
         // adjacent nodes
-        if (n.x + 1 < width) {ret.add(new Node(n.x+1,n.y,n.g+adjacentCost,optimalDistance(n.x+1, n.y, endx, endy),n));}
-        if (n.x - 1 >= 0) {ret.add(new Node(n.x-1,n.y,n.g+adjacentCost,optimalDistance(n.x-1, n.y, endx, endy),n));}
-        if (n.y + 1 < height) {ret.add(new Node(n.x,n.y+1,n.g+adjacentCost,optimalDistance(n.x, n.y+1, endx, endy),n));}
-        if (n.y - 1 >= 0) {ret.add(new Node(n.x,n.y-1,n.g+adjacentCost,optimalDistance(n.x, n.y-1, endx, endy),n));}
+        if (n.x + 1 < width && mask[n.x+1][n.y]) {ret.add(new Node(n.x+1,n.y,n.g+adjacentCost,optimalDistance(n.x+1, n.y, endx, endy),n));}
+        if (n.x - 1 >= 0 && mask[n.x-1][n.y]) {ret.add(new Node(n.x-1,n.y,n.g+adjacentCost,optimalDistance(n.x-1, n.y, endx, endy),n));}
+        if (n.y + 1 < height && mask[n.x][n.y+1]) {ret.add(new Node(n.x,n.y+1,n.g+adjacentCost,optimalDistance(n.x, n.y+1, endx, endy),n));}
+        if (n.y - 1 >= 0 && mask[n.x][n.y-1]) {ret.add(new Node(n.x,n.y-1,n.g+adjacentCost,optimalDistance(n.x, n.y-1, endx, endy),n));}
 
         // diagonal nodes
         if (adjacentCost <= diagonalCost/2) {
             if (n.x + 1 < width) {
-                if (n.y + 1 < height) {ret.add(new Node(n.x+1,n.y+1,n.g+diagonalCost,optimalDistance(n.x+1, n.y+1, endx, endy),n));}
-                if (n.y - 1 >= 0) {ret.add(new Node(n.x+1,n.y-1,n.g+diagonalCost,optimalDistance(n.x+1, n.y-1, endx, endy),n));}
+                if (n.y + 1 < height && mask[n.x+1][n.y+1]) {ret.add(new Node(n.x+1,n.y+1,n.g+diagonalCost,optimalDistance(n.x+1, n.y+1, endx, endy),n));}
+                if (n.y - 1 >= 0 && mask[n.x+1][n.y-1]) {ret.add(new Node(n.x+1,n.y-1,n.g+diagonalCost,optimalDistance(n.x+1, n.y-1, endx, endy),n));}
             }
             if (n.x - 1 >= 0) {
-                if (n.y + 1 < height) {ret.add(new Node(n.x-1,n.y+1,n.g+diagonalCost,optimalDistance(n.x-1, n.y+1, endx, endy),n));}
-                if (n.y - 1 >= 0) {ret.add(new Node(n.x-1,n.y-1,n.g+diagonalCost,optimalDistance(n.x-1, n.y-1, endx, endy),n));}
+                if (n.y + 1 < height && mask[n.x-1][n.y+1]) {ret.add(new Node(n.x-1,n.y+1,n.g+diagonalCost,optimalDistance(n.x-1, n.y+1, endx, endy),n));}
+                if (n.y - 1 >= 0 && mask[n.x-1][n.y+1]) {ret.add(new Node(n.x-1,n.y-1,n.g+diagonalCost,optimalDistance(n.x-1, n.y-1, endx, endy),n));}
             }
         }
         return ret;
@@ -150,10 +178,6 @@ public class Pathfinder {
         public int y;
         public Tuple (int u, int v) {x=u; y=v;}
     }
-
-    public LinkedList<PathStep> getPath(int startx, int starty, int endx, int endy) {
-        return null;
-    } //unsure if needed
 
     private class Node implements Comparable<Node> {
         public int x;
@@ -173,9 +197,9 @@ public class Pathfinder {
         }
 
         public int compareTo(Node n) {
-            if (this.f > n.f) {
+            if (this.h > n.h) {
                 return 1;
-            } else if (this.f < n.f) {
+            } else if (this.h < n.h) {
                 return -1;
             } else {
                 return 0;

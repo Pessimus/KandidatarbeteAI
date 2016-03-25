@@ -14,6 +14,8 @@ public interface IResource {
 		WATER,
 		GOLD,
 		STONE,
-		FOOD
+		FISH,
+		CROPS,
+		MEAT
 	}
 }

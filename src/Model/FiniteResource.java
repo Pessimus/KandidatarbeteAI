@@ -15,4 +15,6 @@ public abstract class FiniteResource implements IResource{
 	public int getResourcesLeft(){
 		return resourcesLeft;
 	}
+
+	public void setResourcesLeft(int amount){resourcesLeft=amount;}
 }

@@ -8,4 +8,19 @@ public class WoodItem implements IItem {
 	public String getActions() {
 		return null;
 	}
+
+	@Override
+	public int getAmount() {
+		return 0;
+	}
+
+	@Override
+	public void setAmount(int value) {
+
+	}
+
+	@Override
+	public IItem.Type getType() {
+		return Type.WOOD_ITEM;
+	}
 }

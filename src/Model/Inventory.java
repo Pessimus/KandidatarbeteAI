@@ -1,22 +1,31 @@
 package Model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Created by Tobias on 2016-02-26.
  */
 public class Inventory{
-	List<IItem> inventoryItems;
+	LinkedList<IItem> inventoryItems;
 
 	public Inventory(){
-		;
+		GoldItem gi = new GoldItem();
+		FishItem fi = new FishItem();
+		WaterItem wi = new WaterItem();
+		StoneItem si = new StoneItem();
+		inventoryItems = new LinkedList<IItem>();
+		inventoryItems.add(gi);
+		inventoryItems.add(fi);
+		inventoryItems.add(wi);
+		inventoryItems.add(si);
 	}
 
-	public Inventory(List<IItem> startingItems){
+	public Inventory(LinkedList<IItem> startingItems){
 		inventoryItems = startingItems;
 	}
 
-	List<IItem> getItems(){
+	LinkedList<IItem> getItems(){
 		return inventoryItems;
 	}
 
@@ -24,5 +33,9 @@ public class Inventory{
 		return inventoryItems.add(item);
 	}
 
-	boolean removeItem(IItem item){return inventoryItems.remove(item);	}
+	boolean removeItem(IItem item){
+		return inventoryItems.remove(item);
+	}
+
+
 }

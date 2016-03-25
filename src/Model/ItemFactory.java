@@ -18,10 +18,16 @@ public class ItemFactory {
 				return new StoneItem();
 
 			case GOLD:
-				return null; //TODO: Return GoldItem()
+				return new GoldItem();
 
-			case FOOD:
-				return null; //TODO: Return FoodItem()
+			case CROPS:
+				return new CropsItem();
+
+			case FISH:
+				return new FishItem();
+
+			case MEAT:
+				return new MeatItem();
 
 			default:
 				return null;
