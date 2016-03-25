@@ -29,6 +29,7 @@ public class World implements Runnable{
 	private LinkedList<Character> characterstoberemoved = new LinkedList<>();
 	private double width;
 	private double height;
+	private boolean pause;
 
 
 	private Semaphore sema = new Semaphore(1);
@@ -42,6 +43,7 @@ public class World implements Runnable{
 		this.characters = new HashMap<>();
 		addCharacter(450,600,1);
 		characters.get(1).setInteractionRadius(50);
+		pause = false;
 
 		addCharacter(600, 450, 2);
 		addCharacter(500,500,3);
@@ -116,9 +118,12 @@ public class World implements Runnable{
 		firePropertyChange("update", 1);
 	}*/
 
+
+
 	@Override
 	public void run() {
-		//System.out.println("World: run()");
+		if (pause != true) {
+			//System.out.println("World: run()");
 /*		try {
 			sema.acquire();
 
@@ -160,43 +165,44 @@ public class World implements Runnable{
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "interrupted when removing a dead character!", e);
 		}*/
-		for (ITimeable timedObj : timeables) {
-			timedObj.updateTimeable();
-		}
-
-		//System.out.println("World: run() - 2:nd");
-		for (Character character : characters.values()) {
-			character.update();
-
-			if (!character.isAlive()) {
-				collidablestoberemoved.add(character);
-				collideablesrtoberemoved.add(character);
-				timeablestoberemoved.add(character);
-				characterstoberemoved.add(character);
-				//System.out.println("World: run() - dead");
-				//character = null;
-			} else {
-				//TODO IF x
-
-				character.moveX();
-				//END TODO IF x
-				//TODO IF y
-				character.moveY();
-				//END TODO IF y
-				//System.out.println("World: run() - move");
+			for (ITimeable timedObj : timeables) {
+				timedObj.updateTimeable();
 			}
-		}
-		//try{
+
+			//System.out.println("World: run() - 2:nd");
+			for (Character character : characters.values()) {
+				character.update();
+
+				if (!character.isAlive()) {
+					collidablestoberemoved.add(character);
+					collideablesrtoberemoved.add(character);
+					timeablestoberemoved.add(character);
+					characterstoberemoved.add(character);
+					//System.out.println("World: run() - dead");
+					//character = null;
+				} else {
+					//TODO IF x
+
+					character.moveX();
+					//END TODO IF x
+					//TODO IF y
+					character.moveY();
+					//END TODO IF y
+					//System.out.println("World: run() - move");
+				}
+			}
+			//try{
 			this.collidables.handleCollision();//TODO Collision in Y-axis is not working yet.
-		//}catch (Exception e){
+			//}catch (Exception e){
 			//e.printStackTrace();
-		//}
-		//System.out.println("World: run() - 3:rd");
-		removeObjects();
-		firePropertyChange("update", 1);
+			//}
+			//System.out.println("World: run() - 3:rd");
+			removeObjects();
+			firePropertyChange("update", 1);
+		}
 	}
 
-	public Character addCharacter(float xPoss, float yPoss, int key){
+	public Character addCharacter(float xPoss, float yPoss, int key) {
 		Character character = new Character(xPoss, yPoss, key);
 
 		/*
@@ -217,7 +223,7 @@ public class World implements Runnable{
 		this.collidablesR.add(character);
 		this.collidables.add(character);
 		this.timeables.add(character);
-		this.characters.put(key,character);
+		this.characters.put(key, character);
 
 		return character;
 	}
@@ -229,13 +235,13 @@ public class World implements Runnable{
 		System.out.print("CollidablesR to remove: " + collideablesrtoberemoved.size() + "\n");
 		System.out.print("\n");
 		*/
-		if(collidablestoberemoved != null ) {
+		if (collidablestoberemoved != null) {
 			for (ICollidable collidable : this.collidablestoberemoved) {
 				collidables.remove(collidable);
 			}
 			collidablestoberemoved.clear();
 		}
-		if(timeablestoberemoved != null ) {
+		if (timeablestoberemoved != null) {
 			for (ITimeable timeable : this.timeablestoberemoved) {
 				timeables.remove(timeable);
 			}
@@ -263,13 +269,14 @@ public class World implements Runnable{
 		System.out.print("\n");*/
 
 
-
 	}
 
-	private boolean addCollidable(double xPoss, double yPoss, double radius){return false;}
+	private boolean addCollidable(double xPoss, double yPoss, double radius) {
+		return false;
+	}
 
 
-	public RenderObject[] getRenderObjects(){
+	public RenderObject[] getRenderObjects() {
 		//System.out.println("World: getRenderObjects()");
 		RenderObject[] renderObjects = new RenderObject[collidables.getSize()];
 
@@ -293,15 +300,15 @@ public class World implements Runnable{
 		return renderObjects;
 	}
 
-	public void addPropertyChangeListener(PropertyChangeListener listener){
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		pcs.addPropertyChangeListener(listener);
 	}
 
-	public void removePropertyChangeListener(PropertyChangeListener listener){
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		pcs.removePropertyChangeListener(listener);
 	}
 
-	private void firePropertyChange(String type, Object property){
+	private void firePropertyChange(String type, Object property) {
 		pcs.firePropertyChange(type, 0, property);
 	}
 
@@ -311,6 +318,16 @@ public class World implements Runnable{
 
 	public double getHeight() {
 		return height;
+	}
+
+	/* Pause the game, if P is pressed, pause() will pause the run lopp*/
+	public void pause() {
+		if (pause == false) {
+			pause = true;
+		}
+		else {
+			pause = false;
+		}
 	}
 
 	/*
@@ -337,43 +354,43 @@ public class World implements Runnable{
 	// TODO: HARDCODED TEST!!!!!
 	*/
 
-	public void movePlayerUp(){
+	public void movePlayerUp() {
 		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingUp();
 	}
 
-	public void movePlayerDown(){
+	public void movePlayerDown() {
 		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingDown();
 	}
 
-	public void movePlayerLeft(){
+	public void movePlayerLeft() {
 		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingLeft();
 	}
 
-	public void movePlayerRight(){
+	public void movePlayerRight() {
 		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingRight();
 	}
 
-	public void stopPlayerUp(){
+	public void stopPlayerUp() {
 		characters.get(Constants.PLAYER_CHARACTER_KEY).stopWalkingUp();
 	}
 
-	public void stopPlayerDown(){
+	public void stopPlayerDown() {
 		characters.get(Constants.PLAYER_CHARACTER_KEY).stopWalkingDown();
 	}
 
-	public void stopPlayerRight(){
+	public void stopPlayerRight() {
 		characters.get(Constants.PLAYER_CHARACTER_KEY).stopWalkingRight();
 	}
 
-	public void stopPlayerLeft(){
+	public void stopPlayerLeft() {
 		characters.get(Constants.PLAYER_CHARACTER_KEY).stopWalkingLeft();
 	}
 
-	public void playerRunning(){
+	public void playerRunning() {
 		characters.get(Constants.PLAYER_CHARACTER_KEY).startRunning();
 	}
 
-	public void playerWalking(){
+	public void playerWalking() {
 		characters.get(Constants.PLAYER_CHARACTER_KEY).stopRunning();
 	}
 
@@ -382,12 +399,10 @@ public class World implements Runnable{
 	}
 
 
-
 	public void hit() {
 		this.characters.get(1).hit();
 	}
 
-
-}
+ }
 
 

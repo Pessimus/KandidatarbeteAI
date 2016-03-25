@@ -498,6 +498,8 @@ public class Controller implements PropertyChangeListener, Runnable {
 								; // TODO: Zoom out
 							}else if(clicks[1] == Input.KEY_R){
 								gameModel.playerRunning();
+							} else if (clicks[1] == Input.KEY_P) {
+								gameModel.pause();
 							}
 						}else if(clicks[0] == View.INPUT_ENUM.KEY_RELEASED.value){
 							if (clicks[1] == Input.KEY_UP) {
