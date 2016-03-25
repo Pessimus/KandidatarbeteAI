@@ -121,6 +121,7 @@ public class Pathfinder {
                 for (Node o : open){
                     if (s.equals(o)) {
                         if (s.compareTo(o) > 0) {add = false;}
+                        add = false; // temp fix
                         break;
                     }
                 }
@@ -130,12 +131,13 @@ public class Pathfinder {
                     for (Node c : closed){
                         if (s.equals(c)) {
                             if (s.compareTo(c) > 0) {add = false;}
+                            add = false; //temp fix
                             break;
                         }
                     }
                 }
                 //otherwise, add the node to the open list
-                if (add || true) { //test
+                if (add) {
                     open.add(s);
                 }
             }//end
