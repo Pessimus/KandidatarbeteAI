@@ -14,6 +14,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -110,5 +111,13 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 
 	public void setRenderPoint(float x, float y){
 		view.setRenderPoint(x, y);
+	}
+
+	public void drawInventory(LinkedList<Model.InventoryRender> inventoryItems){
+		view.renderInventory(inventoryItems);
+	}
+
+	public void hidePlayerInventory(){
+		view.hideInventory();
 	}
 }

@@ -18,4 +18,10 @@ public class CropsItem implements IItem {
     public void setAmount(int value) {
 
     }
+
+    @Override
+
+    public IItem.Type getType() {
+        return Type.CROPS_ITEM;
+    }
 }
