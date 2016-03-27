@@ -19,13 +19,29 @@ public interface ICharacterHandler {
 	void moveLeft();
 	void moveRight();
 
+	void startWalkingUp();
+	void startWalkingDown();
+	void startWalkingLeft();
+	void startWalkingRight();
+	void stopWalkingUp();
+	void stopWalkingDown();
+	void stopWalkingLeft();
+	void stopWalkingRight();
+
+	int getSteplength();
+
+	void startRunning();
+	void stopRunning();
+
 	List<ICollidable> getSurroundings();
 	List<ICollidable> getInteractables();
 	List<IItem> getInventory();
 
 	void useItem(int inventoryIndex);
-	boolean interactWith(int interactablesIndex);
+	boolean interactWith(int interactiblesIndex);
 
 	Outcome getOutcomeInventory(int inventoryIndex);
 	Outcome getOutcomeInteractables(int interactablesIndex);
+
+	//void applyOutcome(Outcome outcome);
 }

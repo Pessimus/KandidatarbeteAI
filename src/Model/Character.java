@@ -17,7 +17,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 	private double collisionRadius;
 	private double interactionRadius;
 
-	private LinkedList<ICollidable>wir;//TODO general interaction
+	private LinkedList<ICollidable> wir;//TODO general interaction
 
 	private float xSpeed;
 	private float ySpeed;
@@ -148,7 +148,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 		this.wir.clear();
 		for(ICollidable c : this.collideX){
 			if(this.collideY.contains(c)){
-				System.out.println("Krock med n�t!!!!!!!!!" + this.hashCode());
 				this.wir.add(c);
 			}
 		}
@@ -369,7 +368,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 
 	@Override
 	public List<ICollidable> getInteractables() {
-		return null;
+		return wir;
 	}
 
 	@Override
@@ -379,7 +378,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 
 	@Override
 	public void useItem(int inventoryIndex) {
-
+		//inventory.getItems().get(inventoryIndex).useItem();
 	}
 
 	@Override
@@ -389,13 +388,26 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 
 	@Override
 	public Outcome getOutcomeInventory(int inventoryIndex) {
-		return null;
+		for(IItem item : inventory.getItems()){
+			//list.add(i.getOutcome());
+		}
+
+		return new Outcome();
 	}
 
 	@Override
 	public Outcome getOutcomeInteractables(int interactablesIndex) {
 		return null;
 	}
+
+	/*
+	@Override
+	public void applyOutcome(Outcome outcome) {
+		energy += outcome.getEnergy();
+		hunger += outcome.getHunger();
+		thirst += outcome.getThirst();
+	}
+	*/
 
 	public void startWalkingUp(){
 		walkingUp=true;

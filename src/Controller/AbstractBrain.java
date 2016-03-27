@@ -1,14 +1,16 @@
 package Controller;
 
 import Model.Character;
+import Model.ICharacterHandler;
 
 /**
  * Created by Gustav on 2016-03-23.
  */
-public abstract class AbstractBrain {
+public interface AbstractBrain {
 
-    private Character body; // The character this Brain controls
+    void step(); // running this allows the brain to control its character
+	void updateCharacterState();
 
-    public abstract void step(); // running this allows the brain to control its character
-
+	void setBody(ICharacterHandler character);
+	ICharacterHandler getBody();
 }

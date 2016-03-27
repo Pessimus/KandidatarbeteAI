@@ -87,8 +87,6 @@ public class View extends BasicGameState implements InputListener{
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-		pcs.firePropertyChange("getModel", false, true);
-
 		tempWidth = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE/scaler);
 		tempHeight = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE/scaler);
     }
@@ -155,6 +153,7 @@ public class View extends BasicGameState implements InputListener{
 			}
 		}
 
+		pcs.firePropertyChange("getModel", false, true);
     }
 
     @Override

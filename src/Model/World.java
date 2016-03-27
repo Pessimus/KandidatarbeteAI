@@ -41,19 +41,18 @@ public class World implements Runnable{
 		this.collidablesR = new LinkedList<>();
 		this.timeables = new LinkedList<>();
 		this.characters = new HashMap<>();
-		addCharacter(450,600,1);
-		characters.get(1).setInteractionRadius(50);
 		pause = false;
 
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		addCharacter(450,600,1);
+		characters.get(1).setInteractionRadius(50);
 		addCharacter(600, 450, 2);
 		addCharacter(500,500,3);
-
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
 		/*for (int i = 5; i < 500; i += 1) {
 			int rx = (int) (Math.random()*1000);
 			int ry = (int) (Math.random()*1000);
@@ -113,6 +112,8 @@ public class World implements Runnable{
 		this.collidables.add(character);
 		this.timeables.add(character);
 		this.characters.put(key, character);
+
+		pcs.firePropertyChange("createdCharacter", null, character);
 
 		return character;
 	}

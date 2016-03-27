@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Character;
 import Model.Constants;
 import Model.RenderObject;
 import Model.World;
@@ -37,7 +38,10 @@ public class Controller implements PropertyChangeListener, Runnable {
 
 	private boolean showingPlayerInventory = false;
 
-	public static Pathfinder pathCalculator = new Pathfinder(16, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, 1, 1.4);
+	private HashMap<Character, AbstractBrain> aiMap = new HashMap<>();
+
+	private PlayerBrain player = new PlayerBrain();
+	//public static final Pathfinder pathCalculator = new Pathfinder(16, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, 1, 1.4);
 
 	private final class ModelToViewRectangle{
 		float rectWidth, rectHeight;
@@ -62,7 +66,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 		}
 
 		public boolean contains(float x, float y){
-			return x > minX && x < maxX && y > minY && y < maxY;
+			return x >= minX && x <= maxX && y >= minY && y <= maxY;
 		}
 
 		public float getMinX() {
@@ -136,6 +140,9 @@ public class Controller implements PropertyChangeListener, Runnable {
 		//while(gameView.)
 		new Timer().scheduleAtFixedRate(new TimerTask(){
 			public void run() {
+				for(AbstractBrain brain : aiMap.values()){
+					brain.step();
+				}
 				updateModel();
 			}
 		}, 0, 1000/Constants.CONTROLLER_UPDATE_INTERVAL);
@@ -197,7 +204,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 		RenderObject[] obj = gameModel.getRenderObjects();
 
 		for (RenderObject tempObj : obj) {
-			if (tempObj.getX()>0 || tempObj.getY()>0) {
+			if (screenRect.contains(tempObj.getX(), tempObj.getY())) {
 				float[] tempInts = convertFromModelToViewCoords(tempObj.getX(), tempObj.getY());
 				temp.add(new RenderObject(tempInts[0], tempInts[1], tempObj.getRadius(), tempObj.getRenderType()));
 			}
@@ -221,22 +228,18 @@ public class Controller implements PropertyChangeListener, Runnable {
 		Object[] tempList = keyboardInputQueue.toArray();
 		keyboardInputQueue.clear();
 
-		//if (tempList != null) {
 		if (tempList.length > 0) {
 			Integer[][] tempKeyList = Arrays.copyOf(tempList, tempList.length, Integer[][].class);
 			handleKeyboardInput(tempKeyList);
 		}
-		//}
 
 		tempList = mouseInputQueue.toArray();
 		mouseInputQueue.clear();
 
-		//if (tempList != null) {
 		if (tempList.length > 0) {
 			Integer[][] tempMouseList = Arrays.copyOf(tempList, tempList.length, Integer[][].class);
 			handleMouseInput(tempMouseList);
 		}
-		//}
 
 		gameModel.run();
 	}
@@ -312,6 +315,13 @@ public class Controller implements PropertyChangeListener, Runnable {
 				if (clicks[0] == View.INPUT_ENUM.MOUSE_PRESSED.value) {
 					if(clicks[1] == Input.MOUSE_LEFT_BUTTON){
 
+						gameModel.selectObject()
+						// TODO: HARDCODED TEST!!!!!
+
+					}
+
+					if(clicks[1] == Input.MOUSE_RIGHT_BUTTON){
+
 						// TODO: HARDCODED TEST!!!!!
 						// TODO: HARDCODED TEST!!!!!
 						// TODO: HARDCODED TEST!!!!!
@@ -365,6 +375,16 @@ public class Controller implements PropertyChangeListener, Runnable {
 		}
 		else if(evt.getPropertyName().equals("updateModel")){
 			updateModel();
+		}
+		else if(evt.getPropertyName().equals("createdCharacter")){
+			Character character = (Character)evt.getNewValue();
+			if(aiMap.containsKey(character)){
+				AbstractBrain tempChar = aiMap.get(character);
+				if(tempChar != null){
+					tempChar.setBody(null);
+				}
+			}
+			aiMap.put(character, new ArtificialBrain(character));
 		}
 	}
 
