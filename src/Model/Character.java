@@ -136,7 +136,7 @@ public class Character implements ICollidable, ITimeable {
 		this.wir.clear();
 		for(ICollidable c : this.collideX){
 			if(this.collideY.contains(c)){
-				System.out.println("Krock med n�t!!!!!!!!!" + this.hashCode());
+				//System.out.println("Krock med n�t!!!!!!!!!" + this.hashCode());
 				this.wir.add(c);
 			}
 		}

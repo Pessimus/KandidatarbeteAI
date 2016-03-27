@@ -52,11 +52,11 @@ public class World implements Runnable{
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
-		/*for (int i = 5; i < 500; i += 1) {
+		for (int i = 5; i < 500; i += 1) {
 			int rx = (int) (Math.random()*1000);
 			int ry = (int) (Math.random()*1000);
 			addCharacter(rx, ry, i);
-		}*/
+		}
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
@@ -223,11 +223,11 @@ public class World implements Runnable{
 	}
 
 	public void removeObjects() {
-		System.out.print("Collidables to remove: " + collidablestoberemoved.size() + "\n");
-		System.out.print("Characters to remove: " + characterstoberemoved.size() + "\n");
-		System.out.print("Timeables to remove: " + timeablestoberemoved.size() + "\n");
-		System.out.print("CollidablesR to remove: " + collideablesrtoberemoved.size() + "\n");
-		System.out.print("\n");
+		//System.out.print("Collidables to remove: " + collidablestoberemoved.size() + "\n");
+		//System.out.print("Characters to remove: " + characterstoberemoved.size() + "\n");
+		//System.out.print("Timeables to remove: " + timeablestoberemoved.size() + "\n");
+		//System.out.print("CollidablesR to remove: " + collideablesrtoberemoved.size() + "\n");
+		//System.out.print("\n");
 		if(collidablestoberemoved != null ) {
 			for (ICollidable collidable : this.collidablestoberemoved) {
 				collidables.remove(collidable);
@@ -255,11 +255,11 @@ public class World implements Runnable{
 			collideablesrtoberemoved.clear();
 		}
 
-		System.out.print("Collidables: " + collidables.getSize() + "\n");
-		System.out.print("Characters: " + characters.size() + "\n");
-		System.out.print("Timeables: " + timeables.size() + "\n");
-		System.out.print("CollidablesR: " + collidablesR.size() + "\n");
-		System.out.print("\n");
+		//System.out.print("Collidables: " + collidables.getSize() + "\n");
+		//System.out.print("Characters: " + characters.size() + "\n");
+		//System.out.print("Timeables: " + timeables.size() + "\n");
+		//System.out.print("CollidablesR: " + collidablesR.size() + "\n");
+		//System.out.print("\n");
 
 
 
