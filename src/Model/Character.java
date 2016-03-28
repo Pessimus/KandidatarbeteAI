@@ -10,52 +10,23 @@ import java.util.List;
  * Created by Tobias on 2016-02-26.
  */
 public class Character implements ICollidable, ITimeable, ICharacterHandle {
-	//------------------Movement Variables---------------------
-	private float xPos;
-	private float yPos;
+	//TODO-------------------------------????------------------------------------------------------------------------\\
 
-	private int updateCounter = 0;
-
-	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
-
-
-	private Inventory inventory;
-
-	//----------------Collision------------------
-
-	private LinkedList<ICollidable> surroundingX;
-	private LinkedList<ICollidable> surroundingY;
-	private LinkedList<ICollidable> surroundings;
-
-	private LinkedList<ICollidable> interactableX;
-	private LinkedList<ICollidable> interactableY;
-	private LinkedList<ICollidable> interactables;
-
-
-	//TESTING
-	private Pathfinder pathTest;
-	private LinkedList<PathStep> stepTest;
-
-	//---------------NEEDS VARIABLES--------------------
-
-	public enum NEEDS_ENUM{
-		HUNGER, THIRST, ENERGY
-	}
-
-	private boolean alive;
-
-	//------------BASIC NEEDS--------------------
-	//Ranges between 0-100, 100 is good, 0 is bad..
-	private int hunger;
-	private int thirst;
-	private int energy;
-
-	//-------------SECONDARY NEEDS-------------------
-	//Ranges between 0-100, 100 is good, 0 is bad..
-	private int social;
-	private int intimacy;
-	private int attention;
-
+//	TODO REMOVE, after checking why they existed in the first place
+//		/*
+//		Method for checking where the character wants to move
+//		 */
+//		public double getNextXPosition(){
+//			return this.xPos+this.xSpeed;
+//		}
+//
+//
+//		/*
+//		Method for checking where the character wants to move
+//		 */
+//		public double getNextYPosition(){
+//			return this.yPos+this.ySpeed;
+//		}
 	//---------------TRAITS VARIABLES--------------------
 
 	public enum TRAITS_ENUM{
@@ -75,11 +46,70 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	private int age;
 	private String gender;
 
-	private float stepLength = Constants.CHARACTER_WALK_SPEED;
+
+	//TESTING
+	private Pathfinder pathTest;
+	private LinkedList<PathStep> stepTest;
+
+
+	public enum NEEDS_ENUM{
+		HUNGER, THIRST, ENERGY
+	}
+
+
+	//generates a gender for the character.
+	public void generateGender() {
+		if(Math.random()<= 0.5) {
+			this.gender = GENDER_ENUM.MAN.getGender();
+		} else {
+			this.gender = GENDER_ENUM.WOMAN.getGender();
+		}
+	}
+
+	//TODO-------------------------------????------------------------------------------------------------------------\\
+
+	//------------------Functionality-------------------\\
+	private int updateCounter = 0;
 
 	private int key;
 
+	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
 
+	private Inventory inventory;
+
+	//--------------------Collision---------------------\\
+	private float xPos;
+	private float yPos;
+
+	private float stepLength = Constants.CHARACTER_WALK_SPEED;
+
+	private LinkedList<ICollidable> surroundingX;
+	private LinkedList<ICollidable> surroundingY;
+	private LinkedList<ICollidable> surroundings;
+
+	private LinkedList<ICollidable> interactableX;
+	private LinkedList<ICollidable> interactableY;
+	private LinkedList<ICollidable> interactables;
+
+	//-----------------NEEDS VARIABLES--------------------\\
+
+	private boolean alive;
+
+	//---BASIC NEEDS---\\
+	//Ranges between 0-100, 100 is good, 0 is bad..
+	private int hunger;
+	private int thirst;
+	private int energy;
+
+	//---SECONDARY NEEDS---\\
+	//Ranges between 0-100, 100 is good, 0 is bad..
+	private int social;
+	private int intimacy;
+	private int attention;
+
+
+
+	//TODO organize
 	public Character(float xPos, float yPos, int key){
 		this.alive = true;
 		//Initial position
@@ -109,14 +139,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.interactables = new LinkedList<>();
 	}
 
-	//generates a gender for the character.
-	public void generateGender() {
-		if(Math.random()<= 0.5) {
-			this.gender = GENDER_ENUM.MAN.getGender();
-		} else {
-			this.gender = GENDER_ENUM.WOMAN.getGender();
-		}
-	}
+//---------------------------------------Getters & Setters------------------------------------------------------------\\
+
+	public int getKey(){ return key;}
 
 	@Override
 	public float getX() {
@@ -128,11 +153,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return this.yPos;
 	}
 
-	public int getKey(){ return key;}
-
 	public float getSteplength(){return stepLength;}
 
-	//----------------------------Collision --------------------------------\\
+//---------------------------------------Collision Methods------------------------------------------------------------\\
 
 	@Override
 	public double getCollisionRadius() {
@@ -196,18 +219,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	}
 
 
-	//-------------------
-
-
-	@Override
-	public RenderObject getRenderObject() {
-		return new RenderObject(getX(), getY(), getCollisionRadius(), renderObjectEnum);
-	}
-
-	@Override
-	public RenderObject.RENDER_OBJECT_ENUM getRenderType() {
-		return renderObjectEnum;
-	}
+	//--------------------------------------UPDATE METHODS------------------------------------------------------------\\
 
 	//Check if character is alive
 	private void updateAlive() {
@@ -265,21 +277,17 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	//TODO--------------------------------------[END of section needing major fixing]-----------------------------------
 
-//	TODO REMOVE, after checking why they existed in the first place
-//		/*
-//		Method for checking where the character wants to move
-//		 */
-//		public double getNextXPosition(){
-//			return this.xPos+this.xSpeed;
-//		}
-//
-//
-//		/*
-//		Method for checking where the character wants to move
-//		 */
-//		public double getNextYPosition(){
-//			return this.yPos+this.ySpeed;
-//		}
+//------------------------------------------------RENDER METHODS------------------------------------------------------\\
+	@Override
+	public RenderObject getRenderObject() {
+		return new RenderObject(getX(), getY(), getCollisionRadius(), renderObjectEnum);
+	}
+
+	@Override
+	public RenderObject.RENDER_OBJECT_ENUM getRenderType() {
+		return renderObjectEnum;
+	}
+
 
 	public LinkedList<InventoryRender> getRenderInventory(){
 		LinkedList<InventoryRender> list = new LinkedList<>();
@@ -294,11 +302,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return list;
 	}
 
-	/*
-		Methods used by the AI or Player follows here.
-		-----------------------------------------------------------------------------------------------------------
-		implementing ICharacterHandle
-	 */
+
+//--------------------------------------ICharacterHandle methods------------------------------------------------------\\
+
 
 	//TODO implement, change type....
 	@Override
@@ -391,13 +397,4 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		stepLength = Constants.CHARACTER_WALK_SPEED;
 	}
 
-
-	//TODO remove this testing method
-	/*public void hit() {
-		for(ICollidable collidable : interactables){
-			if(collidable.getClass().equals(this.getClass())){
-				((Character)collidable).alive = false;
-			}
-		}
-	}*/
 }
