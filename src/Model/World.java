@@ -71,8 +71,8 @@ public class World implements Runnable{
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
-		addCharacter(450,600,Constants.PLAYER_CHARACTER_KEY);
-		characters.get(Constants.PLAYER_CHARACTER_KEY).setInteractionRadius(50);
+		//addCharacter(450,600,Constants.PLAYER_CHARACTER_KEY);
+		//characters.get(Constants.PLAYER_CHARACTER_KEY).setInteractionRadius(50);
 		addCharacter(600, 450, 2);
 		addCharacter(500,500,3);
 		for (int i = 5; i < 500; i += 1) {
@@ -208,49 +208,7 @@ public class World implements Runnable{
 			pause = false;
 		}
 	}
-
-	//TODO remove this part from world to other class for the code to work the same way ofr players and AI.-------------
-	public void movePlayerUp() {
-		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingUp();
-	}
-
-	public void movePlayerDown() {
-		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingDown();
-	}
-
-	public void movePlayerLeft() {
-		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingLeft();
-	}
-
-	public void movePlayerRight() {
-		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingRight();
-	}
-
-	public void stopPlayerUp() {
-		characters.get(Constants.PLAYER_CHARACTER_KEY).stopWalkingUp();
-	}
-
-	public void stopPlayerDown() {
-		characters.get(Constants.PLAYER_CHARACTER_KEY).stopWalkingDown();
-	}
-
-	public void stopPlayerRight() {
-		characters.get(Constants.PLAYER_CHARACTER_KEY).stopWalkingRight();
-	}
-
-	public void stopPlayerLeft() {
-		characters.get(Constants.PLAYER_CHARACTER_KEY).stopWalkingLeft();
-	}
-
-	public void playerRunning() {
-		characters.get(Constants.PLAYER_CHARACTER_KEY).startRunning();
-	}
-
-	public void playerWalking() {
-		characters.get(Constants.PLAYER_CHARACTER_KEY).stopRunning();
-	}
-	//TODO--------------------------------------------------------------------------------------------------------------
-
+	
 	//TODO better MVC praxis
 	public LinkedList<InventoryRender> displayPlayerInventory() {
 		return characters.get(Constants.PLAYER_CHARACTER_KEY).getRenderInventory();

@@ -132,6 +132,9 @@ public class Controller implements PropertyChangeListener, Runnable {
 	public Controller(StateViewInit view, World model){
 		keyboardInputQueue = new LinkedList<>();
 		mouseInputQueue = new LinkedList<>();
+
+		player.setBody(model.addCharacter(450,600,Constants.PLAYER_CHARACTER_KEY));
+
 		setView(view);
 		setModel(model);
 
@@ -279,15 +282,20 @@ public class Controller implements PropertyChangeListener, Runnable {
 				if (clicks[0] == View.INPUT_ENUM.KEY_PRESSED.value) {
 
 					if (clicks[1] == Input.KEY_UP) {
-						gameModel.movePlayerUp();
+						//gameModel.movePlayerUp();
+						player.movePlayerUp();
 					} else if (clicks[1] == Input.KEY_DOWN) {
-						gameModel.movePlayerDown();
+						//gameModel.movePlayerDown();
+						player.movePlayerDown();
 					} else if (clicks[1] == Input.KEY_LEFT) {
-						gameModel.movePlayerLeft();
+						//gameModel.movePlayerLeft();
+						player.movePlayerLeft();
 					} else if (clicks[1] == Input.KEY_RIGHT) {
-						gameModel.movePlayerRight();
+						//gameModel.movePlayerRight();
+						player.movePlayerRight();
 					} else if(clicks[1] == Input.KEY_R){
-						gameModel.playerRunning();
+						//gameModel.playerRunning();
+						player.playerRunning();
 					} else if (clicks[1] == Input.KEY_P) {
 						gameModel.pause();
 					}
@@ -302,17 +310,22 @@ public class Controller implements PropertyChangeListener, Runnable {
 					}
 				}else if(clicks[0] == View.INPUT_ENUM.KEY_RELEASED.value){
 					if (clicks[1] == Input.KEY_UP) {
-						gameModel.stopPlayerUp();
+						//gameModel.stopPlayerUp();
+						player.stopPlayerUp();
 					} else if (clicks[1] == Input.KEY_DOWN) {
-						gameModel.stopPlayerDown();
+						//gameModel.stopPlayerDown();
+						player.stopPlayerDown();
 					} else if (clicks[1] == Input.KEY_LEFT) {
-						gameModel.stopPlayerLeft();
+						//gameModel.stopPlayerLeft();
+						player.stopPlayerLeft();
 					} else if (clicks[1] == Input.KEY_RIGHT) {
-						gameModel.stopPlayerRight();
+						//gameModel.stopPlayerRight();
+						player.stopPlayerRight();
 					} else if (clicks[1] == Input.KEY_F){
 						gameModel.hit();
 					}else if(clicks[1] == Input.KEY_R){
-						gameModel.playerWalking();
+						//gameModel.playerWalking();
+						player.playerWalking();
 					}else if(clicks[1] == Input.KEY_I){
 						showingPlayerInventory = !showingPlayerInventory;
 						if(showingPlayerInventory){

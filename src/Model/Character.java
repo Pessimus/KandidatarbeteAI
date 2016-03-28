@@ -124,8 +124,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.interactables = new LinkedList<>();
 
 		this.collisionRadius = 5;//TODO add to constants
-		this.interactionRadius = 10;//TODO add to constants
-		this.surroundingRadius = 20;//TODO add to constants
+		this.interactionRadius = 50;//TODO add to constants
+		this.surroundingRadius = 60;//TODO add to constants
 	}
 
 	//generates a gender for the character.
