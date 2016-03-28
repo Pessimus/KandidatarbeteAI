@@ -14,7 +14,16 @@ import java.util.*;
  * Created by Tobias on 2016-02-26.
  */
 public class Controller implements PropertyChangeListener {
+//TODO-----------------------------------????-------------------------------------------------------------------------\\
 
+//TODO REMOVE deprecated method
+//	private void handleModelEvent(PropertyChangeEvent evt){
+//		if(evt.getPropertyName().equals("update")){
+//			//updateView();
+//	}
+
+
+//TODO-----------------------------------END ????---------------------------------------------------------------------\\
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 
 	//-------------------MVC variables------------------\\
@@ -26,7 +35,7 @@ public class Controller implements PropertyChangeListener {
 	private HashMap<Character, AbstractBrain> aiMap = new HashMap<>();
 
 	//-----------------Model variables------------------\\
-	//TODO check what it affects
+	//TODO MEMO check what it affects
 	private int gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
 
 
@@ -179,12 +188,9 @@ public class Controller implements PropertyChangeListener {
 
 		gameModel.uppdate();
 	}
-
-
+	
 //--------------------------------------------Input Methods-----------------------------------------------------------\\
 
-
-	//TODO change from if-statements to switch-chase-statements
 	private void handleKeyboardInput(Integer[][] keyboardClicks) {
 		// Keyboard input
 		if (keyboardClicks.length > 0) {
@@ -254,9 +260,7 @@ public class Controller implements PropertyChangeListener {
 		}
 	}
 
-//----------------------------------------------???????????-----------------------------------------------------------\\
-
-	//TODO MEMO TO ME! Check what is wanted here, and what is done...
+//TODO --------------Decide what should happen in the different cases. Right now nothing happens!!----------------------
 	private void handleMouseInput(Integer[][] mouseClicks){
 		// Mouse input
 		if(mouseClicks.length > 0) {
@@ -268,36 +272,31 @@ public class Controller implements PropertyChangeListener {
 				// clicks[3] = y-value of where the mouse was pressed/released
 
 				if (clicks[0] == View.INPUT_ENUM.MOUSE_PRESSED.value) {
+					//The mouse button was pressed.
 					if(clicks[1] == Input.MOUSE_LEFT_BUTTON){
-						float[] tempFloats = convertFromViewToModelCoords(clicks[2], clicks[3]);
+						//The left mouse button was pressed.
+						//TODO WHAT SHOULD BE DONE HERE?!
+						//float[] tempFloats = convertFromViewToModelCoords(clicks[2], clicks[3]);
 						//gameModel.selectObject(tempFloats[0], tempFloats[1]);
-
 					}
 
 					if(clicks[1] == Input.MOUSE_RIGHT_BUTTON){
-
-						// TODO: HARDCODED TEST!!!!!
-						// TODO: HARDCODED TEST!!!!!
-						// TODO: HARDCODED TEST!!!!!
-						// TODO: HARDCODED TEST!!!!!
-						// TODO: HARDCODED TEST!!!!!
-						// TODO: HARDCODED TEST!!!!!
-
-
-
-						// TODO: HARDCODED TEST!!!!!
-						// TODO: HARDCODED TEST!!!!!
-						// TODO: HARDCODED TEST!!!!!
-						// TODO: HARDCODED TEST!!!!!
-						// TODO: HARDCODED TEST!!!!!
-						// TODO: HARDCODED TEST!!!!!
-
+						//The right mouse button was pressed.
+						//TODO WHAT SHOULD BE DONE HERE?!
 					}
 				}
 				else if (clicks[0] == View.INPUT_ENUM.MOUSE_RELEASED.value) {
-					;
-				}
+					//The mouse button was released.
+					if(clicks[1] == Input.MOUSE_LEFT_BUTTON){
+						//The left mouse button was released.
+						//TODO WHAT SHOULD BE DONE HERE?!
+					}
 
+					if(clicks[1] == Input.MOUSE_RIGHT_BUTTON){
+						//The right mouse button was released.
+						//TODO WHAT SHOULD BE DONE HERE?!
+					}
+				}
 				// clicks[0] = If the mouse button is pressed/released/moved!
 				// clicks[1] = x-value of the old mouse position
 				// clicks[2] = y-value of the old mouse position
@@ -311,6 +310,27 @@ public class Controller implements PropertyChangeListener {
 		}
 	}
 
+//-------------------------------------Event handling methods---------------------------------------------------------\\
+
+	//TODO (if possible) add ENUMS for where from the update was sent.
+	//TODO Remove this step as there are no events from the model?
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if(evt != null){
+			if(evt.getPropertyName() != null){
+				if(evt.getSource() instanceof BasicGameState){
+					// If the source of the event is the 'View', handle that separately.
+					handleViewEvent(evt);
+				}
+//				if(evt.getSource().equals(gameModel)){
+//					// If the source of the event is the 'Model', handle that separately.
+//					handleModelEvent(evt);
+//				}
+			}
+		}
+	}
+
+	//TODO Comment and clean up.
 	private void handleViewEvent(PropertyChangeEvent evt) {
 
 		if (evt.getPropertyName().equals(View.INPUT_ENUM.KEY_PRESSED.toString()) || evt.getPropertyName().equals(View.INPUT_ENUM.KEY_RELEASED.toString())) {
@@ -342,29 +362,7 @@ public class Controller implements PropertyChangeListener {
 		}
 	}
 
-//TODO REMOVE deprecated method
-//	private void handleModelEvent(PropertyChangeEvent evt){
-//		if(evt.getPropertyName().equals("update")){
-//			//updateView();
-//	}
-
-	//TODO (if possible) add ENUMS for where from the update was sent.
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		if(evt != null){
-			if(evt.getPropertyName() != null){
-				if(evt.getSource() instanceof BasicGameState){
-					// If the source of the event is the 'View', handle that separately.
-					handleViewEvent(evt);
-				}
-
-//				if(evt.getSource().equals(gameModel)){
-//					// If the source of the event is the 'Model', handle that separately.
-//					handleModelEvent(evt);
-//				}
-			}
-		}
-	}
+//----------------------------------Model and View converting methods-------------------------------------------------\\
 
 	private float[] convertFromModelToViewCoords(float x, float y){
 		return new float[]{x - screenRect.getMinX(), y - screenRect.getMinY()};
@@ -373,7 +371,6 @@ public class Controller implements PropertyChangeListener {
 	private float[] convertFromViewToModelCoords(float x, float y){
 		return new float[]{x + screenRect.getMinX(), y + screenRect.getMinY()};
 	}
-
 
 	private final class ModelToViewRectangle{
 		float rectWidth, rectHeight;
