@@ -53,9 +53,6 @@ public class World implements Runnable{
 					gameSpeed = gs;
 				}
 
-
-	//private Semaphore sema = new Semaphore(1);//TODO REMOVE deprecated variable
-
 	public World (double width, double height){
 		this.width = width;
 		this.height = height;
@@ -63,31 +60,6 @@ public class World implements Runnable{
 		this.collidablesR = new LinkedList<>();
 		this.timeables = new LinkedList<>();
 		this.characters = new HashMap<>();
-
-		// TODO remove hardcoded test.
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		//addCharacter(450,600,Constants.PLAYER_CHARACTER_KEY);
-		//characters.get(Constants.PLAYER_CHARACTER_KEY).setInteractionRadius(50);
-		addCharacter(600, 450, 2);
-		addCharacter(500,500,3);
-		for (int i = 5; i < 500; i += 1) {
-			int rx = (int) (Math.random()*1000);
-			int ry = (int) (Math.random()*1000);
-			addCharacter(rx, ry, i);
-		}
-		ResourcePoint meat = new ResourcePoint(new Meat(100), RenderObject.RENDER_OBJECT_ENUM.MEAT, 700f, 700f, 100.);
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO remove hardcoded test.
 	}
 
 	/**
@@ -108,15 +80,17 @@ public class World implements Runnable{
 					collideablesrtoberemoved.add(character);
 					timeablestoberemoved.add(character);
 					characterstoberemoved.add(character);
-				} else {
-					//TODO Code for updating the character (movement and actions?)
 				}
 			}
-			this.collidables.handleCollision();//TODO put after removal of dead characters, and update the way the result is saved.
 
 			removeObjects();
 
-			this.pcs.firePropertyChange("update",0, 1);//TODO check if needed, else remove.
+			//TODO rename (probably)
+			this.collidables.handleCollision();
+
+			//TODO Code for updating the character (movement and actions?)
+
+			this.pcs.firePropertyChange("update",0, 1);//TODO change the way the loop in controller works.
 		}
 	}
 
