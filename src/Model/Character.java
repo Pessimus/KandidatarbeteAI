@@ -75,6 +75,19 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		HUNGER, THIRST, ENERGY
 	}
 
+	public enum GENDER_ENUM {
+		MAN("man"), WOMAN("woman");
+		private  String gender;
+
+		GENDER_ENUM (String g) {gender = g; }
+
+		public String getGender(){
+			return gender;
+		}
+	}
+	private int age;
+	private String gender;
+
 	private float stepLength = Constants.CHARACTER_WALK_SPEED;
 
 	private int key;
@@ -88,6 +101,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		//this.xSpeed = 0;//TODO remove
 		//this.ySpeed = 0;//TODO remove
 		this.key = key;
+		//Generate Gender
+		generateGender();
 
 		//Create inventory
 		inventory = new Inventory();
@@ -111,6 +126,15 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.collisionRadius = 5;//TODO add to constants
 		this.interactionRadius = 10;//TODO add to constants
 		this.surroundingRadius = 20;//TODO add to constants
+	}
+
+	//generates a gender for the character.
+	public void generateGender() {
+		if(Math.random()<= 0.5) {
+			this.gender = GENDER_ENUM.MAN.getGender();
+		} else {
+			this.gender = GENDER_ENUM.WOMAN.getGender();
+		}
 	}
 
 	@Override

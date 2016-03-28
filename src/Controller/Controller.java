@@ -11,6 +11,10 @@ import java.beans.PropertyChangeListener;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import static Model.Constants.CONTROLLER_UPDATE_INTERVAL_FASTER;
+import static Model.Constants.CONTROLLER_UPDATE_INTERVAL_FASTEST;
+import static Model.Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
+
 /**
  * Created by Tobias on 2016-02-26.
  */
@@ -22,6 +26,10 @@ public class Controller implements PropertyChangeListener, Runnable {
 	/* Help Objects */
 	private final Queue<Integer[]> keyboardInputQueue;
 	private final Queue<Integer[]> mouseInputQueue;
+
+
+	private int gameSpeed = CONTROLLER_UPDATE_INTERVAL_NORMAL;
+
 
 	//private final Semaphore keyboardSema = new Semaphore(1);//TODO REMOVE unused variable
 	//private final Semaphore mouseSema = new Semaphore(1);//TODO REMOVE unused variable
@@ -142,7 +150,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 				}
 				updateModel();
 			}
-		}, 0, 1000/Constants.CONTROLLER_UPDATE_INTERVAL);
+		}, 0, 1000/gameSpeed);
 	}
 
 	//TODO change to try catch! (View = null should result in error)
@@ -151,6 +159,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 		if(view != null){
 			gameView = view;
 			gameView.addPropertyChangeListener(this); // TODO: 'View' should use PropertyChangeSupport
+													  // TODO: It does...
 			return true;
 		}
 
@@ -184,13 +193,13 @@ public class Controller implements PropertyChangeListener, Runnable {
 		if (mouseX >= Constants.SCREEN_EDGE_TRIGGER_MAX_X) {
 			float width = (float)gameModel.getWidth();
 			if (screenRect.getMaxX() < width) {
-				screenRect.translatePosition(Constants.SCREEN_SCROLL_SPEED_X / Constants.CONTROLLER_UPDATE_INTERVAL, 0);
+				screenRect.translatePosition(Constants.SCREEN_SCROLL_SPEED_X / CONTROLLER_UPDATE_INTERVAL_NORMAL, 0);
 			} else {
 				screenRect.setMaxX(width);
 			}
 		} else if (mouseX <= Constants.SCREEN_EDGE_TRIGGER_MIN_X) {
 			if (screenRect.getMinX() > 0) {
-				screenRect.translatePosition(-Constants.SCREEN_SCROLL_SPEED_X / Constants.CONTROLLER_UPDATE_INTERVAL, 0);
+				screenRect.translatePosition(-Constants.SCREEN_SCROLL_SPEED_X / CONTROLLER_UPDATE_INTERVAL_NORMAL, 0);
 			} else {
 				screenRect.setMinX(0);
 			}
@@ -199,13 +208,13 @@ public class Controller implements PropertyChangeListener, Runnable {
 		if (mouseY >= Constants.SCREEN_EDGE_TRIGGER_MAX_Y) {
 			float height = (float)gameModel.getHeight();
 			if (screenRect.getMaxY() < height) {
-				screenRect.translatePosition(0, Constants.SCREEN_SCROLL_SPEED_Y / Constants.CONTROLLER_UPDATE_INTERVAL);
+				screenRect.translatePosition(0, Constants.SCREEN_SCROLL_SPEED_Y / CONTROLLER_UPDATE_INTERVAL_NORMAL);
 			} else {
 				screenRect.setMaxY(height);
 			}
 		} else if (mouseY <= Constants.SCREEN_EDGE_TRIGGER_MIN_Y) {
 			if (screenRect.getMinY() > 0) {
-				screenRect.translatePosition(0, -Constants.SCREEN_SCROLL_SPEED_Y / Constants.CONTROLLER_UPDATE_INTERVAL);
+				screenRect.translatePosition(0, -Constants.SCREEN_SCROLL_SPEED_Y / CONTROLLER_UPDATE_INTERVAL_NORMAL);
 			} else {
 				screenRect.setMinY(0);
 			}
@@ -283,13 +292,13 @@ public class Controller implements PropertyChangeListener, Runnable {
 						gameModel.pause();
 					}
 					else if (clicks[1] == Input.KEY_1) {
-						World.setGameSpeed(World.GAMESPEED.NORMAL.getGameSpeed());
+						gameSpeed = CONTROLLER_UPDATE_INTERVAL_NORMAL;
 					}
 					else if (clicks[1] == Input.KEY_2) {
-						World.setGameSpeed(World.GAMESPEED.FAST.getGameSpeed());
+						gameSpeed = CONTROLLER_UPDATE_INTERVAL_FASTER;
 					}
 					else if (clicks[1] == Input.KEY_3) {
-						World.setGameSpeed(World.GAMESPEED.FASTER.getGameSpeed());
+						gameSpeed = CONTROLLER_UPDATE_INTERVAL_FASTEST;
 					}
 				}else if(clicks[0] == View.INPUT_ENUM.KEY_RELEASED.value){
 					if (clicks[1] == Input.KEY_UP) {

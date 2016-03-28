@@ -64,22 +64,29 @@ public class World implements Runnable{
 		this.timeables = new LinkedList<>();
 		this.characters = new HashMap<>();
 
-		pause = false;
-		this.gameSpeed = GAMESPEED.NORMAL.getGameSpeed();
-
-		// TODO remove hardcoded test
-				addCharacter(450,600,1);
-				characters.get(1).setInteractionRadius(50);
-
-
-				addCharacter(600, 450, 2);
-				addCharacter(500,500,3);
-
-				for (int i = 5; i < 500; i += 1) {
-					int rx = (int) (Math.random()*1000);
-					int ry = (int) (Math.random()*1000);
-					addCharacter(rx, ry, i);
-				}
+		// TODO remove hardcoded test.
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		addCharacter(450,600,Constants.PLAYER_CHARACTER_KEY);
+		characters.get(Constants.PLAYER_CHARACTER_KEY).setInteractionRadius(50);
+		addCharacter(600, 450, 2);
+		addCharacter(500,500,3);
+		for (int i = 5; i < 500; i += 1) {
+			int rx = (int) (Math.random()*1000);
+			int ry = (int) (Math.random()*1000);
+			addCharacter(rx, ry, i);
+		}
+		ResourcePoint meat = new ResourcePoint(new Meat(100), RenderObject.RENDER_OBJECT_ENUM.MEAT, 700f, 700f, 100.);
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
+		// TODO: HARDCODED TEST!!!!!
 		// TODO remove hardcoded test.
 	}
 
