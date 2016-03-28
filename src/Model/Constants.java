@@ -63,6 +63,10 @@ public final class Constants {
 	public static final			int			CHARACTER_THIRST_CHANGE				=	1;
 	public static final			int			CHARACTER_ENERGY_CHANGE				=	1;
 
+	//----------- Inventory Constants ------------- \\
+
+	public static final			int 		MAX_INVENTORY_SLOTS					=	9;
+
 	// ----------- PATHFINDER Constants ----------- \\
 
 	public static final		int				PATHFINDER_GRID_SIZE				=	16;
