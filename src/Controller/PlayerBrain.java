@@ -25,7 +25,6 @@ public class PlayerBrain implements AbstractBrain {
     }
 
     public void update() {
-
     }
 
 	@Override

@@ -13,7 +13,11 @@ public final class RenderObject{
 	//TODO ENUM for type
 
 	public enum RENDER_OBJECT_ENUM{
-		CHARACTER("res/Villager16x16.png"), TREE("res/terrain.png");
+		CHARACTER("res/Villager16x16.png"), TREE("res/terrain.png"),
+
+		// TODO: Hardcoded test enum
+		MEAT("res/meat_item.png");
+		// TODO: Hardcoded test enum
 
 		public String pathToResource;
 

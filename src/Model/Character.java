@@ -181,18 +181,18 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 		//TODO Implement ageing etc...
 
 		//Updates counter with one but doesn't exceed 60.
-		updateCounter = (int)((updateCounter+1) % (60/World.getGameSpeed()));
-		System.out.println((updateCounter+1)% 60/World.getGameSpeed());
-		if(updateCounter % (60/World.getGameSpeed()) == 0) {
-			if(walkingUp)
-				moveUp();
-			if(walkingDown)
-				moveDown();
-			if(walkingRight)
-				moveRight();
-			if(walkingLeft)
-				moveLeft();
-		}
+		//updateCounter = (int)((updateCounter+1) % (60/World.getGameSpeed()));
+		//System.out.println((updateCounter+1)% 60/World.getGameSpeed());
+		//if(updateCounter % (60/World.getGameSpeed()) == 0) {
+		if(walkingUp)
+			moveUp();
+		if(walkingDown)
+			moveDown();
+		if(walkingRight)
+			moveRight();
+		if(walkingLeft)
+			moveLeft();
+		//}
 
 		updateNeeds();
 		//moveAround();

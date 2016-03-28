@@ -10,6 +10,8 @@ import java.awt.*;
 public final class Constants {
 	public static final			String		GAME_TITLE							=	"AI for NPCs";
 
+	// ----------- Controller Constants ----------- \\
+
 	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2;
 	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2;
 
@@ -29,7 +31,10 @@ public final class Constants {
 	public static final 		int 		TARGET_FRAMERATE 					= 	60;
 	public static final 		boolean		GAME_GRAB_MOUSE						= 	false;
 	public static final 		boolean 	RUN_IN_FULLSCREEN 					= 	false;
-	public static final 		long		CONTROLLER_UPDATE_INTERVAL			= 	60; // Updates per second
+
+	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_NORMAL 	= 	60; // Updates per second
+	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_FASTER 	= 	120; // Updates per second
+	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_FASTEST 	= 	240; // Updates per second
 
 	public static final			int			PLAYER_CHARACTER_KEY				= 	1;
 	public static final			float		CHARACTER_WALK_SPEED				=	6f; // Pixels per update

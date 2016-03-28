@@ -28,19 +28,6 @@ public class World implements Runnable{
 	private double width;
 	private double height;
 	private boolean pause;
-	public enum GAMESPEED {
-		NORMAL(1), FAST(1.5), FASTER(2);
-
-		private final double gameSpeed;
-
-		GAMESPEED(double gameSpeed) {
-			this.gameSpeed = gameSpeed;
-		}
-
-		public double getGameSpeed() {
-			return gameSpeed;
-		}
-	}
 
 	private static double gameSpeed;
 	public static double getGameSpeed() {
@@ -62,15 +49,13 @@ public class World implements Runnable{
 		this.characters = new HashMap<>();
 		pause = false;
 
-		this.gameSpeed = GAMESPEED.NORMAL.getGameSpeed();
-
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
-		addCharacter(450,600,1);
+		addCharacter(450,600,Constants.PLAYER_CHARACTER_KEY);
 		characters.get(1).setInteractionRadius(50);
 		addCharacter(600, 450, 2);
 		addCharacter(500,500,3);
@@ -79,6 +64,7 @@ public class World implements Runnable{
 			int ry = (int) (Math.random()*1000);
 			addCharacter(rx, ry, i);
 		}*/
+		ResourcePoint meat = new ResourcePoint(new Meat(100), RenderObject.RENDER_OBJECT_ENUM.MEAT, 700f, 700f, 100.);
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
