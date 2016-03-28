@@ -44,51 +44,50 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 //		}
 	//---------------TRAITS VARIABLES--------------------
 
-	public enum TRAITS_ENUM{
-		HUNGER, THIRST, ENERGY
-	}
+//	public enum TRAITS_ENUM{
+//		HUNGER, THIRST, ENERGY
+//	}
 
-	public enum GENDER_ENUM {
-		MAN("man"), WOMAN("woman");
-		private  String gender;
-
-		GENDER_ENUM (String g) {gender = g; }
-
-		public String getGender(){
-			return gender;
-		}
-	}
-	private int age;
-	private String gender;
+//	public enum GENDER_ENUM {
+//		MAN("man"), WOMAN("woman");
+//		private  String gender;
+//
+//		GENDER_ENUM (String g) {gender = g; }
+//
+//		public String getGender(){
+//			return gender;
+//		}
+//	}
+//	private String gender;
 
 
 	//TESTING
-	private Pathfinder pathTest;
-	private LinkedList<PathStep> stepTest;
+//	private Pathfinder pathTest;
+//	private LinkedList<PathStep> stepTest;
 
 
-	public enum NEEDS_ENUM{
-		HUNGER, THIRST, ENERGY
-	}
+//	public enum NEEDS_ENUM{
+//		HUNGER, THIRST, ENERGY
+//	}
 
 
 	//generates a gender for the character.
-	public void generateGender() {
-		if(Math.random()<= 0.5) {
-			this.gender = GENDER_ENUM.MAN.getGender();
-		} else {
-			this.gender = GENDER_ENUM.WOMAN.getGender();
-		}
-	}
+//	public void generateGender() {
+//		if(Math.random()<= 0.5) {
+//			this.gender = GENDER_ENUM.MAN.getGender();
+//		} else {
+//			this.gender = GENDER_ENUM.WOMAN.getGender();
+//		}
+//	}
 
 
 	//---SECONDARY NEEDS---\\
 	//Ranges between 0-100, 100 is good, 0 is bad..
-	private int social;
-	private int intimacy;
-	private int attention;
+//	private int social;
+//	private int intimacy;
+//	private int attention;
 
-	//TODO-------------------------------????------------------------------------------------------------------------\\
+	//TODO-------------------------------END ????---------------------------------------------------------------------\\
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 
@@ -118,6 +117,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	//-----------------NEEDS VARIABLES--------------------\\
 
 	private boolean alive;
+	private int age;
 
 	//---BASIC NEEDS---\\
 	//Ranges between 0-100, 100 is good, 0 is bad..
@@ -125,28 +125,24 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	private int thirst;
 	private int energy;
 
-
+	//-----------------CONSTRUCTOR--------------------\\
 	//TODO organize
 	public Character(float xPos, float yPos, int key){
 		this.alive = true;
+		this.age = 0;
+		this.inventory = new Inventory();
+		this.key = key;
+
 		//Initial position
 		this.xPos = xPos;
 		this.yPos = yPos;
-		this.key = key;
-		//Generate Gender
-		generateGender();
 
-		//Create inventory
-		inventory = new Inventory();
-
+		//Initialize needs
 		this.hunger = Constants.CHARACTER_HUNGER_MAX;
 		this.thirst = Constants.CHARACTER_THIRST_MAX;
 		this.energy = Constants.CHARACTER_ENERGY_MAX;
 
-		this.pathTest = new Pathfinder(16, 9600, 9600, 1, 1.4);
-		this.pathTest.updateMask(new CollisionList());
-		this.stepTest = null;
-
+		//Initialize collision detection lists
 		this.surroundingX = new LinkedList<>();
 		this.surroundingY = new LinkedList<>();
 		this.surroundings = new LinkedList<>();
@@ -154,6 +150,16 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.interactableX = new LinkedList<>();
 		this.interactableY = new LinkedList<>();
 		this.interactables = new LinkedList<>();
+
+		//TODO check if this should be removed
+		//this.pathTest = new Pathfinder(16, 9600, 9600, 1, 1.4);
+		//this.pathTest.updateMask(new CollisionList());
+		//this.stepTest = null;
+
+		//TODO check if this should be removed
+		//Generate Gender
+		//generateGender();
+
 	}
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
@@ -253,26 +259,26 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	public void updateTimeable() {
 		//Updates counter with one but doesn't exceed 60.
-		updateCounter = (updateCounter+1) % 60;
+		updateCounter = (updateCounter+1) % Constants.CHARACTER_UPDATE_INTERVALL;
 
-		//Update NEEDS
-		if(updateCounter == Constants.CHARACTER_HUNGER_UPDATE){
+		if(updateCounter % Constants.CHARACTER_HUNGER_UPDATE == 0){
 			hunger = hunger - Constants.CHARACTER_HUNGER_CHANGE;
 		}
-		if(updateCounter == Constants.CHARACTER_ENERGY_UPDATE){
+		if(updateCounter % Constants.CHARACTER_ENERGY_UPDATE == 0){
 			energy = energy - Constants.CHARACTER_ENERGY_CHANGE;
 		}
-		if(updateCounter == Constants.CHARACTER_THIRST_UPDATE){
+		if(updateCounter % Constants.CHARACTER_THIRST_UPDATE == 0){
 			thirst = thirst - Constants.CHARACTER_THIRST_CHANGE;
+		}
+		if(updateCounter % Constants.CHARACTER_AGE_UPDATE == 0){
+			age++;
 		}
 
 		updateAlive();
-
-		//TODO Implement ageing etc...
-
 	}
 
 //------------------------------------------------RENDER METHODS------------------------------------------------------\\
+
 	@Override
 	public RenderObject getRenderObject() {
 		return new RenderObject(getX(), getY(), getCollisionRadius(), renderObjectEnum);
@@ -282,7 +288,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	public RenderObject.RENDER_OBJECT_ENUM getRenderType() {
 		return renderObjectEnum;
 	}
-
 
 	public LinkedList<InventoryRender> getRenderInventory(){
 		LinkedList<InventoryRender> list = new LinkedList<>();
@@ -297,9 +302,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return list;
 	}
 
-
 //--------------------------------------ICharacterHandle methods------------------------------------------------------\\
-
 
 	//TODO implement, change type....
 	@Override

@@ -44,6 +44,7 @@ public final class Constants {
 	public static final			int			PLAYER_CHARACTER_KEY				= 	1;
 	public static final			float		CHARACTER_WALK_SPEED				=	6f;
 	public static final			float		CHARACTER_RUN_SPEED					=	12f;
+	public static final 		int			CHARACTER_UPDATE_INTERVALL			=	60;
 
 	public static final 		double		CHARACTER_COLLISION_RADIUS			=	5;
 	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	10;
@@ -56,6 +57,7 @@ public final class Constants {
 	public static final			int			CHARACTER_HUNGER_UPDATE				=	20;
 	public static final			int			CHARACTER_THIRST_UPDATE				=	40;
 	public static final			int			CHARACTER_ENERGY_UPDATE				=	20;
+	public static final			int			CHARACTER_AGE_UPDATE				=	60;
 
 	public static final			int			CHARACTER_HUNGER_CHANGE				=	1;
 	public static final			int			CHARACTER_THIRST_CHANGE				=	1;
