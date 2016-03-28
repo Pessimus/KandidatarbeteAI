@@ -188,7 +188,7 @@ public class Controller implements PropertyChangeListener {
 
 		gameModel.uppdate();
 	}
-	
+
 //--------------------------------------------Input Methods-----------------------------------------------------------\\
 
 	private void handleKeyboardInput(Integer[][] keyboardClicks) {
