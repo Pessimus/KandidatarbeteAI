@@ -320,9 +320,8 @@ public class Controller implements PropertyChangeListener, Runnable {
 					} else if (clicks[1] == Input.KEY_RIGHT) {
 						//gameModel.stopPlayerRight();
 						player.stopPlayerRight();
-					} else if (clicks[1] == Input.KEY_F){
-						//gameModel.hit();
-					}else if(clicks[1] == Input.KEY_R){
+
+					} else if(clicks[1] == Input.KEY_R){
 						//gameModel.playerWalking();
 						player.playerWalking();
 					}else if(clicks[1] == Input.KEY_I){
