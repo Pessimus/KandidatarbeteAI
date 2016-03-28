@@ -45,6 +45,10 @@ public final class Constants {
 	public static final			float		CHARACTER_WALK_SPEED				=	6f;
 	public static final			float		CHARACTER_RUN_SPEED					=	12f;
 
+	public static final 		double		CHARACTER_COLLISION_RADIUS			=	5;
+	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	10;
+	public static final 		double		CHARACTER_SURROUNDING_RADIUS		=	30;
+
 	public static final 		int			CHARACTER_HUNGER_MAX				=	100;
 	public static final 		int			CHARACTER_THIRST_MAX				=	100;
 	public static final 		int			CHARACTER_ENERGY_MAX				=	100;

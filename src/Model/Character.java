@@ -16,23 +16,12 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	private int updateCounter = 0;
 
-		//TODO Update the way the player moves the character to be the same way as the AI.
-		//Tells the update function for each character if they are currently walking in any direction;
-	/*
-		private boolean walkingUp = false;
-		private boolean walkingDown = false;
-		private boolean walkingLeft = false;
-		private boolean walkingRight = false;
-*/
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
 
 
 	private Inventory inventory;
 
 	//----------------Collision------------------
-	private double collisionRadius;
-	private double interactionRadius;
-	private double surroundingRadius;
 
 	private LinkedList<ICollidable> surroundingX;
 	private LinkedList<ICollidable> surroundingY;
@@ -118,10 +107,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.interactableX = new LinkedList<>();
 		this.interactableY = new LinkedList<>();
 		this.interactables = new LinkedList<>();
-
-		this.collisionRadius = 5;//TODO add to constants
-		this.interactionRadius = 50;//TODO add to constants
-		this.surroundingRadius = 60;//TODO add to constants
 	}
 
 	//generates a gender for the character.
@@ -151,21 +136,17 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	@Override
 	public double getCollisionRadius() {
-		return this.collisionRadius;
+		return Constants.CHARACTER_COLLISION_RADIUS;
 	}
 
 	@Override
 	public double getInteractionRadius(){
-		return this.interactionRadius;
+		return Constants.CHARACTER_INTERACTION_RADIUS;
 	}
 
 	@Override
 	public double getSurroundingRadius(){
-		return this.surroundingRadius;
-	}
-
-	public void setInteractionRadius(double radius){
-		this.interactionRadius = radius;
+		return Constants.CHARACTER_SURROUNDING_RADIUS;
 	}
 
 	@Override
@@ -250,16 +231,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 								//Updates counter with one but doesn't exceed 60.
 								updateCounter = (updateCounter+1) % 60;
 								//if(updateCounter % 60 == 0) {
-								/*if(walkingUp)
-									moveUp();
-								if(walkingDown)
-									moveDown();
-								if(walkingRight)
-									moveRight();
-								if(walkingLeft)
-									moveLeft();
+
 								//}
-								*/
 								updateNeeds();
 								//moveAround();
 							}
@@ -407,58 +380,24 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	public Outcome getOutcomeInteractables(int interactablesIndex) {
 		return null;
 	}
-/*
-	//TODO Update this part to work the same way that the AI does it.
-				public void startWalkingUp(){
-					walkingUp=true;
-				}
 
-				public void startWalkingDown(){
-					walkingDown=true;
-				}
-
-				public void startWalkingRight(){
-					walkingRight=true;
-				}
-
-				public void startWalkingLeft(){
-					walkingLeft=true;
-				}
-
-				public void stopWalkingUp(){
-					walkingUp=false;
-				}
-
-				public void stopWalkingDown(){
-					walkingDown=false;
-				}
-
-				public void stopWalkingRight(){
-					walkingRight=false;
-				}
-
-				public void stopWalkingLeft(){
-					walkingLeft=false;
-				}
-
-*/
-	//TODO add to interface
+	@Override
 	public void startRunning(){
 		stepLength = Constants.CHARACTER_RUN_SPEED;
 	}
 
-	//TODO add to interface
+	@Override
 	public void stopRunning(){
 		stepLength = Constants.CHARACTER_WALK_SPEED;
 	}
 
 
 	//TODO remove this testing method
-	public void hit() {
+	/*public void hit() {
 		for(ICollidable collidable : interactables){
 			if(collidable.getClass().equals(this.getClass())){
 				((Character)collidable).alive = false;
 			}
 		}
-	}
+	}*/
 }

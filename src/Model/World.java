@@ -171,9 +171,9 @@ public class World implements Runnable{
 	}
 
 	//TODO REMOVE test method.
-	public void hit() {
+	/*public void hit() {
 		this.characters.get(1).hit();
-	}
+	}*/
 
  }
 
