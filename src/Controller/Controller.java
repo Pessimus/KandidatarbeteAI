@@ -38,48 +38,7 @@ public class Controller implements PropertyChangeListener {
 	private float mouseY;
 	private boolean showingPlayerInventory = false;
 
-//----
-	/*
-	//TODO move main out of the controller class (probably)
-	public static void main(String[] args){
-		World model = new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
-		StateViewInit view = new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT);
-		new Controller(view, model);
-
-		view.run();
-	}
-
-	//TODO clean up a bit, and fix the move of main....
-	public Controller(StateViewInit view, World model){
-		keyboardInputQueue = new LinkedList<>();
-		mouseInputQueue = new LinkedList<>();
-
-		player.setBody(model.addCharacter(450, 600, Constants.PLAYER_CHARACTER_KEY));
-
-		setView(view);
-		setModel(model);
-
-		mouseX = (float)Constants.SCREEN_WIDTH/2;
-		mouseY = (float)Constants.SCREEN_HEIGHT/2;
-
-		screenRect = new ModelToViewRectangle(Constants.DEFAULT_WORLD_VIEW_X, Constants.DEFAULT_WORLD_VIEW_Y, (float)Constants.SCREEN_WIDTH, (float)Constants.SCREEN_HEIGHT);
-	}
-
-
-	public void run(){
-		new Timer().scheduleAtFixedRate(new TimerTask(){
-			public void run() {
-				player.update();
-				for(AbstractBrain brain : aiMap.values()){
-					brain.update();
-				}
-				updateModel();
-			}
-		}, 0, 1000/gameSpeed);
-	}
-	*/
-//----
-
+//----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
 	public Controller(){
 		setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT));
@@ -87,6 +46,8 @@ public class Controller implements PropertyChangeListener {
 
 		keyboardInputQueue = new LinkedList<>();
 		mouseInputQueue = new LinkedList<>();
+
+
 
 		player.setBody(gameModel.addCharacter(450, 600, Constants.PLAYER_CHARACTER_KEY));
 
@@ -97,16 +58,30 @@ public class Controller implements PropertyChangeListener {
 		screenRect = new ModelToViewRectangle(Constants.DEFAULT_WORLD_VIEW_X, Constants.DEFAULT_WORLD_VIEW_Y, (float)Constants.SCREEN_WIDTH, (float)Constants.SCREEN_HEIGHT);
 	}
 
-	public void start(){
+//-----------------------------------------Initialization methods-----------------------------------------------------\\
+
+	private void setView(StateViewInit view){
+		gameView = view;
+		gameView.addPropertyChangeListener(this);
+	}
+
+	public void setModel(World model){
+		gameModel = model;
+		gameModel.addPropertyChangeListener(this);
+	}
+
+//----------------------------------------------Run methods-----------------------------------------------------------\\
+
+	public void start() {
 		this.gameView.run();
 	}
 
 	private void runModel(){
-		new Timer().scheduleAtFixedRate(new TimerTask(){
+		new Timer().scheduleAtFixedRate(new TimerTask() {
 			public void run() {
 				update();
 			}
-		}, 0, 1000/gameSpeed);
+		}, 0, 1000 / gameSpeed);
 	}
 
 	public void update(){
@@ -115,31 +90,7 @@ public class Controller implements PropertyChangeListener {
 			brain.update();
 		}
 		updateModel();
-	}
-
-	//TODO change to try catch! (View = null should result in error)
-	//TODO check comment inside.... should be solved...
-	public synchronized boolean setView(StateViewInit view){
-		if(view != null){
-			gameView = view;
-			gameView.addPropertyChangeListener(this); // TODO: 'View' should use PropertyChangeSupport
-													  // TODO: It does...
-			return true;
-		}
-
-		return false;
-	}
-
-	//TODO change to try catch! (Model = null should result in error)
-	//TODO check comment inside.... should be solved...
-	public synchronized boolean setModel(World model){
-		if(model != null){
-			gameModel = model;
-			gameModel.addPropertyChangeListener(this); // TODO: 'Model' should use PropertyChangeSupport
-			return true;
-		}
-
-		return false;
+		updateView();
 	}
 
 	/**
@@ -229,6 +180,10 @@ public class Controller implements PropertyChangeListener {
 		gameModel.uppdate();
 	}
 
+
+//--------------------------------------------Input Methods-----------------------------------------------------------\\
+
+
 	//TODO change from if-statements to switch-chase-statements
 	private void handleKeyboardInput(Integer[][] keyboardClicks) {
 		// Keyboard input
@@ -239,63 +194,67 @@ public class Controller implements PropertyChangeListener {
 				// clicks[0] = Whether the key was pressed/released (1: Pressed, 0: Released)
 				// clicks[1] = What key was pressed/released
 				if (clicks[0] == View.INPUT_ENUM.KEY_PRESSED.value) {
-
-					if (clicks[1] == Input.KEY_UP) {
-						//gameModel.movePlayerUp();
-						player.movePlayerUp();
-					} else if (clicks[1] == Input.KEY_DOWN) {
-						//gameModel.movePlayerDown();
-						player.movePlayerDown();
-					} else if (clicks[1] == Input.KEY_LEFT) {
-						//gameModel.movePlayerLeft();
-						player.movePlayerLeft();
-					} else if (clicks[1] == Input.KEY_RIGHT) {
-						//gameModel.movePlayerRight();
-						player.movePlayerRight();
-					} else if(clicks[1] == Input.KEY_R){
-						//gameModel.playerRunning();
-						player.playerRunning();
-					} else if (clicks[1] == Input.KEY_P) {
-						gameModel.togglePause();
-					}
-					else if (clicks[1] == Input.KEY_1) {
-						gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
-					}
-					else if (clicks[1] == Input.KEY_2) {
-						gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_FASTER;
-					}
-					else if (clicks[1] == Input.KEY_3) {
-						gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_FASTEST;
+					switch (clicks[1]){
+						case Input.KEY_UP:
+							player.movePlayerUp();
+							break;
+						case Input.KEY_DOWN:
+							player.movePlayerDown();
+							break;
+						case Input.KEY_LEFT:
+							player.movePlayerLeft();
+							break;
+						case Input.KEY_RIGHT:
+							player.movePlayerRight();
+							break;
+						case Input.KEY_R:
+							player.playerRunning();
+							break;
+						case Input.KEY_P:
+							gameModel.togglePause();
+							break;
+						case Input.KEY_1:
+							gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
+							break;
+						case Input.KEY_2:
+							gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_FASTER;
+							break;
+						case Input.KEY_3:
+							gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_FASTEST;
+							break;
 					}
 				}else if(clicks[0] == View.INPUT_ENUM.KEY_RELEASED.value){
-					if (clicks[1] == Input.KEY_UP) {
-						//gameModel.stopPlayerUp();
-						player.stopPlayerUp();
-					} else if (clicks[1] == Input.KEY_DOWN) {
-						//gameModel.stopPlayerDown();
-						player.stopPlayerDown();
-					} else if (clicks[1] == Input.KEY_LEFT) {
-						//gameModel.stopPlayerLeft();
-						player.stopPlayerLeft();
-					} else if (clicks[1] == Input.KEY_RIGHT) {
-						//gameModel.stopPlayerRight();
-						player.stopPlayerRight();
-
-					} else if(clicks[1] == Input.KEY_R){
-						//gameModel.playerWalking();
-						player.playerWalking();
-					}else if(clicks[1] == Input.KEY_I){
-						showingPlayerInventory = !showingPlayerInventory;
-						if(showingPlayerInventory){
-							gameView.drawInventory(gameModel.displayPlayerInventory());
-						}else{
-							gameView.hidePlayerInventory();
-						}
+					switch (clicks[1]){
+						case Input.KEY_UP:
+							player.stopPlayerUp();
+							break;
+						case Input.KEY_DOWN:
+							player.stopPlayerDown();
+							break;
+						case Input.KEY_LEFT:
+							player.stopPlayerLeft();
+							break;
+						case Input.KEY_RIGHT:
+							player.stopPlayerRight();
+							break;
+						case Input.KEY_R:
+							player.playerWalking();
+							break;
+						case Input.KEY_I:
+							showingPlayerInventory = !showingPlayerInventory;
+							if(showingPlayerInventory){
+								gameView.drawInventory(gameModel.displayPlayerInventory());
+							}else{
+								gameView.hidePlayerInventory();
+							}
+							break;
 					}
 				}
 			}
 		}
 	}
+
+//----------------------------------------------???????????-----------------------------------------------------------\\
 
 	//TODO MEMO TO ME! Check what is wanted here, and what is done...
 	private void handleMouseInput(Integer[][] mouseClicks){
@@ -383,11 +342,11 @@ public class Controller implements PropertyChangeListener {
 		}
 	}
 
-	private void handleModelEvent(PropertyChangeEvent evt){
-		if(evt.getPropertyName().equals("update")){
-			updateView();
-		}
-	}
+//TODO REMOVE deprecated method
+//	private void handleModelEvent(PropertyChangeEvent evt){
+//		if(evt.getPropertyName().equals("update")){
+//			//updateView();
+//	}
 
 	//TODO (if possible) add ENUMS for where from the update was sent.
 	@Override
@@ -399,10 +358,10 @@ public class Controller implements PropertyChangeListener {
 					handleViewEvent(evt);
 				}
 
-				if(evt.getSource().equals(gameModel)){
-					// If the source of the event is the 'Model', handle that separately.
-					handleModelEvent(evt);
-				}
+//				if(evt.getSource().equals(gameModel)){
+//					// If the source of the event is the 'Model', handle that separately.
+//					handleModelEvent(evt);
+//				}
 			}
 		}
 	}
