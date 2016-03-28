@@ -9,7 +9,6 @@ import org.newdawn.slick.state.BasicGameState;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
-import java.util.concurrent.Semaphore;
 
 import static Model.Constants.CONTROLLER_UPDATE_INTERVAL_FASTER;
 import static Model.Constants.CONTROLLER_UPDATE_INTERVAL_FASTEST;
@@ -268,7 +267,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 			handleMouseInput(tempMouseList);
 		}
 
-		gameModel.run();
+		gameModel.uppdate();
 	}
 
 	//TODO change from if-statements to switch-chase-statements

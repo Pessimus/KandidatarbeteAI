@@ -1,5 +1,6 @@
 package Model;
 
+//TODO remove if unused
 import Controller.Pathfinder;
 import Controller.PathStep;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * Created by Tobias on 2016-02-26.
  */
 public class Character implements ICollidable, ITimeable, ICharacterHandle {
-	//TODO-------------------------------????------------------------------------------------------------------------\\
+	//TODO-------------------------------????-------------------------------------------------------------------------\\
 
 	/*TODO REMOVE depricated methods
 	//---------NEED REPLENESHING METHODS--------------
@@ -125,7 +126,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	private int thirst;
 	private int energy;
 
-	//-----------------CONSTRUCTOR--------------------\\
+//----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 	//TODO organize
 	public Character(float xPos, float yPos, int key){
 		this.alive = true;
@@ -242,7 +243,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	}
 
 
-	//-----------------------------------------UPDATE METHODS---------------------------------------------------------\\
+//---------------------------------------------UPDATE METHODS---------------------------------------------------------\\
 
 	//Check if character is alive
 	private void updateAlive() {
