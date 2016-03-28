@@ -26,10 +26,10 @@ public class Controller implements PropertyChangeListener, Runnable {
 	private final Queue<Integer[]> keyboardInputQueue;
 	private final Queue<Integer[]> mouseInputQueue;
 
-	private final Semaphore keyboardSema = new Semaphore(1);
-	private final Semaphore mouseSema = new Semaphore(1);
+	//private final Semaphore keyboardSema = new Semaphore(1);//TODO REMOVE unused variable
+	//private final Semaphore mouseSema = new Semaphore(1);//TODO REMOVE unused variable
 
-	private Semaphore screenRectSema = new Semaphore(1);
+	//private Semaphore screenRectSema = new Semaphore(1);//TODO REMOVE unused variable
 	private ModelToViewRectangle screenRect;
 
 	private float mouseX;
@@ -111,6 +111,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 		}
 	}
 
+	//TODO move main out of the controller class (probably)
 	public static void main(String[] args){
 		World model = new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
 		StateViewInit view = new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT);
@@ -119,6 +120,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 		view.run();
 	}
 
+	//TODO clean up a bit, and fix the move of main....
 	public Controller(StateViewInit view, World model){
 		keyboardInputQueue = new LinkedList<>();
 		mouseInputQueue = new LinkedList<>();
@@ -133,7 +135,6 @@ public class Controller implements PropertyChangeListener, Runnable {
 
 	@Override
 	public void run(){
-		//while(gameView.)
 		new Timer().scheduleAtFixedRate(new TimerTask(){
 			public void run() {
 				updateModel();
@@ -141,6 +142,8 @@ public class Controller implements PropertyChangeListener, Runnable {
 		}, 0, 1000/Constants.CONTROLLER_UPDATE_INTERVAL);
 	}
 
+	//TODO change to try catch! (View = null should result in error)
+	//TODO check comment inside.... should be solved...
 	public synchronized boolean setView(StateViewInit view){
 		if(view != null){
 			gameView = view;
@@ -151,6 +154,8 @@ public class Controller implements PropertyChangeListener, Runnable {
 		return false;
 	}
 
+	//TODO change to try catch! (Model = null should result in error)
+	//TODO check comment inside.... should be solved...
 	public synchronized boolean setModel(World model){
 		if(model != null){
 			gameModel = model;
@@ -161,6 +166,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 		return false;
 	}
 
+	//TODO MEMO TO ME! Reed trough the view code and clean up!
 	private void updateView(){
 		List<RenderObject> temp = new LinkedList<>();
 
@@ -209,7 +215,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 			gameView.drawRenderObjects(temp);
 		}
 
-		if(showingPlayerInventory){
+		if (showingPlayerInventory){
 			gameView.drawInventory(gameModel.displayPlayerInventory());
 		}
 	}
@@ -218,8 +224,10 @@ public class Controller implements PropertyChangeListener, Runnable {
 	 * Uses input from the View to manipulate the Model.
 	 */
 	private void updateModel(){
+		//TODO fix concurrency
 		Object[] tempList = keyboardInputQueue.toArray();
 		keyboardInputQueue.clear();
+
 
 		//if (tempList != null) {
 		if (tempList.length > 0) {
@@ -228,6 +236,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 		}
 		//}
 
+		//TODO fix concurrency
 		tempList = mouseInputQueue.toArray();
 		mouseInputQueue.clear();
 
@@ -241,6 +250,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 		gameModel.run();
 	}
 
+	//TODO change from if-statements to switch-chase-statements
 	private void handleKeyboardInput(Integer[][] keyboardClicks) {
 		// Keyboard input
 		if (keyboardClicks.length > 0) {
@@ -298,6 +308,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 		}
 	}
 
+	//TODO MEMO TO ME! Check what is wanted here, and what is done...
 	private void handleMouseInput(Integer[][] mouseClicks){
 		//System.out.println("Controller: handleMouseInput()");
 		// Mouse input
@@ -376,6 +387,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 		}
 	}
 
+	//TODO (if possible) add ENUMS for where from the update was sent.
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		//System.out.println("Controller: propertyChange()");
