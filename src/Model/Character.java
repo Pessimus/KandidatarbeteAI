@@ -416,39 +416,39 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return null;
 	}
 
-	/* TODO REMOVE this as it is no longer used
-	public void startWalkingUp(){
-		walkingUp=true;
-	}
+	//TODO Update this part to work the same way that the AI does it.
+				public void startWalkingUp(){
+					walkingUp=true;
+				}
 
-	public void startWalkingDown(){
-		walkingDown=true;
-	}
+				public void startWalkingDown(){
+					walkingDown=true;
+				}
 
-	public void startWalkingRight(){
-		walkingRight=true;
-	}
+				public void startWalkingRight(){
+					walkingRight=true;
+				}
 
-	public void startWalkingLeft(){
-		walkingLeft=true;
-	}
+				public void startWalkingLeft(){
+					walkingLeft=true;
+				}
 
-	public void stopWalkingUp(){
-		walkingUp=false;
-	}
+				public void stopWalkingUp(){
+					walkingUp=false;
+				}
 
-	public void stopWalkingDown(){
-		walkingDown=false;
-	}
+				public void stopWalkingDown(){
+					walkingDown=false;
+				}
 
-	public void stopWalkingRight(){
-		walkingRight=false;
-	}
+				public void stopWalkingRight(){
+					walkingRight=false;
+				}
 
-	public void stopWalkingLeft(){
-		walkingLeft=false;
-	}
-	*/
+				public void stopWalkingLeft(){
+					walkingLeft=false;
+				}
+
 
 	//TODO add to interface
 	public void startRunning(){
