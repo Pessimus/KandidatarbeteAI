@@ -116,7 +116,7 @@ public class World implements Runnable{
 
 			removeObjects();
 
-			firePropertyChange("update", 1);//TODO check if needed, else remove.
+			this.pcs.firePropertyChange("update",0, 1);//TODO check if needed, else remove.
 		}
 	}
 
@@ -134,39 +134,27 @@ public class World implements Runnable{
 		return character;
 	}
 
-	//TODO remove if-statements (should not make any difference)
 	public void removeObjects() {
-		if (collidablestoberemoved != null) {
-			for (ICollidable collidable : this.collidablestoberemoved) {
-				collidables.remove(collidable);
-			}
-			collidablestoberemoved.clear();
+		for (ICollidable collidable : this.collidablestoberemoved) {
+			collidables.remove(collidable);
 		}
-		if (timeablestoberemoved != null) {
-			for (ITimeable timeable : this.timeablestoberemoved) {
-				timeables.remove(timeable);
-			}
-			timeablestoberemoved.clear();
-		}
+		collidablestoberemoved.clear();
 
-		if (characters != null) {
-			for (Character character : this.characterstoberemoved) {
-				characters.remove(character.getKey());
-			}
-			characterstoberemoved.clear();
+		for (ITimeable timeable : this.timeablestoberemoved) {
+			timeables.remove(timeable);
 		}
+		timeablestoberemoved.clear();
 
-		if (characters != null) {
-			for (ICollidable collidabler : this.collideablesrtoberemoved) {
-				collidablesR.remove(collidabler);
-			}
-			collideablesrtoberemoved.clear();
+		for (Character character : this.characterstoberemoved) {
+			characters.remove(character.getKey());
 		}
+		characterstoberemoved.clear();
+
+		for (ICollidable collidable : this.collideablesrtoberemoved) {
+			collidablesR.remove(collidable);
+		}
+		collideablesrtoberemoved.clear();
 	}
-
-	//private boolean addCollidable(double xPoss, double yPoss, double radius) {return false;}//TODO remove unused method.
-
-
 
 	public RenderObject[] getRenderObjects() {
 		RenderObject[] renderObjects = new RenderObject[collidables.getSize()];
@@ -185,11 +173,6 @@ public class World implements Runnable{
 		pcs.removePropertyChangeListener(listener);
 	}
 
-	//TODO remove this method that is just a unnecessary extra step.
-	private void firePropertyChange(String type, Object property) {
-		pcs.firePropertyChange(type, 0, property);
-	}
-
 	public double getWidth() {
 		return width;
 	}
@@ -198,9 +181,8 @@ public class World implements Runnable{
 		return height;
 	}
 
-	//TODO change name
 	/* Pause the game, if P is pressed, pause() will pause the run lopp*/
-	public void pause() {
+	public void togglePause() {
 		if (pause == false) {
 			pause = true;
 		}
@@ -208,7 +190,7 @@ public class World implements Runnable{
 			pause = false;
 		}
 	}
-	
+
 	//TODO better MVC praxis
 	public LinkedList<InventoryRender> displayPlayerInventory() {
 		return characters.get(Constants.PLAYER_CHARACTER_KEY).getRenderInventory();

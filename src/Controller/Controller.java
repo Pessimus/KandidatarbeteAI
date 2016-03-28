@@ -297,7 +297,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 						//gameModel.playerRunning();
 						player.playerRunning();
 					} else if (clicks[1] == Input.KEY_P) {
-						gameModel.pause();
+						gameModel.togglePause();
 					}
 					else if (clicks[1] == Input.KEY_1) {
 						gameSpeed = CONTROLLER_UPDATE_INTERVAL_NORMAL;
