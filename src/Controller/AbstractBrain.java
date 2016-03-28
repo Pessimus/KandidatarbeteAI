@@ -8,8 +8,7 @@ import Model.ICharacterHandler;
  */
 public interface AbstractBrain {
 
-    void step(); // running this allows the brain to control its character
-	void updateCharacterState();
+    void update(); // running this allows the brain to control its character
 
 	void setBody(ICharacterHandler character);
 	ICharacterHandler getBody();

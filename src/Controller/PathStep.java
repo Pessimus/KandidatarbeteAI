@@ -8,7 +8,7 @@ import Model.ICharacterHandler;
  */
 
 
-// A class for containing a single step in a path and methods for moving towards that step
+// A class for containing a single update in a path and methods for moving towards that update
 public class PathStep {
 
     private double nodex;

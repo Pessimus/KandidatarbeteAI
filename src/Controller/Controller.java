@@ -12,8 +12,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 import java.util.concurrent.Semaphore;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by Tobias on 2016-02-26.
@@ -118,7 +116,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 	public static void main(String[] args){
 		World model = new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
 		StateViewInit view = new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT);
-		new Controller(view, model).run();
+		new Controller(view, model);
 
 		view.run();
 	}
@@ -137,11 +135,10 @@ public class Controller implements PropertyChangeListener, Runnable {
 
 	@Override
 	public void run(){
-		//while(gameView.)
 		new Timer().scheduleAtFixedRate(new TimerTask(){
 			public void run() {
 				for(AbstractBrain brain : aiMap.values()){
-					brain.step();
+					brain.update();
 				}
 				updateModel();
 			}
@@ -314,9 +311,8 @@ public class Controller implements PropertyChangeListener, Runnable {
 
 				if (clicks[0] == View.INPUT_ENUM.MOUSE_PRESSED.value) {
 					if(clicks[1] == Input.MOUSE_LEFT_BUTTON){
-
-						gameModel.selectObject()
-						// TODO: HARDCODED TEST!!!!!
+						float[] tempFloats = convertFromViewToModelCoords(clicks[2], clicks[3]);
+						//gameModel.selectObject(tempFloats[0], tempFloats[1]);
 
 					}
 
@@ -329,7 +325,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 						// TODO: HARDCODED TEST!!!!!
 						// TODO: HARDCODED TEST!!!!!
 
-						//gameModel.moveCharacterTo(clicks[2], clicks[3]);
+
 
 						// TODO: HARDCODED TEST!!!!!
 						// TODO: HARDCODED TEST!!!!!
@@ -373,8 +369,8 @@ public class Controller implements PropertyChangeListener, Runnable {
 			Integer[] newValue = (Integer[]) evt.getNewValue();
 			mouseInputQueue.offer(newValue);
 		}
-		else if(evt.getPropertyName().equals("updateModel")){
-			updateModel();
+		else if(evt.getPropertyName().equals("startController")){
+			run();
 		}
 		else if(evt.getPropertyName().equals("createdCharacter")){
 			Character character = (Character)evt.getNewValue();
@@ -416,5 +412,9 @@ public class Controller implements PropertyChangeListener, Runnable {
 
 	private float[] convertFromModelToViewCoords(float x, float y){
 		return new float[]{x - screenRect.getMinX(), y - screenRect.getMinY()};
+	}
+
+	private float[] convertFromViewToModelCoords(float x, float y){
+		return new float[]{x + screenRect.getMinX(), y + screenRect.getMinY()};
 	}
 }

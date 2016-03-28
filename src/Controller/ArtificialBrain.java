@@ -23,7 +23,13 @@ public class ArtificialBrain implements AbstractBrain {
     }
 
     @Override
-    public void step() {
+    public void update() {
+		int[] needs = body.getNeeds();
+		int[] traits = body.getTraits();
+		int[] skills = body.getSkills();
+
+
+
         if (Math.random() > 0.0008) {
             double x = Math.random() * 9600;
             double y = Math.random() * 9600;
@@ -35,10 +41,6 @@ public class ArtificialBrain implements AbstractBrain {
             if (path.getFirst().stepTowards(body)) {path.removeFirst();}
         }
     }
-
-	@Override
-	public void updateCharacterState() {
-	}
 
 	@Override
 	public void setBody(ICharacterHandler character) {

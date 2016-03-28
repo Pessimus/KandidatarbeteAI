@@ -74,7 +74,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 		HUNGER, THIRST, ENERGY
 	}
 
-	private int stepLength = 6;
+	private float stepLength = Constants.CHARACTER_WALK_SPEED;
 
 	//private double timeableInterval;
 	private int key;
@@ -409,6 +409,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 	}
 	*/
 
+
 	public void startWalkingUp(){
 		walkingUp=true;
 	}
@@ -442,14 +443,14 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 	}
 
 	public void startRunning(){
-		stepLength = 12;
+		stepLength = Constants.CHARACTER_RUN_SPEED;
 	}
 
 	public void stopRunning(){
-		stepLength = 6;
+		stepLength = Constants.CHARACTER_WALK_SPEED;
 	}
 
-	public int getSteplength(){
+	public float getSteplength(){
 		return stepLength;
 	}
 

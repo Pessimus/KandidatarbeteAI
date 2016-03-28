@@ -83,6 +83,7 @@ public class View extends BasicGameState implements InputListener{
 			inventoryMap.put(e, new Image(e.pathToResource));
 		}
 
+		pcs.firePropertyChange("startController", false, true);
     }
 
     @Override
@@ -153,7 +154,7 @@ public class View extends BasicGameState implements InputListener{
 			}
 		}
 
-		pcs.firePropertyChange("getModel", false, true);
+		//pcs.firePropertyChange("getModel", false, true);
     }
 
     @Override

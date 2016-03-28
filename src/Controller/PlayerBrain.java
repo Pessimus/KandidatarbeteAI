@@ -24,13 +24,8 @@ public class PlayerBrain implements AbstractBrain {
         body = c;
     }
 
-    public void step() {
+    public void update() {
 
-    }
-
-    @Override
-    public void updateCharacterState() {
-		;
     }
 
 	@Override

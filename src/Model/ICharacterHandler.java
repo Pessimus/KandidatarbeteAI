@@ -28,7 +28,7 @@ public interface ICharacterHandler {
 	void stopWalkingLeft();
 	void stopWalkingRight();
 
-	int getSteplength();
+	float getSteplength();
 
 	void startRunning();
 	void stopRunning();
