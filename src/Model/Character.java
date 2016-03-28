@@ -12,6 +12,21 @@ import java.util.List;
 public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	//TODO-------------------------------????------------------------------------------------------------------------\\
 
+	/*TODO REMOVE depricated methods
+	//---------NEED REPLENESHING METHODS--------------
+	public void eat() {
+		this.hunger += 25;
+	}
+	public void drink() {
+		this.thirst += 10;
+	}
+	public void sleep() {
+		this.energy = 100;
+	}
+	public void rest() {
+		this.energy += 20;
+	}*/
+
 //	TODO REMOVE, after checking why they existed in the first place
 //		/*
 //		Method for checking where the character wants to move
@@ -221,7 +236,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	}
 
 
-	//--------------------------------------UPDATE METHODS------------------------------------------------------------\\
+	//-----------------------------------------UPDATE METHODS---------------------------------------------------------\\
 
 	//Check if character is alive
 	private void updateAlive() {
@@ -235,7 +250,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return alive;
 	}
 
-	//TODO--------------------------------------[START of section needing major fixing]-----------------------------------
 	@Override
 	public void updateTimeable() {
 		//Updates counter with one but doesn't exceed 60.
@@ -252,46 +266,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 			thirst = thirst - Constants.CHARACTER_THIRST_CHANGE;
 		}
 
+		updateAlive();
 
-
-
-		//TODO Update needs
 		//TODO Implement ageing etc...
 
-		//if(updateCounter % 60 == 0) {
-
-		//}
-		updateNeeds();
-		//moveAround();
 	}
-
-							public void updateNeeds() {
-
-								if(updateCounter % 60 == 0) {
-									this.hunger -= 1;
-									this.thirst -= 1;
-									this.energy -= 1;
-								}
-
-								updateAlive();
-							}
-
-							//---------NEED REPLENESHING METHODS--------------
-
-							public void eat() {
-								this.hunger += 25;
-							}
-							public void drink() {
-								this.thirst += 10;
-							}
-							public void sleep() {
-								this.energy = 100;
-							}
-							public void rest() {
-								this.energy += 20;
-							}
-
-	//TODO--------------------------------------[END of section needing major fixing]-----------------------------------
 
 //------------------------------------------------RENDER METHODS------------------------------------------------------\\
 	@Override
