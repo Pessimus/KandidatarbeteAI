@@ -66,7 +66,16 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		}
 	}
 
+
+	//---SECONDARY NEEDS---\\
+	//Ranges between 0-100, 100 is good, 0 is bad..
+	private int social;
+	private int intimacy;
+	private int attention;
+
 	//TODO-------------------------------????------------------------------------------------------------------------\\
+
+//-----------------------------------------------VARIABLES------------------------------------------------------------\\
 
 	//------------------Functionality-------------------\\
 	private int updateCounter = 0;
@@ -100,13 +109,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	private int hunger;
 	private int thirst;
 	private int energy;
-
-	//---SECONDARY NEEDS---\\
-	//Ranges between 0-100, 100 is good, 0 is bad..
-	private int social;
-	private int intimacy;
-	private int attention;
-
 
 
 	//TODO organize
@@ -234,20 +236,34 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	}
 
 	//TODO--------------------------------------[START of section needing major fixing]-----------------------------------
-							@Override
-							public void updateTimeable() {
+	@Override
+	public void updateTimeable() {
+		//Updates counter with one but doesn't exceed 60.
+		updateCounter = (updateCounter+1) % 60;
 
-								//TODO Update needs
-								//TODO Implement ageing etc...
+		//Update NEEDS
+		if(updateCounter == Constants.CHARACTER_HUNGER_UPDATE){
+			hunger = hunger - Constants.CHARACTER_HUNGER_CHANGE;
+		}
+		if(updateCounter == Constants.CHARACTER_ENERGY_UPDATE){
+			energy = energy - Constants.CHARACTER_ENERGY_CHANGE;
+		}
+		if(updateCounter == Constants.CHARACTER_THIRST_UPDATE){
+			thirst = thirst - Constants.CHARACTER_THIRST_CHANGE;
+		}
 
-								//Updates counter with one but doesn't exceed 60.
-								updateCounter = (updateCounter+1) % 60;
-								//if(updateCounter % 60 == 0) {
 
-								//}
-								updateNeeds();
-								//moveAround();
-							}
+
+
+		//TODO Update needs
+		//TODO Implement ageing etc...
+
+		//if(updateCounter % 60 == 0) {
+
+		//}
+		updateNeeds();
+		//moveAround();
+	}
 
 							public void updateNeeds() {
 
