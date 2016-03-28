@@ -1,8 +1,7 @@
 package Controller;
 
 import Model.Character;
-import Model.Constants;
-import Model.ICharacterHandler;
+import Model.ICharacterHandle;
 
 import java.util.LinkedList;
 
@@ -10,7 +9,7 @@ import java.util.LinkedList;
  * Created by Gustav on 2016-03-23.
  */
 public class ArtificialBrain extends AbstractBrain {
-    private ICharacterHandler body;
+    private ICharacterHandle body;
     private LinkedList<PathStep> path;
 
     public ArtificialBrain() {

@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by Tobias on 2016-03-25.
  */
-public interface ICharacterHandler {
+public interface ICharacterHandle {
 
 	int[] getNeeds();
 	int[] getSkills();

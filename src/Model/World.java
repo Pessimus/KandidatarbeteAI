@@ -17,7 +17,7 @@ public class World implements Runnable{
 	PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 	private HashMap<Integer,Character> characters;
-	private LinkedList<ICollidable> collidablesR; //TODO custom (dual) list supporting bubblesort and incertionsort
+	private LinkedList<ICollidable> collidablesR;
 	private CollisionList collidables;
 	private LinkedList<ITimeable> timeables;
 	private LinkedList<ICollidable> statics; //List containing all collidables that does not move (or get destroyed or created too often)
@@ -87,8 +87,6 @@ public class World implements Runnable{
 					collideablesrtoberemoved.add(character);
 					timeablestoberemoved.add(character);
 					characterstoberemoved.add(character);
-					//System.out.println("World: run() - dead");
-					//character = null;
 				} else {
 					//TODO IF x
 
@@ -100,7 +98,7 @@ public class World implements Runnable{
 					//System.out.println("World: run() - move");
 				}
 			}
-			this.collidables.handleCollision();//TODO Collision in Y-axis is not working yet.
+			this.collidables.handleCollision();
 			removeObjects();
 			firePropertyChange("update", 1);
 		}

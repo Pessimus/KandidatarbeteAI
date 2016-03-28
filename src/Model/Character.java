@@ -2,15 +2,14 @@ package Model;
 
 import Controller.Pathfinder;
 import Controller.PathStep;
-import java.awt.*;
-import java.util.ArrayList;
+
 import java.util.*;
 import java.util.List;
 
 /**
  * Created by Tobias on 2016-02-26.
  */
-public class Character implements ICollidable, ITimeable, ICharacterHandler {
+public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	//------------------Movement Variables---------------------
 	private float xPos;
 	private float yPos;
@@ -23,22 +22,23 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 	private float ySpeed;
 
 	private int updateCounter = 0;
-	private final int updateHunger = 20;
-	private final int updateThirst = 40;
-	private final int updateEnergy = 20;
+	private final int updateHunger = 20;//TODO move to constants
+	private final int updateThirst = 40;//TODO move to constants
+	private final int updateEnergy = 20;//TODO move to constants
 
-	// Tells the update function for each character if they are currently walking in any direction;
-	private boolean walkingUp = false;
-	private boolean walkingDown = false;
-	private boolean walkingLeft = false;
-	private boolean walkingRight = false;
+		//TODO Update the way the player moves the character to be the same way as the AI.
+		//Tells the update function for each character if they are currently walking in any direction;
+		private boolean walkingUp = false;
+		private boolean walkingDown = false;
+		private boolean walkingLeft = false;
+		private boolean walkingRight = false;
 
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
 
 
 	private Inventory inventory;
 
-	private volatile RenderObject latestRenderObject;
+	//private volatile RenderObject latestRenderObject;//TODO remove
 
 	//----------------Collision------------------
 	private LinkedList<ICollidable> collideX;
@@ -74,9 +74,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 		HUNGER, THIRST, ENERGY
 	}
 
-	private int stepLength = 6;
+	private int stepLength = 6;//TODO get from constants
 
-	//private double timeableInterval;
 	private int key;
 
 
@@ -86,7 +85,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.xSpeed = 0;
-		this.ySpeed = 0;
+		this.ySpeed = 0;//TODO remove
 		this.key = key;
 
 		//Create inventory
@@ -158,11 +157,12 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 
 	@Override
 	public RenderObject getRenderObject() {
+		/*TODO REMOVE if-statements that allways return the same value.
 		if(latestRenderObject != null) {
 			if (latestRenderObject.compare(this)) {
 				return latestRenderObject;
 			}
-		}
+		}*/
 
 		return new RenderObject(getX(), getY(), getCollisionRadius(), renderObjectEnum);
 	}
@@ -172,43 +172,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 		return renderObjectEnum;
 	}
 
-	public int getHunger() {return this.hunger;}
+	//public int getHunger() {return this.hunger;}//TODO REMOVE as it is deprecated as of the interface ICharacter handle
 
-
-	@Override
-	public void updateTimeable() {
-
-		//TODO Update needs
-		//TODO Implement ageing etc...
-
-		//Updates counter with one but doesn't exceed 60.
-		updateCounter = (updateCounter+1) % 60;
-		//if(updateCounter % 60 == 0) {
-			if(walkingUp)
-				moveUp();
-			if(walkingDown)
-				moveDown();
-			if(walkingRight)
-				moveRight();
-			if(walkingLeft)
-				moveLeft();
-		//}
-
-		updateNeeds();
-		//moveAround();
-	}
-
-	public void updateNeeds() {
-
-		if(updateCounter % 60 == 0) {
-			this.hunger -= 1;
-			this.thirst -= 1;
-			this.energy -= 1;
-		}
-
-		isDead();
-	}
-
+	//TODO change method name to better suit praxis
 	//Check if character is alive
 	public void isDead() {
 		if (hunger <= 0 || thirst <= 0 || energy <= 0) {
@@ -221,35 +187,73 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 		return alive;
 	}
 
-	//---------NEED REPLENESHING METHODS--------------
+	//TODO--------------------------------------[START of section needing major fixing]-----------------------------------
+							@Override
+							public void updateTimeable() {
 
-	public void eat() {
-		this.hunger += 25;
-	}
-	public void drink() {
-		this.thirst += 10;
-	}
-	public void sleep() {
-		this.energy = 100;
-	}
-	public void rest() {
-		this.energy += 20;
-	}
+								//TODO Update needs
+								//TODO Implement ageing etc...
 
-	/*
-	Method for checking where the character wants to move
-	 */
-	public double getNextXPosition(){
-		return this.xPos+this.xSpeed;
-	}
+								//Updates counter with one but doesn't exceed 60.
+								updateCounter = (updateCounter+1) % 60;
+								//if(updateCounter % 60 == 0) {
+								if(walkingUp)
+									moveUp();
+								if(walkingDown)
+									moveDown();
+								if(walkingRight)
+									moveRight();
+								if(walkingLeft)
+									moveLeft();
+								//}
 
+								updateNeeds();
+								//moveAround();
+							}
 
-	/*
-	Method for checking where the character wants to move
-	 */
-	public double getNextYPosition(){
-		return this.yPos+this.ySpeed;
-	}
+							public void updateNeeds() {
+
+								if(updateCounter % 60 == 0) {
+									this.hunger -= 1;
+									this.thirst -= 1;
+									this.energy -= 1;
+								}
+
+								isDead();
+							}
+
+							//---------NEED REPLENESHING METHODS--------------
+
+							public void eat() {
+								this.hunger += 25;
+							}
+							public void drink() {
+								this.thirst += 10;
+							}
+							public void sleep() {
+								this.energy = 100;
+							}
+							public void rest() {
+								this.energy += 20;
+							}
+
+	//TODO--------------------------------------[END of section needing major fixing]-----------------------------------
+
+//	TODO REMOVE, after checking why they existed in the first place
+//		/*
+//		Method for checking where the character wants to move
+//		 */
+//		public double getNextXPosition(){
+//			return this.xPos+this.xSpeed;
+//		}
+//
+//
+//		/*
+//		Method for checking where the character wants to move
+//		 */
+//		public double getNextYPosition(){
+//			return this.yPos+this.ySpeed;
+//		}
 
 	/*
 	public double moveX(){
@@ -291,7 +295,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 		this.ySpeed -= this.stepLength;
 	}
 	*/
-
+	/*TODO remove
 	public void moveAround(){
 		if(updateCounter % 30 == 0) {
 			if (Math.random() < 0.1) {
@@ -312,7 +316,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 			}
 		}
 
-	}
+	}*/
 
 	public LinkedList<InventoryRender> getRenderInventory(){
 		LinkedList<InventoryRender> list = new LinkedList<>();
@@ -327,16 +331,25 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 		return list;
 	}
 
+	/*
+		Methods used by the AI or Player follows here.
+		-----------------------------------------------------------------------------------------------------------
+		implementing ICharacterHandle
+	 */
+
+	//TODO implement, change type....
 	@Override
 	public int[] getNeeds() {
 		return new int[0];
 	}
 
+	//TODO implement, change type....
 	@Override
 	public int[] getSkills() {
 		return new int[0];
 	}
 
+	//TODO implement, change type....
 	@Override
 	public int[] getTraits() {
 		return new int[0];
@@ -362,11 +375,13 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 		this.xPos += this.stepLength;
 	}
 
+	//TODO implement
 	@Override
 	public List<ICollidable> getSurroundings() {
 		return null;
 	}
 
+	//TODO implement
 	@Override
 	public List<ICollidable> getInteractables() {
 		return null;
@@ -377,26 +392,31 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 		return inventory.getItems();
 	}
 
+	//TODO implement
 	@Override
 	public void useItem(int inventoryIndex) {
 
 	}
 
+	//TODO implement, visitor pattern
 	@Override
 	public boolean interactWith(int interactablesIndex) {
 		return false;
 	}
 
+	//TODO implement
 	@Override
 	public Outcome getOutcomeInventory(int inventoryIndex) {
 		return null;
 	}
 
+	//TODO implement
 	@Override
 	public Outcome getOutcomeInteractables(int interactablesIndex) {
 		return null;
 	}
 
+	/* TODO REMOVE this as it is no longer used
 	public void startWalkingUp(){
 		walkingUp=true;
 	}
@@ -428,20 +448,25 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 	public void stopWalkingLeft(){
 		walkingLeft=false;
 	}
+	*/
 
+	//TODO add to interface
 	public void startRunning(){
-		stepLength = 12;
+		stepLength = 12;//
 	}
 
+	//TODO add to interface
 	public void stopRunning(){
 		stepLength = 6;
 	}
 
+	/*TODO REMOVE as it is no longer used
 	public int getSteplength(){
 		return stepLength;
 	}
+	*/
 
-
+	//TODO remove this testing method
 	public void hit() {
 		for(ICollidable collidable : wir){
 			if(collidable.getClass().equals(this.getClass())){
@@ -449,22 +474,4 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 			}
 		}
 	}
-
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	public void setPosition(int x, int y){
-		xPos = x;
-		yPos = y;
-	}
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-
 }
