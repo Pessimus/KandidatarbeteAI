@@ -19,6 +19,7 @@ public class World implements Runnable{
 	private CollisionList collidables;
 	private LinkedList<ITimeable> timeables;
 	private LinkedList<ICollidable> statics; //List containing all collidables that does not move (or get destroyed or created too often)
+
 	//--------Remove lists--------------
 	private LinkedList<ICollidable> collidablestoberemoved = new LinkedList<>();
 	private LinkedList<ICollidable> collideablesrtoberemoved = new LinkedList<>();
@@ -28,27 +29,29 @@ public class World implements Runnable{
 	private double width;
 	private double height;
 	private boolean pause;
-	public enum GAMESPEED {
-		NORMAL(1), FAST(1.5), FASTER(2);
 
-		private final double gameSpeed;
+	//TODO code this in a proper way --------------------------------
+				public enum GAMESPEED {
+					NORMAL(1), FAST(1.5), FASTER(2);
 
-		GAMESPEED(double gameSpeed) {
-			this.gameSpeed = gameSpeed;
-		}
+					private final double gameSpeed;
 
-		public double getGameSpeed() {
-			return gameSpeed;
-		}
-	}
+					GAMESPEED(double gameSpeed) {
+						this.gameSpeed = gameSpeed;
+					}
 
-	private static double gameSpeed;
-	public static double getGameSpeed() {
-		return gameSpeed;
-	}
-	public static void setGameSpeed(double gs) {
-		gameSpeed = gs;
-	}
+					public double getGameSpeed() {
+						return gameSpeed;
+					}
+				}
+
+				private static double gameSpeed;
+				public static double getGameSpeed() {
+					return gameSpeed;
+				}
+				public static void setGameSpeed(double gs) {
+					gameSpeed = gs;
+				}
 
 
 	//private Semaphore sema = new Semaphore(1);//TODO REMOVE deprecated variable

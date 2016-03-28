@@ -47,15 +47,32 @@ public class CollisionList {
 			public double getCollisionRadius() {
 				return 0;
 			}
+
+			@Override
 			public double getInteractionRadius() {
 				return 0;
 			}
 
 			@Override
-			public void addToCollideX(ICollidable rhs) {}
+			public double getSurroundingRadius() {
+				return 0;
+			}
 
 			@Override
-			public void addToCollideY(ICollidable rhs) {}
+			public void addToInteractableX(ICollidable rhs) {}
+
+			@Override
+			public void addToInteractableY(ICollidable rhs) {}
+
+			public void checkInteractables(){}
+
+			@Override
+			public void addToSurroundingX(ICollidable rhs) {}
+
+			@Override
+			public void addToSurroundingY(ICollidable rhs) {}
+
+			public void checkSurroundings(){}
 
 			@Override
 			public RenderObject getRenderObject(){return null;}
@@ -64,9 +81,6 @@ public class CollisionList {
 			public RenderObject.RENDER_OBJECT_ENUM getRenderType() {
 				return null;
 			}
-
-			@Override
-			public void checkCollision(){}
 		}, null, null);
 		this.startNodeY = new Node(new ICollidable() {
 			@Override
@@ -83,15 +97,32 @@ public class CollisionList {
 			public double getCollisionRadius() {
 				return 0;
 			}
+
+			@Override
 			public double getInteractionRadius() {
 				return 0;
 			}
 
 			@Override
-			public void addToCollideX(ICollidable rhs) {}
+			public double getSurroundingRadius() {
+				return 0;
+			}
 
 			@Override
-			public void addToCollideY(ICollidable rhs) {}
+			public void addToInteractableX(ICollidable rhs) {}
+
+			@Override
+			public void addToInteractableY(ICollidable rhs) {}
+
+			public void checkInteractables(){}
+
+			@Override
+			public void addToSurroundingX(ICollidable rhs) {}
+
+			@Override
+			public void addToSurroundingY(ICollidable rhs) {}
+
+			public void checkSurroundings(){}
 
 			@Override
 			public RenderObject getRenderObject(){return null;}
@@ -101,8 +132,6 @@ public class CollisionList {
 				return null;
 			}
 
-			@Override
-			public void checkCollision(){}
 		}, null, null);
 		this.currentNodeX = this.startNodeX;
 		//this.currentNodeY = this.startNodeY;
@@ -211,32 +240,54 @@ public class CollisionList {
 		}
 	}
 
-	private void handleCollisionLeftX(Node node, Node left){
+	private void handleInterractionCollisionLeftX(Node node, Node left){
 		if(node.value.getX() - left.value.getX() <= node.value.getInteractionRadius()*2){
-			node.value.addToCollideX(left.value);
-			handleCollisionLeftX(node, left.previous);
+			node.value.addToInteractableX(left.value);
+			handleInterractionCollisionLeftX(node, left.previous);
 		}
 	}
-
-	private void handleCollisionRightX(Node node, Node right){
+	private void handleInterractionCollisionRightX(Node node, Node right){
 		if(right != null && right.value.getX() - node.value.getX() <= node.value.getInteractionRadius()*2){
-			node.value.addToCollideX(right.value);
-			handleCollisionRightX(node, right.next);
+			node.value.addToInteractableX(right.value);
+			handleInterractionCollisionRightX(node, right.next);
 		}
 	}
-
-
-	private void handleCollisionLeftY(Node node, Node left){
+	private void handleInterractionCollisionLeftY(Node node, Node left){
 		if(node.value.getY() - left.value.getY() <= node.value.getInteractionRadius()*2){
-			node.value.addToCollideY(left.value);
-			handleCollisionLeftY(node, left.previous);
+			node.value.addToInteractableY(left.value);
+			handleInterractionCollisionLeftY(node, left.previous);
+		}
+	}
+	private void handleInterractionCollisionRightY(Node node, Node right){
+		if (right != null && right.value.getY() - node.value.getY() <= node.value.getInteractionRadius()*2){
+			node.value.addToInteractableY(right.value);
+			handleInterractionCollisionRightY(node, right.next);
 		}
 	}
 
-	private void handleCollisionRightY(Node node, Node right){
+
+	private void handleSurroundingsCollisionLeftX(Node node, Node left){
+		if(node.value.getX() - left.value.getX() <= node.value.getInteractionRadius()*2){
+			node.value.addToSurroundingX(left.value);
+			handleSurroundingsCollisionLeftX(node, left.previous);
+		}
+	}
+	private void handleSurroundingsCollisionRightX(Node node, Node right){
+		if(right != null && right.value.getX() - node.value.getX() <= node.value.getInteractionRadius()*2){
+			node.value.addToSurroundingX(right.value);
+			handleSurroundingsCollisionRightX(node, right.next);
+		}
+	}
+	private void handleSurroundingsCollisionLeftY(Node node, Node left){
+		if(node.value.getY() - left.value.getY() <= node.value.getInteractionRadius()*2){
+			node.value.addToSurroundingY(left.value);
+			handleSurroundingsCollisionLeftY(node, left.previous);
+		}
+	}
+	private void handleSurroundingsCollisionRightY(Node node, Node right){
 		if (right != null && right.value.getY() - node.value.getY() <= node.value.getInteractionRadius()*2){
-			node.value.addToCollideY(right.value);
-			handleCollisionRightY(node, right.next);
+			node.value.addToSurroundingY(right.value);
+			handleSurroundingsCollisionRightY(node, right.next);
 		}
 	}
 
@@ -255,21 +306,28 @@ public class CollisionList {
 			Node loopXNode = startNodeX;
 			while (loopXNode.next != null) {
 				loopXNode = loopXNode.next;
-				handleCollisionLeftX(loopXNode, loopXNode.previous);
-				handleCollisionRightX(loopXNode, loopXNode.next);
+				handleSurroundingsCollisionLeftX(loopXNode, loopXNode.previous);
+				handleSurroundingsCollisionRightX(loopXNode, loopXNode.next);
+
+				handleInterractionCollisionLeftX(loopXNode, loopXNode.previous);
+				handleInterractionCollisionRightX(loopXNode, loopXNode.next);
 			}
 
 			Node loopYNode = startNodeY;
 			while (loopYNode.next != null) {
 				loopYNode = loopYNode.next;
-				handleCollisionLeftY(loopYNode, loopYNode.previous);
-				handleCollisionRightY(loopYNode, loopYNode.next);
+				handleSurroundingsCollisionLeftY(loopYNode, loopYNode.previous);
+				handleSurroundingsCollisionRightY(loopYNode, loopYNode.next);
+
+				handleInterractionCollisionLeftY(loopYNode, loopYNode.previous);
+				handleInterractionCollisionRightY(loopYNode, loopYNode.next);
 			}
 
 			Node loop = startNodeX;
 			while (loop.next != null) {
 				loop = loop.next;
-				loop.value.checkCollision();
+				loop.value.checkSurroundings();
+				loop.value.checkInteractables();
 			}
 
 		//}catch (Exception e){

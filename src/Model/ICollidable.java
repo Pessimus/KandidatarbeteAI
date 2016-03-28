@@ -10,11 +10,15 @@ public interface ICollidable {
 	float getY();
 	double getCollisionRadius();
 	double getInteractionRadius();
+	double getSurroundingRadius();
 
-	void addToCollideX(ICollidable rhs);
-	void addToCollideY(ICollidable rhs);
+	void addToInteractableX(ICollidable rhs);
+	void addToInteractableY(ICollidable rhs);
+	void checkInteractables();
 
-	void checkCollision();
+	void addToSurroundingX(ICollidable rhs);
+	void addToSurroundingY(ICollidable rhs);
+	void checkSurroundings();
 
 	//TODO ENUM for type
 

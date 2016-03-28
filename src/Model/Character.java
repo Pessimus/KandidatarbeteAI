@@ -13,18 +13,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	//------------------Movement Variables---------------------
 	private float xPos;
 	private float yPos;
-	private double collisionRadius;
-	private double interactionRadius;
 
-	private LinkedList<ICollidable> wir;//TODO general interaction
-
-	private float xSpeed;
-	private float ySpeed;
+	//private float xSpeed;//TODO remove
+	//private float ySpeed;//TODO remove
 
 	private int updateCounter = 0;
-	private final int updateHunger = 20;//TODO move to constants
-	private final int updateThirst = 40;//TODO move to constants
-	private final int updateEnergy = 20;//TODO move to constants
 
 		//TODO Update the way the player moves the character to be the same way as the AI.
 		//Tells the update function for each character if they are currently walking in any direction;
@@ -38,11 +31,19 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	private Inventory inventory;
 
-	//private volatile RenderObject latestRenderObject;//TODO remove
-
 	//----------------Collision------------------
-	private LinkedList<ICollidable> collideX;
-	private LinkedList<ICollidable> collideY;
+	private double collisionRadius;//TODO make float
+	private double interactionRadius;//TODO make float
+	private double surroundingRadius;//TODO make float
+
+	private LinkedList<ICollidable> surroundingX;
+	private LinkedList<ICollidable> surroundingY;
+	private LinkedList<ICollidable> surroundings;
+
+	private LinkedList<ICollidable> interactableX;
+	private LinkedList<ICollidable> interactableY;
+	private LinkedList<ICollidable> interactables;
+
 
 	//TESTING
 	private Pathfinder pathTest;
@@ -84,26 +85,32 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		//Initial position
 		this.xPos = xPos;
 		this.yPos = yPos;
-		this.xSpeed = 0;
-		this.ySpeed = 0;//TODO remove
+		//this.xSpeed = 0;//TODO remove
+		//this.ySpeed = 0;//TODO remove
 		this.key = key;
 
 		//Create inventory
 		inventory = new Inventory();
 
-		this.hunger = 100;
-		this.thirst = 100;
-		this.energy = 100;
+		this.hunger = 100;//TODO add to constants
+		this.thirst = 100;//TODO add to constants
+		this.energy = 100;//TODO add to constants
 
 		this.pathTest = new Pathfinder(16, 9600, 9600, 1, 1.4);
 		this.pathTest.updateMask(new CollisionList());
 		this.stepTest = null;
 
-		this.collideX = new LinkedList<>();
-		this.collideY = new LinkedList<>();
-		this.collisionRadius = 5;
-		this.interactionRadius = 10;
-		this.wir = new LinkedList<>();
+		this.surroundingX = new LinkedList<>();
+		this.surroundingY = new LinkedList<>();
+		this.surroundings = new LinkedList<>();
+
+		this.interactableX = new LinkedList<>();
+		this.interactableY = new LinkedList<>();
+		this.interactables = new LinkedList<>();
+
+		this.collisionRadius = 5;//TODO add to constants
+		this.interactionRadius = 10;//TODO add to constants
+		this.surroundingRadius = 20;//TODO add to constants
 	}
 
 	@Override
@@ -118,6 +125,10 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	public int getKey(){ return key;}
 
+	public float getSteplength(){return stepLength;}
+
+	//----------------------------Collision --------------------------------\\
+
 	@Override
 	public double getCollisionRadius() {
 		return this.collisionRadius;
@@ -128,43 +139,67 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return this.interactionRadius;
 	}
 
+	@Override
+	public double getSurroundingRadius(){
+		return this.surroundingRadius;
+	}
+
 	public void setInteractionRadius(double radius){
 		this.interactionRadius = radius;
 	}
 
 	@Override
-	public void addToCollideX(ICollidable rhs) {
-		this.collideX.add(rhs);
+	public void addToSurroundingX(ICollidable rhs) {
+		this.surroundingX.add(rhs);
 	}
 
 	@Override
-	public void addToCollideY(ICollidable rhs) {
-		this.collideY.add(rhs);
+	public void addToSurroundingY(ICollidable rhs) {
+		this.surroundingY.add(rhs);
 	}
 
 	@Override
-	public void checkCollision() {
-		this.wir.clear();
-		for(ICollidable c : this.collideX){
-			if(this.collideY.contains(c)){
-				//System.out.println("Krock med n�t!!!!!!!!!" + this.hashCode());
-
-				this.wir.add(c);
+	public void checkSurroundings() {
+		LinkedList<ICollidable> tmp = new LinkedList<>();
+		for(ICollidable c : this.surroundingX){
+			if(this.surroundingY.contains(c)){
+				tmp.add(c);
 			}
 		}
-		this.collideX.clear();
-		this.collideY.clear();
+		this.surroundingX.clear();
+		this.surroundingY.clear();
+		this.surroundings = tmp;
 	}
+
+	@Override
+	public void addToInteractableX(ICollidable rhs) {
+		this.interactableX.add(rhs);
+	}
+
+	@Override
+	public void addToInteractableY(ICollidable rhs) {
+		this.interactableY.add(rhs);
+	}
+
+	@Override
+	public void checkInteractables() {
+		LinkedList<ICollidable> tmp = new LinkedList<>();
+		for(ICollidable c : this.interactableX){
+			if(this.interactableY.contains(c)){
+				tmp.add(c);
+			}
+		}
+		this.interactableX.clear();
+		this.interactableY.clear();
+		this.interactables = tmp;
+	}
+
+
+	//-------------------
+
 
 	@Override
 	public RenderObject getRenderObject() {
-		/*TODO REMOVE if-statements that allways return the same value.
-		if(latestRenderObject != null) {
-			if (latestRenderObject.compare(this)) {
-				return latestRenderObject;
-			}
-		}*/
-
 		return new RenderObject(getX(), getY(), getCollisionRadius(), renderObjectEnum);
 	}
 
@@ -173,11 +208,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return renderObjectEnum;
 	}
 
-	//public int getHunger() {return this.hunger;}//TODO REMOVE as it is deprecated as of the interface ICharacter handle
-
-	//TODO change method name to better suit praxis
 	//Check if character is alive
-	public void isDead() {
+	private void updateAlive() {
 		if (hunger <= 0 || thirst <= 0 || energy <= 0) {
 			alive = false;
 		}
@@ -220,7 +252,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 									this.energy -= 1;
 								}
 
-								isDead();
+								updateAlive();
 							}
 
 							//---------NEED REPLENESHING METHODS--------------
@@ -255,69 +287,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 //		public double getNextYPosition(){
 //			return this.yPos+this.ySpeed;
 //		}
-
-	/*
-	public double moveX(){
-		return this.xPos += this.xSpeed;
-	}
-	public double moveY(){
-		return this.yPos += this.ySpeed;
-	}
-
-	public void walkRight(){
-		this.xPos += this.stepLength;
-	}
-
-	public void walkLeft(){
-		this.xPos -= this.stepLength;
-	}
-
-	public void stopRight(){
-		this.xSpeed -= this.stepLength;
-	}
-
-	public void stopLeft(){
-		this.xSpeed += this.stepLength;
-	}
-
-	public void walkUp(){
-		this.yPos -= this.stepLength;
-	}
-
-	public void walkDown(){
-		this.yPos += this.stepLength;
-	}
-
-	public void stopUp(){
-		this.ySpeed += this.stepLength;
-	}
-
-	public void stopDown(){
-		this.ySpeed -= this.stepLength;
-	}
-	*/
-	/*TODO remove
-	public void moveAround(){
-		if(updateCounter % 30 == 0) {
-			if (Math.random() < 0.1) {
-				double endx = 1000;
-				double endy = 1000;
-
-				stepTest = pathTest.getPath(xPos, yPos, endx, endy);
-
-			}
-
-			if (stepTest != null) {
-				if (stepTest.getFirst().stepTowards(this)) {
-					stepTest.removeFirst();
-					if (stepTest.isEmpty())  {
-						stepTest = null;
-					}
-				}
-			}
-		}
-
-	}*/
 
 	public LinkedList<InventoryRender> getRenderInventory(){
 		LinkedList<InventoryRender> list = new LinkedList<>();
@@ -376,16 +345,14 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.xPos += this.stepLength;
 	}
 
-	//TODO implement
 	@Override
 	public List<ICollidable> getSurroundings() {
-		return null;
+		return this.surroundings;
 	}
 
-	//TODO implement
 	@Override
 	public List<ICollidable> getInteractables() {
-		return wir;
+		return this.interactables;
 	}
 
 	@Override
@@ -465,15 +432,10 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		stepLength = Constants.CHARACTER_WALK_SPEED;
 	}
 
-	//TODO move
-	public float getSteplength(){
-		return stepLength;
-	}
-
 
 	//TODO remove this testing method
 	public void hit() {
-		for(ICollidable collidable : wir){
+		for(ICollidable collidable : interactables){
 			if(collidable.getClass().equals(this.getClass())){
 				((Character)collidable).alive = false;
 			}
