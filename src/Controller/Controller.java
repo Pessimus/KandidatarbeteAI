@@ -16,7 +16,7 @@ import java.util.concurrent.Semaphore;
 /**
  * Created by Tobias on 2016-02-26.
  */
-public class Controller implements PropertyChangeListener, Runnable {
+public class Controller implements PropertyChangeListener {
 	/* MVC */
 	private World gameModel;
 	private StateViewInit gameView;
@@ -133,8 +133,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 		screenRect = new ModelToViewRectangle(Constants.DEFAULT_WORLD_VIEW_X, Constants.DEFAULT_WORLD_VIEW_Y, (float)Constants.SCREEN_WIDTH, (float)Constants.SCREEN_HEIGHT);
 	}
 
-	@Override
-	public void run(){
+	public void start(){
 		new Timer().scheduleAtFixedRate(new TimerTask(){
 			public void run() {
 				for(AbstractBrain brain : aiMap.values()){
@@ -165,9 +164,18 @@ public class Controller implements PropertyChangeListener, Runnable {
 		return false;
 	}
 
+	/**
+	 * Update various elements of the view, such as
+	 * the saved location of the screen-view in regards to the world,
+	 * acquire ALL renderable objects from the model and filter out the ones
+	 * not visible in the screen-view and send these objects to the view.
+	 */
 	private void updateView(){
 		List<RenderObject> temp = new LinkedList<>();
 
+
+		// Move the screen-view over the world if the mouse is close
+		// to either edge of the screen.
 		if (mouseX >= Constants.SCREEN_EDGE_TRIGGER_MAX_X) {
 			float width = (float)gameModel.getWidth();
 			if (screenRect.getMaxX() < width) {
@@ -198,6 +206,8 @@ public class Controller implements PropertyChangeListener, Runnable {
 			}
 		}
 
+		// Get renderable objects from the model and proceed to
+		// filter out the ones not currently inside the screen-view
 		RenderObject[] obj = gameModel.getRenderObjects();
 
 		for (RenderObject tempObj : obj) {
@@ -259,14 +269,19 @@ public class Controller implements PropertyChangeListener, Runnable {
 						gameModel.movePlayerLeft();
 					} else if (clicks[1] == Input.KEY_RIGHT) {
 						gameModel.movePlayerRight();
-					} else if (clicks[1] == Input.KEY_ADD) {
-						; // TODO: Zoom in
-					} else if (clicks[1] == Input.KEY_MINUS) {
-						; // TODO: Zoom out
-					}else if(clicks[1] == Input.KEY_R){
+					} else if(clicks[1] == Input.KEY_R){
 						gameModel.playerRunning();
 					} else if (clicks[1] == Input.KEY_P) {
 						gameModel.pause();
+					}
+					else if (clicks[1] == Input.KEY_1) {
+						World.setGameSpeed(World.GAMESPEED.NORMAL.getGameSpeed());
+					}
+					else if (clicks[1] == Input.KEY_2) {
+						World.setGameSpeed(World.GAMESPEED.FAST.getGameSpeed());
+					}
+					else if (clicks[1] == Input.KEY_3) {
+						World.setGameSpeed(World.GAMESPEED.FASTER.getGameSpeed());
 					}
 				}else if(clicks[0] == View.INPUT_ENUM.KEY_RELEASED.value){
 					if (clicks[1] == Input.KEY_UP) {
@@ -279,10 +294,6 @@ public class Controller implements PropertyChangeListener, Runnable {
 						gameModel.stopPlayerRight();
 					} else if (clicks[1] == Input.KEY_F){
 						gameModel.hit();
-					} else if (clicks[1] == Input.KEY_ADD) {
-						; // TODO: Zoom in
-					} else if (clicks[1] == Input.KEY_MINUS) {
-						; // TODO: Zoom out
 					}else if(clicks[1] == Input.KEY_R){
 						gameModel.playerWalking();
 					}else if(clicks[1] == Input.KEY_I){
@@ -299,7 +310,6 @@ public class Controller implements PropertyChangeListener, Runnable {
 	}
 
 	private void handleMouseInput(Integer[][] mouseClicks){
-		//System.out.println("Controller: handleMouseInput()");
 		// Mouse input
 		if(mouseClicks.length > 0) {
 			// Call methods in the model according to what button was pressed!
@@ -370,7 +380,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 			mouseInputQueue.offer(newValue);
 		}
 		else if(evt.getPropertyName().equals("startController")){
-			run();
+			start();
 		}
 		else if(evt.getPropertyName().equals("createdCharacter")){
 			Character character = (Character)evt.getNewValue();
@@ -385,16 +395,13 @@ public class Controller implements PropertyChangeListener, Runnable {
 	}
 
 	private void handleModelEvent(PropertyChangeEvent evt){
-		//System.out.println("Controller: handleMouseEvent()");
 		if(evt.getPropertyName().equals("update")){
-			// Get coordinates of all objects in the viewable area!
 			updateView();
 		}
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		//System.out.println("Controller: propertyChange()");
 		if(evt != null){
 			if(evt.getPropertyName() != null){
 				if(evt.getSource() instanceof BasicGameState){

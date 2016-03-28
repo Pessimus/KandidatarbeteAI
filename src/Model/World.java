@@ -2,10 +2,8 @@ package Model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.Semaphore;
 
 
@@ -30,6 +28,27 @@ public class World implements Runnable{
 	private double width;
 	private double height;
 	private boolean pause;
+	public enum GAMESPEED {
+		NORMAL(1), FAST(1.5), FASTER(2);
+
+		private final double gameSpeed;
+
+		GAMESPEED(double gameSpeed) {
+			this.gameSpeed = gameSpeed;
+		}
+
+		public double getGameSpeed() {
+			return gameSpeed;
+		}
+	}
+
+	private static double gameSpeed;
+	public static double getGameSpeed() {
+		return gameSpeed;
+	}
+	public static void setGameSpeed(double gs) {
+		gameSpeed = gs;
+	}
 
 
 	private Semaphore sema = new Semaphore(1);
@@ -42,6 +61,8 @@ public class World implements Runnable{
 		this.timeables = new LinkedList<>();
 		this.characters = new HashMap<>();
 		pause = false;
+
+		this.gameSpeed = GAMESPEED.NORMAL.getGameSpeed();
 
 		// TODO: HARDCODED TEST!!!!!
 		// TODO: HARDCODED TEST!!!!!
@@ -181,6 +202,10 @@ public class World implements Runnable{
 
 	public double getHeight() {
 		return height;
+	}
+
+	public void fastForward() {
+
 	}
 
 	/* Pause the game, if P is pressed, pause() will pause the run lopp*/
