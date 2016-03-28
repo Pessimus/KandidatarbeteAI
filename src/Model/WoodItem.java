@@ -4,19 +4,30 @@ package Model;
  * Created by Tobias on 2016-03-10.
  */
 public class WoodItem implements IItem {
+	private int amount;
+
+	public WoodItem(int value){
+		this.amount = value;
+	}
+
 	@Override
-	public String getActions() {
-		return null;
+	public void addAmount(int value) {
+		this.amount += value;
 	}
 
 	@Override
 	public int getAmount() {
-		return 0;
+		return amount;
 	}
 
 	@Override
 	public void setAmount(int value) {
+		this.amount = value;
+	}
 
+	@Override
+	public String getActions() {
+		return null;
 	}
 
 	@Override

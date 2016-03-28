@@ -7,6 +7,7 @@ public interface IItem {
 	String getActions();
 	int getAmount();
 	void setAmount(int value);
+	void addAmount(int value);
 	enum Type{
 		GOLD_ITEM("res/gold_item.png"), WATER_ITEM("res/water_item.png"), WOOD_ITEM("res/wood_item.png"),
 		STONE_ITEM("res/rock_item.png"), MEAT_ITEM("res/meat_item.png"), FISH_ITEM("res/fish_item.png"),
