@@ -30,15 +30,14 @@ public class View extends BasicGameState implements InputListener{
     private int stateNr;
     private TiledMap map;
 
-	private Semaphore renderPointSema = new Semaphore(1);
-
 	private volatile int renderPointX = (int)Constants.DEFAULT_WORLD_VIEW_X;
 	private volatile int renderPointY = (int)Constants.DEFAULT_WORLD_VIEW_Y;
 
-    private volatile float scaler = 1f;
+    private volatile float scaleGraphics = 1f;
+
     //List<RenderObject> listToRender = new LinkedList<>();
 	private RenderObject[] listToRender = {};
-	private Model.IItem.Type[] inventoryToRender = {};
+	private Model.InventoryRender[] inventoryToRender = {};
 
 	private boolean displayInventory = false;
 
@@ -58,14 +57,6 @@ public class View extends BasicGameState implements InputListener{
             value = i;
         }
     }
-
-    //----------TESTVARIABLER UNDER, Ska kanske inte vara kvar ------------------
-    int mouseX = 0;
-    int mouseY = 0;
-    int mouseXMoved = 0;
-    int mouseYMoved = 0;
-    int wheel = Mouse.getDWheel();
-    int collisionId = 21*23+1;
 
     public View(int i) {
         stateNr = i;
@@ -88,19 +79,19 @@ public class View extends BasicGameState implements InputListener{
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-		tempWidth = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE/scaler);
-		tempHeight = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE/scaler);
+		tempWidth = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE/scaleGraphics);
+		tempHeight = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE/scaleGraphics);
     }
 
 
     public void zoomOut(){
-        if(scaler > 0.5f)
-           scaler -= 0.1f;
+        if(scaleGraphics > 0.5f)
+           scaleGraphics -= 0.1f;
     }
 
     public void zoomIn(){
-        if(scaler < 3f){
-            scaler += 0.1f;
+        if(scaleGraphics < 3f){
+            scaleGraphics += 0.1f;
         }
     }
 
@@ -109,13 +100,16 @@ public class View extends BasicGameState implements InputListener{
 	private int tempWidth;
 	private int tempHeight;
 
-    @Override
-    public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-		graphics.scale(scaler,scaler);
-
-		map.render(0,0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, tempWidth, tempHeight);
+	@Override
+	public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
+		graphics.scale(scaleGraphics,scaleGraphics);
 
 		try {
+			//renderPointSema.acquire();
+			map.render(0,0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, tempWidth, tempHeight);
+			//map.render(0, 0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, width, height);
+			//renderPointSema.release();
+
 			semaphore.acquire();
 			if(listToRender != null){
 				if(listToRender.length > 0) {
@@ -124,23 +118,41 @@ public class View extends BasicGameState implements InputListener{
 					}
 				}
 			}
-			semaphore.release();
-		}
-		catch(InterruptedException e){
-			e.printStackTrace();
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
-		}
 
-		if (displayInventory) {
-			int x,y,i,j;
-			i=3;
-			j=3;
-			for(Model.IItem.Type type : inventoryToRender) {
-				x=gameContainer.getWidth()-64*i;
-				y=gameContainer.getHeight()-64*j;
-				graphics.drawRect(x, y, 64, 64);
-				graphics.drawImage(new Image(type.pathToResource), x, y);
-				i--;
+
+			if (displayInventory) {
+				int x,y;
+				graphics.drawRect((int)(gameContainer.getWidth()/scaleGraphics)-64*3, (int)(gameContainer.getHeight()/scaleGraphics)-224, 128,32);
+				graphics.drawString("Inventory", (int)(gameContainer.getWidth()/scaleGraphics)-182, (int)(gameContainer.getHeight()/scaleGraphics)-218);
+				for (int i = 1; i < 4; i++) {
+					for (int j = 1; j < 4; j++) {
+						x=(int)(gameContainer.getWidth()/scaleGraphics)-64*i;
+						y=(int)(gameContainer.getHeight()/scaleGraphics)-64*j;
+						graphics.setLineWidth(5f);
+						graphics.drawRect(x, y, 64, 64);
+					}
+				}
+
+				int i,j;
+				i=3;
+				j=3;
+				for(Model.InventoryRender invRender : inventoryToRender) {
+					x=(int)(gameContainer.getWidth()/scaleGraphics)-64*i;
+					y=(int)(gameContainer.getHeight()/scaleGraphics)-64*j;
+
+					graphics.drawImage(new Image(invRender.type.pathToResource), x, y);
+					graphics.fillRect(x+44, y+44, 20, 20);
+					graphics.setColor(Color.black);
+					if(invRender.amount < 10)
+						graphics.drawString(Integer.toString(invRender.amount), x+48, y+48);
+					else
+						graphics.drawString(Integer.toString(invRender.amount), x+44, y+46);
+					graphics.setColor(Color.white);
+					i--;
+					if(i==0 && j!=1){
+						i=3;
+						j--;
+					}
 					/*for (int i = 0; i < 3; i++) {
 						for (int j = 0; j < 3; j++) {
 
@@ -151,11 +163,51 @@ public class View extends BasicGameState implements InputListener{
 							graphics.setColor(Color.white);
 						}
 					}*/
+				}
 			}
+			semaphore.release();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
 		}
 
-		//pcs.firePropertyChange("getModel", false, true);
-    }
+		/*
+        //Functioanlity for moving the camera view around the map. Keep the mouse to one side to move the camera view.
+        if (Mouse.getX() > d.getWidth()-d.getWidth()/10 && renderpointx < map.getWidth()-width) {
+            renderpointx += 1;
+        }
+        if (Mouse.getX() < d.getWidth()/10 && renderpointx > 0) {
+            renderpointx -= 1;
+        }
+        if (Mouse.getY() < d.getHeight()-d.getHeight()/10 && renderpointy < map.getHeight()-height) {
+            renderpointy += 1;
+        }
+        if (Mouse.getY() > d.getHeight()/10 && renderpointy > 0) {
+            renderpointy -= 1;
+        }
+
+
+        if(Keyboard.isKeyDown(Input.KEY_ADD) || Keyboard.isKeyDown(Input.KEY_Z)) {
+            zoomIn();
+        }
+
+        if(Keyboard.isKeyDown(Input.KEY_SUBTRACT)|| Keyboard.isKeyDown(Input.KEY_X)) {
+            zoomOut();
+        }
+
+        if(Mouse.getEventDWheel() > 0)
+            zoomIn();
+
+        if(Mouse.getEventDWheel() < 0)
+            zoomOut();
+        */
+
+
+		//listToRender = null;
+		//tempRenderList = null;
+
+	}
 
     @Override
     public int getID() {
@@ -218,13 +270,12 @@ public class View extends BasicGameState implements InputListener{
 	}
 
 	public void renderInventory(LinkedList<Model.InventoryRender> inventoryItems){
-		LinkedList<Model.IItem.Type> tmp = new LinkedList<>();
+		LinkedList<Model.InventoryRender> tmp = new LinkedList<>();
 		for(Model.InventoryRender inventoryRen : inventoryItems){
-			tmp.add(inventoryRen.type);
+			tmp.add(inventoryRen);
 		}
 
-		inventoryToRender = tmp.toArray(new Model.IItem.Type[tmp.size()]);
-		System.out.println(inventoryItems);
+		inventoryToRender = tmp.toArray(new Model.InventoryRender[tmp.size()]);
 		displayInventory = true;
 	}
 

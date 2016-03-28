@@ -229,10 +229,8 @@ public class Controller implements PropertyChangeListener, Runnable {
 		RenderObject[] obj = gameModel.getRenderObjects();
 
 		for (RenderObject tempObj : obj) {
-			if (screenRect.contains(tempObj.getX(), tempObj.getY())) {
-				float[] tempInts = convertFromModelToViewCoords(tempObj.getX(), tempObj.getY());
-				temp.add(new RenderObject(tempInts[0], tempInts[1], tempObj.getRadius(), tempObj.getRenderType()));
-			}
+			float[] tempInts = convertFromModelToViewCoords(tempObj.getX(), tempObj.getY());
+			temp.add(new RenderObject(tempInts[0], tempInts[1], tempObj.getRadius(), tempObj.getRenderType()));
 		}
 
 		gameView.setRenderPoint(screenRect.getMinX(), screenRect.getMinY());
@@ -323,7 +321,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 						//gameModel.stopPlayerRight();
 						player.stopPlayerRight();
 					} else if (clicks[1] == Input.KEY_F){
-						gameModel.hit();
+						//gameModel.hit();
 					}else if(clicks[1] == Input.KEY_R){
 						//gameModel.playerWalking();
 						player.playerWalking();
