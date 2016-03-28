@@ -26,7 +26,7 @@ import java.util.TreeSet;
 	List<ResourcePoint> resourceMemory = new LinkedList<>();
 
     public ArtificialBrain() {
-		this(new Character((float) (9600*Math.random()),(float) (9600*Math.random()), 2));
+		this(new Character((float) (Constants.WORLD_WIDTH*Math.random()),(float) (Constants.WORLD_HEIGHT*Math.random()), 2));
     }
 
     public ArtificialBrain(ICharacterHandle c) {
@@ -49,17 +49,17 @@ import java.util.TreeSet;
 			}
 		}
 		if(exploring) {
-			if (Math.random() > 0.0008) {
+			/*if (Math.random() > 0.0008) {
 				double x = Math.random() * 9600;
 				double y = Math.random() * 9600;
 
 				path = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), x, y);
-			}
+			}*/
 			if (path != null) {
 				if (path.isEmpty()) {
 					path = null;
-					return;
-				}if (path.getFirst().stepTowards(body)) {
+				}
+				else if (path.getFirst().stepTowards(body)) {
 					path.removeFirst();
 				}
 			}
@@ -82,7 +82,7 @@ import java.util.TreeSet;
 					exploring = true;
 				}
 				else{
-					Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), closestPoint.getX(), closestPoint.getY());
+					path = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), closestPoint.getX(), closestPoint.getY());
 				}
 			}
 		}
