@@ -10,114 +10,36 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 
-import static Model.Constants.CONTROLLER_UPDATE_INTERVAL_FASTER;
-import static Model.Constants.CONTROLLER_UPDATE_INTERVAL_FASTEST;
-import static Model.Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
-
 /**
  * Created by Tobias on 2016-02-26.
  */
-public class Controller implements PropertyChangeListener, Runnable {
-	/* MVC */
+public class Controller implements PropertyChangeListener {
+
+//-----------------------------------------------VARIABLES------------------------------------------------------------\\
+
+	//-------------------MVC variables------------------\\
 	private World gameModel;
 	private StateViewInit gameView;
 
-	/* Help Objects */
-	private final Queue<Integer[]> keyboardInputQueue;
-	private final Queue<Integer[]> mouseInputQueue;
-
-
-	private int gameSpeed = CONTROLLER_UPDATE_INTERVAL_NORMAL;
-
-
-	//private final Semaphore keyboardSema = new Semaphore(1);//TODO REMOVE unused variable
-	//private final Semaphore mouseSema = new Semaphore(1);//TODO REMOVE unused variable
-
-	//private Semaphore screenRectSema = new Semaphore(1);//TODO REMOVE unused variable
-	private ModelToViewRectangle screenRect;
-
-	private float mouseX;
-	private float mouseY;
-
-	private boolean showingPlayerInventory = false;
-
+	//--------------Controller variables----------------\\
+	private PlayerBrain player = new PlayerBrain();
 	private HashMap<Character, AbstractBrain> aiMap = new HashMap<>();
 
-	private PlayerBrain player = new PlayerBrain();
-	//public static final Pathfinder pathCalculator = new Pathfinder(16, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, 1, 1.4);
-
-	private final class ModelToViewRectangle{
-		float rectWidth, rectHeight;
-
-		float minX, minY, maxX, maxY;
-
-		ModelToViewRectangle(float x, float y, float width, float height){
-			rectWidth = width;
-			rectHeight = height;
-
-			minX = x;
-			minY = y;
-			maxX = x + width;
-			maxY = y + height;
-		}
-
-		public void translatePosition(float deltaX, float deltaY){
-			minX += deltaX;
-			minY += deltaY;
-			maxX += deltaX;
-			maxY += deltaY;
-		}
-
-		public boolean contains(float x, float y){
-			return x >= minX && x <= maxX && y >= minY && y <= maxY;
-		}
-
-		public float getMinX() {
-			return minX;
-		}
-
-		public float getMinY() {
-			return minY;
-		}
-
-		public float getMaxX() {
-			return maxX;
-		}
-
-		public float getMaxY() {
-			return maxY;
-		}
-
-		public float getWidth() {
-			return rectWidth;
-		}
-
-		public float getHeight() {
-			return rectHeight;
-		}
+	//-----------------Model variables------------------\\
+	//TODO check what it affects
+	private int gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
 
 
-		public void setMinX(float minX) {
-			this.maxX += (minX - this.minX);
-			this.minX = minX;
-		}
+	//-----------------View variables-------------------\\
+	private final Queue<Integer[]> keyboardInputQueue;
+	private final Queue<Integer[]> mouseInputQueue;
+	private ModelToViewRectangle screenRect;
+	private float mouseX;
+	private float mouseY;
+	private boolean showingPlayerInventory = false;
 
-		public void setMinY(float minY) {
-			this.maxY += (minY - this.minY);
-			this.minY = minY;
-		}
-
-		public void setMaxX(float maxX) {
-			this.minX += (maxX - this.maxX);
-			this.maxX = maxX;
-		}
-
-		public void setMaxY(float maxY) {
-			this.minY += (maxY - this.maxY);
-			this.maxY = maxY;
-		}
-	}
-
+//----
+	/*
 	//TODO move main out of the controller class (probably)
 	public static void main(String[] args){
 		World model = new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
@@ -143,7 +65,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 		screenRect = new ModelToViewRectangle(Constants.DEFAULT_WORLD_VIEW_X, Constants.DEFAULT_WORLD_VIEW_Y, (float)Constants.SCREEN_WIDTH, (float)Constants.SCREEN_HEIGHT);
 	}
 
-	@Override
+
 	public void run(){
 		new Timer().scheduleAtFixedRate(new TimerTask(){
 			public void run() {
@@ -154,6 +76,45 @@ public class Controller implements PropertyChangeListener, Runnable {
 				updateModel();
 			}
 		}, 0, 1000/gameSpeed);
+	}
+	*/
+//----
+
+
+	public Controller(){
+		setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT));
+		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT));
+
+		keyboardInputQueue = new LinkedList<>();
+		mouseInputQueue = new LinkedList<>();
+
+		player.setBody(gameModel.addCharacter(450, 600, Constants.PLAYER_CHARACTER_KEY));
+
+
+		mouseX = (float)Constants.SCREEN_WIDTH/2;
+		mouseY = (float)Constants.SCREEN_HEIGHT/2;
+
+		screenRect = new ModelToViewRectangle(Constants.DEFAULT_WORLD_VIEW_X, Constants.DEFAULT_WORLD_VIEW_Y, (float)Constants.SCREEN_WIDTH, (float)Constants.SCREEN_HEIGHT);
+	}
+
+	public void start(){
+		this.gameView.run();
+	}
+
+	private void runModel(){
+		new Timer().scheduleAtFixedRate(new TimerTask(){
+			public void run() {
+				update();
+			}
+		}, 0, 1000/gameSpeed);
+	}
+
+	public void update(){
+		player.update();
+		for (AbstractBrain brain : aiMap.values()) {
+			brain.update();
+		}
+		updateModel();
 	}
 
 	//TODO change to try catch! (View = null should result in error)
@@ -196,13 +157,13 @@ public class Controller implements PropertyChangeListener, Runnable {
 		if (mouseX >= Constants.SCREEN_EDGE_TRIGGER_MAX_X) {
 			float width = (float)gameModel.getWidth();
 			if (screenRect.getMaxX() < width) {
-				screenRect.translatePosition(Constants.SCREEN_SCROLL_SPEED_X / CONTROLLER_UPDATE_INTERVAL_NORMAL, 0);
+				screenRect.translatePosition(Constants.SCREEN_SCROLL_SPEED_X / Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL, 0);
 			} else {
 				screenRect.setMaxX(width);
 			}
 		} else if (mouseX <= Constants.SCREEN_EDGE_TRIGGER_MIN_X) {
 			if (screenRect.getMinX() > 0) {
-				screenRect.translatePosition(-Constants.SCREEN_SCROLL_SPEED_X / CONTROLLER_UPDATE_INTERVAL_NORMAL, 0);
+				screenRect.translatePosition(-Constants.SCREEN_SCROLL_SPEED_X / Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL, 0);
 			} else {
 				screenRect.setMinX(0);
 			}
@@ -211,13 +172,13 @@ public class Controller implements PropertyChangeListener, Runnable {
 		if (mouseY >= Constants.SCREEN_EDGE_TRIGGER_MAX_Y) {
 			float height = (float)gameModel.getHeight();
 			if (screenRect.getMaxY() < height) {
-				screenRect.translatePosition(0, Constants.SCREEN_SCROLL_SPEED_Y / CONTROLLER_UPDATE_INTERVAL_NORMAL);
+				screenRect.translatePosition(0, Constants.SCREEN_SCROLL_SPEED_Y / Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL);
 			} else {
 				screenRect.setMaxY(height);
 			}
 		} else if (mouseY <= Constants.SCREEN_EDGE_TRIGGER_MIN_Y) {
 			if (screenRect.getMinY() > 0) {
-				screenRect.translatePosition(0, -Constants.SCREEN_SCROLL_SPEED_Y / CONTROLLER_UPDATE_INTERVAL_NORMAL);
+				screenRect.translatePosition(0, -Constants.SCREEN_SCROLL_SPEED_Y / Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL);
 			} else {
 				screenRect.setMinY(0);
 			}
@@ -300,13 +261,13 @@ public class Controller implements PropertyChangeListener, Runnable {
 						gameModel.togglePause();
 					}
 					else if (clicks[1] == Input.KEY_1) {
-						gameSpeed = CONTROLLER_UPDATE_INTERVAL_NORMAL;
+						gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
 					}
 					else if (clicks[1] == Input.KEY_2) {
-						gameSpeed = CONTROLLER_UPDATE_INTERVAL_FASTER;
+						gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_FASTER;
 					}
 					else if (clicks[1] == Input.KEY_3) {
-						gameSpeed = CONTROLLER_UPDATE_INTERVAL_FASTEST;
+						gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_FASTEST;
 					}
 				}else if(clicks[0] == View.INPUT_ENUM.KEY_RELEASED.value){
 					if (clicks[1] == Input.KEY_UP) {
@@ -409,7 +370,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 			mouseInputQueue.offer(newValue);
 		}
 		else if(evt.getPropertyName().equals("startController")){
-			run();
+			runModel();
 		}
 		else if(evt.getPropertyName().equals("createdCharacter")){
 			Character character = (Character)evt.getNewValue();
@@ -454,4 +415,78 @@ public class Controller implements PropertyChangeListener, Runnable {
 	private float[] convertFromViewToModelCoords(float x, float y){
 		return new float[]{x + screenRect.getMinX(), y + screenRect.getMinY()};
 	}
+
+
+	private final class ModelToViewRectangle{
+		float rectWidth, rectHeight;
+
+		float minX, minY, maxX, maxY;
+
+		ModelToViewRectangle(float x, float y, float width, float height){
+			rectWidth = width;
+			rectHeight = height;
+
+			minX = x;
+			minY = y;
+			maxX = x + width;
+			maxY = y + height;
+		}
+
+		public void translatePosition(float deltaX, float deltaY){
+			minX += deltaX;
+			minY += deltaY;
+			maxX += deltaX;
+			maxY += deltaY;
+		}
+
+		public boolean contains(float x, float y){
+			return x >= minX && x <= maxX && y >= minY && y <= maxY;
+		}
+
+		public float getMinX() {
+			return minX;
+		}
+
+		public float getMinY() {
+			return minY;
+		}
+
+		public float getMaxX() {
+			return maxX;
+		}
+
+		public float getMaxY() {
+			return maxY;
+		}
+
+		public float getWidth() {
+			return rectWidth;
+		}
+
+		public float getHeight() {
+			return rectHeight;
+		}
+
+
+		public void setMinX(float minX) {
+			this.maxX += (minX - this.minX);
+			this.minX = minX;
+		}
+
+		public void setMinY(float minY) {
+			this.maxY += (minY - this.minY);
+			this.minY = minY;
+		}
+
+		public void setMaxX(float maxX) {
+			this.minX += (maxX - this.maxX);
+			this.maxX = maxX;
+		}
+
+		public void setMaxY(float maxY) {
+			this.minY += (maxY - this.maxY);
+			this.maxY = maxY;
+		}
+	}
+
 }
