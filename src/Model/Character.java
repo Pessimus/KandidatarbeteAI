@@ -148,7 +148,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 		this.wir.clear();
 		for(ICollidable c : this.collideX){
 			if(this.collideY.contains(c)){
-				System.out.println("Krock med n�t!!!!!!!!!" + this.hashCode());
+				//System.out.println("Krock med n�t!!!!!!!!!" + this.hashCode());
 				this.wir.add(c);
 			}
 		}
@@ -183,8 +183,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandler {
 
 		//Updates counter with one but doesn't exceed 60.
 		updateCounter = (int)((updateCounter+1) % (60/World.getGameSpeed()));
-		System.out.println((updateCounter+1)% 60/World.getGameSpeed());
+		//updateCounter = ((updateCounter+1) % 60); //OLD
 		if(updateCounter % (60/World.getGameSpeed()) == 0) {
+			System.out.println("true");
 			if(walkingUp)
 				moveUp();
 			if(walkingDown)

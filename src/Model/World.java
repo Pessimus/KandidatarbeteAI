@@ -28,6 +28,7 @@ public class World implements Runnable{
 	private double width;
 	private double height;
 	private boolean pause;
+	//Enum for managing the speed of the game
 	public enum GAMESPEED {
 		NORMAL(1), FAST(1.5), FASTER(2);
 

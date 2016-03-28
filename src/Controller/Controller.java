@@ -245,68 +245,59 @@ public class Controller implements PropertyChangeListener, Runnable {
 		// Keyboard input
 		if (keyboardClicks.length > 0) {
 			// Call methods in the model according to what key was pressed!
-<<<<<<< HEAD
 
-			new Thread() {
-				@Override
-				public void run() {
-					// The array for key-clicks work like this:
-					for (Integer[] clicks : keyboardClicks) {
-						// clicks[0] = Whether the key was pressed/released (1: Pressed, 0: Released)
-						// clicks[1] = What key was pressed/released
-						if (clicks[0] == View.INPUT_ENUM.KEY_PRESSED.value) {
+			// The array for key-clicks work like this:
+			for (Integer[] clicks : keyboardClicks) {
+				// clicks[0] = Whether the key was pressed/released (1: Pressed, 0: Released)
+				// clicks[1] = What key was pressed/released
+				if (clicks[0] == View.INPUT_ENUM.KEY_PRESSED.value) {
 
-							if (clicks[1] == Input.KEY_UP) {
-								gameModel.movePlayerUp();
-							} else if (clicks[1] == Input.KEY_DOWN) {
-								gameModel.movePlayerDown();
-							} else if (clicks[1] == Input.KEY_LEFT) {
-								gameModel.movePlayerLeft();
-							} else if (clicks[1] == Input.KEY_RIGHT) {
-								gameModel.movePlayerRight();
-							} else if (clicks[1] == Input.KEY_ADD) {
-								; // TODO: Zoom in
-							} else if (clicks[1] == Input.KEY_ADD) {
-								; // TODO: Zoom out
-							}else if(clicks[1] == Input.KEY_R){
-								gameModel.playerRunning();
-							} else if (clicks[1] == Input.KEY_P) {
-								gameModel.pause();
-							}
-							else if (clicks[1] == Input.KEY_1) {
-								World.setGameSpeed(World.GAMESPEED.NORMAL.getGameSpeed());
-							}
-							else if (clicks[1] == Input.KEY_2) {
-								World.setGameSpeed(World.GAMESPEED.FAST.getGameSpeed());
-							}
-							else if (clicks[1] == Input.KEY_3) {
-								World.setGameSpeed(World.GAMESPEED.FASTER.getGameSpeed());
-							}
-						}else if(clicks[0] == View.INPUT_ENUM.KEY_RELEASED.value){
-							if (clicks[1] == Input.KEY_UP) {
-								gameModel.stopPlayerUp();
-							} else if (clicks[1] == Input.KEY_DOWN) {
-								gameModel.stopPlayerDown();
-							} else if (clicks[1] == Input.KEY_LEFT) {
-								gameModel.stopPlayerLeft();
-							} else if (clicks[1] == Input.KEY_RIGHT) {
-								gameModel.stopPlayerRight();
-							} else if (clicks[1] == Input.KEY_F){
-								gameModel.hit();
-							} else if (clicks[1] == Input.KEY_ADD) {
-								; // TODO: Zoom in
-							} else if (clicks[1] == Input.KEY_ADD) {
-								; // TODO: Zoom out
-							}else if(clicks[1] == Input.KEY_R){
-								gameModel.playerWalking();
-							}else if(clicks[1] == Input.KEY_I){
-								showingPlayerInventory = !showingPlayerInventory;
-								if(showingPlayerInventory){
-									gameView.drawInventory(gameModel.displayPlayerInventory());
-								}else{
-									gameView.hidePlayerInventory();
-								}
-							}
+					if (clicks[1] == Input.KEY_UP) {
+						gameModel.movePlayerUp();
+					} else if (clicks[1] == Input.KEY_DOWN) {
+						gameModel.movePlayerDown();
+					} else if (clicks[1] == Input.KEY_LEFT) {
+						gameModel.movePlayerLeft();
+					} else if (clicks[1] == Input.KEY_RIGHT) {
+						gameModel.movePlayerRight();
+					} else if (clicks[1] == Input.KEY_ADD) {
+						; // TODO: Zoom in
+					} else if (clicks[1] == Input.KEY_MINUS) {
+						; // TODO: Zoom out
+					}else if(clicks[1] == Input.KEY_R){
+						gameModel.playerRunning();
+					} else if (clicks[1] == Input.KEY_P) {
+						gameModel.pause();
+					} else if (clicks[1] == Input.KEY_1) {
+						World.setGameSpeed(World.GAMESPEED.NORMAL.getGameSpeed());
+					} else if (clicks[1] == Input.KEY_2) {
+						World.setGameSpeed(World.GAMESPEED.FAST.getGameSpeed());
+					} else if (clicks[1] == Input.KEY_3) {
+						World.setGameSpeed(World.GAMESPEED.FASTER.getGameSpeed());
+					}
+				}else if(clicks[0] == View.INPUT_ENUM.KEY_RELEASED.value){
+					if (clicks[1] == Input.KEY_UP) {
+						gameModel.stopPlayerUp();
+					} else if (clicks[1] == Input.KEY_DOWN) {
+						gameModel.stopPlayerDown();
+					} else if (clicks[1] == Input.KEY_LEFT) {
+						gameModel.stopPlayerLeft();
+					} else if (clicks[1] == Input.KEY_RIGHT) {
+						gameModel.stopPlayerRight();
+					} else if (clicks[1] == Input.KEY_F){
+						gameModel.hit();
+					} else if (clicks[1] == Input.KEY_ADD) {
+						; // TODO: Zoom in
+					} else if (clicks[1] == Input.KEY_MINUS) {
+						; // TODO: Zoom out
+					}else if(clicks[1] == Input.KEY_R){
+						gameModel.playerWalking();
+					}else if(clicks[1] == Input.KEY_I){
+						showingPlayerInventory = !showingPlayerInventory;
+						if(showingPlayerInventory){
+							gameView.drawInventory(gameModel.displayPlayerInventory());
+						}else{
+							gameView.hidePlayerInventory();
 						}
 					}
 				}
