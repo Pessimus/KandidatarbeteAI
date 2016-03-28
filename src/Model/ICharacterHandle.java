@@ -18,7 +18,7 @@ public interface ICharacterHandle {
 	void moveDown();
 	void moveLeft();
 	void moveRight();
-
+/*
 	void startWalkingUp();
 	void startWalkingDown();
 	void startWalkingLeft();
@@ -27,7 +27,7 @@ public interface ICharacterHandle {
 	void stopWalkingDown();
 	void stopWalkingLeft();
 	void stopWalkingRight();
-
+*/
 	float getSteplength();
 
 	void startRunning();

@@ -133,7 +133,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 		keyboardInputQueue = new LinkedList<>();
 		mouseInputQueue = new LinkedList<>();
 
-		player.setBody(model.addCharacter(450,600,Constants.PLAYER_CHARACTER_KEY));
+		player.setBody(model.addCharacter(450, 600, Constants.PLAYER_CHARACTER_KEY));
 
 		setView(view);
 		setModel(model);
@@ -148,6 +148,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 	public void run(){
 		new Timer().scheduleAtFixedRate(new TimerTask(){
 			public void run() {
+				player.update();
 				for(AbstractBrain brain : aiMap.values()){
 					brain.update();
 				}

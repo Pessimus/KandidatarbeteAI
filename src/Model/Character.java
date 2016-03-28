@@ -14,27 +14,25 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	private float xPos;
 	private float yPos;
 
-	//private float xSpeed;//TODO remove
-	//private float ySpeed;//TODO remove
-
 	private int updateCounter = 0;
 
 		//TODO Update the way the player moves the character to be the same way as the AI.
 		//Tells the update function for each character if they are currently walking in any direction;
+	/*
 		private boolean walkingUp = false;
 		private boolean walkingDown = false;
 		private boolean walkingLeft = false;
 		private boolean walkingRight = false;
-
+*/
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
 
 
 	private Inventory inventory;
 
 	//----------------Collision------------------
-	private double collisionRadius;//TODO make float
-	private double interactionRadius;//TODO make float
-	private double surroundingRadius;//TODO make float
+	private double collisionRadius;
+	private double interactionRadius;
+	private double surroundingRadius;
 
 	private LinkedList<ICollidable> surroundingX;
 	private LinkedList<ICollidable> surroundingY;
@@ -98,8 +96,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		//Initial position
 		this.xPos = xPos;
 		this.yPos = yPos;
-		//this.xSpeed = 0;//TODO remove
-		//this.ySpeed = 0;//TODO remove
 		this.key = key;
 		//Generate Gender
 		generateGender();
@@ -107,9 +103,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		//Create inventory
 		inventory = new Inventory();
 
-		this.hunger = 100;//TODO add to constants
-		this.thirst = 100;//TODO add to constants
-		this.energy = 100;//TODO add to constants
+		this.hunger = Constants.CHARACTER_HUNGER_MAX;
+		this.thirst = Constants.CHARACTER_THIRST_MAX;
+		this.energy = Constants.CHARACTER_ENERGY_MAX;
 
 		this.pathTest = new Pathfinder(16, 9600, 9600, 1, 1.4);
 		this.pathTest.updateMask(new CollisionList());
@@ -254,7 +250,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 								//Updates counter with one but doesn't exceed 60.
 								updateCounter = (updateCounter+1) % 60;
 								//if(updateCounter % 60 == 0) {
-								if(walkingUp)
+								/*if(walkingUp)
 									moveUp();
 								if(walkingDown)
 									moveDown();
@@ -263,7 +259,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 								if(walkingLeft)
 									moveLeft();
 								//}
-
+								*/
 								updateNeeds();
 								//moveAround();
 							}
@@ -411,7 +407,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	public Outcome getOutcomeInteractables(int interactablesIndex) {
 		return null;
 	}
-
+/*
 	//TODO Update this part to work the same way that the AI does it.
 				public void startWalkingUp(){
 					walkingUp=true;
@@ -445,7 +441,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 					walkingLeft=false;
 				}
 
-
+*/
 	//TODO add to interface
 	public void startRunning(){
 		stepLength = Constants.CHARACTER_RUN_SPEED;
