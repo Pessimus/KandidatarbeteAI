@@ -31,7 +31,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 
 	private float mouseX;
 	private float mouseY;
-
+	private double gameSpeed = 1;
 	private boolean showingPlayerInventory = false;
 
 	private HashMap<Character, AbstractBrain> aiMap = new HashMap<>();
@@ -108,6 +108,14 @@ public class Controller implements PropertyChangeListener, Runnable {
 		public void setMaxY(float maxY) {
 			this.minY += (maxY - this.maxY);
 			this.maxY = maxY;
+		}
+
+		public double getGameSpeed(){
+			return gameSpeed;
+		}
+
+		public void setGameSpeed(double gs){
+			gameSpeed = gs;
 		}
 	}
 

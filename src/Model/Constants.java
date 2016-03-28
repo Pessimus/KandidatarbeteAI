@@ -34,6 +34,9 @@ public final class Constants {
 	public static final			int			PLAYER_CHARACTER_KEY				= 	1;
 	public static final			float		CHARACTER_WALK_SPEED				=	6f; // Pixels per update
 	public static final			float		CHARACTER_RUN_SPEED					=	12f; // Pixels per update
+	public static final			double		GAMESPEED_NORMAL					=	1;
+	public static final			double		GAMESPEED_FAST						=	1.5;
+	public static final			double		GAMESPEED_FASTER					=	2;
 
 	public static final 		int 		WORLD_TILE_SIZE						= 	32;
 	public static final 		int 		VERTICAL_TILES						=	(int) (SCREEN_HEIGHT /WORLD_TILE_SIZE);
