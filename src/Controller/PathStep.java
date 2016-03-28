@@ -1,7 +1,7 @@
 package Controller;
 
 import Model.Character;
-import Model.ICharacterHandler;
+import Model.ICharacterHandle;
 
 /**
  * Created by Gustav on 2016-03-04.
@@ -31,7 +31,7 @@ public class PathStep {
     }
 
     // steps the given character towards the node and returns true if they reached the node
-    public boolean stepTowards (ICharacterHandler c) {
+    public boolean stepTowards (ICharacterHandle c) {
         double diffx = nodex - c.getX();
         double diffy = nodey - c.getY();
         int ret = 0;

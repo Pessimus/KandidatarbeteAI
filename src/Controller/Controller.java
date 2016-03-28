@@ -1,9 +1,7 @@
 package Controller;
 
+import Model.*;
 import Model.Character;
-import Model.Constants;
-import Model.RenderObject;
-import Model.World;
 import View.*;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.BasicGameState;
@@ -20,7 +18,7 @@ import static Model.Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
 /**
  * Created by Tobias on 2016-02-26.
  */
-public class Controller implements PropertyChangeListener {
+public class Controller implements PropertyChangeListener, Runnable {
 	/* MVC */
 	private World gameModel;
 	private StateViewInit gameView;
@@ -29,13 +27,14 @@ public class Controller implements PropertyChangeListener {
 	private final Queue<Integer[]> keyboardInputQueue;
 	private final Queue<Integer[]> mouseInputQueue;
 
+
 	private int gameSpeed = CONTROLLER_UPDATE_INTERVAL_NORMAL;
 
 
-	private final Semaphore keyboardSema = new Semaphore(1);
-	private final Semaphore mouseSema = new Semaphore(1);
+	//private final Semaphore keyboardSema = new Semaphore(1);//TODO REMOVE unused variable
+	//private final Semaphore mouseSema = new Semaphore(1);//TODO REMOVE unused variable
 
-	private Semaphore screenRectSema = new Semaphore(1);
+	//private Semaphore screenRectSema = new Semaphore(1);//TODO REMOVE unused variable
 	private ModelToViewRectangle screenRect;
 
 	private float mouseX;
@@ -120,6 +119,7 @@ public class Controller implements PropertyChangeListener {
 		}
 	}
 
+	//TODO move main out of the controller class (probably)
 	public static void main(String[] args){
 		World model = new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
 		StateViewInit view = new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT);
@@ -128,6 +128,7 @@ public class Controller implements PropertyChangeListener {
 		view.run();
 	}
 
+	//TODO clean up a bit, and fix the move of main....
 	public Controller(StateViewInit view, World model){
 		keyboardInputQueue = new LinkedList<>();
 		mouseInputQueue = new LinkedList<>();
@@ -140,7 +141,8 @@ public class Controller implements PropertyChangeListener {
 		screenRect = new ModelToViewRectangle(Constants.DEFAULT_WORLD_VIEW_X, Constants.DEFAULT_WORLD_VIEW_Y, (float)Constants.SCREEN_WIDTH, (float)Constants.SCREEN_HEIGHT);
 	}
 
-	public void start(){
+	@Override
+	public void run(){
 		new Timer().scheduleAtFixedRate(new TimerTask(){
 			public void run() {
 				for(AbstractBrain brain : aiMap.values()){
@@ -148,19 +150,24 @@ public class Controller implements PropertyChangeListener {
 				}
 				updateModel();
 			}
-		}, 0, 1000/ gameSpeed);
+		}, 0, 1000/gameSpeed);
 	}
 
+	//TODO change to try catch! (View = null should result in error)
+	//TODO check comment inside.... should be solved...
 	public synchronized boolean setView(StateViewInit view){
 		if(view != null){
 			gameView = view;
 			gameView.addPropertyChangeListener(this); // TODO: 'View' should use PropertyChangeSupport
+													  // TODO: It does...
 			return true;
 		}
 
 		return false;
 	}
 
+	//TODO change to try catch! (Model = null should result in error)
+	//TODO check comment inside.... should be solved...
 	public synchronized boolean setModel(World model){
 		if(model != null){
 			gameModel = model;
@@ -230,7 +237,7 @@ public class Controller implements PropertyChangeListener {
 			gameView.drawRenderObjects(temp);
 		}
 
-		if(showingPlayerInventory){
+		if (showingPlayerInventory){
 			gameView.drawInventory(gameModel.displayPlayerInventory());
 		}
 	}
@@ -239,6 +246,7 @@ public class Controller implements PropertyChangeListener {
 	 * Uses input from the View to manipulate the Model.
 	 */
 	private void updateModel(){
+		//TODO fix concurrency
 		Object[] tempList = keyboardInputQueue.toArray();
 		keyboardInputQueue.clear();
 
@@ -247,6 +255,7 @@ public class Controller implements PropertyChangeListener {
 			handleKeyboardInput(tempKeyList);
 		}
 
+		//TODO fix concurrency
 		tempList = mouseInputQueue.toArray();
 		mouseInputQueue.clear();
 
@@ -258,6 +267,7 @@ public class Controller implements PropertyChangeListener {
 		gameModel.run();
 	}
 
+	//TODO change from if-statements to switch-chase-statements
 	private void handleKeyboardInput(Integer[][] keyboardClicks) {
 		// Keyboard input
 		if (keyboardClicks.length > 0) {
@@ -316,6 +326,7 @@ public class Controller implements PropertyChangeListener {
 		}
 	}
 
+	//TODO MEMO TO ME! Check what is wanted here, and what is done...
 	private void handleMouseInput(Integer[][] mouseClicks){
 		// Mouse input
 		if(mouseClicks.length > 0) {
@@ -387,7 +398,7 @@ public class Controller implements PropertyChangeListener {
 			mouseInputQueue.offer(newValue);
 		}
 		else if(evt.getPropertyName().equals("startController")){
-			start();
+			run();
 		}
 		else if(evt.getPropertyName().equals("createdCharacter")){
 			Character character = (Character)evt.getNewValue();
@@ -397,7 +408,7 @@ public class Controller implements PropertyChangeListener {
 					tempChar.setBody(null);
 				}
 			}
-			aiMap.put(character, new ArtificialBrain(character));
+			aiMap.put(character, new ArtificialBrain((ICharacterHandle)character));
 		}
 	}
 
@@ -407,6 +418,7 @@ public class Controller implements PropertyChangeListener {
 		}
 	}
 
+	//TODO (if possible) add ENUMS for where from the update was sent.
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if(evt != null){

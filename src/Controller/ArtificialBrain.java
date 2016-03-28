@@ -2,6 +2,8 @@ package Controller;
 
 import Model.*;
 import Model.Character;
+import Model.Constants;
+import Model.ICharacterHandle;
 
 //import java.awt.*;
 import java.awt.*;
@@ -13,11 +15,10 @@ import java.util.TreeSet;
 
 /**
  * Created by Gustav on 2016-03-23.
- */
-public class ArtificialBrain implements AbstractBrain {
+ */public class ArtificialBrain implements AbstractBrain {
     private LinkedList<PathStep> path;
 
-	private ICharacterHandler body; // The character this Brain controls
+	private ICharacterHandle body; // The character this Brain controls
 
 	private boolean exploring = true;
 
@@ -28,7 +29,7 @@ public class ArtificialBrain implements AbstractBrain {
 		this(new Character((float) (9600*Math.random()),(float) (9600*Math.random()), 2));
     }
 
-    public ArtificialBrain(ICharacterHandler c) {
+    public ArtificialBrain(ICharacterHandle c) {
         body = c;
     }
 
@@ -88,12 +89,12 @@ public class ArtificialBrain implements AbstractBrain {
     }
 
 	@Override
-	public void setBody(ICharacterHandler character) {
+	public void setBody(ICharacterHandle character) {
 		body = character;
 	}
 
 	@Override
-	public ICharacterHandler getBody() {
+	public ICharacterHandle getBody() {
 		return body;
 	}
 }

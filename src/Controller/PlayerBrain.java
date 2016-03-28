@@ -2,14 +2,14 @@ package Controller;
 
 import Model.Character;
 import Model.Constants;
-import Model.ICharacterHandler;
+import Model.ICharacterHandle;
 
 /**
  * Created by Gustav on 2016-03-23.
  */
 public class PlayerBrain implements AbstractBrain {
 
-	private ICharacterHandler body; // The character this Brain controls
+	private ICharacterHandle body; // The character this Brain controls
 
 	private boolean walkingUp;
 	private boolean walkingDown;
@@ -20,7 +20,7 @@ public class PlayerBrain implements AbstractBrain {
         body = new Character(100, 100, Constants.PLAYER_CHARACTER_KEY);
     }
 
-    public PlayerBrain(ICharacterHandler c) {
+    public PlayerBrain(ICharacterHandle c) {
         body = c;
     }
 
@@ -28,12 +28,12 @@ public class PlayerBrain implements AbstractBrain {
     }
 
 	@Override
-	public void setBody(ICharacterHandler character) {
+	public void setBody(ICharacterHandle character) {
 		body = character;
 	}
 
 	@Override
-	public ICharacterHandler getBody() {
+	public ICharacterHandle getBody() {
 		return body;
 	}
 

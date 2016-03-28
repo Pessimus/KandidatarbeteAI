@@ -1,7 +1,7 @@
 package Controller;
 
 import Model.Character;
-import Model.ICharacterHandler;
+import Model.ICharacterHandle;
 
 /**
  * Created by Gustav on 2016-03-23.
@@ -10,6 +10,6 @@ public interface AbstractBrain {
 
     void update(); // running this allows the brain to control its character
 
-	void setBody(ICharacterHandler character);
-	ICharacterHandler getBody();
+	void setBody(ICharacterHandle character);
+	ICharacterHandle getBody();
 }
