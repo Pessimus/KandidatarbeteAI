@@ -1,13 +1,14 @@
 package Controller;
 
 import Model.Character;
+import Model.ICharacterHandle;
 
 /**
  * Created by Gustav on 2016-03-04.
  */
 
 
-// A class for containing a single step in a path and methods for moving towards that step
+// A class for containing a single update in a path and methods for moving towards that update
 public class PathStep {
 
     private double nodex;
@@ -30,7 +31,7 @@ public class PathStep {
     }
 
     // steps the given character towards the node and returns true if they reached the node
-    public boolean stepTowards (Character c) {
+    public boolean stepTowards (ICharacterHandle c) {
         double diffx = nodex - c.getX();
         double diffy = nodey - c.getY();
         int ret = 0;

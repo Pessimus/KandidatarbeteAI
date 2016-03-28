@@ -2,10 +2,8 @@ package Model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.Semaphore;
 
 
@@ -30,6 +28,27 @@ public class World implements Runnable{
 	private double width;
 	private double height;
 	private boolean pause;
+	public enum GAMESPEED {
+		NORMAL(1), FAST(1.5), FASTER(2);
+
+		private final double gameSpeed;
+
+		GAMESPEED(double gameSpeed) {
+			this.gameSpeed = gameSpeed;
+		}
+
+		public double getGameSpeed() {
+			return gameSpeed;
+		}
+	}
+
+	private static double gameSpeed;
+	public static double getGameSpeed() {
+		return gameSpeed;
+	}
+	public static void setGameSpeed(double gs) {
+		gameSpeed = gs;
+	}
 
 
 	//private Semaphore sema = new Semaphore(1);//TODO REMOVE deprecated variable
@@ -43,6 +62,7 @@ public class World implements Runnable{
 		this.characters = new HashMap<>();
 
 		pause = false;
+		this.gameSpeed = GAMESPEED.NORMAL.getGameSpeed();
 
 		// TODO remove hardcoded test
 				addCharacter(450,600,1);
@@ -99,6 +119,8 @@ public class World implements Runnable{
 		this.timeables.add(character);
 		this.characters.put(key, character);
 
+		pcs.firePropertyChange("createdCharacter", null, character);
+
 		return character;
 	}
 
@@ -133,6 +155,7 @@ public class World implements Runnable{
 	}
 
 	//private boolean addCollidable(double xPoss, double yPoss, double radius) {return false;}//TODO remove unused method.
+
 
 
 	public RenderObject[] getRenderObjects() {

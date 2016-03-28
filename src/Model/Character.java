@@ -16,7 +16,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	private double collisionRadius;
 	private double interactionRadius;
 
-	private LinkedList<ICollidable>wir;//TODO general interaction
+	private LinkedList<ICollidable> wir;//TODO general interaction
 
 	private float xSpeed;
 	private float ySpeed;
@@ -74,7 +74,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		HUNGER, THIRST, ENERGY
 	}
 
-	private int stepLength = 6;//TODO get from constants
+	private float stepLength = Constants.CHARACTER_WALK_SPEED;
 
 	private int key;
 
@@ -148,6 +148,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		for(ICollidable c : this.collideX){
 			if(this.collideY.contains(c)){
 				//System.out.println("Krock med n�t!!!!!!!!!" + this.hashCode());
+
 				this.wir.add(c);
 			}
 		}
@@ -384,7 +385,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	//TODO implement
 	@Override
 	public List<ICollidable> getInteractables() {
-		return null;
+		return wir;
 	}
 
 	@Override
@@ -395,7 +396,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	//TODO implement
 	@Override
 	public void useItem(int inventoryIndex) {
-
+		//inventory.getItems().get(inventoryIndex).useItem();
 	}
 
 	//TODO implement, visitor pattern
@@ -407,7 +408,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	//TODO implement
 	@Override
 	public Outcome getOutcomeInventory(int inventoryIndex) {
-		return null;
+		for(IItem item : inventory.getItems()){
+			//list.add(i.getOutcome());
+		}
+
+		return new Outcome();
 	}
 
 	//TODO implement
@@ -452,19 +457,19 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	//TODO add to interface
 	public void startRunning(){
-		stepLength = 12;//
+		stepLength = Constants.CHARACTER_RUN_SPEED;
 	}
 
 	//TODO add to interface
 	public void stopRunning(){
-		stepLength = 6;
+		stepLength = Constants.CHARACTER_WALK_SPEED;
 	}
 
-	/*TODO REMOVE as it is no longer used
-	public int getSteplength(){
+	//TODO move
+	public float getSteplength(){
 		return stepLength;
 	}
-	*/
+
 
 	//TODO remove this testing method
 	public void hit() {
