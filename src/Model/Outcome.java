@@ -17,7 +17,7 @@ public class Outcome {
     public LinkedList<IItem.Type> getLost() {return lostItems;}
     public int getHunger() {return hungerChange;}
     public int getThirst() {return thirstChange;}
-    public int getEnery() {return energyChange;}
+    public int getEnergy() {return energyChange;}
     public int getTime() {return time;}
 
     public Outcome () {

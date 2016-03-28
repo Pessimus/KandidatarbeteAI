@@ -272,7 +272,6 @@ public class CollisionList {
 				loop.value.checkCollision();
 			}
 
-			System.out.println("---------------------");
 		//}catch (Exception e){
 
 		//}

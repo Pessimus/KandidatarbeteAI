@@ -15,7 +15,7 @@ public class World implements Runnable{
 	PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 	private HashMap<Integer,Character> characters;
-	private LinkedList<ICollidable> collidablesR; //TODO custom (dual) list supporting bubblesort and incertionsort
+	private LinkedList<ICollidable> collidablesR;
 	private CollisionList collidables;
 	private LinkedList<ITimeable> timeables;
 	private LinkedList<ICollidable> statics; //List containing all collidables that does not move (or get destroyed or created too often)
@@ -23,8 +23,8 @@ public class World implements Runnable{
 	private LinkedList<ICollidable> collidablestoberemoved = new LinkedList<>();
 	private LinkedList<ICollidable> collideablesrtoberemoved = new LinkedList<>();
 	private LinkedList<ITimeable> timeablestoberemoved = new LinkedList<>();
-
 	private LinkedList<Character> characterstoberemoved = new LinkedList<>();
+
 	private double width;
 	private double height;
 	private boolean pause;
@@ -52,7 +52,7 @@ public class World implements Runnable{
 	}
 
 
-	private Semaphore sema = new Semaphore(1);
+	//private Semaphore sema = new Semaphore(1);//TODO REMOVE deprecated variable
 
 	public World (double width, double height){
 		this.width = width;
@@ -61,31 +61,24 @@ public class World implements Runnable{
 		this.collidablesR = new LinkedList<>();
 		this.timeables = new LinkedList<>();
 		this.characters = new HashMap<>();
-		addCharacter(450,600,1);
-		characters.get(1).setInteractionRadius(50);
-		this.pause = false;
+
+		pause = false;
 		this.gameSpeed = GAMESPEED.NORMAL.getGameSpeed();
 
-		addCharacter(600, 450, 2);
-		addCharacter(500,500,3);
+		// TODO remove hardcoded test
+				addCharacter(450,600,1);
+				characters.get(1).setInteractionRadius(50);
 
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		/*for (int i = 5; i < 500; i += 1) {
-			int rx = (int) (Math.random()*1000);
-			int ry = (int) (Math.random()*1000);
-			addCharacter(rx, ry, i);
-		}*/
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
-		// TODO: HARDCODED TEST!!!!!
+
+				addCharacter(600, 450, 2);
+				addCharacter(500,500,3);
+
+				for (int i = 5; i < 500; i += 1) {
+					int rx = (int) (Math.random()*1000);
+					int ry = (int) (Math.random()*1000);
+					addCharacter(rx, ry, i);
+				}
+		// TODO remove hardcoded test.
 	}
 
 	/**
@@ -101,32 +94,24 @@ public class World implements Runnable{
 			}
 
 			for (Character character : characters.values()) {
-				//character.update();
-
-				if (!character.isAlive()) {
+				if (!character.isAlive()) {//Character is dead and should be removed
 					collidablestoberemoved.add(character);
 					collideablesrtoberemoved.add(character);
 					timeablestoberemoved.add(character);
 					characterstoberemoved.add(character);
-					//System.out.println("World: run() - dead");
-					//character = null;
 				} else {
-					//TODO IF x
-
-					//character.moveX();
-					//END TODO IF x
-					//TODO IF y
-					//character.moveY();
-					//END TODO IF y
-					//System.out.println("World: run() - move");
+					//TODO Code for updating the character (movement and actions?)
 				}
 			}
-			this.collidables.handleCollision();//TODO Collision in Y-axis is not working yet.
+			this.collidables.handleCollision();//TODO put after removal of dead characters, and update the way the result is saved.
+
 			removeObjects();
-			firePropertyChange("update", 1);
+
+			firePropertyChange("update", 1);//TODO check if needed, else remove.
 		}
 	}
 
+	//TODO check if place is available.
 	public Character addCharacter(float xPoss, float yPoss, int key) {
 		Character character = new Character(xPoss, yPoss, key);
 
@@ -135,9 +120,12 @@ public class World implements Runnable{
 		this.timeables.add(character);
 		this.characters.put(key, character);
 
+		pcs.firePropertyChange("createdCharacter", null, character);
+
 		return character;
 	}
 
+	//TODO remove if-statements (should not make any difference)
 	public void removeObjects() {
 		if (collidablestoberemoved != null) {
 			for (ICollidable collidable : this.collidablestoberemoved) {
@@ -167,9 +155,8 @@ public class World implements Runnable{
 		}
 	}
 
-	private boolean addCollidable(double xPoss, double yPoss, double radius) {
-		return false;
-	}
+	//private boolean addCollidable(double xPoss, double yPoss, double radius) {return false;}//TODO remove unused method.
+
 
 
 	public RenderObject[] getRenderObjects() {
@@ -189,6 +176,7 @@ public class World implements Runnable{
 		pcs.removePropertyChangeListener(listener);
 	}
 
+	//TODO remove this method that is just a unnecessary extra step.
 	private void firePropertyChange(String type, Object property) {
 		pcs.firePropertyChange(type, 0, property);
 	}
@@ -201,10 +189,7 @@ public class World implements Runnable{
 		return height;
 	}
 
-	public void fastForward() {
-
-	}
-
+	//TODO change name
 	/* Pause the game, if P is pressed, pause() will pause the run lopp*/
 	public void pause() {
 		if (pause == false) {
@@ -215,6 +200,7 @@ public class World implements Runnable{
 		}
 	}
 
+	//TODO remove this part from world to other class for the code to work the same way ofr players and AI.-------------
 	public void movePlayerUp() {
 		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingUp();
 	}
@@ -254,12 +240,14 @@ public class World implements Runnable{
 	public void playerWalking() {
 		characters.get(Constants.PLAYER_CHARACTER_KEY).stopRunning();
 	}
+	//TODO--------------------------------------------------------------------------------------------------------------
 
+	//TODO better MVC praxis
 	public LinkedList<InventoryRender> displayPlayerInventory() {
 		return characters.get(Constants.PLAYER_CHARACTER_KEY).getRenderInventory();
 	}
 
-
+	//TODO REMOVE test method.
 	public void hit() {
 		this.characters.get(1).hit();
 	}
