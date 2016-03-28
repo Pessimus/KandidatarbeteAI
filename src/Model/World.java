@@ -92,106 +92,15 @@ public class World implements Runnable{
 	 * Update timeables
 	 * Update collidables
 	 */
-/*	public void update(){
-		try {
-			sema.acquire();
-
-			//this.collidables.handleCollision();//TODO Collision in Y-axis is not working yet.
-
-			for (Character character : characters.values()) {
-				character.update();
-
-				*//*if (character.getKey() < 5) {
-					System.out.println(character.getHunger());
-				}*//*
-
-				if (!character.isAlive()) {
-					characters.remove(character.getKey(), character);
-					collidables.remove(character);
-					collidablesR.remove(character);
-					timeables.remove(character);
-					//character = null;
-				} else {
-					//TODO IF x
-
-					character.moveX();
-					//END TODO IF x
-					//TODO IF y
-					character.moveY();
-					//END TODO IF y
-				}
-			}
-			sema.release();
-
-			sema.acquire();
-			for (ITimeable timedObj : timeables) {
-				timedObj.updateTimeable();
-			}
-
-			sema.release();
-		}
-		catch(InterruptedException e){
-			e.printStackTrace();
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "interrupted when removing a dead character!", e);
-		}
-
-		firePropertyChange("update", 1);
-	}*/
-
-
-
 	@Override
 	public void run() {
 		if (pause != true) {
-			//System.out.println("World: run()");
-/*		try {
-			sema.acquire();
-
-			//this.collidables.handleCollision();//TODO Collision in Y-axis is not working yet.
-
-			for (Character character : characters.values()) {
-				character.update();
-
-				*//*if (character.getKey() < 5) {
-					System.out.println(character.getHunger());
-				}*//*
-
-				if (!character.isAlive()) {
-					characters.remove(character.getKey(), character);
-					collidables.remove(character);
-					collidablesR.remove(character);
-					timeables.remove(character);
-					//character = null;
-				} else {
-					//TODO IF x
-
-					character.moveX();
-					//END TODO IF x
-					//TODO IF y
-					character.moveY();
-					//END TODO IF y
-				}
-			}
-			sema.release();
-
-			sema.acquire();
 			for (ITimeable timedObj : timeables) {
 				timedObj.updateTimeable();
 			}
 
-			sema.release();
-		}
-		catch(InterruptedException e){
-			e.printStackTrace();
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "interrupted when removing a dead character!", e);
-		}*/
-			for (ITimeable timedObj : timeables) {
-				timedObj.updateTimeable();
-			}
-
-			//System.out.println("World: run() - 2:nd");
 			for (Character character : characters.values()) {
-				character.update();
+				//character.update();
 
 				if (!character.isAlive()) {
 					collidablestoberemoved.add(character);
@@ -203,20 +112,15 @@ public class World implements Runnable{
 				} else {
 					//TODO IF x
 
-					character.moveX();
+					//character.moveX();
 					//END TODO IF x
 					//TODO IF y
-					character.moveY();
+					//character.moveY();
 					//END TODO IF y
 					//System.out.println("World: run() - move");
 				}
 			}
-			//try{
 			this.collidables.handleCollision();//TODO Collision in Y-axis is not working yet.
-			//}catch (Exception e){
-			//e.printStackTrace();
-			//}
-			//System.out.println("World: run() - 3:rd");
 			removeObjects();
 			firePropertyChange("update", 1);
 		}
@@ -224,21 +128,6 @@ public class World implements Runnable{
 
 	public Character addCharacter(float xPoss, float yPoss, int key) {
 		Character character = new Character(xPoss, yPoss, key);
-
-		/*
-		try{
-			sema.acquire();
-			this.collidablesR.add(character);
-			this.collidables.add(character);
-			this.timeables.add(character);
-			this.characters.put(key,character);
-			sema.release();
-		}
-		catch(InterruptedException e){
-			e.printStackTrace();
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "interrupted when adding new character!", e);
-		}
-		*/
 
 		this.collidablesR.add(character);
 		this.collidables.add(character);
@@ -249,12 +138,6 @@ public class World implements Runnable{
 	}
 
 	public void removeObjects() {
-		/*System.out.print("Collidables to remove: " + collidablestoberemoved.size() + "\n");
-		System.out.print("Characters to remove: " + characterstoberemoved.size() + "\n");
-		System.out.print("Timeables to remove: " + timeablestoberemoved.size() + "\n");
-		System.out.print("CollidablesR to remove: " + collideablesrtoberemoved.size() + "\n");
-		System.out.print("\n");
-		*/
 		if (collidablestoberemoved != null) {
 			for (ICollidable collidable : this.collidablestoberemoved) {
 				collidables.remove(collidable);
@@ -281,14 +164,6 @@ public class World implements Runnable{
 			}
 			collideablesrtoberemoved.clear();
 		}
-
-		/*System.out.print("Collidables: " + collidables.getSize() + "\n");
-		System.out.print("Characters: " + characters.size() + "\n");
-		System.out.print("Timeables: " + timeables.size() + "\n");
-		System.out.print("CollidablesR: " + collidablesR.size() + "\n");
-		System.out.print("\n");*/
-
-
 	}
 
 	private boolean addCollidable(double xPoss, double yPoss, double radius) {
@@ -297,22 +172,7 @@ public class World implements Runnable{
 
 
 	public RenderObject[] getRenderObjects() {
-		//System.out.println("World: getRenderObjects()");
 		RenderObject[] renderObjects = new RenderObject[collidables.getSize()];
-
-/*		try {
-			sema.acquire();
-
-			for (ICollidable visible : collidablesR) {
-				renderObjects.add(visible.getRenderObject());
-			}
-
-			sema.release();
-		}
-		catch(InterruptedException e){
-			e.printStackTrace();
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "interrupted when sending render objects!", e);
-		}*/
 
 		for (int i = 0; i < collidablesR.size(); i++) {
 			renderObjects[i] = collidablesR.get(i).getRenderObject();
@@ -353,30 +213,6 @@ public class World implements Runnable{
 			pause = false;
 		}
 	}
-
-	/*
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	private Character character;
-	public void moveCharacterTo(int x, int y){
-		character.setPosition(x, y);
-	}
-	public List<RenderObject> getCharacter(){
-		LinkedList<RenderObject> list = new LinkedList<>();
-		list.add(new RenderObject(character.getX(), character.getY(), character.getCollisionRadius(), RenderObject.RENDER_OBJECT_ENUM.CHARACTER));
-		return list;
-	}
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	// TODO: HARDCODED TEST!!!!!
-	*/
 
 	public void movePlayerUp() {
 		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingUp();
@@ -419,7 +255,7 @@ public class World implements Runnable{
 	}
 
 	public LinkedList<InventoryRender> displayPlayerInventory() {
-		return characters.get(Constants.PLAYER_CHARACTER_KEY).getInventory();
+		return characters.get(Constants.PLAYER_CHARACTER_KEY).getRenderInventory();
 	}
 
 

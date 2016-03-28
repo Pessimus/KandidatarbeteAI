@@ -91,25 +91,6 @@ public class View extends BasicGameState implements InputListener{
 
 		tempWidth = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE/scaler);
 		tempHeight = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE/scaler);
-
-		/*
-		try {
-			semaphore.acquire();
-			tempList = listToRender.toArray();
-			listToRender.clear();
-			semaphore.release();
-		}
-		catch(InterruptedException e){
-			e.printStackTrace();
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
-		}
-
-		if(tempList != null){
-			if(tempList.length > 0){
-				tempRenderList = Arrays.copyOf(tempList, tempList.length, RenderObject[].class);
-			}
-		}
-		*/
     }
 
 
@@ -133,13 +114,9 @@ public class View extends BasicGameState implements InputListener{
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
 		graphics.scale(scaler,scaler);
 
+		map.render(0,0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, tempWidth, tempHeight);
+
 		try {
-			//renderPointSema.acquire();
-			map.render(0,0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, tempWidth, tempHeight);
-			//map.render(0, 0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, width, height);
-			//renderPointSema.release();
-
-
 			semaphore.acquire();
 			if(listToRender != null){
 				if(listToRender.length > 0) {
@@ -148,18 +125,23 @@ public class View extends BasicGameState implements InputListener{
 					}
 				}
 			}
+			semaphore.release();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
+		}
 
-
-			if (displayInventory) {
-				int x,y,i,j;
-				i=3;
-				j=3;
-				for(Model.IItem.Type type : inventoryToRender) {
-					x=gameContainer.getWidth()-64*i;
-					y=gameContainer.getHeight()-64*j;
-					graphics.drawRect(x, y, 64, 64);
-					graphics.drawImage(new Image(type.pathToResource), x, y);
-					i--;
+		if (displayInventory) {
+			int x,y,i,j;
+			i=3;
+			j=3;
+			for(Model.IItem.Type type : inventoryToRender) {
+				x=gameContainer.getWidth()-64*i;
+				y=gameContainer.getHeight()-64*j;
+				graphics.drawRect(x, y, 64, 64);
+				graphics.drawImage(new Image(type.pathToResource), x, y);
+				i--;
 					/*for (int i = 0; i < 3; i++) {
 						for (int j = 0; j < 3; j++) {
 
@@ -170,51 +152,8 @@ public class View extends BasicGameState implements InputListener{
 							graphics.setColor(Color.white);
 						}
 					}*/
-				}
 			}
-			semaphore.release();
 		}
-		catch(InterruptedException e){
-			e.printStackTrace();
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
-		}
-
-		/*
-        //Functioanlity for moving the camera view around the map. Keep the mouse to one side to move the camera view.
-        if (Mouse.getX() > d.getWidth()-d.getWidth()/10 && renderpointx < map.getWidth()-width) {
-            renderpointx += 1;
-        }
-        if (Mouse.getX() < d.getWidth()/10 && renderpointx > 0) {
-            renderpointx -= 1;
-        }
-        if (Mouse.getY() < d.getHeight()-d.getHeight()/10 && renderpointy < map.getHeight()-height) {
-            renderpointy += 1;
-        }
-        if (Mouse.getY() > d.getHeight()/10 && renderpointy > 0) {
-            renderpointy -= 1;
-        }
-
-
-        //Functionality for zooming in and out
-
-        if(Keyboard.isKeyDown(Input.KEY_ADD) || Keyboard.isKeyDown(Input.KEY_Z)) {
-            zoomIn();
-        }
-
-        if(Keyboard.isKeyDown(Input.KEY_SUBTRACT)|| Keyboard.isKeyDown(Input.KEY_X)) {
-            zoomOut();
-        }
-
-
-        if(Mouse.getEventDWheel() > 0)
-            zoomIn();
-
-        if(Mouse.getEventDWheel() < 0)
-            zoomOut();
-        */
-
-		//listToRender = null;
-		//tempRenderList = null;
 
     }
 
@@ -225,38 +164,27 @@ public class View extends BasicGameState implements InputListener{
 
     @Override
     public void keyPressed(int key, char c) {
-        //notifyKeyInput(new Integer[]{INPUT_ENUM.KEY_PRESSED.value, key});
 		pcs.firePropertyChange(INPUT_ENUM.KEY_PRESSED.toString(), 0, new Integer[]{INPUT_ENUM.KEY_PRESSED.value, key});
 
     }
 
     @Override
     public void keyReleased(int key, char c){
-        //notifyKeyInput(new Integer[]{INPUT_ENUM.KEY_RELEASED.value, key});
 		pcs.firePropertyChange(INPUT_ENUM.KEY_RELEASED.toString(), 0, new Integer[]{INPUT_ENUM.KEY_RELEASED.value, key});
     }
 
     @Override
-    public void mouseMoved(int oldx, int oldy, int newx, int newy){   //Ska denna flyttas till modell?
-		/*
-        mouseXMoved = newx-oldx;
-        mouseYMoved = newy-oldy;
-        mouseX+=mouseXMoved;
-        mouseY+=mouseYMoved;
-        */
-
+    public void mouseMoved(int oldx, int oldy, int newx, int newy){
 		pcs.firePropertyChange(INPUT_ENUM.MOUSE_MOVED.toString(), 0, new Integer[]{INPUT_ENUM.MOUSE_MOVED.value,oldx, oldy, newx, newy});
     }
 
     @Override
     public void mousePressed(int button, int x, int y){
-        //notifyMouseInput(new Integer[]{INPUT_ENUM.MOUSE_PRESSED.value, button, x, y});
 		pcs.firePropertyChange(INPUT_ENUM.MOUSE_PRESSED.toString(), 0, new Integer[]{INPUT_ENUM.MOUSE_PRESSED.value, button, x, y});
     }
 
 	@Override
 	public void mouseReleased(int button, int x, int y){
-		//notifyMouseInput(new Integer[]{INPUT_ENUM.MOUSE_PRESSED.value, button, x, y});
 		pcs.firePropertyChange(INPUT_ENUM.MOUSE_RELEASED.toString(), 0, new Integer[]{INPUT_ENUM.MOUSE_RELEASED.value, button, x, y});
 	}
 
@@ -287,18 +215,6 @@ public class View extends BasicGameState implements InputListener{
 	public void setRenderPoint(float x, float y){
 		renderPointX = (int) x;
 		renderPointY = (int) y;
-		/*
-		try {
-			renderPointSema.acquire();
-			renderPointX = (int) x;
-			renderPointY = (int) y;
-			renderPointSema.release();
-		}
-		catch(InterruptedException e){
-			e.printStackTrace();
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
-		}
-		*/
 	}
 
 	public void renderInventory(LinkedList<Model.InventoryRender> inventoryItems){

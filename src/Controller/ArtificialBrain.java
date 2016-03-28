@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Character;
 import Model.Constants;
+import Model.ICharacterHandler;
 
 import java.util.LinkedList;
 
@@ -9,7 +10,7 @@ import java.util.LinkedList;
  * Created by Gustav on 2016-03-23.
  */
 public class ArtificialBrain extends AbstractBrain {
-    private Character body;
+    private ICharacterHandler body;
     private LinkedList<PathStep> path;
 
     public ArtificialBrain() {
@@ -29,7 +30,7 @@ public class ArtificialBrain extends AbstractBrain {
         }
         if (path != null) {
             if (path.isEmpty()) {path = null; return;}
-            if (path.getFirst().stepTowards(body)) {path.removeFirst();}
+            if (path.getFirst().stepTowards((Character)body)) {path.removeFirst();} // TODO: EJ typecasting, kanske?!
         }
     }
 }

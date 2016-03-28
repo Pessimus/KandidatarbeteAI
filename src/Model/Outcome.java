@@ -12,7 +12,7 @@ public class Outcome {
     private int energyChange;
     private int time;
 
-    public boolean getConsume() {return consume;}
+    public boolean isConsumable() {return consume;}
     public LinkedList<IItem.Type> getGained() {return gainedItems;}
     public LinkedList<IItem.Type> getLost() {return lostItems;}
     public int getHunger() {return hungerChange;}

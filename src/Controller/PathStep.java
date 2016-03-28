@@ -41,20 +41,20 @@ public class PathStep {
 
         if (diffx > c.getSteplength()) {
             //if the character should move right
-            c.walkRight();
+            c.moveRight();
         } else if (diffx < -c.getSteplength()) {
             //if the character should move left
-            c.walkLeft();
+            c.moveLeft();
         } else {
             ret += 1;
         }
 
         if (diffy > c.getSteplength()) {
             //if the character should move down
-            c.walkDown();
+            c.moveDown();
         } else if (diffy < -c.getSteplength()) {
             //if the character should move left
-            c.walkUp();
+            c.moveUp();
         } else {
             ret += 1;
         }
