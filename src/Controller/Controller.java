@@ -501,6 +501,15 @@ public class Controller implements PropertyChangeListener, Runnable {
 							} else if (clicks[1] == Input.KEY_P) {
 								gameModel.pause();
 							}
+							else if (clicks[1] == Input.KEY_1) {
+								World.setGameSpeed(World.GAMESPEED.NORMAL.getGameSpeed());
+							}
+							else if (clicks[1] == Input.KEY_2) {
+								World.setGameSpeed(World.GAMESPEED.FAST.getGameSpeed());
+							}
+							else if (clicks[1] == Input.KEY_3) {
+								World.setGameSpeed(World.GAMESPEED.FASTER.getGameSpeed());
+							}
 						}else if(clicks[0] == View.INPUT_ENUM.KEY_RELEASED.value){
 							if (clicks[1] == Input.KEY_UP) {
 								gameModel.stopPlayerUp();

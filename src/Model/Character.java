@@ -170,8 +170,9 @@ public class Character implements ICollidable, ITimeable {
 		//TODO Implement ageing etc...
 
 		//Updates counter with one but doesn't exceed 60.
-		updateCounter = (updateCounter+1) % 60;
-		if(updateCounter % 60 == 0) {
+		updateCounter = (int)((updateCounter+1) % (60/World.getGameSpeed()));
+		System.out.println((updateCounter+1)% 60/World.getGameSpeed());
+		if(updateCounter % (60/World.getGameSpeed()) == 0) {
 			if(walkingUp)
 				walkUp();
 			if(walkingDown)
@@ -193,7 +194,7 @@ public class Character implements ICollidable, ITimeable {
 
 	public void updateNeeds() {
 
-		if(updateCounter % 60 == 0) {
+		if(updateCounter % (60/World.getGameSpeed()) == 0) {
 			this.hunger -= 1;
 			this.thirst -= 1;
 			this.energy -= 1;
