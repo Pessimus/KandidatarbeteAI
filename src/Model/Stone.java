@@ -9,12 +9,12 @@ public class Stone extends FiniteResource {
 	public static final ResourceType resourceType = ResourceType.STONE;
 	public static final String resourceName = "Wood";
 
-	private ResourceType type;
 	private int yield;
+
+//----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
 	public Stone(int resources, int yield){
 		super(resources);
-		this.type = ResourceType.STONE;
 		this.yield = yield;
 	}
 
@@ -24,10 +24,10 @@ public class Stone extends FiniteResource {
 		int resourceLeft = getResourcesLeft();
 		if(resourceLeft>yield){
 			setResourcesLeft(resourceLeft-yield);
-			return ItemFactory.createItem(type, yield);
+			return ItemFactory.createItem(resourceType, yield);
 		}else if(resourceLeft>0){
 			setResourcesLeft(0);
-			return ItemFactory.createItem(type, resourceLeft);
+			return ItemFactory.createItem(resourceType, resourceLeft);
 		}else{
 			return null;
 		}

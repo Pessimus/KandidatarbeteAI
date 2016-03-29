@@ -10,20 +10,18 @@ public class Water extends InfiniteResource {
 	public static final ResourceType resourceType = ResourceType.WATER;
 	public static final String resourceName = "Water";
 
-	private ResourceType type;
 	private int yield;
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
 	public Water(int resources, int yield){
-		this.type = ResourceType.WATER;
 		this.yield = yield;
 	}
 
 	//---------------------------------------Interaction methods----------------------------------------------------------\\
 	@Override
 	public IItem gatherResource() {
-		return ItemFactory.createItem(type, yield);
+		return ItemFactory.createItem(resourceType, yield);
 	}
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
@@ -42,5 +40,5 @@ public class Water extends InfiniteResource {
 	public int getResourcesLeft() {
 		return 1;
 	}
-	
+
 }
