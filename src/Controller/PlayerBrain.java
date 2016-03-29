@@ -3,6 +3,9 @@ package Controller;
 import Model.Character;
 import Model.Constants;
 import Model.ICharacterHandle;
+import org.newdawn.slick.util.pathfinding.PathFinder;
+
+import java.util.LinkedList;
 
 /**
  * Created by Gustav on 2016-03-23.
@@ -16,6 +19,7 @@ public class PlayerBrain implements AbstractBrain {
     private boolean walkingDown = false;
     private boolean walkingLeft = false;
     private boolean walkingRight = false;
+    private LinkedList<PathStep> pathSteps = new LinkedList<>();
 
     public PlayerBrain() {
         body = new Character(100, 100, Constants.PLAYER_CHARACTER_KEY);
@@ -34,7 +38,12 @@ public class PlayerBrain implements AbstractBrain {
 			body.moveRight();
 		if(walkingLeft)
 			body.moveLeft();
-
+        if(pathSteps != null) {
+            if(!pathSteps.isEmpty()) {
+                pathSteps.getFirst().stepTowards(body);
+                pathSteps.removeFirst();
+            }
+        }
     }
 
 	@Override
@@ -59,7 +68,11 @@ public class PlayerBrain implements AbstractBrain {
     public void movePlayerRight() {
 		this.walkingRight = true;
     }
-
+    public void moveToMouse(float destX, float destY) {
+      pathSteps = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), destX, destY);
+        //System.out.println(pathSteps == null);
+        //System.out.println(pathSteps);
+    }
     public void stopPlayerUp() {
 		this.walkingUp = false;
     }

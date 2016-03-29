@@ -60,6 +60,7 @@ public class Controller implements PropertyChangeListener {
 		player.setBody(gameModel.addCharacter(450, 600, Constants.PLAYER_CHARACTER_KEY));
 
 
+
 		mouseX = (float)Constants.SCREEN_WIDTH/2;
 		mouseY = (float)Constants.SCREEN_HEIGHT/2;
 
@@ -279,6 +280,7 @@ public class Controller implements PropertyChangeListener {
 						//TODO WHAT SHOULD BE DONE HERE?!
 						//float[] tempFloats = convertFromViewToModelCoords(clicks[2], clicks[3]);
 						//gameModel.selectObject(tempFloats[0], tempFloats[1]);
+							player.moveToMouse(clicks[2], clicks[3]);
 					}
 
 					if(clicks[1] == Input.MOUSE_RIGHT_BUTTON){
