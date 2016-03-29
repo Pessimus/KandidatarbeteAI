@@ -8,10 +8,8 @@ import Model.ICharacterHandle;
 //import java.awt.*;
 import java.awt.*;
 import java.awt.geom.Path2D;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
-import java.util.TreeSet;
 
 /**
  * Created by Gustav on 2016-03-23.
@@ -24,6 +22,15 @@ import java.util.TreeSet;
 
 	//private HashMap<Path2D, ResourcePoint> resourceMap = new HashMap<>();
 	List<ResourcePoint> resourceMemory = new LinkedList<>();
+
+	// TODO: Hardcoded universal vision
+	private World map;
+
+	public ArtificialBrain(World world){
+		this();
+		map = world;
+	}
+	// TODO: Hardcoded universal vision
 
     public ArtificialBrain() {
 		this(new Character((float) (Constants.WORLD_WIDTH*Math.random()),(float) (Constants.WORLD_HEIGHT*Math.random()), 2));
@@ -39,6 +46,14 @@ import java.util.TreeSet;
 		int[] traits = body.getTraits();
 		int[] skills = body.getSkills();
 
+		if(needs[0] <= needs[1] && needs[0] <= needs[2]){
+
+		}
+		else if(needs[1] < needs[0] && needs[1] < needs[2]){
+
+		}
+
+		/*
 		for(ICollidable object : body.getSurroundings()){
 			if(object.getClass().equals(ResourcePoint.class)){
 				ResourcePoint resource = (ResourcePoint) object;
@@ -49,12 +64,6 @@ import java.util.TreeSet;
 			}
 		}
 		if(exploring) {
-			/*if (Math.random() > 0.0008) {
-				double x = Math.random() * 9600;
-				double y = Math.random() * 9600;
-
-				path = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), x, y);
-			}*/
 			if (path != null) {
 				if (path.isEmpty()) {
 					path = null;
@@ -85,7 +94,7 @@ import java.util.TreeSet;
 					path = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), closestPoint.getX(), closestPoint.getY());
 				}
 			}
-		}
+		}*/
     }
 
 	@Override
@@ -96,5 +105,58 @@ import java.util.TreeSet;
 	@Override
 	public ICharacterHandle getBody() {
 		return body;
+	}
+
+	/*
+	private class AIStateMachine{
+		private AIStates currentState;
+
+		//AIState root;
+
+		private AIStateMachine(AIStates initialState){
+			currentState = initialState;
+		}
+
+		private void update(){
+			switch(currentState){
+				case IDLE:
+					break;
+				case
+			}
+		}
+	}
+	*/
+
+	private AIStates currentState;
+
+	private Stack<AIStates> stateStack = new Stack<>();
+
+	private void runStates(){
+		switch(currentState){
+			case IDLE:
+				runIdle();
+				break;
+			case HUNGRY:
+				runHungry();
+				break;
+		}
+	}
+
+	private void runIdle(){
+
+	}
+
+	private void runHungry(){
+
+	}
+
+	enum AIStates{
+		IDLE,
+		HUNGRY, COOK, EAT, EATMEAT, EATFISH, EATCROPS,
+		GATHER, GATHERMATERIAL, GATHERFOOD, GATHERWATER,
+		SLEEPY, GOHOME, SLEEP,
+		THIRSTY, DRINK,
+		SOCIALIZE, TALK,
+		BUILD, BUILDHOUSE, BUILDSTOCKPILE, BUILDFARM, BUILDMILL,
 	}
 }

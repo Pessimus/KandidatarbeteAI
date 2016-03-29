@@ -9,6 +9,24 @@ public interface IResource {
 	ResourceType getResourceType();
 	String getResourceName();
 
+	/*
+	enum ResourceType{
+		WOOD("Wood"),
+		WATER("Water"),
+		GOLD("Gold"),
+		STONE("Stone"),
+		FISH("Fish"),
+		CROPS("Crops"),
+		MEAT("Meat");
+
+		public String resourceName;
+
+		ResourceType(String name){
+			resourceName = name;
+		}
+	}
+	*/
+
 	enum ResourceType{
 		WOOD,
 		WATER,
