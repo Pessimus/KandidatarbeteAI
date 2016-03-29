@@ -79,6 +79,12 @@ public class Animal implements ICollidable {
 		//TODO implement
 	}
 
+	//TODO implement
+	@Override
+	public boolean remove() {
+		return false;
+	}
+
 	@Override
 	public RenderObject getRenderObject() {
 		if(latestRenderObject != null) {

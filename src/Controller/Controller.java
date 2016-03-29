@@ -51,20 +51,22 @@ public class Controller implements PropertyChangeListener {
 
 	public Controller(){
 		setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT));
-		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT));
+		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int) Constants.SCREEN_WIDTH, (int) Constants.SCREEN_HEIGHT));
 
 		keyboardInputQueue = new LinkedList<>();
 		mouseInputQueue = new LinkedList<>();
-
-
-
-		player.setBody(gameModel.addCharacter(450, 600, Constants.PLAYER_CHARACTER_KEY));
-
 
 		mouseX = (float)Constants.SCREEN_WIDTH/2;
 		mouseY = (float)Constants.SCREEN_HEIGHT/2;
 
 		screenRect = new ModelToViewRectangle(Constants.DEFAULT_WORLD_VIEW_X, Constants.DEFAULT_WORLD_VIEW_Y, (float)Constants.SCREEN_WIDTH, (float)Constants.SCREEN_HEIGHT);
+
+		//TODO this is hardcoded testing code. Remove after Testing is done!!
+			player.setBody(gameModel.addCharacter(1000, 1000, Constants.PLAYER_CHARACTER_KEY));
+			((Character)player.getBody()).godMode = true;
+
+			this.gameModel.addFiniteResourcePoint(new Crops(100),1010,1010,5);
+
 	}
 
 //-----------------------------------------Initialization methods-----------------------------------------------------\\

@@ -89,30 +89,42 @@ public class World{
 
 	public void uppdate() {
 		if (pause != true) {
-			//Update all timeable objects
-			//TODO Add parameter for fast-forward
-			for (ITimeable timedObj : timeables) {
-				timedObj.updateTimeable();
-			}
+			updateTimeables();
 
-			//Check if any characters should be removed.
-			for (Character character : characters.values()) {
-				if (!character.isAlive()) {//Character is dead and should be removed
-					collidablestoberemoved.add(character);
-					collideablesrtoberemoved.add(character);
-					timeablestoberemoved.add(character);
-					characterstoberemoved.add(character);
-				}
-			}
+			checkObjectsForRemoval();
 
 			removeObjects();
 
 			this.collidables.handleCollision();
 
 			//TODO Code for updating the character (movement and actions?)
-			//TODO Add functionality for removing other objects
 
-			this.pcs.firePropertyChange("update",0, 1);//TODO change the way the loop in controller works.
+		}
+	}
+
+	//TODO Add parameter for fast-forward
+	private void updateTimeables(){
+		for (ITimeable timedObj : timeables) {
+			timedObj.updateTimeable();
+		}
+	}
+
+	private void checkObjectsForRemoval(){
+		for (ICollidable collidable : collidablesR) {//Loop on collidablesR as it supportes for-each
+			if (collidable.remove()) {//Item should be removed (Character dead, or resource depleted.)
+				collidablestoberemoved.add(collidable);
+				collideablesrtoberemoved.add(collidable);
+			}
+		}
+		for (ITimeable timeable : timeables){
+			if(timeable.remove()){
+				timeablestoberemoved.add(timeable);
+			}
+		}
+		for (Character character : characters.values()){
+			if(!character.isAlive()){
+				characterstoberemoved.add(character);
+			}
 		}
 	}
 
@@ -140,6 +152,31 @@ public class World{
 		pcs.firePropertyChange("createdCharacter", null, character);
 
 		return character;
+	}
+
+	public ResourcePoint addFiniteResourcePoint(FiniteResource resourceType, float xPoss, float yPoss, double radius){
+		//TODO remove the hardcoded input to the constructor (parameter 2)
+		ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
+		this.collidables.add(point);
+		this.collidablesR.add(point);
+		return point;
+	}
+
+	public ResourcePoint addInfiniteResourcePoint(InfiniteResource resourceType, float xPoss, float yPoss, double radius){
+		//TODO remove the hardcoded input to the constructor (parameter 2)
+		ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
+		this.collidables.add(point);
+		this.collidablesR.add(point);
+		return point;
+	}
+
+	public ResourcePoint addRenewableResourcePoint(RenewableResource resourceType, float xPoss, float yPoss, double radius){
+		//TODO remove the hardcoded input to the constructor (parameter 2)
+		ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
+		this.collidables.add(point);
+		this.collidablesR.add(point);
+		this.timeables.add(resourceType);
+		return point;
 	}
 
 	public void removeObjects() {

@@ -117,6 +117,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	//-----------------NEEDS VARIABLES--------------------\\
 
+	//TODO remove after testing
+	public boolean godMode = false;
+
 	private boolean alive;
 	private int age;
 
@@ -127,7 +130,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	private int energy;
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
-	//TODO organize
+
 	public Character(float xPos, float yPos, int key){
 		this.alive = true;
 		this.age = 0;
@@ -250,6 +253,10 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		if (hunger <= 0 || thirst <= 0 || energy <= 0) {
 			alive = false;
 		}
+	}
+
+	public boolean remove(){
+		return !alive;
 	}
 
 	//Getter for alive

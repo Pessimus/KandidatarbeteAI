@@ -9,7 +9,7 @@ public class CollisionList {
 
 	private Node startNodeX;
 	private Node startNodeY;
-	private int size = 0;
+	private int size;
 	private Node currentNodeX;
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
@@ -18,6 +18,7 @@ public class CollisionList {
 		this.startNodeX = new Node(new CollidableDummy(), null, null);
 		this.startNodeY = new Node(new CollidableDummy(), null, null);
 		this.currentNodeX = this.startNodeX;
+		this.size = 0;
 	}
 
 //--------------------------------------------Sorting methods---------------------------------------------------------\\
@@ -294,6 +295,11 @@ public class CollisionList {
 		public void addToSurroundingY(ICollidable rhs) {}
 
 		public void checkSurroundings(){}
+
+		@Override
+		public boolean remove() {
+			return false;
+		}
 
 		@Override
 		public RenderObject getRenderObject(){return null;}
