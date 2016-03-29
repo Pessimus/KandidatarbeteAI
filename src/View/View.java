@@ -33,7 +33,7 @@ public class View extends BasicGameState implements InputListener{
 	private volatile int renderPointX = (int)Constants.DEFAULT_WORLD_VIEW_X;
 	private volatile int renderPointY = (int)Constants.DEFAULT_WORLD_VIEW_Y;
 
-    private volatile float scaleGraphics = 1f;
+    private volatile float scaleGraphics = 0.87f;
 
     //List<RenderObject> listToRender = new LinkedList<>();
 	private RenderObject[] listToRender = {};
@@ -209,10 +209,15 @@ public class View extends BasicGameState implements InputListener{
 
 	}
 
+	//-----Getters and Setters
     @Override
     public int getID() {
         return stateNr;
     }
+
+	public float getScaleGraphics(){
+		return scaleGraphics;
+	}
 
     @Override
     public void keyPressed(int key, char c) {

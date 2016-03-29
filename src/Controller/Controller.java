@@ -36,6 +36,7 @@ public class Controller implements PropertyChangeListener {
 	private int gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
 
 
+
 	//-----------------View variables-------------------\\
 	private final Queue<Integer[]> keyboardInputQueue;
 	private final Queue<Integer[]> mouseInputQueue;
@@ -43,6 +44,7 @@ public class Controller implements PropertyChangeListener {
 	private float mouseX;
 	private float mouseY;
 	private boolean showingPlayerInventory = false;
+
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
@@ -79,6 +81,8 @@ public class Controller implements PropertyChangeListener {
 
 //----------------------------------------------Run methods-----------------------------------------------------------\\
 
+
+
 	public void start() {
 		this.gameView.run();
 	}
@@ -108,7 +112,6 @@ public class Controller implements PropertyChangeListener {
 	 */
 	private void updateView(){
 		List<RenderObject> temp = new LinkedList<>();
-
 
 		// Move the screen-view over the world if the mouse is close
 		// to either edge of the screen.
@@ -373,16 +376,17 @@ public class Controller implements PropertyChangeListener {
 	private final class ModelToViewRectangle{
 		float rectWidth, rectHeight;
 
-		float minX, minY, maxX, maxY;
+		float minX, minY, maxX, maxY, scale;
 
 		ModelToViewRectangle(float x, float y, float width, float height){
-			rectWidth = width;
-			rectHeight = height;
+			scale = gameView.getGraphicScaler();
+			rectWidth = width/scale;
+			rectHeight = height/scale;
 
-			minX = x;
-			minY = y;
-			maxX = x + width;
-			maxY = y + height;
+			minX = x/scale;
+			minY = y/scale;
+			maxX = (x + width)/scale;
+			maxY = (y + height)/scale;
 		}
 
 		public void translatePosition(float deltaX, float deltaY){
