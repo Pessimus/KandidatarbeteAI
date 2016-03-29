@@ -15,6 +15,7 @@ public final class Constants {
 	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 
+	//Temp constant for the scalar in controller
 	public static final			double		STANDARD_SCREEN_WIDTH				=	1920.0;
 
 	public static final 		double 		SCREEN_EDGE_TRIGGER_MAX_X			=	SCREEN_WIDTH * 0.8;
@@ -67,7 +68,10 @@ public final class Constants {
 
 	//----------- Inventory Constants ------------- \\
 
-	public static final			int 		MAX_INVENTORY_SLOTS					=	9;
+	public static final			int 		MAX_INVENTORY_SLOTS					=	16;
+	public static final			int			SLOT_DISPLAY_SIZE					=	64;
+	public static final			int			SLOT_DISPLAY_AMOUNT					=	20;
+	public static final			int 		AMOUNT_DISPLAY_MARGIN				=	4;
 
 	// ----------- PATHFINDER Constants ----------- \\
 
