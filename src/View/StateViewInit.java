@@ -43,10 +43,10 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 	 * @param resWidth
 	 * @param resHeight
 	 */
-	public StateViewInit(String title, boolean fullscreen, boolean grabMouse, int targetFramerate, int resWidth, int resHeight){
+	public StateViewInit(String title, boolean fullscreen, boolean grabMouse, int targetFramerate, int resWidth, int resHeight, float scale){
 		super(title);
 
-		this.view = new View(PLAY_STATE);
+		this.view = new View(PLAY_STATE, scale);
 
 		this.addState(this.view);
 
@@ -111,10 +111,6 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 
 	public void setRenderPoint(float x, float y){
 		view.setRenderPoint(x, y);
-	}
-
-	public float getGraphicScaler(){
-		return view.getScaleGraphics();
 	}
 
 	public void drawInventory(LinkedList<Model.InventoryRender> inventoryItems){

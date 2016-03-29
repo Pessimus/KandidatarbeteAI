@@ -15,13 +15,15 @@ public final class Constants {
 	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 
+	public static final			double		STANDARD_SCREEN_WIDTH				=	1920.0;
+
 	public static final 		double 		SCREEN_EDGE_TRIGGER_MAX_X			=	SCREEN_WIDTH * 0.8;
 	public static final 		double 		SCREEN_EDGE_TRIGGER_MAX_Y			=	SCREEN_HEIGHT * 0.8;
 	public static final 		double 		SCREEN_EDGE_TRIGGER_MIN_X			=	SCREEN_WIDTH * 0.08;
 	public static final 		double 		SCREEN_EDGE_TRIGGER_MIN_Y			=	SCREEN_HEIGHT * 0.08;
 
-	public static final			float		SCREEN_SCROLL_SPEED_X				=	400f; // Pixels per second!
-	public static final			float		SCREEN_SCROLL_SPEED_Y				=	400f; // Pixels per second!
+	public static final			float		SCREEN_SCROLL_SPEED_X				=	600f; // Pixels per second!
+	public static final			float		SCREEN_SCROLL_SPEED_Y				=	600f; // Pixels per second!
 
 	public static final 		float 		DEFAULT_WORLD_VIEW_X				= 	100f;
 	public static final 		float 		DEFAULT_WORLD_VIEW_Y				= 	100f;

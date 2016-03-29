@@ -38,7 +38,7 @@ public class MainTesting extends StateBasedGame {
 
     public MainTesting(String title) {
         super(title);
-        this.addState(new View(PLAY_STATE));
+        //this.addState(new View(PLAY_STATE));
     }
 
     @Override
