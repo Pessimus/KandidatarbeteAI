@@ -3,6 +3,7 @@ package Controller;
 import Model.*;
 import Model.Character;
 import View.*;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.BasicGameState;
 
@@ -39,19 +40,23 @@ public class Controller implements PropertyChangeListener {
 	private int gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
 
 
+
 	//-----------------View variables-------------------\\
 	private final Queue<Integer[]> keyboardInputQueue;
 	private final Queue<Integer[]> mouseInputQueue;
 	private ModelToViewRectangle screenRect;
 	private float mouseX;
 	private float mouseY;
+	private float scaleGraphics;
 	private boolean showingPlayerInventory = false;
+
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
 	public Controller(){
+		scaleGraphics = (float)(Constants.SCREEN_WIDTH/Constants.STANDARD_SCREEN_WIDTH);
 		setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT));
-		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT));
+		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT, scaleGraphics));
 
 		keyboardInputQueue = new LinkedList<>();
 		mouseInputQueue = new LinkedList<>();
@@ -80,6 +85,8 @@ public class Controller implements PropertyChangeListener {
 	}
 
 //----------------------------------------------Run methods-----------------------------------------------------------\\
+
+
 
 	public void start() {
 		this.gameView.run();
@@ -110,7 +117,6 @@ public class Controller implements PropertyChangeListener {
 	 */
 	private void updateView(){
 		List<RenderObject> temp = new LinkedList<>();
-
 
 		// Move the screen-view over the world if the mouse is close
 		// to either edge of the screen.
@@ -375,16 +381,16 @@ public class Controller implements PropertyChangeListener {
 	private final class ModelToViewRectangle{
 		float rectWidth, rectHeight;
 
-		float minX, minY, maxX, maxY;
+		float minX, minY, maxX, maxY, scale;
 
 		ModelToViewRectangle(float x, float y, float width, float height){
-			rectWidth = width;
-			rectHeight = height;
+			rectWidth = width/scaleGraphics;
+			rectHeight = height/scaleGraphics;
 
-			minX = x;
-			minY = y;
-			maxX = x + width;
-			maxY = y + height;
+			minX = x/scaleGraphics;
+			minY = y/scaleGraphics;
+			maxX = (x + width)/scaleGraphics;
+			maxY = (y + height)/scaleGraphics;
 		}
 
 		public void translatePosition(float deltaX, float deltaY){
