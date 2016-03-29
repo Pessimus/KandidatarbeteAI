@@ -12,22 +12,20 @@ public class Inventory{
 	public Inventory(){
 		inventoryItems = new LinkedList<IItem>();
 
+		//TODO remove this test----------------
 		//---------Test cases for inventory display
-		GoldItem gi = new GoldItem(5);
-		FishItem fi = new FishItem(5);
-		WaterItem wi = new WaterItem(5);
-		StoneItem si = new StoneItem(5);
-		WaterItem wi2 = new WaterItem(10);
+				GoldItem gi = new GoldItem(5);
+				FishItem fi = new FishItem(5);
+				WaterItem wi = new WaterItem(5);
+				StoneItem si = new StoneItem(5);
+				WaterItem wi2 = new WaterItem(10);
 
-		addItem(gi);
-		addItem(fi);
-		addItem(wi);
-		addItem(si);
-		addItem(wi2);
-	}
+				addItem(gi);
+				addItem(fi);
+				addItem(wi);
+				addItem(si);
+				addItem(wi2);
 
-	public Inventory(LinkedList<IItem> startingItems){
-		inventoryItems = startingItems;
 	}
 
 	public LinkedList<IItem> getItems(){
@@ -48,7 +46,19 @@ public class Inventory{
 	}
 
 	boolean removeItem(IItem item){
-		return inventoryItems.remove(item);
+		for(IItem invItem : inventoryItems) {
+			if(item.getType() == invItem.getType()){
+				if (invItem.getAmount()>item.getAmount()){
+					invItem.removeAmount(item.getAmount());
+					return true;
+				}else if(invItem.getAmount() == item.getAmount()){
+					return inventoryItems.remove(item);
+				}else{//Not that many items of that type in inventory.
+					return false;
+				}
+			}
+		}
+		return false;//Item not in inventory.
 	}
 
 

@@ -16,6 +16,13 @@ public class WoodItem implements IItem {
 	}
 
 	@Override
+	public void removeAmount(int value) {
+		if (value <= amount){
+			amount = amount-value;
+		}
+	}
+
+	@Override
 	public Outcome interact() {
 		return null;//TODO implement
 	}

@@ -14,8 +14,6 @@ public class ResourcePoint implements ICollidable {
 
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum;
 
-	private RenderObject latestRenderObject;
-
 	//TODO toBeRemoved the parameter renderEnum, and get it from the renderType.
 	public ResourcePoint(IResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float x, float y, double radius){
 		resource = resourceType;
@@ -44,7 +42,7 @@ public class ResourcePoint implements ICollidable {
 
 	@Override
 	public double getInteractionRadius() {
-		return collisionRadius;
+		return interactionRadius;
 	}
 
 	@Override
@@ -116,12 +114,6 @@ public class ResourcePoint implements ICollidable {
 
 	@Override
 	public RenderObject getRenderObject() {
-		if(latestRenderObject != null) {
-			if (latestRenderObject.compare(this)) {
-				return latestRenderObject;
-			}
-		}
-
 		return new RenderObject(getX(), getY(), getCollisionRadius(), renderObjectEnum);
 	}
 

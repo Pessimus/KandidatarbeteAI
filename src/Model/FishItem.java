@@ -15,6 +15,13 @@ public class FishItem implements IItem {
         this.amount += value;
     }
 
+	@Override
+	public void removeAmount(int value) {
+		if (value <= amount){
+			amount = amount-value;
+		}
+	}
+
     @Override
     public Outcome interact() {
         return null;//TODO implement

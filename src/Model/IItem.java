@@ -8,6 +8,7 @@ public interface IItem {
 	int getAmount();
 	void setAmount(int value);
 	void addAmount(int value);
+	void removeAmount(int value);
 
 	Outcome interact();
 	Outcome consume();
