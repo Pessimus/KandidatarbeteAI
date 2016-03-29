@@ -1,7 +1,5 @@
 package Model;
 
-//TODO toBeRemoved if unused
-
 import java.util.*;
 import java.util.List;
 
@@ -180,18 +178,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	public float getSteplength(){return stepLength;}
 
-	public void changeHunger(int change){
-		this.hunger = hunger + change;
-	}
-
-	public void changeThirst(int change){
-		this.thirst = thirst + change;
-	}
-
-	public void changeEnergy(int change){
-		this.energy = energy + change;
-	}
-
 //---------------------------------------Collision Methods------------------------------------------------------------\\
 
 	@Override
@@ -260,16 +246,19 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	public void interacted(Character rhs){
 		//TODO implement
+		System.out.println("Hello!");
 	}
 
 	@Override
 	public void consumed(Character rhs){
 		//TODO implement
+		System.out.println("Brainzzzzzz");
 	}
 
 	@Override
 	public void attacked(Character rhs){
 		//TODO implement
+		System.out.println("HELP!!!!");
 	}
 
 	public void addToInventory(IItem item){
@@ -278,6 +267,18 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	public void removeFromInventory(IItem item){
 		//TODO implement
+	}
+
+	public void changeHunger(int change){
+		this.hunger = hunger + change;
+	}
+
+	public void changeThirst(int change){
+		this.thirst = thirst + change;
+	}
+
+	public void changeEnergy(int change){
+		this.energy = energy + change;
 	}
 
 //------------------------------------------UPDATE METHODS------------------------------------------------------------\\
@@ -315,11 +316,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		if(updateCounter % Constants.CHARACTER_AGE_UPDATE == 0){
 			age++;
 		}
-
-//		System.out.println("---------");
-//		System.out.println(this.hunger);
-//		System.out.println(this.thirst);
-//		System.out.println(this.energy);
 
 		updateAlive();
 	}

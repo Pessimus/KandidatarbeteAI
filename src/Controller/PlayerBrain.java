@@ -87,11 +87,11 @@ public class PlayerBrain implements AbstractBrain {
 
 	//TODO how to select object from list, aka not always 0
 	public void interact(){
-		this.body.attackObject(0);
+		this.body.interactObject(0);
 	}
 
 	//TODO how to select object from list, aka not always 0
 	public void consume(){
-		this.body.attackObject(0);
+		this.body.consumeObject(0);
 	}
 }
