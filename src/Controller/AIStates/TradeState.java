@@ -19,6 +19,6 @@ public class TradeState implements IState{
 
 	@Override
 	public boolean run() {
-
+		return true;
 	}
 }

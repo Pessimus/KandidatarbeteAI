@@ -31,8 +31,9 @@ public class GatherState implements IState{
 			case CROPS:
 			case MEAT:
 			case FISH:
-				set
+
 				break;
 		}
+		return true;
 	}
 }

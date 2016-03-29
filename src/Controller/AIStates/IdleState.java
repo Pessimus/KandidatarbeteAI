@@ -19,6 +19,6 @@ public class IdleState implements IState {
 
 	@Override
 	public boolean run() {
-
+		return true;
 	}
 }

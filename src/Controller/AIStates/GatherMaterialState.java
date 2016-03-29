@@ -19,6 +19,6 @@ public class GatherMaterialState implements IState{
 
 	@Override
 	public boolean run() {
-
+		return true;
 	}
 }

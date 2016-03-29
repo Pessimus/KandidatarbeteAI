@@ -19,6 +19,6 @@ public class ConverseState implements IState{
 
 	@Override
 	public boolean run() {
-
+		return true;
 	}
 }

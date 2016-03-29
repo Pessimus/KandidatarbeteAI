@@ -19,6 +19,6 @@ public class SocializeState implements IState{
 
 	@Override
 	public boolean run() {
-
+		return true;
 	}
 }

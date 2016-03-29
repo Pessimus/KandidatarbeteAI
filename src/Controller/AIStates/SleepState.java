@@ -19,6 +19,6 @@ public class SleepState implements IState{
 
 	@Override
 	public boolean run() {
-
+		return true;
 	}
 }

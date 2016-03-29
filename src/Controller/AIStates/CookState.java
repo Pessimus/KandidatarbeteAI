@@ -19,6 +19,6 @@ public class CookState implements IState{
 
 	@Override
 	public boolean run() {
-
+		return true;
 	}
 }

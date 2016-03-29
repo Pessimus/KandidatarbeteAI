@@ -19,6 +19,6 @@ public class ThirstyState implements IState{
 
 	@Override
 	public boolean run() {
-
+		return true;
 	}
 }
