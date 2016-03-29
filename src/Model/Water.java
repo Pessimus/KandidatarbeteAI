@@ -29,4 +29,9 @@ public class Water extends InfiniteResource {
 	public String getResourceName(){
 		return resourceName;
 	}
+
+	@Override
+	public int getResourcesLeft() {
+		return 1;
+	}
 }

@@ -22,7 +22,8 @@ public class Crops extends FiniteResource {
         int resourceLeft = getResourcesLeft();
         if(resourceLeft>0){
             setResourcesLeft(resourceLeft-1);
-            return  null;
+			System.out.println(getResourcesLeft());
+            return  null;//TODO should not return null!
         }
         else{
             return null;
@@ -38,4 +39,5 @@ public class Crops extends FiniteResource {
     public String getResourceName() {
         return resourceName;
     }
+
 }

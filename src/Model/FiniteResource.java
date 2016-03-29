@@ -10,6 +10,7 @@ public abstract class FiniteResource implements IResource{
 
 	protected FiniteResource(int initial) {
 		this.initialResources = initial;
+		this.resourcesLeft = initial;
 	}
 
 	public int getResourcesLeft(){

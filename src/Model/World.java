@@ -111,7 +111,7 @@ public class World{
 
 	private void checkObjectsForRemoval(){
 		for (ICollidable collidable : collidablesR) {//Loop on collidablesR as it supportes for-each
-			if (collidable.remove()) {//Item should be removed (Character dead, or resource depleted.)
+			if (collidable.remove()) {
 				collidablestoberemoved.add(collidable);
 				collideablesrtoberemoved.add(collidable);
 			}

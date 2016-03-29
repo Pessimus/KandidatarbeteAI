@@ -47,8 +47,8 @@ public final class Constants {
 	public static final 		int			CHARACTER_UPDATE_INTERVALL			=	60;
 
 	public static final 		double		CHARACTER_COLLISION_RADIUS			=	5;
-	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	10;
-	public static final 		double		CHARACTER_SURROUNDING_RADIUS		=	30;
+	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	20;
+	public static final 		double		CHARACTER_SURROUNDING_RADIUS		=	50;
 
 	public static final 		int			CHARACTER_HUNGER_MAX				=	100;
 	public static final 		int			CHARACTER_THIRST_MAX				=	100;

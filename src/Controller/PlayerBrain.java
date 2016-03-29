@@ -80,4 +80,9 @@ public class PlayerBrain implements AbstractBrain {
         body.stopRunning();
     }
 
+	//TODO remove this test method
+	public void interact(){
+		((Character)body).interact();
+	}
+
 }

@@ -8,6 +8,7 @@ public interface IResource {
 	IItem gatherResource();
 	ResourceType getResourceType();
 	String getResourceName();
+	int getResourcesLeft();
 
 	enum ResourceType{
 		WOOD,

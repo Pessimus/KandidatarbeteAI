@@ -85,7 +85,7 @@ public class ResourcePoint implements ICollidable {
 	//TODO implement
 	@Override
 	public boolean remove() {
-		return false;
+		return resource.getResourcesLeft()==0;
 	}
 
 	public String getResourceName(){

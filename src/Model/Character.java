@@ -403,4 +403,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		stepLength = Constants.CHARACTER_WALK_SPEED;
 	}
 
+	//TODO remove this test method
+	public void interact(){
+		for(ICollidable obj : interactables){
+			((ResourcePoint)obj).gatherResource();
+		}
+	}
+
 }

@@ -65,7 +65,7 @@ public class Controller implements PropertyChangeListener {
 			player.setBody(gameModel.addCharacter(1000, 1000, Constants.PLAYER_CHARACTER_KEY));
 			((Character)player.getBody()).godMode = true;
 
-			this.gameModel.addFiniteResourcePoint(new Crops(100),1010,1010,5);
+			this.gameModel.addFiniteResourcePoint(new Crops(5),1010,1010,5);
 
 	}
 
@@ -220,6 +220,10 @@ public class Controller implements PropertyChangeListener {
 							break;
 						case Input.KEY_P:
 							gameModel.togglePause();
+							break;
+						//TODO remove this test input
+						case Input.KEY_F:
+							player.interact();
 							break;
 						case Input.KEY_1:
 							gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
