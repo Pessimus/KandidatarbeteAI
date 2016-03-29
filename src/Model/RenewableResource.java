@@ -4,7 +4,6 @@ package Model;
  * Created by Tobias on 2016-02-26.
  */
 public abstract class RenewableResource implements ITimeable, IResource{
-	private int renewRate;
 	private int resourcesLeft;
 
 	private final int maxResources;
@@ -18,12 +17,7 @@ public abstract class RenewableResource implements ITimeable, IResource{
 		return resourcesLeft;
 	}
 
-	public void setResourceLeft(int amount){
+	public void setResourcesLeft(int amount){
 		resourcesLeft = amount;
-	}
-
-	public int getRenewRate(){
-
-		return renewRate;
 	}
 }

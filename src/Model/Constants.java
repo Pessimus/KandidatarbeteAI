@@ -68,11 +68,21 @@ public final class Constants {
 	public static final			int 		MAX_INVENTORY_SLOTS					=	9;
 
 	//----------- Animal Constants ------------- \\
-	public static final 		double		ANIMAL_COLLISION_RADIUS			=	5;
-	public static final 		double		ANIMAL_INTERACTION_RADIUS		=	20;
-	public static final 		double		ANIMAL_SURROUNDING_RADIUS		=	50;
+	public static final 		double		ANIMAL_COLLISION_RADIUS				=	5;
+	public static final 		double		ANIMAL_INTERACTION_RADIUS			=	20;
+	public static final 		double		ANIMAL_SURROUNDING_RADIUS			=	50;
 
-	public static final 		int			ANIMAL_HUNGER_GAIN				=	20;
+	public static final 		int			ANIMAL_HUNGER_CHANGE_CONSUME		=	20;
+	public static final 		int			ANIMAL_ENERGY_CHANGE_CONSUME		=	-5;
+	public static final 		int			ANIMAL_THIRST_CHANGE_CONSUME		=	0;
+
+	public static final 		int			ANIMAL_HUNGER_CHANGE_ATTACK			=	0;
+	public static final 		int			ANIMAL_ENERGY_CHANGE_ATTACK			=	-10;
+	public static final 		int			ANIMAL_THIRST_CHANGE_ATTACK			=	0;
+
+	//----------- Resource Constants ------------- \\
+	public static final 		int 		TREE_UPDATE_INTERVALL				=	120;
+	public static final 		int			TREE_INCREASE_AMOUNT				=	10;
 
 	// ----------- PATHFINDER Constants ----------- \\
 

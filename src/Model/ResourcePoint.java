@@ -86,17 +86,17 @@ public class ResourcePoint implements ICollidable {
 
 	@Override
 	public void interacted(Character rhs){
-		resource.interacted(rhs);
+		//TODO implement
 	}
 
 	@Override
 	public void consumed(Character rhs){
-		resource.consumed(rhs);
+		//TODO implement
 	}
 
 	@Override
 	public void attacked(Character rhs){
-		resource.attacked(rhs);
+		//TODO implement
 	}
 
 

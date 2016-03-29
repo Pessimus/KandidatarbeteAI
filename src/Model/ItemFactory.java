@@ -6,28 +6,28 @@ import Model.IResource.ResourceType;
  * Created by Tobias on 2016-02-26.
  */
 public class ItemFactory {
-	IItem createItem(ResourceType resource){
+	public static IItem createItem(ResourceType resource, int amount){
 		switch (resource){
 			case WATER:
-				return new WaterItem(5);
+				return new WaterItem(amount);
 
 			case WOOD:
-				return new WoodItem(5);
+				return new WoodItem(amount);
 
 			case STONE:
-				return new StoneItem(5);
+				return new StoneItem(amount);
 
 			case GOLD:
-				return new GoldItem(5);
+				return new GoldItem(amount);
 
 			case CROPS:
-				return new CropsItem(5);
+				return new CropsItem(amount);
 
 			case FISH:
-				return new FishItem(5);
+				return new FishItem(amount);
 
 			case MEAT:
-				return new MeatItem(5);
+				return new MeatItem(amount);
 
 			default:
 				return null;
