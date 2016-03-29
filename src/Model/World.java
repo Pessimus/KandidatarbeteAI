@@ -4,112 +4,129 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.concurrent.Semaphore;
 
 
 /**
  * Created by Martin on 23/02/2016.
  */
-public class World implements Runnable{
+public class World{
+	//TODO-------------------------------????-------------------------------------------------------------------------\\
+//TODO REMOVE
+//	public enum GAMESPEED {
+//		NORMAL(1), FAST(1.5), FASTER(2);
+//
+//		private final double gameSpeed;
+//
+//		GAMESPEED(double gameSpeed) {
+//			this.gameSpeed = gameSpeed;
+//		}
+//
+//		public double getGameSpeed() {
+//			return gameSpeed;
+//		}
+//	}
+//
+//	private static double gameSpeed;
+//	public static double getGameSpeed() {
+//		return gameSpeed;
+//	}
+//	public static void setGameSpeed(double gs) {
+//		gameSpeed = gs;
+//	}
 
+//TODO REMOVE test method.
+//	public void hit() {
+//		this.characters.get(1).hit();
+//	}
+
+	//TODO-------------------------------END ????---------------------------------------------------------------------\\
+
+//-----------------------------------------------VARIABLES------------------------------------------------------------\\
+
+	//------------------Functionality-------------------\\
 	PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+	private boolean pause;
 
+	//-----------------Characteristics------------------\\
+	private double width;
+	private double height;
+
+	//----------------Objects in World------------------\\
 	private HashMap<Integer,Character> characters;
 	private LinkedList<ICollidable> collidablesR;
 	private CollisionList collidables;
 	private LinkedList<ITimeable> timeables;
 	private LinkedList<ICollidable> statics; //List containing all collidables that does not move (or get destroyed or created too often)
-	//--------Remove lists--------------
-	private LinkedList<ICollidable> collidablestoberemoved = new LinkedList<>();
-	private LinkedList<ICollidable> collideablesrtoberemoved = new LinkedList<>();
-	private LinkedList<ITimeable> timeablestoberemoved = new LinkedList<>();
-	private LinkedList<Character> characterstoberemoved = new LinkedList<>();
 
-	private double width;
-	private double height;
-	private boolean pause;
-	//Enum for managing the speed of the game
-	public enum GAMESPEED {
-		NORMAL(1), FAST(1.5), FASTER(2);
-
-		private final double gameSpeed;
-
-		GAMESPEED(double gameSpeed) {
-			this.gameSpeed = gameSpeed;
-		}
-
-		public double getGameSpeed() {
-			return gameSpeed;
-		}
-	}
-
-	private static double gameSpeed;
-	public static double getGameSpeed() {
-		return gameSpeed;
-	}
-	public static void setGameSpeed(double gs) {
-		gameSpeed = gs;
-	}
+	//------------------Remove lists--------------------\\
+	private LinkedList<ICollidable> collidablestoberemoved;
+	private LinkedList<ICollidable> collideablesrtoberemoved;
+	private LinkedList<ITimeable> timeablestoberemoved;
+	private LinkedList<Character> characterstoberemoved;
 
 
-	//private Semaphore sema = new Semaphore(1);//TODO REMOVE deprecated variable
+//----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
 	public World (double width, double height){
+		//Initializing world characteristics
 		this.width = width;
 		this.height = height;
+
+		//Initializing lists for objects in world.
 		this.collidables = new CollisionList();
 		this.collidablesR = new LinkedList<>();
 		this.timeables = new LinkedList<>();
 		this.characters = new HashMap<>();
 
-		pause = false;
-		this.gameSpeed = GAMESPEED.NORMAL.getGameSpeed();
-
-		// TODO remove hardcoded test
-				addCharacter(450,600,1);
-				characters.get(1).setInteractionRadius(50);
-
-
-				addCharacter(600, 450, 2);
-				addCharacter(500,500,3);
-
-				for (int i = 5; i < 500; i += 1) {
-					int rx = (int) (Math.random()*1000);
-					int ry = (int) (Math.random()*1000);
-					addCharacter(rx, ry, i);
-				}
-		// TODO remove hardcoded test.
+		//Initializing removal lists
+		collidablestoberemoved = new LinkedList<>();
+		collideablesrtoberemoved = new LinkedList<>();
+		timeablestoberemoved = new LinkedList<>();
+		characterstoberemoved = new LinkedList<>();
 	}
 
-	/**
-	 * Update characters
-	 * Update timeables
-	 * Update collidables
-	 */
-	@Override
-	public void run() {
+//---------------------------------------------UPDATE METHODS---------------------------------------------------------\\
+
+	public void uppdate() {
 		if (pause != true) {
+			//Update all timeable objects
+			//TODO Add parameter for fast-forward
 			for (ITimeable timedObj : timeables) {
 				timedObj.updateTimeable();
 			}
 
+			//Check if any characters should be removed.
 			for (Character character : characters.values()) {
 				if (!character.isAlive()) {//Character is dead and should be removed
 					collidablestoberemoved.add(character);
 					collideablesrtoberemoved.add(character);
 					timeablestoberemoved.add(character);
 					characterstoberemoved.add(character);
-				} else {
-					//TODO Code for updating the character (movement and actions?)
 				}
 			}
-			this.collidables.handleCollision();//TODO put after removal of dead characters, and update the way the result is saved.
 
 			removeObjects();
 
-			firePropertyChange("update", 1);//TODO check if needed, else remove.
+			this.collidables.handleCollision();
+
+			//TODO Code for updating the character (movement and actions?)
+			//TODO Add functionality for removing other objects
+
+			this.pcs.firePropertyChange("update",0, 1);//TODO change the way the loop in controller works.
 		}
 	}
+
+	// Pause the game, if P is pressed, pause() will pause the uppdate lopp
+	public void togglePause() {
+		if (pause == false) {
+			pause = true;
+		}
+		else {
+			pause = false;
+		}
+	}
+
+//-----------------------------------------ADD & REMOVE METHODS-------------------------------------------------------\\
 
 	//TODO check if place is available.
 	public Character addCharacter(float xPoss, float yPoss, int key) {
@@ -125,39 +142,29 @@ public class World implements Runnable{
 		return character;
 	}
 
-	//TODO remove if-statements (should not make any difference)
 	public void removeObjects() {
-		if (collidablestoberemoved != null) {
-			for (ICollidable collidable : this.collidablestoberemoved) {
-				collidables.remove(collidable);
-			}
-			collidablestoberemoved.clear();
+		for (ICollidable collidable : this.collidablestoberemoved) {
+			collidables.remove(collidable);
 		}
-		if (timeablestoberemoved != null) {
-			for (ITimeable timeable : this.timeablestoberemoved) {
-				timeables.remove(timeable);
-			}
-			timeablestoberemoved.clear();
-		}
+		collidablestoberemoved.clear();
 
-		if (characters != null) {
-			for (Character character : this.characterstoberemoved) {
-				characters.remove(character.getKey());
-			}
-			characterstoberemoved.clear();
+		for (ITimeable timeable : this.timeablestoberemoved) {
+			timeables.remove(timeable);
 		}
+		timeablestoberemoved.clear();
 
-		if (characters != null) {
-			for (ICollidable collidabler : this.collideablesrtoberemoved) {
-				collidablesR.remove(collidabler);
-			}
-			collideablesrtoberemoved.clear();
+		for (Character character : this.characterstoberemoved) {
+			characters.remove(character.getKey());
 		}
+		characterstoberemoved.clear();
+
+		for (ICollidable collidable : this.collideablesrtoberemoved) {
+			collidablesR.remove(collidable);
+		}
+		collideablesrtoberemoved.clear();
 	}
 
-	//private boolean addCollidable(double xPoss, double yPoss, double radius) {return false;}//TODO remove unused method.
-
-
+//----------------------------------------------RENDER METHODS--------------------------------------------------------\\
 
 	public RenderObject[] getRenderObjects() {
 		RenderObject[] renderObjects = new RenderObject[collidables.getSize()];
@@ -168,6 +175,13 @@ public class World implements Runnable{
 		return renderObjects;
 	}
 
+	//TODO better MVC praxis
+	public LinkedList<InventoryRender> displayPlayerInventory() {
+		return characters.get(Constants.PLAYER_CHARACTER_KEY).getRenderInventory();
+	}
+
+//------------------------------------------------PCS METHODS---------------------------------------------------------\\
+
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		pcs.addPropertyChangeListener(listener);
 	}
@@ -176,10 +190,7 @@ public class World implements Runnable{
 		pcs.removePropertyChangeListener(listener);
 	}
 
-	//TODO remove this method that is just a unnecessary extra step.
-	private void firePropertyChange(String type, Object property) {
-		pcs.firePropertyChange(type, 0, property);
-	}
+//---------------------------------------Getters & Setters------------------------------------------------------------\\
 
 	public double getWidth() {
 		return width;
@@ -187,69 +198,6 @@ public class World implements Runnable{
 
 	public double getHeight() {
 		return height;
-	}
-
-	//TODO change name
-	/* Pause the game, if P is pressed, pause() will pause the run lopp*/
-	public void pause() {
-		if (pause == false) {
-			pause = true;
-		}
-		else {
-			pause = false;
-		}
-	}
-
-	//TODO remove this part from world to other class for the code to work the same way ofr players and AI.-------------
-	public void movePlayerUp() {
-		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingUp();
-	}
-
-	public void movePlayerDown() {
-		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingDown();
-	}
-
-	public void movePlayerLeft() {
-		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingLeft();
-	}
-
-	public void movePlayerRight() {
-		characters.get(Constants.PLAYER_CHARACTER_KEY).startWalkingRight();
-	}
-
-	public void stopPlayerUp() {
-		characters.get(Constants.PLAYER_CHARACTER_KEY).stopWalkingUp();
-	}
-
-	public void stopPlayerDown() {
-		characters.get(Constants.PLAYER_CHARACTER_KEY).stopWalkingDown();
-	}
-
-	public void stopPlayerRight() {
-		characters.get(Constants.PLAYER_CHARACTER_KEY).stopWalkingRight();
-	}
-
-	public void stopPlayerLeft() {
-		characters.get(Constants.PLAYER_CHARACTER_KEY).stopWalkingLeft();
-	}
-
-	public void playerRunning() {
-		characters.get(Constants.PLAYER_CHARACTER_KEY).startRunning();
-	}
-
-	public void playerWalking() {
-		characters.get(Constants.PLAYER_CHARACTER_KEY).stopRunning();
-	}
-	//TODO--------------------------------------------------------------------------------------------------------------
-
-	//TODO better MVC praxis
-	public LinkedList<InventoryRender> displayPlayerInventory() {
-		return characters.get(Constants.PLAYER_CHARACTER_KEY).getRenderInventory();
-	}
-
-	//TODO REMOVE test method.
-	public void hit() {
-		this.characters.get(1).hit();
 	}
 
  }

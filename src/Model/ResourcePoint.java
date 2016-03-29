@@ -10,6 +10,7 @@ public class ResourcePoint implements ICollidable {
 	private float yPos;
 	private double collisionRadius;
 	private double interactionRadius;
+	private double surroundingRadius;
 
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum;
 
@@ -21,6 +22,7 @@ public class ResourcePoint implements ICollidable {
 		yPos = y;
 		collisionRadius = radius;
 		interactionRadius = radius;
+		surroundingRadius = radius;
 		renderObjectEnum = renderEnum;
 	}
 
@@ -45,17 +47,37 @@ public class ResourcePoint implements ICollidable {
 	}
 
 	@Override
-	public void addToCollideX(ICollidable rhs) {
+	public double getSurroundingRadius() {
+		return surroundingRadius;
+	}
+
+	@Override
+	public void addToInteractableX(ICollidable rhs) {
 		//TODO implement
 	}
 
 	@Override
-	public void addToCollideY(ICollidable rhs) {
+	public void addToInteractableY(ICollidable rhs) {
 		//TODO implement
 	}
 
 	@Override
-	public void checkCollision() {
+	public void checkInteractables() {
+		//TODO implement
+	}
+
+	@Override
+	public void addToSurroundingX(ICollidable rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void addToSurroundingY(ICollidable rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void checkSurroundings() {
 		//TODO implement
 	}
 

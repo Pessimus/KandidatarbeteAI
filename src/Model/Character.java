@@ -1,5 +1,6 @@
 package Model;
 
+//TODO remove if unused
 import Controller.Pathfinder;
 import Controller.PathStep;
 
@@ -10,262 +11,22 @@ import java.util.List;
  * Created by Tobias on 2016-02-26.
  */
 public class Character implements ICollidable, ITimeable, ICharacterHandle {
-	//------------------Movement Variables---------------------
-	private float xPos;
-	private float yPos;
-	private double collisionRadius;
-	private double interactionRadius;
+	//TODO-------------------------------????-------------------------------------------------------------------------\\
 
-	private LinkedList<ICollidable> wir;//TODO general interaction
-
-	private float xSpeed;
-	private float ySpeed;
-
-	private int updateCounter = 0;
-	private final int updateHunger = 20;//TODO move to constants
-	private final int updateThirst = 40;//TODO move to constants
-	private final int updateEnergy = 20;//TODO move to constants
-
-		//TODO Update the way the player moves the character to be the same way as the AI.
-		//Tells the update function for each character if they are currently walking in any direction;
-		private boolean walkingUp = false;
-		private boolean walkingDown = false;
-		private boolean walkingLeft = false;
-		private boolean walkingRight = false;
-
-	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
-
-
-	private Inventory inventory;
-
-	//private volatile RenderObject latestRenderObject;//TODO remove
-
-	//----------------Collision------------------
-	private LinkedList<ICollidable> collideX;
-	private LinkedList<ICollidable> collideY;
-
-	//TESTING
-	private Pathfinder pathTest;
-	private LinkedList<PathStep> stepTest;
-
-	//---------------NEEDS VARIABLES--------------------
-
-	public enum NEEDS_ENUM{
-		HUNGER, THIRST, ENERGY
+	/*TODO REMOVE depricated methods
+	//---------NEED REPLENESHING METHODS--------------
+	public void eat() {
+		this.hunger += 25;
 	}
-
-	private boolean alive;
-
-	//------------BASIC NEEDS--------------------
-	//Ranges between 0-100, 100 is good, 0 is bad..
-	private int hunger;
-	private int thirst;
-	private int energy;
-
-	//-------------SECONDARY NEEDS-------------------
-	//Ranges between 0-100, 100 is good, 0 is bad..
-	private int social;
-	private int intimacy;
-	private int attention;
-
-	//---------------TRAITS VARIABLES--------------------
-
-	public enum TRAITS_ENUM{
-		HUNGER, THIRST, ENERGY
+	public void drink() {
+		this.thirst += 10;
 	}
-
-	public enum GENDER_ENUM {
-		MAN("man"), WOMAN("woman");
-		private  String gender;
-
-		GENDER_ENUM (String g) {gender = g; }
-
-		public String getGender(){
-			return gender;
-		}
-	}
-	private int age;
-	private String gender;
-
-	private float stepLength = Constants.CHARACTER_WALK_SPEED;
-
-	private int key;
-
-
-	public Character(float xPos, float yPos, int key){
-		this.alive = true;
-		//Initial position
-		this.xPos = xPos;
-		this.yPos = yPos;
-		this.xSpeed = 0;
-		this.ySpeed = 0;//TODO remove
-		this.key = key;
-		//Generate Gender
-		generateGender();
-
-		//Create inventory
-		inventory = new Inventory();
-
-		this.hunger = 100;
-		this.thirst = 100;
+	public void sleep() {
 		this.energy = 100;
-
-		this.pathTest = new Pathfinder(16, 9600, 9600, 1, 1.4);
-		this.pathTest.updateMask(new CollisionList());
-		this.stepTest = null;
-
-		this.collideX = new LinkedList<>();
-		this.collideY = new LinkedList<>();
-		this.collisionRadius = 5;
-		this.interactionRadius = 10;
-		this.wir = new LinkedList<>();
 	}
-
-	//generates a gender for the character.
-	public void generateGender() {
-		if(Math.random()<= 0.5) {
-			this.gender = GENDER_ENUM.MAN.getGender();
-		} else {
-			this.gender = GENDER_ENUM.WOMAN.getGender();
-		}
-	}
-
-	@Override
-	public float getX() {
-		return this.xPos;
-	}
-
-	@Override
-	public float getY() {
-		return this.yPos;
-	}
-
-	public int getKey(){ return key;}
-
-	@Override
-	public double getCollisionRadius() {
-		return this.collisionRadius;
-	}
-
-	@Override
-	public double getInteractionRadius(){
-		return this.interactionRadius;
-	}
-
-	public void setInteractionRadius(double radius){
-		this.interactionRadius = radius;
-	}
-
-	@Override
-	public void addToCollideX(ICollidable rhs) {
-		this.collideX.add(rhs);
-	}
-
-	@Override
-	public void addToCollideY(ICollidable rhs) {
-		this.collideY.add(rhs);
-	}
-
-	@Override
-	public void checkCollision() {
-		this.wir.clear();
-		for(ICollidable c : this.collideX){
-			if(this.collideY.contains(c)){
-				//System.out.println("Krock med n�t!!!!!!!!!" + this.hashCode());
-				this.wir.add(c);
-			}
-		}
-		this.collideX.clear();
-		this.collideY.clear();
-	}
-
-	@Override
-	public RenderObject getRenderObject() {
-		/*TODO REMOVE if-statements that allways return the same value.
-		if(latestRenderObject != null) {
-			if (latestRenderObject.compare(this)) {
-				return latestRenderObject;
-			}
-		}*/
-
-		return new RenderObject(getX(), getY(), getCollisionRadius(), renderObjectEnum);
-	}
-
-	@Override
-	public RenderObject.RENDER_OBJECT_ENUM getRenderType() {
-		return renderObjectEnum;
-	}
-
-
-	public int getHunger() {return this.hunger;}
-
-	//public int getHunger() {return this.hunger;}//TODO REMOVE as it is deprecated as of the interface ICharacter handle
-
-
-	//TODO change method name to better suit praxis
-	//Check if character is alive
-	public void isDead() {
-		if (hunger <= 0 || thirst <= 0 || energy <= 0) {
-			alive = false;
-		}
-	}
-
-	//Getter for alive
-	public boolean isAlive() {
-		return alive;
-	}
-
-	//TODO--------------------------------------[START of section needing major fixing]-----------------------------------
-							@Override
-							public void updateTimeable() {
-
-								//TODO Update needs
-								//TODO Implement ageing etc...
-
-								//Updates counter with one but doesn't exceed 60.
-								updateCounter = (updateCounter+1) % 60;
-								//if(updateCounter % 60 == 0) {
-								if(walkingUp)
-									moveUp();
-								if(walkingDown)
-									moveDown();
-								if(walkingRight)
-									moveRight();
-								if(walkingLeft)
-									moveLeft();
-								//}
-
-								updateNeeds();
-								//moveAround();
-							}
-
-							public void updateNeeds() {
-
-								if(updateCounter % 60 == 0) {
-									this.hunger -= 1;
-									this.thirst -= 1;
-									this.energy -= 1;
-								}
-
-								isDead();
-							}
-
-							//---------NEED REPLENESHING METHODS--------------
-
-							public void eat() {
-								this.hunger += 25;
-							}
-							public void drink() {
-								this.thirst += 10;
-							}
-							public void sleep() {
-								this.energy = 100;
-							}
-							public void rest() {
-								this.energy += 20;
-							}
-
-	//TODO--------------------------------------[END of section needing major fixing]-----------------------------------
+	public void rest() {
+		this.energy += 20;
+	}*/
 
 //	TODO REMOVE, after checking why they existed in the first place
 //		/*
@@ -282,69 +43,252 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 //		public double getNextYPosition(){
 //			return this.yPos+this.ySpeed;
 //		}
+	//---------------TRAITS VARIABLES--------------------
 
-	/*
-	public double moveX(){
-		return this.xPos += this.xSpeed;
+//	public enum TRAITS_ENUM{
+//		HUNGER, THIRST, ENERGY
+//	}
+
+//	public enum GENDER_ENUM {
+//		MAN("man"), WOMAN("woman");
+//		private  String gender;
+//
+//		GENDER_ENUM (String g) {gender = g; }
+//
+//		public String getGender(){
+//			return gender;
+//		}
+//	}
+//	private String gender;
+
+
+	//TESTING
+//	private Pathfinder pathTest;
+//	private LinkedList<PathStep> stepTest;
+
+
+//	public enum NEEDS_ENUM{
+//		HUNGER, THIRST, ENERGY
+//	}
+
+
+	//generates a gender for the character.
+//	public void generateGender() {
+//		if(Math.random()<= 0.5) {
+//			this.gender = GENDER_ENUM.MAN.getGender();
+//		} else {
+//			this.gender = GENDER_ENUM.WOMAN.getGender();
+//		}
+//	}
+
+
+	//---SECONDARY NEEDS---\\
+	//Ranges between 0-100, 100 is good, 0 is bad..
+//	private int social;
+//	private int intimacy;
+//	private int attention;
+
+	//TODO-------------------------------END ????---------------------------------------------------------------------\\
+
+//-----------------------------------------------VARIABLES------------------------------------------------------------\\
+
+	//------------------Functionality-------------------\\
+	private int updateCounter = 0;
+
+	private int key;
+
+	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
+
+	private Inventory inventory;
+
+	//--------------------Collision---------------------\\
+	private float xPos;
+	private float yPos;
+
+	private float stepLength = Constants.CHARACTER_WALK_SPEED;
+
+	private LinkedList<ICollidable> surroundingX;
+	private LinkedList<ICollidable> surroundingY;
+	private LinkedList<ICollidable> surroundings;
+
+	private LinkedList<ICollidable> interactableX;
+	private LinkedList<ICollidable> interactableY;
+	private LinkedList<ICollidable> interactables;
+
+	//-----------------NEEDS VARIABLES--------------------\\
+
+	private boolean alive;
+	private int age;
+
+	//---BASIC NEEDS---\\
+	//Ranges between 0-100, 100 is good, 0 is bad..
+	private int hunger;
+	private int thirst;
+	private int energy;
+
+//----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
+	//TODO organize
+	public Character(float xPos, float yPos, int key){
+		this.alive = true;
+		this.age = 0;
+		this.inventory = new Inventory();
+		this.key = key;
+
+		//Initial position
+		this.xPos = xPos;
+		this.yPos = yPos;
+
+		//Initialize needs
+		this.hunger = Constants.CHARACTER_HUNGER_MAX;
+		this.thirst = Constants.CHARACTER_THIRST_MAX;
+		this.energy = Constants.CHARACTER_ENERGY_MAX;
+
+		//Initialize collision detection lists
+		this.surroundingX = new LinkedList<>();
+		this.surroundingY = new LinkedList<>();
+		this.surroundings = new LinkedList<>();
+
+		this.interactableX = new LinkedList<>();
+		this.interactableY = new LinkedList<>();
+		this.interactables = new LinkedList<>();
+
+		//TODO check if this should be removed
+		//this.pathTest = new Pathfinder(16, 9600, 9600, 1, 1.4);
+		//this.pathTest.updateMask(new CollisionList());
+		//this.stepTest = null;
+
+		//TODO check if this should be removed
+		//Generate Gender
+		//generateGender();
+
 	}
-	public double moveY(){
-		return this.yPos += this.ySpeed;
+
+//---------------------------------------Getters & Setters------------------------------------------------------------\\
+
+	public int getKey(){ return key;}
+
+	@Override
+	public float getX() {
+		return this.xPos;
 	}
 
-	public void walkRight(){
-		this.xPos += this.stepLength;
+	@Override
+	public float getY() {
+		return this.yPos;
 	}
 
-	public void walkLeft(){
-		this.xPos -= this.stepLength;
+	public float getSteplength(){return stepLength;}
+
+//---------------------------------------Collision Methods------------------------------------------------------------\\
+
+	@Override
+	public double getCollisionRadius() {
+		return Constants.CHARACTER_COLLISION_RADIUS;
 	}
 
-	public void stopRight(){
-		this.xSpeed -= this.stepLength;
+	@Override
+	public double getInteractionRadius(){
+		return Constants.CHARACTER_INTERACTION_RADIUS;
 	}
 
-	public void stopLeft(){
-		this.xSpeed += this.stepLength;
+	@Override
+	public double getSurroundingRadius(){
+		return Constants.CHARACTER_SURROUNDING_RADIUS;
 	}
 
-	public void walkUp(){
-		this.yPos -= this.stepLength;
+	@Override
+	public void addToSurroundingX(ICollidable rhs) {
+		this.surroundingX.add(rhs);
 	}
 
-	public void walkDown(){
-		this.yPos += this.stepLength;
+	@Override
+	public void addToSurroundingY(ICollidable rhs) {
+		this.surroundingY.add(rhs);
 	}
 
-	public void stopUp(){
-		this.ySpeed += this.stepLength;
-	}
-
-	public void stopDown(){
-		this.ySpeed -= this.stepLength;
-	}
-	*/
-	/*TODO remove
-	public void moveAround(){
-		if(updateCounter % 30 == 0) {
-			if (Math.random() < 0.1) {
-				double endx = 1000;
-				double endy = 1000;
-
-				stepTest = pathTest.getPath(xPos, yPos, endx, endy);
-
-			}
-
-			if (stepTest != null) {
-				if (stepTest.getFirst().stepTowards(this)) {
-					stepTest.removeFirst();
-					if (stepTest.isEmpty())  {
-						stepTest = null;
-					}
-				}
+	@Override
+	public void checkSurroundings() {
+		LinkedList<ICollidable> tmp = new LinkedList<>();
+		for(ICollidable c : this.surroundingX){
+			if(this.surroundingY.contains(c)){
+				tmp.add(c);
 			}
 		}
+		this.surroundingX.clear();
+		this.surroundingY.clear();
+		this.surroundings = tmp;
+	}
 
-	}*/
+	@Override
+	public void addToInteractableX(ICollidable rhs) {
+		this.interactableX.add(rhs);
+	}
+
+	@Override
+	public void addToInteractableY(ICollidable rhs) {
+		this.interactableY.add(rhs);
+	}
+
+	@Override
+	public void checkInteractables() {
+		LinkedList<ICollidable> tmp = new LinkedList<>();
+		for(ICollidable c : this.interactableX){
+			if(this.interactableY.contains(c)){
+				tmp.add(c);
+			}
+		}
+		this.interactableX.clear();
+		this.interactableY.clear();
+		this.interactables = tmp;
+	}
+
+
+//---------------------------------------------UPDATE METHODS---------------------------------------------------------\\
+
+	//Check if character is alive
+	private void updateAlive() {
+		if (hunger <= 0 || thirst <= 0 || energy <= 0) {
+			alive = false;
+		}
+	}
+
+	//Getter for alive
+	public boolean isAlive() {
+		return alive;
+	}
+
+	@Override
+	public void updateTimeable() {
+		//Updates counter with one but doesn't exceed 60.
+		updateCounter = (updateCounter+1) % Constants.CHARACTER_UPDATE_INTERVALL;
+
+		if(updateCounter % Constants.CHARACTER_HUNGER_UPDATE == 0){
+			hunger = hunger - Constants.CHARACTER_HUNGER_CHANGE;
+		}
+		if(updateCounter % Constants.CHARACTER_ENERGY_UPDATE == 0){
+			energy = energy - Constants.CHARACTER_ENERGY_CHANGE;
+		}
+		if(updateCounter % Constants.CHARACTER_THIRST_UPDATE == 0){
+			thirst = thirst - Constants.CHARACTER_THIRST_CHANGE;
+		}
+		if(updateCounter % Constants.CHARACTER_AGE_UPDATE == 0){
+			age++;
+		}
+
+		updateAlive();
+	}
+
+//------------------------------------------------RENDER METHODS------------------------------------------------------\\
+
+	@Override
+	public RenderObject getRenderObject() {
+		return new RenderObject(getX(), getY(), getCollisionRadius(), renderObjectEnum);
+	}
+
+	@Override
+	public RenderObject.RENDER_OBJECT_ENUM getRenderType() {
+		return renderObjectEnum;
+	}
 
 	public LinkedList<InventoryRender> getRenderInventory(){
 		LinkedList<InventoryRender> list = new LinkedList<>();
@@ -359,11 +303,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return list;
 	}
 
-	/*
-		Methods used by the AI or Player follows here.
-		-----------------------------------------------------------------------------------------------------------
-		implementing ICharacterHandle
-	 */
+//--------------------------------------ICharacterHandle methods------------------------------------------------------\\
 
 	//TODO implement, change type....
 	@Override
@@ -403,16 +343,14 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.xPos += this.stepLength;
 	}
 
-	//TODO implement
 	@Override
 	public List<ICollidable> getSurroundings() {
-		return null;
+		return this.surroundings;
 	}
 
-	//TODO implement
 	@Override
 	public List<ICollidable> getInteractables() {
-		return wir;
+		return this.interactables;
 	}
 
 	@Override
@@ -448,62 +386,14 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return null;
 	}
 
-	//TODO Update this part to work the same way that the AI does it.
-				public void startWalkingUp(){
-					walkingUp=true;
-				}
-
-				public void startWalkingDown(){
-					walkingDown=true;
-				}
-
-				public void startWalkingRight(){
-					walkingRight=true;
-				}
-
-				public void startWalkingLeft(){
-					walkingLeft=true;
-				}
-
-				public void stopWalkingUp(){
-					walkingUp=false;
-				}
-
-				public void stopWalkingDown(){
-					walkingDown=false;
-				}
-
-				public void stopWalkingRight(){
-					walkingRight=false;
-				}
-
-				public void stopWalkingLeft(){
-					walkingLeft=false;
-				}
-
-
-	//TODO add to interface
+	@Override
 	public void startRunning(){
 		stepLength = Constants.CHARACTER_RUN_SPEED;
 	}
 
-	//TODO add to interface
+	@Override
 	public void stopRunning(){
 		stepLength = Constants.CHARACTER_WALK_SPEED;
 	}
 
-	//TODO move
-	public float getSteplength(){
-		return stepLength;
-	}
-
-
-	//TODO remove this testing method
-	public void hit() {
-		for(ICollidable collidable : wir){
-			if(collidable.getClass().equals(this.getClass())){
-				((Character)collidable).alive = false;
-			}
-		}
-	}
 }

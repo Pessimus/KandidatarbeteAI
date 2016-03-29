@@ -4,20 +4,30 @@ package Model;
  * Created by Oskar on 2016-03-10.
  */
 public class GoldItem implements IItem {
+    private int amount;
+
+    public GoldItem(int value){
+        this.amount = value;
+    }
 
     @Override
-    public String getActions() {
-        return null;
+    public void addAmount(int value) {
+        this.amount += value;
     }
 
     @Override
     public int getAmount() {
-        return 0;
+        return amount;
     }
 
     @Override
     public void setAmount(int value) {
+        this.amount = value;
+    }
 
+    @Override
+    public String getActions() {
+        return null;
     }
 
     @Override

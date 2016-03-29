@@ -10,6 +10,8 @@ import java.awt.*;
 public final class Constants {
 	public static final			String		GAME_TITLE							=	"AI for NPCs";
 
+	// ----------- Controller Constants ----------- \\
+
 	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2;
 	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2;
 
@@ -29,18 +31,43 @@ public final class Constants {
 	public static final 		int 		TARGET_FRAMERATE 					= 	60;
 	public static final 		boolean		GAME_GRAB_MOUSE						= 	false;
 	public static final 		boolean 	RUN_IN_FULLSCREEN 					= 	false;
-	public static final 		long		CONTROLLER_UPDATE_INTERVAL			= 	60; // Updates per second
 
-	public static final			int			PLAYER_CHARACTER_KEY				= 	1;
-	public static final			float		CHARACTER_WALK_SPEED				=	6f; // Pixels per update
-	public static final			float		CHARACTER_RUN_SPEED					=	12f; // Pixels per update
-	public static final			double		GAMESPEED_NORMAL					=	1;
-	public static final			double		GAMESPEED_FAST						=	1.5;
-	public static final			double		GAMESPEED_FASTER					=	2;
+
+	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_NORMAL 	= 	60; // Updates per second
+	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_FASTER 	= 	120; // Updates per second
+	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_FASTEST 	= 	240; // Updates per second
+
 
 	public static final 		int 		WORLD_TILE_SIZE						= 	32;
 	public static final 		int 		VERTICAL_TILES						=	(int) (SCREEN_HEIGHT /WORLD_TILE_SIZE);
 	public static final 		int 		HORIZONTAL_TILES 					=	(int) (SCREEN_WIDTH /WORLD_TILE_SIZE);
+
+	//----------- Character Constants ------------- \\
+	public static final			int			PLAYER_CHARACTER_KEY				= 	1;
+	public static final			float		CHARACTER_WALK_SPEED				=	6f;
+	public static final			float		CHARACTER_RUN_SPEED					=	12f;
+	public static final 		int			CHARACTER_UPDATE_INTERVALL			=	60;
+
+	public static final 		double		CHARACTER_COLLISION_RADIUS			=	5;
+	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	10;
+	public static final 		double		CHARACTER_SURROUNDING_RADIUS		=	30;
+
+	public static final 		int			CHARACTER_HUNGER_MAX				=	100;
+	public static final 		int			CHARACTER_THIRST_MAX				=	100;
+	public static final 		int			CHARACTER_ENERGY_MAX				=	100;
+
+	public static final			int			CHARACTER_HUNGER_UPDATE				=	20;
+	public static final			int			CHARACTER_THIRST_UPDATE				=	40;
+	public static final			int			CHARACTER_ENERGY_UPDATE				=	20;
+	public static final			int			CHARACTER_AGE_UPDATE				=	60;
+
+	public static final			int			CHARACTER_HUNGER_CHANGE				=	1;
+	public static final			int			CHARACTER_THIRST_CHANGE				=	1;
+	public static final			int			CHARACTER_ENERGY_CHANGE				=	1;
+
+	//----------- Inventory Constants ------------- \\
+
+	public static final			int 		MAX_INVENTORY_SLOTS					=	9;
 
 	// ----------- PATHFINDER Constants ----------- \\
 

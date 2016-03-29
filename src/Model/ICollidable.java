@@ -1,6 +1,5 @@
 package Model;
 
-import java.util.LinkedList;
 
 /**
  * Created by Martin on 24/02/2016.
@@ -10,13 +9,15 @@ public interface ICollidable {
 	float getY();
 	double getCollisionRadius();
 	double getInteractionRadius();
+	double getSurroundingRadius();
 
-	void addToCollideX(ICollidable rhs);
-	void addToCollideY(ICollidable rhs);
+	void addToInteractableX(ICollidable rhs);
+	void addToInteractableY(ICollidable rhs);
+	void checkInteractables();
 
-	void checkCollision();
-
-	//TODO ENUM for type
+	void addToSurroundingX(ICollidable rhs);
+	void addToSurroundingY(ICollidable rhs);
+	void checkSurroundings();
 
 	RenderObject getRenderObject();
 	RenderObject.RENDER_OBJECT_ENUM getRenderType();

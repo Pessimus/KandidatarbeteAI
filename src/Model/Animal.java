@@ -12,10 +12,12 @@ public class Animal implements ICollidable {
 	private RenderObject latestRenderObject;
 	private double collisionRadius;
 	private double interactionRadius;
+	private double surroundingRadius;
 
 	public Animal(){
 		this.collisionRadius = 5;
 		this.interactionRadius = 10;
+		this.surroundingRadius = 20;
 	}
 
 	public Animal(IResource resourceType){
@@ -43,17 +45,37 @@ public class Animal implements ICollidable {
 	}
 
 	@Override
-	public void addToCollideX(ICollidable rhs) {
+	public double getSurroundingRadius() {
+		return surroundingRadius;
+	}
+
+	@Override
+	public void addToInteractableX(ICollidable rhs) {
 		//TODO implement
 	}
 
 	@Override
-	public void addToCollideY(ICollidable rhs) {
+	public void addToInteractableY(ICollidable rhs) {
 		//TODO implement
 	}
 
 	@Override
-	public void checkCollision() {
+	public void checkInteractables() {
+		//TODO implement
+	}
+
+	@Override
+	public void addToSurroundingX(ICollidable rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void addToSurroundingY(ICollidable rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void checkSurroundings() {
 		//TODO implement
 	}
 

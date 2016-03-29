@@ -11,10 +11,11 @@ public class PlayerBrain implements AbstractBrain {
 
 	private ICharacterHandle body; // The character this Brain controls
 
-	private boolean walkingUp;
-	private boolean walkingDown;
-	private boolean walkingLeft;
-	private boolean walkingRight;
+
+    private boolean walkingUp = false;
+    private boolean walkingDown = false;
+    private boolean walkingLeft = false;
+    private boolean walkingRight = false;
 
     public PlayerBrain() {
         body = new Character(100, 100, Constants.PLAYER_CHARACTER_KEY);
@@ -25,6 +26,14 @@ public class PlayerBrain implements AbstractBrain {
     }
 
     public void update() {
+		if(walkingUp)
+			body.moveUp();
+		if(walkingDown)
+			body.moveDown();
+		if(walkingRight)
+			body.moveRight();
+		if(walkingLeft)
+			body.moveLeft();
 
     }
 
@@ -39,29 +48,29 @@ public class PlayerBrain implements AbstractBrain {
 	}
 
 	public void movePlayerUp() {
-        body.startWalkingUp();
+		this.walkingUp = true;
     }
     public void movePlayerDown() {
-        body.startWalkingDown();
+		this.walkingDown = true;
     }
     public void movePlayerLeft() {
-        body.startWalkingLeft();
+		this.walkingLeft = true;
     }
     public void movePlayerRight() {
-        body.startWalkingRight();
+		this.walkingRight = true;
     }
 
     public void stopPlayerUp() {
-        body.stopWalkingUp();
+		this.walkingUp = false;
     }
     public void stopPlayerLeft() {
-        body.stopWalkingLeft();
+		this.walkingLeft = false;
     }
     public void stopPlayerRight() {
-        body.stopWalkingRight();
+		this.walkingRight = false;
     }
     public void stopPlayerDown() {
-        body.stopWalkingDown();
+		this.walkingDown = false;
     }
 
     public void playerRunning() {
