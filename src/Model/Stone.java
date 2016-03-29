@@ -5,22 +5,35 @@ package Model;
  */
 public class Stone extends FiniteResource {
 
+//-----------------------------------------------VARIABLES------------------------------------------------------------\\
 	public static final ResourceType resourceType = ResourceType.STONE;
 	public static final String resourceName = "Wood";
 
-	public Stone(int resources){
+	private ResourceType type;
+	private int yield;
+
+	public Stone(int resources, int yield){
 		super(resources);
+		this.type = ResourceType.STONE;
+		this.yield = yield;
 	}
 
-	@Override
-	public ItemFactory getItemFactory() {
-		return null;
-	}
-
+//---------------------------------------Interaction methods----------------------------------------------------------\\
 	@Override
 	public IItem gatherResource() {
-		return null;
+		int resourceLeft = getResourcesLeft();
+		if(resourceLeft>yield){
+			setResourcesLeft(resourceLeft-yield);
+			return ItemFactory.createItem(type, yield);
+		}else if(resourceLeft>0){
+			setResourcesLeft(0);
+			return ItemFactory.createItem(type, resourceLeft);
+		}else{
+			return null;
+		}
 	}
+
+//---------------------------------------Getters & Setters------------------------------------------------------------\\
 
 	@Override
 	public ResourceType getResourceType() {
@@ -32,18 +45,4 @@ public class Stone extends FiniteResource {
 		return resourceName;
 	}
 
-	@Override
-	public void interacted(Character rhs) {
-
-	}
-
-	@Override
-	public void consumed(Character rhs) {
-
-	}
-
-	@Override
-	public void attacked(Character rhs) {
-
-	}
 }
