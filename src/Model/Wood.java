@@ -5,34 +5,38 @@ package Model;
  */
 public class Wood extends RenewableResource {
 
-    public static final int MAX_TREE_RESOURCES = 150;
+//-----------------------------------------------VARIABLES------------------------------------------------------------\\
+    //public static final int MAX_TREE_RESOURCES = 150;
     public static final ResourceType resourceType = ResourceType.WOOD;
     public static final String resourceName = "Wood";
 
+	private int yield;
+	private int updateCounter;
 
-    public Wood(int initial) {
-        super(initial, MAX_TREE_RESOURCES);
-    }
+//----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
-    public Wood(int initial, int maxResources){
+    public Wood(int initial, int maxResources, int yield){
         super(initial, maxResources);
-    }
-    @Override
-    public ItemFactory getItemFactory() {
-        return null;
+		this.yield = yield;
+		this.updateCounter = 0;
     }
 
-    @Override
-    public IItem gatherResource() {
-        if(getResourcesLeft()>0) {
-            //return getItemFactory() Skapa träd
-            //setResourceLeft(getResourcesLeft()-1);
-            return null;
-        }
-        else {
-            return null;
-        }
-    }
+//---------------------------------------Interaction methods----------------------------------------------------------\\
+	@Override
+	public IItem gatherResource() {
+		int resourceLeft = getResourcesLeft();
+		if(resourceLeft>yield){
+			setResourcesLeft(resourceLeft-yield);
+			return ItemFactory.createItem(resourceType, yield);
+		}else if(resourceLeft>0){
+			setResourcesLeft(0);
+			return ItemFactory.createItem(resourceType, resourceLeft);
+		}else{
+			return null;
+		}
+	}
+
+//---------------------------------------Getters & Setters------------------------------------------------------------\\
 
     @Override
     public ResourceType getResourceType() {
@@ -44,29 +48,19 @@ public class Wood extends RenewableResource {
         return resourceName;
     }
 
+//------------------------------------------UPDATE METHODS------------------------------------------------------------\\
+	//TODO should create new trees.
 	@Override
-	public void interacted(Character rhs) {
-
-	}
-
-	@Override
-	public void consumed(Character rhs) {
-
-	}
-
-	@Override
-	public void attacked(Character rhs) {
-
-	}
-
-	@Override
-    public void updateTimeable() { //öka mängd eller spawna nya träd?
-
+    public void updateTimeable() {
+		updateCounter = (updateCounter+1) % Constants.TREE_UPDATE_INTERVALL;
+		if(updateCounter == 0 && getResourcesLeft()>0){
+			setResourcesLeft(getResourcesLeft() + Constants.TREE_INCREASE_AMOUNT);
+		}
     }
 
     //TODO implement
     @Override
     public boolean toBeRemoved() {
-        return false;
+        return getResourcesLeft()>0;
     }
 }
