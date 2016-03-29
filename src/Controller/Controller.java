@@ -31,6 +31,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 	private int gameSpeed = CONTROLLER_UPDATE_INTERVAL_NORMAL;
 
 
+
 	//private final Semaphore keyboardSema = new Semaphore(1);//TODO REMOVE unused variable
 	//private final Semaphore mouseSema = new Semaphore(1);//TODO REMOVE unused variable
 
@@ -53,16 +54,18 @@ public class Controller implements PropertyChangeListener, Runnable {
 		float minX, minY, maxX, maxY;
 
 		ModelToViewRectangle(float x, float y, float width, float height){
-			rectWidth = width;
-			rectHeight = height;
+			float scale = gameView.getGraphicScaler();
+			rectWidth = width*scale;
+			rectHeight = height*scale;
 
-			minX = x;
-			minY = y;
-			maxX = x + width;
-			maxY = y + height;
+			minX = x/scale;
+			minY = y/scale;
+			maxX = (x + width)/scale;
+			maxY = (y + height)/scale;
 		}
 
 		public void translatePosition(float deltaX, float deltaY){
+			float scale = gameView.getGraphicScaler();
 			minX += deltaX;
 			minY += deltaY;
 			maxX += deltaX;
@@ -192,10 +195,14 @@ public class Controller implements PropertyChangeListener, Runnable {
 		List<RenderObject> temp = new LinkedList<>();
 
 
+		//System.out.println("Scaler: "+ scaleGraphics);
+		//System.out.println("Min X: "+screenRect.getMinX()+" och Max X: "+screenRect.getMaxX());
+		//System.out.println("Min Y: "+screenRect.getMinY()+" och Max Y: "+screenRect.getMaxY());
 		// Move the screen-view over the world if the mouse is close
 		// to either edge of the screen.
 		if (mouseX >= Constants.SCREEN_EDGE_TRIGGER_MAX_X) {
 			float width = (float)gameModel.getWidth();
+			System.out.print("\nWidth: "+width+" och Max X: "+screenRect.getMaxX());
 			if (screenRect.getMaxX() < width) {
 				screenRect.translatePosition(Constants.SCREEN_SCROLL_SPEED_X / CONTROLLER_UPDATE_INTERVAL_NORMAL, 0);
 			} else {
@@ -211,6 +218,7 @@ public class Controller implements PropertyChangeListener, Runnable {
 
 		if (mouseY >= Constants.SCREEN_EDGE_TRIGGER_MAX_Y) {
 			float height = (float)gameModel.getHeight();
+			System.out.print(height);
 			if (screenRect.getMaxY() < height) {
 				screenRect.translatePosition(0, Constants.SCREEN_SCROLL_SPEED_Y / CONTROLLER_UPDATE_INTERVAL_NORMAL);
 			} else {
@@ -320,7 +328,6 @@ public class Controller implements PropertyChangeListener, Runnable {
 					} else if (clicks[1] == Input.KEY_RIGHT) {
 						//gameModel.stopPlayerRight();
 						player.stopPlayerRight();
-
 					} else if(clicks[1] == Input.KEY_R){
 						//gameModel.playerWalking();
 						player.playerWalking();
