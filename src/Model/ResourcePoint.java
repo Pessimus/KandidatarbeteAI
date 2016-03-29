@@ -86,6 +86,7 @@ public class ResourcePoint implements ICollidable {
 
 	@Override
 	public Outcome interact(){
+
 		return null;//TODO implement
 	}
 

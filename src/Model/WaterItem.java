@@ -16,6 +16,21 @@ public class WaterItem implements IItem {
 	}
 
 	@Override
+	public Outcome interact() {
+		return null;//TODO implement
+	}
+
+	@Override
+	public Outcome consume() {
+		return null;//TODO implement
+	}
+
+	@Override
+	public Outcome attack() {
+		return null;//TODO implement
+	}
+
+	@Override
 	public int getAmount() {
 		return amount;
 	}

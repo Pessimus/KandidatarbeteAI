@@ -45,13 +45,13 @@ public interface ICharacterHandle {
 	Outcome getOutcomeInventory(int inventoryIndex);
 	Outcome getOutcomeInteractables(int interactablesIndex);
 
-	Outcome interactObject(int index);
-	Outcome attackObject(int index);
-	Outcome consumeObject(int index);
+	void interactObject(int index);
+	void attackObject(int index);
+	void consumeObject(int index);
 
-	Outcome interactItem(int index);
-	Outcome attackItem(int index);
-	Outcome consumeItem(int index);
+	void interactItem(int index);
+	void attackItem(int index);
+	void consumeItem(int index);
 
 	//void applyOutcome(Outcome outcome);
 }

@@ -3,6 +3,7 @@ package Model;
 //TODO toBeRemoved if unused
 import Controller.Pathfinder;
 import Controller.PathStep;
+import org.lwjgl.Sys;
 
 import java.util.*;
 import java.util.List;
@@ -272,12 +273,12 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	}
 
 	public boolean toBeRemoved(){
-		return !alive;
+		return !isAlive();
 	}
 
 	//Getter for alive
 	public boolean isAlive() {
-		return alive;
+		return alive||godMode;
 	}
 
 	@Override
@@ -408,56 +409,45 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	}
 
 	@Override
-	public Outcome interactObject(int index){
+	public void interactObject(int index){
 		if(this.interactables.size()>index){
-			return this.interactables.get(index).interact();
-		}else {
-			return null;//TODO should not return null
+			Outcome outcome = this.interactables.get(index).interact();
+
 		}
 	}
 
 	@Override
-	public Outcome attackObject(int index){
+	public void attackObject(int index){
 		if(this.interactables.size()>index){
-			return this.interactables.get(index).attack();
-		}else {
-			return null;//TODO should not return null
+			this.interactables.get(index).attack();
 		}
 	}
 
 	@Override
-	public Outcome consumeObject(int index){
+	public void consumeObject(int index){
 		if(this.interactables.size()>index){
-			return this.interactables.get(index).consume();
-		}else {
-			return null;//TODO should not return null
+			this.interactables.get(index).consume();
 		}
 	}
 
 	@Override
-	public Outcome interactItem(int index){
+	public void interactItem(int index){
 		if(this.getInventory().size()>index){
-			return this.getInventory().get(index).interact();
-		}else {
-			return null;//TODO should not return null
+			this.getInventory().get(index).interact();
 		}
 	}
 
 	@Override
-	public Outcome attackItem(int index){
+	public void attackItem(int index){
 		if(this.getInventory().size()>index){
-			return this.getInventory().get(index).attack();
-		}else {
-			return null;//TODO should not return null
+			this.getInventory().get(index).attack();
 		}
 	}
 
 	@Override
-	public Outcome consumeItem(int index){
+	public void consumeItem(int index){
 		if(this.getInventory().size()>index){
-			return this.getInventory().get(index).consume();
-		}else {
-			return null;//TODO should not return null
+			this.getInventory().get(index).consume();
 		}
 	}
 
