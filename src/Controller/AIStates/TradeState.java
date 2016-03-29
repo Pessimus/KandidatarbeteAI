@@ -13,12 +13,12 @@ public class TradeState implements IState{
 	}
 
 	@Override
-	public void setBody() {
+	public void setBody(ICharacterHandle character) {
 
 	}
 
 	@Override
-	public void run() {
+	public boolean run() {
 
 	}
 }

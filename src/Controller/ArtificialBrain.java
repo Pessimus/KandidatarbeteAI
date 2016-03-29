@@ -1,5 +1,6 @@
 package Controller;
 
+import Controller.AIStates.IState;
 import Model.*;
 import Model.Character;
 import Model.Constants;
@@ -46,10 +47,17 @@ import java.util.List;
 		int[] traits = body.getTraits();
 		int[] skills = body.getSkills();
 
+		if(stateStack.peek().run() == false){
+			stateStack.pop();
+		}
+
 		if(needs[0] <= needs[1] && needs[0] <= needs[2]){
 
 		}
 		else if(needs[1] < needs[0] && needs[1] < needs[2]){
+
+		}
+		else if(needs[2] < needs[0] && needs[2] < needs[1]){
 
 		}
 
@@ -127,10 +135,12 @@ import java.util.List;
 	}
 	*/
 
-	private AIStates currentState;
+	//private AIStates.IState currentState;
 
-	private Stack<AIStates> stateStack = new Stack<>();
+	private Stack<IState> stateStack = new Stack<>();
 
+
+	/*
 	private void runStates(){
 		switch(currentState){
 			case IDLE:
@@ -159,4 +169,5 @@ import java.util.List;
 		SOCIALIZE, TALK,
 		BUILD, BUILDHOUSE, BUILDSTOCKPILE, BUILDFARM, BUILDMILL,
 	}
+	*/
 }

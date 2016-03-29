@@ -1,16 +1,24 @@
 package Controller.AIStates;
 
+import Model.ICharacterHandle;
+
 /**
  * Created by Tobias on 2016-03-29.
  */
-class IdleState implements IState {
+public class IdleState implements IState {
+	private ICharacterHandle body;
+
+	public IdleState(ICharacterHandle character){
+		body = character;
+	}
+
 	@Override
-	public void setBody() {
+	public void setBody(ICharacterHandle character) {
 
 	}
 
 	@Override
-	public void run() {
+	public boolean run() {
 
 	}
 }
