@@ -67,6 +67,13 @@ public final class Constants {
 
 	public static final			int 		MAX_INVENTORY_SLOTS					=	9;
 
+	//----------- Animal Constants ------------- \\
+	public static final 		double		ANIMAL_COLLISION_RADIUS			=	5;
+	public static final 		double		ANIMAL_INTERACTION_RADIUS		=	20;
+	public static final 		double		ANIMAL_SURROUNDING_RADIUS		=	50;
+
+	public static final 		int			ANIMAL_HUNGER_GAIN				=	20;
+
 	// ----------- PATHFINDER Constants ----------- \\
 
 	public static final		int				PATHFINDER_GRID_SIZE				=	16;

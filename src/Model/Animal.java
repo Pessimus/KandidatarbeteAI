@@ -4,34 +4,48 @@ package Model;
  * Created by Tobias on 2016-02-26.
  */
 public class Animal implements ICollidable {
-	IResource resource;
+
+//-----------------------------------------------VARIABLES------------------------------------------------------------\\
 
 	// TODO: Enum type for animal
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
 
-	private RenderObject latestRenderObject;
+	private float xPoss;
+	private float yPoss;
+
+	private IResource resource;
+
+	private boolean alive;
+
 	private double collisionRadius;
 	private double interactionRadius;
 	private double surroundingRadius;
 
-	public Animal(){
-		this.collisionRadius = 5;
-		this.interactionRadius = 10;
-		this.surroundingRadius = 20;
+//----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
+
+	public Animal(float xPoss, float yPoss, IResource resourceType){
+		this.xPoss = xPoss;
+		this.yPoss = yPoss;
+
+		this.resource = resourceType;
+
+		this.alive = true;
+
+		this.collisionRadius = Constants.ANIMAL_COLLISION_RADIUS;
+		this.interactionRadius = Constants.ANIMAL_INTERACTION_RADIUS;
+		this.surroundingRadius = Constants.ANIMAL_SURROUNDING_RADIUS;
 	}
 
-	public Animal(IResource resourceType){
-		resource = resourceType;
-	}
+//---------------------------------------Collision Methods------------------------------------------------------------\\
 
 	@Override
 	public float getX() {
-		return 0;
+		return xPoss;
 	}
 
 	@Override
 	public float getY() {
-		return 0;
+		return yPoss;
 	}
 
 	@Override
@@ -51,64 +65,64 @@ public class Animal implements ICollidable {
 
 	@Override
 	public void addToInteractableX(ICollidable rhs) {
-		//TODO implement
+		//TODO implement, if AI for animal
 	}
 
 	@Override
 	public void addToInteractableY(ICollidable rhs) {
-		//TODO implement
+		//TODO implement, if AI for animal
 	}
 
 	@Override
 	public void checkInteractables() {
-		//TODO implement
+		//TODO implement, if AI for animal
 	}
 
 	@Override
 	public void addToSurroundingX(ICollidable rhs) {
-		//TODO implement
+		//TODO implement, if AI for animal
 	}
 
 	@Override
 	public void addToSurroundingY(ICollidable rhs) {
-		//TODO implement
+		//TODO implement, if AI for animal
 	}
 
 	@Override
 	public void checkSurroundings() {
-		//TODO implement
+		//TODO implement, if AI for animal
 	}
+
+//---------------------------------------Interaction methods----------------------------------------------------------\\
 
 	@Override
 	public void interacted(Character rhs) {
-
+		//TODO social need should be updated
 	}
 
 	@Override
 	public void consumed(Character rhs) {
-
+		rhs.changeHunger(Constants.ANIMAL_HUNGER_GAIN);
 	}
 
 	@Override
 	public void attacked(Character rhs) {
-
+		rhs.addToInventory(resource.gatherResource());
+		this.alive = false;
 	}
 
+//------------------------------------------UPDATE METHODS------------------------------------------------------------\\
 
 	//TODO implement
 	@Override
 	public boolean toBeRemoved() {
-		return false;
+		return !alive;
 	}
+
+//------------------------------------------------RENDER METHODS------------------------------------------------------\
 
 	@Override
 	public RenderObject getRenderObject() {
-		if(latestRenderObject != null) {
-			if (latestRenderObject.compare(this)) {
-				return latestRenderObject;
-			}
-		}
-
 		return new RenderObject(getX(), getY(), getCollisionRadius(), renderObjectEnum);
 	}
 
