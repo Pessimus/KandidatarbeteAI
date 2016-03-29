@@ -5,33 +5,37 @@ package Model;
  */
 public class Fish extends FiniteResource {
 
+//-----------------------------------------------VARIABLES------------------------------------------------------------\\
     public static final ResourceType resourceType = ResourceType.FISH;
     public static final String resourceName = "Fish";
 
-    private float xPos, yPos;
+	private ResourceType type;
+	private int yield;
 
-    public Fish(int initial, float x, float y){
+//----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
+
+    public Fish(int initial, int yield){
         super(initial);
-        xPos = x;
-        yPos = y;
+		this.type = ResourceType.CROPS;
+		this.yield = yield;
     }
 
-    @Override
-    public ItemFactory getItemFactory() {
-        return null;
-    }
+//---------------------------------------Interaction methods----------------------------------------------------------\\
+	@Override
+	public IItem gatherResource() {
+		int resourceLeft = getResourcesLeft();
+		if(resourceLeft>yield){
+			setResourcesLeft(resourceLeft-yield);
+			return ItemFactory.createItem(type, yield);
+		}else if(resourceLeft>0){
+			setResourcesLeft(0);
+			return ItemFactory.createItem(type, resourceLeft);
+		}else{
+			return null;
+		}
+	}
 
-    @Override
-    public IItem gatherResource() {
-        int resourceLeft = getResourcesLeft();
-        if(resourceLeft>0){
-            setResourcesLeft(resourceLeft-1);
-            return  null;
-        }
-        else{
-            return null;
-        }
-    }
+//---------------------------------------Getters & Setters------------------------------------------------------------\\
 
     @Override
     public ResourceType getResourceType() {
@@ -43,18 +47,4 @@ public class Fish extends FiniteResource {
         return resourceName;
     }
 
-    @Override
-    public void interacted(Character rhs) {
-
-    }
-
-    @Override
-    public void consumed(Character rhs) {
-
-    }
-
-    @Override
-    public void attacked(Character rhs) {
-
-    }
 }
