@@ -111,7 +111,7 @@ public class World{
 
 	private void checkObjectsForRemoval(){
 		for (ICollidable collidable : collidablesR) {//Loop on collidablesR as it supportes for-each
-			if (collidable.remove()) {
+			if (collidable.toBeRemoved()) {
 				collidablestoberemoved.add(collidable);
 				collideablesrtoberemoved.add(collidable);
 			}
@@ -155,7 +155,7 @@ public class World{
 	}
 
 	public ResourcePoint addFiniteResourcePoint(FiniteResource resourceType, float xPoss, float yPoss, double radius){
-		//TODO remove the hardcoded input to the constructor (parameter 2)
+		//TODO toBeRemoved the hardcoded input to the constructor (parameter 2)
 		ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
 		this.collidables.add(point);
 		this.collidablesR.add(point);
@@ -163,7 +163,7 @@ public class World{
 	}
 
 	public ResourcePoint addInfiniteResourcePoint(InfiniteResource resourceType, float xPoss, float yPoss, double radius){
-		//TODO remove the hardcoded input to the constructor (parameter 2)
+		//TODO toBeRemoved the hardcoded input to the constructor (parameter 2)
 		ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
 		this.collidables.add(point);
 		this.collidablesR.add(point);
@@ -171,7 +171,7 @@ public class World{
 	}
 
 	public ResourcePoint addRenewableResourcePoint(RenewableResource resourceType, float xPoss, float yPoss, double radius){
-		//TODO remove the hardcoded input to the constructor (parameter 2)
+		//TODO toBeRemoved the hardcoded input to the constructor (parameter 2)
 		ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
 		this.collidables.add(point);
 		this.collidablesR.add(point);

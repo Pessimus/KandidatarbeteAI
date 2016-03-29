@@ -19,7 +19,9 @@ public interface ICollidable {
 	void addToSurroundingY(ICollidable rhs);
 	void checkSurroundings();
 
-	boolean remove();
+
+
+	boolean toBeRemoved();
 
 	RenderObject getRenderObject();
 	RenderObject.RENDER_OBJECT_ENUM getRenderType();

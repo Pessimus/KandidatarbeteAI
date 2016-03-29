@@ -81,7 +81,7 @@ public class Animal implements ICollidable {
 
 	//TODO implement
 	@Override
-	public boolean remove() {
+	public boolean toBeRemoved() {
 		return false;
 	}
 

@@ -16,7 +16,7 @@ public class ResourcePoint implements ICollidable {
 
 	private RenderObject latestRenderObject;
 
-	//TODO remove the parameter renderEnum, and get it from the renderType.
+	//TODO toBeRemoved the parameter renderEnum, and get it from the renderType.
 	public ResourcePoint(IResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float x, float y, double radius){
 		resource = resourceType;
 		xPos = x;
@@ -84,7 +84,7 @@ public class ResourcePoint implements ICollidable {
 
 	//TODO implement
 	@Override
-	public boolean remove() {
+	public boolean toBeRemoved() {
 		return resource.getResourcesLeft()==0;
 	}
 

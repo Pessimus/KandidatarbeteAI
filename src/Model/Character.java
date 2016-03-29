@@ -1,6 +1,6 @@
 package Model;
 
-//TODO remove if unused
+//TODO toBeRemoved if unused
 import Controller.Pathfinder;
 import Controller.PathStep;
 
@@ -117,7 +117,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	//-----------------NEEDS VARIABLES--------------------\\
 
-	//TODO remove after testing
+	//TODO toBeRemoved after testing
 	public boolean godMode = false;
 
 	private boolean alive;
@@ -255,7 +255,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		}
 	}
 
-	public boolean remove(){
+	public boolean toBeRemoved(){
 		return !alive;
 	}
 
@@ -403,7 +403,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		stepLength = Constants.CHARACTER_WALK_SPEED;
 	}
 
-	//TODO remove this test method
+	//TODO toBeRemoved this test method
 	public void interact(){
 		for(ICollidable obj : interactables){
 			((ResourcePoint)obj).gatherResource();

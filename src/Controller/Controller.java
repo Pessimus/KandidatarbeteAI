@@ -221,10 +221,10 @@ public class Controller implements PropertyChangeListener {
 						case Input.KEY_P:
 							gameModel.togglePause();
 							break;
-						//TODO remove this test input
-						case Input.KEY_F:
-							player.interact();
-							break;
+						//TODO toBeRemoved this test input
+							case Input.KEY_F:
+								player.interact();
+								break;
 						case Input.KEY_1:
 							gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
 							break;

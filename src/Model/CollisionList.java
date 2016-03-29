@@ -74,7 +74,7 @@ public class CollisionList {
 		}
 	}
 
-//------------------------------------------Add & remove methods------------------------------------------------------\\
+//------------------------------------------Add & toBeRemoved methods------------------------------------------------------\\
 
 	public void add(ICollidable addValue){
 		//Add to the X list
@@ -297,7 +297,7 @@ public class CollisionList {
 		public void checkSurroundings(){}
 
 		@Override
-		public boolean remove() {
+		public boolean toBeRemoved() {
 			return false;
 		}
 
