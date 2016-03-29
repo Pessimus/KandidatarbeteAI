@@ -5,20 +5,28 @@ package Model;
  * Created by Tobias on 2016-03-04.
  */
 public class Water extends InfiniteResource {
-	private ItemFactory factory;
 
+//-----------------------------------------------VARIABLES------------------------------------------------------------\\
 	public static final ResourceType resourceType = ResourceType.WATER;
 	public static final String resourceName = "Water";
 
-	@Override
-	public ItemFactory getItemFactory() {
-		return factory;
+	private ResourceType type;
+	private int yield;
+
+//----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
+
+	public Water(int resources, int yield){
+		this.type = ResourceType.WATER;
+		this.yield = yield;
 	}
 
+	//---------------------------------------Interaction methods----------------------------------------------------------\\
 	@Override
 	public IItem gatherResource() {
-		return getItemFactory().createItem(getResourceType());
+		return ItemFactory.createItem(type, yield);
 	}
+
+//---------------------------------------Getters & Setters------------------------------------------------------------\\
 
 	@Override
 	public ResourceType getResourceType() {
@@ -34,19 +42,5 @@ public class Water extends InfiniteResource {
 	public int getResourcesLeft() {
 		return 1;
 	}
-
-	@Override
-	public void interacted(Character rhs) {
-
-	}
-
-	@Override
-	public void consumed(Character rhs) {
-
-	}
-
-	@Override
-	public void attacked(Character rhs) {
-
-	}
+	
 }
