@@ -85,19 +85,18 @@ public class ResourcePoint implements ICollidable {
 	//---------------------------------------Interaction methods----------------------------------------------------------\\
 
 	@Override
-	public Outcome interact(){
-
-		return null;//TODO implement
+	public void interacted(Character rhs){
+		resource.interacted(rhs);
 	}
 
 	@Override
-	public Outcome consume(){
-		return null; //TODO implement
+	public void consumed(Character rhs){
+		resource.consumed(rhs);
 	}
 
 	@Override
-	public Outcome attack(){
-		return null; //TODO implement
+	public void attacked(Character rhs){
+		resource.attacked(rhs);
 	}
 
 

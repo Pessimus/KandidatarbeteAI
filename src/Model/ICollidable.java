@@ -19,9 +19,10 @@ public interface ICollidable {
 	void addToSurroundingY(ICollidable rhs);
 	void checkSurroundings();
 
-	Outcome interact();
-	Outcome consume();
-	Outcome attack();
+	//TODO maby change this to work for other collidables than characters
+	void interacted(Character rhs);
+	void consumed(Character rhs);
+	void attacked(Character rhs);
 
 	boolean toBeRemoved();
 

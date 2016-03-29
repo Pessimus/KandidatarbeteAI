@@ -216,7 +216,11 @@ public class World{
 
 	//TODO better MVC praxis
 	public LinkedList<InventoryRender> displayPlayerInventory() {
-		return characters.get(Constants.PLAYER_CHARACTER_KEY).getRenderInventory();
+		if(characters.get(Constants.PLAYER_CHARACTER_KEY) != null) {
+			return characters.get(Constants.PLAYER_CHARACTER_KEY).getRenderInventory();
+		}else{
+			return new LinkedList<>();
+		}
 	}
 
 //------------------------------------------------PCS METHODS---------------------------------------------------------\\

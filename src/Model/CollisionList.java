@@ -299,23 +299,23 @@ public class CollisionList {
 		public void checkSurroundings(){}
 
 		@Override
+		public void interacted(Character rhs) {
+
+		}
+
+		@Override
+		public void consumed(Character rhs) {
+
+		}
+
+		@Override
+		public void attacked(Character rhs) {
+
+		}
+
+		@Override
 		public boolean toBeRemoved() {
 			return false;
-		}
-
-		@Override
-		public Outcome interact(){
-			return null;//TODO implement
-		}
-
-		@Override
-		public Outcome consume(){
-			return null; //TODO implement
-		}
-
-		@Override
-		public Outcome attack(){
-			return null; //TODO implement
 		}
 
 		@Override

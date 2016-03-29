@@ -38,4 +38,19 @@ public class Meat extends FiniteResource {
     public String getResourceName() {
         return resourceName;
     }
+
+    @Override
+    public void interacted(Character rhs) {
+
+    }
+
+    @Override
+    public void consumed(Character rhs) {
+
+    }
+
+    @Override
+    public void attacked(Character rhs) {
+
+    }
 }

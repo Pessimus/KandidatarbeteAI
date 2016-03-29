@@ -80,9 +80,18 @@ public class PlayerBrain implements AbstractBrain {
         body.stopRunning();
     }
 
-	//TODO toBeRemoved this test method
-	public void interact(){
-		((Character)body).interact();
+	//TODO how to select object from list, aka not always 0
+	public void attack(){
+		this.body.attackObject(0);
 	}
 
+	//TODO how to select object from list, aka not always 0
+	public void interact(){
+		this.body.attackObject(0);
+	}
+
+	//TODO how to select object from list, aka not always 0
+	public void consume(){
+		this.body.attackObject(0);
+	}
 }

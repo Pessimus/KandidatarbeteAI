@@ -79,22 +79,21 @@ public class Animal implements ICollidable {
 		//TODO implement
 	}
 
-	//---------------------------------------Interaction methods----------------------------------------------------------\\
-
 	@Override
-	public Outcome interact(){
-		return null;//TODO implement
+	public void interacted(Character rhs) {
+
 	}
 
 	@Override
-	public Outcome consume(){
-		return null; //TODO implement
+	public void consumed(Character rhs) {
+
 	}
 
 	@Override
-	public Outcome attack(){
-		return null; //TODO implement
+	public void attacked(Character rhs) {
+
 	}
+
 
 	//TODO implement
 	@Override

@@ -34,4 +34,19 @@ public class Water extends InfiniteResource {
 	public int getResourcesLeft() {
 		return 1;
 	}
+
+	@Override
+	public void interacted(Character rhs) {
+
+	}
+
+	@Override
+	public void consumed(Character rhs) {
+
+	}
+
+	@Override
+	public void attacked(Character rhs) {
+
+	}
 }

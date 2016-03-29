@@ -43,7 +43,23 @@ public class Wood extends RenewableResource {
     public String getResourceName() {
         return resourceName;
     }
-    @Override
+
+	@Override
+	public void interacted(Character rhs) {
+
+	}
+
+	@Override
+	public void consumed(Character rhs) {
+
+	}
+
+	@Override
+	public void attacked(Character rhs) {
+
+	}
+
+	@Override
     public void updateTimeable() { //öka mängd eller spawna nya träd?
 
     }

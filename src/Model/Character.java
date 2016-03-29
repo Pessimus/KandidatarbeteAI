@@ -1,9 +1,6 @@
 package Model;
 
 //TODO toBeRemoved if unused
-import Controller.Pathfinder;
-import Controller.PathStep;
-import org.lwjgl.Sys;
 
 import java.util.*;
 import java.util.List;
@@ -183,6 +180,18 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	public float getSteplength(){return stepLength;}
 
+	public void changeHunger(int change){
+		this.hunger = hunger + change;
+	}
+
+	public void changeThirst(int change){
+		this.thirst = thirst + change;
+	}
+
+	public void changeEnergy(int change){
+		this.energy = energy + change;
+	}
+
 //---------------------------------------Collision Methods------------------------------------------------------------\\
 
 	@Override
@@ -249,18 +258,26 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 //---------------------------------------Interaction methods----------------------------------------------------------\\
 
 	@Override
-	public Outcome interact(){
-		return null;//TODO implement
+	public void interacted(Character rhs){
+		//TODO implement
 	}
 
 	@Override
-	public Outcome consume(){
-		return null; //TODO implement
+	public void consumed(Character rhs){
+		//TODO implement
 	}
 
 	@Override
-	public Outcome attack(){
-		return null; //TODO implement
+	public void attacked(Character rhs){
+		//TODO implement
+	}
+
+	public void addToInventory(IItem item){
+		//TODO implement
+	}
+
+	public void removeFromInventory(IItem item){
+		//TODO implement
 	}
 
 //------------------------------------------UPDATE METHODS------------------------------------------------------------\\
@@ -298,6 +315,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		if(updateCounter % Constants.CHARACTER_AGE_UPDATE == 0){
 			age++;
 		}
+
+//		System.out.println("---------");
+//		System.out.println(this.hunger);
+//		System.out.println(this.thirst);
+//		System.out.println(this.energy);
 
 		updateAlive();
 	}
@@ -411,22 +433,21 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	public void interactObject(int index){
 		if(this.interactables.size()>index){
-			Outcome outcome = this.interactables.get(index).interact();
-
+			this.interactables.get(index).interacted(this);
 		}
 	}
 
 	@Override
 	public void attackObject(int index){
 		if(this.interactables.size()>index){
-			this.interactables.get(index).attack();
+			this.interactables.get(index).attacked(this);
 		}
 	}
 
 	@Override
 	public void consumeObject(int index){
 		if(this.interactables.size()>index){
-			this.interactables.get(index).consume();
+			this.interactables.get(index).consumed(this);
 		}
 	}
 
