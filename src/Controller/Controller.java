@@ -3,6 +3,7 @@ package Controller;
 import Model.*;
 import Model.Character;
 import View.*;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.BasicGameState;
 
@@ -43,14 +44,16 @@ public class Controller implements PropertyChangeListener {
 	private ModelToViewRectangle screenRect;
 	private float mouseX;
 	private float mouseY;
+	private float scaleGraphics;
 	private boolean showingPlayerInventory = false;
 
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
 	public Controller(){
+		scaleGraphics = (float)(Constants.SCREEN_WIDTH/Constants.STANDARD_SCREEN_WIDTH);
 		setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT));
-		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT));
+		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT, scaleGraphics));
 
 		keyboardInputQueue = new LinkedList<>();
 		mouseInputQueue = new LinkedList<>();
@@ -381,14 +384,13 @@ public class Controller implements PropertyChangeListener {
 		float minX, minY, maxX, maxY, scale;
 
 		ModelToViewRectangle(float x, float y, float width, float height){
-			scale = gameView.getGraphicScaler();
-			rectWidth = width/scale;
-			rectHeight = height/scale;
+			rectWidth = width/scaleGraphics;
+			rectHeight = height/scaleGraphics;
 
-			minX = x/scale;
-			minY = y/scale;
-			maxX = (x + width)/scale;
-			maxY = (y + height)/scale;
+			minX = x/scaleGraphics;
+			minY = y/scaleGraphics;
+			maxX = (x + width)/scaleGraphics;
+			maxY = (y + height)/scaleGraphics;
 		}
 
 		public void translatePosition(float deltaX, float deltaY){
