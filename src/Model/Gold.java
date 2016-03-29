@@ -5,28 +5,37 @@ package Model;
  */
 public class Gold extends FiniteResource {
 
+//-----------------------------------------------VARIABLES------------------------------------------------------------\\
+
     public static final ResourceType resourceType = ResourceType.GOLD;
     public static final String resourceName = "Gold";
 
-    public Gold(int initial){
+	private ResourceType type;
+	private int yield;
+
+
+    public Gold(int initial, int yield){
         super(initial);
-    }
-    @Override
-    public ItemFactory getItemFactory() {
-        return null;
+		this.type = ResourceType.GOLD;
+		this.yield = yield;
     }
 
-    @Override
-    public IItem gatherResource() {
-        int resourceLeft = getResourcesLeft();
-        if(resourceLeft>0){
-            setResourcesLeft(resourceLeft-1);
-            return  null;
-        }
-        else{
-            return null;
-        }
-    }
+//---------------------------------------Interaction methods----------------------------------------------------------\\
+	@Override
+	public IItem gatherResource() {
+		int resourceLeft = getResourcesLeft();
+		if(resourceLeft>yield){
+			setResourcesLeft(resourceLeft-yield);
+			return ItemFactory.createItem(type, yield);
+		}else if(resourceLeft>0){
+			setResourcesLeft(0);
+			return ItemFactory.createItem(type, resourceLeft);
+		}else{
+			return null;
+		}
+	}
+
+//---------------------------------------Getters & Setters------------------------------------------------------------\\
 
     @Override
     public ResourceType getResourceType() {
@@ -38,18 +47,4 @@ public class Gold extends FiniteResource {
         return resourceName;
     }
 
-    @Override
-    public void interacted(Character rhs) {
-
-    }
-
-    @Override
-    public void consumed(Character rhs) {
-
-    }
-
-    @Override
-    public void attacked(Character rhs) {
-
-    }
 }
