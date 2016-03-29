@@ -102,11 +102,17 @@ public class Animal implements ICollidable {
 
 	@Override
 	public void consumed(Character rhs) {
-		rhs.changeHunger(Constants.ANIMAL_HUNGER_GAIN);
+		rhs.changeHunger(Constants.ANIMAL_HUNGER_CHANGE_CONSUME);
+		rhs.changeEnergy(Constants.ANIMAL_ENERGY_CHANGE_CONSUME);
+		rhs.changeThirst(Constants.ANIMAL_THIRST_CHANGE_CONSUME);
+
 	}
 
 	@Override
 	public void attacked(Character rhs) {
+		rhs.changeHunger(Constants.ANIMAL_HUNGER_CHANGE_ATTACK);
+		rhs.changeEnergy(Constants.ANIMAL_ENERGY_CHANGE_ATTACK);
+		rhs.changeThirst(Constants.ANIMAL_THIRST_CHANGE_ATTACK);
 		rhs.addToInventory(resource.gatherResource());
 		this.alive = false;
 	}

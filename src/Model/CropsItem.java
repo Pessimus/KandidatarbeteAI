@@ -4,11 +4,17 @@ package Model;
  * Created by Oskar on 2016-03-10.
  */
 public class CropsItem implements IItem {
+
+//-----------------------------------------------VARIABLES------------------------------------------------------------\\
     private int amount;
+
+//----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
     public CropsItem(int value){
         this.amount = value;
     }
+
+//---------------------------------------Interaction methods----------------------------------------------------------\\
 
     @Override
     public void addAmount(int value) {
@@ -29,6 +35,8 @@ public class CropsItem implements IItem {
     public Outcome attack() {
         return null;//TODO implement
     }
+
+//---------------------------------------Getters & Setters------------------------------------------------------------\\
 
     @Override
     public int getAmount() {
