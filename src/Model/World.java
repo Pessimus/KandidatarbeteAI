@@ -117,7 +117,7 @@ public class World{
 			}
 		}
 		for (ITimeable timeable : timeables){
-			if(timeable.remove()){
+			if(timeable.toBeRemoved()){
 				timeablestoberemoved.add(timeable);
 			}
 		}

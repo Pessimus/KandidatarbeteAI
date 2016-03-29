@@ -19,7 +19,9 @@ public interface ICollidable {
 	void addToSurroundingY(ICollidable rhs);
 	void checkSurroundings();
 
-
+	Outcome interact();
+	Outcome consume();
+	Outcome attack();
 
 	boolean toBeRemoved();
 

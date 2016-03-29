@@ -5,5 +5,5 @@ package Model;
  */
 public interface ITimeable {
 	void updateTimeable();
-	boolean remove();
+	boolean toBeRemoved();
 }

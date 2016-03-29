@@ -245,8 +245,24 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.interactables = tmp;
 	}
 
+//---------------------------------------Interaction methods----------------------------------------------------------\\
 
-//---------------------------------------------UPDATE METHODS---------------------------------------------------------\\
+	@Override
+	public Outcome interact(){
+		return null;//TODO implement
+	}
+
+	@Override
+	public Outcome consume(){
+		return null; //TODO implement
+	}
+
+	@Override
+	public Outcome attack(){
+		return null; //TODO implement
+	}
+
+//------------------------------------------UPDATE METHODS------------------------------------------------------------\\
 
 	//Check if character is alive
 	private void updateAlive() {
@@ -367,18 +383,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	//TODO implement
 	@Override
-	public void useItem(int inventoryIndex) {
-		//inventory.getItems().get(inventoryIndex).useItem();
-	}
-
-	//TODO implement, visitor pattern
-	@Override
-	public boolean interactWith(int interactablesIndex) {
-		return false;
-	}
-
-	//TODO implement
-	@Override
 	public Outcome getOutcomeInventory(int inventoryIndex) {
 		for(IItem item : inventory.getItems()){
 			//list.add(i.getOutcome());
@@ -403,10 +407,57 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		stepLength = Constants.CHARACTER_WALK_SPEED;
 	}
 
-	//TODO toBeRemoved this test method
-	public void interact(){
-		for(ICollidable obj : interactables){
-			((ResourcePoint)obj).gatherResource();
+	@Override
+	public Outcome interactObject(int index){
+		if(this.interactables.size()>index){
+			return this.interactables.get(index).interact();
+		}else {
+			return null;//TODO should not return null
+		}
+	}
+
+	@Override
+	public Outcome attackObject(int index){
+		if(this.interactables.size()>index){
+			return this.interactables.get(index).attack();
+		}else {
+			return null;//TODO should not return null
+		}
+	}
+
+	@Override
+	public Outcome consumeObject(int index){
+		if(this.interactables.size()>index){
+			return this.interactables.get(index).consume();
+		}else {
+			return null;//TODO should not return null
+		}
+	}
+
+	@Override
+	public Outcome interactItem(int index){
+		if(this.getInventory().size()>index){
+			return this.getInventory().get(index).interact();
+		}else {
+			return null;//TODO should not return null
+		}
+	}
+
+	@Override
+	public Outcome attackItem(int index){
+		if(this.getInventory().size()>index){
+			return this.getInventory().get(index).attack();
+		}else {
+			return null;//TODO should not return null
+		}
+	}
+
+	@Override
+	public Outcome consumeItem(int index){
+		if(this.getInventory().size()>index){
+			return this.getInventory().get(index).consume();
+		}else {
+			return null;//TODO should not return null
 		}
 	}
 

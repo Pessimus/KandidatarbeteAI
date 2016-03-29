@@ -286,6 +286,7 @@ public class CollisionList {
 		@Override
 		public void addToInteractableY(ICollidable rhs) {}
 
+		@Override
 		public void checkInteractables(){}
 
 		@Override
@@ -294,11 +295,27 @@ public class CollisionList {
 		@Override
 		public void addToSurroundingY(ICollidable rhs) {}
 
+		@Override
 		public void checkSurroundings(){}
 
 		@Override
 		public boolean toBeRemoved() {
 			return false;
+		}
+
+		@Override
+		public Outcome interact(){
+			return null;//TODO implement
+		}
+
+		@Override
+		public Outcome consume(){
+			return null; //TODO implement
+		}
+
+		@Override
+		public Outcome attack(){
+			return null; //TODO implement
 		}
 
 		@Override

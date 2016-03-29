@@ -82,6 +82,24 @@ public class ResourcePoint implements ICollidable {
 		//TODO implement
 	}
 
+	//---------------------------------------Interaction methods----------------------------------------------------------\\
+
+	@Override
+	public Outcome interact(){
+		return null;//TODO implement
+	}
+
+	@Override
+	public Outcome consume(){
+		return null; //TODO implement
+	}
+
+	@Override
+	public Outcome attack(){
+		return null; //TODO implement
+	}
+
+
 	//TODO implement
 	@Override
 	public boolean toBeRemoved() {
