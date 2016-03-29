@@ -103,6 +103,7 @@ public class View extends BasicGameState implements InputListener{
 				}
 			}
 
+			// ----------- Temporary display of the inventory ----------- \\
 
 			if (displayInventory) {
 				int x,y;
@@ -110,7 +111,7 @@ public class View extends BasicGameState implements InputListener{
 					for (int j = 1; j < Math.sqrt(Constants.MAX_INVENTORY_SLOTS)+1; j++) {
 						x=(int)(gameContainer.getWidth()/scaleGraphics)-Constants.SLOT_DISPLAY_SIZE*i;
 						y=(int)(gameContainer.getHeight()/scaleGraphics)-Constants.SLOT_DISPLAY_SIZE*j;
-						graphics.setLineWidth(5f);
+						graphics.setLineWidth(Constants.GRID_LINE_WIDTH);
 						graphics.drawRect(x, y, Constants.SLOT_DISPLAY_SIZE, Constants.SLOT_DISPLAY_SIZE);
 					}
 				}
@@ -136,21 +137,13 @@ public class View extends BasicGameState implements InputListener{
 					graphics.setColor(Color.white);
 					i--;
 					if(i==0 && j!=1){
-						i=3;
+						i=(int)Math.sqrt(Constants.MAX_INVENTORY_SLOTS);
 						j--;
 					}
-					/*for (int i = 0; i < 3; i++) {
-						for (int j = 0; j < 3; j++) {
-
-
-							graphics.fillRect(gameContainer.getWidth() - 30 - 64 * j, gameContainer.getHeight() - 30 - 64 * i, 30, 30);
-							graphics.setColor(Color.black);
-							graphics.drawString("3", gameContainer.getWidth() - 20 - 64 * j, gameContainer.getHeight() - 20 - 64 * i);
-							graphics.setColor(Color.white);
-						}
-					}*/
 				}
 			}
+			// ------------------------------------------ \\
+
 			semaphore.release();
 		}
 		catch(InterruptedException e){
@@ -179,6 +172,8 @@ public class View extends BasicGameState implements InputListener{
     public int getID() {
         return stateNr;
     }
+
+	// ----------- Key, mouse and property events ----------- \\
 
     @Override
     public void keyPressed(int key, char c) {
@@ -218,6 +213,9 @@ public class View extends BasicGameState implements InputListener{
         pcs.removePropertyChangeListener(listener);
     }
 
+
+	// -------- Set renderList and renderPoint -------- \\
+
 	public void setRenderList(RenderObject[] objList){
 		try {
 			semaphore.acquire();
@@ -234,6 +232,10 @@ public class View extends BasicGameState implements InputListener{
 		renderPointX = (int) x;
 		renderPointY = (int) y;
 	}
+
+
+
+	// ----------- Render and hide inventory ----------- \\
 
 	public void renderInventory(LinkedList<Model.InventoryRender> inventoryItems){
 		LinkedList<Model.InventoryRender> tmp = new LinkedList<>();

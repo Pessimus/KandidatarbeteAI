@@ -180,6 +180,7 @@ public class World{
 		return characters.get(Constants.PLAYER_CHARACTER_KEY).getRenderInventory();
 	}
 
+
 //------------------------------------------------PCS METHODS---------------------------------------------------------\\
 
 	public void addPropertyChangeListener(PropertyChangeListener listener) {

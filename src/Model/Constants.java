@@ -23,6 +23,7 @@ public final class Constants {
 	public static final 		double 		SCREEN_EDGE_TRIGGER_MIN_X			=	SCREEN_WIDTH * 0.08;
 	public static final 		double 		SCREEN_EDGE_TRIGGER_MIN_Y			=	SCREEN_HEIGHT * 0.08;
 
+
 	public static final			float		SCREEN_SCROLL_SPEED_X				=	600f; // Pixels per second!
 	public static final			float		SCREEN_SCROLL_SPEED_Y				=	600f; // Pixels per second!
 
@@ -67,11 +68,13 @@ public final class Constants {
 	public static final			int			CHARACTER_ENERGY_CHANGE				=	1;
 
 	//----------- Inventory Constants ------------- \\
-
+	//Has to be a power of 2. Ex 1,4,9,16,25,36...
 	public static final			int 		MAX_INVENTORY_SLOTS					=	16;
+
 	public static final			int			SLOT_DISPLAY_SIZE					=	64;
 	public static final			int			SLOT_DISPLAY_AMOUNT					=	20;
 	public static final			int 		AMOUNT_DISPLAY_MARGIN				=	4;
+	public static final			float		GRID_LINE_WIDTH						=	5f;
 
 	// ----------- PATHFINDER Constants ----------- \\
 
