@@ -138,8 +138,8 @@ public class Controller implements PropertyChangeListener {
 	private void updateView(){
 		List<RenderObject> temp = new LinkedList<>();
 		gameView.drawNeeds(player.getBody().getNeeds());
-		float width = (float) gameModel.getWidth();
-		float height = (float) gameModel.getHeight();
+		int width = (int)gameModel.getWidth();
+		int height = (int)gameModel.getHeight();
 
 		//Centers the player in the middle of the screen
 		if(playerViewCentered){
@@ -205,8 +205,8 @@ public class Controller implements PropertyChangeListener {
 		RenderObject[] obj = gameModel.getRenderObjects();
 
 		for (RenderObject tempObj : obj) {
-			float[] tempInts = convertFromModelToViewCoords(tempObj.getX(), tempObj.getY());
-			temp.add(new RenderObject(tempInts[0], tempInts[1], tempObj.getRadius(), tempObj.getRenderType()));
+			float[] tempFloats = convertFromModelToViewCoords(tempObj.getX(), tempObj.getY());
+			temp.add(new RenderObject(tempFloats[0], tempFloats[1], tempObj.getRadius(), tempObj.getRenderType()));
 		}
 
 		gameView.setRenderPoint(screenRect.getMinX(), screenRect.getMinY());
