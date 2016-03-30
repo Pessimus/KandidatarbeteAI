@@ -57,6 +57,7 @@ public class HungryState implements IState {
 
 			if(best == null){
 				// TODO: Pathfinding to nearest/best food-resource
+				// TODO: Enter GatherState
 			}
 			else{
 				brain.setState(brain.getEatState());

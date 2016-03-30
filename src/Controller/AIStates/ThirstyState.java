@@ -41,7 +41,7 @@ public class ThirstyState implements IState{
 						best = current;
 						thirstAmount = best.getOutcome().getThirst();
 					}
-					else if(best.getOutcome().getThirst() > thirstAmount){
+					else if(current.getOutcome().getThirst() > best.getOutcome().getThirst()){
 						best = current;
 						thirstAmount = best.getOutcome().getThirst();
 					}
@@ -52,6 +52,7 @@ public class ThirstyState implements IState{
 
 			if(best == null){
 				// TODO: Pathfinding to nearest/best water-resource
+				// TODO: Enter GatherState
 			}
 			else{
 				brain.setState(brain.getDrinkState());
