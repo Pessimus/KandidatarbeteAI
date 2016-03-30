@@ -4,16 +4,17 @@ package Model;
  * Created by Martin on 03/03/2016.
  */
 public final class RenderObject{
+
+//-----------------------------------------------VARIABLES------------------------------------------------------------\\
+
 	private final float xPos;
 	private final float yPos;
 	private final double radius;
 
 	private RENDER_OBJECT_ENUM objectType;
 
-	//TODO ENUM for type
-
 	public enum RENDER_OBJECT_ENUM{
-		CHARACTER("res/Villager16x16.png"), TREE("res/terrain.png"),
+		CHARACTER("res/Villager16x16.png"), TREE("res/terrain.png"), LAKE("res/lake.png"), STONE("res/stone.png"), CROPS("res/crops.png"), WOOD("res/wood.png"),
 
 		// TODO: Hardcoded test enum
 		MEAT("res/meat_item.png");
@@ -26,6 +27,8 @@ public final class RenderObject{
 		}
 	}
 
+//----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
+
 	public RenderObject(float x, float y, double r, RENDER_OBJECT_ENUM type){
 		xPos = x;
 		yPos = y;
@@ -33,6 +36,8 @@ public final class RenderObject{
 		objectType = type;
 
 	}
+
+//---------------------------------------Getters & Setters------------------------------------------------------------\\
 
 	public final float getX() {
 		return xPos;
@@ -50,6 +55,7 @@ public final class RenderObject{
 		return objectType;
 	}
 
+/*//TODO check if safe to REMOVE!!
 	@Override
 	public boolean equals(Object o){
 		if ( this == o ) return true;
@@ -61,5 +67,5 @@ public final class RenderObject{
 
 	public boolean compare(ICollidable o){
 		return o.getX() == getX() && o.getY() == getY() && o.getCollisionRadius() == getRadius() && o.getRenderType() == getRenderType();
-	}
+	}*/
 }

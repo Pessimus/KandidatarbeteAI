@@ -85,34 +85,107 @@ public class World{
 		characterstoberemoved = new LinkedList<>();
 	}
 
+	public World (double width, double height, int nrTrees, int nrLakes, int nrStones, int nrCrops){
+		this(width,height);
+
+		int i = 0;
+		float tmpX;
+		float tmpY;
+		while(i < nrTrees){
+			tmpX = (float)(Math.random()*this.width);
+			tmpY = (float)(Math.random()*this.height);
+
+			Wood tmpWood = new Wood(10,10,1);
+			ResourcePoint tmpPoint = new ResourcePoint(tmpWood, RenderObject.RENDER_OBJECT_ENUM.WOOD,tmpX,tmpY,10);
+
+			this.collidables.add(tmpPoint);
+			this.collidablesR.add(tmpPoint);
+			this.timeables.add(tmpWood);
+
+			i++;
+		}
+		i = 0;
+		while(i < nrLakes){
+			tmpX = (float)(Math.random()*this.width);
+			tmpY = (float)(Math.random()*this.height);
+
+			Water tmpLake = new Water(1);
+			ResourcePoint tmpPoint = new ResourcePoint(tmpLake, RenderObject.RENDER_OBJECT_ENUM.LAKE,tmpX,tmpY,100);
+
+			this.collidables.add(tmpPoint);
+			this.collidablesR.add(tmpPoint);
+
+			i++;
+		}
+		i = 0;
+		while(i < nrStones){
+			tmpX = (float)(Math.random()*this.width);
+			tmpY = (float)(Math.random()*this.height);
+
+			Stone tmpStone = new Stone(50,5);
+			ResourcePoint tmpPoint = new ResourcePoint(tmpStone, RenderObject.RENDER_OBJECT_ENUM.STONE,tmpX,tmpY,10);
+
+			this.collidables.add(tmpPoint);
+			this.collidablesR.add(tmpPoint);
+
+			i++;
+		}
+		i = 0;
+		while(i < nrCrops){
+			tmpX = (float)(Math.random()*this.width);
+			tmpY = (float)(Math.random()*this.height);
+
+			Crops tmpCrops = new Crops(100,5);
+			ResourcePoint tmpPoint = new ResourcePoint(tmpCrops, RenderObject.RENDER_OBJECT_ENUM.CROPS,tmpX,tmpY,20);
+
+			this.collidables.add(tmpPoint);
+			this.collidablesR.add(tmpPoint);
+
+			i++;
+		}
+
+	}
+
 //---------------------------------------------UPDATE METHODS---------------------------------------------------------\\
 
 	public void uppdate() {
 		if (pause != true) {
-			//Update all timeable objects
-			//TODO Add parameter for fast-forward
-			for (ITimeable timedObj : timeables) {
-				timedObj.updateTimeable();
-			}
+			updateTimeables();
 
-			//Check if any characters should be removed.
-			for (Character character : characters.values()) {
-				if (!character.isAlive()) {//Character is dead and should be removed
-					collidablestoberemoved.add(character);
-					collideablesrtoberemoved.add(character);
-					timeablestoberemoved.add(character);
-					characterstoberemoved.add(character);
-				}
-			}
+			checkObjectsForRemoval();
 
 			removeObjects();
 
 			this.collidables.handleCollision();
 
 			//TODO Code for updating the character (movement and actions?)
-			//TODO Add functionality for removing other objects
 
-			this.pcs.firePropertyChange("update",0, 1);//TODO change the way the loop in controller works.
+		}
+	}
+
+	//TODO Add parameter for fast-forward
+	private void updateTimeables(){
+		for (ITimeable timedObj : timeables) {
+			timedObj.updateTimeable();
+		}
+	}
+
+	private void checkObjectsForRemoval(){
+		for (ICollidable collidable : collidablesR) {//Loop on collidablesR as it supportes for-each
+			if (collidable.toBeRemoved()) {
+				collidablestoberemoved.add(collidable);
+				collideablesrtoberemoved.add(collidable);
+			}
+		}
+		for (ITimeable timeable : timeables){
+			if(timeable.toBeRemoved()){
+				timeablestoberemoved.add(timeable);
+			}
+		}
+		for (Character character : characters.values()){
+			if(!character.isAlive()){
+				characterstoberemoved.add(character);
+			}
 		}
 	}
 
@@ -140,6 +213,29 @@ public class World{
 		pcs.firePropertyChange("createdCharacter", null, character);
 
 		return character;
+	}
+
+	//TODO implement properly---------------------------------
+				public ResourcePoint addFiniteResourcePoint(FiniteResource resourceType, float xPoss, float yPoss, double radius){
+					ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
+					this.collidables.add(point);
+					this.collidablesR.add(point);
+					return point;
+				}
+
+				public ResourcePoint addInfiniteResourcePoint(InfiniteResource resourceType, float xPoss, float yPoss, double radius){
+					ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
+					this.collidables.add(point);
+					this.collidablesR.add(point);
+					return point;
+				}
+
+				public ResourcePoint addRenewableResourcePoint(RenewableResource resourceType, float xPoss, float yPoss, double radius){
+					ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
+					this.collidables.add(point);
+					this.collidablesR.add(point);
+					this.timeables.add(resourceType);
+					return point;
 	}
 
 	public void removeObjects() {
@@ -177,8 +273,13 @@ public class World{
 
 	//TODO better MVC praxis
 	public LinkedList<InventoryRender> displayPlayerInventory() {
-		return characters.get(Constants.PLAYER_CHARACTER_KEY).getRenderInventory();
+		if(characters.get(Constants.PLAYER_CHARACTER_KEY) != null) {
+			return characters.get(Constants.PLAYER_CHARACTER_KEY).getRenderInventory();
+		}else{
+			return new LinkedList<>();
+		}
 	}
+
 
 //------------------------------------------------PCS METHODS---------------------------------------------------------\\
 
@@ -200,6 +301,6 @@ public class World{
 		return height;
 	}
 
- }
+}
 
 

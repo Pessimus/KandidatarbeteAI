@@ -4,7 +4,12 @@ package Model;
  * Created by Tobias on 2016-02-26.
  */
 public class ResourcePoint implements ICollidable {
+
+//-----------------------------------------------VARIABLES------------------------------------------------------------\\
+
 	IResource resource;
+
+	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum;
 
 	private float xPos;
 	private float yPos;
@@ -12,9 +17,7 @@ public class ResourcePoint implements ICollidable {
 	private double interactionRadius;
 	private double surroundingRadius;
 
-	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum;
-
-	private RenderObject latestRenderObject;
+//----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
 	public ResourcePoint(IResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float x, float y, double radius){
 		resource = resourceType;
@@ -25,6 +28,8 @@ public class ResourcePoint implements ICollidable {
 		surroundingRadius = radius;
 		renderObjectEnum = renderEnum;
 	}
+
+//---------------------------------------Getters & Setters------------------------------------------------------------\\
 
 	@Override
 	public float getX() {
@@ -43,13 +48,19 @@ public class ResourcePoint implements ICollidable {
 
 	@Override
 	public double getInteractionRadius() {
-		return collisionRadius;
+		return interactionRadius;
 	}
 
 	@Override
 	public double getSurroundingRadius() {
 		return surroundingRadius;
 	}
+
+	public String getResourceName(){
+		return resource.getResourceName();
+	}
+
+//---------------------------------------Collision Methods------------------------------------------------------------\\
 
 	@Override
 	public void addToInteractableX(ICollidable rhs) {
@@ -81,22 +92,37 @@ public class ResourcePoint implements ICollidable {
 		//TODO implement
 	}
 
-	public String getResourceName(){
-		return resource.getResourceName();
-	}
+//---------------------------------------Interaction methods----------------------------------------------------------\\
 
-	public IItem gatherResource(){
-		return resource.gatherResource();
+	@Override
+	public void interacted(Character rhs){
+		rhs.addToInventory(resource.gatherResource());
+		System.out.println("interacted"+this);
 	}
 
 	@Override
-	public RenderObject getRenderObject() {
-		if(latestRenderObject != null) {
-			if (latestRenderObject.compare(this)) {
-				return latestRenderObject;
-			}
-		}
+	public void consumed(Character rhs){
+		resource.gatherResource().consumed(rhs);
+		System.out.println("consumed" + this);
+	}
 
+	@Override
+	public void attacked(Character rhs){
+		resource.setResourcesLeft(0);
+		System.out.println("attacked" + this);
+	}
+
+//------------------------------------------Update METHODS------------------------------------------------------------\\
+
+	@Override
+	public boolean toBeRemoved() {
+		return resource.getResourcesLeft()==0;
+	}
+
+//------------------------------------------------RENDER METHODS------------------------------------------------------\\
+
+	@Override
+	public RenderObject getRenderObject() {
 		return new RenderObject(getX(), getY(), getCollisionRadius(), renderObjectEnum);
 	}
 

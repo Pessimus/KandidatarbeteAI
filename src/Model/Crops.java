@@ -5,29 +5,37 @@ package Model;
  */
 public class Crops extends FiniteResource {
 
+//-----------------------------------------------VARIABLES------------------------------------------------------------\\
+
     public static final ResourceType resourceType = ResourceType.CROPS;
     public static final String resourceName = "Crops";
 
-    public Crops(int initial){
+	private int yield;
+
+//----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
+
+    public Crops(int initial, int yield){
         super(initial);
+		this.yield = yield;
     }
 
-    @Override
-    public ItemFactory getItemFactory() {
-        return null;
-    }
+//---------------------------------------Interaction methods----------------------------------------------------------\\
 
     @Override
     public IItem gatherResource() {
         int resourceLeft = getResourcesLeft();
-        if(resourceLeft>0){
-            setResourcesLeft(resourceLeft-1);
-            return  null;
-        }
-        else{
+        if(resourceLeft>yield){
+            setResourcesLeft(resourceLeft-yield);
+			return ItemFactory.createItem(resourceType, yield);
+        }else if(resourceLeft>0){
+			setResourcesLeft(0);
+			return ItemFactory.createItem(resourceType, resourceLeft);
+		}else{
             return null;
         }
     }
+
+//---------------------------------------Getters & Setters------------------------------------------------------------\\
 
     @Override
     public ResourceType getResourceType() {
@@ -38,4 +46,6 @@ public class Crops extends FiniteResource {
     public String getResourceName() {
         return resourceName;
     }
+
+
 }
