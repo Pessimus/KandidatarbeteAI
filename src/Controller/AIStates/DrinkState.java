@@ -46,5 +46,6 @@ public class DrinkState implements IState{
 		}
 		
 		best.consumed((Character)body);
+		brain.setState(brain.getIdleState());
 	}
 }
