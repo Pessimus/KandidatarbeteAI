@@ -12,8 +12,8 @@ public final class Constants {
 
 	// ----------- Controller Constants ----------- \\
 
-	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	public static final 		int 		SCREEN_WIDTH 						= 	(int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	public static final 		int 		SCREEN_HEIGHT 						= 	(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 
 	//Temp constant for the scalar in controller
 	public static final			double		STANDARD_SCREEN_WIDTH				=	1920.0;
@@ -27,8 +27,8 @@ public final class Constants {
 	public static final			float		SCREEN_SCROLL_SPEED_X				=	600f; // Pixels per second!
 	public static final			float		SCREEN_SCROLL_SPEED_Y				=	600f; // Pixels per second!
 
-	public static final 		float 		DEFAULT_WORLD_VIEW_X				= 	100f;
-	public static final 		float 		DEFAULT_WORLD_VIEW_Y				= 	100f;
+	public static final 		int 		DEFAULT_WORLD_VIEW_X				= 	100;
+	public static final 		int 		DEFAULT_WORLD_VIEW_Y				= 	100;
 
 	public static final			float		WORLD_WIDTH							=	9600f;
 	public static final			float		WORLD_HEIGHT						=	9600f;
@@ -48,7 +48,7 @@ public final class Constants {
 	public static final			int			PLAYER_CHARACTER_KEY				= 	1;
 	public static final			float		CHARACTER_WALK_SPEED				=	6f;
 	public static final			float		CHARACTER_RUN_SPEED					=	12f;
-	public static final 		int			CHARACTER_UPDATE_INTERVALL			=	60;
+	public static final 		int			CHARACTER_UPDATE_INTERVAL			=	60;
 
 	public static final 		double		CHARACTER_COLLISION_RADIUS			=	5;
 	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	20;
@@ -198,5 +198,4 @@ public final class Constants {
 	public static final		int				MARGIN_FROM_TOP						=	BOX_HEIGHT/4;
 	public static final		int				MARGIN_FROM_LEFT					=	20;
 	public static final 	int				HALF_TEXT_HEIGHT					=	9;
-	public static final		double			CRITICAL_LEVEL						=	0.2;
 }
