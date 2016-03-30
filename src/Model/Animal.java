@@ -118,7 +118,7 @@ public class Animal implements ICollidable {
 	}
 
 //------------------------------------------UPDATE METHODS------------------------------------------------------------\\
-	
+
 	@Override
 	public boolean toBeRemoved() {
 		return !alive;
