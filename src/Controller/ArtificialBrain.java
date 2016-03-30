@@ -1,6 +1,6 @@
 package Controller;
 
-import Controller.AIStates.IState;
+import Controller.AIStates.*;
 import Model.*;
 import Model.Character;
 import Model.Constants;
@@ -21,6 +21,25 @@ import java.util.List;
 
 	private boolean exploring = true;
 
+	// IState variables for every state possible
+	private IState currentState;
+
+	private IState buildHouseState		= new BuildHouseState(this);
+	private IState buildState			= new BuildState(this);
+	private IState converseState		= new ConverseState(this);
+	private IState cookState			= new CookState(this);
+	private IState drinkState			= new DrinkState(this);
+	private IState eatState				= new EatState(this);
+	private IState gatherMaterialState	= new GatherMaterialState(this);
+	private IState gatherState			= new GatherState(this);
+	private IState hungryState			= new HungryState(this);
+	private IState idleState			= new IdleState(this);
+	private IState sleepState			= new SleepState(this);
+	private IState sleepyState			= new SleepyState(this);
+	private IState socializeState		= new SocializeState(this);
+	private IState thirstyState			= new ThirstyState(this);
+	private IState tradeState			= new TradeState(this);
+
 	//private HashMap<Path2D, ResourcePoint> resourceMap = new HashMap<>();
 	List<ResourcePoint> resourceMemory = new LinkedList<>();
 
@@ -39,6 +58,7 @@ import java.util.List;
 
     public ArtificialBrain(ICharacterHandle c) {
         body = c;
+		currentState = idleState;
     }
 
     @Override
@@ -46,10 +66,6 @@ import java.util.List;
 		int[] needs = body.getNeeds();
 		int[] traits = body.getTraits();
 		int[] skills = body.getSkills();
-
-		if(stateStack.peek().run() == false){
-			stateStack.pop();
-		}
 
 		if(needs[0] <= needs[1] && needs[0] <= needs[2]){
 
@@ -115,51 +131,17 @@ import java.util.List;
 		return body;
 	}
 
-	/*
-	private class AIStateMachine{
-		private AIStates currentState;
-
-		//AIState root;
-
-		private AIStateMachine(AIStates initialState){
-			currentState = initialState;
-		}
-
-		private void update(){
-			switch(currentState){
-				case IDLE:
-					break;
-				case
-			}
-		}
+	@Override
+	public void setState(IState state) {
+		currentState = state;
 	}
-	*/
 
-	//private AIStates.IState currentState;
-
-	private Stack<IState> stateStack = new Stack<>();
-
+	@Override
+	public IState getState() {
+		return currentState;
+	}
 
 	/*
-	private void runStates(){
-		switch(currentState){
-			case IDLE:
-				runIdle();
-				break;
-			case HUNGRY:
-				runHungry();
-				break;
-		}
-	}
-
-	private void runIdle(){
-
-	}
-
-	private void runHungry(){
-
-	}
-
 	enum AIStates{
 		IDLE,
 		HUNGRY, COOK, EAT, EATMEAT, EATFISH, EATCROPS,

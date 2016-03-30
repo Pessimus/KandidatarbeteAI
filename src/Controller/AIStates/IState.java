@@ -12,5 +12,5 @@ public interface IState {
 	 * Will execute the actions needed for the state to be fulfilled
 	 * @return true if the state has been fulfilled, otherwise false
 	 */
-	boolean run();
+	void run();
 }

@@ -1,5 +1,6 @@
 package Controller;
 
+import Controller.AIStates.IState;
 import Model.Character;
 import Model.Constants;
 import Model.ICharacterHandle;
@@ -10,6 +11,8 @@ import Model.ICharacterHandle;
 public class PlayerBrain implements AbstractBrain {
 
 	private ICharacterHandle body; // The character this Brain controls
+
+	IState currentState;
 
 
     private boolean walkingUp = false;
@@ -45,6 +48,16 @@ public class PlayerBrain implements AbstractBrain {
 	@Override
 	public ICharacterHandle getBody() {
 		return body;
+	}
+
+	@Override
+	public void setState(IState state) {
+		currentState = state;
+	}
+
+	@Override
+	public IState getState() {
+		return currentState;
 	}
 
 	public void movePlayerUp() {

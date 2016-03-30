@@ -1,5 +1,7 @@
 package Controller.AIStates;
 
+import Controller.AbstractBrain;
+import Controller.ArtificialBrain;
 import Model.ICharacterHandle;
 
 /**
@@ -8,8 +10,10 @@ import Model.ICharacterHandle;
 public class DrinkState implements IState{
 	private ICharacterHandle body;
 
-	public DrinkState(ICharacterHandle character){
-		body = character;
+	private final AbstractBrain brain;
+
+	public DrinkState(ArtificialBrain brain){
+		this.brain = brain;
 	}
 
 	@Override
@@ -18,7 +22,7 @@ public class DrinkState implements IState{
 	}
 
 	@Override
-	public boolean run() {
-		return true;
+	public void run() {
+		;
 	}
 }

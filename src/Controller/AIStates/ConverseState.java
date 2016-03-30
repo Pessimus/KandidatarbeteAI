@@ -1,5 +1,7 @@
 package Controller.AIStates;
 
+import Controller.AbstractBrain;
+import Controller.ArtificialBrain;
 import Model.ICharacterHandle;
 
 /**
@@ -8,8 +10,10 @@ import Model.ICharacterHandle;
 public class ConverseState implements IState{
 	private ICharacterHandle body;
 
-	public ConverseState(ICharacterHandle character){
-		body = character;
+	private final AbstractBrain brain;
+
+	public ConverseState(ArtificialBrain brain){
+		this.brain = brain;
 	}
 
 	@Override
@@ -18,7 +22,7 @@ public class ConverseState implements IState{
 	}
 
 	@Override
-	public boolean run() {
-		return true;
+	public void run() {
+		;
 	}
 }

@@ -1,5 +1,7 @@
 package Controller.AIStates;
 
+import Controller.AbstractBrain;
+import Controller.ArtificialBrain;
 import Model.ICharacterHandle;
 
 /**
@@ -7,9 +9,10 @@ import Model.ICharacterHandle;
  */
 public class SleepyState implements IState{
 	private ICharacterHandle body;
+	private final AbstractBrain brain;
 
-	public SleepyState(ICharacterHandle character){
-		body = character;
+	public SleepyState(ArtificialBrain brain){
+		this.brain = brain;
 	}
 
 	@Override
@@ -18,7 +21,7 @@ public class SleepyState implements IState{
 	}
 
 	@Override
-	public boolean run() {
-		return true;
+	public void run() {
+		;
 	}
 }

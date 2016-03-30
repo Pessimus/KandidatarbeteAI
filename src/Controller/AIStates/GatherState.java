@@ -1,5 +1,7 @@
 package Controller.AIStates;
 
+import Controller.AbstractBrain;
+import Controller.ArtificialBrain;
 import Model.*;
 
 import java.util.List;
@@ -10,8 +12,10 @@ import java.util.List;
 public class GatherState implements IState{
 	private ICharacterHandle body;
 
-	public GatherState(ICharacterHandle character){
-		body = character;
+	private final AbstractBrain brain;
+
+	public GatherState(ArtificialBrain brain){
+		this.brain = brain;
 	}
 
 	@Override
@@ -20,7 +24,7 @@ public class GatherState implements IState{
 	}
 
 	@Override
-	public boolean run() {
+	public void run() {
 		List<IItem> inventory = body.getInventory();
 		IResource.ResourceType lowestResource = null;
 		int lowestAmount = 0;
@@ -34,6 +38,5 @@ public class GatherState implements IState{
 
 				break;
 		}
-		return true;
 	}
 }
