@@ -29,24 +29,29 @@ public class FishItem implements IItem {
 		}
 	}
 
-//---------------------------------------Getters & Setters------------------------------------------------------------\\
-
 	@Override
 	public void interacted(Character rhs) {
-		//TODO implement
+		rhs.changeHunger(Constants.FISH_HUNGER_CHANGE_INTERACT);
+		rhs.changeEnergy(Constants.FISH_ENERGY_CHANGE_INTERACT);
+		rhs.changeThirst(Constants.FISH_THIRST_CHANGE_INTERACT);
 	}
 
 	@Override
 	public void consumed(Character rhs) {
-		//TODO implement
+		rhs.changeHunger(Constants.FISH_HUNGER_CHANGE_CONSUME);
+		rhs.changeEnergy(Constants.FISH_ENERGY_CHANGE_CONSUME);
+		rhs.changeThirst(Constants.FISH_THIRST_CHANGE_CONSUME);
+		this.amount--;
 	}
 
 	@Override
 	public void attacked(Character rhs) {
-		//TODO implement
+		rhs.changeHunger(Constants.FISH_HUNGER_CHANGE_ATTACK);
+		rhs.changeEnergy(Constants.FISH_ENERGY_CHANGE_ATTACK);
+		rhs.changeThirst(Constants.FISH_THIRST_CHANGE_ATTACK);
 	}
 
-//---------------------------------------Interaction methods----------------------------------------------------------\\
+//---------------------------------------Getters & Setters------------------------------------------------------------\\
 
     @Override
     public int getAmount() {
