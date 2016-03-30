@@ -43,10 +43,10 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 	 * @param resWidth
 	 * @param resHeight
 	 */
-	public StateViewInit(String title, boolean fullscreen, boolean grabMouse, int targetFramerate, int resWidth, int resHeight){
+	public StateViewInit(String title, boolean fullscreen, boolean grabMouse, int targetFramerate, int resWidth, int resHeight, float scale){
 		super(title);
 
-		this.view = new View(PLAY_STATE);
+		this.view = new View(PLAY_STATE, scale);
 
 		this.addState(this.view);
 

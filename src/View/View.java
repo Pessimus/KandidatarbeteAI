@@ -33,9 +33,10 @@ public class View extends BasicGameState implements InputListener{
 	private volatile int renderPointX = (int)Constants.DEFAULT_WORLD_VIEW_X;
 	private volatile int renderPointY = (int)Constants.DEFAULT_WORLD_VIEW_Y;
 
-    private volatile float scaleGraphics = 1f;
+    private volatile float scaleGraphics;
+	private int tempWidth;
+	private int tempHeight;
 
-    //List<RenderObject> listToRender = new LinkedList<>();
 	private RenderObject[] listToRender = {};
 	private Model.InventoryRender[] inventoryToRender = {};
 
@@ -58,18 +59,21 @@ public class View extends BasicGameState implements InputListener{
         }
     }
 
-    public View(int i) {
+    public View(int i, float scale) {
         stateNr = i;
+		scaleGraphics = scale;
     }
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        map = new TiledMap("res/mapSquare.tmx");       //controller.getTiledMap();
+        map = new TiledMap("res/mapSquare.tmx");
 
+		//Link together all render-objects with a specific image
 		for(RenderObject.RENDER_OBJECT_ENUM e : RenderObject.RENDER_OBJECT_ENUM.values()){
 			resourceMap.put(e, new Image(e.pathToResource));
 		}
 
+		//Link together all IItem-enums with a specific image
 		for(Model.IItem.Type e : Model.IItem.Type.values()){
 			inventoryMap.put(e, new Image(e.pathToResource));
 		}
@@ -79,36 +83,16 @@ public class View extends BasicGameState implements InputListener{
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-		tempWidth = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE/scaleGraphics);
-		tempHeight = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE/scaleGraphics);
+		tempWidth = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE);
+		tempHeight = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE);
     }
-
-
-    public void zoomOut(){
-        if(scaleGraphics > 0.5f)
-           scaleGraphics -= 0.1f;
-    }
-
-    public void zoomIn(){
-        if(scaleGraphics < 3f){
-            scaleGraphics += 0.1f;
-        }
-    }
-
-
-
-	private int tempWidth;
-	private int tempHeight;
 
 	@Override
 	public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
 		graphics.scale(scaleGraphics,scaleGraphics);
 
 		try {
-			//renderPointSema.acquire();
 			map.render(0,0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, tempWidth, tempHeight);
-			//map.render(0, 0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, width, height);
-			//renderPointSema.release();
 
 			semaphore.acquire();
 			if(listToRender != null){
@@ -119,100 +103,77 @@ public class View extends BasicGameState implements InputListener{
 				}
 			}
 
+			// ----------- Temporary display of the inventory ----------- \\
 
 			if (displayInventory) {
 				int x,y;
-				graphics.drawRect((int)(gameContainer.getWidth()/scaleGraphics)-64*3, (int)(gameContainer.getHeight()/scaleGraphics)-224, 128,32);
-				graphics.drawString("Inventory", (int)(gameContainer.getWidth()/scaleGraphics)-182, (int)(gameContainer.getHeight()/scaleGraphics)-218);
-				for (int i = 1; i < 4; i++) {
-					for (int j = 1; j < 4; j++) {
-						x=(int)(gameContainer.getWidth()/scaleGraphics)-64*i;
-						y=(int)(gameContainer.getHeight()/scaleGraphics)-64*j;
-						graphics.setLineWidth(5f);
-						graphics.drawRect(x, y, 64, 64);
+				for (int i = 1; i < Math.sqrt(Constants.MAX_INVENTORY_SLOTS)+1; i++) {
+					for (int j = 1; j < Math.sqrt(Constants.MAX_INVENTORY_SLOTS)+1; j++) {
+						x=(int)(gameContainer.getWidth()/scaleGraphics)-Constants.SLOT_DISPLAY_SIZE*i;
+						y=(int)(gameContainer.getHeight()/scaleGraphics)-Constants.SLOT_DISPLAY_SIZE*j;
+						graphics.setLineWidth(Constants.GRID_LINE_WIDTH);
+						graphics.drawRect(x, y, Constants.SLOT_DISPLAY_SIZE, Constants.SLOT_DISPLAY_SIZE);
 					}
 				}
 
 				int i,j;
-				i=3;
-				j=3;
+				i=(int)Math.sqrt(Constants.MAX_INVENTORY_SLOTS);
+				j=(int)Math.sqrt(Constants.MAX_INVENTORY_SLOTS);
 				for(Model.InventoryRender invRender : inventoryToRender) {
-					x=(int)(gameContainer.getWidth()/scaleGraphics)-64*i;
-					y=(int)(gameContainer.getHeight()/scaleGraphics)-64*j;
+					x=(int)(gameContainer.getWidth()/scaleGraphics)-Constants.SLOT_DISPLAY_SIZE*i;
+					y=(int)(gameContainer.getHeight()/scaleGraphics)-Constants.SLOT_DISPLAY_SIZE*j;
 
 					graphics.drawImage(new Image(invRender.type.pathToResource), x, y);
-					graphics.fillRect(x+44, y+44, 20, 20);
+					graphics.fillRect(x+Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT, y+Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT,
+							Constants.SLOT_DISPLAY_AMOUNT, Constants.SLOT_DISPLAY_AMOUNT);
 					graphics.setColor(Color.black);
-					if(invRender.amount < 10)
-						graphics.drawString(Integer.toString(invRender.amount), x+48, y+48);
-					else
-						graphics.drawString(Integer.toString(invRender.amount), x+44, y+46);
+					if(invRender.amount < 10) {
+						graphics.drawString(Integer.toString(invRender.amount), x + Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT+Constants.AMOUNT_DISPLAY_MARGIN,
+								y + Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT+Constants.AMOUNT_DISPLAY_MARGIN);
+					}else {
+						graphics.drawString(Integer.toString(invRender.amount), x + Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT,
+								y + Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT);
+					}
 					graphics.setColor(Color.white);
 					i--;
 					if(i==0 && j!=1){
-						i=3;
+						i=(int)Math.sqrt(Constants.MAX_INVENTORY_SLOTS);
 						j--;
 					}
-					/*for (int i = 0; i < 3; i++) {
-						for (int j = 0; j < 3; j++) {
-
-
-							graphics.fillRect(gameContainer.getWidth() - 30 - 64 * j, gameContainer.getHeight() - 30 - 64 * i, 30, 30);
-							graphics.setColor(Color.black);
-							graphics.drawString("3", gameContainer.getWidth() - 20 - 64 * j, gameContainer.getHeight() - 20 - 64 * i);
-							graphics.setColor(Color.white);
-						}
-					}*/
 				}
 			}
+			// ------------------------------------------ \\
+
 			semaphore.release();
 		}
 		catch(InterruptedException e){
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
 		}
-
-		/*
-        //Functioanlity for moving the camera view around the map. Keep the mouse to one side to move the camera view.
-        if (Mouse.getX() > d.getWidth()-d.getWidth()/10 && renderpointx < map.getWidth()-width) {
-            renderpointx += 1;
-        }
-        if (Mouse.getX() < d.getWidth()/10 && renderpointx > 0) {
-            renderpointx -= 1;
-        }
-        if (Mouse.getY() < d.getHeight()-d.getHeight()/10 && renderpointy < map.getHeight()-height) {
-            renderpointy += 1;
-        }
-        if (Mouse.getY() > d.getHeight()/10 && renderpointy > 0) {
-            renderpointy -= 1;
-        }
-
-
-        if(Keyboard.isKeyDown(Input.KEY_ADD) || Keyboard.isKeyDown(Input.KEY_Z)) {
-            zoomIn();
-        }
-
-        if(Keyboard.isKeyDown(Input.KEY_SUBTRACT)|| Keyboard.isKeyDown(Input.KEY_X)) {
-            zoomOut();
-        }
-
-        if(Mouse.getEventDWheel() > 0)
-            zoomIn();
-
-        if(Mouse.getEventDWheel() < 0)
-            zoomOut();
-        */
-
-
-		//listToRender = null;
-		//tempRenderList = null;
-
 	}
 
+	/*
+	//Zoom function???
+
+	public void zoomOut(){
+		if(scaleGraphics > 0.5f)
+			scaleGraphics -= 0.1f;
+	}
+
+	public void zoomIn(){
+		if(scaleGraphics < 3f){
+			scaleGraphics += 0.1f;
+		}
+	}
+	*/
+
+	//-----Getters and Setters
     @Override
     public int getID() {
         return stateNr;
     }
+
+	// ----------- Key, mouse and property events ----------- \\
 
     @Override
     public void keyPressed(int key, char c) {
@@ -252,6 +213,9 @@ public class View extends BasicGameState implements InputListener{
         pcs.removePropertyChangeListener(listener);
     }
 
+
+	// -------- Set renderList and renderPoint -------- \\
+
 	public void setRenderList(RenderObject[] objList){
 		try {
 			semaphore.acquire();
@@ -268,6 +232,10 @@ public class View extends BasicGameState implements InputListener{
 		renderPointX = (int) x;
 		renderPointY = (int) y;
 	}
+
+
+
+	// ----------- Render and hide inventory ----------- \\
 
 	public void renderInventory(LinkedList<Model.InventoryRender> inventoryItems){
 		LinkedList<Model.InventoryRender> tmp = new LinkedList<>();

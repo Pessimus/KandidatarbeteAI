@@ -12,16 +12,20 @@ public final class Constants {
 
 	// ----------- Controller Constants ----------- \\
 
-	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2;
-	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2;
+	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+
+	//Temp constant for the scalar in controller
+	public static final			double		STANDARD_SCREEN_WIDTH				=	1920.0;
 
 	public static final 		double 		SCREEN_EDGE_TRIGGER_MAX_X			=	SCREEN_WIDTH * 0.8;
 	public static final 		double 		SCREEN_EDGE_TRIGGER_MAX_Y			=	SCREEN_HEIGHT * 0.8;
 	public static final 		double 		SCREEN_EDGE_TRIGGER_MIN_X			=	SCREEN_WIDTH * 0.08;
 	public static final 		double 		SCREEN_EDGE_TRIGGER_MIN_Y			=	SCREEN_HEIGHT * 0.08;
 
-	public static final			float		SCREEN_SCROLL_SPEED_X				=	200f; // Pixels per second!
-	public static final			float		SCREEN_SCROLL_SPEED_Y				=	200f; // Pixels per second!
+
+	public static final			float		SCREEN_SCROLL_SPEED_X				=	600f; // Pixels per second!
+	public static final			float		SCREEN_SCROLL_SPEED_Y				=	600f; // Pixels per second!
 
 	public static final 		float 		DEFAULT_WORLD_VIEW_X				= 	100f;
 	public static final 		float 		DEFAULT_WORLD_VIEW_Y				= 	100f;
@@ -64,8 +68,13 @@ public final class Constants {
 	public static final			int			CHARACTER_ENERGY_CHANGE				=	1;
 
 	//----------- Inventory Constants ------------- \\
+	//Has to be a power of 2. Ex 1,4,9,16,25,36...
+	public static final			int 		MAX_INVENTORY_SLOTS					=	16;
 
-	public static final			int 		MAX_INVENTORY_SLOTS					=	9;
+	public static final			int			SLOT_DISPLAY_SIZE					=	64;
+	public static final			int			SLOT_DISPLAY_AMOUNT					=	20;
+	public static final			int 		AMOUNT_DISPLAY_MARGIN				=	4;
+	public static final			float		GRID_LINE_WIDTH						=	5f;
 
 	//----------- Animal Constants ------------- \\
 	public static final 		double		ANIMAL_COLLISION_RADIUS				=	5;
