@@ -86,17 +86,17 @@ public final class Constants {
 
 	//------------------------------Item Constants------------------------------\\
 	//CROPS\\
-	public static final 		int			CROP_HUNGER_CHANGE_INTERACT			=	10;
-	public static final 		int			CROP_ENERGY_CHANGE_INTERACT			=	10;
-	public static final 		int			CROP_THIRST_CHANGE_INTERACT			=	10;
+	public static final 		int			CROP_HUNGER_CHANGE_INTERACT			=	0;
+	public static final 		int			CROP_ENERGY_CHANGE_INTERACT			=	0;
+	public static final 		int			CROP_THIRST_CHANGE_INTERACT			=	0;
 
 	public static final 		int			CROP_HUNGER_CHANGE_CONSUME			=	10;
-	public static final 		int			CROP_ENERGY_CHANGE_CONSUME			=	10;
-	public static final 		int			CROP_THIRST_CHANGE_CONSUME			=	10;
+	public static final 		int			CROP_ENERGY_CHANGE_CONSUME			=	1;
+	public static final 		int			CROP_THIRST_CHANGE_CONSUME			=	-1;
 
-	public static final 		int			CROP_HUNGER_CHANGE_ATTACK			=	10;
-	public static final 		int			CROP_ENERGY_CHANGE_ATTACK			=	10;
-	public static final 		int			CROP_THIRST_CHANGE_ATTACK			=	10;
+	public static final 		int			CROP_HUNGER_CHANGE_ATTACK			=	0;
+	public static final 		int			CROP_ENERGY_CHANGE_ATTACK			=	0;
+	public static final 		int			CROP_THIRST_CHANGE_ATTACK			=	0;
 
 	// ----------- PATHFINDER Constants ----------- \\
 
