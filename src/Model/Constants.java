@@ -163,6 +163,19 @@ public final class Constants {
 	public static final 		int			WATER_ENERGY_CHANGE_ATTACK			=	0;
 	public static final 		int			WATER_THIRST_CHANGE_ATTACK			=	0;
 
+	//MEAT\\
+	public static final 		int			MEAT_HUNGER_CHANGE_INTERACT			=	0;
+	public static final 		int			MEAT_ENERGY_CHANGE_INTERACT			=	0;
+	public static final 		int			MEAT_THIRST_CHANGE_INTERACT			=	0;
+
+	public static final 		int			MEAT_HUNGER_CHANGE_CONSUME			=	50;
+	public static final 		int			MEAT_ENERGY_CHANGE_CONSUME			=	20;
+	public static final 		int			MEAT_THIRST_CHANGE_CONSUME			=	-20;
+
+	public static final 		int			MEAT_HUNGER_CHANGE_ATTACK			=	0;
+	public static final 		int			MEAT_ENERGY_CHANGE_ATTACK			=	0;
+	public static final 		int			MEAT_THIRST_CHANGE_ATTACK			=	0;
+
 	// ----------- PATHFINDER Constants ----------- \\
 
 	public static final		int				PATHFINDER_GRID_SIZE				=	16;
