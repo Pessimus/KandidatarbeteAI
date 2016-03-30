@@ -57,21 +57,39 @@ public class Controller implements PropertyChangeListener {
 
 	public Controller(){
 		scaleGraphics = (float)(Constants.SCREEN_WIDTH/Constants.STANDARD_SCREEN_WIDTH);
-		setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT));
+		//setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT));
+
+		//TODO remove test
+			setModel(new World(Constants.WORLD_WIDTH,Constants.WORLD_HEIGHT,500,20,100,200));
+
 		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT, scaleGraphics));
+
 
 		keyboardInputQueue = new LinkedList<>();
 		mouseInputQueue = new LinkedList<>();
-
-
-
-		player.setBody(gameModel.addCharacter(450, 600, Constants.PLAYER_CHARACTER_KEY));
-
 
 		mouseX = (float)Constants.SCREEN_WIDTH/2;
 		mouseY = (float)Constants.SCREEN_HEIGHT/2;
 
 		screenRect = new ModelToViewRectangle(Constants.DEFAULT_WORLD_VIEW_X, Constants.DEFAULT_WORLD_VIEW_Y, (float)Constants.SCREEN_WIDTH, (float)Constants.SCREEN_HEIGHT);
+
+		//TODO this is hardcoded testing code. Remove after Testing is done!!
+				player.setBody(gameModel.addCharacter(1000, 1000, Constants.PLAYER_CHARACTER_KEY));
+				((Character)player.getBody()).godMode = true;
+				/*GoldItem gi = new GoldItem(5);
+				((Character) player.getBody()).addToInventory(gi);
+				FishItem fi = new FishItem(5);
+				((Character) player.getBody()).addToInventory(fi);
+				WaterItem wi = new WaterItem(5);
+				((Character) player.getBody()).addToInventory(wi);
+				StoneItem si = new StoneItem(5);
+				((Character) player.getBody()).addToInventory(si);
+				WaterItem wi2 = new WaterItem(10);
+				((Character) player.getBody()).addToInventory(wi2);
+				*/
+				gameModel.addCharacter(1010,1010,2).godMode = true;
+				//this.gameModel.addFiniteResourcePoint(new Crops(5),1010,1010,5);
+
 	}
 
 //-----------------------------------------Initialization methods-----------------------------------------------------\\
@@ -257,6 +275,15 @@ public class Controller implements PropertyChangeListener {
 							break;
 						case Input.KEY_P:
 							gameModel.togglePause();
+							break;
+						case Input.KEY_Q:
+							player.attack();
+							break;
+						case Input.KEY_W:
+							player.interact();
+							break;
+						case Input.KEY_E:
+							player.consume();
 							break;
 						case Input.KEY_1:
 							gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;

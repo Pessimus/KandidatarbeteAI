@@ -1,34 +1,23 @@
 package Model;
 
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Tobias on 2016-02-26.
  */
 public class Inventory{
+
+//-----------------------------------------------VARIABLES------------------------------------------------------------\\
+
 	LinkedList<IItem> inventoryItems;
 
+//----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
+
 	public Inventory(){
-		inventoryItems = new LinkedList<IItem>();
-
-		//---------Test cases for inventory display
-		GoldItem gi = new GoldItem(5);
-		FishItem fi = new FishItem(5);
-		WaterItem wi = new WaterItem(5);
-		StoneItem si = new StoneItem(5);
-		WaterItem wi2 = new WaterItem(10);
-
-		addItem(gi);
-		addItem(fi);
-		addItem(wi);
-		addItem(si);
-		addItem(wi2);
+		inventoryItems = new LinkedList<>();
 	}
 
-	public Inventory(LinkedList<IItem> startingItems){
-		inventoryItems = startingItems;
-	}
+//---------------------------------------Getters & Setters------------------------------------------------------------\\
 
 	public LinkedList<IItem> getItems(){
 		return inventoryItems;
@@ -48,7 +37,19 @@ public class Inventory{
 	}
 
 	boolean removeItem(IItem item){
-		return inventoryItems.remove(item);
+		for(IItem invItem : inventoryItems) {
+			if(item.getType() == invItem.getType()){
+				if (invItem.getAmount()>item.getAmount()){
+					invItem.removeAmount(item.getAmount());
+					return true;
+				}else if(invItem.getAmount() == item.getAmount()){
+					return inventoryItems.remove(item);
+				}else{//Not that many items of that type in inventory.
+					return false;
+				}
+			}
+		}
+		return false;//Item not in inventory.
 	}
 
 

@@ -18,7 +18,8 @@ public interface ICharacterHandle {
 	void moveDown();
 	void moveLeft();
 	void moveRight();
-/*
+
+/*TODO REMOVE
 	void startWalkingUp();
 	void startWalkingDown();
 	void startWalkingLeft();
@@ -37,11 +38,20 @@ public interface ICharacterHandle {
 	List<ICollidable> getInteractables();
 	List<IItem> getInventory();
 
-	void useItem(int inventoryIndex);
-	boolean interactWith(int interactiblesIndex);
+	//TODO REMOVE
+	//void useItem(int inventoryIndex);
+	//boolean interactWith(int interactiblesIndex);
 
 	Outcome getOutcomeInventory(int inventoryIndex);
 	Outcome getOutcomeInteractables(int interactablesIndex);
+
+	void interactObject(int index);
+	void attackObject(int index);
+	void consumeObject(int index);
+
+	void interactItem(int index);
+	void attackItem(int index);
+	void consumeItem(int index);
 
 	//void applyOutcome(Outcome outcome);
 }

@@ -51,8 +51,8 @@ public final class Constants {
 	public static final 		int			CHARACTER_UPDATE_INTERVALL			=	60;
 
 	public static final 		double		CHARACTER_COLLISION_RADIUS			=	5;
-	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	10;
-	public static final 		double		CHARACTER_SURROUNDING_RADIUS		=	30;
+	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	20;
+	public static final 		double		CHARACTER_SURROUNDING_RADIUS		=	50;
 
 	public static final 		int			CHARACTER_HUNGER_MAX				=	100;
 	public static final 		int			CHARACTER_THIRST_MAX				=	100;
@@ -75,6 +75,115 @@ public final class Constants {
 	public static final			int			SLOT_DISPLAY_AMOUNT					=	20;
 	public static final			int 		AMOUNT_DISPLAY_MARGIN				=	4;
 	public static final			float		GRID_LINE_WIDTH						=	5f;
+
+	//----------- Animal Constants ------------- \\
+	public static final 		double		ANIMAL_COLLISION_RADIUS				=	5;
+	public static final 		double		ANIMAL_INTERACTION_RADIUS			=	20;
+	public static final 		double		ANIMAL_SURROUNDING_RADIUS			=	50;
+
+	public static final 		int			ANIMAL_HUNGER_CHANGE_CONSUME		=	20;
+	public static final 		int			ANIMAL_ENERGY_CHANGE_CONSUME		=	-5;
+	public static final 		int			ANIMAL_THIRST_CHANGE_CONSUME		=	0;
+
+	public static final 		int			ANIMAL_HUNGER_CHANGE_ATTACK			=	0;
+	public static final 		int			ANIMAL_ENERGY_CHANGE_ATTACK			=	-10;
+	public static final 		int			ANIMAL_THIRST_CHANGE_ATTACK			=	0;
+
+	//-------------------------- Resource Constants -------------------------- \\
+	public static final 		int 		TREE_UPDATE_INTERVALL				=	120;
+	public static final 		int			TREE_INCREASE_AMOUNT				=	10;
+
+	//------------------------------Item Constants------------------------------\\
+	//CROPS\\
+	public static final 		int			CROP_HUNGER_CHANGE_INTERACT			=	0;
+	public static final 		int			CROP_ENERGY_CHANGE_INTERACT			=	0;
+	public static final 		int			CROP_THIRST_CHANGE_INTERACT			=	0;
+
+	public static final 		int			CROP_HUNGER_CHANGE_CONSUME			=	10;
+	public static final 		int			CROP_ENERGY_CHANGE_CONSUME			=	1;
+	public static final 		int			CROP_THIRST_CHANGE_CONSUME			=	-1;
+
+	public static final 		int			CROP_HUNGER_CHANGE_ATTACK			=	0;
+	public static final 		int			CROP_ENERGY_CHANGE_ATTACK			=	0;
+	public static final 		int			CROP_THIRST_CHANGE_ATTACK			=	0;
+
+	//STONE\\
+	public static final 		int			STONE_HUNGER_CHANGE_INTERACT		=	0;
+	public static final 		int			STONE_ENERGY_CHANGE_INTERACT		=	0;
+	public static final 		int			STONE_THIRST_CHANGE_INTERACT		=	0;
+
+	public static final 		int			STONE_HUNGER_CHANGE_CONSUME			=	-20;
+	public static final 		int			STONE_ENERGY_CHANGE_CONSUME			=	-10;
+	public static final 		int			STONE_THIRST_CHANGE_CONSUME			=	-20;
+
+	public static final 		int			STONE_HUNGER_CHANGE_ATTACK			=	0;
+	public static final 		int			STONE_ENERGY_CHANGE_ATTACK			=	0;
+	public static final 		int			STONE_THIRST_CHANGE_ATTACK			=	0;
+
+	//GOLD\\
+	public static final 		int			GOLD_HUNGER_CHANGE_INTERACT			=	0;
+	public static final 		int			GOLD_ENERGY_CHANGE_INTERACT			=	0;
+	public static final 		int			GOLD_THIRST_CHANGE_INTERACT			=	0;
+
+	public static final 		int			GOLD_HUNGER_CHANGE_CONSUME			=	-20;
+	public static final 		int			GOLD_ENERGY_CHANGE_CONSUME			=	-10;
+	public static final 		int			GOLD_THIRST_CHANGE_CONSUME			=	-20;
+
+	public static final 		int			GOLD_HUNGER_CHANGE_ATTACK			=	0;
+	public static final 		int			GOLD_ENERGY_CHANGE_ATTACK			=	0;
+	public static final 		int			GOLD_THIRST_CHANGE_ATTACK			=	0;
+
+	//FISH\\
+	public static final 		int			FISH_HUNGER_CHANGE_INTERACT			=	0;
+	public static final 		int			FISH_ENERGY_CHANGE_INTERACT			=	0;
+	public static final 		int			FISH_THIRST_CHANGE_INTERACT			=	0;
+
+	public static final 		int			FISH_HUNGER_CHANGE_CONSUME			=	20;
+	public static final 		int			FISH_ENERGY_CHANGE_CONSUME			=	5;
+	public static final 		int			FISH_THIRST_CHANGE_CONSUME			=	-3;
+
+	public static final 		int			FISH_HUNGER_CHANGE_ATTACK			=	30;
+	public static final 		int			FISH_ENERGY_CHANGE_ATTACK			=	-5;
+	public static final 		int			FISH_THIRST_CHANGE_ATTACK			=	-3;
+
+	//WOOD\\
+	public static final 		int			WOOD_HUNGER_CHANGE_INTERACT			=	0;
+	public static final 		int			WOOD_ENERGY_CHANGE_INTERACT			=	0;
+	public static final 		int			WOOD_THIRST_CHANGE_INTERACT			=	0;
+
+	public static final 		int			WOOD_HUNGER_CHANGE_CONSUME			=	-5;
+	public static final 		int			WOOD_ENERGY_CHANGE_CONSUME			=	0;
+	public static final 		int			WOOD_THIRST_CHANGE_CONSUME			=	-5;
+
+	public static final 		int			WOOD_HUNGER_CHANGE_ATTACK			=	0;
+	public static final 		int			WOOD_ENERGY_CHANGE_ATTACK			=	0;
+	public static final 		int			WOOD_THIRST_CHANGE_ATTACK			=	0;
+
+	//WATER\\
+	public static final 		int			WATER_HUNGER_CHANGE_INTERACT		=	0;
+	public static final 		int			WATER_ENERGY_CHANGE_INTERACT		=	0;
+	public static final 		int			WATER_THIRST_CHANGE_INTERACT		=	0;
+
+	public static final 		int			WATER_HUNGER_CHANGE_CONSUME			=	0;
+	public static final 		int			WATER_ENERGY_CHANGE_CONSUME			=	5;
+	public static final 		int			WATER_THIRST_CHANGE_CONSUME			=	30;
+
+	public static final 		int			WATER_HUNGER_CHANGE_ATTACK			=	0;
+	public static final 		int			WATER_ENERGY_CHANGE_ATTACK			=	0;
+	public static final 		int			WATER_THIRST_CHANGE_ATTACK			=	0;
+
+	//MEAT\\
+	public static final 		int			MEAT_HUNGER_CHANGE_INTERACT			=	0;
+	public static final 		int			MEAT_ENERGY_CHANGE_INTERACT			=	0;
+	public static final 		int			MEAT_THIRST_CHANGE_INTERACT			=	0;
+
+	public static final 		int			MEAT_HUNGER_CHANGE_CONSUME			=	50;
+	public static final 		int			MEAT_ENERGY_CHANGE_CONSUME			=	20;
+	public static final 		int			MEAT_THIRST_CHANGE_CONSUME			=	-20;
+
+	public static final 		int			MEAT_HUNGER_CHANGE_ATTACK			=	0;
+	public static final 		int			MEAT_ENERGY_CHANGE_ATTACK			=	0;
+	public static final 		int			MEAT_THIRST_CHANGE_ATTACK			=	0;
 
 	// ----------- PATHFINDER Constants ----------- \\
 

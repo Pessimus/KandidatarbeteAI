@@ -4,17 +4,25 @@ package Model;
  * Created by Tobias on 2016-02-26.
  */
 public abstract class FiniteResource implements IResource{
-	private final int initialResources;
+
+//-----------------------------------------------VARIABLES------------------------------------------------------------\\
 
 	private int resourcesLeft;
 
+//----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
+
 	protected FiniteResource(int initial) {
-		this.initialResources = initial;
+		this.resourcesLeft = initial;
 	}
 
+//---------------------------------------Getters & Setters------------------------------------------------------------\\
+
+	@Override
 	public int getResourcesLeft(){
 		return resourcesLeft;
 	}
 
+	@Override
 	public void setResourcesLeft(int amount){resourcesLeft=amount;}
+
 }

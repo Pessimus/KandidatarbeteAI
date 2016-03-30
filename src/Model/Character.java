@@ -1,8 +1,6 @@
 package Model;
 
-//TODO remove if unused
-import Controller.Pathfinder;
-import Controller.PathStep;
+import org.lwjgl.Sys;
 
 import java.util.*;
 import java.util.List;
@@ -117,6 +115,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	//-----------------NEEDS VARIABLES--------------------\\
 
+	//TODO toBeRemoved after testing
+	public boolean godMode = false;
+
 	private boolean alive;
 	private int age;
 
@@ -127,7 +128,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	private int energy;
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
-	//TODO organize
+
 	public Character(float xPos, float yPos, int key){
 		this.alive = true;
 		this.age = 0;
@@ -242,8 +243,47 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.interactables = tmp;
 	}
 
+//---------------------------------------Interaction methods----------------------------------------------------------\\
 
-//---------------------------------------------UPDATE METHODS---------------------------------------------------------\\
+	@Override
+	public void interacted(Character rhs){
+		//TODO implement
+		System.out.println("Hello!");
+	}
+
+	@Override
+	public void consumed(Character rhs){
+		//TODO implement
+		System.out.println("Brainzzzzzz");
+	}
+
+	@Override
+	public void attacked(Character rhs){
+		//TODO implement
+		System.out.println("HELP!!!!");
+	}
+
+	public void addToInventory(IItem item){
+		inventory.addItem(item);
+	}
+
+	public void removeFromInventory(IItem item){
+		inventory.removeItem(item);
+	}
+
+	public void changeHunger(int change){
+		this.hunger = hunger + change;
+	}
+
+	public void changeThirst(int change){
+		this.thirst = thirst + change;
+	}
+
+	public void changeEnergy(int change){
+		this.energy = energy + change;
+	}
+
+//------------------------------------------UPDATE METHODS------------------------------------------------------------\\
 
 	//Check if character is alive
 	private void updateAlive() {
@@ -252,9 +292,13 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		}
 	}
 
+	public boolean toBeRemoved(){
+		return !isAlive();
+	}
+
 	//Getter for alive
 	public boolean isAlive() {
-		return alive;
+		return alive||godMode;
 	}
 
 	@Override
@@ -360,18 +404,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	//TODO implement
 	@Override
-	public void useItem(int inventoryIndex) {
-		//inventory.getItems().get(inventoryIndex).useItem();
-	}
-
-	//TODO implement, visitor pattern
-	@Override
-	public boolean interactWith(int interactablesIndex) {
-		return false;
-	}
-
-	//TODO implement
-	@Override
 	public Outcome getOutcomeInventory(int inventoryIndex) {
 		for(IItem item : inventory.getItems()){
 			//list.add(i.getOutcome());
@@ -394,6 +426,48 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	public void stopRunning(){
 		stepLength = Constants.CHARACTER_WALK_SPEED;
+	}
+
+	@Override
+	public void interactObject(int index){
+		if(this.interactables.size()>index){
+			this.interactables.get(index).interacted(this);
+		}
+	}
+
+	@Override
+	public void attackObject(int index){
+		if(this.interactables.size()>index){
+			this.interactables.get(index).attacked(this);
+		}
+	}
+
+	@Override
+	public void consumeObject(int index){
+		if(this.interactables.size()>index){
+			this.interactables.get(index).consumed(this);
+		}
+	}
+
+	@Override
+	public void interactItem(int index){
+		if(this.getInventory().size()>index){
+			this.getInventory().get(index).interacted(this);
+		}
+	}
+
+	@Override
+	public void attackItem(int index){
+		if(this.getInventory().size()>index){
+			this.getInventory().get(index).attacked(this);
+		}
+	}
+
+	@Override
+	public void consumeItem(int index){
+		if(this.getInventory().size()>index){
+			this.getInventory().get(index).consumed(this);
+		}
 	}
 
 }

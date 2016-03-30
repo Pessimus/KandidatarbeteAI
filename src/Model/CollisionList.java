@@ -9,7 +9,7 @@ public class CollisionList {
 
 	private Node startNodeX;
 	private Node startNodeY;
-	private int size = 0;
+	private int size;
 	private Node currentNodeX;
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
@@ -18,6 +18,7 @@ public class CollisionList {
 		this.startNodeX = new Node(new CollidableDummy(), null, null);
 		this.startNodeY = new Node(new CollidableDummy(), null, null);
 		this.currentNodeX = this.startNodeX;
+		this.size = 0;
 	}
 
 //--------------------------------------------Sorting methods---------------------------------------------------------\\
@@ -73,7 +74,7 @@ public class CollisionList {
 		}
 	}
 
-//------------------------------------------Add & remove methods------------------------------------------------------\\
+//------------------------------------------Add & toBeRemoved methods------------------------------------------------------\\
 
 	public void add(ICollidable addValue){
 		//Add to the X list
@@ -285,6 +286,7 @@ public class CollisionList {
 		@Override
 		public void addToInteractableY(ICollidable rhs) {}
 
+		@Override
 		public void checkInteractables(){}
 
 		@Override
@@ -293,7 +295,28 @@ public class CollisionList {
 		@Override
 		public void addToSurroundingY(ICollidable rhs) {}
 
+		@Override
 		public void checkSurroundings(){}
+
+		@Override
+		public void interacted(Character rhs) {
+
+		}
+
+		@Override
+		public void consumed(Character rhs) {
+
+		}
+
+		@Override
+		public void attacked(Character rhs) {
+
+		}
+
+		@Override
+		public boolean toBeRemoved() {
+			return false;
+		}
 
 		@Override
 		public RenderObject getRenderObject(){return null;}
