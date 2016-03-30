@@ -87,25 +87,40 @@ public class View extends BasicGameState implements InputListener{
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
 		//tempWidth = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE/scaleGraphics);
 		//tempHeight = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE/scaleGraphics);
-		tempWidth = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE);
-		tempHeight = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE);
-    }
-
-	@Override
-	public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-		//graphics.scale(scaleGraphics,scaleGraphics);
-
-		//map.render(0,0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, tempWidth, tempHeight);
+		//tempWidth = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE);
+		//tempHeight = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE);
 		int tileOffsetX = (-1*renderPointX%Constants.WORLD_TILE_SIZE);
 		int tileOffsetY = (-1*renderPointY%Constants.WORLD_TILE_SIZE);
 		int tileIndexX  = renderPointX/Constants.WORLD_TILE_SIZE - 1;
 		int tileIndexY  = renderPointY/Constants.WORLD_TILE_SIZE - 1;
 
-		graphics.translate(-renderPointX, -renderPointY);
-		map.render(renderPointX + tileOffsetX, renderPointY + tileOffsetY, tileIndexX, tileIndexY, ((Constants.SCREEN_WIDTH - tileOffsetX)/Constants.WORLD_TILE_SIZE)+ 1,
-				((Constants.SCREEN_HEIGHT- tileOffsetY)/Constants.WORLD_TILE_SIZE)+ 1);
-		//draw player at its real position
-		graphics.translate(renderPointX, renderPointY);
+		startX = renderPointX + tileOffsetX;
+		startY = renderPointY + tileOffsetY;
+		startTileX = tileIndexX;
+		startTileY = tileIndexY;
+		width = ((Constants.SCREEN_WIDTH - tileOffsetX)/Constants.WORLD_TILE_SIZE)+ 1;
+		height = ((Constants.SCREEN_HEIGHT - tileOffsetY)/Constants.WORLD_TILE_SIZE)+ 1;
+    }
+
+	private int startX, startY, startTileX, startTileY, width, height;
+
+	private Semaphore renderSema = new Semaphore(1);
+
+	@Override
+	public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
+		//graphics.scale(scaleGraphics,scaleGraphics);
+
+		try{
+			renderSema.acquire();
+			graphics.translate(-renderPointX, -renderPointY);
+			map.render(startX, startY, startTileX, startTileY, width, height);
+			graphics.translate(renderPointX, renderPointY);
+			renderSema.release();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
+		}
 
 		try {
 			semaphore.acquire();
@@ -290,8 +305,16 @@ public class View extends BasicGameState implements InputListener{
 	}
 
 	public void setRenderPoint(float x, float y){
-		renderPointX = (int) x;
-		renderPointY = (int) y;
+		try{
+			renderSema.acquire();
+			renderPointX = (int) x;
+			renderPointY = (int) y;
+			renderSema.release();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
+		}
 	}
 
 

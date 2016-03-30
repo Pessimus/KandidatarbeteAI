@@ -62,7 +62,7 @@ public class Controller implements PropertyChangeListener {
 		//TODO remove test
 			setModel(new World(Constants.WORLD_WIDTH,Constants.WORLD_HEIGHT,1,20,100,200));
 
-		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT, scaleGraphics));
+		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, scaleGraphics));
 
 
 		keyboardInputQueue = new LinkedList<>();
