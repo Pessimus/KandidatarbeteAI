@@ -69,16 +69,6 @@ import java.util.List;
 
 		currentState.run();
 
-		if(needs[0] <= needs[1] && needs[0] <= needs[2]){
-
-		}
-		else if(needs[1] < needs[0] && needs[1] < needs[2]){
-
-		}
-		else if(needs[2] < needs[0] && needs[2] < needs[1]){
-
-		}
-
 		/*
 		for(ICollidable object : body.getSurroundings()){
 			if(object.getClass().equals(ResourcePoint.class)){
