@@ -1,7 +1,5 @@
 package Model;
 
-import org.lwjgl.Sys;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
@@ -157,7 +155,6 @@ public class World{
 	}
 
 	public ResourcePoint addFiniteResourcePoint(FiniteResource resourceType, float xPoss, float yPoss, double radius){
-		//TODO toBeRemoved the hardcoded input to the constructor (parameter 2)
 		ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
 		this.collidables.add(point);
 		this.collidablesR.add(point);
@@ -165,7 +162,6 @@ public class World{
 	}
 
 	public ResourcePoint addInfiniteResourcePoint(InfiniteResource resourceType, float xPoss, float yPoss, double radius){
-		//TODO toBeRemoved the hardcoded input to the constructor (parameter 2)
 		ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
 		this.collidables.add(point);
 		this.collidablesR.add(point);
@@ -173,7 +169,6 @@ public class World{
 	}
 
 	public ResourcePoint addRenewableResourcePoint(RenewableResource resourceType, float xPoss, float yPoss, double radius){
-		//TODO toBeRemoved the hardcoded input to the constructor (parameter 2)
 		ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
 		this.collidables.add(point);
 		this.collidablesR.add(point);
