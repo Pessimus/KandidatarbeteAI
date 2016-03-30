@@ -62,8 +62,19 @@ public class Controller implements PropertyChangeListener {
 		screenRect = new ModelToViewRectangle(Constants.DEFAULT_WORLD_VIEW_X, Constants.DEFAULT_WORLD_VIEW_Y, (float)Constants.SCREEN_WIDTH, (float)Constants.SCREEN_HEIGHT);
 
 		//TODO this is hardcoded testing code. Remove after Testing is done!!
-			player.setBody(gameModel.addCharacter(1000, 1000, Constants.PLAYER_CHARACTER_KEY));
-			((Character)player.getBody()).godMode = true;
+				player.setBody(gameModel.addCharacter(1000, 1000, Constants.PLAYER_CHARACTER_KEY));
+				((Character)player.getBody()).godMode = true;
+				GoldItem gi = new GoldItem(5);
+				((Character)player.getBody()).getInventory().add(gi);
+				FishItem fi = new FishItem(5);
+				((Character)player.getBody()).getInventory().add(fi);
+				WaterItem wi = new WaterItem(5);
+				((Character)player.getBody()).getInventory().add(wi);
+				StoneItem si = new StoneItem(5);
+				((Character)player.getBody()).getInventory().add(si);
+				WaterItem wi2 = new WaterItem(10);
+				((Character)player.getBody()).getInventory().add(wi2);
+
 
 			gameModel.addCharacter(1010,1010,2).godMode = true;
 			//this.gameModel.addFiniteResourcePoint(new Crops(5),1010,1010,5);
