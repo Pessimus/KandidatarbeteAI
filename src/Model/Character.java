@@ -450,21 +450,21 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	public void interactItem(int index){
 		if(this.getInventory().size()>index){
-			this.getInventory().get(index).interact();
+			this.getInventory().get(index).interacted(this);
 		}
 	}
 
 	@Override
 	public void attackItem(int index){
 		if(this.getInventory().size()>index){
-			this.getInventory().get(index).attack();
+			this.getInventory().get(index).attacked(this);
 		}
 	}
 
 	@Override
 	public void consumeItem(int index){
 		if(this.getInventory().size()>index){
-			this.getInventory().get(index).consume();
+			this.getInventory().get(index).consumed(this);
 		}
 	}
 

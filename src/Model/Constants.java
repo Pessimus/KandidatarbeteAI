@@ -80,9 +80,23 @@ public final class Constants {
 	public static final 		int			ANIMAL_ENERGY_CHANGE_ATTACK			=	-10;
 	public static final 		int			ANIMAL_THIRST_CHANGE_ATTACK			=	0;
 
-	//----------- Resource Constants ------------- \\
+	//-------------------------- Resource Constants -------------------------- \\
 	public static final 		int 		TREE_UPDATE_INTERVALL				=	120;
 	public static final 		int			TREE_INCREASE_AMOUNT				=	10;
+
+	//------------------------------Item Constants------------------------------\\
+	//CROPS\\
+	public static final 		int			CROP_HUNGER_CHANGE_INTERACT			=	10;
+	public static final 		int			CROP_ENERGY_CHANGE_INTERACT			=	10;
+	public static final 		int			CROP_THIRST_CHANGE_INTERACT			=	10;
+
+	public static final 		int			CROP_HUNGER_CHANGE_CONSUME			=	10;
+	public static final 		int			CROP_ENERGY_CHANGE_CONSUME			=	10;
+	public static final 		int			CROP_THIRST_CHANGE_CONSUME			=	10;
+
+	public static final 		int			CROP_HUNGER_CHANGE_ATTACK			=	10;
+	public static final 		int			CROP_ENERGY_CHANGE_ATTACK			=	10;
+	public static final 		int			CROP_THIRST_CHANGE_ATTACK			=	10;
 
 	// ----------- PATHFINDER Constants ----------- \\
 

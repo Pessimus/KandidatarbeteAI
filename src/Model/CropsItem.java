@@ -29,18 +29,18 @@ public class CropsItem implements IItem {
 	}
 
     @Override
-    public Outcome interact() {
-        return null;//TODO implement
+    public void interacted(Character rhs) {
+		//TODO implement
     }
 
     @Override
-    public Outcome consume() {
-        return null;//TODO implement
+    public void consumed(Character rhs) {
+		//TODO implement
     }
 
     @Override
-    public Outcome attack() {
-        return null;//TODO implement
+    public void attacked(Character rhs) {
+		//TODO implement
     }
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\

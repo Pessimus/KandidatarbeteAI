@@ -29,20 +29,20 @@ public class GoldItem implements IItem {
         }
     }
 
-    @Override
-    public Outcome interact() {
-        return null;//TODO implement
-    }
+	@Override
+	public void interacted(Character rhs) {
+		//TODO implement
+	}
 
-    @Override
-    public Outcome consume() {
-        return null;//TODO implement
-    }
+	@Override
+	public void consumed(Character rhs) {
+		//TODO implement
+	}
 
-    @Override
-    public Outcome attack() {
-        return null;//TODO implement
-    }
+	@Override
+	public void attacked(Character rhs) {
+		//TODO implement
+	}
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
