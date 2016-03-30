@@ -4,11 +4,18 @@ package Model;
  * Created by Tobias on 2016-03-10.
  */
 public class WoodItem implements IItem {
+
+//-----------------------------------------------VARIABLES------------------------------------------------------------\\
+
 	private int amount;
+
+//----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
 	public WoodItem(int value){
 		this.amount = value;
 	}
+
+//---------------------------------------Interaction methods----------------------------------------------------------\\
 
 	@Override
 	public void addAmount(int value) {
@@ -36,6 +43,8 @@ public class WoodItem implements IItem {
 	public Outcome attack() {
 		return null;//TODO implement
 	}
+
+//---------------------------------------Getters & Setters------------------------------------------------------------\\
 
 	@Override
 	public int getAmount() {

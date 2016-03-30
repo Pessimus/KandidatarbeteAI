@@ -4,11 +4,18 @@ package Model;
  * Created by Oskar on 2016-03-10.
  */
 public class FishItem implements IItem {
+
+//-----------------------------------------------VARIABLES------------------------------------------------------------\\
+
     private int amount;
+
+//----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
     public FishItem(int amount){
         this.amount = amount;
     }
+
+//---------------------------------------Interaction methods----------------------------------------------------------\\
 
     @Override
     public void addAmount(int value) {
@@ -21,6 +28,8 @@ public class FishItem implements IItem {
 			amount = amount-value;
 		}
 	}
+
+//---------------------------------------Getters & Setters------------------------------------------------------------\\
 
     @Override
     public Outcome interact() {
@@ -36,6 +45,8 @@ public class FishItem implements IItem {
     public Outcome attack() {
         return null;//TODO implement
     }
+
+//---------------------------------------Interaction methods----------------------------------------------------------\\
 
     @Override
     public int getAmount() {
