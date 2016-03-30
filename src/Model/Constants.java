@@ -150,6 +150,19 @@ public final class Constants {
 	public static final 		int			WOOD_ENERGY_CHANGE_ATTACK			=	0;
 	public static final 		int			WOOD_THIRST_CHANGE_ATTACK			=	0;
 
+	//WATER\\
+	public static final 		int			WATER_HUNGER_CHANGE_INTERACT		=	0;
+	public static final 		int			WATER_ENERGY_CHANGE_INTERACT		=	0;
+	public static final 		int			WATER_THIRST_CHANGE_INTERACT		=	0;
+
+	public static final 		int			WATER_HUNGER_CHANGE_CONSUME			=	0;
+	public static final 		int			WATER_ENERGY_CHANGE_CONSUME			=	5;
+	public static final 		int			WATER_THIRST_CHANGE_CONSUME			=	30;
+
+	public static final 		int			WATER_HUNGER_CHANGE_ATTACK			=	0;
+	public static final 		int			WATER_ENERGY_CHANGE_ATTACK			=	0;
+	public static final 		int			WATER_THIRST_CHANGE_ATTACK			=	0;
+
 	// ----------- PATHFINDER Constants ----------- \\
 
 	public static final		int				PATHFINDER_GRID_SIZE				=	16;
