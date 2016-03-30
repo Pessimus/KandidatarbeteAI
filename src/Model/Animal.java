@@ -105,7 +105,7 @@ public class Animal implements ICollidable {
 		rhs.changeHunger(Constants.ANIMAL_HUNGER_CHANGE_CONSUME);
 		rhs.changeEnergy(Constants.ANIMAL_ENERGY_CHANGE_CONSUME);
 		rhs.changeThirst(Constants.ANIMAL_THIRST_CHANGE_CONSUME);
-
+		this.alive = false;
 	}
 
 	@Override
@@ -118,8 +118,7 @@ public class Animal implements ICollidable {
 	}
 
 //------------------------------------------UPDATE METHODS------------------------------------------------------------\\
-
-	//TODO implement
+	
 	@Override
 	public boolean toBeRemoved() {
 		return !alive;
