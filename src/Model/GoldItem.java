@@ -31,17 +31,24 @@ public class GoldItem implements IItem {
 
 	@Override
 	public void interacted(Character rhs) {
-		//TODO implement
+		rhs.changeHunger(Constants.GOLD_HUNGER_CHANGE_INTERACT);
+		rhs.changeEnergy(Constants.GOLD_ENERGY_CHANGE_INTERACT);
+		rhs.changeThirst(Constants.GOLD_THIRST_CHANGE_INTERACT);
 	}
 
 	@Override
 	public void consumed(Character rhs) {
-		//TODO implement
+		rhs.changeHunger(Constants.GOLD_HUNGER_CHANGE_CONSUME);
+		rhs.changeEnergy(Constants.GOLD_ENERGY_CHANGE_CONSUME);
+		rhs.changeThirst(Constants.GOLD_THIRST_CHANGE_CONSUME);
+		this.amount--;
 	}
 
 	@Override
 	public void attacked(Character rhs) {
-		//TODO implement
+		rhs.changeHunger(Constants.GOLD_HUNGER_CHANGE_ATTACK);
+		rhs.changeEnergy(Constants.GOLD_ENERGY_CHANGE_ATTACK);
+		rhs.changeThirst(Constants.GOLD_THIRST_CHANGE_ATTACK);
 	}
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
