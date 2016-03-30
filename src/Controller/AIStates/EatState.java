@@ -10,7 +10,7 @@ import Model.ICharacterHandle;
 public class EatState implements IState{
 	private ICharacterHandle body;
 
-	private final AbstractBrain brain;
+	private final ArtificialBrain brain;
 
 	public EatState(ArtificialBrain brain){
 		this.brain = brain;

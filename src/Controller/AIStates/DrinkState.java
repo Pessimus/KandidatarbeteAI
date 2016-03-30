@@ -14,7 +14,7 @@ import java.util.Iterator;
 public class DrinkState implements IState{
 	private ICharacterHandle body;
 
-	private final AbstractBrain brain;
+	private final ArtificialBrain brain;
 
 	public DrinkState(ArtificialBrain brain){
 		this.brain = brain;

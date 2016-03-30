@@ -9,7 +9,7 @@ import Model.ICharacterHandle;
  */
 public class TradeState implements IState{
 	private ICharacterHandle body;
-	private final AbstractBrain brain;
+	private final ArtificialBrain brain;
 
 	public TradeState(ArtificialBrain brain){
 		this.brain = brain;

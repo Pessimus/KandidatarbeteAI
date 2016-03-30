@@ -9,7 +9,7 @@ import Model.ICharacterHandle;
  */
 public class CookState implements IState{
 	private ICharacterHandle body;
-	private final AbstractBrain brain;
+	private final ArtificialBrain brain;
 
 	public CookState(ArtificialBrain brain){
 		this.brain = brain;

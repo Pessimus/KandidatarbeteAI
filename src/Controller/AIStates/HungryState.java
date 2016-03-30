@@ -13,7 +13,7 @@ import java.util.Queue;
  */
 public class HungryState implements IState {
 	private ICharacterHandle body;
-	private final AbstractBrain brain;
+	private final ArtificialBrain brain;
 
 	private Queue<CharacterAction> actionQueue = new LinkedList<>();
 

@@ -10,7 +10,7 @@ import Model.ICharacterHandle;
 public class BuildState implements IState{
 	private ICharacterHandle body;
 
-	private final AbstractBrain brain;
+	private final ArtificialBrain brain;
 
 	public BuildState(ArtificialBrain brain){
 		this.brain = brain;
