@@ -119,6 +119,7 @@ public class Controller implements PropertyChangeListener {
 	 */
 	private void updateView(){
 		List<RenderObject> temp = new LinkedList<>();
+		gameView.drawNeeds(player.getBody().getNeeds());
 		float width = (float) gameModel.getWidth();
 		float height = (float) gameModel.getHeight();
 
@@ -285,15 +286,24 @@ public class Controller implements PropertyChangeListener {
 							player.playerWalking();
 							break;
 						case Input.KEY_I:
-							showingPlayerInventory = !showingPlayerInventory;
-							if(showingPlayerInventory){
-								gameView.drawInventory(gameModel.displayPlayerInventory());
+							if(playerViewCentered) {
+								showingPlayerInventory = !showingPlayerInventory;
+								if (showingPlayerInventory) {
+									gameView.drawInventory(gameModel.displayPlayerInventory());
+								} else {
+									gameView.hidePlayerInventory();
+								}
 							}else{
+								showingPlayerInventory = false;
 								gameView.hidePlayerInventory();
 							}
 							break;
 						case Input.KEY_V:
 							playerViewCentered = !playerViewCentered;
+							if(!playerViewCentered && showingPlayerInventory){
+								showingPlayerInventory = false;
+								gameView.hidePlayerInventory();
+							}
 							break;
 					}
 				}

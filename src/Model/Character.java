@@ -308,7 +308,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	//TODO implement, change type....
 	@Override
 	public int[] getNeeds() {
-		return new int[0];
+		return new int[]{hunger, thirst, energy};
 	}
 
 	//TODO implement, change type....

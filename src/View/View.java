@@ -40,8 +40,10 @@ public class View extends BasicGameState implements InputListener{
 	private RenderObject[] listToRender = {};
 	private Model.InventoryRender[] inventoryToRender = {};
 
-	private boolean displayInventory = false;
+	private int[] playerNeeds;
 
+	private boolean displayInventory = false;
+	private boolean displayPlayerNeeds = false;
 	private final Semaphore semaphore = new Semaphore(1);
 	private final Map<RenderObject.RENDER_OBJECT_ENUM, Image> resourceMap = new HashMap<>();
 	private final Map<Model.IItem.Type, Image> inventoryMap = new HashMap<>();
@@ -83,8 +85,8 @@ public class View extends BasicGameState implements InputListener{
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-		tempWidth = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE);
-		tempHeight = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE);
+		tempWidth = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE/scaleGraphics);
+		tempHeight = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE/scaleGraphics);
     }
 
 	@Override
@@ -102,6 +104,52 @@ public class View extends BasicGameState implements InputListener{
 					}
 				}
 			}
+
+			// ----------- Temporary display of the inventory ----------- \\
+
+			if(displayPlayerNeeds){
+				float hungerStringYPos = gameContainer.getHeight()/scaleGraphics-Constants.BOX_HEIGHT+Constants.MARGIN_FROM_TOP-Constants.HALF_TEXT_HEIGHT;
+				float thirstStringYPos = gameContainer.getHeight()/scaleGraphics-Constants.BOX_HEIGHT+Constants.MARGIN_FROM_TOP*2-Constants.HALF_TEXT_HEIGHT;
+				float energyStringYPos = gameContainer.getHeight()/scaleGraphics-Constants.BOX_HEIGHT+Constants.MARGIN_FROM_TOP*3-Constants.HALF_TEXT_HEIGHT;
+
+				float barWidth = Constants.BOX_WIDTH-3*Constants.MARGIN_FROM_LEFT-graphics.getFont().getWidth("Hunger");
+				float barHeight = graphics.getFont().getHeight("Hunger");
+
+				float barXPos = Constants.MARGIN_FROM_LEFT*2+graphics.getFont().getWidth("Hunger");
+
+				float hungerPercent = 1-(float)playerNeeds[0]/(float)Constants.CHARACTER_HUNGER_MAX;
+				float thirstPercent = 1-(float)playerNeeds[1]/(float)Constants.CHARACTER_THIRST_MAX;
+				float energyPercent = 1-(float)playerNeeds[2]/(float)Constants.CHARACTER_ENERGY_MAX;
+
+				graphics.setColor(Color.gray);
+				graphics.fillRect(0,gameContainer.getHeight()/scaleGraphics-Constants.BOX_HEIGHT, Constants.BOX_WIDTH, Constants.BOX_HEIGHT);
+				graphics.setColor(Color.white);
+				graphics.drawString("Hunger:",Constants.MARGIN_FROM_LEFT, hungerStringYPos);
+				graphics.drawRect(barXPos, hungerStringYPos,barWidth,barHeight);
+				if((float)playerNeeds[0]/(float)Constants.CHARACTER_HUNGER_MAX < 0.2)
+					graphics.setColor(Color.red);
+				graphics.fillRect(barXPos+barWidth*hungerPercent, hungerStringYPos, barWidth-barWidth*hungerPercent, barHeight);
+				graphics.setColor(Color.white);
+				graphics.drawString("Thirst:",Constants.MARGIN_FROM_LEFT, thirstStringYPos);
+
+				if((float)playerNeeds[1]/(float)Constants.CHARACTER_HUNGER_MAX < 0.2)
+					graphics.setColor(Color.red);
+				graphics.setColor(Color.white);
+				graphics.fillRect(barXPos+barWidth*thirstPercent, thirstStringYPos, barWidth-barWidth*thirstPercent, barHeight);
+				graphics.setColor(Color.white);
+				graphics.drawRect(barXPos, thirstStringYPos,barWidth,barHeight);
+				graphics.drawString("Energy:",Constants.MARGIN_FROM_LEFT, energyStringYPos);
+				graphics.drawRect(barXPos, energyStringYPos,barWidth,barHeight);
+				if((float)playerNeeds[2]/(float)Constants.CHARACTER_HUNGER_MAX < 0.2)
+					graphics.setColor(Color.red);
+				graphics.fillRect(barXPos+barWidth*energyPercent, energyStringYPos, barWidth-barWidth*energyPercent, barHeight);
+				graphics.setColor(Color.white);
+
+
+			}
+
+
+			// ------------------------------------------ \\
 
 			// ----------- Temporary display of the inventory ----------- \\
 
@@ -172,6 +220,10 @@ public class View extends BasicGameState implements InputListener{
     public int getID() {
         return stateNr;
     }
+
+	public void setPlayerNeeds(int[] needs){
+		playerNeeds = needs.clone();
+	}
 
 	// ----------- Key, mouse and property events ----------- \\
 
@@ -245,9 +297,11 @@ public class View extends BasicGameState implements InputListener{
 
 		inventoryToRender = tmp.toArray(new Model.InventoryRender[tmp.size()]);
 		displayInventory = true;
+		displayPlayerNeeds = true;
 	}
 
 	public void hideInventory(){
 		displayInventory = false;
+		displayPlayerNeeds = false;
 	}
 }
