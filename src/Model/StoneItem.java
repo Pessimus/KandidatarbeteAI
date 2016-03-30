@@ -31,17 +31,24 @@ public class StoneItem implements IItem {
 
 	@Override
 	public void interacted(Character rhs) {
-		//TODO implement
+		rhs.changeHunger(Constants.STONE_HUNGER_CHANGE_INTERACT);
+		rhs.changeEnergy(Constants.STONE_ENERGY_CHANGE_INTERACT);
+		rhs.changeThirst(Constants.STONE_THIRST_CHANGE_INTERACT);
 	}
 
 	@Override
 	public void consumed(Character rhs) {
-		//TODO implement
+		rhs.changeHunger(Constants.STONE_HUNGER_CHANGE_CONSUME);
+		rhs.changeEnergy(Constants.STONE_ENERGY_CHANGE_CONSUME);
+		rhs.changeThirst(Constants.STONE_THIRST_CHANGE_CONSUME);
+		this.amount--;
 	}
 
 	@Override
 	public void attacked(Character rhs) {
-		//TODO implement
+		rhs.changeHunger(Constants.STONE_HUNGER_CHANGE_ATTACK);
+		rhs.changeEnergy(Constants.STONE_ENERGY_CHANGE_ATTACK);
+		rhs.changeThirst(Constants.STONE_THIRST_CHANGE_ATTACK);
 	}
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\

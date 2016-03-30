@@ -98,6 +98,19 @@ public final class Constants {
 	public static final 		int			CROP_ENERGY_CHANGE_ATTACK			=	0;
 	public static final 		int			CROP_THIRST_CHANGE_ATTACK			=	0;
 
+	//STONE\\
+	public static final 		int			STONE_HUNGER_CHANGE_INTERACT		=	0;
+	public static final 		int			STONE_ENERGY_CHANGE_INTERACT		=	0;
+	public static final 		int			STONE_THIRST_CHANGE_INTERACT		=	0;
+
+	public static final 		int			STONE_HUNGER_CHANGE_CONSUME			=	-20;
+	public static final 		int			STONE_ENERGY_CHANGE_CONSUME			=	-10;
+	public static final 		int			STONE_THIRST_CHANGE_CONSUME			=	-20;
+
+	public static final 		int			STONE_HUNGER_CHANGE_ATTACK			=	0;
+	public static final 		int			STONE_ENERGY_CHANGE_ATTACK			=	0;
+	public static final 		int			STONE_THIRST_CHANGE_ATTACK			=	0;
+
 	// ----------- PATHFINDER Constants ----------- \\
 
 	public static final		int				PATHFINDER_GRID_SIZE				=	16;
