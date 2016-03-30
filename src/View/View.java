@@ -117,32 +117,34 @@ public class View extends BasicGameState implements InputListener{
 
 				float barXPos = Constants.MARGIN_FROM_LEFT*2+graphics.getFont().getWidth("Hunger");
 
-				float hungerPercent = 1-(float)playerNeeds[0]/(float)Constants.CHARACTER_HUNGER_MAX;
-				float thirstPercent = 1-(float)playerNeeds[1]/(float)Constants.CHARACTER_THIRST_MAX;
-				float energyPercent = 1-(float)playerNeeds[2]/(float)Constants.CHARACTER_ENERGY_MAX;
+				float hungerPercent = (float)playerNeeds[0]/(float)Constants.CHARACTER_HUNGER_MAX;
+				float thirstPercent = (float)playerNeeds[1]/(float)Constants.CHARACTER_THIRST_MAX;
+				float energyPercent = (float)playerNeeds[2]/(float)Constants.CHARACTER_ENERGY_MAX;
 
 				graphics.setColor(Color.gray);
 				graphics.fillRect(0,gameContainer.getHeight()/scaleGraphics-Constants.BOX_HEIGHT, Constants.BOX_WIDTH, Constants.BOX_HEIGHT);
 				graphics.setColor(Color.white);
 				graphics.drawString("Hunger:",Constants.MARGIN_FROM_LEFT, hungerStringYPos);
 				graphics.drawRect(barXPos, hungerStringYPos,barWidth,barHeight);
-				if((float)playerNeeds[0]/(float)Constants.CHARACTER_HUNGER_MAX < 0.2)
+				if(hungerPercent < Constants.CRITICAL_LEVEL)
 					graphics.setColor(Color.red);
-				graphics.fillRect(barXPos+barWidth*hungerPercent, hungerStringYPos, barWidth-barWidth*hungerPercent, barHeight);
+				if(hungerPercent > 0)
+					graphics.fillRect(barXPos+barWidth*(1-hungerPercent), hungerStringYPos, barWidth-barWidth*(1-hungerPercent), barHeight);
 				graphics.setColor(Color.white);
 				graphics.drawString("Thirst:",Constants.MARGIN_FROM_LEFT, thirstStringYPos);
 
-				if((float)playerNeeds[1]/(float)Constants.CHARACTER_HUNGER_MAX < 0.2)
+				if(thirstPercent < Constants.CRITICAL_LEVEL)
 					graphics.setColor(Color.red);
-				graphics.setColor(Color.white);
-				graphics.fillRect(barXPos+barWidth*thirstPercent, thirstStringYPos, barWidth-barWidth*thirstPercent, barHeight);
+				if(thirstPercent > 0)
+					graphics.fillRect(barXPos+barWidth*(1-thirstPercent), thirstStringYPos, barWidth-barWidth*(1-thirstPercent), barHeight);
 				graphics.setColor(Color.white);
 				graphics.drawRect(barXPos, thirstStringYPos,barWidth,barHeight);
 				graphics.drawString("Energy:",Constants.MARGIN_FROM_LEFT, energyStringYPos);
 				graphics.drawRect(barXPos, energyStringYPos,barWidth,barHeight);
-				if((float)playerNeeds[2]/(float)Constants.CHARACTER_HUNGER_MAX < 0.2)
+				if(energyPercent < Constants.CRITICAL_LEVEL)
 					graphics.setColor(Color.red);
-				graphics.fillRect(barXPos+barWidth*energyPercent, energyStringYPos, barWidth-barWidth*energyPercent, barHeight);
+				if(energyPercent > 0)
+					graphics.fillRect(barXPos+barWidth*(1-energyPercent), energyStringYPos, barWidth-barWidth*(1-energyPercent), barHeight);
 				graphics.setColor(Color.white);
 
 

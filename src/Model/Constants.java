@@ -198,4 +198,5 @@ public final class Constants {
 	public static final		int				MARGIN_FROM_TOP						=	BOX_HEIGHT/4;
 	public static final		int				MARGIN_FROM_LEFT					=	20;
 	public static final 	int				HALF_TEXT_HEIGHT					=	9;
+	public static final		double			CRITICAL_LEVEL						=	0.2;
 }
