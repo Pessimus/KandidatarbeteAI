@@ -29,13 +29,17 @@ public class DrinkState implements IState{
 			IItem current = iterator.next();
 			switch (current.getType()) {
 				case WATER_ITEM:
-					best = current;
 					/*
+					//Do we have a current best item?
 					if(best == null){
+					//Assign current item to best
 						best = current;
+						//Check the thirstAmount we get back from drinking our current item
 						thirstAmount = best.getOutcome().getThirst();
 					}
-					else if(best.getOutcome().getThirst() > thirstAmount){
+					//
+
+					else if(current.getOutcome().getThirst() > best.getOutcome().getThirst()){
 						best = current;
 						thirstAmount = best.getOutcome().getThirst();
 					}

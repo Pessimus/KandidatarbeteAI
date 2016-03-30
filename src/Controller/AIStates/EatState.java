@@ -27,15 +27,14 @@ public class EatState implements IState{
 			IItem current = iterator.next();
 			switch (current.getType()) {
 				case FISH_ITEM: //TODO: CHANGE TO FOOD_ITEM
-					best = current;
 					/*
 					if(best == null){
 						best = current;
-						thirstAmount = best.getOutcome().getThirst();
+						hungerAmount = best.getOutcome().getHunger();
 					}
-					else if(best.getOutcome().getThirst() > thirstAmount){
+					else if(best.getOutcome().getHunger() > current.getOutcome().getHunger()){
 						best = current;
-						thirstAmount = best.getOutcome().getThirst();
+						thirstAmount = best.getOutcome().getHunger();
 					}
 					*/
 					break loop;
