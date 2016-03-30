@@ -13,7 +13,6 @@ import java.util.Iterator;
  */
 public class DrinkState implements IState{
 	private ICharacterHandle body;
-
 	private final ArtificialBrain brain;
 
 	public DrinkState(ArtificialBrain brain){
@@ -46,5 +45,6 @@ public class DrinkState implements IState{
 		}
 		
 		best.consumed((Character)body);
+
 	}
 }
