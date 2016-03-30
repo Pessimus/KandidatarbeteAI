@@ -18,6 +18,12 @@ public class BuildState implements IState{
 
 	@Override
 	public void run() {
-		;
+		/*
+		if(!body.hasHome){
+			if(!body.hasMaterialFor(Structure.HOUSE)){
+
+			}
+		}
+		*/
 	}
 }
