@@ -85,6 +85,67 @@ public class World{
 		characterstoberemoved = new LinkedList<>();
 	}
 
+	public World (double width, double height, int nrTrees, int nrLakes, int nrStones, int nrCrops){
+		this(width,height);
+
+		int i = 0;
+		float tmpX;
+		float tmpY;
+		while(i < nrTrees){
+			tmpX = (float)(Math.random()*this.width);
+			tmpY = (float)(Math.random()*this.height);
+
+			Wood tmpWood = new Wood(10,10,1);
+			ResourcePoint tmpPoint = new ResourcePoint(tmpWood, RenderObject.RENDER_OBJECT_ENUM.WOOD,tmpX,tmpY,10);
+
+			this.collidables.add(tmpPoint);
+			this.collidablesR.add(tmpPoint);
+			this.timeables.add(tmpWood);
+
+			i++;
+		}
+		i = 0;
+		while(i < nrLakes){
+			tmpX = (float)(Math.random()*this.width);
+			tmpY = (float)(Math.random()*this.height);
+
+			Water tmpLake = new Water(1);
+			ResourcePoint tmpPoint = new ResourcePoint(tmpLake, RenderObject.RENDER_OBJECT_ENUM.LAKE,tmpX,tmpY,100);
+
+			this.collidables.add(tmpPoint);
+			this.collidablesR.add(tmpPoint);
+
+			i++;
+		}
+		i = 0;
+		while(i < nrStones){
+			tmpX = (float)(Math.random()*this.width);
+			tmpY = (float)(Math.random()*this.height);
+
+			Stone tmpStone = new Stone(50,5);
+			ResourcePoint tmpPoint = new ResourcePoint(tmpStone, RenderObject.RENDER_OBJECT_ENUM.STONE,tmpX,tmpY,10);
+
+			this.collidables.add(tmpPoint);
+			this.collidablesR.add(tmpPoint);
+
+			i++;
+		}
+		i = 0;
+		while(i < nrCrops){
+			tmpX = (float)(Math.random()*this.width);
+			tmpY = (float)(Math.random()*this.height);
+
+			Crops tmpCrops = new Crops(100,5);
+			ResourcePoint tmpPoint = new ResourcePoint(tmpCrops, RenderObject.RENDER_OBJECT_ENUM.CROPS,tmpX,tmpY,20);
+
+			this.collidables.add(tmpPoint);
+			this.collidablesR.add(tmpPoint);
+
+			i++;
+		}
+
+	}
+
 //---------------------------------------------UPDATE METHODS---------------------------------------------------------\\
 
 	public void uppdate() {
@@ -154,26 +215,27 @@ public class World{
 		return character;
 	}
 
-	public ResourcePoint addFiniteResourcePoint(FiniteResource resourceType, float xPoss, float yPoss, double radius){
-		ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
-		this.collidables.add(point);
-		this.collidablesR.add(point);
-		return point;
-	}
+	//TODO implement properly---------------------------------
+				public ResourcePoint addFiniteResourcePoint(FiniteResource resourceType, float xPoss, float yPoss, double radius){
+					ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
+					this.collidables.add(point);
+					this.collidablesR.add(point);
+					return point;
+				}
 
-	public ResourcePoint addInfiniteResourcePoint(InfiniteResource resourceType, float xPoss, float yPoss, double radius){
-		ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
-		this.collidables.add(point);
-		this.collidablesR.add(point);
-		return point;
-	}
+				public ResourcePoint addInfiniteResourcePoint(InfiniteResource resourceType, float xPoss, float yPoss, double radius){
+					ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
+					this.collidables.add(point);
+					this.collidablesR.add(point);
+					return point;
+				}
 
-	public ResourcePoint addRenewableResourcePoint(RenewableResource resourceType, float xPoss, float yPoss, double radius){
-		ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
-		this.collidables.add(point);
-		this.collidablesR.add(point);
-		this.timeables.add(resourceType);
-		return point;
+				public ResourcePoint addRenewableResourcePoint(RenewableResource resourceType, float xPoss, float yPoss, double radius){
+					ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
+					this.collidables.add(point);
+					this.collidablesR.add(point);
+					this.timeables.add(resourceType);
+					return point;
 	}
 
 	public void removeObjects() {

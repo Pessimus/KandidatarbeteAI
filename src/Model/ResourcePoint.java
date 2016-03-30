@@ -97,16 +97,19 @@ public class ResourcePoint implements ICollidable {
 	@Override
 	public void interacted(Character rhs){
 		rhs.addToInventory(resource.gatherResource());
+		System.out.println("interacted"+this);
 	}
 
 	@Override
 	public void consumed(Character rhs){
 		resource.gatherResource().consumed(rhs);
+		System.out.println("consumed" + this);
 	}
 
 	@Override
 	public void attacked(Character rhs){
 		resource.setResourcesLeft(0);
+		System.out.println("attacked" + this);
 	}
 
 //------------------------------------------Update METHODS------------------------------------------------------------\\

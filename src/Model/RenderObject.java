@@ -14,7 +14,7 @@ public final class RenderObject{
 	private RENDER_OBJECT_ENUM objectType;
 
 	public enum RENDER_OBJECT_ENUM{
-		CHARACTER("res/Villager16x16.png"), TREE("res/terrain.png"),
+		CHARACTER("res/Villager16x16.png"), TREE("res/terrain.png"), LAKE("res/lake.png"), STONE("res/stone.png"), CROPS("res/crops.png"), WOOD("res/wood.png"),
 
 		// TODO: Hardcoded test enum
 		MEAT("res/meat_item.png");

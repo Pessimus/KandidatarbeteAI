@@ -14,7 +14,7 @@ public class Water extends InfiniteResource {
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
-	public Water(int resources, int yield){
+	public Water(int yield){
 		this.yield = yield;
 	}
 
