@@ -193,7 +193,7 @@ public final class Constants {
 	public static final 	Pathfinder		PATHFINDER_OBJECT					=	new Pathfinder(PATHFINDER_GRID_SIZE, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, PATHFINDER_PERPENDICULAR_COST, PATHFINDER_DIAGONAL_COST);
 
 	// ----------- Display Needs ----------- \\
-	public static final		int				BOX_WIDTH							=	700;
+	public static final		int				BOX_WIDTH							=	600;
 	public static final		int				BOX_HEIGHT							=	150;
 	public static final		int				MARGIN_FROM_TOP						=	BOX_HEIGHT/4;
 	public static final		int				MARGIN_FROM_LEFT					=	20;

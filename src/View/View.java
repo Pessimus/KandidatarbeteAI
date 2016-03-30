@@ -85,16 +85,28 @@ public class View extends BasicGameState implements InputListener{
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-		tempWidth = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE/scaleGraphics);
-		tempHeight = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE/scaleGraphics);
+		//tempWidth = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE/scaleGraphics);
+		//tempHeight = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE/scaleGraphics);
+		tempWidth = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE);
+		tempHeight = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE);
     }
 
 	@Override
 	public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-		graphics.scale(scaleGraphics,scaleGraphics);
-
+		//graphics.scale(scaleGraphics,scaleGraphics);
 		try {
-			map.render(0,0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, tempWidth, tempHeight);
+			//map.render(0,0, renderPointX/Constants.WORLD_TILE_SIZE, renderPointY/Constants.WORLD_TILE_SIZE, tempWidth, tempHeight);
+			int tileOffsetX = (-1*renderPointX%Constants.WORLD_TILE_SIZE);
+			int tileOffsetY = (-1*renderPointY%Constants.WORLD_TILE_SIZE);
+			int tileIndexX  = renderPointX/Constants.WORLD_TILE_SIZE;
+			int tileIndexY  = renderPointY/Constants.WORLD_TILE_SIZE;
+
+			graphics.translate(-renderPointX, -renderPointY);
+			map.render(renderPointX+tileOffsetX, renderPointY+tileOffsetY, tileIndexX, tileIndexY, (int)((Constants.SCREEN_WIDTH - tileOffsetX)/Constants.WORLD_TILE_SIZE)+ 1,
+					(int)((Constants.SCREEN_HEIGHT- tileOffsetX)/Constants.WORLD_TILE_SIZE)+ 1);
+			//draw player at its real position
+			graphics.translate(renderPointX, renderPointY);
+
 
 			semaphore.acquire();
 			if(listToRender != null){
@@ -216,6 +228,7 @@ public class View extends BasicGameState implements InputListener{
 		}
 	}
 	*/
+
 
 	//-----Getters and Setters
     @Override
