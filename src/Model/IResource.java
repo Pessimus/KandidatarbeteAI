@@ -19,4 +19,5 @@ public interface IResource {
 	ResourceType getResourceType();
 	String getResourceName();
 	int getResourcesLeft();
+	void setResourcesLeft(int amount);
 }

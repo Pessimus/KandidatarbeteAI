@@ -17,9 +17,12 @@ public abstract class FiniteResource implements IResource{
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
+	@Override
 	public int getResourcesLeft(){
 		return resourcesLeft;
 	}
 
+	@Override
 	public void setResourcesLeft(int amount){resourcesLeft=amount;}
+
 }

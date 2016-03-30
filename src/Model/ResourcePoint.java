@@ -4,7 +4,12 @@ package Model;
  * Created by Tobias on 2016-02-26.
  */
 public class ResourcePoint implements ICollidable {
+
+//-----------------------------------------------VARIABLES------------------------------------------------------------\\
+
 	IResource resource;
+
+	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum;
 
 	private float xPos;
 	private float yPos;
@@ -12,9 +17,8 @@ public class ResourcePoint implements ICollidable {
 	private double interactionRadius;
 	private double surroundingRadius;
 
-	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum;
+//----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
-	//TODO toBeRemoved the parameter renderEnum, and get it from the renderType.
 	public ResourcePoint(IResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float x, float y, double radius){
 		resource = resourceType;
 		xPos = x;
@@ -24,6 +28,8 @@ public class ResourcePoint implements ICollidable {
 		surroundingRadius = radius;
 		renderObjectEnum = renderEnum;
 	}
+
+//---------------------------------------Getters & Setters------------------------------------------------------------\\
 
 	@Override
 	public float getX() {
@@ -49,6 +55,12 @@ public class ResourcePoint implements ICollidable {
 	public double getSurroundingRadius() {
 		return surroundingRadius;
 	}
+
+	public String getResourceName(){
+		return resource.getResourceName();
+	}
+
+//---------------------------------------Collision Methods------------------------------------------------------------\\
 
 	@Override
 	public void addToInteractableX(ICollidable rhs) {
@@ -80,7 +92,7 @@ public class ResourcePoint implements ICollidable {
 		//TODO implement
 	}
 
-	//---------------------------------------Interaction methods----------------------------------------------------------\\
+//---------------------------------------Interaction methods----------------------------------------------------------\\
 
 	@Override
 	public void interacted(Character rhs){
@@ -97,20 +109,14 @@ public class ResourcePoint implements ICollidable {
 		//TODO implement
 	}
 
+//------------------------------------------Update METHODS------------------------------------------------------------\\
 
-	//TODO implement
 	@Override
 	public boolean toBeRemoved() {
 		return resource.getResourcesLeft()==0;
 	}
 
-	public String getResourceName(){
-		return resource.getResourceName();
-	}
-
-	public IItem gatherResource(){
-		return resource.gatherResource();
-	}
+//------------------------------------------------RENDER METHODS------------------------------------------------------\\
 
 	@Override
 	public RenderObject getRenderObject() {
