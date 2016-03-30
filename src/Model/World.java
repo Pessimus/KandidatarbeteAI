@@ -92,8 +92,8 @@ public class World{
 		float tmpX;
 		float tmpY;
 		while(i < nrTrees){
-			tmpX = (float)(Math.random()*this.width);
-			tmpY = (float)(Math.random()*this.height);
+			tmpX = (float)(Math.random()*this.width/20);
+			tmpY = (float)(Math.random()*this.height/20);
 
 			Wood tmpWood = new Wood(10,10,1);
 			ResourcePoint tmpPoint = new ResourcePoint(tmpWood, RenderObject.RENDER_OBJECT_ENUM.WOOD,tmpX,tmpY,10);

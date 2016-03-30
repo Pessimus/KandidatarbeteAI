@@ -56,11 +56,11 @@ public class Wood extends RenewableResource {
 		if(updateCounter == 0 && getResourcesLeft()>0 && getResourcesLeft()<getMaxResources()){
 			setResourcesLeft(getResourcesLeft() + Constants.TREE_INCREASE_AMOUNT);
 		}
-    }
+	}
 
     //TODO implement
     @Override
     public boolean toBeRemoved() {
-        return getResourcesLeft()>0;
+        return !(getResourcesLeft()>0);
     }
 }

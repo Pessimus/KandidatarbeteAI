@@ -60,9 +60,9 @@ public class Controller implements PropertyChangeListener {
 		//setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT));
 
 		//TODO remove test
-			setModel(new World(Constants.WORLD_WIDTH,Constants.WORLD_HEIGHT,500,20,100,200));
+			setModel(new World(Constants.WORLD_WIDTH,Constants.WORLD_HEIGHT,1,20,100,200));
 
-		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT, scaleGraphics));
+		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, scaleGraphics));
 
 
 		keyboardInputQueue = new LinkedList<>();
@@ -137,8 +137,9 @@ public class Controller implements PropertyChangeListener {
 	 */
 	private void updateView(){
 		List<RenderObject> temp = new LinkedList<>();
-		float width = (float) gameModel.getWidth();
-		float height = (float) gameModel.getHeight();
+		gameView.drawNeeds(player.getBody().getNeeds());
+		int width = (int)gameModel.getWidth();
+		int height = (int)gameModel.getHeight();
 
 		//Centers the player in the middle of the screen
 		if(playerViewCentered){
@@ -204,8 +205,8 @@ public class Controller implements PropertyChangeListener {
 		RenderObject[] obj = gameModel.getRenderObjects();
 
 		for (RenderObject tempObj : obj) {
-			float[] tempInts = convertFromModelToViewCoords(tempObj.getX(), tempObj.getY());
-			temp.add(new RenderObject(tempInts[0], tempInts[1], tempObj.getRadius(), tempObj.getRenderType()));
+			float[] tempFloats = convertFromModelToViewCoords(tempObj.getX(), tempObj.getY());
+			temp.add(new RenderObject(tempFloats[0], tempFloats[1], tempObj.getRadius(), tempObj.getRenderType()));
 		}
 
 		gameView.setRenderPoint(screenRect.getMinX(), screenRect.getMinY());
@@ -312,15 +313,24 @@ public class Controller implements PropertyChangeListener {
 							player.playerWalking();
 							break;
 						case Input.KEY_I:
-							showingPlayerInventory = !showingPlayerInventory;
-							if(showingPlayerInventory){
-								gameView.drawInventory(gameModel.displayPlayerInventory());
+							if(playerViewCentered) {
+								showingPlayerInventory = !showingPlayerInventory;
+								if (showingPlayerInventory) {
+									gameView.drawInventory(gameModel.displayPlayerInventory());
+								} else {
+									gameView.hidePlayerInventory();
+								}
 							}else{
+								showingPlayerInventory = false;
 								gameView.hidePlayerInventory();
 							}
 							break;
 						case Input.KEY_V:
 							playerViewCentered = !playerViewCentered;
+							if(!playerViewCentered && showingPlayerInventory){
+								showingPlayerInventory = false;
+								gameView.hidePlayerInventory();
+							}
 							break;
 					}
 				}

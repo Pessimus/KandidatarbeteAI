@@ -24,7 +24,11 @@ public abstract class RenewableResource implements ITimeable, IResource{
 	}
 
 	public void setResourcesLeft(int amount){
-		resourcesLeft = amount;
+		if(amount > maxResources){
+			resourcesLeft = maxResources;
+		}else if(amount >= 0) {
+			resourcesLeft = amount;
+		}
 	}
 
 	public int getMaxResources(){

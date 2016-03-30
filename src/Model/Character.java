@@ -304,7 +304,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	public void updateTimeable() {
 		//Updates counter with one but doesn't exceed 60.
-		updateCounter = (updateCounter+1) % Constants.CHARACTER_UPDATE_INTERVALL;
+		updateCounter = (updateCounter+1) % Constants.CHARACTER_UPDATE_INTERVAL;
 
 		if(updateCounter % Constants.CHARACTER_HUNGER_UPDATE == 0){
 			hunger = hunger - Constants.CHARACTER_HUNGER_CHANGE;
@@ -352,7 +352,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	//TODO implement, change type....
 	@Override
 	public int[] getNeeds() {
-		return new int[0];
+		return new int[]{hunger, thirst, energy};
 	}
 
 	//TODO implement, change type....

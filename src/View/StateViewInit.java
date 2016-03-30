@@ -113,6 +113,10 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 		view.setRenderPoint(x, y);
 	}
 
+	public void drawNeeds(int[] needs){
+		view.setPlayerNeeds(needs.clone());
+	}
+
 	public void drawInventory(LinkedList<Model.InventoryRender> inventoryItems){
 		view.renderInventory(inventoryItems);
 	}
