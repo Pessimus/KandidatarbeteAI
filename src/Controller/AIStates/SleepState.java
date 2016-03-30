@@ -16,11 +16,6 @@ public class SleepState implements IState{
 	}
 
 	@Override
-	public void setBody(ICharacterHandle character) {
-
-	}
-
-	@Override
 	public void run() {
 		;
 	}

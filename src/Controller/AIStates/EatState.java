@@ -17,11 +17,6 @@ public class EatState implements IState{
 	}
 
 	@Override
-	public void setBody(ICharacterHandle character) {
-
-	}
-
-	@Override
 	public void run() {
 		;
 	}

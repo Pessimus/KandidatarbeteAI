@@ -40,11 +40,11 @@ import java.util.List;
 	private IState thirstyState			= new ThirstyState(this);
 	private IState tradeState			= new TradeState(this);
 
-	//private HashMap<Path2D, ResourcePoint> resourceMap = new HashMap<>();
+	private final HashMap<Path2D, ResourcePoint> resourceMap = new HashMap<>();
 	List<ResourcePoint> resourceMemory = new LinkedList<>();
 
 	// TODO: Hardcoded universal vision
-	private World map;
+	public World map;
 
 	public ArtificialBrain(World world){
 		this();
@@ -66,6 +66,8 @@ import java.util.List;
 		int[] needs = body.getNeeds();
 		int[] traits = body.getTraits();
 		int[] skills = body.getSkills();
+
+		currentState.run();
 
 		if(needs[0] <= needs[1] && needs[0] <= needs[2]){
 
@@ -139,6 +141,66 @@ import java.util.List;
 	@Override
 	public IState getState() {
 		return currentState;
+	}
+
+	public IState getBuildHouseState() {
+		return buildHouseState;
+	}
+
+	public IState getBuildState() {
+		return buildState;
+	}
+
+	public IState getConverseState() {
+		return converseState;
+	}
+
+	public IState getCookState() {
+		return cookState;
+	}
+
+	public IState getDrinkState() {
+		return drinkState;
+	}
+
+	public IState getEatState() {
+		return eatState;
+	}
+
+	public IState getGatherMaterialState() {
+		return gatherMaterialState;
+	}
+
+	public IState getGatherState() {
+		return gatherState;
+	}
+
+	public IState getHungryState() {
+		return hungryState;
+	}
+
+	public IState getIdleState() {
+		return idleState;
+	}
+
+	public IState getSleepState() {
+		return sleepState;
+	}
+
+	public IState getSleepyState() {
+		return sleepyState;
+	}
+
+	public IState getSocializeState() {
+		return socializeState;
+	}
+
+	public IState getThirstyState() {
+		return thirstyState;
+	}
+
+	public IState getTradeState() {
+		return tradeState;
 	}
 
 	/*

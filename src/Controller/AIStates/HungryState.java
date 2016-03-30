@@ -22,11 +22,6 @@ public class HungryState implements IState {
 	}
 
 	@Override
-	public void setBody(ICharacterHandle character) {
-
-	}
-
-	@Override
 	public void run() {
 		if(actionQueue.isEmpty()){
 		}

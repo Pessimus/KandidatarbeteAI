@@ -19,11 +19,6 @@ public class GatherState implements IState{
 	}
 
 	@Override
-	public void setBody(ICharacterHandle character) {
-
-	}
-
-	@Override
 	public void run() {
 		List<IItem> inventory = body.getInventory();
 		IResource.ResourceType lowestResource = null;

@@ -16,11 +16,6 @@ public class GatherMaterialState implements IState{
 	}
 
 	@Override
-	public void setBody(ICharacterHandle character) {
-
-	}
-
-	@Override
 	public void run() {
 		;
 	}
