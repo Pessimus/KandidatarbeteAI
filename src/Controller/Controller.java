@@ -73,15 +73,15 @@ public class Controller implements PropertyChangeListener {
 				player.setBody(gameModel.addCharacter(1000, 1000, Constants.PLAYER_CHARACTER_KEY));
 				((Character)player.getBody()).godMode = true;
 				GoldItem gi = new GoldItem(5);
-				player.getBody().getInventory().add(gi);
+				((Character) player.getBody()).addToInventory(gi);
 				FishItem fi = new FishItem(5);
-				player.getBody().getInventory().add(fi);
+				((Character) player.getBody()).addToInventory(fi);
 				WaterItem wi = new WaterItem(5);
-				player.getBody().getInventory().add(wi);
+				((Character) player.getBody()).addToInventory(wi);
 				StoneItem si = new StoneItem(5);
-				player.getBody().getInventory().add(si);
+				((Character) player.getBody()).addToInventory(si);
 				WaterItem wi2 = new WaterItem(10);
-				player.getBody().getInventory().add(wi2);
+				((Character) player.getBody()).addToInventory(wi2);
 
 				gameModel.addCharacter(1010,1010,2).godMode = true;
 				//this.gameModel.addFiniteResourcePoint(new Crops(5),1010,1010,5);

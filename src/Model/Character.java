@@ -262,11 +262,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	}
 
 	public void addToInventory(IItem item){
-		//TODO implement
+		inventory.addItem(item);
 	}
 
 	public void removeFromInventory(IItem item){
-		//TODO implement
+		inventory.removeItem(item);
 	}
 
 	public void changeHunger(int change){
