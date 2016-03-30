@@ -10,7 +10,7 @@ import Model.ICharacterHandle;
 public class ConverseState implements IState{
 	private ICharacterHandle body;
 
-	private final AbstractBrain brain;
+	private final ArtificialBrain brain;
 
 	public ConverseState(ArtificialBrain brain){
 		this.brain = brain;

@@ -19,6 +19,8 @@ public class HungryState implements IState {
 	private ICharacterHandle body;
 	private final AbstractBrain brain;
 	private List<PathStep> pathToResource;
+	private final ArtificialBrain brain;
+
 
 	private Queue<CharacterAction> actionQueue = new LinkedList<>();
 

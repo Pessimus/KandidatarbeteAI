@@ -9,7 +9,7 @@ import Model.ICharacterHandle;
  */
 public class GatherMaterialState implements IState{
 	private ICharacterHandle body;
-	private final AbstractBrain brain;
+	private final ArtificialBrain brain;
 
 	public GatherMaterialState(ArtificialBrain brain){
 		this.brain = brain;

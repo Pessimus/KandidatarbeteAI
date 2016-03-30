@@ -9,7 +9,7 @@ import Model.ICharacterHandle;
  */
 public class SleepyState implements IState{
 	private ICharacterHandle body;
-	private final AbstractBrain brain;
+	private final ArtificialBrain brain;
 
 	public SleepyState(ArtificialBrain brain){
 		this.brain = brain;

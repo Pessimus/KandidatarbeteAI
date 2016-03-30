@@ -12,7 +12,7 @@ import java.util.List;
 public class GatherState implements IState{
 	private ICharacterHandle body;
 
-	private final AbstractBrain brain;
+	private final ArtificialBrain brain;
 
 	public GatherState(ArtificialBrain brain){
 		this.brain = brain;
