@@ -85,5 +85,5 @@ public class WoodItem implements IItem {
 	public IItem.Type getType() {
 		return Type.WOOD_ITEM;
 	}
-	
+
 }

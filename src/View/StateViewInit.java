@@ -31,7 +31,7 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 	/**
 	 * TODO: Javadoc!
 	 * @param title What the title of the window should be
-	 * @param fullscreen Wether the game should uppdate in fullscreen/windowed mode
+	 * @param fullscreen Wether the game should update in fullscreen/windowed mode
 	 * @param grabMouse Wether the mouse
 	 * @param targetFramerate
 	 * @param resWidth

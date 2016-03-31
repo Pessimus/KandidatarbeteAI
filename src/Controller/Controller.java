@@ -235,7 +235,7 @@ public class Controller implements PropertyChangeListener {
 			handleMouseInput(tempMouseList);
 		}
 
-		gameModel.uppdate();
+		gameModel.update();
 	}
 
 //--------------------------------------------Input Methods-----------------------------------------------------------\\
