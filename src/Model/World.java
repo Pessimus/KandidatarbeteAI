@@ -160,7 +160,7 @@ public class World{
 
 			i++;
 		}
-		
+
 		//update mask for pathfinding
 		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
 

@@ -86,24 +86,11 @@ public class PlayerBrain implements AbstractBrain {
 
 	//TODO how to select object from list, aka not always 0
 	public void interact(){
-		System.out.println(body.getInteractables());
-		int i = 0;
-		for(ICollidable c : body.getInteractables()){
-			if(c.getClass() == (ResourcePoint.class)){
-				this.body.interactObject(i);
-			}
-			i++;
-		}
+		this.body.interactObject(0);
 	}
 
 	//TODO how to select object from list, aka not always 0
 	public void consume(){
-		int i = 0;
-		for(ICollidable c : body.getInteractables()){
-			if(c.getClass() == (ResourcePoint.class)){
-				this.body.consumeObject(i);
-			}
-			i++;
-		}
+		this.body.consumeObject(0);
 	}
 }
