@@ -100,8 +100,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	private Inventory inventory;
 
 	//--------------------Collision---------------------\\
-	private float xPos;
-	private float yPos;
+	//TODO remove test
+	//private
+	public float xPos;
+	//private
+	public float yPos;
 
 	private float stepLength = Constants.CHARACTER_WALK_SPEED;
 

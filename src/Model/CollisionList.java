@@ -172,28 +172,28 @@ public class CollisionList {
 
 	//---------------Interaction checking------------------\\
 	private void handleInterractionCollisionLeftX(Node node, Node left){
-		if(node.value.getX() - left.value.getX() <= node.value.getInteractionRadius()*2){
+		if(node.value.getX() - (left.value.getX()+left.value.getCollisionRadius()) <= node.value.getInteractionRadius()){
 			node.value.addToInteractableX(left.value);
 			handleInterractionCollisionLeftX(node, left.previous);
 		}
 	}
 
 	private void handleInterractionCollisionRightX(Node node, Node right){
-		if(right != null && right.value.getX() - node.value.getX() <= node.value.getInteractionRadius()*2){
+		if(right != null && (right.value.getX()-right.value.getCollisionRadius()) - node.value.getX() <= node.value.getInteractionRadius()){
 			node.value.addToInteractableX(right.value);
 			handleInterractionCollisionRightX(node, right.next);
 		}
 	}
 
 	private void handleInterractionCollisionLeftY(Node node, Node left){
-		if(node.value.getY() - left.value.getY() <= node.value.getInteractionRadius()*2){
+		if(node.value.getY() - (left.value.getY()+left.value.getCollisionRadius()) <= node.value.getInteractionRadius()){
 			node.value.addToInteractableY(left.value);
 			handleInterractionCollisionLeftY(node, left.previous);
 		}
 	}
 
 	private void handleInterractionCollisionRightY(Node node, Node right){
-		if (right != null && right.value.getY() - node.value.getY() <= node.value.getInteractionRadius()*2){
+		if (right != null && (right.value.getY()-right.value.getCollisionRadius()) - node.value.getY() <= node.value.getInteractionRadius()){
 			node.value.addToInteractableY(right.value);
 			handleInterractionCollisionRightY(node, right.next);
 		}
@@ -202,28 +202,28 @@ public class CollisionList {
 	//---------------Surrounding checking------------------\\
 
 	private void handleSurroundingsCollisionLeftX(Node node, Node left){
-		if(node.value.getX() - left.value.getX() <= node.value.getSurroundingRadius()*2){
+		if(node.value.getX() - (left.value.getX()+left.value.getCollisionRadius()) <= node.value.getSurroundingRadius()){
 			node.value.addToSurroundingX(left.value);
 			handleSurroundingsCollisionLeftX(node, left.previous);
 		}
 	}
 
 	private void handleSurroundingsCollisionRightX(Node node, Node right){
-		if(right != null && right.value.getX() - node.value.getX() <= node.value.getSurroundingRadius()*2){
+		if(right != null && (right.value.getX()-right.value.getCollisionRadius()) - node.value.getX() <= node.value.getSurroundingRadius()){
 			node.value.addToSurroundingX(right.value);
 			handleSurroundingsCollisionRightX(node, right.next);
 		}
 	}
 
 	private void handleSurroundingsCollisionLeftY(Node node, Node left){
-		if(node.value.getY() - left.value.getY() <= node.value.getSurroundingRadius()*2){
+		if(node.value.getY() - (left.value.getY()+left.value.getCollisionRadius()) <= node.value.getSurroundingRadius()){
 			node.value.addToSurroundingY(left.value);
 			handleSurroundingsCollisionLeftY(node, left.previous);
 		}
 	}
 
 	private void handleSurroundingsCollisionRightY(Node node, Node right){
-		if (right != null && right.value.getY() - node.value.getY() <= node.value.getSurroundingRadius()*2){
+		if (right != null && (right.value.getY()-right.value.getCollisionRadius()) - node.value.getY() <= node.value.getSurroundingRadius()){
 			node.value.addToSurroundingY(right.value);
 			handleSurroundingsCollisionRightY(node, right.next);
 		}

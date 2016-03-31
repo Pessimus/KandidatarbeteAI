@@ -1,5 +1,7 @@
 package Model;
 
+import org.lwjgl.Sys;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
@@ -91,12 +93,13 @@ public class World{
 	}
 
 	public World (double width, double height, int nrTrees, int nrLakes, int nrStones, int nrCrops){
-		this(width,height);
 
-		Wood tw1 = new Wood(30,101,30);
-		ResourcePoint r = new ResourcePoint(tw1, RenderObject.RENDER_OBJECT_ENUM.WOOD, 1050, 1050, 50);
-		this.collidables.add(r);
-		this.collidablesR.add(r);
+		this(width, height);
+
+		Wood tw1 = new Wood(1000,1000,1);
+		ResourcePoint trp1 = new ResourcePoint(tw1, RenderObject.RENDER_OBJECT_ENUM.WOOD,1050,1050,50);
+		this.collidables.add(trp1);
+		this.collidablesR.add(trp1);
 
 		int i = 0;
 		float tmpX;
@@ -157,6 +160,7 @@ public class World{
 
 			i++;
 		}
+
 		//update mask for pathfinding
 		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
 

@@ -1,8 +1,7 @@
 package Controller;
 
+import Model.*;
 import Model.Character;
-import Model.Constants;
-import Model.ICharacterHandle;
 
 /**
  * Created by Gustav on 2016-03-23.
