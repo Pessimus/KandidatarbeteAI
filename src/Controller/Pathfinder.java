@@ -70,13 +70,17 @@ public class Pathfinder {
     }
 
     public LinkedList<PathStep> getPath (double startx, double starty, double endx, double endy) {
+        System.out.println(Double.toString(startx) + " " + Double.toString(startx) + " " + Double.toString(endy) + " " + Double.toString(endy));
         LinkedList<PathStep> ret = new LinkedList<>();
         LinkedList<Tuple> help = helpPath((int)(startx/gridSize), (int)(starty/gridSize), (int)(endx/gridSize), (int)(endy/gridSize));
+        System.out.println(help);
+        System.out.println(gridSize);
         if (help != null) {
             for (Tuple t : help) {
                 ret.add(createPathStep(t.x,t.y));
             }
             ret.add(new PathStep(endx, endy));
+            System.out.println(ret);
             return ret;
         } else {
             return null;
@@ -156,6 +160,7 @@ public class Pathfinder {
     private LinkedList<Node> successors(Node n, int endx, int endy) {
         LinkedList<Node> ret = new LinkedList<>();
         // adjacent nodes
+        if (n.x < 0 || n.x >= width || n.y < 0 || n.y >= height) {return ret;}
         if (n.x + 1 < width && mask[n.x+1][n.y]) {ret.add(new Node(n.x+1,n.y,n.g+adjacentCost,optimalDistance(n.x+1, n.y, endx, endy),n));}
         if (n.x - 1 >= 0 && mask[n.x-1][n.y]) {ret.add(new Node(n.x-1,n.y,n.g+adjacentCost,optimalDistance(n.x-1, n.y, endx, endy),n));}
         if (n.y + 1 < height && mask[n.x][n.y+1]) {ret.add(new Node(n.x,n.y+1,n.g+adjacentCost,optimalDistance(n.x, n.y+1, endx, endy),n));}

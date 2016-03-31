@@ -31,12 +31,11 @@ public class EatState implements IState{
 						best = current;
 						hungerAmount = best.getOutcome().getHunger();
 					}
-					else if(best.getOutcome().getHunger() > current.getOutcome().getHunger()){
+					else if(best.getOutcome().getHunger() < current.getOutcome().getHunger()){
 						best = current;
 						thirstAmount = best.getOutcome().getHunger();
 					}
 					*/
-					break loop;
 			}
 		}
 		best.consumed((Character)brain.getBody());

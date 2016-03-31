@@ -24,9 +24,6 @@ public class Controller implements PropertyChangeListener {
 //	}
 
 
-//TODO-----------------------------------END ????---------------------------------------------------------------------\\
-//-----------------------------------------------VARIABLES------------------------------------------------------------\\
-
 	//-------------------MVC variables------------------\\
 	private World gameModel;
 	private StateViewInit gameView;
@@ -62,14 +59,16 @@ public class Controller implements PropertyChangeListener {
 		//TODO remove test
 			setModel(new World(Constants.WORLD_WIDTH,Constants.WORLD_HEIGHT,1,20,100,200));
 
-		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, scaleGraphics));
+		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT, scaleGraphics));
 
 
 		keyboardInputQueue = new LinkedList<>();
 		mouseInputQueue = new LinkedList<>();
 
+
 		mouseX = (float)Constants.SCREEN_WIDTH/2;
 		mouseY = (float)Constants.SCREEN_HEIGHT/2;
+
 
 		screenRect = new ModelToViewRectangle(Constants.DEFAULT_WORLD_VIEW_X, Constants.DEFAULT_WORLD_VIEW_Y, (float)Constants.SCREEN_WIDTH, (float)Constants.SCREEN_HEIGHT);
 
@@ -356,6 +355,7 @@ public class Controller implements PropertyChangeListener {
 						//TODO WHAT SHOULD BE DONE HERE?!
 						//float[] tempFloats = convertFromViewToModelCoords(clicks[2], clicks[3]);
 						//gameModel.selectObject(tempFloats[0], tempFloats[1]);
+							player.moveToMouse(clicks[2], clicks[3]);
 					}
 
 					if(clicks[1] == Input.MOUSE_RIGHT_BUTTON){

@@ -30,6 +30,10 @@ public class PathStep {
         return Math.abs(nowx - nodex) <= range && Math.abs(nowy - nodey) <= range;
     }
 
+    public boolean reached (ICharacterHandle c) {
+        return reached(c.getX(), c.getY(), c.getSteplength());
+    }
+
     // steps the given character towards the node and returns true if they reached the node
     public boolean stepTowards (ICharacterHandle c) {
         double diffx = nodex - c.getX();
