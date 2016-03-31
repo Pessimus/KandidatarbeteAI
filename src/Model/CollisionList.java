@@ -14,6 +14,10 @@ public class CollisionList {
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
+	/**
+	 * A dual list for ICollidables, one list for the x-axis and one for the y-axis.
+	 * Used for effectively checking different kinds of collision between objects.
+	 */
 	public CollisionList(){
 		this.startNodeX = new Node(new CollidableDummy(), null, null);
 		this.startNodeY = new Node(new CollidableDummy(), null, null);
@@ -23,6 +27,9 @@ public class CollisionList {
 
 //--------------------------------------------Sorting methods---------------------------------------------------------\\
 
+	/**
+	 * Sorting the x-list based on the x-coordinates in ascending order.
+	 */
 	public void sortX(){
 		if(startNodeX.next == null){
 			return;
@@ -42,6 +49,9 @@ public class CollisionList {
 		}
 	}
 
+	/**
+	 * Sorting the y-list based on the y-coordinates in ascending order.
+	 */
 	public void sortY(){
 		if(startNodeY.next == null){
 			return;
@@ -61,6 +71,11 @@ public class CollisionList {
 		}
 	}
 
+	/**
+	 * Swaps positions in the list of two nodes next to each other.
+	 * @param previous the first node, has the other as next.
+	 * @param next the second node, has the other as previous.
+	 */
 	private void swap(Node previous, Node next) {
 		next.previous = previous.previous;
 		previous.next = next.next;
@@ -76,6 +91,10 @@ public class CollisionList {
 
 //------------------------------------------Add & toBeRemoved methods------------------------------------------------------\\
 
+	/**
+	 * Adds the ICollidable to the lists in the right place.
+	 * @param addValue the ICollidable to be added.
+	 */
 	public void add(ICollidable addValue){
 		//Add to the X list
 		Node loopNodeX = startNodeX;
@@ -94,6 +113,10 @@ public class CollisionList {
 		this.size++;
 	}
 
+	/**
+	 * Removes the ICollidable from the lists if it exists.
+	 * @param collidable the ICollidable to be removed.
+	 */
 	public void remove(ICollidable collidable) {
 		//Remove from the x list
 		Node tmpX = startNodeX.next;
@@ -124,13 +147,20 @@ public class CollisionList {
 		}
 	}
 
+	/**
+	 * Returns the number of items in the lists.
+	 * Both lists always have the same number of items.
+	 * @return the number of items.
+	 */
 	public int getSize(){
 		return this.size;
 	}
 
 //----------------------------------------Sweep and prune methods-----------------------------------------------------\\
 
-	//TODO null check
+	/**
+	 * Checks collision for all items in the lists. Collision occurs if two items collide in both lists.
+	 */
 	public void handleCollision(){
 
 		this.sortX();
@@ -171,6 +201,14 @@ public class CollisionList {
 	}
 
 	//---------------Interaction checking------------------\\
+
+	/**
+	 * Checks if two nodes collide in the x-axis.
+	 * It uses the interactionRadius of the first and the collisionRadius of the second.
+	 * If collision occurs it also checks the first against the node left of the left node.
+	 * @param node the node to check collision for using the interaction radius.
+	 * @param left the node to check against the other using the collision radius.
+	 */
 	private void handleInterractionCollisionLeftX(Node node, Node left){
 		if(node.value.getX() - (left.value.getX()+left.value.getCollisionRadius()) <= node.value.getInteractionRadius()){
 			node.value.addToInteractableX(left.value);
@@ -178,6 +216,13 @@ public class CollisionList {
 		}
 	}
 
+	/**
+	 * Checks if two nodes collide in the x-axis.
+	 * It uses the interactionRadius of the first and the collisionRadius of the second.
+	 * If collision occurs it also checks the first against the node right of the right node.
+	 * @param node the node to check collision for using the interaction radius.
+	 * @param right the node to check against the other using the collision radius.
+	 */
 	private void handleInterractionCollisionRightX(Node node, Node right){
 		if(right != null && (right.value.getX()-right.value.getCollisionRadius()) - node.value.getX() <= node.value.getInteractionRadius()){
 			node.value.addToInteractableX(right.value);
@@ -185,6 +230,13 @@ public class CollisionList {
 		}
 	}
 
+	/**
+	 * Checks if two nodes collide in the y-axis.
+	 * It uses the interactionRadius of the first and the collisionRadius of the second.
+	 * If collision occurs it also checks the first against the node left of the left node.
+	 * @param node the node to check collision for using the interaction radius.
+	 * @param left the node to check against the other using the collision radius.
+	 */
 	private void handleInterractionCollisionLeftY(Node node, Node left){
 		if(node.value.getY() - (left.value.getY()+left.value.getCollisionRadius()) <= node.value.getInteractionRadius()){
 			node.value.addToInteractableY(left.value);
@@ -192,6 +244,13 @@ public class CollisionList {
 		}
 	}
 
+	/**
+	 * Checks if two nodes collide in the y-axis.
+	 * It uses the interactionRadius of the first and the collisionRadius of the second.
+	 * If collision occurs it also checks the first against the node right of the right node.
+	 * @param node the node to check collision for using the interaction radius.
+	 * @param right the node to check against the other using the collision radius.
+	 */
 	private void handleInterractionCollisionRightY(Node node, Node right){
 		if (right != null && (right.value.getY()-right.value.getCollisionRadius()) - node.value.getY() <= node.value.getInteractionRadius()){
 			node.value.addToInteractableY(right.value);
@@ -201,6 +260,13 @@ public class CollisionList {
 
 	//---------------Surrounding checking------------------\\
 
+	/**
+	 * Checks if two nodes collide in the x-axis.
+	 * It uses the surroundingRadius of the first and the collisionRadius of the second.
+	 * If collision occurs it also checks the first against the node left of the left node.
+	 * @param node the node to check collision for using the interaction radius.
+	 * @param left the node to check against the other using the collision radius.
+	 */
 	private void handleSurroundingsCollisionLeftX(Node node, Node left){
 		if(node.value.getX() - (left.value.getX()+left.value.getCollisionRadius()) <= node.value.getSurroundingRadius()){
 			node.value.addToSurroundingX(left.value);
@@ -208,6 +274,13 @@ public class CollisionList {
 		}
 	}
 
+	/**
+	 * Checks if two nodes collide in the x-axis.
+	 * It uses the surroundingRadius of the first and the collisionRadius of the second.
+	 * If collision occurs it also checks the first against the node right of the right node.
+	 * @param node the node to check collision for using the interaction radius.
+	 * @param right the node to check against the other using the collision radius.
+	 */
 	private void handleSurroundingsCollisionRightX(Node node, Node right){
 		if(right != null && (right.value.getX()-right.value.getCollisionRadius()) - node.value.getX() <= node.value.getSurroundingRadius()){
 			node.value.addToSurroundingX(right.value);
@@ -215,6 +288,13 @@ public class CollisionList {
 		}
 	}
 
+	/**
+	 * Checks if two nodes collide in the y-axis.
+	 * It uses the surroundingRadius of the first and the collisionRadius of the second.
+	 * If collision occurs it also checks the first against the node left of the left node.
+	 * @param node the node to check collision for using the interaction radius.
+	 * @param left the node to check against the other using the collision radius.
+	 */
 	private void handleSurroundingsCollisionLeftY(Node node, Node left){
 		if(node.value.getY() - (left.value.getY()+left.value.getCollisionRadius()) <= node.value.getSurroundingRadius()){
 			node.value.addToSurroundingY(left.value);
@@ -222,6 +302,13 @@ public class CollisionList {
 		}
 	}
 
+	/**
+	 * Checks if two nodes collide in the y-axis.
+	 * It uses the surroundingRadius of the first and the collisionRadius of the second.
+	 * If collision occurs it also checks the first against the node right of the right left.
+	 * @param node the node to check collision for using the interaction radius.
+	 * @param right the node to check against the other using the collision radius.
+	 */
 	private void handleSurroundingsCollisionRightY(Node node, Node right){
 		if (right != null && (right.value.getY()-right.value.getCollisionRadius()) - node.value.getY() <= node.value.getSurroundingRadius()){
 			node.value.addToSurroundingY(right.value);
@@ -231,20 +318,20 @@ public class CollisionList {
 
 //---------------------------------------------Pathfinding methods----------------------------------------------------\\
 
-	public double getX() {return currentNodeX.getValue().getX();}
-	public double getY() {return currentNodeX.getValue().getY();}
-	public double getRadius() {return currentNodeX.getValue().getCollisionRadius();}
-	public ICollidable getValue() {return currentNodeX.getValue();}
+	public double getX() {return currentNodeX.value.getX();}
+	public double getY() {return currentNodeX.value.getY();}
+	public double getRadius() {return currentNodeX.value.getCollisionRadius();}
+	public ICollidable getValue() {return currentNodeX.value;}
 	public boolean previous() {
-		if (currentNodeX.getPrevious() != null) {
-			currentNodeX = currentNodeX.getPrevious(); return true;
+		if (currentNodeX.previous != null) {
+			currentNodeX = currentNodeX.previous; return true;
 		} else {
 			return false;
 		}
 	}
 	public boolean next() {
-		if (currentNodeX.getNext() != null) {
-			currentNodeX = currentNodeX.getNext();
+		if (currentNodeX.next != null) {
+			currentNodeX = currentNodeX.next;
 			return true;
 		}
 		else {
@@ -254,15 +341,18 @@ public class CollisionList {
 
 //---------------------------------Inner class for value of start nodes-----------------------------------------------\\
 
+	/**
+	 * A dummy class used for the start nodes in the lists.
+	 */
 	private class CollidableDummy implements ICollidable{
 		@Override
 		public float getX() {
-			return -10000;
+			return -1000000;
 		}
 
 		@Override
 		public float getY() {
-			return -10000;
+			return -1000000;
 		}
 
 		@Override
@@ -329,39 +419,25 @@ public class CollisionList {
 
 //----------------------------Inner class used to create custom linked list-------------------------------------------\\
 
+	/**
+	 * A datastructure designed to hold ICollidables in a ordered list.
+	 */
 	private class Node{
 
 		private ICollidable value;
 		private Node previous;
 		private Node next;
 
-
+		/**
+		 * @param value the ICollidable that is to be stored in the list.
+		 * @param previous previous node in the list.
+		 * @param next the next node in the list.
+		 */
 		public Node(ICollidable value, Node previous, Node next){
 			this.value = value;
 			this.previous = previous;
 			this.next = next;
 
 		}
-
-		public boolean isLargerThenX(Node rhs){
-			if(rhs == null){
-				return true;
-			}else{
-				return (this.value.getX() - rhs.value.getX())>0;
-			}
-		}
-
-		public Node getNext(){
-			return this.next;
-		}
-
-		public Node getPrevious(){
-			return this.previous;
-		}
-
-		public ICollidable getValue(){
-			return this.value;
-		}
-
 	}
 }
