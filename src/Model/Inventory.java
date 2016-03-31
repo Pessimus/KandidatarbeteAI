@@ -11,6 +11,7 @@ public class Inventory{
 
 	LinkedList<IItem> inventoryItems;
 
+
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
 	public Inventory(){
@@ -26,7 +27,11 @@ public class Inventory{
 	public boolean addItem(IItem item){
 		for(IItem invItem : inventoryItems){
 			if(item.getType() == invItem.getType()){
-				invItem.addAmount(item.getAmount());
+				if(invItem.getAmount()+item.getAmount() >= Constants.MAX_AMOUNT) {
+					invItem.setAmount(Constants.MAX_AMOUNT);
+				}else{
+					invItem.addAmount(item.getAmount());
+				}
 				return true;
 			}
 		}
