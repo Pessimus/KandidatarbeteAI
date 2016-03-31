@@ -16,12 +16,7 @@ import java.util.Queue;
  * Created by Tobias on 2016-03-29.
  */
 public class HungryState implements IState {
-	private ICharacterHandle body;
-	private List<PathStep> pathToResource;
 	private final ArtificialBrain brain;
-
-
-	private Queue<CharacterAction> actionQueue = new LinkedList<>();
 
 	public HungryState(ArtificialBrain brain){
 		this.brain = brain;
@@ -29,10 +24,43 @@ public class HungryState implements IState {
 
 	@Override
 	public void run() {
-		if(actionQueue.isEmpty()){
+		Iterator<IItem> iterator = brain.getBody().getInventory().iterator();
+		IItem best = null;
+		int hungerAmount = -1;
+
+		loop:while(iterator.hasNext()){
+			IItem current = iterator.next();
+			switch (current.getType()) {
+				case FISH_ITEM: //TODO: CHANGE FISH TO FOOD
+					best = current;
+					/*
+					if(best == null){
+						best = current;
+						thirstAmount = best.getOutcome().getThirst();
+					}
+					else if(best.getOutcome().getThirst() > thirstAmount){
+						best = current;
+						thirstAmount = best.getOutcome().getThirst();
+					}
+					*/
+					break loop;
+			}
 		}
+
+		if(best == null){
+			// TODO: Pathfinding to nearest/best food-resource
+			// TODO: Queue MovingState correctly
+			/*brain.setPath();
+			brain.queueState(brain.getMovingState());*/
+			// TODO: Queue GatherState
+			//brain.setNextResourceToGather();
+		}
+		else{
+			brain.setState(brain.getEatState());
+		}
+		/*
 		if(pathToResource == null) {
-			Iterator<IItem> iterator = body.getInventory().iterator();
+			Iterator<IItem> iterator = brain.getBody().getInventory().iterator();
 			IItem best = null;
 			int hungerAmount = -1;
 
@@ -41,7 +69,6 @@ public class HungryState implements IState {
 				switch (current.getType()) {
 					case FISH_ITEM: //TODO: CHANGE FISH TO FOOD
 						best = current;
-					/*
 					if(best == null){
 						best = current;
 						thirstAmount = best.getOutcome().getThirst();
@@ -50,7 +77,6 @@ public class HungryState implements IState {
 						best = current;
 						thirstAmount = best.getOutcome().getHunger();
 					}
-					*/
 						break loop;
 				}
 			}
@@ -58,11 +84,15 @@ public class HungryState implements IState {
 			if(best == null){
 				// TODO: Pathfinding to nearest/best food-resource
 				// TODO: Enter GatherMaterialState
+				// TODO: Queue MovingState
+				// TODO: Queue GatherState
+
 			}
 			else{
 				brain.setState(brain.getEatState());
 			}
 
 		}
+					*/
 	}
 }

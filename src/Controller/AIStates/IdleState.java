@@ -4,11 +4,13 @@ import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
 import Model.ICharacterHandle;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * Created by Tobias on 2016-03-29.
  */
 public class IdleState implements IState {
-	private ICharacterHandle body;
 	private final ArtificialBrain brain;
 
 	public IdleState(ArtificialBrain brain){
@@ -17,7 +19,7 @@ public class IdleState implements IState {
 
 	@Override
 	public void run() {
-		int[] needsArray = body.getNeeds();
+		int[] needsArray = brain.getBody().getNeeds();
 
 		// Critical levels of Hunger, Thirst and Energy which
 		// needs to be dealt with immediately
