@@ -46,9 +46,9 @@ public class HungryState implements IState {
 						best = current;
 						thirstAmount = best.getOutcome().getThirst();
 					}
-					else if(best.getOutcome().getThirst() > thirstAmount){
+					else if(best.getOutcome().getHunger() < current.getOutcome().getHunger()){
 						best = current;
-						thirstAmount = best.getOutcome().getThirst();
+						thirstAmount = best.getOutcome().getHunger();
 					}
 					*/
 						break loop;
@@ -57,7 +57,7 @@ public class HungryState implements IState {
 
 			if(best == null){
 				// TODO: Pathfinding to nearest/best food-resource
-				// TODO: Enter GatherState
+				// TODO: Enter GatherMaterialState
 			}
 			else{
 				brain.setState(brain.getEatState());

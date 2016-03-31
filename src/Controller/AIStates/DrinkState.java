@@ -44,7 +44,6 @@ public class DrinkState implements IState{
 						thirstAmount = best.getOutcome().getThirst();
 					}
 					*/
-					break loop;
 			}
 		}
 		
