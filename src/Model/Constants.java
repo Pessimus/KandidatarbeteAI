@@ -18,6 +18,7 @@ public final class Constants {
 
 	//Temp constant for the scalar in controller
 	public static final			double		STANDARD_SCREEN_WIDTH				=	1920.0;
+	public static final			double		STANDARD_SCREEN_HEIGHT				=	1080.0;
 
 	public static final 		double 		SCREEN_EDGE_TRIGGER_MAX_X			=	SCREEN_WIDTH * 0.8;
 	public static final 		double 		SCREEN_EDGE_TRIGGER_MAX_Y			=	SCREEN_HEIGHT * 0.8;

@@ -46,20 +46,22 @@ public class Controller implements PropertyChangeListener {
 	private ModelToViewRectangle screenRect;
 	private float mouseX;
 	private float mouseY;
-	private float scaleGraphics;
+	private float scaleGraphicsX;
+	private float scaleGraphicsY;
 	private boolean showingPlayerInventory = false;
 
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
 	public Controller(){
-		scaleGraphics = (float)(Constants.SCREEN_WIDTH/Constants.STANDARD_SCREEN_WIDTH);
+		scaleGraphicsX = (float)(Constants.SCREEN_WIDTH/Constants.STANDARD_SCREEN_WIDTH);
+		scaleGraphicsY = (float)(Constants.SCREEN_HEIGHT/Constants.STANDARD_SCREEN_HEIGHT);
 		//setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT));
 
 		//TODO remove test
 			setModel(new World(Constants.WORLD_WIDTH,Constants.WORLD_HEIGHT,1,20,100,200));
 
-		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT, scaleGraphics));
+		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT, scaleGraphicsX, scaleGraphicsY));
 
 
 		keyboardInputQueue = new LinkedList<>();
@@ -146,9 +148,9 @@ public class Controller implements PropertyChangeListener {
 			float playerYPos = player.getBody().getY();
 
 
-			if ((float)(playerXPos-Constants.SCREEN_WIDTH/(2*scaleGraphics)) > 0) {
-				if((float)(playerXPos+Constants.SCREEN_WIDTH/(2*scaleGraphics)) < width){
-					screenRect.setMinX((float)(playerXPos-Constants.SCREEN_WIDTH/(2*scaleGraphics)));
+			if ((float)(playerXPos-Constants.SCREEN_WIDTH/(2*scaleGraphicsX)) > 0) {
+				if((float)(playerXPos+Constants.SCREEN_WIDTH/(2*scaleGraphicsX)) < width){
+					screenRect.setMinX((float)(playerXPos-Constants.SCREEN_WIDTH/(2*scaleGraphicsX)));
 				}else{
 					screenRect.setMaxX(width);
 				}
@@ -156,9 +158,9 @@ public class Controller implements PropertyChangeListener {
 				screenRect.setMinX(0);
 			}
 
-			if ((float)(playerYPos-Constants.SCREEN_HEIGHT/(2*scaleGraphics)) > 0) {
-				if((float)(playerYPos+Constants.SCREEN_HEIGHT/(2*scaleGraphics)) < height){
-					screenRect.setMinY((float)(playerYPos-Constants.SCREEN_HEIGHT/(2*scaleGraphics)));
+			if ((float)(playerYPos-Constants.SCREEN_HEIGHT/(2*scaleGraphicsY)) > 0) {
+				if((float)(playerYPos+Constants.SCREEN_HEIGHT/(2*scaleGraphicsY)) < height){
+					screenRect.setMinY((float)(playerYPos-Constants.SCREEN_HEIGHT/(2*scaleGraphicsY)));
 				}else{
 					screenRect.setMaxY(height);
 				}
@@ -355,8 +357,7 @@ public class Controller implements PropertyChangeListener {
 						//TODO WHAT SHOULD BE DONE HERE?!
 						//float[] tempFloats = convertFromViewToModelCoords(clicks[2], clicks[3]);
 						//gameModel.selectObject(tempFloats[0], tempFloats[1]);
-							player.moveToMouse(clicks[2], clicks[3]);
-						System.out.println(scaleGraphics);
+						player.moveToMouse(clicks[2], clicks[3]);
 					}
 
 					if(clicks[1] == Input.MOUSE_RIGHT_BUTTON){
@@ -457,13 +458,13 @@ public class Controller implements PropertyChangeListener {
 		float minX, minY, maxX, maxY, scale;
 
 		ModelToViewRectangle(float x, float y, float width, float height){
-			rectWidth = width/scaleGraphics;
-			rectHeight = height/scaleGraphics;
+			rectWidth = width/scaleGraphicsX;
+			rectHeight = height/scaleGraphicsY;
 
-			minX = x/scaleGraphics;
-			minY = y/scaleGraphics;
-			maxX = (x + width)/scaleGraphics;
-			maxY = (y + height)/scaleGraphics;
+			minX = x/scaleGraphicsX;
+			minY = y/scaleGraphicsY;
+			maxX = (x + width)/scaleGraphicsX;
+			maxY = (y + height)/scaleGraphicsY;
 		}
 
 		public void translatePosition(float deltaX, float deltaY){
