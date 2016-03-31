@@ -10,7 +10,6 @@ import java.util.List;
  * Created by Tobias on 2016-03-29.
  */
 public class GatherState implements IState{
-	private ICharacterHandle body;
 
 	private final ArtificialBrain brain;
 
@@ -20,7 +19,7 @@ public class GatherState implements IState{
 
 	@Override
 	public void run() {
-		List<IItem> inventory = body.getInventory();
+		List<IItem> inventory = brain.getBody().getInventory();
 		IResource.ResourceType lowestResource = null;
 		int lowestAmount = 0;
 		for(IResource.ResourceType resource : IResource.ResourceType.values()) {
@@ -30,7 +29,7 @@ public class GatherState implements IState{
 			case CROPS:
 			case MEAT:
 			case FISH:
-
+				brain.setState(brain.getGatherState());
 				break;
 		}
 	}

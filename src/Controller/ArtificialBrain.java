@@ -15,7 +15,11 @@ import java.util.List;
 /**
  * Created by Gustav on 2016-03-23.
  */public class ArtificialBrain implements AbstractBrain {
-    private LinkedList<PathStep> path;
+	private LinkedList<PathStep> path;
+
+	private IResource.ResourceType nextResourceToGather = null;
+
+	private final Queue<IState> stateQueue = new LinkedList<>();
 
 	private ICharacterHandle body; // The character this Brain controls
 
@@ -34,6 +38,7 @@ import java.util.List;
 	private IState gatherState			= new GatherState(this);
 	private IState hungryState			= new HungryState(this);
 	private IState idleState			= new IdleState(this);
+	private IState movingState			= new MovingState(this);
 	private IState sleepState			= new SleepState(this);
 	private IState sleepyState			= new SleepyState(this);
 	private IState socializeState		= new SocializeState(this);
@@ -173,6 +178,10 @@ import java.util.List;
 		return idleState;
 	}
 
+	public IState getMovingState() {
+		return movingState;
+	}
+
 	public IState getSleepState() {
 		return sleepState;
 	}
@@ -191,6 +200,30 @@ import java.util.List;
 
 	public IState getTradeState() {
 		return tradeState;
+	}
+
+	public IResource.ResourceType getNextResourceToGather() {
+		return nextResourceToGather;
+	}
+
+	public void setNextResourceToGather(IResource.ResourceType nextResourceToGather) {
+		this.nextResourceToGather = nextResourceToGather;
+	}
+
+	public LinkedList<PathStep> getPath() {
+		return path;
+	}
+
+	public void setPath(LinkedList<PathStep> path) {
+		this.path = path;
+	}
+
+	public Queue<IState> getStateQueue() {
+		return stateQueue;
+	}
+
+	public void queueState(IState state){
+		stateQueue.offer(state);
 	}
 
 	/*

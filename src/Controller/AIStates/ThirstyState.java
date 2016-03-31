@@ -15,7 +15,6 @@ import java.util.List;
  * Created by Tobias on 2016-03-29.
  */
 public class ThirstyState implements IState{
-	private ICharacterHandle body;
 	private final ArtificialBrain brain;
 
 	private List<PathStep> pathToResource;
@@ -27,7 +26,7 @@ public class ThirstyState implements IState{
 	@Override
 	public void run() {
 		if(pathToResource == null) {
-			Iterator<IItem> iterator = body.getInventory().iterator();
+			Iterator<IItem> iterator = brain.getBody().getInventory().iterator();
 			IItem best = null;
 			int thirstAmount = -1;
 

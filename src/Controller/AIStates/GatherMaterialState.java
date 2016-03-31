@@ -2,17 +2,19 @@ package Controller.AIStates;
 
 import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
+import Controller.PathStep;
 import Model.ICharacterHandle;
 import Model.IItem;
 import Model.IResource;
+import sun.awt.image.ImageWatched;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * Created by Tobias on 2016-03-29.
  */
 public class GatherMaterialState implements IState{
-	private ICharacterHandle body;
 	private final ArtificialBrain brain;
 
 	public GatherMaterialState(ArtificialBrain brain){
@@ -24,7 +26,7 @@ public class GatherMaterialState implements IState{
 		IResource.ResourceType lowestType = null;
 		int lowestAmount = 0;
 		for(IResource.ResourceType type : IResource.ResourceType.values()){
-			Iterator<IItem> items = body.getInventory().iterator();
+			Iterator<IItem> items = brain.getBody().getInventory().iterator();
 
 			while(items.hasNext()){
 				IItem current = items.next();

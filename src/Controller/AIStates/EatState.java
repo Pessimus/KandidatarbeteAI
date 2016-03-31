@@ -12,7 +12,6 @@ import java.util.Iterator;
  * Created by Tobias on 2016-03-29.
  */
 public class EatState implements IState{
-	private ICharacterHandle body;
 	private final ArtificialBrain brain;
 
 	public EatState(ArtificialBrain brain){
@@ -21,7 +20,7 @@ public class EatState implements IState{
 
 	@Override
 	public void run() {
-		Iterator<IItem> iterator = body.getInventory().iterator();
+		Iterator<IItem> iterator = brain.getBody().getInventory().iterator();
 		IItem best = null;
 		loop:while(iterator.hasNext()) {
 			IItem current = iterator.next();
@@ -40,7 +39,7 @@ public class EatState implements IState{
 					break loop;
 			}
 		}
-		best.consumed((Character)body);
+		best.consumed((Character)brain.getBody());
 		brain.setState(brain.getIdleState());
 	}
 }
