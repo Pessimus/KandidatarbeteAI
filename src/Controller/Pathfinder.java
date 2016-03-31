@@ -70,11 +70,14 @@ public class Pathfinder {
     public LinkedList<PathStep> getPath (double startx, double starty, double endx, double endy) {
         LinkedList<PathStep> ret = new LinkedList<>();
         LinkedList<Tuple> help = helpPath((int)(startx/gridSize), (int)(starty/gridSize), (int)(endx/gridSize), (int)(endy/gridSize));
+        System.out.println(help);
+        System.out.println(gridSize);
         if (help != null) {
             for (Tuple t : help) {
                 ret.add(createPathStep(t.x,t.y));
             }
             ret.add(new PathStep(endx, endy));
+            System.out.println(ret);
             return ret;
         } else {
             return null;

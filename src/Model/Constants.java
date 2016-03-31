@@ -12,8 +12,9 @@ public final class Constants {
 
 	// ----------- Controller Constants ----------- \\
 
-	public static final 		int 		SCREEN_WIDTH 						= 	(int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	public static final 		int 		SCREEN_HEIGHT 						= 	(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+
+	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2;
+	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2;
 
 	//Temp constant for the scalar in controller
 	public static final			double		STANDARD_SCREEN_WIDTH				=	1920.0;
@@ -36,9 +37,11 @@ public final class Constants {
 	public static final 		boolean		GAME_GRAB_MOUSE						= 	false;
 	public static final 		boolean 	RUN_IN_FULLSCREEN 					= 	false;
 
+
 	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_NORMAL 	= 	60; // Updates per second
 	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_FASTER 	= 	120; // Updates per second
 	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_FASTEST 	= 	240; // Updates per second
+
 
 	public static final 		int 		WORLD_TILE_SIZE						= 	32;
 	public static final 		int 		VERTICAL_TILES						=	(int) (SCREEN_HEIGHT /WORLD_TILE_SIZE);

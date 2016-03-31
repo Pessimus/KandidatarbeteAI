@@ -98,8 +98,8 @@ public class View extends BasicGameState implements InputListener{
 		startY = renderPointY + tileOffsetY;
 		startTileX = tileIndexX;
 		startTileY = tileIndexY;
-		width = ((Constants.SCREEN_WIDTH - tileOffsetX)/Constants.WORLD_TILE_SIZE)+ 1;
-		height = ((Constants.SCREEN_HEIGHT - tileOffsetY)/Constants.WORLD_TILE_SIZE)+ 1;
+		width = (((int)Constants.SCREEN_WIDTH - tileOffsetX)/Constants.WORLD_TILE_SIZE)+ 1;
+		height = (((int)Constants.SCREEN_HEIGHT - tileOffsetY)/Constants.WORLD_TILE_SIZE)+ 1;
     }
 
 	private int startX, startY, startTileX, startTileY, width, height;
