@@ -58,9 +58,9 @@ public final class Constants {
 	public static final 		int			CHARACTER_THIRST_MAX				=	100;
 	public static final 		int			CHARACTER_ENERGY_MAX				=	100;
 
-	public static final			int			CHARACTER_HUNGER_UPDATE				=	20;
-	public static final			int			CHARACTER_THIRST_UPDATE				=	40;
-	public static final			int			CHARACTER_ENERGY_UPDATE				=	20;
+	public static final			int			CHARACTER_HUNGER_UPDATE				=	120;
+	public static final			int			CHARACTER_THIRST_UPDATE				=	240;
+	public static final			int			CHARACTER_ENERGY_UPDATE				=	120;
 	public static final			int			CHARACTER_AGE_UPDATE				=	600;
 
 	public static final			int			CHARACTER_HUNGER_CHANGE				=	1;
