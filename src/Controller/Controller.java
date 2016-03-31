@@ -166,7 +166,7 @@ public class Controller implements PropertyChangeListener {
 			} else {
 				screenRect.setMinY(0);
 			}
-		//Spectator mode: Choose where you want to be on the screen!
+			//Spectator mode: Choose where you want to be on the screen!
 		}else {
 
 			// Move the screen-view over the world if the mouse is close
