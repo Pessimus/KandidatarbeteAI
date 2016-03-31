@@ -21,6 +21,14 @@ public class ResourcePoint implements ICollidable {
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
+	/**
+	 * A collidable object containing a resource that can be gained from it when interacting.
+	 * @param resourceType the resource this collidable should contain.
+	 * @param renderEnum what type of collidable this object is visually.
+	 * @param x the x position of this collidable.
+	 * @param y the y position of this collidable.
+	 * @param radius the collision radius of this collidable.
+	 */
 	public ResourcePoint(IResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float x, float y, double radius){
 		resource = resourceType;
 		xPos = x;
@@ -34,30 +42,36 @@ public class ResourcePoint implements ICollidable {
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
 	@Override
+	/**{@inheritDoc}*/
 	public float getX() {
 		return xPos;
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public float getY() {
 		return yPos;
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public double getCollisionRadius() {
 		return collisionRadius;
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public double getInteractionRadius() {
 		return interactionRadius;
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public double getSurroundingRadius() {
 		return surroundingRadius;
 	}
 
+	/** @return the name of the resource as a string. */
 	public String getResourceName(){
 		return resource.getResourceName();
 	}
@@ -65,31 +79,37 @@ public class ResourcePoint implements ICollidable {
 //---------------------------------------Collision Methods------------------------------------------------------------\\
 
 	@Override
+	/**{@inheritDoc}*/
 	public void addToInteractableX(ICollidable rhs) {
 		//TODO implement
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void addToInteractableY(ICollidable rhs) {
 		//TODO implement
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void checkInteractables() {
 		//TODO implement
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void addToSurroundingX(ICollidable rhs) {
 		//TODO implement
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void addToSurroundingY(ICollidable rhs) {
 		//TODO implement
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void checkSurroundings() {
 		//TODO implement
 	}
@@ -97,18 +117,21 @@ public class ResourcePoint implements ICollidable {
 //---------------------------------------Interaction methods----------------------------------------------------------\\
 
 	@Override
+	/**{@inheritDoc}*/
 	public void interacted(Character rhs){
 		rhs.addToInventory(resource.gatherResource());
 		System.out.println("interacted" + this);
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void consumed(Character rhs){
 		resource.gatherResource().consumed(rhs);
 		System.out.println("consumed" + this);
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void attacked(Character rhs){
 		resource.setResourcesLeft(0);
 		System.out.println("attacked" + this);
@@ -117,6 +140,7 @@ public class ResourcePoint implements ICollidable {
 //------------------------------------------Update METHODS------------------------------------------------------------\\
 
 	@Override
+	/**{@inheritDoc}*/
 	public boolean toBeRemoved() {
 		return resource.getResourcesLeft()==0;
 	}
@@ -124,12 +148,15 @@ public class ResourcePoint implements ICollidable {
 //------------------------------------------------RENDER METHODS------------------------------------------------------\\
 
 	@Override
+	/**{@inheritDoc}*/
 	public RenderObject getRenderObject() {
 		return new RenderObject(getX(), getY(), getCollisionRadius(), renderObjectEnum);
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public RenderObject.RENDER_OBJECT_ENUM getRenderType() {
 		return renderObjectEnum;
 	}
+
 }

@@ -14,24 +14,32 @@ public class Water extends InfiniteResource {
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
+	/**
+	 * A class representing the resource "Water".
+	 * @param yield The amount of items gained from this resource at a time.
+	 */
 	public Water(int yield){
 		this.yield = yield;
 	}
 
-	//---------------------------------------Interaction methods----------------------------------------------------------\\
+	//-------------------------------------Interaction methods--------------------------------------------------------\\
+
 	@Override
+	/**{@inheritDoc}*/
 	public IItem gatherResource() {
 		return ItemFactory.createItem(resourceType, yield);
 	}
 
-//---------------------------------------Getters & Setters------------------------------------------------------------\\
+//------------------------------------------Getters & Setters---------------------------------------------------------\\
 
 	@Override
+	/**{@inheritDoc}*/
 	public ResourceType getResourceType() {
 		return resourceType;
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public String getResourceName(){
 		return resourceName;
 	}
