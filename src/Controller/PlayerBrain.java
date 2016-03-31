@@ -1,8 +1,7 @@
 package Controller;
 
+import Model.*;
 import Model.Character;
-import Model.Constants;
-import Model.ICharacterHandle;
 
 /**
  * Created by Gustav on 2016-03-23.
@@ -87,11 +86,24 @@ public class PlayerBrain implements AbstractBrain {
 
 	//TODO how to select object from list, aka not always 0
 	public void interact(){
-		this.body.interactObject(0);
+		System.out.println(body.getInteractables());
+		int i = 0;
+		for(ICollidable c : body.getInteractables()){
+			if(c.getClass() == (ResourcePoint.class)){
+				this.body.interactObject(i);
+			}
+			i++;
+		}
 	}
 
 	//TODO how to select object from list, aka not always 0
 	public void consume(){
-		this.body.consumeObject(0);
+		int i = 0;
+		for(ICollidable c : body.getInteractables()){
+			if(c.getClass() == (ResourcePoint.class)){
+				this.body.consumeObject(i);
+			}
+			i++;
+		}
 	}
 }

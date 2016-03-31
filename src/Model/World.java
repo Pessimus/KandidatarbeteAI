@@ -1,5 +1,7 @@
 package Model;
 
+import org.lwjgl.Sys;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
@@ -86,8 +88,23 @@ public class World{
 	}
 
 	public World (double width, double height, int nrTrees, int nrLakes, int nrStones, int nrCrops){
-		this(width,height);
 
+		this(width, height);
+
+		Wood tw1 = new Wood(1000,1000,1);
+		ResourcePoint trp1 = new ResourcePoint(tw1, RenderObject.RENDER_OBJECT_ENUM.WOOD,1050,1050,50);
+		this.collidables.add(trp1);
+		this.collidablesR.add(trp1);
+
+		/*Character ct1 = new Character(1000,1000,999);
+
+		this.timeables.add(ct1);
+		this.characters.put(999, ct1);
+		this.collidables.add(ct1);
+		this.collidablesR.add(ct1);
+*/
+
+/*
 		int i = 0;
 		float tmpX;
 		float tmpY;
@@ -142,7 +159,7 @@ public class World{
 			this.collidablesR.add(tmpPoint);
 
 			i++;
-		}
+		}*/
 
 	}
 
@@ -160,8 +177,50 @@ public class World{
 
 			//TODO Code for updating the character (movement and actions?)
 
+
+			//TODO TESTS
+
+			if(xMoveR){
+				if (characters.get(1).getInteractables().size() == 1) {
+					characters.get(1).xPos = characters.get(1).xPos + 1;
+				}else{
+					characters.get(1).xPos = characters.get(1).xPos - 1;
+					xMoveR = false;
+					yMoveD = true;
+				}
+			}else if(yMoveD){
+				if (characters.get(1).getInteractables().size() == 1) {
+					characters.get(1).yPos = characters.get(1).yPos + 1;
+				}else{
+					characters.get(1).yPos = characters.get(1).yPos - 1;
+					yMoveD = false;
+					xMoveL = true;
+				}
+			}else if(xMoveL){
+				if (characters.get(1).getInteractables().size() == 1) {
+					characters.get(1).xPos = characters.get(1).xPos - 1;
+				}else{
+					characters.get(1).xPos = characters.get(1).xPos + 1;
+					xMoveL = false;
+					yMoveU = true;
+				}
+			}else if(yMoveU){
+				if (characters.get(1).getInteractables().size() == 1) {
+					characters.get(1).yPos = characters.get(1).yPos - 1;
+				}else{
+					characters.get(1).yPos = characters.get(1).yPos + 1;
+					yMoveU = false;
+					xMoveR = true;
+				}
+			}
+
+
 		}
 	}
+	boolean xMoveR = true;
+	boolean xMoveL = false;
+	boolean yMoveD = false;
+	boolean yMoveU = false;
 
 	//TODO Add parameter for fast-forward
 	private void updateTimeables(){
