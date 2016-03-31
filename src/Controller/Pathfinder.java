@@ -102,7 +102,7 @@ public class Pathfinder {
             //find the node with the least f on the open list, call it "q"
             //pop q off the open list
             q = open.poll();
-
+            System.out.println(Double.toString(q.g));
             //generate q's 8 successors and set their parents to q
             //for each successor
             //successor.g = q.g + distance between successor and q
@@ -118,7 +118,7 @@ public class Pathfinder {
                 if (s.x == endx && s.y == endy) {
                     LinkedList<Tuple> ret = new LinkedList<Tuple>();
                     while (s.parent != null) {
-                        ret.addLast(new Tuple(s.x, s.y));
+                        ret.addFirst(new Tuple(s.x, s.y));
                         s = s.parent;
                     }
                     return ret;
