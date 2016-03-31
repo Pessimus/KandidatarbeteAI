@@ -46,7 +46,9 @@ public class PlayerBrain implements AbstractBrain {
             if(!pathSteps.isEmpty()) {
                 pathSteps.getFirst().stepTowards(body);
 				//Remove visited node.
-                pathSteps.removeFirst();
+				if(pathSteps.getFirst().reached(body.getX(), body.getY())) {
+					pathSteps.removeFirst();
+				}
             }
         }
     }
