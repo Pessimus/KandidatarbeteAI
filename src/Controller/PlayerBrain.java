@@ -44,6 +44,7 @@ public class PlayerBrain implements AbstractBrain {
 		//Pathfinding, if the path to destination isnt null, move towards the next node in the path.
         if(pathSteps != null) {
             if(!pathSteps.isEmpty()) {
+				System.out.println(pathSteps);
                 pathSteps.getFirst().stepTowards(body);
 				//Remove visited node.
 				if(pathSteps.getFirst().reached(body.getX(), body.getY())) {
