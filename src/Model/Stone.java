@@ -7,7 +7,7 @@ public class Stone extends FiniteResource {
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 	public static final ResourceType resourceType = ResourceType.STONE;
-	public static final String resourceName = "Wood";
+	public static final String resourceName = "Stone";
 
 	private int yield;
 
