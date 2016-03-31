@@ -4,8 +4,7 @@ import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
 import Controller.CharacterAction;
 import Controller.PathStep;
-import Model.ICharacterHandle;
-import Model.IItem;
+import Model.*;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -50,10 +49,20 @@ public class HungryState implements IState {
 		if(best == null){
 			// TODO: Pathfinding to nearest/best food-resource
 			// TODO: Queue MovingState correctly
+			for(RenderObject o : brain.map.getRenderObjects()){
+				if(o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.CROPS)){
+					brain.setPath(Constants.PATHFINDER_OBJECT.getPath(brain.getBody().getX(), brain.getBody().getY(), o.getX(), o.getY()));
+					brain.queueState(brain.getMovingState());
+					brain.setNextResourceToGather(IResource.ResourceType.CROPS);
+					brain.queueState(brain.getGatherCropsState());
+					brain.setState(brain.getStateQueue().poll());
+					break;
+				}
+			}
 			/*brain.setPath();
-			brain.queueState(brain.getMovingState());*/
-			// TODO: Queue GatherState
-			//brain.setNextResourceToGather();
+			brain.queueState(brain.getMovingState());
+			brain.setNextResourceToGather(IResource.ResourceType.CROPS);
+			brain.queueState(brain.getGatherCropsState());*/
 		}
 		else{
 			brain.setState(brain.getEatState());
