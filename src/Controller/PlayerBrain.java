@@ -83,7 +83,7 @@ public class PlayerBrain implements AbstractBrain {
     }
     public void moveToMouse(float destX, float destY) {
 		//Intiates the optimal path to destination when left mouse button is clicked.
-      pathSteps = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), destX/Constants.GRAPHICS_SCALE_X, destY/Constants.GRAPHICS_SCALE_Y);
+      pathSteps = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), destX, destY);
       //pathSteps = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), destX, destY);
         //System.out.println(pathSteps == null);
         //System.out.println(pathSteps);
