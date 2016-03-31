@@ -88,6 +88,11 @@ public class World{
 	public World (double width, double height, int nrTrees, int nrLakes, int nrStones, int nrCrops){
 		this(width,height);
 
+		Wood tw1 = new Wood(30,101,30);
+		ResourcePoint r = new ResourcePoint(tw1, RenderObject.RENDER_OBJECT_ENUM.WOOD, 1050, 1050, 50);
+		this.collidables.add(r);
+		this.collidablesR.add(r);
+
 		int i = 0;
 		float tmpX;
 		float tmpY;
@@ -149,7 +154,7 @@ public class World{
 //---------------------------------------------UPDATE METHODS---------------------------------------------------------\\
 
 	public void uppdate() {
-		if (pause != true) {
+		if (!pause) {
 			updateTimeables();
 
 			checkObjectsForRemoval();
@@ -191,10 +196,9 @@ public class World{
 
 	// Pause the game, if P is pressed, pause() will pause the uppdate lopp
 	public void togglePause() {
-		if (pause == false) {
+		if (!pause) {
 			pause = true;
-		}
-		else {
+		} else {
 			pause = false;
 		}
 	}

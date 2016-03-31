@@ -318,7 +318,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	public void updateTimeable() {
 		//Updates counter with one but doesn't exceed 60.
 		updateCounter = (updateCounter+1) % Constants.CHARACTER_UPDATE_INTERVAL;
-
 		if(updateCounter % Constants.CHARACTER_HUNGER_UPDATE == 0){
 			changeHunger(-Constants.CHARACTER_HUNGER_CHANGE);
 		}

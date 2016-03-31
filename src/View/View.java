@@ -34,8 +34,6 @@ public class View extends BasicGameState implements InputListener{
 	private volatile int renderPointY = (int)Constants.DEFAULT_WORLD_VIEW_Y;
 
     private volatile float scaleGraphics;
-	private int tempWidth;
-	private int tempHeight;
 
 	private RenderObject[] listToRender = {};
 	private Model.InventoryRender[] inventoryToRender = {};
@@ -85,10 +83,6 @@ public class View extends BasicGameState implements InputListener{
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-		//tempWidth = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE/scaleGraphics);
-		//tempHeight = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE/scaleGraphics);
-		//tempWidth = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE);
-		//tempHeight = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE);
 		int tileOffsetX = -1*(renderPointX%Constants.WORLD_TILE_SIZE);
 		int tileOffsetY = -1*(renderPointY%Constants.WORLD_TILE_SIZE);
 		int tileIndexX  = renderPointX/Constants.WORLD_TILE_SIZE;
@@ -127,7 +121,14 @@ public class View extends BasicGameState implements InputListener{
 			if(listToRender != null){
 				if(listToRender.length > 0) {
 					for (RenderObject obj : listToRender) {
-						resourceMap.get(obj.getRenderType()).draw(obj.getX(), obj.getY());
+						int imageWidth = resourceMap.get(obj.getRenderType()).getWidth();
+						int imageHeight = resourceMap.get(obj.getRenderType()).getHeight();
+						float imageScale;
+						if(imageHeight >= imageWidth)
+							imageScale = (float)(obj.getRadius()*2/imageHeight);
+						else
+							imageScale = (float)(obj.getRadius()*2/imageWidth);
+						resourceMap.get(obj.getRenderType()).draw((float) (obj.getX() - obj.getRadius()), (float) (obj.getY() - obj.getRadius()), imageScale);
 					}
 				}
 			}
@@ -137,7 +138,7 @@ public class View extends BasicGameState implements InputListener{
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
 		}
-			// ----------- Temporary display of the inventory ----------- \\
+			// ----------- Temporary display needs ----------- \\
 
 		if(displayPlayerNeeds){
 			float hungerStringYPos = gameContainer.getHeight()/scaleGraphics-Constants.BOX_HEIGHT+Constants.MARGIN_FROM_TOP-Constants.HALF_TEXT_HEIGHT;
