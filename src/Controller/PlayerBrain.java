@@ -29,16 +29,18 @@ public class PlayerBrain implements AbstractBrain {
     }
 
     public void update() {
-		if(walkingUp)
-			body.moveUp();
-		if(walkingDown)
-			body.moveDown();
-		if(walkingRight)
-			body.moveRight();
-		if(walkingLeft)
-			body.moveLeft();
+		if(pathSteps == null) {
+			if (walkingUp)
+				body.moveUp();
+			if (walkingDown)
+				body.moveDown();
+			if (walkingRight)
+				body.moveRight();
+			if (walkingLeft)
+				body.moveLeft();
+		}
+		else{
 		//Pathfinding, if the path to destination isnt null, move towards the next node in the path.
-        if(pathSteps != null) {
             if(!pathSteps.isEmpty()) {
 				System.out.println("Running");
                 pathSteps.getFirst().stepTowards(body);
@@ -47,6 +49,9 @@ public class PlayerBrain implements AbstractBrain {
 					pathSteps.removeFirst();
 				}
             }
+			else{
+				pathSteps = null;
+			}
         }
     }
 
