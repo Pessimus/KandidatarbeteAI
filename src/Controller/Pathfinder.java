@@ -74,17 +74,16 @@ public class Pathfinder {
         LinkedList<Tuple> help = helpPath((int)(startx/gridSize), (int)(starty/gridSize), (int)(endx/gridSize), (int)(endy/gridSize));
         if (help != null) {
             for (Tuple t : help) {
-                ret.add(createPathStep(t.x,t.y));
+                ret.add(createPathStep(t.x, t.y));
             }
             ret.add(new PathStep(endx, endy));
-            return ret;
-        } else {
-            return null;
         }
+        return ret;
     }
 
     private LinkedList<Tuple> helpPath (int startx, int starty, int endx, int endy) {
         //initialize the open list
+        if (!mask[endx][endy]) {return null;}
         PriorityQueue<Node> open = new PriorityQueue<>();
         //initialize the closed list
         PriorityQueue<Node> closed = new PriorityQueue<>();
