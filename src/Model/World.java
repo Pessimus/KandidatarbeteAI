@@ -56,7 +56,7 @@ public class World{
 	private LinkedList<ICollidable> collidablesR;
 	private CollisionList collidables;
 	private LinkedList<ITimeable> timeables;
-	private LinkedList<ICollidable> statics; //List containing all collidables that does not move (or get destroyed or created too often)
+	private CollisionList statics; //List containing all collidables that does not move (or get destroyed or created too often)
 
 	//------------------Remove lists--------------------\\
 	private LinkedList<ICollidable> collidablestoberemoved;
@@ -77,12 +77,17 @@ public class World{
 		this.collidablesR = new LinkedList<>();
 		this.timeables = new LinkedList<>();
 		this.characters = new HashMap<>();
+		this.statics = new CollisionList();
 
 		//Initializing removal lists
 		collidablestoberemoved = new LinkedList<>();
 		collideablesrtoberemoved = new LinkedList<>();
 		timeablestoberemoved = new LinkedList<>();
 		characterstoberemoved = new LinkedList<>();
+
+		//Initializing mask for pathfinding
+		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+
 	}
 
 	public World (double width, double height, int nrTrees, int nrLakes, int nrStones, int nrCrops){
@@ -106,6 +111,7 @@ public class World{
 			this.collidables.add(tmpPoint);
 			this.collidablesR.add(tmpPoint);
 			this.timeables.add(tmpWood);
+			this.statics.add(tmpPoint);
 
 			i++;
 		}
@@ -119,6 +125,7 @@ public class World{
 
 			this.collidables.add(tmpPoint);
 			this.collidablesR.add(tmpPoint);
+			this.statics.add(tmpPoint);
 
 			i++;
 		}
@@ -132,6 +139,7 @@ public class World{
 
 			this.collidables.add(tmpPoint);
 			this.collidablesR.add(tmpPoint);
+			this.statics.add(tmpPoint);
 
 			i++;
 		}
@@ -145,9 +153,12 @@ public class World{
 
 			this.collidables.add(tmpPoint);
 			this.collidablesR.add(tmpPoint);
+			this.statics.add(tmpPoint);
 
 			i++;
 		}
+		//update mask for pathfinding
+		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
 
 	}
 
