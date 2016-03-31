@@ -74,8 +74,7 @@ public class Controller implements PropertyChangeListener {
 		screenRect = new ModelToViewRectangle(Constants.DEFAULT_WORLD_VIEW_X, Constants.DEFAULT_WORLD_VIEW_Y, (float)Constants.SCREEN_WIDTH, (float)Constants.SCREEN_HEIGHT);
 
 		//TODO this is hardcoded testing code. Remove after Testing is done!!
-				//player.setBody(gameModel.addCharacter(1050-20-50, 1050-20, Constants.PLAYER_CHARACTER_KEY));//YES
-				player.setBody(gameModel.addCharacter(1000, 1000, Constants.PLAYER_CHARACTER_KEY));//YES
+				player.setBody(gameModel.addCharacter(1000, 1000, Constants.PLAYER_CHARACTER_KEY));
 				((Character)player.getBody()).godMode = true;
 				/*GoldItem gi = new GoldItem(5);
 				((Character) player.getBody()).addToInventory(gi);
