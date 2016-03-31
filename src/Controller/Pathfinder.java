@@ -41,9 +41,11 @@ public class Pathfinder {
             for (double i = c.getX() - c.getRadius(); i < c.getX() + c.getRadius(); i = i+gridSize) {
                 for (double j = c.getY() - c.getRadius(); j < c.getY() + c.getRadius(); j = j+gridSize) {
                     if (i < gridSize*width && i >= 0 && j < gridSize*height && j >= 0) {
-                        mask[(int)(i/gridSize)][(int)(j/gridSize)] = false;
+                        mask[(int) (i / gridSize)][(int) (j / gridSize)] = false;
                     }
-                    if (j + gridSize > c.getY() + c.getRadius()) {mask[(int)(i/gridSize)][(int)((c.getY() + c.getRadius())/gridSize)] = false;}
+                    if (j + gridSize > c.getY() + c.getRadius() && i < gridSize*width && i >= 0 && (int)((c.getY()+c.getRadius())/gridSize) < mask[(int)(i/gridSize)].length) {
+                        mask[(int)(i/gridSize)][(int)((c.getY() + c.getRadius())/gridSize)] = false;
+                    }
                 }
                 if (i + gridSize > c.getX() + c.getRadius()) {i = c.getX() + c.getRadius();}
             }
