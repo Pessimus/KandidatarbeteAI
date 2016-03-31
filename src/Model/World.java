@@ -223,6 +223,7 @@ public class World{
 		ResourcePoint point = new ResourcePoint(resourceType, renderEnum, xPoss, yPoss, radius);
 		this.collidables.add(point);
 		this.collidablesR.add(point);
+		this.statics.add(point);
 
 		//update mask for pathfinding
 		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
@@ -235,6 +236,7 @@ public class World{
 		this.collidables.add(point);
 		this.collidablesR.add(point);
 		this.timeables.add(resourceType);
+		this.statics.add(point);
 
 		//update mask for pathfinding
 		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
@@ -245,6 +247,7 @@ public class World{
 	public void removeObjects() {
 		for (ICollidable collidable : this.collidablestoberemoved) {
 			collidables.remove(collidable);
+			statics.remove(collidable);
 		}
 		collidablestoberemoved.clear();
 

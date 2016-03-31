@@ -75,7 +75,7 @@ public class Controller implements PropertyChangeListener {
 
 		//TODO this is hardcoded testing code. Remove after Testing is done!!
 
-				player.setBody(gameModel.addCharacter(1000-16*scaleGraphics, 1000-16*scaleGraphics, Constants.PLAYER_CHARACTER_KEY));
+				player.setBody(gameModel.addCharacter(650, 770, Constants.PLAYER_CHARACTER_KEY));
 
 				((Character)player.getBody()).godMode = true;
 
