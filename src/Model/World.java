@@ -1,5 +1,8 @@
 package Model;
 
+import Toolkit.InventoryRender;
+import Toolkit.RenderObject;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;

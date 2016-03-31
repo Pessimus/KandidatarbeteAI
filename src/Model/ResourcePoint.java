@@ -1,5 +1,7 @@
 package Model;
 
+import Toolkit.RenderObject;
+
 /**
  * Created by Tobias on 2016-02-26.
  */
@@ -97,7 +99,7 @@ public class ResourcePoint implements ICollidable {
 	@Override
 	public void interacted(Character rhs){
 		rhs.addToInventory(resource.gatherResource());
-		System.out.println("interacted"+this);
+		System.out.println("interacted" + this);
 	}
 
 	@Override

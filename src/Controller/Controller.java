@@ -2,8 +2,8 @@ package Controller;
 
 import Model.*;
 import Model.Character;
+import Toolkit.RenderObject;
 import View.*;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.BasicGameState;
 

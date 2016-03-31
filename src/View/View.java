@@ -1,8 +1,8 @@
 package View;
 
 import Model.Constants;
-import Model.RenderObject;
-import org.lwjgl.input.Mouse;
+import Toolkit.RenderObject;
+import Toolkit.InventoryRender;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -13,7 +13,6 @@ import org.newdawn.slick.tiled.TiledMap;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.*;
-import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,7 +35,7 @@ public class View extends BasicGameState implements InputListener{
     private volatile float scaleGraphics;
 
 	private RenderObject[] listToRender = {};
-	private Model.InventoryRender[] inventoryToRender = {};
+	private InventoryRender[] inventoryToRender = {};
 
 	private int[] playerNeeds;
 
@@ -202,7 +201,7 @@ public class View extends BasicGameState implements InputListener{
 			int i,j;
 			i=(int)Math.sqrt(Constants.MAX_INVENTORY_SLOTS);
 			j=(int)Math.sqrt(Constants.MAX_INVENTORY_SLOTS);
-			for(Model.InventoryRender invRender : inventoryToRender) {
+			for(InventoryRender invRender : inventoryToRender) {
 				x=(int)(gameContainer.getWidth()/scaleGraphics)-Constants.SLOT_DISPLAY_SIZE*i;
 				y=(int)(gameContainer.getHeight()/scaleGraphics)-Constants.SLOT_DISPLAY_SIZE*j;
 
@@ -326,13 +325,13 @@ public class View extends BasicGameState implements InputListener{
 
 	// ----------- Render and hide inventory ----------- \\
 
-	public void renderInventory(LinkedList<Model.InventoryRender> inventoryItems){
-		LinkedList<Model.InventoryRender> tmp = new LinkedList<>();
-		for(Model.InventoryRender inventoryRen : inventoryItems){
+	public void renderInventory(LinkedList<InventoryRender> inventoryItems){
+		LinkedList<InventoryRender> tmp = new LinkedList<>();
+		for(InventoryRender inventoryRen : inventoryItems){
 			tmp.add(inventoryRen);
 		}
 
-		inventoryToRender = tmp.toArray(new Model.InventoryRender[tmp.size()]);
+		inventoryToRender = tmp.toArray(new InventoryRender[tmp.size()]);
 		displayInventory = true;
 		displayPlayerNeeds = true;
 	}

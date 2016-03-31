@@ -1,5 +1,8 @@
 package Model;
 
+import Toolkit.InventoryRender;
+import Toolkit.RenderObject;
+
 import java.util.*;
 import java.util.List;
 

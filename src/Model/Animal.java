@@ -1,5 +1,7 @@
 package Model;
 
+import Toolkit.RenderObject;
+
 /**
  * Created by Tobias on 2016-02-26.
  */

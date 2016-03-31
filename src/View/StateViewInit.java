@@ -1,24 +1,18 @@
 package View;
 
-import Model.RenderObject;
-import org.lwjgl.opengl.GL45;
-import org.lwjgl.opengl.GLContext;
-import org.lwjgl.util.Dimension;
+import Toolkit.RenderObject;
+import Toolkit.InventoryRender;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.opengl.GLUtils;
 import org.newdawn.slick.state.StateBasedGame;
 
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import Model.RenderObject.*;
 
 /**
  * Created by Martin on 03/03/2016.
@@ -117,7 +111,7 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 		view.setPlayerNeeds(needs.clone());
 	}
 
-	public void drawInventory(LinkedList<Model.InventoryRender> inventoryItems){
+	public void drawInventory(LinkedList<InventoryRender> inventoryItems){
 		view.renderInventory(inventoryItems);
 	}
 
