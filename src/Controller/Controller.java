@@ -355,7 +355,7 @@ public class Controller implements PropertyChangeListener {
 						//TODO WHAT SHOULD BE DONE HERE?!
 						//float[] tempFloats = convertFromViewToModelCoords(clicks[2], clicks[3]);
 						//gameModel.selectObject(tempFloats[0], tempFloats[1]);
-							player.moveToMouse(clicks[2], clicks[3]);
+							player.moveToMouse(clicks[2]*scaleGraphics, clicks[3]*scaleGraphics);
 					}
 
 					if(clicks[1] == Input.MOUSE_RIGHT_BUTTON){
