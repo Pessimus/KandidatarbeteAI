@@ -101,15 +101,6 @@ public class World{
 		this.collidables.add(trp1);
 		this.collidablesR.add(trp1);
 
-		/*Character ct1 = new Character(1000,1000,999);
-
-		this.timeables.add(ct1);
-		this.characters.put(999, ct1);
-		this.collidables.add(ct1);
-		this.collidablesR.add(ct1);
-*/
-
-/*
 		int i = 0;
 		float tmpX;
 		float tmpY;
@@ -168,11 +159,8 @@ public class World{
 			this.statics.add(tmpPoint);
 
 			i++;
-<<<<<<< HEAD
-		}*/
-
-
-
+		}
+		
 		//update mask for pathfinding
 		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
 
@@ -192,50 +180,8 @@ public class World{
 
 			//TODO Code for updating the character (movement and actions?)
 
-
-			//TODO TESTS
-
-			if(xMoveR){
-				if (characters.get(1).getInteractables().size() == 1) {
-					characters.get(1).xPos = characters.get(1).xPos + 1;
-				}else{
-					characters.get(1).xPos = characters.get(1).xPos - 1;
-					xMoveR = false;
-					yMoveD = true;
-				}
-			}else if(yMoveD){
-				if (characters.get(1).getInteractables().size() == 1) {
-					characters.get(1).yPos = characters.get(1).yPos + 1;
-				}else{
-					characters.get(1).yPos = characters.get(1).yPos - 1;
-					yMoveD = false;
-					xMoveL = true;
-				}
-			}else if(xMoveL){
-				if (characters.get(1).getInteractables().size() == 1) {
-					characters.get(1).xPos = characters.get(1).xPos - 1;
-				}else{
-					characters.get(1).xPos = characters.get(1).xPos + 1;
-					xMoveL = false;
-					yMoveU = true;
-				}
-			}else if(yMoveU){
-				if (characters.get(1).getInteractables().size() == 1) {
-					characters.get(1).yPos = characters.get(1).yPos - 1;
-				}else{
-					characters.get(1).yPos = characters.get(1).yPos + 1;
-					yMoveU = false;
-					xMoveR = true;
-				}
-			}
-
-
 		}
 	}
-	boolean xMoveR = true;
-	boolean xMoveL = false;
-	boolean yMoveD = false;
-	boolean yMoveU = false;
 
 	//TODO Add parameter for fast-forward
 	private void updateTimeables(){

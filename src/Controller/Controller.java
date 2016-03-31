@@ -74,30 +74,10 @@ public class Controller implements PropertyChangeListener {
 		screenRect = new ModelToViewRectangle(Constants.DEFAULT_WORLD_VIEW_X, Constants.DEFAULT_WORLD_VIEW_Y, (float)Constants.SCREEN_WIDTH, (float)Constants.SCREEN_HEIGHT);
 
 		//TODO this is hardcoded testing code. Remove after Testing is done!!
-				player.setBody(gameModel.addCharacter(1000, 1000, Constants.PLAYER_CHARACTER_KEY));
+				player.setBody(gameModel.addCharacter(1050-50-20, 1050+50+20, Constants.PLAYER_CHARACTER_KEY));
 				((Character)player.getBody()).godMode = true;
-				/*GoldItem gi = new GoldItem(5);
-				((Character) player.getBody()).addToInventory(gi);
-				FishItem fi = new FishItem(5);
-				((Character) player.getBody()).addToInventory(fi);
-				WaterItem wi = new WaterItem(5);
-				((Character) player.getBody()).addToInventory(wi);
-				StoneItem si = new StoneItem(5);
-				((Character) player.getBody()).addToInventory(si);
-				WaterItem wi2 = new WaterItem(10);
-				((Character) player.getBody()).addToInventory(wi2);
-				*/
-				/*
-				gameModel.addCharacter(1100,1100,2).godMode = true;
-				gameModel.addCharacter(1000,1000,3).godMode = true;
-				gameModel.addCharacter(1100,1000,4).godMode = true;
-				gameModel.addCharacter(1000,1100,5).godMode = true;
 
-				gameModel.addCharacter(1100+20,1100+20,6).godMode = true;
-				gameModel.addCharacter(1000-20,1000-20,7).godMode = true;
-				gameModel.addCharacter(1100+20,1000-20,8).godMode = true;
-				gameModel.addCharacter(1000-20,1100+20,9).godMode = true;
-*/
+				gameModel.addCharacter(1100,1100,2).godMode = true;
 				//this.gameModel.addFiniteResourcePoint(new Crops(5),1010,1010,5);
 
 	}
