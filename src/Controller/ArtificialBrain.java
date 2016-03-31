@@ -34,6 +34,7 @@ import java.util.List;
 	private IState cookState			= new CookState(this);
 	private IState drinkState			= new DrinkState(this);
 	private IState eatState				= new EatState(this);
+	private IState gatherCropsState		= new GatherCropsState(this);
 	private IState gatherMaterialState	= new GatherMaterialState(this);
 	private IState gatherState			= new GatherState(this);
 	private IState hungryState			= new HungryState(this);
@@ -160,6 +161,10 @@ import java.util.List;
 
 	public IState getEatState() {
 		return eatState;
+	}
+
+	public IState getGatherCropsState() {
+		return gatherCropsState;
 	}
 
 	public IState getGatherMaterialState() {

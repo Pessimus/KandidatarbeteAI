@@ -16,6 +16,6 @@ public class BuildHouseState implements IState{
 
 	@Override
 	public void run() {
-		;
+		// TODO: Get resources needed to build the house
 	}
 }
