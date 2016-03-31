@@ -11,6 +11,10 @@ public abstract class FiniteResource implements IResource{
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
+	/**
+	 * A abstract class for representing a finite resource.
+	 * @param initial the initial amount of the resource.
+	 */
 	protected FiniteResource(int initial) {
 		this.resourcesLeft = initial;
 	}
@@ -18,11 +22,13 @@ public abstract class FiniteResource implements IResource{
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
 	@Override
+	/**{@inheritDoc}*/
 	public int getResourcesLeft(){
 		return resourcesLeft;
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void setResourcesLeft(int amount){resourcesLeft=amount;}
 
 }
