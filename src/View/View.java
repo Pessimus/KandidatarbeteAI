@@ -30,8 +30,8 @@ public class View extends BasicGameState implements InputListener{
     private int stateNr;
     private TiledMap map;
 
-	private int renderPointX = (int)Constants.DEFAULT_WORLD_VIEW_X;
-	private int renderPointY = (int)Constants.DEFAULT_WORLD_VIEW_Y;
+	private volatile int renderPointX = (int)Constants.DEFAULT_WORLD_VIEW_X;
+	private volatile int renderPointY = (int)Constants.DEFAULT_WORLD_VIEW_Y;
 
     private volatile float scaleGraphics;
 	private int tempWidth;
@@ -89,17 +89,18 @@ public class View extends BasicGameState implements InputListener{
 		//tempHeight = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE/scaleGraphics);
 		//tempWidth = (int)Math.ceil(Constants.SCREEN_WIDTH/Constants.WORLD_TILE_SIZE);
 		//tempHeight = (int)Math.ceil(Constants.SCREEN_HEIGHT/Constants.WORLD_TILE_SIZE);
-		int tileOffsetX = (-1*renderPointX%Constants.WORLD_TILE_SIZE);
-		int tileOffsetY = (-1*renderPointY%Constants.WORLD_TILE_SIZE);
-		int tileIndexX  = renderPointX/Constants.WORLD_TILE_SIZE - 1;
-		int tileIndexY  = renderPointY/Constants.WORLD_TILE_SIZE - 1;
+		int tileOffsetX = -1*(renderPointX%Constants.WORLD_TILE_SIZE);
+		int tileOffsetY = -1*(renderPointY%Constants.WORLD_TILE_SIZE);
+		int tileIndexX  = renderPointX/Constants.WORLD_TILE_SIZE;
+		int tileIndexY  = renderPointY/Constants.WORLD_TILE_SIZE;
 
 		startX = renderPointX + tileOffsetX;
 		startY = renderPointY + tileOffsetY;
 		startTileX = tileIndexX;
 		startTileY = tileIndexY;
-		width = (((int)Constants.SCREEN_WIDTH - tileOffsetX)/Constants.WORLD_TILE_SIZE)+ 1;
-		height = (((int)Constants.SCREEN_HEIGHT - tileOffsetY)/Constants.WORLD_TILE_SIZE)+ 1;
+
+		width = (int)Math.ceil(((Constants.SCREEN_WIDTH - tileOffsetX)/Constants.WORLD_TILE_SIZE)/scaleGraphics)+1;
+		height = (int)Math.ceil(((Constants.SCREEN_HEIGHT - tileOffsetY)/Constants.WORLD_TILE_SIZE)/scaleGraphics)+1;
     }
 
 	private int startX, startY, startTileX, startTileY, width, height;
@@ -108,7 +109,7 @@ public class View extends BasicGameState implements InputListener{
 
 	@Override
 	public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-		//graphics.scale(scaleGraphics,scaleGraphics);
+		graphics.scale(scaleGraphics,scaleGraphics);
 
 		try{
 			renderSema.acquire();
@@ -149,32 +150,33 @@ public class View extends BasicGameState implements InputListener{
 
 			float barXPos = Constants.MARGIN_FROM_LEFT*2+graphics.getFont().getWidth("Hunger");
 
-			float hungerPercent = 1-(float)playerNeeds[0]/(float)Constants.CHARACTER_HUNGER_MAX;
-			float thirstPercent = 1-(float)playerNeeds[1]/(float)Constants.CHARACTER_THIRST_MAX;
-			float energyPercent = 1-(float)playerNeeds[2]/(float)Constants.CHARACTER_ENERGY_MAX;
+			float hungerPercent = (float)playerNeeds[0]/(float)Constants.CHARACTER_HUNGER_MAX;
+			float thirstPercent = (float)playerNeeds[1]/(float)Constants.CHARACTER_THIRST_MAX;
+			float energyPercent = (float)playerNeeds[2]/(float)Constants.CHARACTER_ENERGY_MAX;
 
 			graphics.setColor(Color.gray);
 			graphics.fillRect(0,gameContainer.getHeight()/scaleGraphics-Constants.BOX_HEIGHT, Constants.BOX_WIDTH, Constants.BOX_HEIGHT);
 			graphics.setColor(Color.white);
 			graphics.drawString("Hunger:",Constants.MARGIN_FROM_LEFT, hungerStringYPos);
 			graphics.drawRect(barXPos, hungerStringYPos,barWidth,barHeight);
-			if((float)playerNeeds[0]/(float)Constants.CHARACTER_HUNGER_MAX < 0.2)
+			if(hungerPercent < 0.2)
 				graphics.setColor(Color.red);
-			graphics.fillRect(barXPos+barWidth*hungerPercent, hungerStringYPos, barWidth-barWidth*hungerPercent, barHeight);
+			if(hungerPercent > 0)
+				graphics.fillRect(barXPos+barWidth*(1-hungerPercent), hungerStringYPos, barWidth-barWidth*(1-hungerPercent), barHeight);
 			graphics.setColor(Color.white);
 			graphics.drawString("Thirst:",Constants.MARGIN_FROM_LEFT, thirstStringYPos);
-
-			if((float)playerNeeds[1]/(float)Constants.CHARACTER_HUNGER_MAX < 0.2)
+			if(thirstPercent < 0.2)
 				graphics.setColor(Color.red);
-			graphics.setColor(Color.white);
-			graphics.fillRect(barXPos+barWidth*thirstPercent, thirstStringYPos, barWidth-barWidth*thirstPercent, barHeight);
+			if(thirstPercent > 0)
+				graphics.fillRect(barXPos+barWidth*(1-thirstPercent), thirstStringYPos, barWidth-barWidth*(1-thirstPercent), barHeight);
 			graphics.setColor(Color.white);
 			graphics.drawRect(barXPos, thirstStringYPos,barWidth,barHeight);
 			graphics.drawString("Energy:",Constants.MARGIN_FROM_LEFT, energyStringYPos);
 			graphics.drawRect(barXPos, energyStringYPos,barWidth,barHeight);
-			if((float)playerNeeds[2]/(float)Constants.CHARACTER_HUNGER_MAX < 0.2)
+			if(energyPercent < 0.2)
 				graphics.setColor(Color.red);
-			graphics.fillRect(barXPos+barWidth*energyPercent, energyStringYPos, barWidth-barWidth*energyPercent, barHeight);
+			if(energyPercent > 0)
+				graphics.fillRect(barXPos+barWidth*(1-energyPercent), energyStringYPos, barWidth-barWidth*(1-energyPercent), barHeight);
 			graphics.setColor(Color.white);
 		}
 
@@ -185,12 +187,13 @@ public class View extends BasicGameState implements InputListener{
 
 		if (displayInventory) {
 			int x,y;
+			float lineWidth = Constants.GRID_LINE_WIDTH;
 			for (int i = 1; i < Math.sqrt(Constants.MAX_INVENTORY_SLOTS)+1; i++) {
 				for (int j = 1; j < Math.sqrt(Constants.MAX_INVENTORY_SLOTS)+1; j++) {
 					x=(int)(gameContainer.getWidth()/scaleGraphics)-Constants.SLOT_DISPLAY_SIZE*i;
 					y=(int)(gameContainer.getHeight()/scaleGraphics)-Constants.SLOT_DISPLAY_SIZE*j;
 					graphics.setLineWidth(Constants.GRID_LINE_WIDTH);
-					graphics.drawRect(x, y, Constants.SLOT_DISPLAY_SIZE, Constants.SLOT_DISPLAY_SIZE);
+					graphics.drawRect(x-lineWidth, y-lineWidth, Constants.SLOT_DISPLAY_SIZE, Constants.SLOT_DISPLAY_SIZE);
 				}
 			}
 
@@ -201,16 +204,16 @@ public class View extends BasicGameState implements InputListener{
 				x=(int)(gameContainer.getWidth()/scaleGraphics)-Constants.SLOT_DISPLAY_SIZE*i;
 				y=(int)(gameContainer.getHeight()/scaleGraphics)-Constants.SLOT_DISPLAY_SIZE*j;
 
-				graphics.drawImage(new Image(invRender.type.pathToResource), x, y);
-				graphics.fillRect(x+Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT, y+Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT,
+				graphics.drawImage(new Image(invRender.type.pathToResource), x-lineWidth/2, y-lineWidth/2);
+				graphics.fillRect(x+Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT-lineWidth, y+Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT-lineWidth,
 						Constants.SLOT_DISPLAY_AMOUNT, Constants.SLOT_DISPLAY_AMOUNT);
 				graphics.setColor(Color.black);
 				if(invRender.amount < 10) {
-					graphics.drawString(Integer.toString(invRender.amount), x + Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT+Constants.AMOUNT_DISPLAY_MARGIN,
-							y + Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT+Constants.AMOUNT_DISPLAY_MARGIN);
+					graphics.drawString(Integer.toString(invRender.amount), x + Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT+Constants.AMOUNT_DISPLAY_MARGIN-lineWidth,
+							y + Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT+Constants.AMOUNT_DISPLAY_MARGIN-lineWidth);
 				}else {
-					graphics.drawString(Integer.toString(invRender.amount), x + Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT,
-							y + Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT);
+					graphics.drawString(Integer.toString(invRender.amount), x + Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT-lineWidth,
+							y + Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT-lineWidth);
 				}
 				graphics.setColor(Color.white);
 				i--;

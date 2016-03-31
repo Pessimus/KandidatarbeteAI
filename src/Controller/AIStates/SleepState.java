@@ -16,7 +16,7 @@ public class SleepState implements IState{
 
 	@Override
 	public void run() {
-		/*if(isHome) {
+		/*if(brain.getBody().isHome()) {
 			brain.sleep;
 		}
 		 */

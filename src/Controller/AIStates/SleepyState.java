@@ -20,7 +20,11 @@ public class SleepyState implements IState{
 
 	@Override
 	public void run() {
-		/*if(pathToHome != null) {
+		/*if(brain.getBody().hasHome()) {
+			int homeX = brain.getBody().getHome().getX();
+			int homeY = brain.getBody().getHome().getY();
+
+			Constants.PATHFINDER_OBJECT
 			--pathfind home
 		} else {
 			brain.setState(brain.getSleepState());

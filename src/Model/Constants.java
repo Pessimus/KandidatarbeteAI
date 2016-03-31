@@ -78,6 +78,7 @@ public final class Constants {
 	public static final			int			SLOT_DISPLAY_AMOUNT					=	20;
 	public static final			int 		AMOUNT_DISPLAY_MARGIN				=	4;
 	public static final			float		GRID_LINE_WIDTH						=	5f;
+	public static final			int			MAX_AMOUNT							=	99;
 
 	//----------- Animal Constants ------------- \\
 	public static final 		double		ANIMAL_COLLISION_RADIUS				=	5;

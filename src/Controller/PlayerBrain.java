@@ -84,7 +84,7 @@ public class PlayerBrain implements AbstractBrain {
     public void moveToMouse(float destX, float destY) {
       pathSteps = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), destX, destY);
         //System.out.println(pathSteps == null);
-        //System.out.println(pathSteps);
+        System.out.println(pathSteps);
     }
     public void stopPlayerUp() {
 		this.walkingUp = false;
