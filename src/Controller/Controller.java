@@ -29,7 +29,7 @@ public class Controller implements PropertyChangeListener {
 	private StateViewInit gameView;
 
 	//--------------Controller variables----------------\\
-	private PlayerBrain player = new PlayerBrain();
+	private PlayerBrain player;
 	private HashMap<Character, AbstractBrain> aiMap = new HashMap<>();
 
 	//-----------------Model variables------------------\\
@@ -75,7 +75,7 @@ public class Controller implements PropertyChangeListener {
 		screenRect = new ModelToViewRectangle(Constants.DEFAULT_WORLD_VIEW_X, Constants.DEFAULT_WORLD_VIEW_Y, (float)Constants.SCREEN_WIDTH, (float)Constants.SCREEN_HEIGHT);
 
 		//TODO this is hardcoded testing code. Remove after Testing is done!!
-				player.setBody(gameModel.addCharacter(1000, 1000, Constants.PLAYER_CHARACTER_KEY));
+				player = new PlayerBrain(gameModel.addCharacter(1000, 1000, Constants.PLAYER_CHARACTER_KEY));
 				((Character)player.getBody()).godMode = true;
 				/*GoldItem gi = new GoldItem(5);
 				((Character) player.getBody()).addToInventory(gi);
@@ -357,6 +357,8 @@ public class Controller implements PropertyChangeListener {
 						//TODO WHAT SHOULD BE DONE HERE?!
 						//float[] tempFloats = convertFromViewToModelCoords(clicks[2], clicks[3]);
 						//gameModel.selectObject(tempFloats[0], tempFloats[1]);
+						/*float[] tempFloats = convertFromViewToModelCoords(clicks[2], clicks[3]);
+						player.moveToMouse(tempFloats[0], tempFloats[1]);*/
 						player.moveToMouse(clicks[2], clicks[3]);
 					}
 
@@ -438,7 +440,7 @@ public class Controller implements PropertyChangeListener {
 					tempChar.setBody(null);
 				}
 			}
-			aiMap.put(character, new ArtificialBrain((ICharacterHandle)character));
+			aiMap.put(character, new ArtificialBrain(character));
 		}
 	}
 

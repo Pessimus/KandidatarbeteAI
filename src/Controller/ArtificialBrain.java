@@ -52,15 +52,11 @@ import java.util.List;
 	// TODO: Hardcoded universal vision
 	public World map;
 
-	public ArtificialBrain(World world){
-		this();
+	public ArtificialBrain(World world, ICharacterHandle c){
+		this(c);
 		map = world;
 	}
 	// TODO: Hardcoded universal vision
-
-    public ArtificialBrain() {
-		this(new Character((float) (Constants.WORLD_WIDTH*Math.random()),(float) (Constants.WORLD_HEIGHT*Math.random()), 2));
-    }
 
     public ArtificialBrain(ICharacterHandle c) {
         body = c;

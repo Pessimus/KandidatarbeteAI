@@ -24,10 +24,6 @@ public class PlayerBrain implements AbstractBrain {
     private boolean walkingRight = false;
     private LinkedList<PathStep> pathSteps = new LinkedList<>();
 
-    public PlayerBrain() {
-        body = new Character(100, 100, Constants.PLAYER_CHARACTER_KEY);
-    }
-
     public PlayerBrain(ICharacterHandle c) {
         body = c;
     }
@@ -44,9 +40,10 @@ public class PlayerBrain implements AbstractBrain {
 		//Pathfinding, if the path to destination isnt null, move towards the next node in the path.
         if(pathSteps != null) {
             if(!pathSteps.isEmpty()) {
+				System.out.println("Running");
                 pathSteps.getFirst().stepTowards(body);
 				//Remove visited node.
-				if(pathSteps.getFirst().reached(body.getX(), body.getY())) {
+				if(pathSteps.getFirst().reached(body)) {
 					pathSteps.removeFirst();
 				}
             }
@@ -87,7 +84,8 @@ public class PlayerBrain implements AbstractBrain {
     }
     public void moveToMouse(float destX, float destY) {
 		//Intiates the optimal path to destination when left mouse button is clicked.
-      pathSteps = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), destX, destY);
+      pathSteps = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), destX/Constants.GRAPHICS_SCALE_X, destY/Constants.GRAPHICS_SCALE_Y);
+      //pathSteps = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), destX, destY);
         //System.out.println(pathSteps == null);
         //System.out.println(pathSteps);
     }
