@@ -60,7 +60,9 @@ public interface ICharacterHandle {
 	/** @return A list containing all the items in the characters inventory.*/
 	List<IItem> getInventory();
 
+	//TODO add javadock
 	Outcome getOutcomeInventory(int inventoryIndex);
+	//TODO add javadock
 	Outcome getOutcomeInteractables(int interactablesIndex);
 
 	/**
