@@ -58,39 +58,5 @@ public class HungryState implements IState {
 		else{
 			brain.setState(brain.getEatState());
 		}
-		/*
-		if(pathToResource == null) {
-			Iterator<IItem> iterator = brain.getBody().getInventory().iterator();
-			IItem best = null;
-			int hungerAmount = -1;
-
-			loop:while(iterator.hasNext()){
-				IItem current = iterator.next();
-				switch (current.getType()) {
-					case FISH_ITEM: //TODO: CHANGE FISH TO FOOD
-						best = current;
-					if(best == null){
-						best = current;
-						thirstAmount = best.getOutcome().getThirst();
-					}
-					else if(best.getOutcome().getThirst() > thirstAmount){
-						best = current;
-						thirstAmount = best.getOutcome().getThirst();
-					}
-						break loop;
-				}
-			}
-
-			if(best == null){
-				// TODO: Pathfinding to nearest/best food-resource
-				// TODO: Queue MovingState
-				// TODO: Queue GatherState
-			}
-			else{
-				brain.setState(brain.getEatState());
-			}
-
-		}
-					*/
 	}
 }

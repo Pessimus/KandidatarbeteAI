@@ -8,7 +8,6 @@ import Model.ICharacterHandle;
  * Created by Tobias on 2016-03-29.
  */
 public class BuildHouseState implements IState{
-	private ICharacterHandle body;
 	private final ArtificialBrain brain;
 
 	public BuildHouseState(ArtificialBrain brain){

@@ -17,9 +17,9 @@ public class BuildState implements IState{
 	@Override
 	public void run() {
 		/*
-		if(!body.hasHome){
-			if(!body.hasMaterialFor(Structure.HOUSE)){
-
+		if(!brain.getBody().hasHome()){
+			if(!brain.getBody().hasMaterialFor(Structure.HOUSE)){
+				for(IResource.ResourceType type :
 			}
 		}
 		*/
