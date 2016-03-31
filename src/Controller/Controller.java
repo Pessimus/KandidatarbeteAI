@@ -75,7 +75,7 @@ public class Controller implements PropertyChangeListener {
 
 		//TODO this is hardcoded testing code. Remove after Testing is done!!
 				player.setBody(gameModel.addCharacter(984, 984, Constants.PLAYER_CHARACTER_KEY));
-				//((Character)player.getBody()).godMode = true;
+				((Character)player.getBody()).godMode = true;
 				/*GoldItem gi = new GoldItem(5);
 				((Character) player.getBody()).addToInventory(gi);
 				FishItem fi = new FishItem(5);
