@@ -2,13 +2,11 @@ package Controller;
 
 import Controller.AIStates.*;
 import Model.*;
-import Model.Character;
 import Model.Constants;
 import Model.ICharacterHandle;
 
 //import java.awt.*;
 import java.awt.*;
-import java.awt.geom.Path2D;
 import java.util.*;
 import java.util.List;
 
@@ -41,8 +39,8 @@ import java.util.List;
 	private IState hungryState = new HungryState(this);
 	private IState idleState = new IdleState(this);
 	private IState movingState = new MovingState(this);
-	private IState sleepState = new SleepState(this);
-	private IState sleepyState = new SleepyState(this);
+	private IState sleepState = new SleepingState(this);
+	private IState sleepyState = new LowEnergyState(this);
 	private IState socializeState = new SocializeState(this);
 	private IState thirstyState = new ThirstyState(this);
 	private IState tradeState = new TradeState(this);
@@ -69,9 +67,10 @@ import java.util.List;
 		int[] needs = body.getNeeds();
 		int[] traits = body.getTraits();
 		int[] skills = body.getSkills();
-		//FOR TESTING PURPOSES, MAKES THE AI STAY IN MOVINGSTATE ALWAYS. UNLESS THERE ARE OTHER STATES QUEUED.
-		currentState.run();
 
+		currentState.run();
+		System.out.println(body.getNeeds()[1]);
+		System.out.println(getState());
 
 		for (ICollidable object : body.getSurroundings()) {
 			if (object.getClass().equals(ResourcePoint.class)) {

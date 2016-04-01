@@ -42,7 +42,9 @@ public class DrinkState implements IState{
 			}
 		}
 
+		System.out.println("DRINK: " + brain.getBody().getNeeds()[0] + "-" + brain.getBody().getNeeds()[1] + "-" + brain.getBody().getNeeds()[2]);
 		best.consumed((Character)brain.getBody());
+		System.out.println("DRANK: " + brain.getBody().getNeeds()[0] + "-" + brain.getBody().getNeeds()[1] + "-" + brain.getBody().getNeeds()[2]);
 
 		if(brain.getStateQueue().isEmpty()) {
 			brain.setState(brain.getIdleState());
