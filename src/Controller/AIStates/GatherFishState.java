@@ -30,7 +30,7 @@ public class GatherFishState implements IState {
             if(temp.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.LAKE)) {
                 // TODO: Don't use RENDER_OBJECT_ENUM, use Outcome in some way!!
 
-                if ((waitUpdates = (++waitUpdates % Constants.GATHER_MEAT_STATE_TIME)) == 0) {
+                if ((waitUpdates = (++waitUpdates % Constants.GATHER_FISH_STATE_TIME)) == 0) {
                     temp.interacted((Model.Character) brain.getBody());
                     if (brain.getStateQueue().isEmpty()) {
                         brain.setState((brain.getIdleState()));

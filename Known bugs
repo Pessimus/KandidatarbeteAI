@@ -1,3 +1,9 @@
 Pathfinding :
 Om du pathfindar till samma punkt som du befinner dig på så kommer du få en path att gå ett steg till höger
 och sedan tillbaka till punkten du var i, bättre att returnera en tom path?
+
+CookedMeatItem/CookedFishItem :
+Saknar typ i (Samma gäller för fish):
+    public IItem.Type getType() {
+            return Type.      ;
+        }
