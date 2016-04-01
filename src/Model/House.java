@@ -9,7 +9,7 @@ public class House implements IStructure {
     public static final StructureType structureType = StructureType.HOME;
 
     private int capacity;
-    private int currentlyHousing;
+    private int occupants;
 
     //-----------------------------------------------CONSTRUCTOR------------------------------------------------------\\
     public House(int capacity){this.capacity=capacity; }
@@ -19,6 +19,8 @@ public class House implements IStructure {
         return structureType;
     }
 
-    public int getCapacity
+    public int getCapacity(){
+        return capacity;
+    }
 }
 
