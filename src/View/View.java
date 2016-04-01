@@ -324,13 +324,13 @@ public class View extends BasicGameState implements InputListener{
 
 	// ----------- Render and hide inventory ----------- \\
 
-	public void renderInventory(LinkedList<Model.InventoryRender> inventoryItems){
-		LinkedList<Model.InventoryRender> tmp = new LinkedList<>();
-		for(Model.InventoryRender inventoryRen : inventoryItems){
+	public void renderInventory(LinkedList<InventoryRender> inventoryItems){
+		LinkedList<InventoryRender> tmp = new LinkedList<>();
+		for(InventoryRender inventoryRen : inventoryItems){
 			tmp.add(inventoryRen);
 		}
 
-		inventoryToRender = tmp.toArray(new Model.InventoryRender[tmp.size()]);
+		inventoryToRender = tmp.toArray(new InventoryRender[tmp.size()]);
 		displayInventory = true;
 		displayPlayerNeeds = true;
 	}
