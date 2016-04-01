@@ -25,16 +25,16 @@ public class MovingState implements IState {
 		if(tempPath != null){
 			if(!tempPath.isEmpty()){
 				tempPath.getFirst().stepTowards(brain.getBody());
-				if(tempPath.getFirst().reached(brain.getBody()));
+				if(tempPath.getFirst().reached(brain.getBody())){
 					tempPath.removeFirst();
+				}
 			}
 			else{
-				brain.setPath(null);
 				if(brain.getStateQueue().isEmpty()) {
 					brain.setState(brain.getIdleState());
 				}
 				else{
-					brain.getStateQueue().poll();
+					brain.setState(brain.getStateQueue().poll());
 				}
 			}
 		}
@@ -43,7 +43,7 @@ public class MovingState implements IState {
 				brain.setState(brain.getIdleState());
 			}
 			else{
-				brain.getStateQueue().poll();
+				brain.setState(brain.getStateQueue().poll());
 			}
 		}
 	}

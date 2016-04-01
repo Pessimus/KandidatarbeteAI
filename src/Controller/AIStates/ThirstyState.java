@@ -3,10 +3,8 @@ package Controller.AIStates;
 import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
 import Controller.PathStep;
-import Model.ICharacterHandle;
-import Model.IItem;
-import Model.IResource;
-import Model.ResourcePoint;
+import Model.*;
+import Toolkit.RenderObject;
 
 import java.util.Iterator;
 import java.util.List;
@@ -48,10 +46,23 @@ public class ThirstyState implements IState{
 						break loop;
 				}
 			}
-
 			if(best == null){
-				// TODO: Pathfinding to nearest/best water-resource
-				// TODO: Enter GatherState
+				// TODO: Pathfinding to nearest/best food-resource
+				// TODO: Queue MovingState correctly
+				for(RenderObject o : brain.map.getRenderObjects()){
+					if(o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.LAKE)){
+						brain.setPath(Constants.PATHFINDER_OBJECT.getPath(brain.getBody().getX(), brain.getBody().getY(), o.getX(), o.getY()));
+						brain.queueState(brain.getMovingState());
+						brain.queueState(brain.getGatherWaterState());
+						brain.queueState(brain.getDrinkState());
+						brain.setState(brain.getStateQueue().poll());
+						break;
+					}
+				}
+			/*brain.setPath();
+			brain.queueState(brain.getMovingState());
+			brain.setNextResourceToGather(IResource.ResourceType.CROPS);
+			brain.queueState(brain.getGatherCropsState());*/
 			}
 			else{
 				brain.setState(brain.getDrinkState());
