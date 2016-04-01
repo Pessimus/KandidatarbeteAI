@@ -48,9 +48,9 @@ public final class Constants {
 	public static final			int			PLAYER_CHARACTER_KEY				= 	1;
 	public static final			float		CHARACTER_WALK_SPEED				=	6f;
 	public static final			float		CHARACTER_RUN_SPEED					=	12f;
-	public static final 		int			CHARACTER_UPDATE_INTERVAL			=	60;
+	public static final 		int			CHARACTER_UPDATE_INTERVAL			=	240;
 
-	public static final 		double		CHARACTER_COLLISION_RADIUS			=	5;
+	public static final 		double		CHARACTER_COLLISION_RADIUS			=	8;
 	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	20;
 	public static final 		double		CHARACTER_SURROUNDING_RADIUS		=	50;
 
@@ -58,9 +58,9 @@ public final class Constants {
 	public static final 		int			CHARACTER_THIRST_MAX				=	100;
 	public static final 		int			CHARACTER_ENERGY_MAX				=	100;
 
-	public static final			int			CHARACTER_HUNGER_UPDATE				=	20;
-	public static final			int			CHARACTER_THIRST_UPDATE				=	40;
-	public static final			int			CHARACTER_ENERGY_UPDATE				=	20;
+	public static final			int			CHARACTER_HUNGER_UPDATE				=	120;
+	public static final			int			CHARACTER_THIRST_UPDATE				=	240;
+	public static final			int			CHARACTER_ENERGY_UPDATE				=	120;
 	public static final			int			CHARACTER_AGE_UPDATE				=	60;
 
 	public static final			int			CHARACTER_HUNGER_CHANGE				=	1;
@@ -69,7 +69,7 @@ public final class Constants {
 
 	//----------- Inventory Constants ------------- \\
 	//Has to be a power of 2. Ex 1,4,9,16,25,36...
-	public static final			int 		MAX_INVENTORY_SLOTS					=	16;
+	public static final			int 		MAX_INVENTORY_SLOTS					=	9;
 
 	public static final			int			SLOT_DISPLAY_SIZE					=	64;
 	public static final			int			SLOT_DISPLAY_AMOUNT					=	20;

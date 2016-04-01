@@ -123,13 +123,13 @@ public class View extends BasicGameState implements InputListener{
 					for (RenderObject obj : listToRender) {
 						int imageWidth = resourceMap.get(obj.getRenderType()).getWidth();
 						int imageHeight = resourceMap.get(obj.getRenderType()).getHeight();
-						float imageScale;
+						float imageScale, width, height;
 						if(imageHeight >= imageWidth)
 							imageScale = (float)(obj.getRadius()*2/imageHeight);
 						else
 							imageScale = (float)(obj.getRadius()*2/imageWidth);
-						float width = imageWidth*imageScale;
-						float height = imageHeight*imageScale;
+						width = imageWidth*imageScale;
+						height = imageHeight*imageScale;
 						resourceMap.get(obj.getRenderType()).draw(obj.getX() - imageWidth/2, obj.getY() - imageHeight/2, width, height);
 					}
 				}

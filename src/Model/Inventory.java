@@ -28,7 +28,6 @@ public class Inventory{
 		for(IItem invItem : inventoryItems){
 			if(item.getType() == invItem.getType() && invItem.getAmount()<Constants.MAX_AMOUNT){
 				if(invItem.getAmount()+item.getAmount() > Constants.MAX_AMOUNT) {
-
 					item.setAmount((invItem.getAmount()+item.getAmount())%Constants.MAX_AMOUNT);
 					System.out.println((invItem.getAmount()+item.getAmount())%Constants.MAX_AMOUNT);
 					invItem.setAmount(Constants.MAX_AMOUNT);
@@ -47,15 +46,8 @@ public class Inventory{
 
 	boolean removeItem(IItem item){
 		for(IItem invItem : inventoryItems) {
-			if(item.getType() == invItem.getType()){
-				if (invItem.getAmount()>item.getAmount()){
-					invItem.removeAmount(item.getAmount());
-					return true;
-				}else if(invItem.getAmount() == item.getAmount()){
-					return inventoryItems.remove(item);
-				}else{//Not that many items of that type in inventory.
-					return false;
-				}
+			if(item.getType() == invItem.getType() && invItem.getAmount()==1){
+				return inventoryItems.remove(item);
 			}
 		}
 		return false;//Item not in inventory.

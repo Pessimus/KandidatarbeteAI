@@ -38,10 +38,14 @@ public class StoneItem implements IItem {
 
 	@Override
 	public void consumed(Character rhs) {
-		rhs.changeHunger(Constants.STONE_HUNGER_CHANGE_CONSUME);
-		rhs.changeEnergy(Constants.STONE_ENERGY_CHANGE_CONSUME);
-		rhs.changeThirst(Constants.STONE_THIRST_CHANGE_CONSUME);
-		this.amount--;
+		if(amount > 1) {
+			rhs.changeHunger(Constants.STONE_HUNGER_CHANGE_CONSUME);
+			rhs.changeEnergy(Constants.STONE_ENERGY_CHANGE_CONSUME);
+			rhs.changeThirst(Constants.STONE_THIRST_CHANGE_CONSUME);
+			amount--;
+		}else{
+			rhs.removeFromInventory(this);
+		}
 	}
 
 	@Override

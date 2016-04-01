@@ -38,10 +38,14 @@ public class WaterItem implements IItem {
 
 	@Override
 	public void consumed(Character rhs) {
-		rhs.changeHunger(Constants.WATER_HUNGER_CHANGE_CONSUME);
-		rhs.changeEnergy(Constants.WATER_ENERGY_CHANGE_CONSUME);
-		rhs.changeThirst(Constants.WATER_THIRST_CHANGE_CONSUME);
-		this.amount--;
+		if(amount > 1) {
+			rhs.changeHunger(Constants.WATER_HUNGER_CHANGE_CONSUME);
+			rhs.changeEnergy(Constants.WATER_ENERGY_CHANGE_CONSUME);
+			rhs.changeThirst(Constants.WATER_THIRST_CHANGE_CONSUME);
+			amount--;
+		}else{
+			rhs.removeFromInventory(this);
+		}
 	}
 
 	@Override
