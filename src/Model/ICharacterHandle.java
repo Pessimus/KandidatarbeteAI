@@ -96,4 +96,6 @@ public interface ICharacterHandle {
 	 * @param index the index of the item to consume.
 	 */
 	void consumeItem(int index);
+
+	void sleep();
 }

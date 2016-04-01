@@ -12,18 +12,19 @@ import java.util.List;
 /**
  * Created by Tobias on 2016-03-29.
  */
-public class ThirstyState implements IState{
+public class ThirstyState implements IState {
 	private final ArtificialBrain brain;
 
 	private List<PathStep> pathToResource;
 
-	public ThirstyState(ArtificialBrain brain){
+	public ThirstyState(ArtificialBrain brain) {
 		this.brain = brain;
 	}
+
 	RenderObject closestLake = null;
 	double cdx = 0;
 	double cdy = 0;
-	double odx= 0;
+	double odx = 0;
 	double ody = 0;
 
 	@Override
@@ -32,7 +33,8 @@ public class ThirstyState implements IState{
 		IItem best = null;
 		int thirstAmount = -1;
 
-		loop:while(iterator.hasNext()){
+		loop:
+		while (iterator.hasNext()) {
 			IItem current = iterator.next();
 			switch (current.getType()) {
 				case WATER_ITEM:
@@ -50,11 +52,11 @@ public class ThirstyState implements IState{
 					break loop;
 			}
 		}
-		if(best == null){
+		if (best == null) {
 			// TODO: Pathfinding to nearest/best food-resource
 			// TODO: Queue MovingState correctly
-			for(RenderObject o : brain.map.getRenderObjects()) {
-				if(o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.LAKE)) {
+			for (RenderObject o : brain.map.getRenderObjects()) {
+				if (o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.LAKE)) {
 					if (closestLake == null) {
 						closestLake = o;
 					} else {
@@ -66,17 +68,20 @@ public class ThirstyState implements IState{
 							closestLake = o;
 					}
 				}
-
 			}
-			brain.setPath(Constants.PATHFINDER_OBJECT.getPath(brain.getBody().getX(), brain.getBody().getY(), closestLake.getX(), closestLake.getY()));
+				brain.setPath(Constants.PATHFINDER_OBJECT.getPath(brain.getBody().getX(), brain.getBody().getY(), closestLake.getX(), closestLake.getY()));
+				brain.queueState(brain.getMovingState());
+				brain.queueState(brain.getGatherWaterState());
+				//brain.queueState(brain.getDrinkState());
+				brain.setState(brain.getStateQueue().poll());
+			/*brain.setPath();
 			brain.queueState(brain.getMovingState());
-			brain.queueState(brain.getGatherWaterState());
-			//brain.queueState(brain.getDrinkState());
-			brain.setState(brain.getStateQueue().poll());
-		}
-		else{
-			brain.setState(brain.getDrinkState());
-		}
+			brain.setNextResourceToGather(IResource.ResourceType.CROPS);
+			brain.queueState(brain.getGatherCropsState());*/
 
+		}
+			else{
+				brain.setState(brain.getDrinkState());
+			}
 	}
 }

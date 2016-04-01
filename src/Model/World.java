@@ -232,15 +232,13 @@ public class World{
 	 * @param key the key of the character, uniquely defines it for ease of access.
 	 * @return the character that was just created.
 	 */
-	public Character addCharacter(float xPoss, float yPoss, int key) {
+	public Character addCharacter(float xPoss, float yPoss, int key, boolean applyAI) {
 		Character character = new Character(xPoss, yPoss, key);
 
 		this.collidablesR.add(character);
 		this.collidables.add(character);
 		this.timeables.add(character);
 		this.characters.put(key, character);
-
-		pcs.firePropertyChange("createdCharacter", null, character);
 
 		return character;
 	}

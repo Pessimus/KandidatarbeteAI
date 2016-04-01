@@ -19,10 +19,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	}
 	public void drink() {
 		this.thirst += 10;
-	}
+	}*/
 	public void sleep() {
 		this.energy = 100;
 	}
+	/*
 	public void rest() {
 		this.energy += 20;
 	}*/
@@ -564,6 +565,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	public void consumeItem(int index){
 		if(this.getInventory().size()>index){
 			this.getInventory().get(index).consumed(this);
+			if(this.getInventory().get(index).getAmount() <= 0){
+				this.getInventory().remove(index);
+			}
 		}
 	}
 
