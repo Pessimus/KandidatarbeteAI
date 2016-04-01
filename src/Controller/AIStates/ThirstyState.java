@@ -53,7 +53,7 @@ public class ThirstyState implements IState{
 					if(o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.LAKE)){
 						brain.setPath(Constants.PATHFINDER_OBJECT.getPath(brain.getBody().getX(), brain.getBody().getY(), o.getX(), o.getY()));
 						brain.queueState(brain.getMovingState());
-						brain.queueState(brain.getGatherWaterState());
+						//brain.queueState(brain.getGatherWaterState());
 						brain.queueState(brain.getDrinkState());
 						brain.setState(brain.getStateQueue().poll());
 						break;
