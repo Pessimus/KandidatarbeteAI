@@ -24,7 +24,7 @@ public class IdleState implements IState {
 		// Critical levels of Hunger, Thirst and Energy which
 		// needs to be dealt with immediately
 		int minimumNeed = Math.min(Math.min(needsArray[0], needsArray[1]), needsArray[2]);
-		if(needsArray[0] == minimumNeed && needsArray[0] <= 20){
+		if(needsArray[0] == minimumNeed && needsArray[0] <= 100){
 			brain.setState(brain.getHungryState());
 		}
 		else if(needsArray[1] == minimumNeed && needsArray[1] <= 20){

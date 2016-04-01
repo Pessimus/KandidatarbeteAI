@@ -65,13 +65,16 @@ import java.util.List;
 
 	@Override
 	public void update() {
-		System.out.println("Running");
 		int[] needs = body.getNeeds();
 		int[] traits = body.getTraits();
 		int[] skills = body.getSkills();
 		//FOR TESTING PURPOSES, MAKES THE AI STAY IN MOVINGSTATE ALWAYS. UNLESS THERE ARE OTHER STATES QUEUED.
-		currentState = movingState;
 		currentState.run();
+		//System.out.println(body.getNeeds()[0]);
+		System.out.println(currentState);
+		System.out.println(currentState == gatherCropsState);
+		//System.out.println(getStateQueue());
+		System.out.println(body.getInventory().size());
 		}
 
 		/*

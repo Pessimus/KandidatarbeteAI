@@ -25,17 +25,15 @@ public class EatState implements IState{
 		loop:while(iterator.hasNext()) {
 			IItem current = iterator.next();
 			switch (current.getType()) {
-				case FISH_ITEM: //TODO: CHANGE TO FOOD_ITEM
-					/*
+				case CROPS_ITEM: //TODO: CHANGE TO FOOD_ITEM
 					if(best == null){
 						best = current;
-						hungerAmount = best.getOutcome().getHunger();
+						//hungerAmount = best.getOutcome().getHunger();
 					}
-					else if(best.getOutcome().getHunger() < current.getOutcome().getHunger()){
+					/*else if(best.getOutcome().getHunger() < current.getOutcome().getHunger()){
 						best = current;
-						thirstAmount = best.getOutcome().getHunger();
-					}
-					*/
+						//thirstAmount = best.getOutcome().getHunger();
+					}*/
 			}
 		}
 		best.consumed((Character)brain.getBody());

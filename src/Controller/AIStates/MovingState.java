@@ -20,11 +20,13 @@ public class MovingState implements IState {
 
 	@Override
 	public void run() {
-		Queue<PathStep> tempPath = brain.getPath();
+		LinkedList<PathStep> tempPath = brain.getPath();
 
 		if(tempPath != null){
 			if(!tempPath.isEmpty()){
-				tempPath.poll().stepTowards(brain.getBody());
+				tempPath.getFirst().stepTowards(brain.getBody());
+				if(tempPath.getFirst().reached(brain.getBody()));
+					tempPath.removeFirst();
 			}
 			else{
 				brain.setPath(null);
@@ -37,16 +39,12 @@ public class MovingState implements IState {
 			}
 		}
 		else{
-			//FOR TESTING PURPOSES: MAKES THE AI FIND A NEW PATH TO A RANDOM LOCATION IF IT HAS NO PATH CURRENTLY.
-			brain.getNewPath(Math.random()*9600, Math.random()*9600);
-			/* COMMENTED OUT TO TEST AI PATHFINDING
 			if(brain.getStateQueue().isEmpty()) {
 				brain.setState(brain.getIdleState());
 			}
 			else{
 				brain.getStateQueue().poll();
 			}
-			*/
 		}
 	}
 }
