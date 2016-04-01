@@ -19,10 +19,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	}
 	public void drink() {
 		this.thirst += 10;
-	}
+	}*/
 	public void sleep() {
 		this.energy = 100;
 	}
+	/*
 	public void rest() {
 		this.energy += 20;
 	}*/

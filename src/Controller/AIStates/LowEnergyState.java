@@ -10,11 +10,11 @@ import java.util.List;
 /**
  * Created by Tobias on 2016-03-29.
  */
-public class SleepyState implements IState{
+public class LowEnergyState implements IState{
 	private final ArtificialBrain brain;
 	private List<PathStep> pathToHome;
 
-	public SleepyState(ArtificialBrain brain){
+	public LowEnergyState(ArtificialBrain brain){
 		this.brain = brain;
 	}
 
@@ -25,7 +25,9 @@ public class SleepyState implements IState{
 			int homeY = brain.getBody().getHome().getY();
 
 			Constants.PATHFINDER_OBJECT
-			--pathfind home
+			brain.setPath(Constants.PATHFINDER_OBJECT.getPath(brain.getBody().getX(), brain.getBody().getY(), homeX, homeY));
+			brain.queueState(brain.getMovingState());
+			brain.setState(brain.getStateQueue().poll());
 		} else {
 			brain.setState(brain.getSleepState());
 		}

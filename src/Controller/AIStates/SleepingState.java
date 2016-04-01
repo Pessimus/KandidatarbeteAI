@@ -7,16 +7,15 @@ import Model.ICharacterHandle;
 /**
  * Created by Tobias on 2016-03-29.
  */
-public class BuildHouseState implements IState{
+public class SleepingState implements IState{
 	private final ArtificialBrain brain;
 
-	public BuildHouseState(ArtificialBrain brain){
+	public SleepingState(ArtificialBrain brain){
 		this.brain = brain;
 	}
 
 	@Override
 	public void run() {
-		// TODO: Find out what resources are needed to build the house
-		// TODO: Gather
+		brain.getBody().sleep();
 	}
 }
