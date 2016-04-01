@@ -6,6 +6,12 @@ import Model.IResource.ResourceType;
  * Created by Tobias on 2016-02-26.
  */
 public class ItemFactory {
+	/**
+	 * A method for generating items given a resource type.
+	 * @param resource the resource to generate a item from.
+	 * @param amount the amount of that item to generate.
+	 * @return a item of the the specified type and amount.
+	 */
 	public static IItem createItem(ResourceType resource, int amount){
 		switch (resource){
 			case WATER:

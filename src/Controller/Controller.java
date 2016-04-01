@@ -2,8 +2,8 @@ package Controller;
 
 import Model.*;
 import Model.Character;
+import Toolkit.RenderObject;
 import View.*;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.BasicGameState;
 
@@ -59,7 +59,7 @@ public class Controller implements PropertyChangeListener {
 		//setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT));
 
 		//TODO remove test
-			setModel(new World(Constants.WORLD_WIDTH,Constants.WORLD_HEIGHT,1,20,100,200));
+			setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, 1, 20, 100, 200));
 
 		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT, scaleGraphicsX, scaleGraphicsY));
 
@@ -76,18 +76,10 @@ public class Controller implements PropertyChangeListener {
 
 		//TODO this is hardcoded testing code. Remove after Testing is done!!
 				player = new PlayerBrain(gameModel.addCharacter(1000, 1000, Constants.PLAYER_CHARACTER_KEY));
-				((Character)player.getBody()).godMode = true;
-				/*GoldItem gi = new GoldItem(5);
-				((Character) player.getBody()).addToInventory(gi);
-				FishItem fi = new FishItem(5);
-				((Character) player.getBody()).addToInventory(fi);
-				WaterItem wi = new WaterItem(5);
-				((Character) player.getBody()).addToInventory(wi);
-				StoneItem si = new StoneItem(5);
-				((Character) player.getBody()).addToInventory(si);
-				WaterItem wi2 = new WaterItem(10);
-				((Character) player.getBody()).addToInventory(wi2);
-				*/
+
+		((Character)player.getBody()).godMode = true;
+
+				gameModel.addCharacter(1100,1100,2).godMode = true;
 				//this.gameModel.addFiniteResourcePoint(new Crops(5),1010,1010,5);
 
 	}
@@ -243,7 +235,7 @@ public class Controller implements PropertyChangeListener {
 			handleMouseInput(tempMouseList);
 		}
 
-		gameModel.uppdate();
+		gameModel.update();
 	}
 
 //--------------------------------------------Input Methods-----------------------------------------------------------\\

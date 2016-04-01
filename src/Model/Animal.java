@@ -1,5 +1,7 @@
 package Model;
 
+import Toolkit.RenderObject;
+
 /**
  * Created by Tobias on 2016-02-26.
  */
@@ -23,6 +25,12 @@ public class Animal implements ICollidable {
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
+	/**
+	 * A class representing a animal in the world.
+	 * @param xPoss the position on the x-axis
+	 * @param yPoss the position on the y-axis
+	 * @param resourceType the resource that can be gathered from this animal
+	 */
 	public Animal(float xPoss, float yPoss, IResource resourceType){
 		this.xPoss = xPoss;
 		this.yPoss = yPoss;
