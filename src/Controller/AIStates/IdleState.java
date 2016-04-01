@@ -21,6 +21,9 @@ public class IdleState implements IState {
 	public void run() {
 		int[] needsArray = brain.getBody().getNeeds();
 
+		System.out.println("IDLE STATE");
+		System.out.println(brain.getBody().getNeeds()[0]);
+
 		// Critical levels of Hunger, Thirst and Energy which
 		// needs to be dealt with immediately
 		int minimumNeed = Math.min(Math.min(needsArray[0], needsArray[1]), needsArray[2]);

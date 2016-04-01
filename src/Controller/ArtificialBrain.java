@@ -36,6 +36,7 @@ import java.util.List;
 	private IState eatState = new EatState(this);
 	private IState gatherCropsState = new GatherCropsState(this);
 	private IState gatherMaterialState = new GatherMaterialState(this);
+	private IState gatherWaterState = new GatherWaterState(this);
 	private IState gatherState = new GatherState(this);
 	private IState hungryState = new HungryState(this);
 	private IState idleState = new IdleState(this);
@@ -70,10 +71,6 @@ import java.util.List;
 		int[] skills = body.getSkills();
 		//FOR TESTING PURPOSES, MAKES THE AI STAY IN MOVINGSTATE ALWAYS. UNLESS THERE ARE OTHER STATES QUEUED.
 		currentState.run();
-		System.out.println(body.getNeeds()[0]);
-		System.out.println(currentState);
-		//System.out.println(getStateQueue());
-		System.out.println(body.getInventory().size());
 
 
 		for (ICollidable object : body.getSurroundings()) {
@@ -167,6 +164,10 @@ import java.util.List;
 
 	public IState getGatherMaterialState() {
 		return gatherMaterialState;
+	}
+
+	public IState getGatherWaterState() {
+		return gatherWaterState;
 	}
 
 	public IState getGatherState() {

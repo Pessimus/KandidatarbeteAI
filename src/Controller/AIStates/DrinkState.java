@@ -2,9 +2,9 @@ package Controller.AIStates;
 
 import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
+import Model.Character;
 import Model.ICharacterHandle;
 import Model.IItem;
-import Model.Character;
 
 import java.util.Iterator;
 
@@ -22,31 +22,33 @@ public class DrinkState implements IState{
 	public void run() {
 		Iterator<IItem> iterator = brain.getBody().getInventory().iterator();
 		IItem best = null;
-		int thirstAmount = -1;
-
 		loop:while(iterator.hasNext()) {
 			IItem current = iterator.next();
 			switch (current.getType()) {
-				case WATER_ITEM:
-					/*
-					//Do we have a current best item?
-					if(best == null){
-					//Assign current item to best
+				case WATER_ITEM: //TODO: CHANGE TO FOOD_ITEM
+					if(best == null) {
 						best = current;
-						//Check the thirstAmount we get back from drinking our current item
-						thirstAmount = best.getOutcome().getThirst();
 					}
-					//
-
-					else if(current.getOutcome().getThirst() > best.getOutcome().getThirst()){
+					/*
+					if(best == null){
 						best = current;
-						thirstAmount = best.getOutcome().getThirst();
+						hungerAmount = best.getOutcome().getHunger();
+					}
+					else if(best.getOutcome().getHunger() < current.getOutcome().getHunger()){
+						best = current;
+						thirstAmount = best.getOutcome().getHunger();
 					}
 					*/
 			}
 		}
-		
+
 		best.consumed((Character)brain.getBody());
-		brain.setState(brain.getIdleState());
+
+		if(brain.getStateQueue().isEmpty()) {
+			brain.setState(brain.getIdleState());
+		}
+		else{
+			brain.setState(brain.getStateQueue().poll());
+		}
 	}
 }
