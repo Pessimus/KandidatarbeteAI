@@ -46,7 +46,7 @@ import java.util.List;
 	private IState thirstyState = new ThirstyState(this);
 	private IState tradeState = new TradeState(this);
 
-	private final HashMap<Path2D, ResourcePoint> resourceMap = new HashMap<>();
+	//private final HashMap<Path2D, ResourcePoint> resourceMap = new HashMap<>();
 	List<ResourcePoint> resourceMemory = new LinkedList<>();
 
 	// TODO: Hardcoded universal vision
@@ -65,57 +65,52 @@ import java.util.List;
 
 	@Override
 	public void update() {
-		System.out.println("Running");
 		int[] needs = body.getNeeds();
 		int[] traits = body.getTraits();
 		int[] skills = body.getSkills();
-		//FOR TESTING PURPOSES, MAKES THE AI STAY IN MOVINGSTATE ALWAYS. UNLESS THERE ARE OTHER STATES QUEUED.
-		currentState = movingState;
-		currentState.run();
-		}
 
-		/*
-		for(ICollidable object : body.getSurroundings()){
-			if(object.getClass().equals(ResourcePoint.class)){
+		currentState.run();
+
+		for (ICollidable object : body.getSurroundings()) {
+			if (object.getClass().equals(ResourcePoint.class)) {
 				ResourcePoint resource = (ResourcePoint) object;
-				if(!resourceMemory.contains(resource)){
+				if (!resourceMemory.contains(resource)) {
 					resourceMemory.add(resource);
 				}
 
 			}
 		}
-		if(exploring) {
+		if (exploring) {
 			if (path != null) {
 				if (path.isEmpty()) {
 					path = null;
-				}
-				else if (path.getFirst().stepTowards(body)) {
+				} else if (path.getFirst().stepTowards(body)) {
 					path.removeFirst();
 				}
 			}
-		} else{
-			if(needs[0] <= needs[1] && needs[0] <= needs[2]){
+		} else {
+			if (needs[0] <= needs[1] && needs[0] <= needs[2]) {
 				ResourcePoint closestResource = resourceMemory.get(0);
-				Point closestPoint = new Point((int)closestResource.getX(), (int)closestResource.getY());
+				Point closestPoint = new Point((int) closestResource.getX(), (int) closestResource.getY());
 				double closestDistance = closestPoint.distance(body.getX(), body.getY());
-				for(ResourcePoint resource : resourceMemory){
-					if(resource.getResourceName().equals("Meat") || resource.getResourceName().equals("Fish")){
-						if(closestPoint.distance(resource.getX(), resource.getY()) < closestDistance){
+				for (ResourcePoint resource : resourceMemory) {
+					if (resource.getResourceName().equals("Meat") || resource.getResourceName().equals("Fish")) {
+						if (closestPoint.distance(resource.getX(), resource.getY()) < closestDistance) {
 							closestResource = resource;
-							closestPoint = new Point((int)closestResource.getX(), (int)closestResource.getY());
+							closestPoint = new Point((int) closestResource.getX(), (int) closestResource.getY());
 							closestDistance = closestPoint.distance(resource.getX(), resource.getY());
 						}
 					}
 				}
 
-				if(closestResource == null){
+				if (closestResource == null) {
 					exploring = true;
-				}
-				else{
+				} else {
 					path = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), closestPoint.getX(), closestPoint.getY());
 				}
 			}
-		}*/
+		}
+	}
 
 	@Override
 	public void setBody(ICharacterHandle character) {
@@ -227,6 +222,10 @@ import java.util.List;
 
 	public void queueState(IState state) {
 		stateQueue.offer(state);
+	}
+
+	public List<ResourcePoint> getResourceMemory() {
+		return resourceMemory;
 	}
 
 	//Gives the AI a new path, probably redundant method. Only for testing purposes.

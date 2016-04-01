@@ -3,6 +3,7 @@ package Controller.AIStates;
 import Controller.ArtificialBrain;
 import Model.ICollidable;
 import Toolkit.RenderObject;
+import org.lwjgl.Sys;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -28,6 +29,13 @@ public class GatherCropsState implements IState {
 			// TODO: Don't use RENDER_OBJECT_ENUM, use Outcome in some way!!
 
 				temp.interacted((Model.Character) brain.getBody());
+
+				if(brain.getStateQueue().isEmpty()) {
+					brain.setState(brain.getIdleState());
+				}
+				else{
+					brain.setState(brain.getStateQueue().poll());
+				}
 			}
 		}
 	}

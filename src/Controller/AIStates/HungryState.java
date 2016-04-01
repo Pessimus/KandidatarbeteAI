@@ -25,7 +25,7 @@ public class HungryState implements IState {
 		loop:while(iterator.hasNext()){
 			IItem current = iterator.next();
 			switch (current.getType()) {
-				case FISH_ITEM: //TODO: CHANGE FISH TO FOOD
+				case CROPS_ITEM: //TODO: CHANGE FISH TO FOOD
 					best = current;
 					/*
 					if(best == null){
@@ -49,7 +49,8 @@ public class HungryState implements IState {
 					brain.setPath(Constants.PATHFINDER_OBJECT.getPath(brain.getBody().getX(), brain.getBody().getY(), o.getX(), o.getY()));
 					brain.queueState(brain.getMovingState());
 					brain.setNextResourceToGather(IResource.ResourceType.CROPS);
-					//brain.queueState(brain.getGatherCropsState());
+					brain.queueState(brain.getGatherCropsState());
+					brain.queueState(brain.getEatState());
 					brain.setState(brain.getStateQueue().poll());
 					break;
 				}
