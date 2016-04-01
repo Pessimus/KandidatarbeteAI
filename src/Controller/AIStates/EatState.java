@@ -41,9 +41,9 @@ public class EatState implements IState{
 					}*/
 			}
 		}
-		System.out.println("EAT" + brain.getBody().getNeeds()[0]);
+
 		best.consumed((Character)brain.getBody());
-		System.out.println("EAT" + brain.getBody().getNeeds()[0]);
+
 		if(brain.getStateQueue().isEmpty()) {
 			brain.setState(brain.getIdleState());
 		}
