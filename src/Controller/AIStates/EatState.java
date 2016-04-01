@@ -22,13 +22,17 @@ public class EatState implements IState{
 	public void run() {
 		Iterator<IItem> iterator = brain.getBody().getInventory().iterator();
 		IItem best = null;
+		int bestIndex = -1;
+		int currentIndex = -1;
+
 		loop:while(iterator.hasNext()) {
 			IItem current = iterator.next();
+			currentIndex++;
 			switch (current.getType()) {
 				case CROPS_ITEM: //TODO: CHANGE TO FOOD_ITEM
-
 					if(best == null) {
 						best = current;
+						bestIndex = currentIndex;
 					}
 					/*
 					if(best == null){
@@ -42,7 +46,7 @@ public class EatState implements IState{
 			}
 		}
 
-		best.consumed((Character)brain.getBody());
+		brain.getBody().consumeItem(bestIndex);
 
 		if(brain.getStateQueue().isEmpty()) {
 			brain.setState(brain.getIdleState());

@@ -31,7 +31,7 @@ public class GatherWaterState implements IState {
 			if(temp.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.LAKE)){
 				// TODO: Don't use RENDER_OBJECT_ENUM, use Outcome in some way!!
 
-				if((waitUpdates = (++waitUpdates % Constants.WATER_GATHER_TIME)) == 0) {
+				if((waitUpdates = (++waitUpdates % Constants.GATHER_WATER_STATE_TIME)) == 0) {
 					temp.interacted((Model.Character) brain.getBody());
 
 					if (brain.getStateQueue().isEmpty()) {

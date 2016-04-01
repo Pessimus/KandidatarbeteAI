@@ -75,18 +75,18 @@ public class Controller implements PropertyChangeListener {
 		screenRect = new ModelToViewRectangle(Constants.DEFAULT_WORLD_VIEW_X, Constants.DEFAULT_WORLD_VIEW_Y, (float)Constants.SCREEN_WIDTH, (float)Constants.SCREEN_HEIGHT);
 
 		//TODO this is hardcoded testing code. Remove after Testing is done!!
-				player = new PlayerBrain(gameModel.addCharacter(1000, 1000, Constants.PLAYER_CHARACTER_KEY));
+				player = new PlayerBrain(gameModel.addCharacter(1000, 1000, Constants.PLAYER_CHARACTER_KEY, false));
 
-		((Character)player.getBody()).godMode = true;
+				((Character)player.getBody()).godMode = true;
 
 
-		Character character = gameModel.addCharacter(1100,1100,2);
+				Character character = gameModel.addCharacter(1100,1100,2, true);
 
-		//Character character1 = gameModel.addCharacter(1200,1100,3);
-		//Character character2 = gameModel.addCharacter(1300,1100,4);
-		aiMap.put(character, new ArtificialBrain(gameModel, character));
-		//aiMap.put(character1, new ArtificialBrain(gameModel, character1));
-		//aiMap.put(character2, new ArtificialBrain(gameModel, character2));
+				//Character character1 = gameModel.addCharacter(1200,1100,3);
+				//Character character2 = gameModel.addCharacter(1300,1100,4);
+				aiMap.put(character, new ArtificialBrain(gameModel, character));
+				//aiMap.put(character1, new ArtificialBrain(gameModel, character1));
+				//aiMap.put(character2, new ArtificialBrain(gameModel, character2));
 
 				//this.gameModel.addFiniteResourcePoint(new Crops(5),1010,1010,5);
 
@@ -431,16 +431,6 @@ public class Controller implements PropertyChangeListener {
 		}
 		else if(evt.getPropertyName().equals("startController")){
 			runModel();
-		}
-		else if(evt.getPropertyName().equals("createdCharacter")){
-			Character character = (Character)evt.getNewValue();
-			if(aiMap.containsKey(character)){
-				AbstractBrain tempChar = aiMap.get(character);
-				if(tempChar != null){
-					tempChar.setBody(null);
-				}
-			}
-			aiMap.put(character, new ArtificialBrain(character));
 		}
 	}
 
