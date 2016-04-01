@@ -1,8 +1,10 @@
 package Controller.AIStates;
 
 import Controller.ArtificialBrain;
+import Model.Constants;
 import Model.ICollidable;
 import Toolkit.RenderObject;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.lwjgl.Sys;
 
 import java.util.LinkedList;
@@ -13,6 +15,8 @@ import java.util.List;
  */
 public class GatherCropsState implements IState {
 	private final ArtificialBrain brain;
+
+	private int waitUpdates = 0;
 
 	public GatherCropsState(ArtificialBrain b){
 		brain = b;
@@ -28,13 +32,14 @@ public class GatherCropsState implements IState {
 			if(temp.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.CROPS)){
 			// TODO: Don't use RENDER_OBJECT_ENUM, use Outcome in some way!!
 
-				temp.interacted((Model.Character) brain.getBody());
+				if((waitUpdates = (++waitUpdates % Constants.CROP_GATHER_TIME)) == 0) {
+					temp.interacted((Model.Character) brain.getBody());
 
-				if(brain.getStateQueue().isEmpty()) {
-					brain.setState(brain.getIdleState());
-				}
-				else{
-					brain.setState(brain.getStateQueue().poll());
+					if (brain.getStateQueue().isEmpty()) {
+						brain.setState(brain.getIdleState());
+					} else {
+						brain.setState(brain.getStateQueue().poll());
+					}
 				}
 			}
 		}

@@ -1,6 +1,7 @@
 package Controller.AIStates;
 
 import Controller.ArtificialBrain;
+import Model.Constants;
 import Model.ICollidable;
 import Toolkit.RenderObject;
 import org.lwjgl.Sys;
@@ -13,6 +14,8 @@ import java.util.List;
  */
 public class GatherWaterState implements IState {
 	private final ArtificialBrain brain;
+
+	private int waitUpdates = 0;
 
 	public GatherWaterState(ArtificialBrain b){
 		brain = b;
@@ -28,13 +31,14 @@ public class GatherWaterState implements IState {
 			if(temp.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.LAKE)){
 				// TODO: Don't use RENDER_OBJECT_ENUM, use Outcome in some way!!
 
-				temp.interacted((Model.Character) brain.getBody());
+				if((waitUpdates = (++waitUpdates % Constants.WATER_GATHER_TIME)) == 0) {
+					temp.interacted((Model.Character) brain.getBody());
 
-				if(brain.getStateQueue().isEmpty()) {
-					brain.setState(brain.getIdleState());
-				}
-				else{
-					brain.setState(brain.getStateQueue().poll());
+					if (brain.getStateQueue().isEmpty()) {
+						brain.setState(brain.getIdleState());
+					} else {
+						brain.setState(brain.getStateQueue().poll());
+					}
 				}
 			}
 		}
