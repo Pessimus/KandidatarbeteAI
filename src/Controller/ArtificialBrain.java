@@ -69,8 +69,6 @@ import java.util.List;
 		int[] skills = body.getSkills();
 
 		currentState.run();
-		System.out.println(body.getNeeds()[1]);
-		System.out.println(getState());
 
 		for (ICollidable object : body.getSurroundings()) {
 			if (object.getClass().equals(ResourcePoint.class)) {
@@ -81,6 +79,7 @@ import java.util.List;
 
 			}
 		}
+		/*
 		if (exploring) {
 			if (path != null) {
 				if (path.isEmpty()) {
@@ -110,7 +109,7 @@ import java.util.List;
 					path = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), closestPoint.getX(), closestPoint.getY());
 				}
 			}
-		}
+		}*/
 	}
 
 	@Override

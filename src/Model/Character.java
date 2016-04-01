@@ -564,6 +564,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	public void consumeItem(int index){
 		if(this.getInventory().size()>index){
 			this.getInventory().get(index).consumed(this);
+			if(this.getInventory().get(index).getAmount() <= 0){
+				this.getInventory().remove(index);
+			}
 		}
 	}
 
