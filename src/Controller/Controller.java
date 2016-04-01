@@ -79,7 +79,9 @@ public class Controller implements PropertyChangeListener {
 
 		((Character)player.getBody()).godMode = true;
 
-				gameModel.addCharacter(1100,1100,2).godMode = true;
+		Character character = gameModel.addCharacter(1100,1100,2);
+		character.godMode = true;
+		aiMap.put(character, new ArtificialBrain(character));
 				//this.gameModel.addFiniteResourcePoint(new Crops(5),1010,1010,5);
 
 	}
