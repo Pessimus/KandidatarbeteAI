@@ -11,18 +11,24 @@ public class WoodItem implements IItem {
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
-	public WoodItem(int value){
-		this.amount = value;
+	/**
+	 * A class representing a amount of "Wood" when in a "Characters" "inventory".
+	 * @param amount The amount of "wood" to be represented.
+	 */
+	public WoodItem(int amount){
+		this.amount = amount;
 	}
 
 //---------------------------------------Interaction methods----------------------------------------------------------\\
 
 	@Override
+	/**{@inheritDoc}*/
 	public void addAmount(int value) {
 		this.amount += value;
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void removeAmount(int value) {
 		if (value <= amount){
 			amount = amount-value;
@@ -30,6 +36,7 @@ public class WoodItem implements IItem {
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void interacted(Character rhs) {
 		rhs.changeHunger(Constants.WOOD_HUNGER_CHANGE_INTERACT);
 		rhs.changeEnergy(Constants.WOOD_ENERGY_CHANGE_INTERACT);
@@ -37,6 +44,7 @@ public class WoodItem implements IItem {
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void consumed(Character rhs) {
 		if(amount > 1) {
 			rhs.changeHunger(Constants.WOOD_HUNGER_CHANGE_CONSUME);
@@ -49,6 +57,7 @@ public class WoodItem implements IItem {
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void attacked(Character rhs) {
 		rhs.changeHunger(Constants.WOOD_HUNGER_CHANGE_ATTACK);
 		rhs.changeEnergy(Constants.WOOD_ENERGY_CHANGE_ATTACK);
@@ -58,22 +67,27 @@ public class WoodItem implements IItem {
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
 	@Override
+	/**{@inheritDoc}*/
 	public int getAmount() {
 		return amount;
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void setAmount(int value) {
 		this.amount = value;
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public String getActions() {
 		return null;
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public IItem.Type getType() {
 		return Type.WOOD_ITEM;
 	}
+
 }

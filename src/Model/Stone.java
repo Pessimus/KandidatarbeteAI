@@ -13,13 +13,20 @@ public class Stone extends FiniteResource {
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
-	public Stone(int resources, int yield){
-		super(resources);
+	/**
+	 * A class representing the resource "Stone".
+	 * @param initial the starting amount of resources.
+	 * @param yield The amount of items gained from this resource at a time.
+	 */
+	public Stone(int initial, int yield){
+		super(initial);
 		this.yield = yield;
 	}
 
 //---------------------------------------Interaction methods----------------------------------------------------------\\
+
 	@Override
+	/**{@inheritDoc}*/
 	public IItem gatherResource() {
 		int resourceLeft = getResourcesLeft();
 		if(resourceLeft>yield){
@@ -36,11 +43,13 @@ public class Stone extends FiniteResource {
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
 	@Override
+	/**{@inheritDoc}*/
 	public ResourceType getResourceType() {
 		return resourceType;
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public String getResourceName() {
 		return resourceName;
 	}

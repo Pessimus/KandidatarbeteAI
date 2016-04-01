@@ -2,8 +2,8 @@ package Controller;
 
 import Model.*;
 import Model.Character;
+import Toolkit.RenderObject;
 import View.*;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.BasicGameState;
 
@@ -75,7 +75,7 @@ public class Controller implements PropertyChangeListener {
 
 		//TODO this is hardcoded testing code. Remove after Testing is done!!
 
-				player.setBody(gameModel.addCharacter(1000-16*scaleGraphics, 1000-16*scaleGraphics, Constants.PLAYER_CHARACTER_KEY));
+				player.setBody(gameModel.addCharacter(650, 770, Constants.PLAYER_CHARACTER_KEY));
 
 				((Character)player.getBody()).godMode = true;
 
@@ -235,7 +235,7 @@ public class Controller implements PropertyChangeListener {
 			handleMouseInput(tempMouseList);
 		}
 
-		gameModel.uppdate();
+		gameModel.update();
 	}
 
 //--------------------------------------------Input Methods-----------------------------------------------------------\\

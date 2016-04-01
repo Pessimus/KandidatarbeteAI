@@ -14,6 +14,11 @@ public class Crops extends FiniteResource {
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
+	/**
+	 * A class representing the resource "Crops".
+	 * @param initial the initial amount of the resource.
+	 * @param yield the amount of the resource returned by gatherResource.
+	 */
     public Crops(int initial, int yield){
         super(initial);
 		this.yield = yield;
@@ -22,6 +27,7 @@ public class Crops extends FiniteResource {
 //---------------------------------------Interaction methods----------------------------------------------------------\\
 
     @Override
+	/**{@inheritDoc}*/
     public IItem gatherResource() {
         int resourceLeft = getResourcesLeft();
         if(resourceLeft>yield){
@@ -38,11 +44,13 @@ public class Crops extends FiniteResource {
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
     @Override
+	/**{@inheritDoc}*/
     public ResourceType getResourceType() {
         return resourceType;
     }
 
     @Override
+	/**{@inheritDoc}*/
     public String getResourceName() {
         return resourceName;
     }

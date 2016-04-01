@@ -1,6 +1,7 @@
 package Model;
 
-import org.lwjgl.Sys;
+import Toolkit.InventoryRender;
+import Toolkit.RenderObject;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -69,6 +70,11 @@ public class World{
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
+	/**
+	 * Creating a world with all lists initialized as empty.
+	 * @param width the width of the world.
+	 * @param height the height of the world.
+	 */
 	public World (double width, double height){
 		//Initializing world characteristics
 		this.width = width;
@@ -92,29 +98,29 @@ public class World{
 
 	}
 
+	//TODO remove hardcoded values (move them to constants)
+	/**
+	 * Creating a world with randomly generated objects specified by the parameters.
+	 * @param width the width of the world.
+	 * @param height the height of the world.
+	 * @param nrTrees the number of trees to randomly spawn in the world at creation.
+	 * @param nrLakes the number of lakes to randomly spawn in the world at creation.
+	 * @param nrStones the number of stones to randomly spawn in the world at creation.
+	 * @param nrCrops the number of crops to randomly spawn in the world at creation.
+	 */
 	public World (double width, double height, int nrTrees, int nrLakes, int nrStones, int nrCrops){
 
 		this(width, height);
-
-		Wood tw1 = new Wood(1000,1000,1);
-		ResourcePoint trp1 = new ResourcePoint(tw1, RenderObject.RENDER_OBJECT_ENUM.WOOD,1050,1050,50);
-		this.collidables.add(trp1);
-		this.collidablesR.add(trp1);
 
 		int i = 0;
 		float tmpX;
 		float tmpY;
 		while(i < nrTrees){
-			tmpX = (float)(Math.random()*this.width/20);
-			tmpY = (float)(Math.random()*this.height/20);
+			tmpX = (float)(Math.random()*this.width);
+			tmpY = (float)(Math.random()*this.height);
 
 			Wood tmpWood = new Wood(10,10,1);
-			ResourcePoint tmpPoint = new ResourcePoint(tmpWood, RenderObject.RENDER_OBJECT_ENUM.WOOD,tmpX,tmpY,10);
-
-			this.collidables.add(tmpPoint);
-			this.collidablesR.add(tmpPoint);
-			this.timeables.add(tmpWood);
-			this.statics.add(tmpPoint);
+			addRenewableResourcePoint(tmpWood, RenderObject.RENDER_OBJECT_ENUM.WOOD, tmpX, tmpY, 10);
 
 			i++;
 		}
@@ -124,11 +130,7 @@ public class World{
 			tmpY = (float)(Math.random()*this.height);
 
 			Water tmpLake = new Water(1);
-			ResourcePoint tmpPoint = new ResourcePoint(tmpLake, RenderObject.RENDER_OBJECT_ENUM.LAKE,tmpX,tmpY,100);
-
-			this.collidables.add(tmpPoint);
-			this.collidablesR.add(tmpPoint);
-			this.statics.add(tmpPoint);
+			addInfiniteResourcePoint(tmpLake, RenderObject.RENDER_OBJECT_ENUM.LAKE, tmpX, tmpY, 100);
 
 			i++;
 		}
@@ -138,11 +140,7 @@ public class World{
 			tmpY = (float)(Math.random()*this.height);
 
 			Stone tmpStone = new Stone(50,5);
-			ResourcePoint tmpPoint = new ResourcePoint(tmpStone, RenderObject.RENDER_OBJECT_ENUM.STONE,tmpX,tmpY,10);
-
-			this.collidables.add(tmpPoint);
-			this.collidablesR.add(tmpPoint);
-			this.statics.add(tmpPoint);
+			addFiniteResourcePoint(tmpStone, RenderObject.RENDER_OBJECT_ENUM.STONE, tmpX, tmpY, 10);
 
 			i++;
 		}
@@ -152,23 +150,20 @@ public class World{
 			tmpY = (float)(Math.random()*this.height);
 
 			Crops tmpCrops = new Crops(100,5);
-			ResourcePoint tmpPoint = new ResourcePoint(tmpCrops, RenderObject.RENDER_OBJECT_ENUM.CROPS,tmpX,tmpY,20);
-
-			this.collidables.add(tmpPoint);
-			this.collidablesR.add(tmpPoint);
-			this.statics.add(tmpPoint);
+			addFiniteResourcePoint(tmpCrops, RenderObject.RENDER_OBJECT_ENUM.CROPS,tmpX,tmpY,20);
 
 			i++;
 		}
-
-		//update mask for pathfinding
-		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
-
 	}
 
 //---------------------------------------------UPDATE METHODS---------------------------------------------------------\\
 
-	public void uppdate() {
+	/**
+	 * Public method for updating the values of all objects in the world that depend on time,
+	 * remove objects that should no longer exist and
+	 * check what objects collide with each other.
+	 */
+	public void update() {
 		if (!pause) {
 			updateTimeables();
 
@@ -184,12 +179,18 @@ public class World{
 	}
 
 	//TODO Add parameter for fast-forward
+	/**
+	 * Private method for updating the values of all objects in the world that depend on time.
+	 */
 	private void updateTimeables(){
 		for (ITimeable timedObj : timeables) {
 			timedObj.updateTimeable();
 		}
 	}
 
+	/**
+	 * Private method for checking what objects should be removed, and staging them for removal.
+	 */
 	private void checkObjectsForRemoval(){
 		for (ICollidable collidable : collidablesR) {//Loop on collidablesR as it supportes for-each
 			if (collidable.toBeRemoved()) {
@@ -209,7 +210,10 @@ public class World{
 		}
 	}
 
-	// Pause the game, if P is pressed, pause() will pause the uppdate lopp
+	// Pause the game, if P is pressed, pause() will pause the update lopp
+	/**
+	 * Swaps the boolean value of 'pause', if 'pause' is true the update function wil not change the world.
+	 */
 	public void togglePause() {
 		if (!pause) {
 			pause = true;
@@ -221,6 +225,13 @@ public class World{
 //-----------------------------------------ADD & REMOVE METHODS-------------------------------------------------------\\
 
 	//TODO check if place is available.
+	/**
+	 * Adds a new character to the world at the specified position.
+	 * @param xPoss the position on the x axis.
+	 * @param yPoss the position on the y axis.
+	 * @param key the key of the character, uniquely defines it for ease of access.
+	 * @return the character that was just created.
+	 */
 	public Character addCharacter(float xPoss, float yPoss, int key) {
 		Character character = new Character(xPoss, yPoss, key);
 
@@ -234,32 +245,78 @@ public class World{
 		return character;
 	}
 
-	//TODO implement properly---------------------------------
-				public ResourcePoint addFiniteResourcePoint(FiniteResource resourceType, float xPoss, float yPoss, double radius){
-					ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
-					this.collidables.add(point);
-					this.collidablesR.add(point);
-					return point;
-				}
+	/**
+	 * Adds a new finite resource point to the world at the specified position.
+	 * @param resourceType the resource the point should contain.
+	 * @param renderEnum the type of collidable the resource point is visually.
+	 * @param xPoss the position on the x axis.
+	 * @param yPoss the position on the y axis.
+	 * @param radius the collision radius of the point.
+	 * @return the resource point that was just added.
+	 */
+	public ResourcePoint addFiniteResourcePoint(FiniteResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float xPoss, float yPoss, double radius){
+		ResourcePoint point = new ResourcePoint(resourceType, renderEnum, xPoss, yPoss, radius);
+		this.collidables.add(point);
+		this.collidablesR.add(point);
+		this.statics.add(point);
 
-				public ResourcePoint addInfiniteResourcePoint(InfiniteResource resourceType, float xPoss, float yPoss, double radius){
-					ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
-					this.collidables.add(point);
-					this.collidablesR.add(point);
-					return point;
-				}
+		//update mask for pathfinding
+		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
 
-				public ResourcePoint addRenewableResourcePoint(RenewableResource resourceType, float xPoss, float yPoss, double radius){
-					ResourcePoint point = new ResourcePoint(resourceType, RenderObject.RENDER_OBJECT_ENUM.CHARACTER, xPoss, yPoss, radius);
-					this.collidables.add(point);
-					this.collidablesR.add(point);
-					this.timeables.add(resourceType);
-					return point;
+		return point;
 	}
 
-	public void removeObjects() {
+	/**
+	 * Adds a new infinite resource point to the world at the specified position.
+	 * @param resourceType the resource the point should contain.
+	 * @param renderEnum the type of collidable the resource point is visually.
+	 * @param xPoss the position on the x axis.
+	 * @param yPoss the position on the y axis.
+	 * @param radius the collision radius of the point.
+	 * @return the resource point that was just added.
+	 */
+	public ResourcePoint addInfiniteResourcePoint(InfiniteResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float xPoss, float yPoss, double radius){
+		ResourcePoint point = new ResourcePoint(resourceType, renderEnum, xPoss, yPoss, radius);
+		this.collidables.add(point);
+		this.collidablesR.add(point);
+		this.statics.add(point);
+
+		//update mask for pathfinding
+		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+
+		return point;
+	}
+
+
+	/**
+	 * Adds a new renewable resource point to the world at the specified position.
+	 * @param resourceType the resource the point should contain.
+	 * @param renderEnum the type of collidable the resource point is visually.
+	 * @param xPoss the position on the x axis.
+	 * @param yPoss the position on the y axis.
+	 * @param radius the collision radius of the point.
+	 * @return the resource point that was just added.
+	 */
+	public ResourcePoint addRenewableResourcePoint(RenewableResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float xPoss, float yPoss, double radius){
+		ResourcePoint point = new ResourcePoint(resourceType, renderEnum, xPoss, yPoss, radius);
+		this.collidables.add(point);
+		this.collidablesR.add(point);
+		this.timeables.add(resourceType);
+		this.statics.add(point);
+
+		//update mask for pathfinding
+		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+
+		return point;
+	}
+
+	/**
+	 * Removes all objects in the world that were staged for removal by 'checkObjectsForRemoval'.
+	 */
+	private void removeObjects() {
 		for (ICollidable collidable : this.collidablestoberemoved) {
 			collidables.remove(collidable);
+			statics.remove(collidable);
 		}
 		collidablestoberemoved.clear();
 
@@ -277,10 +334,16 @@ public class World{
 			collidablesR.remove(collidable);
 		}
 		collideablesrtoberemoved.clear();
+
+		//update mask for pathfinding
+		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
 	}
 
 //----------------------------------------------RENDER METHODS--------------------------------------------------------\\
 
+	/**
+	 * @return a list of all objects in the world, represented as RenderObjects.
+	 */
 	public RenderObject[] getRenderObjects() {
 		RenderObject[] renderObjects = new RenderObject[collidables.getSize()];
 
@@ -291,6 +354,9 @@ public class World{
 	}
 
 	//TODO better MVC praxis
+	/**
+	 * @return a list of all items in the player characters inventory, represented as InventoryRenders
+	 */
 	public LinkedList<InventoryRender> displayPlayerInventory() {
 		if(characters.get(Constants.PLAYER_CHARACTER_KEY) != null) {
 			return characters.get(Constants.PLAYER_CHARACTER_KEY).getRenderInventory();
@@ -302,20 +368,34 @@ public class World{
 
 //------------------------------------------------PCS METHODS---------------------------------------------------------\\
 
+	/**
+	 * Adds a property change listener to the world.
+	 * @param listener the listener to be added.
+	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		pcs.addPropertyChangeListener(listener);
 	}
 
+	/**
+	 * Removes a property change listener from the world.
+	 * @param listener the listener to be removed.
+	 */
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		pcs.removePropertyChangeListener(listener);
 	}
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
+	/**
+	 * @return the width of the world.
+	 */
 	public double getWidth() {
 		return width;
 	}
 
+	/**
+	 * @return the height of the world.
+	 */
 	public double getHeight() {
 		return height;
 	}

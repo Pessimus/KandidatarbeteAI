@@ -11,6 +11,10 @@ public class FishItem implements IItem {
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
+	/**
+	 * A class representing a amount of "Fish" when in a "Characters" "inventory".
+	 * @param amount The amount of "fish" to be represented.
+	 */
     public FishItem(int amount){
         this.amount = amount;
     }
@@ -18,11 +22,13 @@ public class FishItem implements IItem {
 //---------------------------------------Interaction methods----------------------------------------------------------\\
 
     @Override
+	/**{@inheritDoc}*/
     public void addAmount(int value) {
         this.amount += value;
     }
 
 	@Override
+	/**{@inheritDoc}*/
 	public void removeAmount(int value) {
 		if (value <= amount){
 			amount = amount-value;
@@ -30,6 +36,7 @@ public class FishItem implements IItem {
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void interacted(Character rhs) {
 		rhs.changeHunger(Constants.FISH_HUNGER_CHANGE_INTERACT);
 		rhs.changeEnergy(Constants.FISH_ENERGY_CHANGE_INTERACT);
@@ -37,6 +44,7 @@ public class FishItem implements IItem {
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void consumed(Character rhs) {
 		if(amount > 1) {
 			rhs.changeHunger(Constants.FISH_HUNGER_CHANGE_CONSUME);
@@ -49,6 +57,7 @@ public class FishItem implements IItem {
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void attacked(Character rhs) {
 		rhs.changeHunger(Constants.FISH_HUNGER_CHANGE_ATTACK);
 		rhs.changeEnergy(Constants.FISH_ENERGY_CHANGE_ATTACK);
@@ -58,21 +67,25 @@ public class FishItem implements IItem {
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
     @Override
+	/**{@inheritDoc}*/
     public int getAmount() {
         return amount;
     }
 
     @Override
+	/**{@inheritDoc}*/
     public void setAmount(int value) {
         this.amount = value;
     }
 
     @Override
+	/**{@inheritDoc}*/
     public String getActions() {
         return null;
     }
 
     @Override
+	/**{@inheritDoc}*/
     public IItem.Type getType() {
         return Type.FISH_ITEM;
     }

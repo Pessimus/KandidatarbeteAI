@@ -6,22 +6,29 @@ package Model;
 public class CropsItem implements IItem {
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
+
     private int amount;
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
-    public CropsItem(int value){
-        this.amount = value;
+	/**
+	 * A class representing a amount of "Crops" when in a "Characters" "inventory".
+	 * @param amount The amount of "crops" to be represented.
+	 */
+    public CropsItem(int amount){
+        this.amount = amount;
     }
 
 //---------------------------------------Interaction methods----------------------------------------------------------\\
 
     @Override
+	/**{@inheritDoc}*/
     public void addAmount(int value) {
         this.amount += value;
     }
 
 	@Override
+	/**{@inheritDoc}*/
 	public void removeAmount(int value) {
 		if (value <= amount){
 			amount = amount-value;
@@ -29,6 +36,7 @@ public class CropsItem implements IItem {
 	}
 
     @Override
+	/**{@inheritDoc}*/
     public void interacted(Character rhs) {
 		rhs.changeHunger(Constants.CROP_HUNGER_CHANGE_INTERACT);
 		rhs.changeEnergy(Constants.CROP_ENERGY_CHANGE_INTERACT);
@@ -36,6 +44,7 @@ public class CropsItem implements IItem {
     }
 
     @Override
+	/**{@inheritDoc}*/
     public void consumed(Character rhs) {
         if(amount > 1) {
             rhs.changeHunger(Constants.CROP_HUNGER_CHANGE_CONSUME);
@@ -48,6 +57,7 @@ public class CropsItem implements IItem {
     }
 
     @Override
+	/**{@inheritDoc}*/
     public void attacked(Character rhs) {
 		rhs.changeHunger(Constants.CROP_HUNGER_CHANGE_ATTACK);
 		rhs.changeEnergy(Constants.CROP_ENERGY_CHANGE_ATTACK);
@@ -57,22 +67,27 @@ public class CropsItem implements IItem {
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
     @Override
+	/**{@inheritDoc}*/
     public int getAmount() {
         return amount;
     }
 
     @Override
+	/**{@inheritDoc}*/
     public void setAmount(int value) {
         amount = value;
     }
 
     @Override
+	/**{@inheritDoc}*/
     public String getActions() {
         return null;
     }
 
     @Override
+	/**{@inheritDoc}*/
     public IItem.Type getType() {
         return Type.CROPS_ITEM;
     }
+
 }
