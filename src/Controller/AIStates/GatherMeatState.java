@@ -27,10 +27,18 @@ public class GatherMeatState implements IState {
 
         for(ICollidable temp : surrond){
             // TODO: Don't use RENDER_OBJECT_ENUM, use Outcome in some way!!
-            if(temp.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.LAKE)){
+            //if(temp.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.ANIMAL)){
             // TODO: Don't use RENDER_OBJECT_ENUM, use Outcome in some way!!
 
-            if(waitUpdates = (++waitUpdates % Constants.FISH_Ga))
+            if((waitUpdates = (++waitUpdates % Constants.GATHER_MEAT_STATE_TIME)) == 0){
+                temp.interacted((Model.Character) brain.getBody());
+                if(brain.getStateQueue().isEmpty()){
+                    brain.setState((brain.getIdleState()));
+                }
+                else{
+                    brain.setState(brain.getStateQueue().poll());
+                }
+
             }
         }
     }
