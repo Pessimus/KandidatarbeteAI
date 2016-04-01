@@ -69,9 +69,10 @@ import java.util.List;
 		int[] needs = body.getNeeds();
 		int[] traits = body.getTraits();
 		int[] skills = body.getSkills();
-		//FOR TESTING PURPOSES, MAKES THE AI STAY IN MOVINGSTATE ALWAYS. UNLESS THERE ARE OTHER STATES QUEUED.
-		currentState.run();
 
+		currentState.run();
+		System.out.println(body.getNeeds()[1]);
+		System.out.println(getState());
 
 		for (ICollidable object : body.getSurroundings()) {
 			if (object.getClass().equals(ResourcePoint.class)) {
