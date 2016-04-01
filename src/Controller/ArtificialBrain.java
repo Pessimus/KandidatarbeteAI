@@ -28,23 +28,23 @@ import java.util.List;
 	// IState variables for every state possible
 	private IState currentState;
 
-	private IState buildHouseState		= new BuildHouseState(this);
-	private IState buildState			= new BuildState(this);
-	private IState converseState		= new ConverseState(this);
-	private IState cookState			= new CookState(this);
-	private IState drinkState			= new DrinkState(this);
-	private IState eatState				= new EatState(this);
-	private IState gatherCropsState		= new GatherCropsState(this);
-	private IState gatherMaterialState	= new GatherMaterialState(this);
-	private IState gatherState			= new GatherState(this);
-	private IState hungryState			= new HungryState(this);
-	private IState idleState			= new IdleState(this);
-	private IState movingState			= new MovingState(this);
-	private IState sleepState			= new SleepState(this);
-	private IState sleepyState			= new SleepyState(this);
-	private IState socializeState		= new SocializeState(this);
-	private IState thirstyState			= new ThirstyState(this);
-	private IState tradeState			= new TradeState(this);
+	private IState buildHouseState = new BuildHouseState(this);
+	private IState buildState = new BuildState(this);
+	private IState converseState = new ConverseState(this);
+	private IState cookState = new CookState(this);
+	private IState drinkState = new DrinkState(this);
+	private IState eatState = new EatState(this);
+	private IState gatherCropsState = new GatherCropsState(this);
+	private IState gatherMaterialState = new GatherMaterialState(this);
+	private IState gatherState = new GatherState(this);
+	private IState hungryState = new HungryState(this);
+	private IState idleState = new IdleState(this);
+	private IState movingState = new MovingState(this);
+	private IState sleepState = new SleepState(this);
+	private IState sleepyState = new SleepyState(this);
+	private IState socializeState = new SocializeState(this);
+	private IState thirstyState = new ThirstyState(this);
+	private IState tradeState = new TradeState(this);
 
 	private final HashMap<Path2D, ResourcePoint> resourceMap = new HashMap<>();
 	List<ResourcePoint> resourceMemory = new LinkedList<>();
@@ -52,24 +52,27 @@ import java.util.List;
 	// TODO: Hardcoded universal vision
 	public World map;
 
-	public ArtificialBrain(World world, ICharacterHandle c){
+	public ArtificialBrain(World world, ICharacterHandle c) {
 		this(c);
 		map = world;
 	}
 	// TODO: Hardcoded universal vision
 
-    public ArtificialBrain(ICharacterHandle c) {
-        body = c;
+	public ArtificialBrain(ICharacterHandle c) {
+		body = c;
 		currentState = idleState;
-    }
+	}
 
-    @Override
-    public void update() {
+	@Override
+	public void update() {
+		System.out.println("Running");
 		int[] needs = body.getNeeds();
 		int[] traits = body.getTraits();
 		int[] skills = body.getSkills();
-
+		//FOR TESTING PURPOSES, MAKES THE AI STAY IN MOVINGSTATE ALWAYS. UNLESS THERE ARE OTHER STATES QUEUED.
+		currentState = movingState;
 		currentState.run();
+		}
 
 		/*
 		for(ICollidable object : body.getSurroundings()){
@@ -113,7 +116,6 @@ import java.util.List;
 				}
 			}
 		}*/
-    }
 
 	@Override
 	public void setBody(ICharacterHandle character) {
@@ -223,8 +225,13 @@ import java.util.List;
 		return stateQueue;
 	}
 
-	public void queueState(IState state){
+	public void queueState(IState state) {
 		stateQueue.offer(state);
+	}
+
+	//Gives the AI a new path, probably redundant method. Only for testing purposes.
+	public void getNewPath(double destX, double destY) {
+		path = Constants.PATHFINDER_OBJECT.getPath(body.getX(),body.getY(),destX,destY);
 	}
 
 	/*

@@ -37,12 +37,16 @@ public class MovingState implements IState {
 			}
 		}
 		else{
+			//FOR TESTING PURPOSES: MAKES THE AI FIND A NEW PATH TO A RANDOM LOCATION IF IT HAS NO PATH CURRENTLY.
+			brain.getNewPath(Math.random()*9600, Math.random()*9600);
+			/* COMMENTED OUT TO TEST AI PATHFINDING
 			if(brain.getStateQueue().isEmpty()) {
 				brain.setState(brain.getIdleState());
 			}
 			else{
 				brain.getStateQueue().poll();
 			}
+			*/
 		}
 	}
 }
