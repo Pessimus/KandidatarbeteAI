@@ -2,7 +2,7 @@ package Controller.AIStates;
 
 import Controller.ArtificialBrain;
 import Model.ICollidable;
-import Model.RenderObject;
+import Toolkit.RenderObject;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package Model;
+package Toolkit;
 
 /**
  * Created by Martin on 03/03/2016.

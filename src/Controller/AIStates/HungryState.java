@@ -1,15 +1,10 @@
 package Controller.AIStates;
 
-import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
-import Controller.CharacterAction;
-import Controller.PathStep;
 import Model.*;
+import Toolkit.RenderObject;
 
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
 
 /**
  * Created by Tobias on 2016-03-29.

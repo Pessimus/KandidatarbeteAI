@@ -14,25 +14,38 @@ public class Inventory{
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
+	/**
+	 * Creates a new inventory for handling a characters items.
+	 */
 	public Inventory(){
 		inventoryItems = new LinkedList<>();
 	}
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
+	/** @return a list of all items in the characters inventory. */
 	public LinkedList<IItem> getItems(){
 		return inventoryItems;
 	}
 
+	/**
+	 * Adds a item with the specified amount to the characters inventory.
+	 * IF the amount is more than the inventory can hold, as much as possible is added.
+	 * @param item the item to be added.
+	 * @return true if items are successfully added, else false.
+	 */
 	public boolean addItem(IItem item){
 		for(IItem invItem : inventoryItems){
-			if(item.getType() == invItem.getType()){
-				if(invItem.getAmount()+item.getAmount() >= Constants.MAX_AMOUNT) {
+			if(item.getType() == invItem.getType() && invItem.getAmount()<Constants.MAX_AMOUNT){
+				if(invItem.getAmount()+item.getAmount() > Constants.MAX_AMOUNT) {
+
+					item.setAmount((invItem.getAmount() + item.getAmount()) % Constants.MAX_AMOUNT);
 					invItem.setAmount(Constants.MAX_AMOUNT);
+					return inventoryItems.add(item);
 				}else{
 					invItem.addAmount(item.getAmount());
+					return true;
 				}
-				return true;
 			}
 		}
 		if(inventoryItems.size() < Constants.MAX_INVENTORY_SLOTS){
@@ -41,6 +54,12 @@ public class Inventory{
 		return false;
 	}
 
+	/**
+	 * Remove the item with the specified amount from the characters inventory.
+	 * If the inventory does not contain that item of that amount nothing is removed.
+	 * @param item the item to be removed.
+	 * @return true if the item is removed, else false.
+	 */
 	boolean removeItem(IItem item){
 		for(IItem invItem : inventoryItems) {
 			if(item.getType() == invItem.getType()){

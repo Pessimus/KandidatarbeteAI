@@ -11,18 +11,24 @@ public class WaterItem implements IItem {
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
-	public WaterItem(int value){
-		this.amount = value;
+	/**
+	 * A class representing a amount of "Stone" when in a "Characters" "inventory".
+	 * @param amount The amount of "stone" to be represented.
+	 */
+	public WaterItem(int amount){
+		this.amount = amount;
 	}
 
 //---------------------------------------Interaction methods----------------------------------------------------------\\
 
 	@Override
+	/**{@inheritDoc}*/
 	public void addAmount(int value) {
 		this.amount += value;
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void removeAmount(int value) {
 		if (value <= amount){
 			amount = amount-value;
@@ -30,6 +36,7 @@ public class WaterItem implements IItem {
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void interacted(Character rhs) {
 		rhs.changeHunger(Constants.WATER_HUNGER_CHANGE_INTERACT);
 		rhs.changeEnergy(Constants.WATER_ENERGY_CHANGE_INTERACT);
@@ -37,6 +44,7 @@ public class WaterItem implements IItem {
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void consumed(Character rhs) {
 		rhs.changeHunger(Constants.WATER_HUNGER_CHANGE_CONSUME);
 		rhs.changeEnergy(Constants.WATER_ENERGY_CHANGE_CONSUME);
@@ -45,6 +53,7 @@ public class WaterItem implements IItem {
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void attacked(Character rhs) {
 		rhs.changeHunger(Constants.WATER_HUNGER_CHANGE_ATTACK);
 		rhs.changeEnergy(Constants.WATER_ENERGY_CHANGE_ATTACK);
@@ -54,22 +63,27 @@ public class WaterItem implements IItem {
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
 	@Override
+	/**{@inheritDoc}*/
 	public int getAmount() {
 		return amount;
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void setAmount(int value) {
 		this.amount = value;
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public String getActions() {
 		return null;
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public IItem.Type getType() {
 		return Type.WATER_ITEM;
 	}
+
 }
