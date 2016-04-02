@@ -397,6 +397,7 @@ public class Controller implements PropertyChangeListener {
 								} else {
 									gameView.hidePlayerInventory();
 									gameView.highlightInventoryItem(0);
+									itemHighlighted = -1;
 								}
 							}else{
 								showingPlayerInventory = false;
@@ -409,6 +410,7 @@ public class Controller implements PropertyChangeListener {
 								showingPlayerInventory = false;
 								gameView.hidePlayerInventory();
 								gameView.highlightInventoryItem(0);
+								itemHighlighted = -1;
 							}
 							break;
 					}
