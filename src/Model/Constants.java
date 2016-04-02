@@ -199,4 +199,10 @@ public final class Constants {
 	public static final		int				MARGIN_FROM_TOP						=	BOX_HEIGHT/4;
 	public static final		int				MARGIN_FROM_LEFT					=	20;
 	public static final 	int				HALF_TEXT_HEIGHT					=	9;
+
+	// ----------- Display Item highlight options ----------- \\
+	public static final		int				OPTION_BOX_WIDTH					=	500;
+	public static final		int				OPTION_BOX_HEIGHT					=	SLOT_DISPLAY_SIZE/2;
+	public static final		int				OPTION_MARGIN_TOP					=	OPTION_BOX_HEIGHT/6;
+	public static final		int				OPTION_MARGIN_LEFT					=	60;
 }
