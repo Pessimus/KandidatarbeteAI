@@ -62,9 +62,9 @@ public final class Constants {
 	public static final 		int			CHARACTER_THIRST_MAX				=	100;
 	public static final 		int			CHARACTER_ENERGY_MAX				=	100;
 
-	public static final			int			CHARACTER_HUNGER_UPDATE				=	120;
-	public static final			int			CHARACTER_THIRST_UPDATE				=	240;
-	public static final			int			CHARACTER_ENERGY_UPDATE				=	120;
+	public static final			int			CHARACTER_HUNGER_UPDATE				=	360;
+	public static final			int			CHARACTER_THIRST_UPDATE				=	270;
+	public static final			int			CHARACTER_ENERGY_UPDATE				=	960;
 	public static final			int			CHARACTER_AGE_UPDATE				=	600;
 
 	public static final			int			CHARACTER_HUNGER_CHANGE				=	1;
@@ -98,17 +98,13 @@ public final class Constants {
 	public static final 		int 		TREE_UPDATE_INTERVALL				=	120;
 	public static final 		int			TREE_INCREASE_AMOUNT				=	10;
 
-	public static final			int			CROP_GATHER_TIME					=	30;			// Number of updates ("frames") that the character will wait when gathering crops
-	public static final			int			WOOD_GATHER_TIME					=	30;			// Number of updates ("frames") that the character will wait when gathering wood
-	public static final			int			WATER_GATHER_TIME					=	30;			// Number of updates ("frames") that the character will wait when gathering water
-
 	//------------------------------Item Constants------------------------------\\
 	//CROPS\\
 	public static final 		int			CROP_HUNGER_CHANGE_INTERACT			=	0;
 	public static final 		int			CROP_ENERGY_CHANGE_INTERACT			=	0;
 	public static final 		int			CROP_THIRST_CHANGE_INTERACT			=	0;
 
-	public static final 		int			CROP_HUNGER_CHANGE_CONSUME			=	10;
+	public static final 		int			CROP_HUNGER_CHANGE_CONSUME			=	15;
 	public static final 		int			CROP_ENERGY_CHANGE_CONSUME			=	1;
 	public static final 		int			CROP_THIRST_CHANGE_CONSUME			=	-1;
 
@@ -222,12 +218,13 @@ public final class Constants {
 
 	// ----------- AI Constants ----------- \\
 
-	public static final			int			GATHER_CROPS_STATE_TIME				=	30;			// Number of updates ("frames") that the character will wait when gathering crops
+	public static final			int			GATHER_CROPS_STATE_TIME				=	90;			// Number of updates ("frames") that the character will wait when gathering crops
 	public static final			int			GATHER_WATER_STATE_TIME				=	30;			// Number of updates ("frames") that the character will wait when gathering water
-	public static final			int			GATHER_MEAT_STATE_TIME				= 	30;			// Number of updates ("frames") that the character will wait when gathering meat
-	public static final			int			GATHER_FISH_STATE_TIME				= 	30;			// Number of updates ("frames") that the character will wait when gathering fish
-	public static final			int			EAT_STATE_TIME						=	30;			// Number of updates ("frames") that the character will wait when gathering water
-	public static final			int			DRINK_STATE_TIME					=	30;			// Number of updates ("frames") that the character will wait when gathering water
+	public static final			int			GATHER_MEAT_STATE_TIME				= 	60;			// Number of updates ("frames") that the character will wait when gathering meat
+	public static final			int			GATHER_FISH_STATE_TIME				= 	90;			// Number of updates ("frames") that the character will wait when gathering fish
+	public static final			int			GATHER_WOOD_STATE_TIME				= 	60;			// Number of updates ("frames") that the character will wait when gathering fish
+	public static final			int			EAT_STATE_TIME						=	15;			// Number of updates ("frames") that the character will wait when gathering water
+	public static final			int			DRINK_STATE_TIME					=	15;			// Number of updates ("frames") that the character will wait when gathering water
 
 	// ----------- PATHFINDER Constants ----------- \\
 

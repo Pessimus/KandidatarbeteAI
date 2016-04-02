@@ -20,6 +20,8 @@ public class LowEnergyState implements IState{
 
 	@Override
 	public void run() {
+		brain.queueState(brain.getSleepingState());
+		brain.setState(brain.getStateQueue().poll());
 		/*
 		if(brain.getBody().hasHome()) {
 			int homeX = brain.getBody().getHome().getX();

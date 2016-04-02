@@ -16,6 +16,8 @@ public class GatherFishState implements IState {
     private final ArtificialBrain brain;
 
     private int waitUpdates = 0;
+    private boolean waiting = false;
+    private int bestIndex = -1;
 
     public GatherFishState(ArtificialBrain brain) {
         this.brain = brain;
@@ -23,22 +25,32 @@ public class GatherFishState implements IState {
 
     @Override
     public void run() {
-        List<ICollidable> surrond = brain.getBody().getInteractables();
+        if(waiting){
+            if((waitUpdates = (++waitUpdates % Constants.GATHER_FISH_STATE_TIME)) == 0) {
+                brain.getBody().interactObject(bestIndex);
 
-        for(ICollidable temp : surrond){
-            // TODO: Don't use RENDER_OBJECT_ENUM, use Outcome in some way!!
-            if(temp.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.LAKE)) {
-                // TODO: Don't use RENDER_OBJECT_ENUM, use Outcome in some way!!
+                waiting = false;
+                bestIndex = -1;
 
-                if ((waitUpdates = (++waitUpdates % Constants.GATHER_FISH_STATE_TIME)) == 0) {
-                    temp.interacted((Model.Character) brain.getBody());
-                    if (brain.getStateQueue().isEmpty()) {
-                        brain.setState((brain.getIdleState()));
-                    } else {
-                        brain.setState(brain.getStateQueue().poll());
-                    }
-
+                if (brain.getStateQueue().isEmpty()) {
+                    brain.setState(brain.getIdleState());
+                } else {
+                    brain.setState(brain.getStateQueue().poll());
                 }
+            }
+        } else {
+            List<ICollidable> surround = brain.getBody().getInteractables();
+            int i = 0;
+            for (ICollidable temp : surround) {
+                // TODO: Don't use RENDER_OBJECT_ENUM, use Outcome in some way!!
+                if (temp.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.LAKE)) {
+                    // TODO: Don't use RENDER_OBJECT_ENUM, use Outcome in some way!!
+
+                    bestIndex = i;
+                    waiting = true;
+                }
+
+                i++;
             }
         }
     }

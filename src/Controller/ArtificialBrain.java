@@ -7,6 +7,7 @@ import Model.ICharacterHandle;
 
 //import java.awt.*;
 import java.awt.*;
+import java.awt.image.renderable.RenderableImage;
 import java.util.*;
 import java.util.List;
 
@@ -74,6 +75,11 @@ public class ArtificialBrain implements AbstractBrain {
 		int[] skills = body.getSkills();
 
 		currentState.run();
+
+		System.out.println("Hunger: " + needs[0]);
+		System.out.println("Thirst: " + needs[1]);
+		System.out.println("Energy: " + needs[2]);
+		System.out.println(currentState);
 
 		for (ICollidable object : body.getSurroundings()) {
 			if (object.getClass().equals(ResourcePoint.class)) {
@@ -251,6 +257,15 @@ public class ArtificialBrain implements AbstractBrain {
 
 	public List<ResourcePoint> getResourceMemory() {
 		return resourceMemory;
+	}
+
+	public Point getClosestResourcePoint(IResource.ResourceType type){
+		int x = -1;
+		int y = -1;
+
+		// TODO: Find closest ResourcePoint of desired resource
+
+		return new Point(x, y);
 	}
 
 	//Gives the AI a new path, probably redundant method. Only for testing purposes.

@@ -3,6 +3,7 @@ package Controller.AIStates;
 import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
 import Model.Character;
+import Model.Constants;
 import Model.ICharacterHandle;
 import Model.IItem;
 
@@ -14,46 +15,56 @@ import java.util.Iterator;
 public class DrinkState implements IState{
 	private final ArtificialBrain brain;
 
+	private int waitUpdates = 0;
+	private boolean waiting = false;
+	private int bestIndex = -1;
+
 	public DrinkState(ArtificialBrain brain){
 		this.brain = brain;
 	}
 
 	@Override
 	public void run() {
-		Iterator<IItem> iterator = brain.getBody().getInventory().iterator();
-		IItem best = null;
-		int bestIndex = -1;
-		int currentIndex = -1;
+		if(waiting){
+			if((waitUpdates = (++waitUpdates % Constants.DRINK_STATE_TIME)) == 0) {
+				brain.getBody().consumeItem(bestIndex);
 
-		loop:while(iterator.hasNext()) {
-			IItem current = iterator.next();
-			currentIndex++;
-			switch (current.getType()) {
-				case WATER_ITEM: //TODO: CHANGE TO FOOD_ITEM
-					if(best == null) {
-						best = current;
-						bestIndex = currentIndex;
-					}
-					/*
-					if(best == null){
-						best = current;
-						hungerAmount = best.getOutcome().getHunger();
-					}
-					else if(best.getOutcome().getHunger() < current.getOutcome().getHunger()){
-						best = current;
-						thirstAmount = best.getOutcome().getHunger();
-					}
-					*/
+				waiting = false;
+				bestIndex = -1;
+
+				if (brain.getStateQueue().isEmpty()) {
+					brain.setState(brain.getIdleState());
+				} else {
+					brain.setState(brain.getStateQueue().poll());
+				}
 			}
-		}
+		} else {
+			Iterator<IItem> iterator = brain.getBody().getInventory().iterator();
+			int currentIndex = 0;
 
-		brain.getBody().consumeItem(bestIndex);
+			loop:while (iterator.hasNext()) {
+				IItem current = iterator.next();
+				switch (current.getType()) {
+					case WATER_ITEM: //TODO: CHANGE TO FOOD_ITEM
+						if (bestIndex == -1) {
+							waiting = true;
+							bestIndex = currentIndex;
+							break loop;
+						}
+						/*
+						if(best == null){
+							best = current;
+							hungerAmount = best.getOutcome().getHunger();
+						}
+						else if(best.getOutcome().getHunger() < current.getOutcome().getHunger()){
+							best = current;
+							thirstAmount = best.getOutcome().getHunger();
+						}
+						*/
+				}
 
-		if(brain.getStateQueue().isEmpty()) {
-			brain.setState(brain.getIdleState());
-		}
-		else{
-			brain.setState(brain.getStateQueue().poll());
+				currentIndex++;
+			}
 		}
 	}
 }

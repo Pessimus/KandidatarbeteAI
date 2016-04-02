@@ -17,6 +17,8 @@ public class GatherCropsState implements IState {
 	private final ArtificialBrain brain;
 
 	private int waitUpdates = 0;
+	private boolean waiting = false;
+	private int bestIndex = -1;
 
 	public GatherCropsState(ArtificialBrain b){
 		brain = b;
@@ -24,23 +26,31 @@ public class GatherCropsState implements IState {
 
 	@Override
 	public void run() {
-		List<ICollidable> surround = brain.getBody().getInteractables();
+		if(waiting){
+			if((waitUpdates = (++waitUpdates % Constants.GATHER_CROPS_STATE_TIME)) == 0) {
+				brain.getBody().interactObject(bestIndex);
 
-		for(ICollidable temp : surround){
+				waiting = false;
+				bestIndex = -1;
 
-			// TODO: Don't use RENDER_OBJECT_ENUM, use Outcome in some way!!
-			if(temp.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.CROPS)){
-			// TODO: Don't use RENDER_OBJECT_ENUM, use Outcome in some way!!
-
-				if((waitUpdates = (++waitUpdates % Constants.GATHER_CROPS_STATE_TIME)) == 0) {
-					temp.interacted((Model.Character) brain.getBody());
-
-					if (brain.getStateQueue().isEmpty()) {
-						brain.setState(brain.getIdleState());
-					} else {
-						brain.setState(brain.getStateQueue().poll());
-					}
+				if (brain.getStateQueue().isEmpty()) {
+					brain.setState(brain.getIdleState());
+				} else {
+					brain.setState(brain.getStateQueue().poll());
 				}
+			}
+		} else {
+			List<ICollidable> surround = brain.getBody().getInteractables();
+			int i = 0;
+			for (ICollidable temp : surround) {
+				// TODO: Don't use RENDER_OBJECT_ENUM, use Outcome in some way!!
+				if (temp.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.CROPS)) {
+					// TODO: Don't use RENDER_OBJECT_ENUM, use Outcome in some way!!
+					waiting = true;
+					bestIndex = i;
+				}
+
+				i++;
 			}
 		}
 	}

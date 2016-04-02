@@ -72,7 +72,7 @@ public class ThirstyState implements IState {
 			brain.findPathTo(closestLake.getX(), closestLake.getY());
 			brain.queueState(brain.getMovingState());
 			brain.queueState(brain.getGatherWaterState());
-			//brain.queueState(brain.getDrinkState());
+			brain.queueState(brain.getDrinkState());
 			brain.setState(brain.getStateQueue().poll());
 
 		}

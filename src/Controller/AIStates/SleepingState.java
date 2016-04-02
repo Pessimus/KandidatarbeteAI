@@ -13,12 +13,19 @@ import java.util.List;
 public class SleepingState implements IState{
 	private final ArtificialBrain brain;
 
+	private int waitUpdates = 0;
+	private boolean waiting = false;
+	private int bestIndex = -1;
+
 	public SleepingState(ArtificialBrain brain){
 		this.brain = brain;
 	}
 
 	@Override
 	public void run() {
+		brain.getBody().sleep();
+		brain.queueState(brain.getIdleState());
+		brain.setState(brain.getStateQueue().poll());
 		/*
 		if(brain.getBody().isHome()) {
 			brain.getBody().sleep();
