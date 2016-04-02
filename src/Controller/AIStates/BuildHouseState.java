@@ -17,6 +17,8 @@ public class BuildHouseState implements IState{
 	@Override
 	public void run() {
 		// TODO: Find out what resources are needed to build the house
-		// TODO: Gather
+		// TODO: Gather the remaining resources for the house
+		// TODO: Build the house
+
 	}
 }

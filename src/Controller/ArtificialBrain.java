@@ -12,7 +12,8 @@ import java.util.List;
 
 /**
  * Created by Gustav on 2016-03-23.
- */public class ArtificialBrain implements AbstractBrain {
+ */
+public class ArtificialBrain implements AbstractBrain {
 	private LinkedList<PathStep> path;
 
 	private IResource.ResourceType nextResourceToGather = null;
@@ -33,14 +34,18 @@ import java.util.List;
 	private IState drinkState = new DrinkState(this);
 	private IState eatState = new EatState(this);
 	private IState gatherCropsState = new GatherCropsState(this);
+	private IState gatherFishState = new GatherFishState(this);
 	private IState gatherMaterialState = new GatherMaterialState(this);
+	private IState gatherMeatState = new GatherMeatState(this);
 	private IState gatherWaterState = new GatherWaterState(this);
+	private IState gatherWoodState = new GatherWoodState(this);
 	private IState gatherState = new GatherState(this);
 	private IState hungryState = new HungryState(this);
 	private IState idleState = new IdleState(this);
+	private IState lowEnergyState = new LowEnergyState(this);
 	private IState movingState = new MovingState(this);
-	private IState sleepState = new SleepingState(this);
-	private IState sleepyState = new LowEnergyState(this);
+	private IState restingState = new RestingState(this);
+	private IState sleepingState = new SleepingState(this);
 	private IState socializeState = new SocializeState(this);
 	private IState thirstyState = new ThirstyState(this);
 	private IState tradeState = new TradeState(this);
@@ -160,12 +165,16 @@ import java.util.List;
 		return gatherCropsState;
 	}
 
+	public IState getGatherFishState() {
+		return gatherFishState;
+	}
+
 	public IState getGatherMaterialState() {
 		return gatherMaterialState;
 	}
 
-	public IState getGatherWaterState() {
-		return gatherWaterState;
+	public IState getGatherMeatState() {
+		return gatherMeatState;
 	}
 
 	public IState getGatherState() {
@@ -180,16 +189,20 @@ import java.util.List;
 		return idleState;
 	}
 
+	public IState getLowEnergyState() {
+		return lowEnergyState;
+	}
+
 	public IState getMovingState() {
 		return movingState;
 	}
 
-	public IState getSleepState() {
-		return sleepState;
+	public IState getSleepingState() {
+		return sleepingState;
 	}
 
-	public IState getSleepyState() {
-		return sleepyState;
+	public IState getRestingState() {
+		return restingState;
 	}
 
 	public IState getSocializeState() {
@@ -204,6 +217,14 @@ import java.util.List;
 		return tradeState;
 	}
 
+	public IState getGatherWaterState() {
+		return gatherWaterState;
+	}
+
+	public IState getGatherWoodState() {
+		return gatherWoodState;
+	}
+
 	public IResource.ResourceType getNextResourceToGather() {
 		return nextResourceToGather;
 	}
@@ -216,8 +237,8 @@ import java.util.List;
 		return path;
 	}
 
-	public void setPath(LinkedList<PathStep> path) {
-		this.path = path;
+	public void findPathTo(double destX, double destY) {
+		path = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), destX, destY);
 	}
 
 	public Queue<IState> getStateQueue() {
@@ -233,9 +254,6 @@ import java.util.List;
 	}
 
 	//Gives the AI a new path, probably redundant method. Only for testing purposes.
-	public void getNewPath(double destX, double destY) {
-		path = Constants.PATHFINDER_OBJECT.getPath(body.getX(),body.getY(),destX,destY);
-	}
 
 	/*
 	enum AIStates{

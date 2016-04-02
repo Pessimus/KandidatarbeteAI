@@ -64,7 +64,7 @@ public class HungryState implements IState {
 				}
 
 			}
-			brain.setPath(Constants.PATHFINDER_OBJECT.getPath(brain.getBody().getX(), brain.getBody().getY(), closestCrop.getX(), closestCrop.getY()));
+			brain.findPathTo(closestCrop.getX(), closestCrop.getY());
 			brain.queueState(brain.getMovingState());
 			brain.queueState(brain.getGatherCropsState());
 			//brain.queueState(brain.getEatState());

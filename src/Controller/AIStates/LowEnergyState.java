@@ -3,6 +3,7 @@ package Controller.AIStates;
 import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
 import Controller.PathStep;
+import Model.Constants;
 import Model.ICharacterHandle;
 
 import java.util.List;
@@ -12,7 +13,6 @@ import java.util.List;
  */
 public class LowEnergyState implements IState{
 	private final ArtificialBrain brain;
-	private List<PathStep> pathToHome;
 
 	public LowEnergyState(ArtificialBrain brain){
 		this.brain = brain;
@@ -20,17 +20,18 @@ public class LowEnergyState implements IState{
 
 	@Override
 	public void run() {
-		/*if(brain.getBody().hasHome()) {
+		/*
+		if(brain.getBody().hasHome()) {
 			int homeX = brain.getBody().getHome().getX();
 			int homeY = brain.getBody().getHome().getY();
 
-			Constants.PATHFINDER_OBJECT
-			brain.setPath(Constants.PATHFINDER_OBJECT.getPath(brain.getBody().getX(), brain.getBody().getY(), homeX, homeY));
+			brain.findPathTo(homeX, homeY);
 			brain.queueState(brain.getMovingState());
+			brain.queueState(brain.getSleepingState());
 			brain.setState(brain.getStateQueue().poll());
 		} else {
-			brain.setState(brain.getSleepState());
+			brain.setState(brain.getRestingState());
 		}
-		 */
+		*/
 	}
 }

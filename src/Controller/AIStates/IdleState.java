@@ -31,11 +31,9 @@ public class IdleState implements IState {
 		else if(needsArray[1] == minimumNeed && needsArray[1] <= 99){
 			brain.setState(brain.getThirstyState());
 		}
-		/*
 		else if(needsArray[2] == minimumNeed && needsArray[2] <= 99){
-			brain.setState(brain.getSleepyState());
+			brain.setState(brain.getLowEnergyState());
 		}
-		*/
 		else{
 			/*
 			if(!body.hasHome()){

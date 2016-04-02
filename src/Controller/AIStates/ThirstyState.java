@@ -69,19 +69,15 @@ public class ThirstyState implements IState {
 					}
 				}
 			}
-				brain.setPath(Constants.PATHFINDER_OBJECT.getPath(brain.getBody().getX(), brain.getBody().getY(), closestLake.getX(), closestLake.getY()));
-				brain.queueState(brain.getMovingState());
-				brain.queueState(brain.getGatherWaterState());
-				//brain.queueState(brain.getDrinkState());
-				brain.setState(brain.getStateQueue().poll());
-			/*brain.setPath();
+			brain.findPathTo(closestLake.getX(), closestLake.getY());
 			brain.queueState(brain.getMovingState());
-			brain.setNextResourceToGather(IResource.ResourceType.CROPS);
-			brain.queueState(brain.getGatherCropsState());*/
+			brain.queueState(brain.getGatherWaterState());
+			//brain.queueState(brain.getDrinkState());
+			brain.setState(brain.getStateQueue().poll());
 
 		}
-			else{
-				brain.setState(brain.getDrinkState());
-			}
+		else{
+			brain.setState(brain.getDrinkState());
+		}
 	}
 }
