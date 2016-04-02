@@ -40,11 +40,9 @@ public final class Constants {
 	public static final 		boolean		GAME_GRAB_MOUSE						= 	false;
 	public static final 		boolean 	RUN_IN_FULLSCREEN 					= 	false;
 
-
 	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_NORMAL 	= 	60; // Updates per second
 	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_FASTER 	= 	120; // Updates per second
 	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_FASTEST 	= 	240; // Updates per second
-
 
 	public static final 		int 		WORLD_TILE_SIZE						= 	32;
 	public static final 		int 		VERTICAL_TILES						=	(int) (SCREEN_HEIGHT /WORLD_TILE_SIZE);
@@ -54,9 +52,9 @@ public final class Constants {
 	public static final			int			PLAYER_CHARACTER_KEY				= 	1;
 	public static final			float		CHARACTER_WALK_SPEED				=	6f;
 	public static final			float		CHARACTER_RUN_SPEED					=	12f;
-	public static final 		int			CHARACTER_UPDATE_INTERVAL			=	60;
+	public static final 		int			CHARACTER_UPDATE_INTERVAL			=	240;
 
-	public static final 		double		CHARACTER_COLLISION_RADIUS			=	5;
+	public static final 		double		CHARACTER_COLLISION_RADIUS			=	8;
 	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	20;
 	public static final 		double		CHARACTER_SURROUNDING_RADIUS		=	50;
 
@@ -233,7 +231,7 @@ public final class Constants {
 
 	// ----------- PATHFINDER Constants ----------- \\
 
-	public static final		int				PATHFINDER_GRID_SIZE				=	32;
+	public static final		int				PATHFINDER_GRID_SIZE				=	16;
 	public static final		double			PATHFINDER_PERPENDICULAR_COST		=	1.;
 	public static final		double			PATHFINDER_DIAGONAL_COST			=	1.4;
 	public static final 	Pathfinder		PATHFINDER_OBJECT					=	new Pathfinder(PATHFINDER_GRID_SIZE, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, PATHFINDER_PERPENDICULAR_COST, PATHFINDER_DIAGONAL_COST);

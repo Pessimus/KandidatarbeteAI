@@ -1,9 +1,8 @@
 package View;
 
 import Model.Constants;
-import Toolkit.InventoryRender;
 import Toolkit.RenderObject;
-import org.lwjgl.input.Mouse;
+import Toolkit.InventoryRender;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -14,7 +13,6 @@ import org.newdawn.slick.tiled.TiledMap;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.*;
-import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,8 +34,6 @@ public class View extends BasicGameState implements InputListener{
 
     private volatile float scaleGraphicsX;
 	private volatile float scaleGraphicsY;
-	private int tempWidth;
-	private int tempHeight;
 
 	private RenderObject[] listToRender = {};
 	private InventoryRender[] inventoryToRender = {};
@@ -126,7 +122,16 @@ public class View extends BasicGameState implements InputListener{
 			if(listToRender != null){
 				if(listToRender.length > 0) {
 					for (RenderObject obj : listToRender) {
-						resourceMap.get(obj.getRenderType()).draw(obj.getX(), obj.getY());
+						int imageWidth = resourceMap.get(obj.getRenderType()).getWidth();
+						int imageHeight = resourceMap.get(obj.getRenderType()).getHeight();
+						float imageScale, width, height;
+						if(imageHeight >= imageWidth)
+							imageScale = (float)(obj.getRadius()*2/imageHeight);
+						else
+							imageScale = (float)(obj.getRadius()*2/imageWidth);
+						width = imageWidth*imageScale;
+						height = imageHeight*imageScale;
+						resourceMap.get(obj.getRenderType()).draw(obj.getX() - imageWidth/2, obj.getY() - imageHeight/2, width, height);
 					}
 				}
 			}
@@ -136,7 +141,7 @@ public class View extends BasicGameState implements InputListener{
 			e.printStackTrace();
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
 		}
-			// ----------- Temporary display of the inventory ----------- \\
+			// ----------- Temporary display needs ----------- \\
 
 		if(displayPlayerNeeds){
 			float hungerStringYPos = gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT+Constants.MARGIN_FROM_TOP-Constants.HALF_TEXT_HEIGHT;

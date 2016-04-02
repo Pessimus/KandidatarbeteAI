@@ -257,7 +257,7 @@ public class Controller implements PropertyChangeListener {
 				// clicks[0] = Whether the key was pressed/released (1: Pressed, 0: Released)
 				// clicks[1] = What key was pressed/released
 				if (clicks[0] == View.INPUT_ENUM.KEY_PRESSED.value) {
-					switch (clicks[1]){
+					switch (clicks[1]) {
 						case Input.KEY_UP:
 							player.movePlayerUp();
 							break;
@@ -286,13 +286,58 @@ public class Controller implements PropertyChangeListener {
 							player.consume();
 							break;
 						case Input.KEY_1:
-							gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
+							if (playerViewCentered && showingPlayerInventory) {
+								player.getBody().consumeItem(0);
+							}else{
+								gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
+							}
 							break;
 						case Input.KEY_2:
-							gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_FASTER;
+							if (playerViewCentered && showingPlayerInventory) {
+								player.getBody().consumeItem(1);
+							}else{
+								gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_FASTER;
+							}
 							break;
 						case Input.KEY_3:
-							gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_FASTEST;
+							if(playerViewCentered && showingPlayerInventory){
+								player.getBody().consumeItem(2);
+							}else{
+								gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_FASTEST;
+							}
+							break;
+						case Input.KEY_4:
+							if(playerViewCentered && showingPlayerInventory){
+								player.getBody().consumeItem(3);
+							}
+							break;
+						case Input.KEY_5:
+							if(playerViewCentered && showingPlayerInventory){
+								player.getBody().consumeItem(4);
+							}
+							break;
+						case Input.KEY_6:
+							if(playerViewCentered && showingPlayerInventory){
+								player.getBody().consumeItem(5);
+							}
+
+							break;
+						case Input.KEY_7:
+							if(playerViewCentered && showingPlayerInventory){
+								player.getBody().consumeItem(6);
+							}
+
+							break;
+						case Input.KEY_8:
+							if(playerViewCentered && showingPlayerInventory){
+								player.getBody().consumeItem(7);
+							}
+
+							break;
+						case Input.KEY_9:
+							if(playerViewCentered && showingPlayerInventory){
+								player.getBody().consumeItem(8);
+							}
 							break;
 					}
 				}else if(clicks[0] == View.INPUT_ENUM.KEY_RELEASED.value){
@@ -317,6 +362,7 @@ public class Controller implements PropertyChangeListener {
 								showingPlayerInventory = !showingPlayerInventory;
 								if (showingPlayerInventory) {
 									gameView.drawInventory(gameModel.displayPlayerInventory());
+									System.out.println("Showing player inventory");
 								} else {
 									gameView.hidePlayerInventory();
 								}
