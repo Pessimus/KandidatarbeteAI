@@ -42,6 +42,8 @@ public class View extends BasicGameState implements InputListener{
 
 	private boolean displayInventory = false;
 	private boolean displayPlayerNeeds = false;
+	private boolean displayPause = false;
+
 	private final Semaphore semaphore = new Semaphore(1);
 	private final Map<RenderObject.RENDER_OBJECT_ENUM, Image> resourceMap = new HashMap<>();
 	private final Map<Model.IItem.Type, Image> inventoryMap = new HashMap<>();
@@ -241,6 +243,14 @@ public class View extends BasicGameState implements InputListener{
 				}
 			}
 		}
+
+		if(displayPause){
+			float halfTextWidth = graphics.getFont().getWidth("Paused")/2;
+			float halfTextHeight = graphics.getFont().getHeight("Paused")/2;
+			float width = gameContainer.getWidth()/(2*scaleGraphics)-halfTextWidth;
+			float height = gameContainer.getHeight()/(2*scaleGraphics)-halfTextHeight;
+			graphics.drawString("Paused", width, height);
+		}
 		// ------------------------------------------ \\
 	}
 
@@ -356,6 +366,10 @@ public class View extends BasicGameState implements InputListener{
 	public void hideInventory(){
 		displayInventory = false;
 		displayPlayerNeeds = false;
+	}
+
+	public void togglePause(){
+		displayPause = !displayPause;
 	}
 
 

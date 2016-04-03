@@ -386,6 +386,8 @@ public class World{
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
+	public boolean isPaused(){ return pause; }
+
 	/**
 	 * @return the width of the world.
 	 */
