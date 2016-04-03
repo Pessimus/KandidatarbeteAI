@@ -2,6 +2,7 @@ package Model;
 
 import Toolkit.InventoryRender;
 import Toolkit.RenderObject;
+import org.lwjgl.Sys;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -111,6 +112,11 @@ public class World{
 	public World (double width, double height, int nrTrees, int nrLakes, int nrStones, int nrCrops){
 
 		this(width, height);
+
+
+		Water wwwwww = new Water(1);
+		addInfiniteResourcePoint(wwwwww, RenderObject.RENDER_OBJECT_ENUM.LAKE, 1200,1200, 100);
+
 
 		int i = 0;
 		float tmpX;
