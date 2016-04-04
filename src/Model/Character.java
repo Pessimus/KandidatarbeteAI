@@ -581,10 +581,10 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	public void removePropertyChangeListener(PropertyChangeListener listener){
 		pcs.removePropertyChangeListener(listener);
 	}
-/*
+
 	@Override
 	public void sleep() {
 		this.energy = 100;
 	}
-*/
+
 }

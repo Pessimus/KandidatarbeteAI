@@ -98,7 +98,7 @@ public interface ICharacterHandle {
 	 */
 	void consumeItem(int index);
 
-	//void sleep();
+	void sleep();
 
 	void addPropertyChangeListener(PropertyChangeListener listener);
 	void removePropertyChangeListener(PropertyChangeListener listener);
