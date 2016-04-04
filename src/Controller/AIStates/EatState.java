@@ -45,7 +45,7 @@ public class EatState implements IState{
 			loop:while (iterator.hasNext()) {
 				IItem current = iterator.next();
 				switch (current.getType()) {
-					case CROPS_ITEM: //TODO: CHANGE TO FOOD_ITEM
+					case CROPS_ITEM: //TODO: MORE ITEMS
 						if (bestIndex == -1) {
 							bestIndex = currentIndex;
 							waiting = true;

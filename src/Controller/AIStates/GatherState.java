@@ -35,14 +35,7 @@ public class GatherState implements IState{
 			}
 		}
 
-		//for(Map.Entry<IItem.Type, Integer> entry : itemMap.entrySet()){
 		for(IItem.Type type : IItem.Type.values()){
-			System.out.println("---- BEGIN ----");
-			System.out.println(type);
-			System.out.println(itemMap.containsKey(type));
-			System.out.println(itemMap.get(type));
-			System.out.println("---- END ----");
-
 			if(itemMap.get(type) == null){
 				itemMap.put(type, 0);
 				lowestType = type;

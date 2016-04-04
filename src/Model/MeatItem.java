@@ -46,7 +46,7 @@ public class MeatItem implements IItem {
 	@Override
 	/**{@inheritDoc}*/
 	public void consumed(Character rhs) {
-		if(amount > 1) {
+		if(amount >= 1) {
 			rhs.changeHunger(Constants.MEAT_HUNGER_CHANGE_CONSUME);
 			rhs.changeEnergy(Constants.MEAT_ENERGY_CHANGE_CONSUME);
 			rhs.changeThirst(Constants.MEAT_THIRST_CHANGE_CONSUME);

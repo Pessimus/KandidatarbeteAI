@@ -46,10 +46,14 @@ public class CookedMeatItem implements IItem {
     @Override
     /**{@inheritDoc}*/
     public void consumed(Character rhs) {
-        rhs.changeHunger(Constants.COOKED_MEAT_HUNGER_CHANGE_CONSUME);
-        rhs.changeEnergy(Constants.COOKED_MEAT_ENERGY_CHANGE_CONSUME);
-        rhs.changeThirst(Constants.COOKED_MEAT_THIRST_CHANGE_CONSUME);
-        this.amount--;
+        if(amount >= 1) {
+            rhs.changeHunger(Constants.COOKED_MEAT_HUNGER_CHANGE_CONSUME);
+            rhs.changeEnergy(Constants.COOKED_MEAT_ENERGY_CHANGE_CONSUME);
+            rhs.changeThirst(Constants.COOKED_MEAT_THIRST_CHANGE_CONSUME);
+            this.amount--;
+        } else{
+            rhs.removeFromInventory(this);
+        }
     }
 
     @Override

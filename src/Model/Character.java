@@ -3,6 +3,8 @@ package Model;
 import Toolkit.InventoryRender;
 import Toolkit.RenderObject;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.*;
 import java.util.List;
 
@@ -98,6 +100,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	private int key;
 
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
+
+	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 	private Inventory inventory;
 
@@ -289,6 +293,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs){
+		//pcs.firePropertyChange("Character attacked", null, rhs);
 		//TODO implement
 	}
 
@@ -568,5 +573,13 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		}
 	}
 
+	@Override
+	public void addPropertyChangeListener(PropertyChangeListener listener){
+		pcs.addPropertyChangeListener(listener);
+	}
 
+	@Override
+	public void removePropertyChangeListener(PropertyChangeListener listener){
+		pcs.removePropertyChangeListener(listener);
+	}
 }
