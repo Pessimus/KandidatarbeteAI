@@ -17,8 +17,8 @@ public final class Constants {
 	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2;
 
 	//Temp constant for the scalar in controller
-	public static final			double		STANDARD_SCREEN_WIDTH				=	1920.0;
-	public static final			double		STANDARD_SCREEN_HEIGHT				=	1080.0;
+	public static final			double		STANDARD_SCREEN_WIDTH				=	1920.0/2;
+	public static final			double		STANDARD_SCREEN_HEIGHT				=	1080.0/2;
 	public static final			double		GRAPHICS_SCALE_X					=	SCREEN_WIDTH/STANDARD_SCREEN_WIDTH;
 	public static final			double		GRAPHICS_SCALE_Y					=	SCREEN_HEIGHT/STANDARD_SCREEN_HEIGHT;
 
