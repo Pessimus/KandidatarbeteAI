@@ -13,8 +13,12 @@ public final class Constants {
 	// ----------- Controller Constants ----------- \\
 
 
-	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2;
-	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2;
+	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+
+	//Zoom level not final
+	public static 				int			ZOOM_LEVEL							= 	2;
+	public static final			int			FONT_SIZE							=	18;
 
 	//Temp constant for the scalar in controller
 	public static final			double		STANDARD_SCREEN_WIDTH				=	1920.0;
@@ -236,8 +240,8 @@ public final class Constants {
 	// ----------- Display Needs ----------- \\
 	public static final		int				BOX_WIDTH							=	600;
 	public static final		int				BOX_HEIGHT							=	150;
-	public static final		int				MARGIN_FROM_TOP						=	BOX_HEIGHT/4;
-	public static final		int				MARGIN_FROM_LEFT					=	20;
+	public static final		int				MARGIN_TOP							=	BOX_HEIGHT/4;
+	public static final		int				MARGIN_LEFT							=	20;
 	public static final 	int				HALF_TEXT_HEIGHT					=	9;
 
 	// ----------- Display Item highlight options ----------- \\
