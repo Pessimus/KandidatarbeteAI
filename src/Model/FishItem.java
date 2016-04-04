@@ -46,7 +46,7 @@ public class FishItem implements IItem {
 	@Override
 	/**{@inheritDoc}*/
 	public void consumed(Character rhs) {
-		if(amount > 1) {
+		if(amount > 0) {
 			rhs.changeHunger(Constants.FISH_HUNGER_CHANGE_CONSUME);
 			rhs.changeEnergy(Constants.FISH_ENERGY_CHANGE_CONSUME);
 			rhs.changeThirst(Constants.FISH_THIRST_CHANGE_CONSUME);

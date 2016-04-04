@@ -32,7 +32,7 @@ public class Controller implements PropertyChangeListener {
 	private StateViewInit gameView;
 
 	//--------------Controller variables----------------\\
-	private PlayerBrain player = new PlayerBrain();
+	private PlayerBrain player;
 	private HashMap<Character, AbstractBrain> aiMap = new HashMap<>();
 
 	//-----------------Model variables------------------\\
@@ -49,20 +49,22 @@ public class Controller implements PropertyChangeListener {
 	private ModelToViewRectangle screenRect;
 	private float mouseX;
 	private float mouseY;
-	private float scaleGraphics;
+	private float scaleGraphicsX;
+	private float scaleGraphicsY;
 	private boolean showingPlayerInventory = false;
 
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
 	public Controller(){
-		scaleGraphics = (float)(Constants.SCREEN_WIDTH/Constants.STANDARD_SCREEN_WIDTH);
+		scaleGraphicsX = (float)(Constants.SCREEN_WIDTH/Constants.STANDARD_SCREEN_WIDTH);
+		scaleGraphicsY = (float)(Constants.SCREEN_HEIGHT/Constants.STANDARD_SCREEN_HEIGHT);
 		//setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT));
 
 		//TODO remove test
 			setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, 1, 20, 100, 200));
 
-		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, scaleGraphics));
+		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT, scaleGraphicsX, scaleGraphicsY));
 
 
 		keyboardInputQueue = new LinkedList<>();
@@ -75,11 +77,19 @@ public class Controller implements PropertyChangeListener {
 
 		//TODO this is hardcoded testing code. Remove after Testing is done!!
 
-				player.setBody(gameModel.addCharacter(650, 770, Constants.PLAYER_CHARACTER_KEY));
+				player = new PlayerBrain(gameModel.addCharacter(650, 770, Constants.PLAYER_CHARACTER_KEY));
 
 				((Character)player.getBody()).godMode = true;
 
-				gameModel.addCharacter(1100,1100,2).godMode = true;
+
+				Character character = gameModel.addCharacter(1100,1100,2);
+
+				//Character character1 = gameModel.addCharacter(1200,1100,3);
+				//Character character2 = gameModel.addCharacter(1300,1100,4);
+				aiMap.put(character, new ArtificialBrain(gameModel, character));
+				//aiMap.put(character1, new ArtificialBrain(gameModel, character1));
+				//aiMap.put(character2, new ArtificialBrain(gameModel, character2));
+
 				//this.gameModel.addFiniteResourcePoint(new Crops(5),1010,1010,5);
 
 	}
@@ -140,9 +150,9 @@ public class Controller implements PropertyChangeListener {
 				float playerYPos = player.getBody().getY();
 
 
-				if (playerXPos - Constants.SCREEN_WIDTH / (2 * scaleGraphics) > 0) {
-					if (playerXPos + Constants.SCREEN_WIDTH / (2 * scaleGraphics) < width) {
-						screenRect.setMinX(playerXPos - Constants.SCREEN_WIDTH / (2 * scaleGraphics));
+				if (playerXPos - Constants.SCREEN_WIDTH / (2 * scaleGraphicsX) > 0) {
+					if (playerXPos + Constants.SCREEN_WIDTH / (2 * scaleGraphicsX) < width) {
+						screenRect.setMinX((float)(playerXPos - Constants.SCREEN_WIDTH / (2 * scaleGraphicsX)));
 					} else {
 						screenRect.setMaxX(width);
 					}
@@ -150,9 +160,9 @@ public class Controller implements PropertyChangeListener {
 					screenRect.setMinX(0);
 				}
 
-				if (playerYPos - Constants.SCREEN_HEIGHT / (2 * scaleGraphics) > 0) {
-					if (playerYPos + Constants.SCREEN_HEIGHT / (2 * scaleGraphics) < height) {
-						screenRect.setMinY(playerYPos - Constants.SCREEN_HEIGHT / (2 * scaleGraphics));
+				if (playerYPos - Constants.SCREEN_HEIGHT / (2 * scaleGraphicsY) > 0) {
+					if (playerYPos + Constants.SCREEN_HEIGHT / (2 * scaleGraphicsY) < height) {
+						screenRect.setMinY((float)(playerYPos - Constants.SCREEN_HEIGHT / (2 * scaleGraphicsY)));
 					} else {
 						screenRect.setMaxY(height);
 					}
@@ -451,8 +461,8 @@ public class Controller implements PropertyChangeListener {
 					if(clicks[1] == Input.MOUSE_LEFT_BUTTON){
 						//The left mouse button was pressed.
 						//TODO WHAT SHOULD BE DONE HERE?!
-						//float[] tempFloats = convertFromViewToModelCoords(clicks[2], clicks[3]);
-						//gameModel.selectObject(tempFloats[0], tempFloats[1]);
+						float[] tempFloats = convertFromViewToModelCoords(clicks[2]/(float)Constants.GRAPHICS_SCALE_X, clicks[3]/(float)Constants.GRAPHICS_SCALE_Y);
+						player.moveToMouse(tempFloats[0], tempFloats[1]);
 					}
 
 					if(clicks[1] == Input.MOUSE_RIGHT_BUTTON){
@@ -525,16 +535,6 @@ public class Controller implements PropertyChangeListener {
 		else if(evt.getPropertyName().equals("startController")){
 			runModel();
 		}
-		else if(evt.getPropertyName().equals("createdCharacter")){
-			Character character = (Character)evt.getNewValue();
-			if(aiMap.containsKey(character)){
-				AbstractBrain tempChar = aiMap.get(character);
-				if(tempChar != null){
-					tempChar.setBody(null);
-				}
-			}
-			aiMap.put(character, new ArtificialBrain((ICharacterHandle)character));
-		}
 	}
 
 //----------------------------------Model and View converting methods-------------------------------------------------\\
@@ -553,13 +553,13 @@ public class Controller implements PropertyChangeListener {
 		float minX, minY, maxX, maxY, scale;
 
 		ModelToViewRectangle(float x, float y, float width, float height){
-			rectWidth = width/scaleGraphics;
-			rectHeight = height/scaleGraphics;
+			rectWidth = width/scaleGraphicsX;
+			rectHeight = height/scaleGraphicsY;
 
-			minX = x/scaleGraphics;
-			minY = y/scaleGraphics;
-			maxX = (x + width)/scaleGraphics;
-			maxY = (y + height)/scaleGraphics;
+			minX = x/scaleGraphicsX;
+			minY = y/scaleGraphicsY;
+			maxX = (x + width)/scaleGraphicsX;
+			maxY = (y + height)/scaleGraphicsY;
 		}
 
 		public void translatePosition(float deltaX, float deltaY){

@@ -12,11 +12,15 @@ public final class Constants {
 
 	// ----------- Controller Constants ----------- \\
 
-	public static final 		int 		SCREEN_WIDTH 						= 	(int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	public static final 		int 		SCREEN_HEIGHT 						= 	(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+
+	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2;
+	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2;
 
 	//Temp constant for the scalar in controller
 	public static final			double		STANDARD_SCREEN_WIDTH				=	1920.0;
+	public static final			double		STANDARD_SCREEN_HEIGHT				=	1080.0;
+	public static final			double		GRAPHICS_SCALE_X					=	SCREEN_WIDTH/STANDARD_SCREEN_WIDTH;
+	public static final			double		GRAPHICS_SCALE_Y					=	SCREEN_HEIGHT/STANDARD_SCREEN_HEIGHT;
 
 	public static final 		double 		SCREEN_EDGE_TRIGGER_MAX_X			=	SCREEN_WIDTH * 0.8;
 	public static final 		double 		SCREEN_EDGE_TRIGGER_MAX_Y			=	SCREEN_HEIGHT * 0.8;
@@ -52,16 +56,16 @@ public final class Constants {
 
 	public static final 		double		CHARACTER_COLLISION_RADIUS			=	8;
 	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	20;
-	public static final 		double		CHARACTER_SURROUNDING_RADIUS		=	50;
+	public static final 		double		CHARACTER_SURROUNDING_RADIUS		=	150;
 
 	public static final 		int			CHARACTER_HUNGER_MAX				=	100;
 	public static final 		int			CHARACTER_THIRST_MAX				=	100;
 	public static final 		int			CHARACTER_ENERGY_MAX				=	100;
 
-	public static final			int			CHARACTER_HUNGER_UPDATE				=	120;
-	public static final			int			CHARACTER_THIRST_UPDATE				=	240;
-	public static final			int			CHARACTER_ENERGY_UPDATE				=	120;
-	public static final			int			CHARACTER_AGE_UPDATE				=	60;
+	public static final			int			CHARACTER_HUNGER_UPDATE				=	360;
+	public static final			int			CHARACTER_THIRST_UPDATE				=	270;
+	public static final			int			CHARACTER_ENERGY_UPDATE				=	960;
+	public static final			int			CHARACTER_AGE_UPDATE				=	600;
 
 	public static final			int			CHARACTER_HUNGER_CHANGE				=	1;
 	public static final			int			CHARACTER_THIRST_CHANGE				=	1;
@@ -69,7 +73,7 @@ public final class Constants {
 
 	//----------- Inventory Constants ------------- \\
 	//Has to be a power of 2. Ex 1,4,9,16,25,36...
-	public static final			int 		MAX_INVENTORY_SLOTS					=	9;
+	public static final			int 		MAX_INVENTORY_SLOTS					=	16;
 
 	public static final			int			SLOT_DISPLAY_SIZE					=	64;
 	public static final			int			SLOT_DISPLAY_AMOUNT					=	20;
@@ -100,7 +104,7 @@ public final class Constants {
 	public static final 		int			CROP_ENERGY_CHANGE_INTERACT			=	0;
 	public static final 		int			CROP_THIRST_CHANGE_INTERACT			=	0;
 
-	public static final 		int			CROP_HUNGER_CHANGE_CONSUME			=	10;
+	public static final 		int			CROP_HUNGER_CHANGE_CONSUME			=	15;
 	public static final 		int			CROP_ENERGY_CHANGE_CONSUME			=	1;
 	public static final 		int			CROP_THIRST_CHANGE_CONSUME			=	-1;
 
@@ -147,6 +151,19 @@ public final class Constants {
 	public static final 		int			FISH_ENERGY_CHANGE_ATTACK			=	-5;
 	public static final 		int			FISH_THIRST_CHANGE_ATTACK			=	-3;
 
+	//COOKED FISH\\
+	public static final 		int			COOKED_FISH_HUNGER_CHANGE_INTERACT	=	0;
+	public static final 		int			COOKED_FISH_ENERGY_CHANGE_INTERACT	=	0;
+	public static final 		int			COOKED_FISH_THIRST_CHANGE_INTERACT	=	0;
+
+	public static final 		int			COOKED_FISH_HUNGER_CHANGE_CONSUME	=	30;
+	public static final 		int			COOKED_FISH_ENERGY_CHANGE_CONSUME	=	10;
+	public static final 		int			COOKED_FISH_THIRST_CHANGE_CONSUME	=	-3;
+
+	public static final 		int			COOKED_FISH_HUNGER_CHANGE_ATTACK	=	30;
+	public static final 		int			COOKED_FISH_ENERGY_CHANGE_ATTACK	=	-5;
+	public static final 		int			COOKED_FISH_THIRST_CHANGE_ATTACK	=	-3;
+
 	//WOOD\\
 	public static final 		int			WOOD_HUNGER_CHANGE_INTERACT			=	0;
 	public static final 		int			WOOD_ENERGY_CHANGE_INTERACT			=	0;
@@ -185,6 +202,29 @@ public final class Constants {
 	public static final 		int			MEAT_HUNGER_CHANGE_ATTACK			=	0;
 	public static final 		int			MEAT_ENERGY_CHANGE_ATTACK			=	0;
 	public static final 		int			MEAT_THIRST_CHANGE_ATTACK			=	0;
+
+	//COOKED MEAT\\
+	public static final 		int			COOKED_MEAT_HUNGER_CHANGE_INTERACT	=	0;
+	public static final 		int			COOKED_MEAT_ENERGY_CHANGE_INTERACT	=	0;
+	public static final 		int			COOKED_MEAT_THIRST_CHANGE_INTERACT	=	0;
+
+	public static final 		int			COOKED_MEAT_HUNGER_CHANGE_CONSUME	=	65;
+	public static final 		int			COOKED_MEAT_ENERGY_CHANGE_CONSUME	=	40;
+	public static final 		int			COOKED_MEAT_THIRST_CHANGE_CONSUME	=	-20;
+
+	public static final 		int			COOKED_MEAT_HUNGER_CHANGE_ATTACK	=	0;
+	public static final 		int			COOKED_MEAT_ENERGY_CHANGE_ATTACK	=	0;
+	public static final 		int			COOKED_MEAT_THIRST_CHANGE_ATTACK	=	0;
+
+	// ----------- AI Constants ----------- \\
+
+	public static final			int			GATHER_CROPS_STATE_TIME				=	90;			// Number of updates ("frames") that the character will wait when gathering crops
+	public static final			int			GATHER_WATER_STATE_TIME				=	30;			// Number of updates ("frames") that the character will wait when gathering water
+	public static final			int			GATHER_MEAT_STATE_TIME				= 	60;			// Number of updates ("frames") that the character will wait when gathering meat
+	public static final			int			GATHER_FISH_STATE_TIME				= 	90;			// Number of updates ("frames") that the character will wait when gathering fish
+	public static final			int			GATHER_WOOD_STATE_TIME				= 	60;			// Number of updates ("frames") that the character will wait when gathering fish
+	public static final			int			EAT_STATE_TIME						=	15;			// Number of updates ("frames") that the character will wait when gathering water
+	public static final			int			DRINK_STATE_TIME					=	15;			// Number of updates ("frames") that the character will wait when gathering water
 
 	// ----------- PATHFINDER Constants ----------- \\
 

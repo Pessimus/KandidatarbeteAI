@@ -1,5 +1,6 @@
 package Controller;
 
+import Controller.AIStates.IState;
 import Model.Character;
 import Model.ICharacterHandle;
 
@@ -12,4 +13,7 @@ public interface AbstractBrain {
 
 	void setBody(ICharacterHandle character);
 	ICharacterHandle getBody();
+
+	void setState(IState state);
+	IState getState();
 }
