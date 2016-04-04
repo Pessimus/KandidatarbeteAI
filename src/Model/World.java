@@ -130,7 +130,7 @@ public class World{
 			tmpY = (float)(Math.random()*this.height);
 
 			Wood tmpWood = new Wood(10,10,1);
-			addRenewableResourcePoint(tmpWood, RenderObject.RENDER_OBJECT_ENUM.WOOD, tmpX, tmpY, 10);
+			addRenewableResourcePoint(tmpWood, RenderObject.RENDER_OBJECT_ENUM.WOOD, tmpX, tmpY, 75);
 
 			i++;
 		}
