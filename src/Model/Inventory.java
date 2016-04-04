@@ -61,7 +61,7 @@ public class Inventory{
 	 */
 	boolean removeItem(IItem item){
 		for(IItem invItem : inventoryItems) {
-			if(item.getType() == invItem.getType() && invItem.getAmount()==1){
+			if(item.getType() == invItem.getType()){
 				return inventoryItems.remove(item);
 			}
 		}

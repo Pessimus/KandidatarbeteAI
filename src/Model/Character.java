@@ -21,11 +21,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	}
 	public void drink() {
 		this.thirst += 10;
-	}*/
-	public void sleep() {
-		this.energy = 100;
 	}
-	/*
+
 	public void rest() {
 		this.energy += 20;
 	}*/
@@ -574,12 +571,20 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void addPropertyChangeListener(PropertyChangeListener listener){
 		pcs.addPropertyChangeListener(listener);
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void removePropertyChangeListener(PropertyChangeListener listener){
 		pcs.removePropertyChangeListener(listener);
 	}
+
+	@Override
+	public void sleep() {
+		this.energy = 100;
+	}
+
 }

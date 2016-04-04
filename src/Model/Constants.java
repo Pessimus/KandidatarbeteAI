@@ -85,6 +85,11 @@ public final class Constants {
 	public static final			float		GRID_LINE_WIDTH						=	5f;
 	public static final			int			MAX_AMOUNT							=	99;
 
+	//----------- Structure Constants ------------- \\
+	public static final			double		HOUSE_COLLISION_RADIUS				=	50;
+	public static final			double		STOCKPILE_COLLISION_RADIUS			=	50;
+	public static final			double		FARM_COLLISION_RADIUS				=	50;
+
 	//----------- Animal Constants ------------- \\
 	public static final 		double		ANIMAL_COLLISION_RADIUS				=	5;
 	public static final 		double		ANIMAL_INTERACTION_RADIUS			=	20;
