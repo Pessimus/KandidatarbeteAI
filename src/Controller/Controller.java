@@ -300,7 +300,9 @@ public class Controller implements PropertyChangeListener {
 							break;
 						case Input.KEY_D:
 							if (playerViewCentered && showingPlayerInventory && itemHighlighted >= 0 && !gameModel.isPaused()) {
-								player.getBody().getInventory().remove(itemHighlighted);}
+								player.getBody().getInventory().remove(itemHighlighted);
+								itemHighlighted = -1;
+							}
 							break;
 						case Input.KEY_1:
 							if (playerViewCentered && showingPlayerInventory && !gameModel.isPaused()) {
