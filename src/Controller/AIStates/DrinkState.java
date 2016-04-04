@@ -7,6 +7,7 @@ import Model.Constants;
 import Model.ICharacterHandle;
 import Model.IItem;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 /**
@@ -27,13 +28,8 @@ public class DrinkState implements IState{
 	public void run() {
 		if(waiting){
 			if((waitUpdates = (++waitUpdates % Constants.DRINK_STATE_TIME)) == 0) {
-				System.out.println("DRINKING");
-				System.out.println(brain.getBody().getNeeds()[1]);
 
 				brain.getBody().consumeItem(bestIndex);
-
-				System.out.println("DRINKING");
-				System.out.println(brain.getBody().getNeeds()[1]);
 
 				waiting = false;
 				bestIndex = -1;
@@ -51,7 +47,7 @@ public class DrinkState implements IState{
 			loop:while (iterator.hasNext()) {
 				IItem current = iterator.next();
 				switch (current.getType()) {
-					case WATER_ITEM: //TODO: CHANGE TO FOOD_ITEM
+					case WATER_ITEM:
 						if (bestIndex == -1) {
 							waiting = true;
 							bestIndex = currentIndex;
