@@ -42,6 +42,7 @@ public class ArtificialBrain implements AbstractBrain {
 	private IState gatherMeatState = new GatherMeatState(this);
 	private IState gatherWaterState = new GatherWaterState(this);
 	private IState gatherWoodState = new GatherWoodState(this);
+	private IState gatherStoneState = new GatherWoodState(this);
 	private IState gatherState = new GatherState(this);
 	private IState hungryState = new HungryState(this);
 	private IState idleState = new IdleState(this);
@@ -81,7 +82,7 @@ public class ArtificialBrain implements AbstractBrain {
 		//System.out.println("Hunger: " + needs[0]);
 		//System.out.println("Thirst: " + needs[1]);
 		//System.out.println("Energy: " + needs[2]);
-		System.out.println(currentState);
+		//System.out.println(currentState);
 		System.out.println(body.getInventory());
 
 		for (ICollidable object : body.getSurroundings()) {
@@ -232,6 +233,10 @@ public class ArtificialBrain implements AbstractBrain {
 
 	public IState getGatherWoodState() {
 		return gatherWoodState;
+	}
+
+	public IState getGatherStoneState() {
+		return gatherStoneState;
 	}
 
 	public IResource.ResourceType getNextResourceToGather() {
