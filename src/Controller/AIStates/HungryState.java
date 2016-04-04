@@ -49,6 +49,7 @@ public class HungryState implements IState {
 		if(best == null){
 			// TODO: Pathfinding to nearest/best food-resource
 			// TODO: Queue MovingState correctly
+			//TODO: Add different kinds of foods to look for and gather
 			for(RenderObject o : brain.map.getRenderObjects()) {
 				if(o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.CROPS)) {
 					if (closestCrop == null) {

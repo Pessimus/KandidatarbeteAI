@@ -219,6 +219,7 @@ public final class Constants {
 	// ----------- AI Constants ----------- \\
 
 	public static final			int			GATHER_CROPS_STATE_TIME				=	90;			// Number of updates ("frames") that the character will wait when gathering crops
+	public static final			int			GATHER_STONE_STATE_TIME				=	90;			// Number of updates ("frames") that the character will wait when gathering crops
 	public static final			int			GATHER_WATER_STATE_TIME				=	30;			// Number of updates ("frames") that the character will wait when gathering water
 	public static final			int			GATHER_MEAT_STATE_TIME				= 	60;			// Number of updates ("frames") that the character will wait when gathering meat
 	public static final			int			GATHER_FISH_STATE_TIME				= 	90;			// Number of updates ("frames") that the character will wait when gathering fish
