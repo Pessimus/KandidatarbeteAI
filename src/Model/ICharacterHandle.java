@@ -1,5 +1,6 @@
 package Model;
 
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
 /**
@@ -96,4 +97,9 @@ public interface ICharacterHandle {
 	 * @param index the index of the item to consume.
 	 */
 	void consumeItem(int index);
+
+	void sleep();
+
+	void addPropertyChangeListener(PropertyChangeListener listener);
+	void removePropertyChangeListener(PropertyChangeListener listener);
 }

@@ -156,7 +156,7 @@ public class World{
 			tmpY = (float)(Math.random()*this.height);
 
 			Crops tmpCrops = new Crops(100,5);
-			addFiniteResourcePoint(tmpCrops, RenderObject.RENDER_OBJECT_ENUM.CROPS,tmpX,tmpY,20);
+			addFiniteResourcePoint(tmpCrops, RenderObject.RENDER_OBJECT_ENUM.CROPS,tmpX,tmpY,100);
 
 			i++;
 		}
@@ -245,8 +245,6 @@ public class World{
 		this.collidables.add(character);
 		this.timeables.add(character);
 		this.characters.put(key, character);
-
-		pcs.firePropertyChange("createdCharacter", null, character);
 
 		return character;
 	}
