@@ -20,7 +20,6 @@ public class IdleState implements IState {
 	@Override
 	public void run() {
 		int[] needsArray = brain.getBody().getNeeds();
-
 		// Critical levels of Hunger, Thirst and Energy which
 		// needs to be dealt with immediately
 		int minimumNeed = Math.min(Math.min(needsArray[0], needsArray[1]), needsArray[2]);
@@ -31,17 +30,17 @@ public class IdleState implements IState {
 		else if(needsArray[1] == minimumNeed && needsArray[1] <= 90){
 			brain.setState(brain.getThirstyState());
 		}
-		else if(needsArray[2] == minimumNeed && needsArray[2] <= 10){
+		else if (needsArray[2] == minimumNeed && needsArray[2] <= 10){
 			brain.setState(brain.getLowEnergyState());
 		}
-		else{
+		/*else {
 			brain.queueState(brain.getGatherState());
 			brain.setState(brain.getStateQueue().poll());
-			/*
+
 			if(!body.hasHome()){
 				brain.setState(brain.getBuildHouseState());
 			}
-			*/
-		}
+
+		} */
 	}
 }
