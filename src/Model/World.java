@@ -113,7 +113,7 @@ public class World{
 
 		this(width, height);
 
-
+		//TODO remove
 		Water wwwwww = new Water(1);
 		addInfiniteResourcePoint(wwwwww, RenderObject.RENDER_OBJECT_ENUM.LAKE, 1200,1200, 100);
 
@@ -156,7 +156,7 @@ public class World{
 			tmpY = (float)(Math.random()*this.height);
 
 			Crops tmpCrops = new Crops(100,5);
-			addFiniteResourcePoint(tmpCrops, RenderObject.RENDER_OBJECT_ENUM.CROPS,tmpX,tmpY,100);
+			addFiniteResourcePoint(tmpCrops, RenderObject.RENDER_OBJECT_ENUM.CROPS,tmpX,tmpY,20);
 
 			i++;
 		}

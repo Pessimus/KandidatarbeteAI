@@ -46,7 +46,7 @@ public class CropsItem implements IItem {
     @Override
 	/**{@inheritDoc}*/
     public void consumed(Character rhs) {
-        if(amount > 0) {
+        if(amount > 1) {
             rhs.changeHunger(Constants.CROP_HUNGER_CHANGE_CONSUME);
             rhs.changeEnergy(Constants.CROP_ENERGY_CHANGE_CONSUME);
             rhs.changeThirst(Constants.CROP_THIRST_CHANGE_CONSUME);
