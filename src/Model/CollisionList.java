@@ -13,6 +13,7 @@ public class CollisionList {
 	private Node startNodeY;
 	private int size;
 	private Node currentNodeX;
+	private double maxRadius;
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
@@ -25,6 +26,7 @@ public class CollisionList {
 		this.startNodeY = new Node(new CollidableDummy(), null, null);
 		this.currentNodeX = this.startNodeX;
 		this.size = 0;
+		this.maxRadius = 0;
 	}
 
 //--------------------------------------------Sorting methods---------------------------------------------------------\\
@@ -112,6 +114,12 @@ public class CollisionList {
 		}
 		loopNodeY.next = new Node(addValue, loopNodeY,null);
 
+		//Update maxRadius
+		if(addValue.getCollisionRadius()>maxRadius){
+			maxRadius = addValue.getCollisionRadius();
+		}
+
+		//Update size
 		this.size++;
 	}
 
@@ -146,6 +154,16 @@ public class CollisionList {
 				break;
 			}
 			tmpY = tmpY.next;
+		}
+		//Update maxRadius
+		if(collidable.getCollisionRadius() == maxRadius){
+			Node tmpNode = startNodeX.next;
+			double tmpMax = 0;
+			while(tmpNode != null){
+				if(tmpNode.value.getCollisionRadius() > tmpMax){
+					tmpMax = tmpNode.value.getCollisionRadius();
+				}
+			}
 		}
 	}
 
@@ -207,13 +225,15 @@ public class CollisionList {
 	/**
 	 * Checks if two nodes collide in the x-axis.
 	 * It uses the interactionRadius of the first and the collisionRadius of the second.
-	 * If collision occurs it also checks the first against the node left of the left node.
+	 * If collision occurs (when using maxRadius) it also checks the first against the node left of the left node.
 	 * @param node the node to check collision for using the interaction radius.
 	 * @param left the node to check against the other using the collision radius.
 	 */
 	private void handleInterractionCollisionLeftX(Node node, Node left){
-		if(node.value.getX() - (left.value.getX()+left.value.getCollisionRadius()) <= node.value.getInteractionRadius()){
-			node.value.addToInteractableX(left.value);
+		if(node.value.getX() -(left.value.getX() + maxRadius) <= node.value.getInteractionRadius()) {
+			if (node.value.getX() - (left.value.getX() + left.value.getCollisionRadius()) <= node.value.getInteractionRadius()) {
+				node.value.addToInteractableX(left.value);
+			}
 			handleInterractionCollisionLeftX(node, left.previous);
 		}
 	}
@@ -221,13 +241,16 @@ public class CollisionList {
 	/**
 	 * Checks if two nodes collide in the x-axis.
 	 * It uses the interactionRadius of the first and the collisionRadius of the second.
-	 * If collision occurs it also checks the first against the node right of the right node.
+	 * If collision occurs (when using maxRadius) it also checks the first against the node right of the right node.
 	 * @param node the node to check collision for using the interaction radius.
 	 * @param right the node to check against the other using the collision radius.
 	 */
 	private void handleInterractionCollisionRightX(Node node, Node right){
-		if(right != null && (right.value.getX()-right.value.getCollisionRadius()) - node.value.getX() <= node.value.getInteractionRadius()){
-			node.value.addToInteractableX(right.value);
+		if(right != null && (right.value.getX() - maxRadius) - node.value.getX() <= node.value.getInteractionRadius()) {
+			if ((right.value.getX() - right.value.getCollisionRadius()) - node.value.getX() <= node.value.getInteractionRadius()) {
+				node.value.addToInteractableX(right.value);
+				handleInterractionCollisionRightX(node, right.next);
+			}
 			handleInterractionCollisionRightX(node, right.next);
 		}
 	}
@@ -235,13 +258,15 @@ public class CollisionList {
 	/**
 	 * Checks if two nodes collide in the y-axis.
 	 * It uses the interactionRadius of the first and the collisionRadius of the second.
-	 * If collision occurs it also checks the first against the node left of the left node.
+	 * If collision occurs (when using maxRadius) it also checks the first against the node left of the left node.
 	 * @param node the node to check collision for using the interaction radius.
 	 * @param left the node to check against the other using the collision radius.
 	 */
 	private void handleInterractionCollisionLeftY(Node node, Node left){
-		if(node.value.getY() - (left.value.getY()+left.value.getCollisionRadius()) <= node.value.getInteractionRadius()){
-			node.value.addToInteractableY(left.value);
+		if(node.value.getY() - (left.value.getY() + maxRadius) <= node.value.getInteractionRadius()) {
+			if (node.value.getY() - (left.value.getY() + left.value.getCollisionRadius()) <= node.value.getInteractionRadius()) {
+				node.value.addToInteractableY(left.value);
+			}
 			handleInterractionCollisionLeftY(node, left.previous);
 		}
 	}
@@ -249,13 +274,15 @@ public class CollisionList {
 	/**
 	 * Checks if two nodes collide in the y-axis.
 	 * It uses the interactionRadius of the first and the collisionRadius of the second.
-	 * If collision occurs it also checks the first against the node right of the right node.
+	 * If collision occurs (when using maxRadius) it also checks the first against the node right of the right node.
 	 * @param node the node to check collision for using the interaction radius.
 	 * @param right the node to check against the other using the collision radius.
 	 */
 	private void handleInterractionCollisionRightY(Node node, Node right){
-		if (right != null && (right.value.getY()-right.value.getCollisionRadius()) - node.value.getY() <= node.value.getInteractionRadius()){
-			node.value.addToInteractableY(right.value);
+		if(right != null && (right.value.getY() - maxRadius) - node.value.getY() <= node.value.getInteractionRadius()) {
+			if ((right.value.getY() - right.value.getCollisionRadius()) - node.value.getY() <= node.value.getInteractionRadius()) {
+				node.value.addToInteractableY(right.value);
+			}
 			handleInterractionCollisionRightY(node, right.next);
 		}
 	}
@@ -265,13 +292,15 @@ public class CollisionList {
 	/**
 	 * Checks if two nodes collide in the x-axis.
 	 * It uses the surroundingRadius of the first and the collisionRadius of the second.
-	 * If collision occurs it also checks the first against the node left of the left node.
+	 * If collision occurs (when using maxRadius) it also checks the first against the node left of the left node.
 	 * @param node the node to check collision for using the interaction radius.
 	 * @param left the node to check against the other using the collision radius.
 	 */
 	private void handleSurroundingsCollisionLeftX(Node node, Node left){
-		if(node.value.getX() - (left.value.getX()+left.value.getCollisionRadius()) <= node.value.getSurroundingRadius()){
-			node.value.addToSurroundingX(left.value);
+		if(node.value.getX() - (left.value.getX() + maxRadius) <= node.value.getSurroundingRadius()) {
+			if (node.value.getX() - (left.value.getX() + left.value.getCollisionRadius()) <= node.value.getSurroundingRadius()) {
+				node.value.addToSurroundingX(left.value);
+			}
 			handleSurroundingsCollisionLeftX(node, left.previous);
 		}
 	}
@@ -279,13 +308,15 @@ public class CollisionList {
 	/**
 	 * Checks if two nodes collide in the x-axis.
 	 * It uses the surroundingRadius of the first and the collisionRadius of the second.
-	 * If collision occurs it also checks the first against the node right of the right node.
+	 * If collision occurs (when using maxRadius) it also checks the first against the node right of the right node.
 	 * @param node the node to check collision for using the interaction radius.
 	 * @param right the node to check against the other using the collision radius.
 	 */
 	private void handleSurroundingsCollisionRightX(Node node, Node right){
-		if(right != null && (right.value.getX()-right.value.getCollisionRadius()) - node.value.getX() <= node.value.getSurroundingRadius()){
-			node.value.addToSurroundingX(right.value);
+		if(right != null && (right.value.getX() - maxRadius) - node.value.getX() <= node.value.getSurroundingRadius()) {
+			if ((right.value.getX() - right.value.getCollisionRadius()) - node.value.getX() <= node.value.getSurroundingRadius()) {
+				node.value.addToSurroundingX(right.value);
+			}
 			handleSurroundingsCollisionRightX(node, right.next);
 		}
 	}
@@ -293,13 +324,15 @@ public class CollisionList {
 	/**
 	 * Checks if two nodes collide in the y-axis.
 	 * It uses the surroundingRadius of the first and the collisionRadius of the second.
-	 * If collision occurs it also checks the first against the node left of the left node.
+	 * If collision occurs (when using maxRadius) it also checks the first against the node left of the left node.
 	 * @param node the node to check collision for using the interaction radius.
 	 * @param left the node to check against the other using the collision radius.
 	 */
 	private void handleSurroundingsCollisionLeftY(Node node, Node left){
-		if(node.value.getY() - (left.value.getY()+left.value.getCollisionRadius()) <= node.value.getSurroundingRadius()){
-			node.value.addToSurroundingY(left.value);
+		if(node.value.getY() - (left.value.getY() + maxRadius) <= node.value.getSurroundingRadius()) {
+			if (node.value.getY() - (left.value.getY() + left.value.getCollisionRadius()) <= node.value.getSurroundingRadius()) {
+				node.value.addToSurroundingY(left.value);
+			}
 			handleSurroundingsCollisionLeftY(node, left.previous);
 		}
 	}
@@ -307,13 +340,15 @@ public class CollisionList {
 	/**
 	 * Checks if two nodes collide in the y-axis.
 	 * It uses the surroundingRadius of the first and the collisionRadius of the second.
-	 * If collision occurs it also checks the first against the node right of the right left.
+	 * If collision occurs (when using maxRadius) it also checks the first against the node right of the right left.
 	 * @param node the node to check collision for using the interaction radius.
 	 * @param right the node to check against the other using the collision radius.
 	 */
 	private void handleSurroundingsCollisionRightY(Node node, Node right){
-		if (right != null && (right.value.getY()-right.value.getCollisionRadius()) - node.value.getY() <= node.value.getSurroundingRadius()){
-			node.value.addToSurroundingY(right.value);
+		if(right != null && (right.value.getY() - maxRadius) - node.value.getY() <= node.value.getSurroundingRadius()) {
+			if ((right.value.getY() - right.value.getCollisionRadius()) - node.value.getY() <= node.value.getSurroundingRadius()) {
+				node.value.addToSurroundingY(right.value);
+			}
 			handleSurroundingsCollisionRightY(node, right.next);
 		}
 	}

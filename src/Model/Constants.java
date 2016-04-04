@@ -56,7 +56,7 @@ public final class Constants {
 
 	public static final 		double		CHARACTER_COLLISION_RADIUS			=	8;
 	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	20;
-	public static final 		double		CHARACTER_SURROUNDING_RADIUS		=	50;
+	public static final 		double		CHARACTER_SURROUNDING_RADIUS		=	150;
 
 	public static final 		int			CHARACTER_HUNGER_MAX				=	100;
 	public static final 		int			CHARACTER_THIRST_MAX				=	100;
@@ -240,4 +240,10 @@ public final class Constants {
 	public static final		int				MARGIN_FROM_TOP						=	BOX_HEIGHT/4;
 	public static final		int				MARGIN_FROM_LEFT					=	20;
 	public static final 	int				HALF_TEXT_HEIGHT					=	9;
+
+	// ----------- Display Item highlight options ----------- \\
+	public static final		int				OPTION_BOX_WIDTH					=	500;
+	public static final		int				OPTION_BOX_HEIGHT					=	SLOT_DISPLAY_SIZE/2;
+	public static final		int				OPTION_MARGIN_TOP					=	OPTION_BOX_HEIGHT/6;
+	public static final		int				OPTION_MARGIN_LEFT					=	60;
 }

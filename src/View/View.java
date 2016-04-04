@@ -37,11 +37,14 @@ public class View extends BasicGameState implements InputListener{
 
 	private RenderObject[] listToRender = {};
 	private InventoryRender[] inventoryToRender = {};
+	private int inventoryIndex = 0;
 
 	private int[] playerNeeds;
 
 	private boolean displayInventory = false;
 	private boolean displayPlayerNeeds = false;
+	private boolean displayPause = false;
+
 	private final Semaphore semaphore = new Semaphore(1);
 	private final Map<RenderObject.RENDER_OBJECT_ENUM, Image> resourceMap = new HashMap<>();
 	private final Map<Model.IItem.Type, Image> inventoryMap = new HashMap<>();
@@ -190,13 +193,29 @@ public class View extends BasicGameState implements InputListener{
 
 		if (displayInventory) {
 			int x,y;
+			int tilesPerRow, tilesPerColumn;
+			tilesPerColumn = tilesPerRow = (int)Math.sqrt(Constants.MAX_INVENTORY_SLOTS);
 			float lineWidth = Constants.GRID_LINE_WIDTH;
-			for (int i = 1; i < Math.sqrt(Constants.MAX_INVENTORY_SLOTS)+1; i++) {
-				for (int j = 1; j < Math.sqrt(Constants.MAX_INVENTORY_SLOTS)+1; j++) {
-					x=(int)(gameContainer.getWidth()/scaleGraphicsX)-Constants.SLOT_DISPLAY_SIZE*i;
-					y=(int)(gameContainer.getHeight()/scaleGraphicsY)-Constants.SLOT_DISPLAY_SIZE*j;
+			for (int i = tilesPerRow; i >= 1 ; i--) {
+				for (int j = tilesPerColumn; j >= 1; j--) {
+					x=(int)(gameContainer.getWidth()/scaleGraphicsX)-Constants.SLOT_DISPLAY_SIZE*j;
+					y=(int)(gameContainer.getHeight()/scaleGraphicsY)-Constants.SLOT_DISPLAY_SIZE*i;
 					graphics.setLineWidth(Constants.GRID_LINE_WIDTH);
 					graphics.drawRect(x-lineWidth, y-lineWidth, Constants.SLOT_DISPLAY_SIZE, Constants.SLOT_DISPLAY_SIZE);
+					if(inventoryIndex == (3-i)*tilesPerRow+(4-j)){
+						float optionStartX = gameContainer.getWidth()/scaleGraphicsX-tilesPerRow*Constants.SLOT_DISPLAY_SIZE-lineWidth-Constants.OPTION_BOX_WIDTH;
+						float optionStartY = gameContainer.getHeight()/scaleGraphicsY-Constants.SLOT_DISPLAY_SIZE/2;
+						int eatStringWidth = graphics.getFont().getWidth("c: Consume");
+						int dropStringWidth = graphics.getFont().getWidth("d: Drop");
+						int cancelStringWidth = graphics.getFont().getWidth("b: Back");
+						graphics.fillRect(x-lineWidth, y-lineWidth, Constants.SLOT_DISPLAY_SIZE, Constants.SLOT_DISPLAY_SIZE);
+						graphics.fillRect(optionStartX, optionStartY, Constants.OPTION_BOX_WIDTH, Constants.OPTION_BOX_HEIGHT);
+						graphics.setColor(Color.black);
+						graphics.drawString("c: Consume", optionStartX+Constants.OPTION_MARGIN_LEFT, optionStartY+Constants.OPTION_MARGIN_TOP);
+						graphics.drawString("d: Drop", optionStartX+Constants.OPTION_MARGIN_LEFT*2+eatStringWidth, optionStartY+Constants.OPTION_MARGIN_TOP);
+						graphics.drawString("b: Back", optionStartX+Constants.OPTION_MARGIN_LEFT*3+eatStringWidth+dropStringWidth, optionStartY+Constants.OPTION_MARGIN_TOP);
+						graphics.setColor(Color.white);
+					}
 				}
 			}
 
@@ -225,6 +244,14 @@ public class View extends BasicGameState implements InputListener{
 					j--;
 				}
 			}
+		}
+
+		if(displayPause){
+			float halfTextWidth = graphics.getFont().getWidth("Paused")/2;
+			float halfTextHeight = graphics.getFont().getHeight("Paused")/2;
+			float width = gameContainer.getWidth()/(2*scaleGraphicsX)-halfTextWidth;
+			float height = gameContainer.getHeight()/(2*scaleGraphicsY)-halfTextHeight;
+			graphics.drawString("Paused", width, height);
 		}
 		// ------------------------------------------ \\
 	}
@@ -342,4 +369,15 @@ public class View extends BasicGameState implements InputListener{
 		displayInventory = false;
 		displayPlayerNeeds = false;
 	}
+
+	public void togglePause(){
+		displayPause = !displayPause;
+	}
+
+
+	public void setItemInFocus(int index){
+		inventoryIndex = index;
+	}
+
+
 }

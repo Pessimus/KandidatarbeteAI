@@ -4,10 +4,9 @@ import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
 import Model.*;
 
-import java.util.EnumMap;
-import java.util.HashMap;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Tobias on 2016-03-29.
@@ -36,37 +35,56 @@ public class GatherState implements IState{
 			}
 		}
 
-		for(Map.Entry<IItem.Type, Integer> entry : itemMap.entrySet()){
-			if(entry.getValue() != null){
-				if(lowestAmount > entry.getValue()){
-					lowestAmount = entry.getValue();
-					lowestType = entry.getKey();
-				}
+		//for(Map.Entry<IItem.Type, Integer> entry : itemMap.entrySet()){
+		for(IItem.Type type : IItem.Type.values()){
+			System.out.println("---- BEGIN ----");
+			System.out.println(type);
+			System.out.println(itemMap.containsKey(type));
+			System.out.println(itemMap.get(type));
+			System.out.println("---- END ----");
+
+			if(itemMap.get(type) == null){
+				itemMap.put(type, 0);
+				lowestType = type;
+				lowestAmount = 0;
+			} else if(itemMap.get(type) < lowestAmount){
+				lowestType = type;
+				lowestAmount = itemMap.get(type);
 			}
 		}
 
-		switch (lowestType){
-			case CROPS_ITEM:
-				brain.getClosestResourcePoint(IResource.ResourceType.CROPS);
-				brain.queueState(brain.getGatherCropsState());
-				break;
-			case MEAT_ITEM:
-				brain.queueState(brain.getGatherMeatState());
-				break;
-			case FISH_ITEM:
-				brain.queueState(brain.getGatherFishState());
-				break;
-			case WATER_ITEM:
-				brain.queueState(brain.getGatherWaterState());
-				break;
-			case WOOD_ITEM:
-				brain.queueState(brain.getGatherWoodState());
-				break;
-			default:
-				brain.queueState(brain.getIdleState());
-				break;
+		if(lowestType == null){
+			brain.queueState(brain.getIdleState());
+		} else {
+			switch (lowestType) {
+				case MEAT_ITEM:
+				case FISH_ITEM:
+				case WATER_ITEM:
+				case WOOD_ITEM:
+				case CROPS_ITEM:
+					gatherResource("crops");
+					break;
+				default:
+					brain.queueState(brain.getIdleState());
+					break;
+			}
 		}
 
 		brain.setState(brain.getStateQueue().poll());
+	}
+
+	private void gatherResource(String resource){
+		Point p = brain.getClosestResourcePoint(resource);
+		if(p == null){
+			Random r = new Random();
+			p = new Point(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
+			brain.findPathTo(p.getX(), p.getY());
+			brain.queueState(brain.getMovingState());
+			brain.queueState(brain.getGatherState());
+		} else {
+			brain.findPathTo(p.getX(), p.getY());
+			brain.queueState(brain.getMovingState());
+			brain.queueState(brain.getGatherCropsState());
+		}
 	}
 }

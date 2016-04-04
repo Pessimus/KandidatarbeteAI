@@ -11,6 +11,8 @@ import java.awt.image.renderable.RenderableImage;
 import java.util.*;
 import java.util.List;
 
+import static Toolkit.UniversalStaticMethods.distanceBetweenPoints;
+
 /**
  * Created by Gustav on 2016-03-23.
  */
@@ -244,6 +246,10 @@ public class ArtificialBrain implements AbstractBrain {
 		return path;
 	}
 
+	public void setPath(LinkedList<PathStep> newPath) {
+		path = newPath;
+	}
+
 	public void findPathTo(double destX, double destY) {
 		path = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), destX, destY);
 	}
@@ -260,13 +266,45 @@ public class ArtificialBrain implements AbstractBrain {
 		return resourceMemory;
 	}
 
-	public Point getClosestResourcePoint(IResource.ResourceType type){
-		int x = -1;
-		int y = -1;
+	public Point getClosestResourcePoint(String type){
+		List<ICollidable> surround = getBody().getSurroundings();
+		ResourcePoint closest = null;
+		double closestDistance = Integer.MAX_VALUE;
 
-		// TODO: Find closest ResourcePoint of desired resource
+		for (ICollidable temp : surround) {
+			if(temp.getClass().equals(ResourcePoint.class)){
+				ResourcePoint tempPoint = (ResourcePoint) temp;
+				if(tempPoint.getResourceName().toLowerCase().equals(type.toLowerCase())) {
+					double d = closestDistance = distanceBetweenPoints(getBody().getX(), getBody().getY(), tempPoint.getX(), tempPoint.getY());
+					if (d < closestDistance) {
+						closest = tempPoint;
+						closestDistance = d;
+					}
+				}
+			}
+		}
 
-		return new Point(x, y);
+		System.out.println(resourceMemory.size());
+
+		if(closest == null){
+			for(ResourcePoint temp : resourceMemory){
+				if(temp.getResourceName().toLowerCase().equals(type.toLowerCase())) {
+					double d = distanceBetweenPoints(getBody().getX(), getBody().getY(), temp.getX(), temp.getY());
+					if (d < closestDistance) {
+						closest = temp;
+						closestDistance = d;
+					}
+				}
+			}
+		}
+
+		if(closest == null){
+			// TODO: Find a resource even if it isn't close by, or in your memory
+			System.out.println("Null point");
+			return null;
+		} else{
+			return new Point((int)closest.getX(), (int)closest.getY());
+		}
 	}
 
 	//Gives the AI a new path, probably redundant method. Only for testing purposes.

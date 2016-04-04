@@ -27,7 +27,13 @@ public class DrinkState implements IState{
 	public void run() {
 		if(waiting){
 			if((waitUpdates = (++waitUpdates % Constants.DRINK_STATE_TIME)) == 0) {
+				System.out.println("DRINKING");
+				System.out.println(brain.getBody().getNeeds()[1]);
+
 				brain.getBody().consumeItem(bestIndex);
+
+				System.out.println("DRINKING");
+				System.out.println(brain.getBody().getNeeds()[1]);
 
 				waiting = false;
 				bestIndex = -1;
