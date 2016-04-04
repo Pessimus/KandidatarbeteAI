@@ -78,9 +78,9 @@ public class ArtificialBrain implements AbstractBrain {
 
 		currentState.run();
 
-		//System.out.println("Hunger: " + needs[0]);
-		//System.out.println("Thirst: " + needs[1]);
-		//System.out.println("Energy: " + needs[2]);
+		System.out.println("Hunger: " + needs[0]);
+		System.out.println("Thirst: " + needs[1]);
+		System.out.println("Energy: " + needs[2]);
 		System.out.println(currentState);
 		System.out.println(body.getInventory());
 
