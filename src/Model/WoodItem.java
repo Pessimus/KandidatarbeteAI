@@ -51,6 +51,11 @@ public class WoodItem implements IItem {
 			rhs.changeEnergy(Constants.WOOD_ENERGY_CHANGE_CONSUME);
 			rhs.changeThirst(Constants.WOOD_THIRST_CHANGE_CONSUME);
 			amount--;
+		}else if(amount == 1) {
+			rhs.changeHunger(Constants.WOOD_HUNGER_CHANGE_CONSUME);
+			rhs.changeEnergy(Constants.WOOD_ENERGY_CHANGE_CONSUME);
+			rhs.changeThirst(Constants.WOOD_THIRST_CHANGE_CONSUME);
+			rhs.removeFromInventory(this);
 		}else{
 			rhs.removeFromInventory(this);
 		}

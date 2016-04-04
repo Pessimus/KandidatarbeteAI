@@ -51,7 +51,12 @@ public class GoldItem implements IItem {
             rhs.changeEnergy(Constants.GOLD_ENERGY_CHANGE_CONSUME);
             rhs.changeThirst(Constants.GOLD_THIRST_CHANGE_CONSUME);
             amount--;
-        }else{
+        }else if(amount == 1){
+			rhs.changeHunger(Constants.GOLD_HUNGER_CHANGE_CONSUME);
+			rhs.changeEnergy(Constants.GOLD_ENERGY_CHANGE_CONSUME);
+			rhs.changeThirst(Constants.GOLD_THIRST_CHANGE_CONSUME);
+			rhs.removeFromInventory(this);
+		}else {
             rhs.removeFromInventory(this);
         }
 	}

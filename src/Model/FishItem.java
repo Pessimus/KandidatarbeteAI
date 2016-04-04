@@ -51,7 +51,12 @@ public class FishItem implements IItem {
 			rhs.changeEnergy(Constants.FISH_ENERGY_CHANGE_CONSUME);
 			rhs.changeThirst(Constants.FISH_THIRST_CHANGE_CONSUME);
 			amount--;
-		}else{
+		}else if (amount == 1){
+			rhs.changeHunger(Constants.FISH_HUNGER_CHANGE_CONSUME);
+			rhs.changeEnergy(Constants.FISH_ENERGY_CHANGE_CONSUME);
+			rhs.changeThirst(Constants.FISH_THIRST_CHANGE_CONSUME);
+			rhs.removeFromInventory(this);
+		}else {
 			rhs.removeFromInventory(this);
 		}
 	}

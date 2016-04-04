@@ -51,6 +51,11 @@ public class StoneItem implements IItem {
 			rhs.changeEnergy(Constants.STONE_ENERGY_CHANGE_CONSUME);
 			rhs.changeThirst(Constants.STONE_THIRST_CHANGE_CONSUME);
 			amount--;
+		}else if(amount == 1) {
+			rhs.changeHunger(Constants.STONE_HUNGER_CHANGE_CONSUME);
+			rhs.changeEnergy(Constants.STONE_ENERGY_CHANGE_CONSUME);
+			rhs.changeThirst(Constants.STONE_THIRST_CHANGE_CONSUME);
+			rhs.removeFromInventory(this);
 		}else{
 			rhs.removeFromInventory(this);
 		}
