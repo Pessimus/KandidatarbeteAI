@@ -568,4 +568,5 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		}
 	}
 
+
 }

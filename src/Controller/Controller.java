@@ -37,7 +37,7 @@ public class Controller implements PropertyChangeListener {
 	private int gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
 
 	private boolean playerViewCentered = true;
-
+	private int itemHighlighted = -1;
 
 
 	//-----------------View variables-------------------\\
@@ -285,58 +285,97 @@ public class Controller implements PropertyChangeListener {
 						case Input.KEY_E:
 							player.consume();
 							break;
+						case Input.KEY_B:
+							if (playerViewCentered && showingPlayerInventory) {
+								itemHighlighted = -1;
+								gameView.highlightInventoryItem(0);
+							}
+							break;
+						case Input.KEY_C:
+							if (playerViewCentered && showingPlayerInventory && itemHighlighted >= 0) {
+								player.getBody().consumeItem(itemHighlighted);
+							}
+							break;
+						case Input.KEY_D:
+							if (playerViewCentered && showingPlayerInventory && itemHighlighted >= 0) {
+								player.getBody().getInventory().remove(itemHighlighted);}
+							break;
 						case Input.KEY_1:
 							if (playerViewCentered && showingPlayerInventory) {
-								player.getBody().consumeItem(0);
+								if(player.getBody().getInventory().size() >= 1){
+									gameView.highlightInventoryItem(1);
+									itemHighlighted = 0;
+								}
 							}else{
 								gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
 							}
 							break;
 						case Input.KEY_2:
 							if (playerViewCentered && showingPlayerInventory) {
-								player.getBody().consumeItem(1);
+								if(player.getBody().getInventory().size() >= 2){
+									gameView.highlightInventoryItem(2);
+									itemHighlighted = 1;
+								}
 							}else{
 								gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_FASTER;
 							}
 							break;
 						case Input.KEY_3:
 							if(playerViewCentered && showingPlayerInventory){
-								player.getBody().consumeItem(2);
+								if(player.getBody().getInventory().size() >= 3){
+									gameView.highlightInventoryItem(3);
+									itemHighlighted = 2;
+								}
 							}else{
 								gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_FASTEST;
 							}
 							break;
 						case Input.KEY_4:
 							if(playerViewCentered && showingPlayerInventory){
-								player.getBody().consumeItem(3);
+								if(player.getBody().getInventory().size() >= 4){
+									gameView.highlightInventoryItem(4);
+									itemHighlighted = 3;
+								}
 							}
 							break;
 						case Input.KEY_5:
 							if(playerViewCentered && showingPlayerInventory){
-								player.getBody().consumeItem(4);
+								if(player.getBody().getInventory().size() >= 5){
+									gameView.highlightInventoryItem(5);
+									itemHighlighted = 4;
+								}
 							}
 							break;
 						case Input.KEY_6:
 							if(playerViewCentered && showingPlayerInventory){
-								player.getBody().consumeItem(5);
+								if(player.getBody().getInventory().size() >= 6){
+									gameView.highlightInventoryItem(6);
+									itemHighlighted = 5;
+								}
 							}
 
 							break;
 						case Input.KEY_7:
 							if(playerViewCentered && showingPlayerInventory){
-								player.getBody().consumeItem(6);
+								if(player.getBody().getInventory().size() >= 7){
+									gameView.highlightInventoryItem(7);
+									itemHighlighted = 6;
+								}
 							}
 
 							break;
 						case Input.KEY_8:
-							if(playerViewCentered && showingPlayerInventory){
-								player.getBody().consumeItem(7);
+							if(player.getBody().getInventory().size() >= 8){
+								gameView.highlightInventoryItem(8);
+								itemHighlighted = 7;
 							}
-
 							break;
 						case Input.KEY_9:
 							if(playerViewCentered && showingPlayerInventory){
-								player.getBody().consumeItem(8);
+								if(player.getBody().getInventory().size() >= 9){
+									gameView.highlightInventoryItem(9);
+									itemHighlighted = 8;
+								}
 							}
 							break;
 					}
@@ -365,6 +404,8 @@ public class Controller implements PropertyChangeListener {
 									System.out.println("Showing player inventory");
 								} else {
 									gameView.hidePlayerInventory();
+									gameView.highlightInventoryItem(0);
+									itemHighlighted = -1;
 								}
 							}else{
 								showingPlayerInventory = false;
@@ -376,6 +417,8 @@ public class Controller implements PropertyChangeListener {
 							if(!playerViewCentered && showingPlayerInventory){
 								showingPlayerInventory = false;
 								gameView.hidePlayerInventory();
+								gameView.highlightInventoryItem(0);
+								itemHighlighted = -1;
 							}
 							break;
 					}

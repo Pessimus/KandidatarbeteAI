@@ -3,7 +3,9 @@ package Controller.AIStates;
 import Controller.ArtificialBrain;
 import Model.Constants;
 import Model.ICollidable;
+import Model.ResourcePoint;
 import Toolkit.RenderObject;
+import Toolkit.UniversalStaticMethods;
 import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.lwjgl.Sys;
 
@@ -41,16 +43,29 @@ public class GatherCropsState implements IState {
 			}
 		} else {
 			List<ICollidable> surround = brain.getBody().getInteractables();
+			ICollidable closest = null;
 			int i = 0;
 			for (ICollidable temp : surround) {
-				// TODO: Don't use RENDER_OBJECT_ENUM, use Outcome in some way!!
-				if (temp.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.CROPS)) {
-					// TODO: Don't use RENDER_OBJECT_ENUM, use Outcome in some way!!
-					waiting = true;
-					bestIndex = i;
+				if(temp.getClass().equals(ResourcePoint.class)){
+					ResourcePoint tempPoint = (ResourcePoint) temp;
+					if(tempPoint.getResourceName().toLowerCase().equals("crops")) {
+						closest = temp;
+						bestIndex = i;
+						break;
+					}
 				}
 
 				i++;
+			}
+
+			if(closest != null){
+				waiting = true;
+			} else{
+				if (brain.getStateQueue().isEmpty()) {
+					brain.setState(brain.getIdleState());
+				} else {
+					brain.setState(brain.getStateQueue().poll());
+				}
 			}
 		}
 	}

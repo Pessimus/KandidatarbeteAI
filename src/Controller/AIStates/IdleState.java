@@ -25,10 +25,10 @@ public class IdleState implements IState {
 		// needs to be dealt with immediately
 		int minimumNeed = Math.min(Math.min(needsArray[0], needsArray[1]), needsArray[2]);
 
-		if(needsArray[0] == minimumNeed && needsArray[0] <= 15){
+		if(needsArray[0] == minimumNeed && needsArray[0] <= 95){
 			brain.setState(brain.getHungryState());
 		}
-		else if(needsArray[1] == minimumNeed && needsArray[1] <= 10){
+		else if(needsArray[1] == minimumNeed && needsArray[1] <= 90){
 			brain.setState(brain.getThirstyState());
 		}
 		else if(needsArray[2] == minimumNeed && needsArray[2] <= 10){
