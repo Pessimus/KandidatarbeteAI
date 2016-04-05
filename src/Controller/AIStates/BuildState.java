@@ -2,9 +2,7 @@ package Controller.AIStates;
 
 import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
-import Model.ICharacterHandle;
-import Model.IItem;
-import Model.IStructure;
+import Model.*;
 import Toolkit.RenderObject;
 
 /**
@@ -18,6 +16,7 @@ public class BuildState implements IState{
 	double cdy = 0;
 	double odx= 0;
 	double ody = 0;
+
 	public BuildState(ArtificialBrain brain){
 		this.brain = brain;
 	}
@@ -32,13 +31,20 @@ public class BuildState implements IState{
 				}
 			}
 			if(returns == false){
+				if (tuple.getResourceType() == IItem.Type.WOOD_ITEM) {
+					brain.setNextResourceToGather(IResource.ResourceType.WOOD);
+				}
+				if (tuple.getResourceType() == IItem.Type.STONE_ITEM) {
+					brain.setNextResourceToGather(IResource.ResourceType.STONE);
+				}
+				brain.queueState(brain.getGatherState());
 				return false;
 			} else{
 				returns = false;
 			}
 		}
 
-		return returns;
+		return true;
 	}
 
 	@Override
@@ -66,6 +72,10 @@ public class BuildState implements IState{
 
 		// IF WE DONT HAVE ENOUGH WOOD
 			//FIND WOOD AND GATHER
+		
+			if(!hasMaterials(brain.getNextStructureToBuild())) {
+				brain.setState(brain.getStateQueue().poll());
+			}
 			for(RenderObject o : brain.map.getRenderObjects()) {
 				if((o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.WOOD)) ||(o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.WOOD ))) {
 					if (closestWood == null) {
