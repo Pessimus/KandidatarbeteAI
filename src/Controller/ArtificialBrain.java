@@ -2,12 +2,15 @@ package Controller;
 
 import Controller.AIStates.*;
 import Model.*;
+import Model.Character;
 import Model.Constants;
 import Model.ICharacterHandle;
 
 //import java.awt.*;
 import java.awt.*;
 import java.awt.image.renderable.RenderableImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.*;
 import java.util.List;
 
@@ -16,12 +19,12 @@ import static Toolkit.UniversalStaticMethods.distanceBetweenPoints;
 /**
  * Created by Gustav on 2016-03-23.
  */
-public class ArtificialBrain implements AbstractBrain {
+public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private LinkedList<PathStep> path;
 
 	private IResource.ResourceType nextResourceToGather = null;
 
-	private final Queue<IState> stateQueue = new LinkedList<>();
+	private final Deque<IState> stateQueue = new LinkedList<>();
 
 	private ICharacterHandle body; // The character this Brain controls
 
@@ -101,37 +104,6 @@ public class ArtificialBrain implements AbstractBrain {
 
 			}
 		}
-		/*
-		if (exploring) {
-			if (path != null) {
-				if (path.isEmpty()) {
-					path = null;
-				} else if (path.getFirst().stepTowards(body)) {
-					path.removeFirst();
-				}
-			}
-		} else {
-			if (needs[0] <= needs[1] && needs[0] <= needs[2]) {
-				ResourcePoint closestResource = resourceMemory.get(0);
-				Point closestPoint = new Point((int) closestResource.getX(), (int) closestResource.getY());
-				double closestDistance = closestPoint.distance(body.getX(), body.getY());
-				for (ResourcePoint resource : resourceMemory) {
-					if (resource.getResourceName().equals("Meat") || resource.getResourceName().equals("Fish")) {
-						if (closestPoint.distance(resource.getX(), resource.getY()) < closestDistance) {
-							closestResource = resource;
-							closestPoint = new Point((int) closestResource.getX(), (int) closestResource.getY());
-							closestDistance = closestPoint.distance(resource.getX(), resource.getY());
-						}
-					}
-				}
-
-				if (closestResource == null) {
-					exploring = true;
-				} else {
-					path = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), closestPoint.getX(), closestPoint.getY());
-				}
-			}
-		}*/
 	}
 
 	@Override
@@ -304,8 +276,6 @@ public class ArtificialBrain implements AbstractBrain {
 			}
 		}
 
-		System.out.println(resourceMemory.size());
-
 		if(closest == null){
 			for(ResourcePoint temp : resourceMemory){
 				if(temp.getResourceName().toLowerCase().equals(type.toLowerCase())) {
@@ -320,11 +290,23 @@ public class ArtificialBrain implements AbstractBrain {
 
 		if(closest == null){
 			// TODO: Find a resource even if it isn't close by, or in your memory
-			System.out.println("Null point");
 			return null;
 		} else{
 			return new Point((int)closest.getX(), (int)closest.getY());
 		}
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if(evt.getPropertyName().equals("attacked")){
+			// TODO: Implement a proper response to being attacked
+		}
+		if(evt.getPropertyName().equals("interacted")){
+			Character other = (Character) evt.getNewValue();
+			// TODO: Another character has interacted with this one
+			// TODO: Implement how this interaction should proceed!
+		}
+
 	}
 
 	//Gives the AI a new path, probably redundant method. Only for testing purposes.

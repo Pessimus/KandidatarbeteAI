@@ -12,8 +12,8 @@ public class House implements IStructure {
     public static final StructureType structureType = StructureType.HOME;
 
     private static final StructureBuildingMaterialTuple[] buildingMaterials = new StructureBuildingMaterialTuple[]
-            {       new StructureBuildingMaterialTuple(IResource.ResourceType.WOOD, 10),
-                    new StructureBuildingMaterialTuple(IResource.ResourceType.STONE, 5)
+            {       new StructureBuildingMaterialTuple(IItem.Type.WOOD_ITEM, 10),
+                    new StructureBuildingMaterialTuple(IItem.Type.STONE_ITEM, 5)
             };
 
     private int capacity;

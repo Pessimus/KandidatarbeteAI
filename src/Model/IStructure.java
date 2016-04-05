@@ -13,15 +13,15 @@ public interface IStructure {
     }
 
     class StructureBuildingMaterialTuple{
-        private final IResource.ResourceType resourceType;
+        private final IItem.Type resourceType;
         private final int resourceAmount;
 
-        StructureBuildingMaterialTuple(IResource.ResourceType type, int amount){
+        StructureBuildingMaterialTuple(IItem.Type type, int amount){
             resourceType = type;
             resourceAmount = amount;
         }
 
-        public IResource.ResourceType getResourceType() {
+        public IItem.Type getResourceType() {
             return resourceType;
         }
 

@@ -3,6 +3,8 @@ package Controller.AIStates;
 import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
 import Model.ICharacterHandle;
+import Model.IItem;
+import Model.IStructure;
 import Toolkit.RenderObject;
 
 /**
@@ -20,6 +22,25 @@ public class BuildState implements IState{
 		this.brain = brain;
 	}
 
+	private boolean hasMaterials(IStructure structure){
+		boolean returns = false;
+
+		for (IStructure.StructureBuildingMaterialTuple tuple : structure.getBuildingMaterials()){
+			for(IItem item : brain.getBody().getInventory()){
+				if(item.getType().equals(tuple.getResourceType()) && item.getAmount() == tuple.getResourceAmount()){
+					returns = true;
+				}
+			}
+			if(returns == false){
+				return false;
+			} else{
+				returns = false;
+			}
+		}
+
+		return returns;
+	}
+
 	@Override
 	public void run() {
 		/*
@@ -31,7 +52,7 @@ public class BuildState implements IState{
 
 		/*
 		if(!brain.getBody().hasHome()){
-			if(!brain.getBody().hasMaterialFor(Structure.HOUSE)){
+			if(hasMaterials(Structure.HOUSE){
 				for(IResource.ResourceType type :
 			}
 		}

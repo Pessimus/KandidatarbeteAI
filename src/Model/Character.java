@@ -281,6 +281,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Character rhs){
+		pcs.firePropertyChange("interacted", null, rhs);
 		//TODO implement
 	}
 
