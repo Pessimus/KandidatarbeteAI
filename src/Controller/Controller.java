@@ -81,16 +81,12 @@ public class Controller implements PropertyChangeListener {
 
 				((Character)player.getBody()).godMode = true;
 
+				Random r = new Random();
 
-				Character character = gameModel.addCharacter(1100,1100,2);
-
-				//Character character1 = gameModel.addCharacter(1200,1100,3);
-				//Character character2 = gameModel.addCharacter(1300,1100,4);
-				aiMap.put(character, new ArtificialBrain(gameModel, character));
-				//aiMap.put(character1, new ArtificialBrain(gameModel, character1));
-				//aiMap.put(character2, new ArtificialBrain(gameModel, character2));
-
-				//this.gameModel.addFiniteResourcePoint(new Crops(5),1010,1010,5);
+				for(int i = 2; i < 3; i++) {
+					Character character = gameModel.addCharacter(r.nextInt(9600), r.nextInt(9600), i);
+					aiMap.put(character, new ArtificialBrain(gameModel, character));
+				}
 
 	}
 
@@ -310,7 +306,9 @@ public class Controller implements PropertyChangeListener {
 							break;
 						case Input.KEY_D:
 							if (playerViewCentered && showingPlayerInventory && itemHighlighted >= 0 && !gameModel.isPaused()) {
-								player.getBody().getInventory().remove(itemHighlighted);}
+								player.getBody().getInventory().remove(itemHighlighted);
+								itemHighlighted = -1;
+							}
 							break;
 						case Input.KEY_1:
 							if (playerViewCentered && showingPlayerInventory && !gameModel.isPaused()) {

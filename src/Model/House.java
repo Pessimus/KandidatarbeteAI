@@ -1,5 +1,8 @@
 package Model;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by Oskar on 2016-04-01.
  */
@@ -7,6 +10,11 @@ public class House implements IStructure {
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
     public static final StructureType structureType = StructureType.HOME;
+
+    private static final StructureBuildingMaterialTuple[] buildingMaterials = new StructureBuildingMaterialTuple[]
+            {       new StructureBuildingMaterialTuple(IResource.ResourceType.WOOD, 10),
+                    new StructureBuildingMaterialTuple(IResource.ResourceType.STONE, 5)
+            };
 
     private int capacity;
     private int occupants;
@@ -18,6 +26,11 @@ public class House implements IStructure {
      * @param capacity the max capacity of occupants in the house.
      */
     public House(int capacity){this.capacity=capacity; }
+
+    @Override
+    public StructureBuildingMaterialTuple[] getBuildingMaterials() {
+        return buildingMaterials;
+    }
 
     @Override
     public StructureType getStructureType() {
