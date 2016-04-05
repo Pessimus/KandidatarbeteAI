@@ -1,7 +1,5 @@
 package Controller.AIStates;
 
-import Model.ICharacterHandle;
-
 /**
  * Created by Tobias on 2016-03-29.
  */

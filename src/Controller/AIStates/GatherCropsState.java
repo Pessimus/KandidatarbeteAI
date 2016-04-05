@@ -1,9 +1,7 @@
 package Controller.AIStates;
 
 import Controller.ArtificialBrain;
-import Model.Constants;
-import Model.ICollidable;
-import Model.ResourcePoint;
+import Model.*;
 import Toolkit.RenderObject;
 import Toolkit.UniversalStaticMethods;
 import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
@@ -43,13 +41,11 @@ public class GatherCropsState implements IState {
 			}
 		} else {
 			List<ICollidable> surround = brain.getBody().getInteractables();
-			ICollidable closest = null;
 			int i = 0;
 			for (ICollidable temp : surround) {
 				if(temp.getClass().equals(ResourcePoint.class)){
 					ResourcePoint tempPoint = (ResourcePoint) temp;
-					if(tempPoint.getResourceName().toLowerCase().equals("crops")) {
-						closest = temp;
+					if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.CROPS)) {
 						bestIndex = i;
 						break;
 					}
@@ -58,7 +54,7 @@ public class GatherCropsState implements IState {
 				i++;
 			}
 
-			if(closest != null){
+			if(bestIndex > 0){
 				waiting = true;
 			} else{
 				if (brain.getStateQueue().isEmpty()) {

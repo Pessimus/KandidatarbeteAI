@@ -3,6 +3,8 @@ package Controller.AIStates;
 import Controller.ArtificialBrain;
 import Model.Constants;
 import Model.ICollidable;
+import Model.IResource;
+import Model.ResourcePoint;
 import Toolkit.RenderObject;
 import org.lwjgl.Sys;
 
@@ -42,14 +44,25 @@ public class GatherWaterState implements IState {
 			List<ICollidable> surround = brain.getBody().getInteractables();
 			int i = 0;
 			for (ICollidable temp : surround) {
-				// TODO: Don't use RENDER_OBJECT_ENUM, use Outcome in some way!!
-				if (temp.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.LAKE)) {
-					// TODO: Don't use RENDER_OBJECT_ENUM, use Outcome in some way!!
-					waiting = true;
-					bestIndex = i;
+				if(temp.getClass().equals(ResourcePoint.class)){
+					ResourcePoint tempPoint = (ResourcePoint) temp;
+					if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.WATER)) {
+						bestIndex = i;
+						break;
+					}
 				}
 
 				i++;
+			}
+
+			if(bestIndex > 0){
+				waiting = true;
+			} else{
+				if (brain.getStateQueue().isEmpty()) {
+					brain.setState(brain.getIdleState());
+				} else {
+					brain.setState(brain.getStateQueue().poll());
+				}
 			}
 		}
 	}

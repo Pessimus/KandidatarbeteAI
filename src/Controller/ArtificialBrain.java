@@ -98,14 +98,21 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 		currentState.run();
 
-		body.getInventory().stream().forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));
+		body.getInventory().stream()
+				.forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));
 
 		System.out.println("\nHunger: " + needs[0]);
 		System.out.println("Thirst: " + needs[1]);
 		System.out.println("Energy: " + needs[2]);
 		System.out.println(currentState);
-		//System.out.println(body.getInventory());
 
+		body.getSurroundings().stream()
+				.filter(o -> o.getClass()
+				.equals(ResourcePoint.class))
+				.map(o -> (ResourcePoint)o)
+				.filter(o -> !resourceMemory.contains(o))
+				.forEach(resourceMemory::add);
+		/*
 		for (ICollidable object : body.getSurroundings()) {
 			if (object.getClass().equals(ResourcePoint.class)) {
 				ResourcePoint resource = (ResourcePoint) object;
@@ -115,6 +122,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 			}
 		}
+		*/
 	}
 
 	@Override
@@ -320,17 +328,24 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			RenderObject.RENDER_OBJECT_ENUM objectEnum = null;
 
 			switch (type){
+				case MEAT:
+					//objectEnum = RenderObject.RENDER_OBJECT_ENUM.ANIMAL;
+					break;
 				case CROPS:
 					objectEnum = RenderObject.RENDER_OBJECT_ENUM.CROPS;
 					break;
+				case FISH:
 				case WATER:
 					objectEnum = RenderObject.RENDER_OBJECT_ENUM.LAKE;
 					break;
 				case WOOD:
 					objectEnum = RenderObject.RENDER_OBJECT_ENUM.WOOD;
 					break;
+				case GOLD:
+					//objectEnum = RenderObject.RENDER_OBJECT_ENUM.GOLD;
+					break;
 				case STONE:
-					objectEnum = RenderObject.RENDER_OBJECT_ENUM.STONE;
+					//objectEnum = RenderObject.RENDER_OBJECT_ENUM.STONE;
 					break;
 			}
 
@@ -367,13 +382,6 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			// TODO: Implement how this interaction should proceed!
 		}
 
-	}
-
-	public void gatherResource(IResource.ResourceType resource){
-		switch (resource){
-			case WOOD:
-				break;
-		}
 	}
 
 	//Gives the AI a new path, probably redundant method. Only for testing purposes.

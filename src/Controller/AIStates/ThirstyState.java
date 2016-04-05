@@ -39,16 +39,6 @@ public class ThirstyState implements IState {
 			switch (current.getType()) {
 				case WATER_ITEM:
 					best = current;
-				/*
-				if(best == null){
-					best = current;
-					thirstAmount = best.getOutcome().getThirst();
-				}
-				else if(current.getOutcome().getThirst() > best.getOutcome().getThirst()){
-					best = current;
-					thirstAmount = best.getOutcome().getThirst();
-				}
-				*/
 					break loop;
 			}
 		}

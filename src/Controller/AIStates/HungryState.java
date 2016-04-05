@@ -30,6 +30,8 @@ public class HungryState implements IState {
 		loop:while(iterator.hasNext()){
 			IItem current = iterator.next();
 			switch (current.getType()) {
+				case FISH_ITEM:
+				case MEAT_ITEM:
 				case CROPS_ITEM: //TODO: CHANGE FISH TO FOOD
 					best = current;
 					break loop;

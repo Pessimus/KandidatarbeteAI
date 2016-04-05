@@ -31,9 +31,7 @@ public class IdleState implements IState {
 			if(needsArray[0] == minimumNeed && needsArray[0] <= 15){
 				brain.setState(brain.getHungryState());
 			}
-
 			else if(needsArray[1] == minimumNeed && needsArray[1] <= 99){
-
 				brain.setState(brain.getThirstyState());
 			}
 			else if (needsArray[2] == minimumNeed && needsArray[2] <= 10){

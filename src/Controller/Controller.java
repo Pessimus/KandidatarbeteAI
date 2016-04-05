@@ -460,7 +460,7 @@ public class Controller implements PropertyChangeListener {
 					if(clicks[1] == Input.MOUSE_LEFT_BUTTON){
 						//The left mouse button was pressed.
 						//TODO WHAT SHOULD BE DONE HERE?!
-						float[] tempFloats = convertFromViewToModelCoords(clicks[2]/(float)Constants.GRAPHICS_SCALE_X, clicks[3]/(float)Constants.GRAPHICS_SCALE_Y);
+						float[] tempFloats = convertFromViewToModelCoords((clicks[2]/(float)Constants.GRAPHICS_SCALE_X)/Constants.ZOOM_LEVEL, (clicks[3]/(float)Constants.GRAPHICS_SCALE_Y)/Constants.ZOOM_LEVEL);
 						player.moveToMouse(tempFloats[0], tempFloats[1]);
 					}
 

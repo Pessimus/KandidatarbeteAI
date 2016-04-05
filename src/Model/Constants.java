@@ -13,11 +13,11 @@ public final class Constants {
 	// ----------- Controller Constants ----------- \\
 
 
-	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2;
+	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2;
 
 	//Zoom level not final
-	public static 				int			ZOOM_LEVEL							= 	2;
+	public static 				int			ZOOM_LEVEL							= 	1;
 	public static final			int			FONT_SIZE							=	18;
 
 	//Temp constant for the scalar in controller
