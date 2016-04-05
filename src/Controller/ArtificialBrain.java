@@ -103,7 +103,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		System.out.println("\nHunger: " + needs[0]);
 		System.out.println("Thirst: " + needs[1]);
 		System.out.println("Energy: " + needs[2]);
-		System.out.println(currentState);
+		System.out.println(getStateQueue());
 		//System.out.println(body.getInventory());
 
 		for (ICollidable object : body.getSurroundings()) {
