@@ -51,11 +51,11 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private IState eatState = new EatState(this);
 	private IState gatherCropsState = new GatherCropsState(this);
 	private IState gatherFishState = new GatherFishState(this);
-	private IState gatherMaterialState = new GatherMaterialState(this);
 	private IState gatherMeatState = new GatherMeatState(this);
 	private IState gatherWaterState = new GatherWaterState(this);
 	private IState gatherWoodState = new GatherWoodState(this);
-	private IState gatherStoneState = new GatherWoodState(this);
+	private IState gatherGoldState = new GatherGoldState(this);
+	private IState gatherStoneState = new GatherStoneState(this);
 	private IState gatherState = new GatherState(this);
 	private IState hungryState = new HungryState(this);
 	private IState idleState = new IdleState(this);
@@ -98,9 +98,9 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 		currentState.run();
 
-		//body.getInventory().stream().forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));
+		body.getInventory().stream().forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));
 
-		System.out.println("Hunger: " + needs[0]);
+		System.out.println("\nHunger: " + needs[0]);
 		System.out.println("Thirst: " + needs[1]);
 		System.out.println("Energy: " + needs[2]);
 		System.out.println(currentState);
@@ -169,10 +169,6 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return gatherFishState;
 	}
 
-	public IState getGatherMaterialState() {
-		return gatherMaterialState;
-	}
-
 	public IState getGatherMeatState() {
 		return gatherMeatState;
 	}
@@ -227,6 +223,10 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	public IState getGatherStoneState() {
 		return gatherStoneState;
+	}
+
+	public IState getGatherGoldState() {
+		return gatherGoldState;
 	}
 
 	public IResource.ResourceType getNextResourceToGather() {

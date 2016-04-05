@@ -51,8 +51,9 @@ public class GatherState implements IState{
 		}
 
 		if (lowestType == null) {
-			brain.queueState(brain.getIdleState());
+			brain.stackState(brain.getIdleState());
 		} else {
+			System.out.println(lowestType);
 			switch (lowestType) {
 				case MEAT_ITEM:
 					brain.setNextResourceToGather(IResource.ResourceType.MEAT);
@@ -77,7 +78,7 @@ public class GatherState implements IState{
 					break;
 			}
 
-			brain.queueState(brain.getGatherState());
+			brain.stackState(brain.getGatherState());
 		}
 	}
 
@@ -189,8 +190,9 @@ public class GatherState implements IState{
 					}
 					break;
 			}
+
+			brain.setNextResourceToGather(null);
 		}
-		brain.setNextResourceToGather(null);
 		brain.setState(brain.getStateQueue().poll());
 	}
 }
