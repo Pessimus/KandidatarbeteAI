@@ -53,6 +53,11 @@ public class ThirstyState implements IState {
 			}
 		}
 		if (best == null) {
+			brain.setNextResourceToGather(IResource.ResourceType.WATER);
+			brain.queueState(brain.getGatherState());
+			brain.queueState(brain.getDrinkState());
+			brain.setState(brain.getStateQueue().poll());
+			/*
 			// TODO: Pathfinding to nearest/best food-resource
 			// TODO: Queue MovingState correctly
 			for (RenderObject o : brain.map.getRenderObjects()) {
@@ -74,6 +79,7 @@ public class ThirstyState implements IState {
 			brain.queueState(brain.getGatherWaterState());
 			brain.queueState(brain.getDrinkState());
 			brain.setState(brain.getStateQueue().poll());
+			*/
 
 		}
 		else{

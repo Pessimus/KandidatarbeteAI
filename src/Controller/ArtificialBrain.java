@@ -5,6 +5,7 @@ import Model.*;
 import Model.Character;
 import Model.Constants;
 import Model.ICharacterHandle;
+import Toolkit.*;
 
 //import java.awt.*;
 import java.awt.*;
@@ -13,6 +14,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static Toolkit.UniversalStaticMethods.distanceBetweenPoints;
 
@@ -20,6 +23,13 @@ import static Toolkit.UniversalStaticMethods.distanceBetweenPoints;
  * Created by Gustav on 2016-03-23.
  */
 public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
+	// ---------------DEBUG VARIABLE-------------- \\
+	private static final boolean USE_MEMORY = false;
+	// ---------------------------------------------\\
+
+
+
+
 	private LinkedList<PathStep> path;
 
 	private IResource.ResourceType nextResourceToGather = null;
@@ -88,12 +98,13 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 		currentState.run();
 
+		//body.getInventory().stream().forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));
 
-		/*System.out.println("Hunger: " + needs[0]);
+		System.out.println("Hunger: " + needs[0]);
 		System.out.println("Thirst: " + needs[1]);
 		System.out.println("Energy: " + needs[2]);
 		System.out.println(currentState);
-		System.out.println(body.getInventory());*/
+		//System.out.println(body.getInventory());
 
 		for (ICollidable object : body.getSurroundings()) {
 			if (object.getClass().equals(ResourcePoint.class)) {
@@ -254,45 +265,94 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		stateQueue.offer(state);
 	}
 
+	public void stackState(IState state) {
+		stateQueue.push(state);
+	}
+
 	public List<ResourcePoint> getResourceMemory() {
 		return resourceMemory;
 	}
 
-	public Point getClosestResourcePoint(String type){
-		List<ICollidable> surround = getBody().getSurroundings();
-		ResourcePoint closest = null;
-		double closestDistance = Integer.MAX_VALUE;
+	public Point getClosestResourcePoint(IResource.ResourceType type){
+		if(USE_MEMORY) {
+			List<ICollidable> surround = getBody().getSurroundings();
+			ResourcePoint closest = null;
+			double closestDistance = Integer.MAX_VALUE;
 
-		for (ICollidable temp : surround) {
-			if(temp.getClass().equals(ResourcePoint.class)){
-				ResourcePoint tempPoint = (ResourcePoint) temp;
-				if(tempPoint.getResourceName().toLowerCase().equals(type.toLowerCase())) {
-					double d = closestDistance = distanceBetweenPoints(getBody().getX(), getBody().getY(), tempPoint.getX(), tempPoint.getY());
-					if (d < closestDistance) {
-						closest = tempPoint;
-						closestDistance = d;
+			for (ICollidable temp : surround) {
+				if (temp.getClass().equals(ResourcePoint.class)) {
+					ResourcePoint tempPoint = (ResourcePoint) temp;
+					if (tempPoint.getResource().getResourceType().equals(type)) {
+						double d = closestDistance = distanceBetweenPoints(getBody().getX(), getBody().getY(), tempPoint.getX(), tempPoint.getY());
+						if (d < closestDistance) {
+							closest = tempPoint;
+							closestDistance = d;
+						}
 					}
 				}
 			}
-		}
 
-		if(closest == null){
-			for(ResourcePoint temp : resourceMemory){
-				if(temp.getResourceName().toLowerCase().equals(type.toLowerCase())) {
-					double d = distanceBetweenPoints(getBody().getX(), getBody().getY(), temp.getX(), temp.getY());
-					if (d < closestDistance) {
-						closest = temp;
-						closestDistance = d;
+			if (closest == null) {
+				for (ResourcePoint temp : resourceMemory) {
+					if (temp.getResource().getResourceType().equals(type)) {
+						double d = distanceBetweenPoints(getBody().getX(), getBody().getY(), temp.getX(), temp.getY());
+						if (d < closestDistance) {
+							closest = temp;
+							closestDistance = d;
+						}
 					}
 				}
 			}
-		}
 
-		if(closest == null){
-			// TODO: Find a resource even if it isn't close by, or in your memory
-			return null;
-		} else{
-			return new Point((int)closest.getX(), (int)closest.getY());
+			if (closest == null) {
+				// TODO: Find a resource even if it isn't close by, or in your memory
+				return null;
+			} else {
+				return new Point((int) closest.getX(), (int) closest.getY());
+			}
+		}
+		else{
+			RenderObject closestCrop = null;
+			double closestDistance = Float.MAX_VALUE;
+			double odx;
+			double ody;
+
+			RenderObject.RENDER_OBJECT_ENUM objectEnum = null;
+
+			switch (type){
+				case CROPS:
+					objectEnum = RenderObject.RENDER_OBJECT_ENUM.CROPS;
+					break;
+				case WATER:
+					objectEnum = RenderObject.RENDER_OBJECT_ENUM.LAKE;
+					break;
+				case WOOD:
+					objectEnum = RenderObject.RENDER_OBJECT_ENUM.WOOD;
+					break;
+				case STONE:
+					objectEnum = RenderObject.RENDER_OBJECT_ENUM.STONE;
+					break;
+			}
+
+
+			for(RenderObject o : map.getRenderObjects()) {
+				if(o.getRenderType().equals(objectEnum)) {
+					if (closestCrop == null) {
+						closestCrop = o;
+						closestDistance = UniversalStaticMethods.distanceBetweenPoints(getBody().getX(), getBody().getY(), o.getX(), o.getY());
+					} else {
+						odx = Math.abs(getBody().getX() - o.getX());
+						ody = Math.abs(getBody().getY() - o.getY());
+						double distance = Math.sqrt(odx) + Math.sqrt(ody);
+						if (closestDistance > distance) {
+							closestCrop = o;
+							closestDistance = distance;
+						}
+					}
+				}
+			}
+
+			return new Point((int)closestCrop.getX(), (int)closestCrop.getY());
 		}
 	}
 
@@ -307,6 +367,13 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			// TODO: Implement how this interaction should proceed!
 		}
 
+	}
+
+	public void gatherResource(IResource.ResourceType resource){
+		switch (resource){
+			case WOOD:
+				break;
+		}
 	}
 
 	//Gives the AI a new path, probably redundant method. Only for testing purposes.

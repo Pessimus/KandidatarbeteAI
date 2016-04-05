@@ -30,7 +30,8 @@ public interface IResource {
 		STONE,
 		FISH,
 		CROPS,
-		MEAT
+		MEAT,
+		FOOD
 	}
 
 	/**

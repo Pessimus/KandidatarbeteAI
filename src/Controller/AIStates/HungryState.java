@@ -32,21 +32,17 @@ public class HungryState implements IState {
 			switch (current.getType()) {
 				case CROPS_ITEM: //TODO: CHANGE FISH TO FOOD
 					best = current;
-					/*
-					if(best == null){
-						best = current;
-						thirstAmount = best.getOutcome().getThirst();
-					}
-					else if(best.getOutcome().getThirst() > thirstAmount){
-						best = current;
-						thirstAmount = best.getOutcome().getThirst();
-					}
-					*/
 					break loop;
 			}
 		}
 
 		if(best == null){
+			brain.setNextResourceToGather(IResource.ResourceType.FOOD);
+			brain.queueState(brain.getGatherState());
+			brain.queueState(brain.getEatState());
+			brain.setState(brain.getStateQueue().poll());
+
+			/*
 			// TODO: Pathfinding to nearest/best food-resource
 			// TODO: Queue MovingState correctly
 			//TODO: Add different kinds of foods to look for and gather
@@ -70,6 +66,7 @@ public class HungryState implements IState {
 			brain.queueState(brain.getGatherCropsState());
 			brain.queueState(brain.getEatState());
 			brain.setState(brain.getStateQueue().poll());
+			*/
 		}
 		else{
 			brain.setState(brain.getEatState());

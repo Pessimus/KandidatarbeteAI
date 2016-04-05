@@ -81,10 +81,13 @@ public class Controller implements PropertyChangeListener {
 
 				((Character)player.getBody()).godMode = true;
 
+				Character character = gameModel.addCharacter(1100, 1100, 2);
+				aiMap.put(character, new ArtificialBrain(gameModel, character));
+
 				Random r = new Random();
 
-				for(int i = 2; i < 3; i++) {
-					Character character = gameModel.addCharacter(r.nextInt(9600), r.nextInt(9600), i);
+				for(int i = 3; i < 1; i++) {
+					character = gameModel.addCharacter(r.nextInt(9600), r.nextInt(9600), i);
 					aiMap.put(character, new ArtificialBrain(gameModel, character));
 				}
 

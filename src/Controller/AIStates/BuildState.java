@@ -18,6 +18,7 @@ public class BuildState implements IState{
 	double cdy = 0;
 	double odx= 0;
 	double ody = 0;
+
 	public BuildState(ArtificialBrain brain){
 		this.brain = brain;
 	}
@@ -27,7 +28,7 @@ public class BuildState implements IState{
 
 		for (IStructure.StructureBuildingMaterialTuple tuple : structure.getBuildingMaterials()){
 			for(IItem item : brain.getBody().getInventory()){
-				if(item.getType().equals(tuple.getResourceType()) && item.getAmount() == tuple.getResourceAmount()){
+				if(item.getType().equals(tuple.getResourceType()) && item.getAmount() >= tuple.getResourceAmount()){
 					returns = true;
 				}
 			}
@@ -38,7 +39,7 @@ public class BuildState implements IState{
 			}
 		}
 
-		return returns;
+		return true;
 	}
 
 	@Override
@@ -52,7 +53,7 @@ public class BuildState implements IState{
 
 		/*
 		if(!brain.getBody().hasHome()){
-			if(hasMaterials(Structure.HOUSE){
+			if(hasMaterials(Structure.HOUSE)){
 				for(IResource.ResourceType type :
 			}
 		}
