@@ -57,6 +57,11 @@ public class ArtificialBrain implements AbstractBrain {
 	//private final HashMap<Path2D, ResourcePoint> resourceMap = new HashMap<>();
 	List<ResourcePoint> resourceMemory = new LinkedList<>();
 
+
+
+	//Construction variables - What are we building?
+	private IStructure nextStructureToBuild = null;
+
 	// TODO: Hardcoded universal vision
 	public World map;
 
@@ -247,6 +252,14 @@ public class ArtificialBrain implements AbstractBrain {
 
 	public void setNextResourceToGather(IResource.ResourceType nextResourceToGather) {
 		this.nextResourceToGather = nextResourceToGather;
+	}
+
+	public IStructure getNextStructureToBuild() {
+		return nextStructureToBuild;
+	}
+
+	public void setNextStructureToBuild(IStructure nextStructureToBuild) {
+		this.nextStructureToBuild = nextStructureToBuild;
 	}
 
 	public LinkedList<PathStep> getPath() {

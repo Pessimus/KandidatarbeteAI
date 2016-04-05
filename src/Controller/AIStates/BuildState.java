@@ -11,6 +11,7 @@ import Toolkit.RenderObject;
 public class BuildState implements IState{
 	private final ArtificialBrain brain;
 	RenderObject closestWood = null;
+	RenderObject closestStone = null;
 	double cdx = 0;
 	double cdy = 0;
 	double odx= 0;
@@ -22,6 +23,13 @@ public class BuildState implements IState{
 	@Override
 	public void run() {
 		/*
+			*We know what to build when we enter this state
+			* Check: Can we build? Do we have the resources?
+			* Check: Are we in a spot where it would make sense to build this structure?
+			* Checks passed? Enter the correct buildState and start building
+		 */
+
+		/*
 		if(!brain.getBody().hasHome()){
 			if(!brain.getBody().hasMaterialFor(Structure.HOUSE)){
 				for(IResource.ResourceType type :
@@ -29,8 +37,14 @@ public class BuildState implements IState{
 		}
 		*/
 
-		//FIND MISSING MATERIALS AND GO GATHER
-			//FIND WOOD
+		//CHECK WHAT MATERIALS WE NEED FOR nextStructureToBuild, DO WE HAVE THEM?
+			//YES?
+				//ENTER CORRECT BUILD STATE
+			//NO?
+				//FIND OUT WHAT WE ARE MISSING AND GO GATHER
+
+		// IF WE DONT HAVE ENOUGH WOOD
+			//FIND WOOD AND GATHER
 			for(RenderObject o : brain.map.getRenderObjects()) {
 				if((o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.WOOD)) ||(o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.WOOD ))) {
 					if (closestWood == null) {
@@ -44,12 +58,33 @@ public class BuildState implements IState{
 							closestWood = o;
 					}
 				}
-
 			}
 			brain.findPathTo(closestWood.getX(), closestWood.getY());
 			brain.queueState(brain.getMovingState());
 			brain.queueState(brain.getGatherWoodState());
 			brain.setState(brain.getStateQueue().poll());
+
+		// IF WE DONT HAVE ENOUGH STONE
+			//FIND STONE AND GATHER
+
+		for(RenderObject o : brain.map.getRenderObjects()) {
+			if((o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.STONE)) ||(o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.STONE2 ))) {
+				if (closestStone == null) {
+					closestStone = o;
+				} else {
+					cdx = Math.abs(brain.getBody().getX() - closestStone.getX());
+					cdy = Math.abs(brain.getBody().getY() - closestStone.getY());
+					odx = Math.abs(brain.getBody().getX() - o.getX());
+					ody = Math.abs(brain.getBody().getY() - o.getY());
+					if (Math.sqrt(cdx) + Math.sqrt(cdy) > Math.sqrt(odx) + Math.sqrt(ody))
+						closestStone = o;
+				}
+			}
+		}
+		brain.findPathTo(closestStone.getX(), closestStone.getY());
+		brain.queueState(brain.getMovingState());
+		brain.queueState(brain.getGatherWoodState());
+		brain.setState(brain.getStateQueue().poll());
 
 		}
 }

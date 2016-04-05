@@ -17,9 +17,8 @@ public class SocializeState implements IState{
 	@Override
 	public void run() {
 		/* *Request interaction
-			*Interact for a set time
-			*Increase social need
-			*Increase/Decrease relation with character
+			*Determine type of interaction
+			* Enter correct interaction state
 			* Go back to idleState
 		 */
 	}
