@@ -98,21 +98,14 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 		currentState.run();
 
-		body.getInventory().stream()
-				.forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));
+		body.getInventory().stream().forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));
 
 		System.out.println("\nHunger: " + needs[0]);
 		System.out.println("Thirst: " + needs[1]);
 		System.out.println("Energy: " + needs[2]);
 		System.out.println(currentState);
+		System.out.println(getStateQueue());
 
-		body.getSurroundings().stream()
-				.filter(o -> o.getClass()
-				.equals(ResourcePoint.class))
-				.map(o -> (ResourcePoint)o)
-				.filter(o -> !resourceMemory.contains(o))
-				.forEach(resourceMemory::add);
-		/*
 		for (ICollidable object : body.getSurroundings()) {
 			if (object.getClass().equals(ResourcePoint.class)) {
 				ResourcePoint resource = (ResourcePoint) object;
@@ -122,7 +115,6 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 			}
 		}
-		*/
 	}
 
 	@Override
@@ -345,7 +337,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 					//objectEnum = RenderObject.RENDER_OBJECT_ENUM.GOLD;
 					break;
 				case STONE:
-					//objectEnum = RenderObject.RENDER_OBJECT_ENUM.STONE;
+					objectEnum = RenderObject.RENDER_OBJECT_ENUM.STONE;
 					break;
 			}
 
@@ -383,18 +375,4 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		}
 
 	}
-
-	//Gives the AI a new path, probably redundant method. Only for testing purposes.
-
-	/*
-	enum AIStates{
-		IDLE,
-		HUNGRY, COOK, EAT, EATMEAT, EATFISH, EATCROPS,
-		GATHER, GATHERMATERIAL, GATHERFOOD, GATHERWATER,
-		SLEEPY, GOHOME, SLEEP,
-		THIRSTY, DRINK,
-		SOCIALIZE, TALK,
-		BUILD, BUILDHOUSE, BUILDSTOCKPILE, BUILDFARM, BUILDMILL,
-	}
-	*/
 }
