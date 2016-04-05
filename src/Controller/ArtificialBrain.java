@@ -42,6 +42,7 @@ public class ArtificialBrain implements AbstractBrain {
 	private IState gatherMeatState = new GatherMeatState(this);
 	private IState gatherWaterState = new GatherWaterState(this);
 	private IState gatherWoodState = new GatherWoodState(this);
+	private IState gatherStoneState = new GatherWoodState(this);
 	private IState gatherState = new GatherState(this);
 	private IState hungryState = new HungryState(this);
 	private IState idleState = new IdleState(this);
@@ -55,6 +56,11 @@ public class ArtificialBrain implements AbstractBrain {
 
 	//private final HashMap<Path2D, ResourcePoint> resourceMap = new HashMap<>();
 	List<ResourcePoint> resourceMemory = new LinkedList<>();
+
+
+
+	//Construction variables - What are we building?
+	private IStructure nextStructureToBuild = null;
 
 	// TODO: Hardcoded universal vision
 	public World map;
@@ -78,6 +84,7 @@ public class ArtificialBrain implements AbstractBrain {
 		int[] skills = body.getSkills();
 
 		currentState.run();
+
 
 		/*System.out.println("Hunger: " + needs[0]);
 		System.out.println("Thirst: " + needs[1]);
@@ -235,12 +242,24 @@ public class ArtificialBrain implements AbstractBrain {
 		return gatherWoodState;
 	}
 
+	public IState getGatherStoneState() {
+		return gatherStoneState;
+	}
+
 	public IResource.ResourceType getNextResourceToGather() {
 		return nextResourceToGather;
 	}
 
 	public void setNextResourceToGather(IResource.ResourceType nextResourceToGather) {
 		this.nextResourceToGather = nextResourceToGather;
+	}
+
+	public IStructure getNextStructureToBuild() {
+		return nextStructureToBuild;
+	}
+
+	public void setNextStructureToBuild(IStructure nextStructureToBuild) {
+		this.nextStructureToBuild = nextStructureToBuild;
 	}
 
 	public LinkedList<PathStep> getPath() {
