@@ -13,8 +13,12 @@ public final class Constants {
 	// ----------- Controller Constants ----------- \\
 
 
-	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2;
-	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2;
+	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+
+	//Zoom level not final
+	public static 				int			ZOOM_LEVEL							= 	2;
+	public static final			int			FONT_SIZE							=	18;
 
 	//Temp constant for the scalar in controller
 	public static final			double		STANDARD_SCREEN_WIDTH				=	1920.0;
@@ -62,10 +66,10 @@ public final class Constants {
 	public static final 		int			CHARACTER_THIRST_MAX				=	100;
 	public static final 		int			CHARACTER_ENERGY_MAX				=	100;
 
-	public static final			int			CHARACTER_HUNGER_UPDATE				=	360;
-	public static final			int			CHARACTER_THIRST_UPDATE				=	270;
-	public static final			int			CHARACTER_ENERGY_UPDATE				=	960;
-	public static final			int			CHARACTER_AGE_UPDATE				=	600;
+	public static final			int			CHARACTER_HUNGER_UPDATE				=	120;
+	public static final			int			CHARACTER_THIRST_UPDATE				=	240;
+	public static final			int			CHARACTER_ENERGY_UPDATE				=	120;
+	public static final			int			CHARACTER_AGE_UPDATE				=	60;
 
 	public static final			int			CHARACTER_HUNGER_CHANGE				=	1;
 	public static final			int			CHARACTER_THIRST_CHANGE				=	1;
@@ -73,13 +77,18 @@ public final class Constants {
 
 	//----------- Inventory Constants ------------- \\
 	//Has to be a power of 2. Ex 1,4,9,16,25,36...
-	public static final			int 		MAX_INVENTORY_SLOTS					=	16;
+	public static final			int 		MAX_INVENTORY_SLOTS					=	9;
 
 	public static final			int			SLOT_DISPLAY_SIZE					=	64;
 	public static final			int			SLOT_DISPLAY_AMOUNT					=	20;
 	public static final			int 		AMOUNT_DISPLAY_MARGIN				=	4;
 	public static final			float		GRID_LINE_WIDTH						=	5f;
 	public static final			int			MAX_AMOUNT							=	99;
+
+	//----------- Structure Constants ------------- \\
+	public static final			double		HOUSE_COLLISION_RADIUS				=	50;
+	public static final			double		STOCKPILE_COLLISION_RADIUS			=	50;
+	public static final			double		FARM_COLLISION_RADIUS				=	50;
 
 	//----------- Animal Constants ------------- \\
 	public static final 		double		ANIMAL_COLLISION_RADIUS				=	5;
@@ -239,8 +248,8 @@ public final class Constants {
 	// ----------- Display Needs ----------- \\
 	public static final		int				BOX_WIDTH							=	600;
 	public static final		int				BOX_HEIGHT							=	150;
-	public static final		int				MARGIN_FROM_TOP						=	BOX_HEIGHT/4;
-	public static final		int				MARGIN_FROM_LEFT					=	20;
+	public static final		int				MARGIN_TOP							=	BOX_HEIGHT/4;
+	public static final		int				MARGIN_LEFT							=	20;
 	public static final 	int				HALF_TEXT_HEIGHT					=	9;
 
 	// ----------- Display Item highlight options ----------- \\

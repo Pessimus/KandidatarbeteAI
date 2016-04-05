@@ -113,9 +113,13 @@ public class World{
 
 		this(width, height);
 
-
+		//TODO remove
 		Water wwwwww = new Water(1);
 		addInfiniteResourcePoint(wwwwww, RenderObject.RENDER_OBJECT_ENUM.LAKE, 1200,1200, 100);
+		addCharacter(1100, 1100, 500);
+		addCharacter(1300,1100,503);
+		addCharacter(1100,1300,502);
+		addCharacter(1300,1300,501);
 
 
 		int i = 0;
@@ -126,7 +130,7 @@ public class World{
 			tmpY = (float)(Math.random()*this.height);
 
 			Wood tmpWood = new Wood(10,10,1);
-			addRenewableResourcePoint(tmpWood, RenderObject.RENDER_OBJECT_ENUM.WOOD, tmpX, tmpY, 10);
+			addRenewableResourcePoint(tmpWood, RenderObject.RENDER_OBJECT_ENUM.WOOD, tmpX, tmpY, 75);
 
 			i++;
 		}
@@ -156,7 +160,7 @@ public class World{
 			tmpY = (float)(Math.random()*this.height);
 
 			Crops tmpCrops = new Crops(100,5);
-			addFiniteResourcePoint(tmpCrops, RenderObject.RENDER_OBJECT_ENUM.CROPS,tmpX,tmpY,100);
+			addFiniteResourcePoint(tmpCrops, RenderObject.RENDER_OBJECT_ENUM.CROPS,tmpX,tmpY,20);
 
 			i++;
 		}
