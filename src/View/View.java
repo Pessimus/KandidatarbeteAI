@@ -153,9 +153,9 @@ public class View extends BasicGameState implements InputListener{
 		java.awt.Font awtFont = new java.awt.Font("AngelCodeFont", java.awt.Font.BOLD, Constants.FONT_SIZE/Constants.ZOOM_LEVEL);
 		font = new TrueTypeFont(awtFont, false);
 		if(displayPlayerNeeds){
-			float hungerStringYPos = gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL+Constants.MARGIN_TOP/Constants.ZOOM_LEVEL-Constants.HALF_TEXT_HEIGHT;
-			float thirstStringYPos = gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL+Constants.MARGIN_TOP/Constants.ZOOM_LEVEL*2-Constants.HALF_TEXT_HEIGHT;
-			float energyStringYPos = gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL+Constants.MARGIN_TOP/Constants.ZOOM_LEVEL*3-Constants.HALF_TEXT_HEIGHT;
+			float hungerStringYPos = gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL+Constants.MARGIN_TOP/Constants.ZOOM_LEVEL-Constants.HALF_TEXT_HEIGHT/Constants.ZOOM_LEVEL;
+			float thirstStringYPos = gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL+Constants.MARGIN_TOP/Constants.ZOOM_LEVEL*2-Constants.HALF_TEXT_HEIGHT/Constants.ZOOM_LEVEL;
+			float energyStringYPos = gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL+Constants.MARGIN_TOP/Constants.ZOOM_LEVEL*3-Constants.HALF_TEXT_HEIGHT/Constants.ZOOM_LEVEL;
 
 			float barWidth = Constants.BOX_WIDTH/Constants.ZOOM_LEVEL-3*Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL-graphics.getFont().getWidth("Hunger");
 			float barHeight = graphics.getFont().getHeight("Hunger")/Constants.ZOOM_LEVEL;
@@ -208,18 +208,18 @@ public class View extends BasicGameState implements InputListener{
 					x=(int)(gameContainer.getWidth()/scaleGraphicsX)-Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL*j;
 					y=(int)(gameContainer.getHeight()/scaleGraphicsY)-Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL*i;
 					graphics.setLineWidth(Constants.GRID_LINE_WIDTH);
-					graphics.drawRect(x-lineWidth, y-lineWidth, Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL, Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL);
+					graphics.drawRect(x, y, Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL, Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL);
 					if(inventoryIndex == (3-i)*tilesPerRow+(4-j)){
-						float optionStartX = gameContainer.getWidth()-tilesPerRow*Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-lineWidth-Constants.OPTION_BOX_WIDTH/Constants.ZOOM_LEVEL;
-						float optionStartY = gameContainer.getHeight()-Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL/2;
+						float optionStartX = gameContainer.getWidth()/scaleGraphicsX-tilesPerRow*Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.OPTION_BOX_WIDTH/Constants.ZOOM_LEVEL;
+						float optionStartY = gameContainer.getHeight()/scaleGraphicsY-Constants.OPTION_BOX_HEIGHT/Constants.ZOOM_LEVEL;
 						int eatStringWidth = graphics.getFont().getWidth("c: Consume");
 						int dropStringWidth = graphics.getFont().getWidth("d: Drop");
-						graphics.fillRect(x-lineWidth, y-lineWidth, Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL, Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL);
+						graphics.fillRect(x, y, Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL, Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL);
 						graphics.fillRect(optionStartX, optionStartY, Constants.OPTION_BOX_WIDTH/Constants.ZOOM_LEVEL, Constants.OPTION_BOX_HEIGHT/Constants.ZOOM_LEVEL);
 						graphics.setColor(Color.black);
-						graphics.drawString("c: Consume", optionStartX+Constants.OPTION_MARGIN_LEFT, optionStartY+Constants.OPTION_MARGIN_TOP);
-						graphics.drawString("d: Drop", optionStartX+Constants.OPTION_MARGIN_LEFT*2+eatStringWidth, optionStartY+Constants.OPTION_MARGIN_TOP);
-						graphics.drawString("b: Back", optionStartX+Constants.OPTION_MARGIN_LEFT*3+eatStringWidth+dropStringWidth, optionStartY+Constants.OPTION_MARGIN_TOP);
+						graphics.drawString("c: Consume", optionStartX+Constants.OPTION_MARGIN_LEFT/Constants.ZOOM_LEVEL, optionStartY+Constants.OPTION_MARGIN_TOP/Constants.ZOOM_LEVEL);
+						graphics.drawString("d: Drop", optionStartX+Constants.OPTION_MARGIN_LEFT/Constants.ZOOM_LEVEL*2+eatStringWidth, optionStartY+Constants.OPTION_MARGIN_TOP/Constants.ZOOM_LEVEL);
+						graphics.drawString("b: Back", optionStartX+Constants.OPTION_MARGIN_LEFT/Constants.ZOOM_LEVEL*3+eatStringWidth+dropStringWidth, optionStartY+Constants.OPTION_MARGIN_TOP/Constants.ZOOM_LEVEL);
 						graphics.setColor(Color.white);
 					}
 				}
@@ -232,16 +232,16 @@ public class View extends BasicGameState implements InputListener{
 				x=(int)(gameContainer.getWidth()/scaleGraphicsX)-Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL*i;
 				y=(int)(gameContainer.getHeight()/scaleGraphicsY)-Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL*j;
 
-				new Image(invRender.type.pathToResource).draw(x-lineWidth/2, y-lineWidth/2, 1f/Constants.ZOOM_LEVEL);
-				graphics.fillRect(x+Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL-lineWidth, y+Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL-lineWidth,
+				new Image(invRender.type.pathToResource).draw(x+lineWidth/scaleGraphicsX, y+lineWidth/scaleGraphicsY, 1f/Constants.ZOOM_LEVEL);
+				graphics.fillRect(x+Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL, y+Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL,
 						Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL, Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL);
 				graphics.setColor(Color.black);
 				if(invRender.amount < 10) {
-					graphics.drawString(Integer.toString(invRender.amount), x + Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL+Constants.AMOUNT_DISPLAY_MARGIN-lineWidth,
-							y + Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL-lineWidth);
+					graphics.drawString(Integer.toString(invRender.amount), x + Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL+Constants.AMOUNT_DISPLAY_MARGIN,
+							y + Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL);
 				}else {
-					graphics.drawString(Integer.toString(invRender.amount), x + Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL-lineWidth,
-							y + Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL-lineWidth);
+					graphics.drawString(Integer.toString(invRender.amount), x + Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL,
+							y + Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL);
 				}
 				graphics.setColor(Color.white);
 				i--;

@@ -418,7 +418,6 @@ public class Controller implements PropertyChangeListener {
 									showingPlayerInventory = !showingPlayerInventory;
 									if (showingPlayerInventory) {
 										gameView.drawInventory(gameModel.displayPlayerInventory());
-										System.out.println("Showing player inventory");
 									} else {
 										gameView.hidePlayerInventory();
 										gameView.highlightInventoryItem(0);
