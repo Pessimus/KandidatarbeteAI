@@ -4,18 +4,22 @@ import Model.Constants;
 import Toolkit.RenderObject;
 import Toolkit.InventoryRender;
 import org.newdawn.slick.*;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
+import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.awt.font.*;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -145,39 +149,42 @@ public class View extends BasicGameState implements InputListener{
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Unable to acquire semaphore to the 'listToRender' list!", e);
 		}
 			// ----------- Temporary display needs ----------- \\
-
+		TrueTypeFont font;
+		java.awt.Font awtFont = new java.awt.Font("AngelCodeFont", java.awt.Font.BOLD, Constants.FONT_SIZE/Constants.ZOOM_LEVEL);
+		font = new TrueTypeFont(awtFont, false);
 		if(displayPlayerNeeds){
-			float hungerStringYPos = gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT+Constants.MARGIN_FROM_TOP-Constants.HALF_TEXT_HEIGHT;
-			float thirstStringYPos = gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT+Constants.MARGIN_FROM_TOP*2-Constants.HALF_TEXT_HEIGHT;
-			float energyStringYPos = gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT+Constants.MARGIN_FROM_TOP*3-Constants.HALF_TEXT_HEIGHT;
+			float hungerStringYPos = gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL+Constants.MARGIN_TOP/Constants.ZOOM_LEVEL-Constants.HALF_TEXT_HEIGHT/Constants.ZOOM_LEVEL;
+			float thirstStringYPos = gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL+Constants.MARGIN_TOP/Constants.ZOOM_LEVEL*2-Constants.HALF_TEXT_HEIGHT/Constants.ZOOM_LEVEL;
+			float energyStringYPos = gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL+Constants.MARGIN_TOP/Constants.ZOOM_LEVEL*3-Constants.HALF_TEXT_HEIGHT/Constants.ZOOM_LEVEL;
 
-			float barWidth = Constants.BOX_WIDTH-3*Constants.MARGIN_FROM_LEFT-graphics.getFont().getWidth("Hunger");
-			float barHeight = graphics.getFont().getHeight("Hunger");
+			float barWidth = Constants.BOX_WIDTH/Constants.ZOOM_LEVEL-3*Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL-graphics.getFont().getWidth("Hunger");
+			float barHeight = graphics.getFont().getHeight("Hunger")/Constants.ZOOM_LEVEL;
 
-			float barXPos = Constants.MARGIN_FROM_LEFT*2+graphics.getFont().getWidth("Hunger");
+			float barXPos = Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL*2+graphics.getFont().getWidth("Hunger");
 
 			float hungerPercent = (float)playerNeeds[0]/(float)Constants.CHARACTER_HUNGER_MAX;
 			float thirstPercent = (float)playerNeeds[1]/(float)Constants.CHARACTER_THIRST_MAX;
 			float energyPercent = (float)playerNeeds[2]/(float)Constants.CHARACTER_ENERGY_MAX;
 
 			graphics.setColor(Color.gray);
-			graphics.fillRect(0,gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT, Constants.BOX_WIDTH, Constants.BOX_HEIGHT);
+			graphics.fillRect(0,gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL, Constants.BOX_WIDTH/Constants.ZOOM_LEVEL, Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL);
 			graphics.setColor(Color.white);
-			graphics.drawString("Hunger:",Constants.MARGIN_FROM_LEFT, hungerStringYPos);
+			graphics.setFont(font);
+			graphics.drawString("Hunger:",Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL, hungerStringYPos);
 			graphics.drawRect(barXPos, hungerStringYPos,barWidth,barHeight);
 			if(hungerPercent < 0.2)
 				graphics.setColor(Color.red);
 			if(hungerPercent > 0)
 				graphics.fillRect(barXPos+barWidth*(1-hungerPercent), hungerStringYPos, barWidth-barWidth*(1-hungerPercent), barHeight);
 			graphics.setColor(Color.white);
-			graphics.drawString("Thirst:",Constants.MARGIN_FROM_LEFT, thirstStringYPos);
+			graphics.drawString("Thirst:",Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL, thirstStringYPos);
 			if(thirstPercent < 0.2)
 				graphics.setColor(Color.red);
 			if(thirstPercent > 0)
 				graphics.fillRect(barXPos+barWidth*(1-thirstPercent), thirstStringYPos, barWidth-barWidth*(1-thirstPercent), barHeight);
 			graphics.setColor(Color.white);
 			graphics.drawRect(barXPos, thirstStringYPos,barWidth,barHeight);
-			graphics.drawString("Energy:",Constants.MARGIN_FROM_LEFT, energyStringYPos);
+			graphics.drawString("Energy:",Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL, energyStringYPos);
 			graphics.drawRect(barXPos, energyStringYPos,barWidth,barHeight);
 			if(energyPercent < 0.2)
 				graphics.setColor(Color.red);
@@ -198,22 +205,21 @@ public class View extends BasicGameState implements InputListener{
 			float lineWidth = Constants.GRID_LINE_WIDTH;
 			for (int i = tilesPerRow; i >= 1 ; i--) {
 				for (int j = tilesPerColumn; j >= 1; j--) {
-					x=(int)(gameContainer.getWidth()/scaleGraphicsX)-Constants.SLOT_DISPLAY_SIZE*j;
-					y=(int)(gameContainer.getHeight()/scaleGraphicsY)-Constants.SLOT_DISPLAY_SIZE*i;
+					x=(int)(gameContainer.getWidth()/scaleGraphicsX)-Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL*j;
+					y=(int)(gameContainer.getHeight()/scaleGraphicsY)-Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL*i;
 					graphics.setLineWidth(Constants.GRID_LINE_WIDTH);
-					graphics.drawRect(x-lineWidth, y-lineWidth, Constants.SLOT_DISPLAY_SIZE, Constants.SLOT_DISPLAY_SIZE);
+					graphics.drawRect(x, y, Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL, Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL);
 					if(inventoryIndex == (3-i)*tilesPerRow+(4-j)){
-						float optionStartX = gameContainer.getWidth()/scaleGraphicsX-tilesPerRow*Constants.SLOT_DISPLAY_SIZE-lineWidth-Constants.OPTION_BOX_WIDTH;
-						float optionStartY = gameContainer.getHeight()/scaleGraphicsY-Constants.SLOT_DISPLAY_SIZE/2;
+						float optionStartX = gameContainer.getWidth()/scaleGraphicsX-tilesPerRow*Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.OPTION_BOX_WIDTH/Constants.ZOOM_LEVEL;
+						float optionStartY = gameContainer.getHeight()/scaleGraphicsY-Constants.OPTION_BOX_HEIGHT/Constants.ZOOM_LEVEL;
 						int eatStringWidth = graphics.getFont().getWidth("c: Consume");
 						int dropStringWidth = graphics.getFont().getWidth("d: Drop");
-						int cancelStringWidth = graphics.getFont().getWidth("b: Back");
-						graphics.fillRect(x-lineWidth, y-lineWidth, Constants.SLOT_DISPLAY_SIZE, Constants.SLOT_DISPLAY_SIZE);
-						graphics.fillRect(optionStartX, optionStartY, Constants.OPTION_BOX_WIDTH, Constants.OPTION_BOX_HEIGHT);
+						graphics.fillRect(x, y, Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL, Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL);
+						graphics.fillRect(optionStartX, optionStartY, Constants.OPTION_BOX_WIDTH/Constants.ZOOM_LEVEL, Constants.OPTION_BOX_HEIGHT/Constants.ZOOM_LEVEL);
 						graphics.setColor(Color.black);
-						graphics.drawString("c: Consume", optionStartX+Constants.OPTION_MARGIN_LEFT, optionStartY+Constants.OPTION_MARGIN_TOP);
-						graphics.drawString("d: Drop", optionStartX+Constants.OPTION_MARGIN_LEFT*2+eatStringWidth, optionStartY+Constants.OPTION_MARGIN_TOP);
-						graphics.drawString("b: Back", optionStartX+Constants.OPTION_MARGIN_LEFT*3+eatStringWidth+dropStringWidth, optionStartY+Constants.OPTION_MARGIN_TOP);
+						graphics.drawString("c: Consume", optionStartX+Constants.OPTION_MARGIN_LEFT/Constants.ZOOM_LEVEL, optionStartY+Constants.OPTION_MARGIN_TOP/Constants.ZOOM_LEVEL);
+						graphics.drawString("d: Drop", optionStartX+Constants.OPTION_MARGIN_LEFT/Constants.ZOOM_LEVEL*2+eatStringWidth, optionStartY+Constants.OPTION_MARGIN_TOP/Constants.ZOOM_LEVEL);
+						graphics.drawString("b: Back", optionStartX+Constants.OPTION_MARGIN_LEFT/Constants.ZOOM_LEVEL*3+eatStringWidth+dropStringWidth, optionStartY+Constants.OPTION_MARGIN_TOP/Constants.ZOOM_LEVEL);
 						graphics.setColor(Color.white);
 					}
 				}
@@ -223,19 +229,19 @@ public class View extends BasicGameState implements InputListener{
 			i=(int)Math.sqrt(Constants.MAX_INVENTORY_SLOTS);
 			j=(int)Math.sqrt(Constants.MAX_INVENTORY_SLOTS);
 			for(InventoryRender invRender : inventoryToRender) {
-				x=(int)(gameContainer.getWidth()/scaleGraphicsX)-Constants.SLOT_DISPLAY_SIZE*i;
-				y=(int)(gameContainer.getHeight()/scaleGraphicsY)-Constants.SLOT_DISPLAY_SIZE*j;
+				x=(int)(gameContainer.getWidth()/scaleGraphicsX)-Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL*i;
+				y=(int)(gameContainer.getHeight()/scaleGraphicsY)-Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL*j;
 
-				graphics.drawImage(new Image(invRender.type.pathToResource), x-lineWidth/2, y-lineWidth/2);
-				graphics.fillRect(x+Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT-lineWidth, y+Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT-lineWidth,
-						Constants.SLOT_DISPLAY_AMOUNT, Constants.SLOT_DISPLAY_AMOUNT);
+				new Image(invRender.type.pathToResource).draw(x+lineWidth/scaleGraphicsX, y+lineWidth/scaleGraphicsY, 1f/Constants.ZOOM_LEVEL);
+				graphics.fillRect(x+Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL, y+Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL,
+						Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL, Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL);
 				graphics.setColor(Color.black);
 				if(invRender.amount < 10) {
-					graphics.drawString(Integer.toString(invRender.amount), x + Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT+Constants.AMOUNT_DISPLAY_MARGIN-lineWidth,
-							y + Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT+Constants.AMOUNT_DISPLAY_MARGIN-lineWidth);
+					graphics.drawString(Integer.toString(invRender.amount), x + Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL+Constants.AMOUNT_DISPLAY_MARGIN,
+							y + Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL);
 				}else {
-					graphics.drawString(Integer.toString(invRender.amount), x + Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT-lineWidth,
-							y + Constants.SLOT_DISPLAY_SIZE-Constants.SLOT_DISPLAY_AMOUNT-lineWidth);
+					graphics.drawString(Integer.toString(invRender.amount), x + Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL,
+							y + Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL);
 				}
 				graphics.setColor(Color.white);
 				i--;
