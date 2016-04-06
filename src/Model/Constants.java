@@ -89,6 +89,7 @@ public final class Constants {
 	public static final			double		HOUSE_COLLISION_RADIUS				=	50;
 	public static final			double		STOCKPILE_COLLISION_RADIUS			=	50;
 	public static final			double		FARM_COLLISION_RADIUS				=	50;
+	public static final 		int 		HOUSE_MAX_CAPACITY					=	2;
 
 	//----------- Animal Constants ------------- \\
 	public static final 		double		ANIMAL_COLLISION_RADIUS				=	5;
@@ -104,7 +105,7 @@ public final class Constants {
 	public static final 		int			ANIMAL_THIRST_CHANGE_ATTACK			=	0;
 
 	//-------------------------- Resource Constants -------------------------- \\
-	public static final 		int 		TREE_UPDATE_INTERVALL				=	120;
+	public static final 		int 		TREE_UPDATE_INTERVAL 				=	12000;
 	public static final 		int			TREE_INCREASE_AMOUNT				=	10;
 
 	//------------------------------Item Constants------------------------------\\

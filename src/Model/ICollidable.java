@@ -19,6 +19,9 @@ public interface ICollidable {
 	/** @return radius of the Collidables detection area.*/
 	double getSurroundingRadius();
 
+	/** @return true if the object should not be allowed to spawn on an other. */
+	boolean isImovable();
+
 	/**
 	 * A method for detecting what Collidables it can interact with.
 	 * Indicates that they are close enough on the x-axis.

@@ -16,7 +16,7 @@ public final class RenderObject{
 	public enum RENDER_OBJECT_ENUM{
 		CHARACTER("res/Villager16x16.png"), /*TREE("res/tree1.png"),*/ LAKE("res/lake.png"), STONE("res/stone1.png"),
 		STONE2("res/stone2.png"), CROPS("res/crops.png"), WOOD("res/tree1.png"), WOOD2("res/tree2.png"),
-		GOLD("res/gold1.png"), GOLD2("res/gold2.png"), HOUSE("res/house1.png"), HOUSE2("res/stone2.png"), STOCKPILE("res/stockpile.png"),
+		GOLD("res/gold1.png"), GOLD2("res/gold2.png"), HOUSE("res/house1.png"), HOUSE2("res/stone2.png"), STOCKPILE("res/stockpile.png"), FARM("res/windmill.png"),
 
 		// TODO: Hardcoded test enum
 		MEAT("res/meat_item.png");

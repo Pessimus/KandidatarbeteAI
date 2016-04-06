@@ -102,6 +102,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	private Inventory inventory;
 
+	private boolean spawning;
+	private IStructure.StructureType typeToSpawn;
+
 	//--------------------Collision---------------------\\
 	private float xPos;
 	private float yPos;
@@ -156,6 +159,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.age = 0;
 		this.inventory = new Inventory();
 		this.key = key;
+
+		this.spawning = false;
 
 		//Initial position
 		this.xPos = xPos;
@@ -393,6 +398,36 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return !isAlive();
 	}
 
+	@Override
+	public boolean isSpawning() {
+		return spawning;
+	}
+
+	@Override
+	/**{@inheritDoc}*/
+	public boolean isImovable(){
+		return false;
+	}
+
+	@Override
+	public void spawn(World rhs) {
+		LinkedList<IItem> cost = StructureFactory.getCost(typeToSpawn);
+		boolean canPay = true;
+		for(IItem itemCost : cost){
+			if(!inventory.contains(itemCost)){
+				canPay = false;
+				break;
+			}
+		}
+		if(canPay) {
+			for(IItem itemCost : cost){
+				System.out.println(inventory.removeItem(itemCost));
+			}
+			rhs.addStructure(xPos, yPos, typeToSpawn);
+		}
+		spawning = false;
+	}
+
 	/**
 	 * Checks if the character is alive.
 	 * @return true if the character is alive, else false.
@@ -613,8 +648,16 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void sleep() {
 		this.energy = 100;
+	}
+
+	@Override
+	/**{@inheritDoc}*/
+	public void build(IStructure.StructureType type){
+		this.typeToSpawn = type;
+		this.spawning = true;
 	}
 
 }

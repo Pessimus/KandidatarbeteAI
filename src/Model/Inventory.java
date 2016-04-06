@@ -62,11 +62,24 @@ public class Inventory{
 	boolean removeItem(IItem item){
 		for(IItem invItem : inventoryItems) {
 			if(item.getType() == invItem.getType()){
-				return inventoryItems.remove(item);
+				if(item.getAmount() == invItem.getAmount()) {
+					return inventoryItems.remove(invItem);
+				}if(item.getAmount() < invItem.getAmount()){
+					invItem.removeAmount(item.getAmount());
+					return true;
+				}
 			}
 		}
 		return false;//Item not in inventory.
 	}
 
 
+	public boolean contains(IItem item) {
+		for(IItem tmpItem : inventoryItems){
+			if(tmpItem.getType().equals(item.getType()) && tmpItem.getAmount() >= item.getAmount()){
+				return true;
+			}
+		}
+		return false;
+	}
 }

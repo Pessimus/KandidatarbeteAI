@@ -76,6 +76,12 @@ public class ResourcePoint implements ICollidable {
 		return resource.getResourceName();
 	}
 
+	@Override
+	/**{@inheritDoc}*/
+	public boolean isImovable(){
+		return true;
+	}
+
 //---------------------------------------Collision Methods------------------------------------------------------------\\
 
 	@Override

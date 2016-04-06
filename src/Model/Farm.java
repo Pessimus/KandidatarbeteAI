@@ -2,16 +2,15 @@ package Model;
 
 import Toolkit.RenderObject;
 
+
 /**
- * Created by Oskar on 2016-04-01.
+ * Created by Martin on 04/04/2016.
  */
-public class Stockpile implements IStructure {
+public class Farm implements IStructure, ITimeable{
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
-    public static final StructureType structureType = StructureType.STOCKPILE;
-	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.STOCKPILE;
-
-    private Inventory inventory;
+	public static final StructureType structureType = StructureType.FARM;
+	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.FARM;
 
 	private int integrity;
 
@@ -21,18 +20,52 @@ public class Stockpile implements IStructure {
 	private double interactionRadius;
 	private double surroundingRadius;
 
+	private boolean spawning;
+	private int nbrOfSpawnPoints;
+	private Crops[] spawnPoints;
+	private float[] spawnPointsXpos;
+	private float[] spawnPointsYpos;
+
 //-----------------------------------------------CONSTRUCTOR----------------------------------------------------------\\
 
-	public Stockpile(float x, float y){
+	public Farm(float x, float y){
 		this.xPos = x;
 		this.yPos = y;
-		this.collisionRadius = Constants.STOCKPILE_COLLISION_RADIUS;
+		this.collisionRadius = Constants.FARM_COLLISION_RADIUS;
 		this.interactionRadius = 0;
 		this.surroundingRadius = 0;
 
 		this.integrity = 10;
 
-		inventory = new Inventory();
+		this.spawning = false;
+		nbrOfSpawnPoints = 8;
+		spawnPoints = new Crops[nbrOfSpawnPoints];
+		spawnPointsXpos = new float[nbrOfSpawnPoints];
+		spawnPointsYpos = new float[nbrOfSpawnPoints];
+
+		spawnPointsXpos[0] = (float)(x-collisionRadius);
+		spawnPointsYpos[0] = (float)(y-collisionRadius);
+
+		spawnPointsXpos[1] = x;
+		spawnPointsYpos[1] = (float)(y-collisionRadius);
+
+		spawnPointsXpos[2] = (float)(x+collisionRadius);
+		spawnPointsYpos[2] = (float)(y-collisionRadius);
+
+		spawnPointsXpos[3] = (float)(x+collisionRadius);
+		spawnPointsYpos[3] = y;
+
+		spawnPointsXpos[4] = (float)(x+collisionRadius);
+		spawnPointsYpos[4] = (float)(y+collisionRadius);
+
+		spawnPointsXpos[5] = x;
+		spawnPointsYpos[5] = (float)(y+collisionRadius);
+
+		spawnPointsXpos[6] = (float)(x-collisionRadius);
+		spawnPointsYpos[6] = (float)(y+collisionRadius);
+
+		spawnPointsXpos[7] = (float)(x-collisionRadius);
+		spawnPointsYpos[7] = y;
 
 	}
 
@@ -122,7 +155,7 @@ public class Stockpile implements IStructure {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Character rhs) {
-		//TODO implement
+		this.spawning = true;
 	}
 
 	@Override
@@ -140,9 +173,40 @@ public class Stockpile implements IStructure {
 //------------------------------------------Update METHODS------------------------------------------------------------\\
 
 	@Override
+	public void updateTimeable() {
+		int i = 0;
+		while(i < nbrOfSpawnPoints){
+			if(spawnPoints[i] != null && spawnPoints[i].getResourcesLeft() == 0){
+				spawnPoints[i] = null;
+			}
+			i++;
+		}
+	}
+
+	@Override
 	/**{@inheritDoc}*/
 	public boolean toBeRemoved() {
-		return integrity == 0;
+		return integrity <= 0;
+	}
+
+	@Override
+	public boolean isSpawning(){
+		return this.spawning;
+	}
+
+	@Override
+	public void spawn(World rhs) {
+		int i = 0;
+		while(i < nbrOfSpawnPoints) {
+			if(spawnPoints[i] == null) {
+				Crops crops = new Crops(100, 10);
+				spawnPoints[i] = crops;
+				rhs.addFiniteResourcePoint(crops, RenderObject.RENDER_OBJECT_ENUM.CROPS, spawnPointsXpos[i], spawnPointsYpos[i], 20);
+				spawning = false;
+				return;
+			}
+			i++;
+		}
 	}
 
 //------------------------------------------------RENDER METHODS------------------------------------------------------\\
@@ -159,6 +223,5 @@ public class Stockpile implements IStructure {
 		return renderObjectEnum;
 	}
 
+
 }
-
-
