@@ -186,7 +186,6 @@ public class CollisionList {
 		this.sortX();
 		this.sortY();
 
-		//try {
 		Node loopXNode = startNodeX;
 		while (loopXNode.next != null) {
 			loopXNode = loopXNode.next;
@@ -213,11 +212,6 @@ public class CollisionList {
 			loop.value.checkSurroundings();
 			loop.value.checkInteractables();
 		}
-
-		//}catch (Exception e){
-
-		//}
-
 	}
 
 	//---------------Interaction checking------------------\\
@@ -249,7 +243,7 @@ public class CollisionList {
 		if(right != null && (right.value.getX() - maxRadius) - node.value.getX() <= node.value.getInteractionRadius()) {
 			if ((right.value.getX() - right.value.getCollisionRadius()) - node.value.getX() <= node.value.getInteractionRadius()) {
 				node.value.addToInteractableX(right.value);
-				handleInterractionCollisionRightX(node, right.next);
+				//handleInterractionCollisionRightX(node, right.next);
 			}
 			handleInterractionCollisionRightX(node, right.next);
 		}
