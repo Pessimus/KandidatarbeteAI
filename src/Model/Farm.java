@@ -106,6 +106,12 @@ public class Farm implements IStructure, ITimeable{
 		return structureType;
 	}
 
+	@Override
+	/**{@inheritDoc}*/
+	public boolean isImovable(){
+		return true;
+	}
+
 //---------------------------------------Collision Methods------------------------------------------------------------\\
 
 	@Override

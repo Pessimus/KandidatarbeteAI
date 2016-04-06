@@ -81,11 +81,11 @@ public class World{
 		this.height = height;
 
 		//Initializing lists for objects in world.
-		this.collidables = new CollisionList();
+		this.collidables = new CollisionList(0,width,0,height);
 		this.collidablesR = new LinkedList<>();
 		this.timeables = new LinkedList<>();
 		this.characters = new HashMap<>();
-		this.statics = new CollisionList();
+		this.statics = new CollisionList(0,width,0,height);
 
 		//Initializing removal lists
 		collidablestoberemoved = new LinkedList<>();
@@ -270,16 +270,19 @@ public class World{
 	public IStructure addStructure(float xPoss, float yPoss, IStructure.StructureType type){
 		IStructure structure = StructureFactory.createStructure(type, xPoss, yPoss);
 
-		this.collidables.add(structure);
-		this.collidablesR.add(structure);
-		this.statics.add(structure);
-		if(type.equals(IStructure.StructureType.FARM)){
-			this.timeables.add((ITimeable) structure);
+		if(collidables.canAdd(structure)) {
+			this.collidables.add(structure);
+			this.collidablesR.add(structure);
+			this.statics.add(structure);
+			if (type.equals(IStructure.StructureType.FARM)) {
+				this.timeables.add((ITimeable) structure);
+			}
+
+			//update mask for pathfinding
+			Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+
+			return structure;
 		}
-
-		//update mask for pathfinding
-		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
-
 		return null;
 	}
 
@@ -295,14 +298,18 @@ public class World{
 	public ResourcePoint addFiniteResourcePoint(FiniteResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float xPoss, float yPoss, double radius){
 		ResourcePoint point = new ResourcePoint(resourceType, renderEnum, xPoss, yPoss, radius);
 
-		this.collidables.add(point);
-		this.collidablesR.add(point);
-		this.statics.add(point);
+		if(collidables.canAdd(point)) {
+			this.collidables.add(point);
+			this.collidablesR.add(point);
+			this.statics.add(point);
 
-		//update mask for pathfinding
-		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+			//update mask for pathfinding
+			Constants.PATHFINDER_OBJECT.updateMask(this.statics);
 
-		return point;
+			return point;
+		}
+
+		return null;
 	}
 
 	/**
@@ -317,14 +324,18 @@ public class World{
 	public ResourcePoint addInfiniteResourcePoint(InfiniteResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float xPoss, float yPoss, double radius){
 		ResourcePoint point = new ResourcePoint(resourceType, renderEnum, xPoss, yPoss, radius);
 
-		this.collidables.add(point);
-		this.collidablesR.add(point);
-		this.statics.add(point);
+		if(collidables.canAdd(point)) {
+			this.collidables.add(point);
+			this.collidablesR.add(point);
+			this.statics.add(point);
 
-		//update mask for pathfinding
-		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+			//update mask for pathfinding
+			Constants.PATHFINDER_OBJECT.updateMask(this.statics);
 
-		return point;
+			return point;
+		}
+
+		return null;
 	}
 
 
@@ -340,15 +351,19 @@ public class World{
 	public ResourcePoint addRenewableResourcePoint(RenewableResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float xPoss, float yPoss, double radius){
 		ResourcePoint point = new ResourcePoint(resourceType, renderEnum, xPoss, yPoss, radius);
 
-		this.collidables.add(point);
-		this.collidablesR.add(point);
-		this.timeables.add(resourceType);
-		this.statics.add(point);
+		if(collidables.canAdd(point)) {
+			this.collidables.add(point);
+			this.collidablesR.add(point);
+			this.timeables.add(resourceType);
+			this.statics.add(point);
 
-		//update mask for pathfinding
-		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+			//update mask for pathfinding
+			Constants.PATHFINDER_OBJECT.updateMask(this.statics);
 
-		return point;
+			return point;
+		}
+
+		return null;
 	}
 
 	/**

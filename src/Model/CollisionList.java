@@ -15,18 +15,29 @@ public class CollisionList {
 	private Node currentNodeX;
 	private double maxRadius;
 
+	private final double minX;
+	private final double maxX;
+	private final double minY;
+	private final double maxY;
+
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
 	/**
 	 * A dual list for ICollidables, one list for the x-axis and one for the y-axis.
 	 * Used for effectively checking different kinds of collision between objects.
 	 */
-	public CollisionList(){
+	public CollisionList(double minX, double maxX, double minY, double maxY){
 		this.startNodeX = new Node(new CollidableDummy(), null, null);
 		this.startNodeY = new Node(new CollidableDummy(), null, null);
 		this.currentNodeX = this.startNodeX;
 		this.size = 0;
 		this.maxRadius = 0;
+
+		this.minX = minX;
+		this.maxX = maxX;
+		this.minY = minY;
+		this.maxY = maxY;
+
 	}
 
 //--------------------------------------------Sorting methods---------------------------------------------------------\\
@@ -165,6 +176,45 @@ public class CollisionList {
 				}
 			}
 		}
+	}
+
+	public boolean canAdd(ICollidable collidable){
+		if(collidable.getX()<this.minX || collidable.getX()>this.maxX || collidable.getY()<this.minY || collidable.getY()>this.maxY){
+			return false;
+		}
+
+		/*
+		Node tmpNodeX = startNodeX.next;
+		while(tmpNodeX != null){
+			if(tmpNodeX.value.getX() <= collidable.getX()) {//to the left
+				if (tmpNodeX.value.getX() + tmpNodeX.value.getCollisionRadius() >= collidable.getX() - collidable.getCollisionRadius()) {//Collision in x
+					if (tmpNodeX.value.getY() <= collidable.getY()) {//above
+						if (tmpNodeX.value.getY() + tmpNodeX.value.getCollisionRadius() >= collidable.getY() - collidable.getCollisionRadius()) {//Collision in y
+							return false;
+						}
+					}else {//below
+						if (tmpNodeX.value.getY() - tmpNodeX.value.getCollisionRadius() <= collidable.getY()+collidable.getX()){
+							return false;
+						}
+					}
+				}
+			}else{//to the right
+				if (tmpNodeX.value.getX() - tmpNodeX.value.getCollisionRadius() >= collidable.getX() + collidable.getCollisionRadius()) {//Collision in x
+					if (tmpNodeX.value.getY() <= collidable.getY()) {//above
+						if (tmpNodeX.value.getY() + tmpNodeX.value.getCollisionRadius() >= collidable.getY() - collidable.getCollisionRadius()) {//Collision in y
+							return false;
+						}
+					}else {//below
+						if (tmpNodeX.value.getY() - tmpNodeX.value.getCollisionRadius() <= collidable.getY()+collidable.getX()){
+							return false;
+						}
+					}
+				}
+			}
+			tmpNodeX = tmpNodeX.next;
+		}
+		*/
+		return true;
 	}
 
 	/**
@@ -444,6 +494,11 @@ public class CollisionList {
 		@Override
 		public void attacked(Character rhs) {
 
+		}
+
+		@Override
+		public boolean isImovable(){
+			return false;
 		}
 
 		@Override

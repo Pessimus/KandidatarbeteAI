@@ -379,6 +379,12 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	}
 
 	@Override
+	/**{@inheritDoc}*/
+	public boolean isImovable(){
+		return false;
+	}
+
+	@Override
 	public void spawn(World rhs) {
 		//TODO add cost
 		LinkedList<IItem> cost = StructureFactory.getCost(typeToSpawn);

@@ -86,6 +86,12 @@ public class House implements IStructure {
         return isFull;
     }
 
+	@Override
+	/**{@inheritDoc}*/
+	public boolean isImovable(){
+		return true;
+	}
+
 //----------------------------------------ADD & REMOVE OCCUPANTS------------------------------------------------------\\
 
     /** Method to call when adding a character to this house. */
