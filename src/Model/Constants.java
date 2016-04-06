@@ -89,6 +89,7 @@ public final class Constants {
 	public static final			double		HOUSE_COLLISION_RADIUS				=	50;
 	public static final			double		STOCKPILE_COLLISION_RADIUS			=	50;
 	public static final			double		FARM_COLLISION_RADIUS				=	50;
+	public static final 		int 		HOUSE_MAX_CAPACITY					=	2;
 
 	//----------- Animal Constants ------------- \\
 	public static final 		double		ANIMAL_COLLISION_RADIUS				=	5;
@@ -106,8 +107,6 @@ public final class Constants {
 	//-------------------------- Resource Constants -------------------------- \\
 	public static final 		int 		TREE_UPDATE_INTERVAL 				=	12000;
 	public static final 		int			TREE_INCREASE_AMOUNT				=	10;
-
-	public static final 		String		FARM_EVENT							=	"FARM_EVENT";
 
 	//------------------------------Item Constants------------------------------\\
 	//CROPS\\

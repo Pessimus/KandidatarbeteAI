@@ -52,6 +52,7 @@ public class Controller implements PropertyChangeListener {
 	private float scaleGraphicsX;
 	private float scaleGraphicsY;
 	private boolean showingPlayerInventory = false;
+	private boolean showingBuildOptions = false;
 
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
@@ -301,6 +302,14 @@ public class Controller implements PropertyChangeListener {
 							if (playerViewCentered && showingPlayerInventory && !gameModel.isPaused()) {
 								itemHighlighted = -1;
 								gameView.highlightInventoryItem(0);
+							} else if (!showingBuildOptions){
+								//TODO display
+								System.out.println("DISPLAY BUILD OPTIONS!");
+								showingBuildOptions = true;
+							}else{
+								//TODO hide display
+								System.out.println("HIDE BUILD OPTIONS!");
+								showingBuildOptions = false;
 							}
 							break;
 						case Input.KEY_C:
@@ -315,30 +324,42 @@ public class Controller implements PropertyChangeListener {
 							}
 							break;
 						case Input.KEY_1:
-							if (playerViewCentered && showingPlayerInventory && !gameModel.isPaused()) {
-								if(player.getBody().getInventory().size() >= 1){
+							if (playerViewCentered && !gameModel.isPaused()) {
+								if(showingPlayerInventory && player.getBody().getInventory().size() >= 1){
 									gameView.highlightInventoryItem(1);
 									itemHighlighted = 0;
+								}else if(showingBuildOptions){
+									System.out.println("BUILD 1");
+									//TODO build 1
+									player.build(1);
 								}
 							}else{
 								gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
 							}
 							break;
 						case Input.KEY_2:
-							if (playerViewCentered && showingPlayerInventory && !gameModel.isPaused()) {
-								if(player.getBody().getInventory().size() >= 2){
+							if (playerViewCentered && !gameModel.isPaused()) {
+								if(showingPlayerInventory && player.getBody().getInventory().size() >= 2){
 									gameView.highlightInventoryItem(2);
 									itemHighlighted = 1;
+								}else if(showingBuildOptions){
+									System.out.println("BUILD 2");
+									//TODO build 2
+									player.build(2);
 								}
 							}else{
 								gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_FASTER;
 							}
 							break;
 						case Input.KEY_3:
-							if(playerViewCentered && showingPlayerInventory && !gameModel.isPaused()){
-								if(player.getBody().getInventory().size() >= 3){
+							if(playerViewCentered && !gameModel.isPaused()){
+								if(showingPlayerInventory && player.getBody().getInventory().size() >= 3){
 									gameView.highlightInventoryItem(3);
 									itemHighlighted = 2;
+								}else if(showingBuildOptions){
+									System.out.println("BUILD 3");
+									//TODO build 3
+									player.build(3);
 								}
 							}else{
 								gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_FASTEST;

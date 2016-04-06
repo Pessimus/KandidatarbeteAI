@@ -128,7 +128,7 @@ public class World{
 		int i = 0;
 		float tmpX;
 		float tmpY;
-		while(i < 0){//nrTrees){
+		while(i < nrTrees){
 			tmpX = (float)(Math.random()*this.width);
 			tmpY = (float)(Math.random()*this.height);
 
@@ -157,6 +157,7 @@ public class World{
 
 			i++;
 		}
+		//TODO remove as crops now spawn from farms.
 		/*i = 0;
 		while(i < nrCrops){
 			tmpX = (float)(Math.random()*this.width);
@@ -263,6 +264,23 @@ public class World{
 		this.characters.put(key, character);
 
 		return character;
+	}
+
+	//TODO code this in a good way, this is not good.
+	public IStructure addStructure(float xPoss, float yPoss, IStructure.StructureType type){
+		IStructure structure = StructureFactory.createStructure(type, xPoss, yPoss);
+
+		this.collidables.add(structure);
+		this.collidablesR.add(structure);
+		this.statics.add(structure);
+		if(type.equals(IStructure.StructureType.FARM)){
+			this.timeables.add((ITimeable) structure);
+		}
+
+		//update mask for pathfinding
+		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+
+		return null;
 	}
 
 	/**

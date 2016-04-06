@@ -9,6 +9,7 @@ public class Stockpile implements IStructure {
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
     public static final StructureType structureType = StructureType.STOCKPILE;
+	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.STOCKPILE;
 
     private Inventory inventory;
 
@@ -20,19 +21,18 @@ public class Stockpile implements IStructure {
 	private double interactionRadius;
 	private double surroundingRadius;
 
-	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum;
-
 //-----------------------------------------------CONSTRUCTOR----------------------------------------------------------\\
 
-	public Stockpile(RenderObject.RENDER_OBJECT_ENUM renderEnum, float x, float y){
+	public Stockpile(float x, float y){
 		this.xPos = x;
 		this.yPos = y;
 		this.collisionRadius = Constants.STOCKPILE_COLLISION_RADIUS;
 		this.interactionRadius = 0;
 		this.surroundingRadius = 0;
-		this.renderObjectEnum = renderEnum;
 
-		this.integrity = 100;
+		this.integrity = 10;
+
+		inventory = new Inventory();
 
 	}
 

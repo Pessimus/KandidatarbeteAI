@@ -102,6 +102,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	private Inventory inventory;
 
+	private boolean spawning;
+	private IStructure.StructureType typeToSpawn;
+
 	//--------------------Collision---------------------\\
 	private float xPos;
 	private float yPos;
@@ -144,6 +147,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.age = 0;
 		this.inventory = new Inventory();
 		this.key = key;
+
+		this.spawning = false;
 
 		//Initial position
 		this.xPos = xPos;
@@ -370,13 +375,14 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	@Override
 	public boolean isSpawning() {
-		//TODO implement
-		return false;
+		return spawning;
 	}
 
 	@Override
 	public void spawn(World rhs) {
-		//TODO implement
+		//TODO add cost
+		rhs.addStructure(xPos,yPos,typeToSpawn);
+		spawning = false;
 	}
 
 	/**
@@ -597,6 +603,12 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	public void sleep() {
 		this.energy = 100;
+	}
+
+	@Override
+	public void build(IStructure.StructureType type){
+		this.typeToSpawn = type;
+		this.spawning = true;
 	}
 
 }
