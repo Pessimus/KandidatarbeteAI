@@ -43,28 +43,28 @@ public class Farm implements IStructure, ITimeable{
 		spawnPointsXpos = new float[nbrOfSpawnPoints];
 		spawnPointsYpos = new float[nbrOfSpawnPoints];
 
-		spawnPointsXpos[0] = (float)(x-collisionRadius);
-		spawnPointsYpos[0] = (float)(y-collisionRadius);
+		spawnPointsXpos[0] = (float)(x-(collisionRadius+20+1));
+		spawnPointsYpos[0] = (float)(y-(collisionRadius+20+1));
 
 		spawnPointsXpos[1] = x;
-		spawnPointsYpos[1] = (float)(y-collisionRadius);
+		spawnPointsYpos[1] = (float)(y-(collisionRadius+20+1));
 
-		spawnPointsXpos[2] = (float)(x+collisionRadius);
-		spawnPointsYpos[2] = (float)(y-collisionRadius);
+		spawnPointsXpos[2] = (float)(x+(collisionRadius+20+1));
+		spawnPointsYpos[2] = (float)(y-(collisionRadius+20+1));
 
-		spawnPointsXpos[3] = (float)(x+collisionRadius);
+		spawnPointsXpos[3] = (float)(x+(collisionRadius+20+1));
 		spawnPointsYpos[3] = y;
 
-		spawnPointsXpos[4] = (float)(x+collisionRadius);
-		spawnPointsYpos[4] = (float)(y+collisionRadius);
+		spawnPointsXpos[4] = (float)(x+(collisionRadius+20+1));
+		spawnPointsYpos[4] = (float)(y+(collisionRadius+20+1));
 
 		spawnPointsXpos[5] = x;
-		spawnPointsYpos[5] = (float)(y+collisionRadius);
+		spawnPointsYpos[5] = (float)(y+(collisionRadius+20+1));
 
-		spawnPointsXpos[6] = (float)(x-collisionRadius);
-		spawnPointsYpos[6] = (float)(y+collisionRadius);
+		spawnPointsXpos[6] = (float)(x-(collisionRadius+20+1));
+		spawnPointsYpos[6] = (float)(y+(collisionRadius+20+1));
 
-		spawnPointsXpos[7] = (float)(x-collisionRadius);
+		spawnPointsXpos[7] = (float)(x-(collisionRadius+20+1));
 		spawnPointsYpos[7] = y;
 
 	}
@@ -200,10 +200,12 @@ public class Farm implements IStructure, ITimeable{
 		while(i < nbrOfSpawnPoints) {
 			if(spawnPoints[i] == null) {
 				Crops crops = new Crops(100, 10);
-				spawnPoints[i] = crops;
-				rhs.addFiniteResourcePoint(crops, RenderObject.RENDER_OBJECT_ENUM.CROPS, spawnPointsXpos[i], spawnPointsYpos[i], 20);
-				spawning = false;
-				return;
+				ResourcePoint rp = rhs.addFiniteResourcePoint(crops, RenderObject.RENDER_OBJECT_ENUM.CROPS, spawnPointsXpos[i], spawnPointsYpos[i], 20);
+				if(rp != null) {
+					spawnPoints[i] = crops;
+					spawning = false;
+					return;
+				}
 			}
 			i++;
 		}
