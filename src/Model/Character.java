@@ -130,6 +130,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	private int thirst;
 	private int energy;
 
+
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
 	/**

@@ -113,7 +113,7 @@ public final class Constants {
 	public static final 		int			CROP_ENERGY_CHANGE_INTERACT			=	0;
 	public static final 		int			CROP_THIRST_CHANGE_INTERACT			=	0;
 
-	public static final 		int			CROP_HUNGER_CHANGE_CONSUME			=	15;
+	public static final 		int			CROP_HUNGER_CHANGE_CONSUME			=	2;
 	public static final 		int			CROP_ENERGY_CHANGE_CONSUME			=	1;
 	public static final 		int			CROP_THIRST_CHANGE_CONSUME			=	-1;
 
@@ -126,9 +126,9 @@ public final class Constants {
 	public static final 		int			STONE_ENERGY_CHANGE_INTERACT		=	0;
 	public static final 		int			STONE_THIRST_CHANGE_INTERACT		=	0;
 
-	public static final 		int			STONE_HUNGER_CHANGE_CONSUME			=	-20;
-	public static final 		int			STONE_ENERGY_CHANGE_CONSUME			=	-10;
-	public static final 		int			STONE_THIRST_CHANGE_CONSUME			=	-20;
+	public static final 		int			STONE_HUNGER_CHANGE_CONSUME			=	-2;
+	public static final 		int			STONE_ENERGY_CHANGE_CONSUME			=	-1;
+	public static final 		int			STONE_THIRST_CHANGE_CONSUME			=	-2;
 
 	public static final 		int			STONE_HUNGER_CHANGE_ATTACK			=	0;
 	public static final 		int			STONE_ENERGY_CHANGE_ATTACK			=	0;
@@ -139,9 +139,9 @@ public final class Constants {
 	public static final 		int			GOLD_ENERGY_CHANGE_INTERACT			=	0;
 	public static final 		int			GOLD_THIRST_CHANGE_INTERACT			=	0;
 
-	public static final 		int			GOLD_HUNGER_CHANGE_CONSUME			=	-20;
-	public static final 		int			GOLD_ENERGY_CHANGE_CONSUME			=	-10;
-	public static final 		int			GOLD_THIRST_CHANGE_CONSUME			=	-20;
+	public static final 		int			GOLD_HUNGER_CHANGE_CONSUME			=	-2;
+	public static final 		int			GOLD_ENERGY_CHANGE_CONSUME			=	-1;
+	public static final 		int			GOLD_THIRST_CHANGE_CONSUME			=	-2;
 
 	public static final 		int			GOLD_HUNGER_CHANGE_ATTACK			=	0;
 	public static final 		int			GOLD_ENERGY_CHANGE_ATTACK			=	0;
@@ -152,9 +152,9 @@ public final class Constants {
 	public static final 		int			FISH_ENERGY_CHANGE_INTERACT			=	0;
 	public static final 		int			FISH_THIRST_CHANGE_INTERACT			=	0;
 
-	public static final 		int			FISH_HUNGER_CHANGE_CONSUME			=	20;
-	public static final 		int			FISH_ENERGY_CHANGE_CONSUME			=	5;
-	public static final 		int			FISH_THIRST_CHANGE_CONSUME			=	-3;
+	public static final 		int			FISH_HUNGER_CHANGE_CONSUME			=	2;
+	public static final 		int			FISH_ENERGY_CHANGE_CONSUME			=	1;
+	public static final 		int			FISH_THIRST_CHANGE_CONSUME			=	-1;
 
 	public static final 		int			FISH_HUNGER_CHANGE_ATTACK			=	30;
 	public static final 		int			FISH_ENERGY_CHANGE_ATTACK			=	-5;
@@ -165,9 +165,9 @@ public final class Constants {
 	public static final 		int			COOKED_FISH_ENERGY_CHANGE_INTERACT	=	0;
 	public static final 		int			COOKED_FISH_THIRST_CHANGE_INTERACT	=	0;
 
-	public static final 		int			COOKED_FISH_HUNGER_CHANGE_CONSUME	=	30;
-	public static final 		int			COOKED_FISH_ENERGY_CHANGE_CONSUME	=	10;
-	public static final 		int			COOKED_FISH_THIRST_CHANGE_CONSUME	=	-3;
+	public static final 		int			COOKED_FISH_HUNGER_CHANGE_CONSUME	=	3;
+	public static final 		int			COOKED_FISH_ENERGY_CHANGE_CONSUME	=	1;
+	public static final 		int			COOKED_FISH_THIRST_CHANGE_CONSUME	=	-1;
 
 	public static final 		int			COOKED_FISH_HUNGER_CHANGE_ATTACK	=	30;
 	public static final 		int			COOKED_FISH_ENERGY_CHANGE_ATTACK	=	-5;
@@ -178,9 +178,9 @@ public final class Constants {
 	public static final 		int			WOOD_ENERGY_CHANGE_INTERACT			=	0;
 	public static final 		int			WOOD_THIRST_CHANGE_INTERACT			=	0;
 
-	public static final 		int			WOOD_HUNGER_CHANGE_CONSUME			=	-5;
-	public static final 		int			WOOD_ENERGY_CHANGE_CONSUME			=	0;
-	public static final 		int			WOOD_THIRST_CHANGE_CONSUME			=	-5;
+	public static final 		int			WOOD_HUNGER_CHANGE_CONSUME			=	-2;
+	public static final 		int			WOOD_ENERGY_CHANGE_CONSUME			=	-1;
+	public static final 		int			WOOD_THIRST_CHANGE_CONSUME			=	-2;
 
 	public static final 		int			WOOD_HUNGER_CHANGE_ATTACK			=	0;
 	public static final 		int			WOOD_ENERGY_CHANGE_ATTACK			=	0;
@@ -192,8 +192,8 @@ public final class Constants {
 	public static final 		int			WATER_THIRST_CHANGE_INTERACT		=	0;
 
 	public static final 		int			WATER_HUNGER_CHANGE_CONSUME			=	0;
-	public static final 		int			WATER_ENERGY_CHANGE_CONSUME			=	5;
-	public static final 		int			WATER_THIRST_CHANGE_CONSUME			=	30;
+	public static final 		int			WATER_ENERGY_CHANGE_CONSUME			=	1;
+	public static final 		int			WATER_THIRST_CHANGE_CONSUME			=	3;
 
 	public static final 		int			WATER_HUNGER_CHANGE_ATTACK			=	0;
 	public static final 		int			WATER_ENERGY_CHANGE_ATTACK			=	0;
@@ -204,9 +204,9 @@ public final class Constants {
 	public static final 		int			MEAT_ENERGY_CHANGE_INTERACT			=	0;
 	public static final 		int			MEAT_THIRST_CHANGE_INTERACT			=	0;
 
-	public static final 		int			MEAT_HUNGER_CHANGE_CONSUME			=	50;
-	public static final 		int			MEAT_ENERGY_CHANGE_CONSUME			=	20;
-	public static final 		int			MEAT_THIRST_CHANGE_CONSUME			=	-20;
+	public static final 		int			MEAT_HUNGER_CHANGE_CONSUME			=	4;
+	public static final 		int			MEAT_ENERGY_CHANGE_CONSUME			=	1;
+	public static final 		int			MEAT_THIRST_CHANGE_CONSUME			=	-2;
 
 	public static final 		int			MEAT_HUNGER_CHANGE_ATTACK			=	0;
 	public static final 		int			MEAT_ENERGY_CHANGE_ATTACK			=	0;
@@ -217,9 +217,9 @@ public final class Constants {
 	public static final 		int			COOKED_MEAT_ENERGY_CHANGE_INTERACT	=	0;
 	public static final 		int			COOKED_MEAT_THIRST_CHANGE_INTERACT	=	0;
 
-	public static final 		int			COOKED_MEAT_HUNGER_CHANGE_CONSUME	=	65;
-	public static final 		int			COOKED_MEAT_ENERGY_CHANGE_CONSUME	=	40;
-	public static final 		int			COOKED_MEAT_THIRST_CHANGE_CONSUME	=	-20;
+	public static final 		int			COOKED_MEAT_HUNGER_CHANGE_CONSUME	=	6;
+	public static final 		int			COOKED_MEAT_ENERGY_CHANGE_CONSUME	=	3;
+	public static final 		int			COOKED_MEAT_THIRST_CHANGE_CONSUME	=	-2;
 
 	public static final 		int			COOKED_MEAT_HUNGER_CHANGE_ATTACK	=	0;
 	public static final 		int			COOKED_MEAT_ENERGY_CHANGE_ATTACK	=	0;
