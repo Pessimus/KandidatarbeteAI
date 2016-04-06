@@ -10,7 +10,7 @@ public class Farm implements IStructure, ITimeable{
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 	public static final StructureType structureType = StructureType.FARM;
-	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.STONE;
+	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.FARM;
 
 	private int integrity;
 
@@ -21,6 +21,10 @@ public class Farm implements IStructure, ITimeable{
 	private double surroundingRadius;
 
 	private boolean spawning;
+	private int nbrOfSpawnPoints;
+	private Crops[] spawnPoints;
+	private float[] spawnPointsXpos;
+	private float[] spawnPointsYpos;
 
 //-----------------------------------------------CONSTRUCTOR----------------------------------------------------------\\
 
@@ -31,9 +35,37 @@ public class Farm implements IStructure, ITimeable{
 		this.interactionRadius = 0;
 		this.surroundingRadius = 0;
 
-		this.integrity = 100;
+		this.integrity = 10;
 
 		this.spawning = false;
+		nbrOfSpawnPoints = 8;
+		spawnPoints = new Crops[nbrOfSpawnPoints];
+		spawnPointsXpos = new float[nbrOfSpawnPoints];
+		spawnPointsYpos = new float[nbrOfSpawnPoints];
+
+		spawnPointsXpos[0] = (float)(x-collisionRadius);
+		spawnPointsYpos[0] = (float)(y-collisionRadius);
+
+		spawnPointsXpos[1] = x;
+		spawnPointsYpos[1] = (float)(y-collisionRadius);
+
+		spawnPointsXpos[2] = (float)(x+collisionRadius);
+		spawnPointsYpos[2] = (float)(y-collisionRadius);
+
+		spawnPointsXpos[3] = (float)(x+collisionRadius);
+		spawnPointsYpos[3] = y;
+
+		spawnPointsXpos[4] = (float)(x+collisionRadius);
+		spawnPointsYpos[4] = (float)(y+collisionRadius);
+
+		spawnPointsXpos[5] = x;
+		spawnPointsYpos[5] = (float)(y+collisionRadius);
+
+		spawnPointsXpos[6] = (float)(x-collisionRadius);
+		spawnPointsYpos[6] = (float)(y+collisionRadius);
+
+		spawnPointsXpos[7] = (float)(x-collisionRadius);
+		spawnPointsYpos[7] = y;
 
 	}
 
@@ -137,7 +169,13 @@ public class Farm implements IStructure, ITimeable{
 
 	@Override
 	public void updateTimeable() {
-
+		int i = 0;
+		while(i < nbrOfSpawnPoints){
+			if(spawnPoints[i] != null && spawnPoints[i].getResourcesLeft() == 0){
+				spawnPoints[i] = null;
+			}
+			i++;
+		}
 	}
 
 	@Override
@@ -153,10 +191,17 @@ public class Farm implements IStructure, ITimeable{
 
 	@Override
 	public void spawn(World rhs) {
-		System.out.println("Farm SPAWN !!!!!!!!!!!!");
-		Crops crops = new Crops(100, 10);
-		rhs.addFiniteResourcePoint(crops, RenderObject.RENDER_OBJECT_ENUM.CROPS, this.xPos+50, this.yPos+50, 20);
-		spawning = false;
+		int i = 0;
+		while(i < nbrOfSpawnPoints) {
+			if(spawnPoints[i] == null) {
+				Crops crops = new Crops(100, 10);
+				spawnPoints[i] = crops;
+				rhs.addFiniteResourcePoint(crops, RenderObject.RENDER_OBJECT_ENUM.CROPS, spawnPointsXpos[i], spawnPointsYpos[i], 20);
+				spawning = false;
+				return;
+			}
+			i++;
+		}
 	}
 
 //------------------------------------------------RENDER METHODS------------------------------------------------------\\
