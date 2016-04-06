@@ -133,6 +133,18 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	private int thirst;
 	private int energy;
 
+	//---PERSONALITY TRAITS---\\
+	private int gluttony;		//Temperance(0)		- 		Gluttony(100)
+	private int sloth;			//Diligent(0)		-		Sloth(100)
+	private int lust;			//Chasity(0)		-		Lust(100)
+	private int pride;			//Humility(0)		-		Pride(100)
+	private int greed;			//Charity(0)		-		Greed(100)
+	private int envy;			//Benevolence(0)	-		Envy(100)
+	private int wrath;			//Happiness(0)		-		Wrath(100)
+
+	//---UPDATE NEEDS BASED ON TRAITS---\\
+	private final int hungerUpdate;
+	private final int energyUpdate;
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
@@ -167,6 +179,19 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.interactableX = new LinkedList<>();
 		this.interactableY = new LinkedList<>();
 		this.interactables = new LinkedList<>();
+
+		//Generates random personality traits
+		int range = (Constants.MAX_TRAIT_VALUE-Constants.MIN_TRAIT_VALUE)+1;
+		gluttony = (int)(Math.random()*range)+Constants.MIN_TRAIT_VALUE;
+		sloth = (int)(Math.random()*range)+Constants.MIN_TRAIT_VALUE;
+		lust = (int)(Math.random()*range)+Constants.MIN_TRAIT_VALUE;
+		pride = (int)(Math.random()*range)+Constants.MIN_TRAIT_VALUE;
+		greed = (int)(Math.random()*range)+Constants.MIN_TRAIT_VALUE;
+		envy = (int)(Math.random()*range)+Constants.MIN_TRAIT_VALUE;
+		wrath = (int)(Math.random()*range)+Constants.MIN_TRAIT_VALUE;
+
+		hungerUpdate = (int)(Constants.CHARACTER_HUNGER_UPDATE - Constants.CHARACTER_HUNGER_UPDATE/2*gluttony*0.01);
+		energyUpdate = (int)(Constants.CHARACTER_ENERGY_UPDATE - Constants.CHARACTER_ENERGY_UPDATE/2*sloth*0.01);
 
 		//TODO check if this should be removed
 		//this.pathTest = new Pathfinder(16, 9600, 9600, 1, 1.4);
@@ -415,11 +440,15 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	/**{@inheritDoc}*/
 	public void updateTimeable() {
 		//Updates counter with one but doesn't exceed 60.
-		updateCounter = (updateCounter+1) % Constants.CHARACTER_UPDATE_INTERVAL;
-		if(updateCounter % Constants.CHARACTER_HUNGER_UPDATE == 0){
+		/*updateCounter = (updateCounter+1) % (Constants.CHARACTER_UPDATE_INTERVAL+1);
+		if(updateCounter == 0)
+			updateCounter++;*/
+		updateCounter++;
+
+		if(updateCounter % hungerUpdate == 0){
 			changeHunger(-Constants.CHARACTER_HUNGER_CHANGE);
 		}
-		if(updateCounter % Constants.CHARACTER_ENERGY_UPDATE == 0){
+		if(updateCounter % energyUpdate == 0){
 			changeEnergy(-Constants.CHARACTER_ENERGY_CHANGE);
 		}
 		if(updateCounter % Constants.CHARACTER_THIRST_UPDATE == 0){
