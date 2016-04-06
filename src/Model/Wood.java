@@ -73,7 +73,7 @@ public class Wood extends RenewableResource {
 	@Override
 	/**{@inheritDoc}*/
     public void updateTimeable() {
-		updateCounter = (updateCounter+1) % Constants.TREE_UPDATE_INTERVALL;
+		updateCounter = (updateCounter+1) % Constants.TREE_UPDATE_INTERVAL;
 		if(updateCounter == 0 && getResourcesLeft() > 0){// && getResourcesLeft()<getMaxResources()){
 			//setResourcesLeft(getResourcesLeft() + Constants.TREE_INCREASE_AMOUNT);
 			this.spawning = true;
@@ -93,10 +93,10 @@ public class Wood extends RenewableResource {
 
 	@Override
 	public void spawn(World rhs) {
-		float xDiff = ((float)Math.random()*500)-250;
-		float yDiff = ((float)Math.random()*500)-250;
-		Wood wood = new Wood(10, 10, 1, xPoss+xDiff, yPoss+yDiff);
-		rhs.addRenewableResourcePoint(wood, RenderObject.RENDER_OBJECT_ENUM.WOOD,xPoss+xDiff,yPoss+yDiff,75);
+		float xDiff = ((float) Math.random() * 500) - 250;
+		float yDiff = ((float) Math.random() * 500) - 250;
+		Wood wood = new Wood(10, 10, 1, xPoss + xDiff, yPoss + yDiff);
+		rhs.addRenewableResourcePoint(wood, RenderObject.RENDER_OBJECT_ENUM.WOOD, xPoss + xDiff, yPoss + yDiff, 75);
 		this.spawning = false;
 	}
 }

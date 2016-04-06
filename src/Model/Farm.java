@@ -9,9 +9,8 @@ import Toolkit.RenderObject;
 public class Farm implements IStructure, ITimeable{
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
-	public static final StructureType structureType = StructureType.STOCKPILE;
-
-	private Inventory inventory;
+	public static final StructureType structureType = StructureType.FARM;
+	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.STONE;
 
 	private int integrity;
 
@@ -21,18 +20,16 @@ public class Farm implements IStructure, ITimeable{
 	private double interactionRadius;
 	private double surroundingRadius;
 
-	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum;
-
 	private boolean spawning;
+
 //-----------------------------------------------CONSTRUCTOR----------------------------------------------------------\\
 
-	public Farm(RenderObject.RENDER_OBJECT_ENUM renderEnum, float x, float y){
+	public Farm(float x, float y){
 		this.xPos = x;
 		this.yPos = y;
-		this.collisionRadius = Constants.STOCKPILE_COLLISION_RADIUS;
+		this.collisionRadius = Constants.FARM_COLLISION_RADIUS;
 		this.interactionRadius = 0;
 		this.surroundingRadius = 0;
-		this.renderObjectEnum = renderEnum;
 
 		this.integrity = 100;
 
@@ -120,6 +117,7 @@ public class Farm implements IStructure, ITimeable{
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Character rhs) {
+		System.out.println("INTERACT FARM!!");
 		this.spawning = true;
 	}
 
@@ -145,7 +143,7 @@ public class Farm implements IStructure, ITimeable{
 	@Override
 	/**{@inheritDoc}*/
 	public boolean toBeRemoved() {
-		return integrity == 0;
+		return integrity <= 0;
 	}
 
 	@Override
@@ -155,8 +153,9 @@ public class Farm implements IStructure, ITimeable{
 
 	@Override
 	public void spawn(World rhs) {
+		System.out.println("Farm SPAWN !!!!!!!!!!!!");
 		Crops crops = new Crops(100, 10);
-		rhs.addFiniteResourcePoint(crops, RenderObject.RENDER_OBJECT_ENUM.CROPS, this.xPos, this.yPos, 20);
+		rhs.addFiniteResourcePoint(crops, RenderObject.RENDER_OBJECT_ENUM.CROPS, this.xPos+50, this.yPos+50, 20);
 		spawning = false;
 	}
 
