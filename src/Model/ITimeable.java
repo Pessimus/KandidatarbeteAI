@@ -14,4 +14,9 @@ public interface ITimeable {
 	 * @return true if it should be removed, else false.
 	 */
 	boolean toBeRemoved();
+
+	boolean isSpawning();
+
+	void spawn(World rhs);
+
 }

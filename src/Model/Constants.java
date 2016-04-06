@@ -103,6 +103,8 @@ public final class Constants {
 	public static final 		int 		TREE_UPDATE_INTERVALL				=	120;
 	public static final 		int			TREE_INCREASE_AMOUNT				=	10;
 
+	public static final 		String		FARM_EVENT							=	"FARM_EVENT";
+
 	//------------------------------Item Constants------------------------------\\
 	//CROPS\\
 	public static final 		int			CROP_HUNGER_CHANGE_INTERACT			=	0;

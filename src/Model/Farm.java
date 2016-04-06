@@ -2,15 +2,16 @@ package Model;
 
 import Toolkit.RenderObject;
 
+
 /**
- * Created by Oskar on 2016-04-01.
+ * Created by Martin on 04/04/2016.
  */
-public class Stockpile implements IStructure {
+public class Farm implements IStructure, ITimeable{
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
-    public static final StructureType structureType = StructureType.STOCKPILE;
+	public static final StructureType structureType = StructureType.STOCKPILE;
 
-    private Inventory inventory;
+	private Inventory inventory;
 
 	private int integrity;
 
@@ -22,9 +23,10 @@ public class Stockpile implements IStructure {
 
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum;
 
+	private boolean spawning;
 //-----------------------------------------------CONSTRUCTOR----------------------------------------------------------\\
 
-	public Stockpile(RenderObject.RENDER_OBJECT_ENUM renderEnum, float x, float y){
+	public Farm(RenderObject.RENDER_OBJECT_ENUM renderEnum, float x, float y){
 		this.xPos = x;
 		this.yPos = y;
 		this.collisionRadius = Constants.STOCKPILE_COLLISION_RADIUS;
@@ -33,6 +35,8 @@ public class Stockpile implements IStructure {
 		this.renderObjectEnum = renderEnum;
 
 		this.integrity = 100;
+
+		this.spawning = false;
 
 	}
 
@@ -116,7 +120,7 @@ public class Stockpile implements IStructure {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Character rhs) {
-		//TODO implement
+		this.spawning = true;
 	}
 
 	@Override
@@ -134,9 +138,26 @@ public class Stockpile implements IStructure {
 //------------------------------------------Update METHODS------------------------------------------------------------\\
 
 	@Override
+	public void updateTimeable() {
+
+	}
+
+	@Override
 	/**{@inheritDoc}*/
 	public boolean toBeRemoved() {
 		return integrity == 0;
+	}
+
+	@Override
+	public boolean isSpawning(){
+		return this.spawning;
+	}
+
+	@Override
+	public void spawn(World rhs) {
+		Crops crops = new Crops(100, 10);
+		rhs.addFiniteResourcePoint(crops, RenderObject.RENDER_OBJECT_ENUM.CROPS, this.xPos, this.yPos, 20);
+		spawning = false;
 	}
 
 //------------------------------------------------RENDER METHODS------------------------------------------------------\\
@@ -153,6 +174,5 @@ public class Stockpile implements IStructure {
 		return renderObjectEnum;
 	}
 
+
 }
-
-

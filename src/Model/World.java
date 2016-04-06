@@ -2,7 +2,6 @@ package Model;
 
 import Toolkit.InventoryRender;
 import Toolkit.RenderObject;
-import org.lwjgl.Sys;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -114,22 +113,18 @@ public class World{
 		this(width, height);
 
 		//TODO remove
-		Water wwwwww = new Water(1);
-		addInfiniteResourcePoint(wwwwww, RenderObject.RENDER_OBJECT_ENUM.LAKE, 1200,1200, 100);
-		addCharacter(1100, 1100, 500);
-		addCharacter(1300,1100,503);
-		addCharacter(1100,1300,502);
-		addCharacter(1300,1300,501);
+		Wood w = new Wood(10,10,1,1100,1100);
+		this.addRenewableResourcePoint(w, RenderObject.RENDER_OBJECT_ENUM.WOOD,1100,1100,75);
 
 
 		int i = 0;
 		float tmpX;
 		float tmpY;
-		while(i < nrTrees){
+		while(i < 0){//nrTrees){
 			tmpX = (float)(Math.random()*this.width);
 			tmpY = (float)(Math.random()*this.height);
 
-			Wood tmpWood = new Wood(10,10,1);
+			Wood tmpWood = new Wood(10,10,1,tmpX,tmpY);
 			addRenewableResourcePoint(tmpWood, RenderObject.RENDER_OBJECT_ENUM.WOOD, tmpX, tmpY, 75);
 
 			i++;
@@ -154,7 +149,7 @@ public class World{
 
 			i++;
 		}
-		i = 0;
+		/*i = 0;
 		while(i < nrCrops){
 			tmpX = (float)(Math.random()*this.width);
 			tmpY = (float)(Math.random()*this.height);
@@ -163,7 +158,8 @@ public class World{
 			addFiniteResourcePoint(tmpCrops, RenderObject.RENDER_OBJECT_ENUM.CROPS,tmpX,tmpY,20);
 
 			i++;
-		}
+		}*/
+
 	}
 
 //---------------------------------------------UPDATE METHODS---------------------------------------------------------\\
@@ -193,8 +189,15 @@ public class World{
 	 * Private method for updating the values of all objects in the world that depend on time.
 	 */
 	private void updateTimeables(){
+		LinkedList<ITimeable> spawningTimeables = new LinkedList<>();
 		for (ITimeable timedObj : timeables) {
 			timedObj.updateTimeable();
+			if(timedObj.isSpawning()){
+				spawningTimeables.add(timedObj);
+			}
+		}
+		for (ITimeable spawner : spawningTimeables){
+			spawner.spawn(this);
 		}
 	}
 
@@ -264,6 +267,7 @@ public class World{
 	 */
 	public ResourcePoint addFiniteResourcePoint(FiniteResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float xPoss, float yPoss, double radius){
 		ResourcePoint point = new ResourcePoint(resourceType, renderEnum, xPoss, yPoss, radius);
+
 		this.collidables.add(point);
 		this.collidablesR.add(point);
 		this.statics.add(point);
@@ -285,6 +289,7 @@ public class World{
 	 */
 	public ResourcePoint addInfiniteResourcePoint(InfiniteResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float xPoss, float yPoss, double radius){
 		ResourcePoint point = new ResourcePoint(resourceType, renderEnum, xPoss, yPoss, radius);
+
 		this.collidables.add(point);
 		this.collidablesR.add(point);
 		this.statics.add(point);
@@ -307,6 +312,7 @@ public class World{
 	 */
 	public ResourcePoint addRenewableResourcePoint(RenewableResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float xPoss, float yPoss, double radius){
 		ResourcePoint point = new ResourcePoint(resourceType, renderEnum, xPoss, yPoss, radius);
+
 		this.collidables.add(point);
 		this.collidablesR.add(point);
 		this.timeables.add(resourceType);
@@ -391,6 +397,8 @@ public class World{
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		pcs.removePropertyChangeListener(listener);
 	}
+
+
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 

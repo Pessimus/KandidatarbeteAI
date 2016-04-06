@@ -367,6 +367,17 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return !isAlive();
 	}
 
+	@Override
+	public boolean isSpawning() {
+		//TODO implement
+		return false;
+	}
+
+	@Override
+	public void spawn(World rhs) {
+		//TODO implement
+	}
+
 	/**
 	 * Checks if the character is alive.
 	 * @return true if the character is alive, else false.
