@@ -386,7 +386,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	@Override
 	public void spawn(World rhs) {
-		//TODO add cost
 		LinkedList<IItem> cost = StructureFactory.getCost(typeToSpawn);
 		boolean canPay = true;
 		for(IItem itemCost : cost){
@@ -395,7 +394,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 				break;
 			}
 		}
-		System.out.println(canPay);
 		if(canPay) {
 			for(IItem itemCost : cost){
 				System.out.println(inventory.removeItem(itemCost));

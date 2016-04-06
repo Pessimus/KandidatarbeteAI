@@ -183,37 +183,42 @@ public class CollisionList {
 			return false;
 		}
 
-		/*
-		Node tmpNodeX = startNodeX.next;
-		while(tmpNodeX != null){
-			if(tmpNodeX.value.getX() <= collidable.getX()) {//to the left
-				if (tmpNodeX.value.getX() + tmpNodeX.value.getCollisionRadius() >= collidable.getX() - collidable.getCollisionRadius()) {//Collision in x
-					if (tmpNodeX.value.getY() <= collidable.getY()) {//above
-						if (tmpNodeX.value.getY() + tmpNodeX.value.getCollisionRadius() >= collidable.getY() - collidable.getCollisionRadius()) {//Collision in y
-							return false;
-						}
-					}else {//below
-						if (tmpNodeX.value.getY() - tmpNodeX.value.getCollisionRadius() <= collidable.getY()+collidable.getX()){
-							return false;
+		Node tmpNode = startNodeX.next;
+		while(tmpNode != null){
+			if(tmpNode.value.isImovable()) {
+				if (tmpNode.value.getX() <= collidable.getX()) {//to the left
+					if (tmpNode.value.getX() + tmpNode.value.getCollisionRadius() >= collidable.getX() - collidable.getCollisionRadius()) {//Collision in x
+						if (tmpNode.value.getY() <= collidable.getY()) {//above
+							if (tmpNode.value.getY() + tmpNode.value.getCollisionRadius() >= collidable.getY() - collidable.getCollisionRadius()) {//Collision in y
+								System.out.println("1");
+								return false;
+							}
+						} else {//below
+							if (tmpNode.value.getY() - tmpNode.value.getCollisionRadius() <= collidable.getY() + collidable.getCollisionRadius()) {
+								System.out.println("2");
+								return false;
+							}
 						}
 					}
-				}
-			}else{//to the right
-				if (tmpNodeX.value.getX() - tmpNodeX.value.getCollisionRadius() >= collidable.getX() + collidable.getCollisionRadius()) {//Collision in x
-					if (tmpNodeX.value.getY() <= collidable.getY()) {//above
-						if (tmpNodeX.value.getY() + tmpNodeX.value.getCollisionRadius() >= collidable.getY() - collidable.getCollisionRadius()) {//Collision in y
-							return false;
-						}
-					}else {//below
-						if (tmpNodeX.value.getY() - tmpNodeX.value.getCollisionRadius() <= collidable.getY()+collidable.getX()){
-							return false;
+				} else {//to the right
+					if (tmpNode.value.getX() - tmpNode.value.getCollisionRadius() <= collidable.getX() + collidable.getCollisionRadius()) {//Collision in x
+						if (tmpNode.value.getY() <= collidable.getY()) {//above
+							if (tmpNode.value.getY() + tmpNode.value.getCollisionRadius() >= collidable.getY() - collidable.getCollisionRadius()) {//Collision in y
+								System.out.println("3");
+								return false;
+							}
+						} else {//below
+							if (tmpNode.value.getY() - tmpNode.value.getCollisionRadius() <= collidable.getY() + collidable.getCollisionRadius()) {
+								System.out.println("4");
+								return false;
+							}
 						}
 					}
 				}
 			}
-			tmpNodeX = tmpNodeX.next;
+			tmpNode = tmpNode.next;
 		}
-		*/
+
 		return true;
 	}
 
