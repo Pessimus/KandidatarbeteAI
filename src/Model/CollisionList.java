@@ -93,7 +93,7 @@ public class CollisionList {
 		}
 	}
 
-//------------------------------------------Add & toBeRemoved methods------------------------------------------------------\\
+//------------------------------------------Modification methods------------------------------------------------------\\
 
 	/**
 	 * Adds the ICollidable to the lists in the right place.
@@ -174,6 +174,18 @@ public class CollisionList {
 	 */
 	public int getSize(){
 		return this.size;
+	}
+
+	public RenderObject[] getRenderObjectsFromY(){
+		RenderObject[] renderObjects = new RenderObject[size];
+
+		Node tmp = startNodeY;
+		for (int i = 0; i < size; i++) {
+			tmp = tmp.next;
+			renderObjects[i] = tmp.value.getRenderObject();
+		}
+
+		return renderObjects;
 	}
 
 //----------------------------------------Sweep and prune methods-----------------------------------------------------\\

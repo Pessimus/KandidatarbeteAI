@@ -381,7 +381,21 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	public void spawn(World rhs) {
 		//TODO add cost
-		rhs.addStructure(xPos,yPos,typeToSpawn);
+		LinkedList<IItem> cost = StructureFactory.getCost(typeToSpawn);
+		boolean canPay = true;
+		for(IItem itemCost : cost){
+			if(!inventory.contains(itemCost)){
+				canPay = false;
+				break;
+			}
+		}
+		System.out.println(canPay);
+		if(canPay) {
+			for(IItem itemCost : cost){
+				System.out.println(inventory.removeItem(itemCost));
+			}
+			rhs.addStructure(xPos, yPos, typeToSpawn);
+		}
 		spawning = false;
 	}
 
@@ -601,11 +615,13 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void sleep() {
 		this.energy = 100;
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void build(IStructure.StructureType type){
 		this.typeToSpawn = type;
 		this.spawning = true;

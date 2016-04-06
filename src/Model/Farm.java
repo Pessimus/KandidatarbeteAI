@@ -149,7 +149,6 @@ public class Farm implements IStructure, ITimeable{
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Character rhs) {
-		System.out.println("INTERACT FARM!!");
 		this.spawning = true;
 	}
 

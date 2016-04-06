@@ -2,6 +2,8 @@ package Model;
 
 import Model.IStructure.StructureType;
 
+import java.util.LinkedList;
+
 /**
  * Created by Martin on 2016-04-06.
  */
@@ -21,6 +23,29 @@ public class StructureFactory {
 
 			case FARM:
 				return new Farm(x, y);
+
+			default:
+				return null;
+		}
+	}
+
+	public static LinkedList<IItem> getCost(StructureType typeToSpawn) {
+		LinkedList<IItem> cost = new LinkedList<>();
+		switch (typeToSpawn){
+			case STOCKPILE:
+				cost.add(new StoneItem(1));
+				cost.add(new WoodItem(2));
+				return cost;
+
+			case HOUSE:
+				cost.add(new StoneItem(2));
+				cost.add(new WoodItem(4));
+				return cost;
+
+			case FARM:
+				cost.add(new StoneItem(4));
+				cost.add(new WoodItem(8));
+				return cost;
 
 			default:
 				return null;

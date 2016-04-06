@@ -386,12 +386,17 @@ public class World{
 	 * @return a list of all objects in the world, represented as RenderObjects.
 	 */
 	public RenderObject[] getRenderObjects() {
+		/*TODO remove this
 		RenderObject[] renderObjects = new RenderObject[collidables.getSize()];
 
 		for (int i = 0; i < collidablesR.size(); i++) {
 			renderObjects[i] = collidablesR.get(i).getRenderObject();
 		}
 		return renderObjects;
+		*/
+
+		return collidables.getRenderObjectsFromY();
+
 	}
 
 	//TODO better MVC praxis

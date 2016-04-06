@@ -329,8 +329,6 @@ public class Controller implements PropertyChangeListener {
 									gameView.highlightInventoryItem(1);
 									itemHighlighted = 0;
 								}else if(showingBuildOptions){
-									System.out.println("BUILD 1");
-									//TODO build 1
 									player.build(1);
 								}
 							}else{
@@ -343,8 +341,6 @@ public class Controller implements PropertyChangeListener {
 									gameView.highlightInventoryItem(2);
 									itemHighlighted = 1;
 								}else if(showingBuildOptions){
-									System.out.println("BUILD 2");
-									//TODO build 2
 									player.build(2);
 								}
 							}else{
@@ -357,8 +353,6 @@ public class Controller implements PropertyChangeListener {
 									gameView.highlightInventoryItem(3);
 									itemHighlighted = 2;
 								}else if(showingBuildOptions){
-									System.out.println("BUILD 3");
-									//TODO build 3
 									player.build(3);
 								}
 							}else{
