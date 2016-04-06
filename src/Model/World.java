@@ -2,7 +2,6 @@ package Model;
 
 import Toolkit.InventoryRender;
 import Toolkit.RenderObject;
-import org.lwjgl.Sys;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -82,11 +81,11 @@ public class World{
 		this.height = height;
 
 		//Initializing lists for objects in world.
-		this.collidables = new CollisionList();
+		this.collidables = new CollisionList(0,width,0,height);
 		this.collidablesR = new LinkedList<>();
 		this.timeables = new LinkedList<>();
 		this.characters = new HashMap<>();
-		this.statics = new CollisionList();
+		this.statics = new CollisionList(0,width,0,height);
 
 		//Initializing removal lists
 		collidablestoberemoved = new LinkedList<>();
@@ -114,13 +113,17 @@ public class World{
 		this(width, height);
 
 		//TODO remove
-		Water wwwwww = new Water(1);
-		addInfiniteResourcePoint(wwwwww, RenderObject.RENDER_OBJECT_ENUM.LAKE, 1200,1200, 100);
-		addCharacter(1100, 1100, 500);
-		addCharacter(1300,1100,503);
-		addCharacter(1100,1300,502);
-		addCharacter(1300,1300,501);
+		Wood w = new Wood(10,10,1,1100,1100);
+		this.addRenewableResourcePoint(w, RenderObject.RENDER_OBJECT_ENUM.WOOD,1100,1100,75);
 
+		/*Farm farm = new Farm(1100,1100);
+		this.collidables.add(farm);
+		this.collidablesR.add(farm);
+		this.timeables.add(farm);
+		this.statics.add(farm);
+		//update mask for pathfinding
+		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+*/
 
 		int i = 0;
 		float tmpX;
@@ -129,7 +132,7 @@ public class World{
 			tmpX = (float)(Math.random()*this.width);
 			tmpY = (float)(Math.random()*this.height);
 
-			Wood tmpWood = new Wood(10,10,1);
+			Wood tmpWood = new Wood(10,10,1,tmpX,tmpY);
 			addRenewableResourcePoint(tmpWood, RenderObject.RENDER_OBJECT_ENUM.WOOD, tmpX, tmpY, 75);
 
 			i++;
@@ -154,7 +157,8 @@ public class World{
 
 			i++;
 		}
-		i = 0;
+		//TODO remove as crops now spawn from farms.
+		/*i = 0;
 		while(i < nrCrops){
 			tmpX = (float)(Math.random()*this.width);
 			tmpY = (float)(Math.random()*this.height);
@@ -163,7 +167,8 @@ public class World{
 			addFiniteResourcePoint(tmpCrops, RenderObject.RENDER_OBJECT_ENUM.CROPS,tmpX,tmpY,20);
 
 			i++;
-		}
+		}*/
+
 	}
 
 //---------------------------------------------UPDATE METHODS---------------------------------------------------------\\
@@ -174,6 +179,7 @@ public class World{
 	 * check what objects collide with each other.
 	 */
 	public void update() {
+
 		if (!pause) {
 			updateTimeables();
 
@@ -193,8 +199,15 @@ public class World{
 	 * Private method for updating the values of all objects in the world that depend on time.
 	 */
 	private void updateTimeables(){
+		LinkedList<ITimeable> spawningTimeables = new LinkedList<>();
 		for (ITimeable timedObj : timeables) {
 			timedObj.updateTimeable();
+			if(timedObj.isSpawning()){
+				spawningTimeables.add(timedObj);
+			}
+		}
+		for (ITimeable spawner : spawningTimeables){
+			spawner.spawn(this);
 		}
 	}
 
@@ -253,6 +266,28 @@ public class World{
 		return character;
 	}
 
+	//TODO code this in a good way, this is not good.
+	public IStructure addStructure(float xPoss, float yPoss, IStructure.StructureType type){
+		IStructure structure = StructureFactory.createStructure(type, xPoss, yPoss);
+
+		System.out.println(collidables.canAdd(structure));
+
+		if(collidables.canAdd(structure)) {
+			this.collidables.add(structure);
+			this.collidablesR.add(structure);
+			this.statics.add(structure);
+			if (type.equals(IStructure.StructureType.FARM)) {
+				this.timeables.add((ITimeable) structure);
+			}
+
+			//update mask for pathfinding
+			Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+
+			return structure;
+		}
+		return null;
+	}
+
 	/**
 	 * Adds a new finite resource point to the world at the specified position.
 	 * @param resourceType the resource the point should contain.
@@ -264,14 +299,19 @@ public class World{
 	 */
 	public ResourcePoint addFiniteResourcePoint(FiniteResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float xPoss, float yPoss, double radius){
 		ResourcePoint point = new ResourcePoint(resourceType, renderEnum, xPoss, yPoss, radius);
-		this.collidables.add(point);
-		this.collidablesR.add(point);
-		this.statics.add(point);
 
-		//update mask for pathfinding
-		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+		if(collidables.canAdd(point)) {
+			this.collidables.add(point);
+			this.collidablesR.add(point);
+			this.statics.add(point);
 
-		return point;
+			//update mask for pathfinding
+			Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+
+			return point;
+		}
+
+		return null;
 	}
 
 	/**
@@ -285,14 +325,19 @@ public class World{
 	 */
 	public ResourcePoint addInfiniteResourcePoint(InfiniteResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float xPoss, float yPoss, double radius){
 		ResourcePoint point = new ResourcePoint(resourceType, renderEnum, xPoss, yPoss, radius);
-		this.collidables.add(point);
-		this.collidablesR.add(point);
-		this.statics.add(point);
 
-		//update mask for pathfinding
-		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+		if(collidables.canAdd(point)) {
+			this.collidables.add(point);
+			this.collidablesR.add(point);
+			this.statics.add(point);
 
-		return point;
+			//update mask for pathfinding
+			Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+
+			return point;
+		}
+
+		return null;
 	}
 
 
@@ -307,15 +352,20 @@ public class World{
 	 */
 	public ResourcePoint addRenewableResourcePoint(RenewableResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float xPoss, float yPoss, double radius){
 		ResourcePoint point = new ResourcePoint(resourceType, renderEnum, xPoss, yPoss, radius);
-		this.collidables.add(point);
-		this.collidablesR.add(point);
-		this.timeables.add(resourceType);
-		this.statics.add(point);
 
-		//update mask for pathfinding
-		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+		if(collidables.canAdd(point)) {
+			this.collidables.add(point);
+			this.collidablesR.add(point);
+			this.timeables.add(resourceType);
+			this.statics.add(point);
 
-		return point;
+			//update mask for pathfinding
+			Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+
+			return point;
+		}
+
+		return null;
 	}
 
 	/**
@@ -353,12 +403,17 @@ public class World{
 	 * @return a list of all objects in the world, represented as RenderObjects.
 	 */
 	public RenderObject[] getRenderObjects() {
+		/*TODO remove this
 		RenderObject[] renderObjects = new RenderObject[collidables.getSize()];
 
 		for (int i = 0; i < collidablesR.size(); i++) {
 			renderObjects[i] = collidablesR.get(i).getRenderObject();
 		}
 		return renderObjects;
+		*/
+
+		return collidables.getRenderObjectsFromY();
+
 	}
 
 	//TODO better MVC praxis
@@ -391,6 +446,8 @@ public class World{
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		pcs.removePropertyChangeListener(listener);
 	}
+
+
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 

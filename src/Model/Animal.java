@@ -101,6 +101,12 @@ public class Animal implements ICollidable {
 		//TODO implement, if AI for animal
 	}
 
+	@Override
+	/**{@inheritDoc}*/
+	public boolean isImovable(){
+		return false;
+	}
+
 //---------------------------------------Interaction methods----------------------------------------------------------\\
 
 	@Override

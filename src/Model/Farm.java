@@ -2,21 +2,20 @@ package Model;
 
 import Toolkit.RenderObject;
 
+
 /**
- * Created by Oskar on 2016-04-01.
+ * Created by Martin on 04/04/2016.
  */
-public class Stockpile implements IStructure {
+public class Farm implements IStructure, ITimeable{
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
-    public static final StructureType structureType = StructureType.STOCKPILE;
-	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.STOCKPILE;
+	public static final StructureType structureType = StructureType.FARM;
+	public static final StructureBuildingMaterialTuple[] buildingMaterials = new StructureBuildingMaterialTuple[]
+			{       new StructureBuildingMaterialTuple(IItem.Type.WOOD_ITEM, 20),
+					new StructureBuildingMaterialTuple(IItem.Type.STONE_ITEM, 5)
+			};
 
-    private static final StructureBuildingMaterialTuple[] buildingMaterials = new StructureBuildingMaterialTuple[]
-            {       new StructureBuildingMaterialTuple(IItem.Type.WOOD_ITEM, 5),
-                    new StructureBuildingMaterialTuple(IItem.Type.STONE_ITEM, 20)
-            };
-
-    private Inventory inventory;
+	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.FARM;
 
 	private int integrity;
 
@@ -26,18 +25,52 @@ public class Stockpile implements IStructure {
 	private double interactionRadius;
 	private double surroundingRadius;
 
+	private boolean spawning;
+	private int nbrOfSpawnPoints;
+	private Crops[] spawnPoints;
+	private float[] spawnPointsXpos;
+	private float[] spawnPointsYpos;
+
 //-----------------------------------------------CONSTRUCTOR----------------------------------------------------------\\
 
-	public Stockpile(float x, float y){
+	public Farm(float x, float y){
 		this.xPos = x;
 		this.yPos = y;
-		this.collisionRadius = Constants.STOCKPILE_COLLISION_RADIUS;
+		this.collisionRadius = Constants.FARM_COLLISION_RADIUS;
 		this.interactionRadius = 0;
 		this.surroundingRadius = 0;
 
 		this.integrity = 10;
 
-		inventory = new Inventory();
+		this.spawning = false;
+		nbrOfSpawnPoints = 8;
+		spawnPoints = new Crops[nbrOfSpawnPoints];
+		spawnPointsXpos = new float[nbrOfSpawnPoints];
+		spawnPointsYpos = new float[nbrOfSpawnPoints];
+
+		spawnPointsXpos[0] = (float)(x-(collisionRadius+20+1));
+		spawnPointsYpos[0] = (float)(y-(collisionRadius+20+1));
+
+		spawnPointsXpos[1] = x;
+		spawnPointsYpos[1] = (float)(y-(collisionRadius+20+1));
+
+		spawnPointsXpos[2] = (float)(x+(collisionRadius+20+1));
+		spawnPointsYpos[2] = (float)(y-(collisionRadius+20+1));
+
+		spawnPointsXpos[3] = (float)(x+(collisionRadius+20+1));
+		spawnPointsYpos[3] = y;
+
+		spawnPointsXpos[4] = (float)(x+(collisionRadius+20+1));
+		spawnPointsYpos[4] = (float)(y+(collisionRadius+20+1));
+
+		spawnPointsXpos[5] = x;
+		spawnPointsYpos[5] = (float)(y+(collisionRadius+20+1));
+
+		spawnPointsXpos[6] = (float)(x-(collisionRadius+20+1));
+		spawnPointsYpos[6] = (float)(y+(collisionRadius+20+1));
+
+		spawnPointsXpos[7] = (float)(x-(collisionRadius+20+1));
+		spawnPointsYpos[7] = y;
 
 	}
 
@@ -74,17 +107,14 @@ public class Stockpile implements IStructure {
 	}
 
 	@Override
-	public StructureType getStructureType() {
-		return structureType;
-	}
-
-	@Override
 	public StructureBuildingMaterialTuple[] getBuildingMaterials() {
 		return buildingMaterials;
 	}
 
-//----------------------------------------ADD & REMOVE OCCUPANTS------------------------------------------------------\\
-
+	@Override
+	public StructureType getStructureType() {
+		return structureType;
+	}
 
 	@Override
 	/**{@inheritDoc}*/
@@ -135,7 +165,7 @@ public class Stockpile implements IStructure {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Character rhs) {
-		//TODO implement
+		this.spawning = true;
 	}
 
 	@Override
@@ -153,9 +183,42 @@ public class Stockpile implements IStructure {
 //------------------------------------------Update METHODS------------------------------------------------------------\\
 
 	@Override
+	public void updateTimeable() {
+		int i = 0;
+		while(i < nbrOfSpawnPoints){
+			if(spawnPoints[i] != null && spawnPoints[i].getResourcesLeft() == 0){
+				spawnPoints[i] = null;
+			}
+			i++;
+		}
+	}
+
+	@Override
 	/**{@inheritDoc}*/
 	public boolean toBeRemoved() {
-		return integrity == 0;
+		return integrity <= 0;
+	}
+
+	@Override
+	public boolean isSpawning(){
+		return this.spawning;
+	}
+
+	@Override
+	public void spawn(World rhs) {
+		int i = 0;
+		while(i < nbrOfSpawnPoints) {
+			if(spawnPoints[i] == null) {
+				Crops crops = new Crops(100, 10);
+				ResourcePoint rp = rhs.addFiniteResourcePoint(crops, RenderObject.RENDER_OBJECT_ENUM.CROPS, spawnPointsXpos[i], spawnPointsYpos[i], 20);
+				if(rp != null) {
+					spawnPoints[i] = crops;
+					spawning = false;
+					return;
+				}
+			}
+			i++;
+		}
 	}
 
 //------------------------------------------------RENDER METHODS------------------------------------------------------\\
@@ -171,6 +234,6 @@ public class Stockpile implements IStructure {
 	public RenderObject.RENDER_OBJECT_ENUM getRenderType() {
 		return renderObjectEnum;
 	}
+
+
 }
-
-

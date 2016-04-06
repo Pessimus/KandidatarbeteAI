@@ -12,6 +12,7 @@ public class House implements IStructure {
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
     public static final StructureType structureType = StructureType.HOUSE;
+	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.HOUSE;
 
     private static final StructureBuildingMaterialTuple[] buildingMaterials = new StructureBuildingMaterialTuple[]
             {       new StructureBuildingMaterialTuple(IItem.Type.WOOD_ITEM, 10),
@@ -30,24 +31,20 @@ public class House implements IStructure {
 	private double interactionRadius;
 	private double surroundingRadius;
 
-	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum;
-
 //-----------------------------------------------CONSTRUCTOR----------------------------------------------------------\\
     /**
      * A class representing the structure "House".
-     * @param capacity the max capacity of occupants in the house.
      */
-    public House(RenderObject.RENDER_OBJECT_ENUM renderEnum, float x, float y, int capacity){
+    public House(float x, float y){
 		this.xPos = x;
 		this.yPos = y;
 		this.collisionRadius = Constants.HOUSE_COLLISION_RADIUS;
 		this.interactionRadius = 0;
 		this.surroundingRadius = 0;
-		this.renderObjectEnum = renderEnum;
 
-		this.integrity = 100;
+		this.integrity = 10;
 
-		this.capacity=capacity;
+		this.capacity=Constants.HOUSE_MAX_CAPACITY;
 	}
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
@@ -101,6 +98,12 @@ public class House implements IStructure {
     public boolean getIsFull(){
         return isFull;
     }
+
+	@Override
+	/**{@inheritDoc}*/
+	public boolean isImovable(){
+		return true;
+	}
 
 //----------------------------------------ADD & REMOVE OCCUPANTS------------------------------------------------------\\
 

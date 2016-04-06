@@ -4,6 +4,7 @@ import Controller.AIStates.IState;
 import Model.Character;
 import Model.Constants;
 import Model.ICharacterHandle;
+import Model.IStructure;
 import org.newdawn.slick.util.pathfinding.PathFinder;
 
 import java.util.LinkedList;
@@ -118,5 +119,19 @@ public class PlayerBrain implements AbstractBrain {
 	//TODO how to select object from list, aka not always 0
 	public void consume(){
 		this.body.consumeObject(0);
+	}
+
+	public void build(int structureIndex){
+		switch (structureIndex){
+			case 1:
+				body.build(IStructure.StructureType.HOUSE);
+				break;
+			case 2:
+				body.build(IStructure.StructureType.FARM);
+				break;
+			case 3:
+				body.build(IStructure.StructureType.STOCKPILE);
+				break;
+		}
 	}
 }
