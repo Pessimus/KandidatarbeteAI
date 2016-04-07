@@ -94,7 +94,7 @@ public final class Constants {
 	//----------- Animal Constants ------------- \\
 	public static final 		double		ANIMAL_COLLISION_RADIUS				=	5;
 	public static final 		double		ANIMAL_INTERACTION_RADIUS			=	20;
-	public static final 		double		ANIMAL_SURROUNDING_RADIUS			=	50;
+	public static final 		double		ANIMAL_SURROUNDING_RADIUS			=	200;
 
 	public static final 		int			ANIMAL_HUNGER_CHANGE_CONSUME		=	20;
 	public static final 		int			ANIMAL_ENERGY_CHANGE_CONSUME		=	-5;

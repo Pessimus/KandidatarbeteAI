@@ -1,7 +1,5 @@
 package Model;
 
-import org.newdawn.slick.tests.xml.Item;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -9,6 +7,10 @@ import java.beans.PropertyChangeSupport;
  * Created by Martin on 07/04/2016.
  */
 public class Interaction {
+
+	public enum InteractionType{
+		SOCIAL,HOSTILE
+	}
 
 	private PropertyChangeSupport pcs;
 
@@ -78,13 +80,14 @@ public class Interaction {
 
 //--------------------------------------------Social Methods----------------------------------------------------------\\
 
-	public void talk(){
+	public void talk(InteractionType typr){
 		if(active){
 			if(detectable()) {
 				if(interactable()) {
-					//TODO fire propertyChange
-					//TODO update needs of c1
-					//TODO update needs of c2
+					//TODO swich case
+						//TODO fire propertyChange
+						//TODO update needs of c1
+						//TODO update needs of c2
 				}
 			}else {
 				this.endInteraction();

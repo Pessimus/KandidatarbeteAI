@@ -309,7 +309,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Character rhs){
-		//TODO implement
+		rhs.startCharacterInteraction(this);
 	}
 
 	@Override
@@ -322,6 +322,10 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs){
 		//pcs.firePropertyChange("Character attacked", null, rhs);
+		//TODO implement
+	}
+
+	private void startCharacterInteraction(Character rhs){
 		//TODO implement
 	}
 
