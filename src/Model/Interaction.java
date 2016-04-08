@@ -9,7 +9,7 @@ import java.beans.PropertyChangeSupport;
 public class Interaction {
 
 	public enum InteractionType{
-		SOCIAL,HOSTILE
+		SOCIAL,HOSTILE  //TODO ------------------------------------------------AI: What different types should there be?
 	}
 
 	private PropertyChangeSupport pcs;
@@ -85,7 +85,7 @@ public class Interaction {
 			if(detectable()) {
 				if(interactable()) {
 					//TODO swich case
-						//TODO fire propertyChange
+						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
 						//TODO update needs of c1
 						//TODO update needs of c2
 				}
@@ -104,12 +104,12 @@ public class Interaction {
 					if (key == character1Key) {
 						acceptTradeCharacter1 = false;
 						acceptTradeCharacter2 = false;
-						//TODO fire propertyChange
+						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
 						tradeOfferCharacter1.removeItem(item);
 					} else if (key == character2Key) {
 						acceptTradeCharacter1 = false;
 						acceptTradeCharacter2 = false;
-						//TODO fire propertyChange
+						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
 						tradeOfferCharacter2.removeItem(item);
 					}
 				} else {
@@ -126,12 +126,12 @@ public class Interaction {
 					if (key == character1Key) {
 						acceptTradeCharacter1 = false;
 						acceptTradeCharacter2 = false;
-						//TODO fire propertyChange
+						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
 						tradeOfferCharacter2.removeItem(item);
 					} else if (key == character2Key) {
 						acceptTradeCharacter1 = false;
 						acceptTradeCharacter2 = false;
-						//TODO fire propertyChange
+						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
 						tradeOfferCharacter1.removeItem(item);
 					}
 				} else {
@@ -149,19 +149,19 @@ public class Interaction {
 						if(character1.inventoryContains(item)) {
 							acceptTradeCharacter1 = false;
 							acceptTradeCharacter2 = false;
-							//TODO fire propertyChange
+							//TODO fire propertyChange  ---------------------AI: What proertyChangeEvent should be sent?
 							tradeOfferCharacter1.addItem(item);
 						}else {//Item not in characters inventory
-							//TODO fire propertyChange
+							//TODO fire propertyChange  ---------------------AI: What proertyChangeEvent should be sent?
 						}
 					} else if (key == character2Key) {
 						if(character2.inventoryContains(item)) {
 							acceptTradeCharacter1 = false;
 							acceptTradeCharacter2 = false;
-							//TODO fire propertyChange
+							//TODO fire propertyChange  ---------------------AI: What proertyChangeEvent should be sent?
 							tradeOfferCharacter2.addItem(item);
 						}else {//Item not in characters inventory
-							//TODO fire propertyChange
+							//TODO fire propertyChange  ---------------------AI: What proertyChangeEvent should be sent?
 						}
 					}
 				} else {
@@ -179,19 +179,19 @@ public class Interaction {
 						if(character2.inventoryContains(item)) {
 							acceptTradeCharacter1 = false;
 							acceptTradeCharacter2 = false;
-							//TODO fire propertyChange
+							//TODO fire propertyChange  ---------------------AI: What proertyChangeEvent should be sent?
 							tradeOfferCharacter2.addItem(item);
 						}else {//Item not in characters inventory
-							//TODO fire propertyChange
+							//TODO fire propertyChange  ---------------------AI: What proertyChangeEvent should be sent?
 						}
 					} else if (key == character2Key) {
 						if (character1.inventoryContains(item)) {
 							acceptTradeCharacter1 = false;
 							acceptTradeCharacter2 = false;
-							//TODO fire propertyChange
+							//TODO fire propertyChange  ---------------------AI: What proertyChangeEvent should be sent?
 							tradeOfferCharacter1.addItem(item);
 						}else {//Item not in characters inventory
-							//TODO fire propertyChange
+							//TODO fire propertyChange  ---------------------AI: What proertyChangeEvent should be sent?
 						}
 					}
 				} else {
@@ -206,17 +206,17 @@ public class Interaction {
 			if(detectable()) {
 				if (interactable()) {
 					if (key == character1Key) {
-						//TODO fire propertyChange
+						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
 						this.acceptTradeCharacter1 = true;
 						if (acceptTradeCharacter2) {
-							//TODO fire propertyChange
+							//TODO fire propertyChange  ---------------------AI: What proertyChangeEvent should be sent?
 							transferTrade();
 						}
 					} else if (key == character2Key) {
-						//TODO fire propertyChange
+						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
 						this.acceptTradeCharacter2 = true;
 						if (acceptTradeCharacter1) {
-							//TODO fire propertyChange
+							//TODO fire propertyChange  ---------------------AI: What proertyChangeEvent should be sent?
 							transferTrade();
 						}
 					}
@@ -232,10 +232,10 @@ public class Interaction {
 			if(detectable()) {
 				if (interactable()) {
 					if (key == character1Key) {
-						//TODO fire propertyChange
+						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
 						this.acceptTradeCharacter1 = false;
 					} else if (key == character2Key) {
-						//TODO fire propertyChange
+						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
 						this.acceptTradeCharacter2 = false;
 					}
 				} else {
@@ -267,7 +267,7 @@ public class Interaction {
 
 	public void endInteraction(){
 		this.active = false;
-		//TODO fire propertyChange
+		//TODO fire propertyChange  -----------------------------------------AI: What proertyChangeEvent should be sent?
 		character1 = null;
 		character2 = null;
 	}
