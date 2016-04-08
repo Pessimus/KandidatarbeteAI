@@ -114,7 +114,7 @@ public final class Constants {
 	public static final 		int			CROP_ENERGY_CHANGE_INTERACT			=	0;
 	public static final 		int			CROP_THIRST_CHANGE_INTERACT			=	0;
 
-	public static final 		int			CROP_HUNGER_CHANGE_CONSUME			=	2;
+	public static final 		int			CROP_HUNGER_CHANGE_CONSUME			=	3;
 	public static final 		int			CROP_ENERGY_CHANGE_CONSUME			=	1;
 	public static final 		int			CROP_THIRST_CHANGE_CONSUME			=	-1;
 
@@ -153,7 +153,7 @@ public final class Constants {
 	public static final 		int			FISH_ENERGY_CHANGE_INTERACT			=	0;
 	public static final 		int			FISH_THIRST_CHANGE_INTERACT			=	0;
 
-	public static final 		int			FISH_HUNGER_CHANGE_CONSUME			=	2;
+	public static final 		int			FISH_HUNGER_CHANGE_CONSUME			=	3;
 	public static final 		int			FISH_ENERGY_CHANGE_CONSUME			=	1;
 	public static final 		int			FISH_THIRST_CHANGE_CONSUME			=	-1;
 
@@ -207,7 +207,7 @@ public final class Constants {
 
 	public static final 		int			MEAT_HUNGER_CHANGE_CONSUME			=	4;
 	public static final 		int			MEAT_ENERGY_CHANGE_CONSUME			=	1;
-	public static final 		int			MEAT_THIRST_CHANGE_CONSUME			=	-2;
+	public static final 		int			MEAT_THIRST_CHANGE_CONSUME			=	-1;
 
 	public static final 		int			MEAT_HUNGER_CHANGE_ATTACK			=	0;
 	public static final 		int			MEAT_ENERGY_CHANGE_ATTACK			=	0;
