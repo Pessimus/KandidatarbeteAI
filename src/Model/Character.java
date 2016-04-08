@@ -232,6 +232,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return stepLength;
 	}
 
+	public boolean inventoryContains(IItem item){
+		return this.inventory.contains(item);
+	}
+
+
 //---------------------------------------Collision Methods------------------------------------------------------------\\
 
 	@Override

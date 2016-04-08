@@ -80,7 +80,7 @@ public class Interaction {
 
 //--------------------------------------------Social Methods----------------------------------------------------------\\
 
-	public void talk(InteractionType typr){
+	public void talk(InteractionType type){
 		if(active){
 			if(detectable()) {
 				if(interactable()) {
@@ -146,15 +146,23 @@ public class Interaction {
 			if(detectable()) {
 				if (interactable()) {
 					if (key == character1Key) {
-						acceptTradeCharacter1 = false;
-						acceptTradeCharacter2 = false;
-						//TODO fire propertyChange
-						tradeOfferCharacter1.addItem(item);
+						if(character1.inventoryContains(item)) {
+							acceptTradeCharacter1 = false;
+							acceptTradeCharacter2 = false;
+							//TODO fire propertyChange
+							tradeOfferCharacter1.addItem(item);
+						}else {//Item not in characters inventory
+							//TODO fire propertyChange
+						}
 					} else if (key == character2Key) {
-						acceptTradeCharacter1 = false;
-						acceptTradeCharacter2 = false;
-						//TODO fire propertyChange
-						tradeOfferCharacter2.addItem(item);
+						if(character2.inventoryContains(item)) {
+							acceptTradeCharacter1 = false;
+							acceptTradeCharacter2 = false;
+							//TODO fire propertyChange
+							tradeOfferCharacter2.addItem(item);
+						}else {//Item not in characters inventory
+							//TODO fire propertyChange
+						}
 					}
 				} else {
 					this.endInteraction();
@@ -168,15 +176,23 @@ public class Interaction {
 			if(detectable()) {
 				if (interactable()) {
 					if (key == character1Key) {
-						acceptTradeCharacter1 = false;
-						acceptTradeCharacter2 = false;
-						//TODO fire propertyChange
-						tradeOfferCharacter2.addItem(item);
+						if(character2.inventoryContains(item)) {
+							acceptTradeCharacter1 = false;
+							acceptTradeCharacter2 = false;
+							//TODO fire propertyChange
+							tradeOfferCharacter2.addItem(item);
+						}else {//Item not in characters inventory
+							//TODO fire propertyChange
+						}
 					} else if (key == character2Key) {
-						acceptTradeCharacter1 = false;
-						acceptTradeCharacter2 = false;
-						//TODO fire propertyChange
-						tradeOfferCharacter1.addItem(item);
+						if (character1.inventoryContains(item)) {
+							acceptTradeCharacter1 = false;
+							acceptTradeCharacter2 = false;
+							//TODO fire propertyChange
+							tradeOfferCharacter1.addItem(item);
+						}else {//Item not in characters inventory
+							//TODO fire propertyChange
+						}
 					}
 				} else {
 					this.endInteraction();

@@ -112,19 +112,6 @@ public class World{
 
 		this(width, height);
 
-		//TODO remove
-		//Wood w = new Wood(10,10,1,1100,1100);
-		//this.addRenewableResourcePoint(w, RenderObject.RENDER_OBJECT_ENUM.WOOD,1100,1100,75);
-
-		/*Farm farm = new Farm(1100,1100);
-		this.collidables.add(farm);
-		this.collidablesR.add(farm);
-		this.timeables.add(farm);
-		this.statics.add(farm);
-		//update mask for pathfinding
-		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
-*/
-
 		int i = 0;
 		float tmpX;
 		float tmpY;
