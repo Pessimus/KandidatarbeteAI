@@ -5,6 +5,8 @@ import Controller.ArtificialBrain;
 import Model.*;
 import Toolkit.RenderObject;
 
+import java.awt.*;
+
 /**
  * Created by Tobias on 2016-03-29.
  */
@@ -74,10 +76,18 @@ public class BuildState implements IState{
 			//FIND WOOD AND GATHER
 		
 			if(!hasMaterials(brain.getNextStructureToBuild())) {
+				// TODO: Change so this works for all resource-types
+				brain.setNextResourceToGather(IResource.ResourceType.WOOD);
+				Point p = brain.getClosestResourcePoint(IResource.ResourceType.WOOD);
+				brain.findPathTo(p.getX(), p.getY());
+				brain.queueState(brain.getMovingState());
+				brain.queueState(brain.getGatherWoodState());
 				brain.setState(brain.getStateQueue().poll());
 			}
-			for(RenderObject o : brain.map.getRenderObjects()) {
-				if((o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.WOOD)) ||(o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.WOOD ))) {
+
+
+			/*for(RenderObject o : brain.map.getRenderObjects()) {
+				if((o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.WOOD)) ||(o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.WOOD2))) {
 					if (closestWood == null) {
 						closestWood = o;
 					} else {
@@ -93,7 +103,7 @@ public class BuildState implements IState{
 			brain.findPathTo(closestWood.getX(), closestWood.getY());
 			brain.queueState(brain.getMovingState());
 			brain.queueState(brain.getGatherWoodState());
-			brain.setState(brain.getStateQueue().poll());
+			brain.setState(brain.getStateQueue().poll());*/
 
 		// IF WE DONT HAVE ENOUGH STONE
 			//FIND STONE AND GATHER
