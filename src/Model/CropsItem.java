@@ -97,4 +97,10 @@ public class CropsItem implements IItem {
         return Type.CROPS_ITEM;
     }
 
+	@Override
+	/**{@inheritDoc}*/
+	public CropsItem clone(){
+		return new CropsItem(this.amount);
+	}
+
 }

@@ -95,4 +95,9 @@ public class WaterItem implements IItem {
 		return Type.WATER_ITEM;
 	}
 
+	@Override
+	/**{@inheritDoc}*/
+	public WaterItem clone(){
+		return new WaterItem(this.amount);
+	}
 }

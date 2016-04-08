@@ -3,7 +3,7 @@ package Model;
 /**
  * Created by Tobias on 2016-02-26.
  */
-public interface IItem {
+public interface IItem <T extends IItem<T>>{
 
 	enum Type{
 		GOLD_ITEM("res/gold_item.png"), WATER_ITEM("res/water_item.png"), WOOD_ITEM("res/wood_item.png"),
@@ -16,6 +16,8 @@ public interface IItem {
 			pathToResource = path;
 		}
 	}
+
+	T clone();
 
 	//TODO add javadock
 	String getActions();
