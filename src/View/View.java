@@ -5,7 +5,6 @@ import Toolkit.RenderObject;
 import Toolkit.InventoryRender;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.state.BasicGameState;
@@ -19,7 +18,6 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.awt.font.*;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -48,6 +46,7 @@ public class View extends BasicGameState implements InputListener{
 	private boolean displayInventory = false;
 	private boolean displayPlayerNeeds = false;
 	private boolean displayPause = false;
+	private boolean displayBuildingInProcess = false;
 
 	private final Semaphore semaphore = new Semaphore(1);
 	private final Map<RenderObject.RENDER_OBJECT_ENUM, Image> resourceMap = new HashMap<>();
@@ -120,7 +119,7 @@ public class View extends BasicGameState implements InputListener{
 	float hungerPercent;
 	float thirstPercent;
 	float energyPercent;
-	java.awt.Font awtFont = new java.awt.Font("AngelCodeFont", java.awt.Font.BOLD, Constants.FONT_SIZE/Constants.ZOOM_LEVEL);
+	java.awt.Font awtFont = new java.awt.Font("Century", java.awt.Font.BOLD, Constants.FONT_SIZE/Constants.ZOOM_LEVEL);
 	TrueTypeFont font;
 
 	//Display Pause Variables
@@ -142,7 +141,6 @@ public class View extends BasicGameState implements InputListener{
 	@Override
 	public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
 		graphics.scale(scaleGraphicsX,scaleGraphicsY);
-
 		try{
 			renderSema.acquire();
 			graphics.translate(-renderPointX, -renderPointY);
@@ -282,9 +280,17 @@ public class View extends BasicGameState implements InputListener{
 			halfTextHeight = graphics.getFont().getHeight("Paused")/2;
 			pauseWidth = gameContainer.getWidth()/(2*scaleGraphicsX)-halfTextWidth;
 			pauseHeight = gameContainer.getHeight()/(2*scaleGraphicsY)-halfTextHeight;
-			graphics.drawString("Paused", width, height);
+			graphics.drawString("Paused", pauseWidth, pauseHeight);
 		}
-		// ------------------------------------------ \\
+
+		if(displayBuildingInProcess){
+			halfTextWidth = graphics.getFont().getWidth("Building in process")/2;
+			float buildingWidth = gameContainer.getWidth()/(2*scaleGraphicsX)-halfTextWidth;
+			float buildingHeight = gameContainer.getHeight()/(4*scaleGraphicsY);
+			graphics.drawString("Building in process", buildingWidth, buildingHeight);
+
+
+		}
 	}
 
 	/*
@@ -403,6 +409,10 @@ public class View extends BasicGameState implements InputListener{
 
 	public void togglePause(){
 		displayPause = !displayPause;
+	}
+
+	public void toggleBuildingInProcess(){
+		displayBuildingInProcess = !displayBuildingInProcess;
 	}
 
 

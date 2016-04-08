@@ -301,14 +301,10 @@ public class Controller implements PropertyChangeListener {
 							if (playerViewCentered && showingPlayerInventory && !gameModel.isPaused()) {
 								itemHighlighted = -1;
 								gameView.highlightInventoryItem(0);
-							} else if (!showingBuildOptions){
-								//TODO display
-								System.out.println("DISPLAY BUILD OPTIONS!");
-								showingBuildOptions = true;
-							}else{
+							} else{
 								//TODO hide display
-								System.out.println("HIDE BUILD OPTIONS!");
-								showingBuildOptions = false;
+								gameView.displayBuildingInProcess();
+								showingBuildOptions = !showingBuildOptions;
 							}
 							break;
 						case Input.KEY_C:
@@ -444,6 +440,10 @@ public class Controller implements PropertyChangeListener {
 							}
 							break;
 						case Input.KEY_V:
+							if(showingBuildOptions){
+								gameView.displayBuildingInProcess();
+								showingBuildOptions = false;
+							}
 							playerViewCentered = !playerViewCentered;
 							if(!playerViewCentered && showingPlayerInventory){
 								showingPlayerInventory = false;
