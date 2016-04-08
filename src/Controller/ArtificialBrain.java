@@ -359,7 +359,12 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 				}
 			}
 
-			return new Point((int)closestCrop.getX(), (int)closestCrop.getY());
+			if (closestCrop == null) {
+				// TODO: Find a resource even if it isn't close by, or in your memory
+				return null;
+			} else {
+				return new Point((int) closestCrop.getX(), (int) closestCrop.getY());
+			}
 		}
 	}
 
