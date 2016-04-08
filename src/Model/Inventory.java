@@ -48,7 +48,7 @@ public class Inventory{
 			}
 		}
 		if(inventoryItems.size() < Constants.MAX_INVENTORY_SLOTS){
-			return inventoryItems.add(item);
+			return inventoryItems.add(item.clone());
 		}
 		return false;
 	}
