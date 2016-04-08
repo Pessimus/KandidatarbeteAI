@@ -2,10 +2,12 @@ package Model;
 
 import Toolkit.RenderObject;
 
+import java.util.LinkedList;
+
 /**
  * Created by Tobias on 2016-02-26.
  */
-public class Animal implements ICollidable {
+public class Animal implements ICollidable, ITimeable {
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 
@@ -22,6 +24,12 @@ public class Animal implements ICollidable {
 	private double collisionRadius;
 	private double interactionRadius;
 	private double surroundingRadius;
+	private LinkedList<ICollidable> surroundingX;
+	private LinkedList<ICollidable> surroundingY;
+	private LinkedList<ICollidable> surroundings;
+	private LinkedList<ICollidable> interactableX;
+	private LinkedList<ICollidable> interactableY;
+	private LinkedList<ICollidable> interactables;
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
@@ -42,6 +50,15 @@ public class Animal implements ICollidable {
 		this.collisionRadius = Constants.ANIMAL_COLLISION_RADIUS;
 		this.interactionRadius = Constants.ANIMAL_INTERACTION_RADIUS;
 		this.surroundingRadius = Constants.ANIMAL_SURROUNDING_RADIUS;
+
+		//Initialize collision detection lists
+		this.surroundingX = new LinkedList<>();
+		this.surroundingY = new LinkedList<>();
+		this.surroundings = new LinkedList<>();
+
+		this.interactableX = new LinkedList<>();
+		this.interactableY = new LinkedList<>();
+		this.interactables = new LinkedList<>();
 	}
 
 //---------------------------------------Collision Methods------------------------------------------------------------\\
@@ -72,33 +89,55 @@ public class Animal implements ICollidable {
 	}
 
 	@Override
-	public void addToInteractableX(ICollidable rhs) {
-		//TODO implement, if AI for animal
-	}
-
-	@Override
-	public void addToInteractableY(ICollidable rhs) {
-		//TODO implement, if AI for animal
-	}
-
-	@Override
-	public void checkInteractables() {
-		//TODO implement, if AI for animal
-	}
-
-	@Override
+	/**{@inheritDoc}*/
 	public void addToSurroundingX(ICollidable rhs) {
-		//TODO implement, if AI for animal
+		this.surroundingX.add(rhs);
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void addToSurroundingY(ICollidable rhs) {
-		//TODO implement, if AI for animal
+		this.surroundingY.add(rhs);
 	}
 
 	@Override
+	/**{@inheritDoc}*/
 	public void checkSurroundings() {
-		//TODO implement, if AI for animal
+		LinkedList<ICollidable> tmp = new LinkedList<>();
+		for(ICollidable c : this.surroundingX){
+			if(this.surroundingY.contains(c)){
+				tmp.add(c);
+			}
+		}
+		this.surroundingX.clear();
+		this.surroundingY.clear();
+		this.surroundings = tmp;
+	}
+
+	@Override
+	/**{@inheritDoc}*/
+	public void addToInteractableX(ICollidable rhs) {
+		this.interactableX.add(rhs);
+	}
+
+	@Override
+	/**{@inheritDoc}*/
+	public void addToInteractableY(ICollidable rhs) {
+		this.interactableY.add(rhs);
+	}
+
+	@Override
+	/**{@inheritDoc}*/
+	public void checkInteractables() {
+		LinkedList<ICollidable> tmp = new LinkedList<>();
+		for(ICollidable c : this.interactableX){
+			if(this.interactableY.contains(c)){
+				tmp.add(c);
+			}
+		}
+		this.interactableX.clear();
+		this.interactableY.clear();
+		this.interactables = tmp;
 	}
 
 	@Override
@@ -134,8 +173,41 @@ public class Animal implements ICollidable {
 //------------------------------------------UPDATE METHODS------------------------------------------------------------\\
 
 	@Override
+	public void updateTimeable() {
+		Character target = null;
+		for(ICollidable collidable : this.surroundings){
+			if(collidable.getRenderType() == RenderObject.RENDER_OBJECT_ENUM.CHARACTER){
+				target = (Character)collidable;
+				break;
+			}
+		}
+		if(!(target == null)){
+			if(target.getX() > this.getX()){
+				this.xPoss++;
+			}else if(target.getX() < this.getX()){
+				this.xPoss--;
+			}
+			if(target.getY() > this.getY()){
+				this.yPoss++;
+			}else if(target.getY() < this.getY()){
+				this.yPoss--;
+			}
+		}
+	}
+
+	@Override
 	public boolean toBeRemoved() {
 		return !alive;
+	}
+
+	@Override
+	public boolean isSpawning() {
+		return false;
+	}
+
+	@Override
+	public void spawn(World rhs) {
+
 	}
 
 //------------------------------------------------RENDER METHODS------------------------------------------------------\

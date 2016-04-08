@@ -95,4 +95,10 @@ public class WoodItem implements IItem {
 		return Type.WOOD_ITEM;
 	}
 
+	@Override
+	/**{@inheritDoc}*/
+	public WoodItem clone(){
+		return new WoodItem(this.amount);
+	}
+
 }

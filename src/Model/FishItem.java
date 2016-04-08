@@ -94,4 +94,11 @@ public class FishItem implements IItem {
     public IItem.Type getType() {
         return Type.FISH_ITEM;
     }
+
+	@Override
+	/**{@inheritDoc}*/
+	public FishItem clone(){
+		return new FishItem(this.amount);
+	}
+
 }

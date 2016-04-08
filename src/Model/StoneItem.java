@@ -95,4 +95,10 @@ public class StoneItem implements IItem {
 		return Type.STONE_ITEM;
 	}
 
+	@Override
+	/**{@inheritDoc}*/
+	public StoneItem clone(){
+		return new StoneItem(this.amount);
+	}
+
 }

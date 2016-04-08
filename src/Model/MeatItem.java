@@ -94,4 +94,11 @@ public class MeatItem implements IItem {
     public IItem.Type getType() {
         return Type.MEAT_ITEM;
     }
+
+	@Override
+	/**{@inheritDoc}*/
+	public MeatItem clone(){
+		return new MeatItem(this.amount);
+	}
+
 }

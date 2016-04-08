@@ -40,7 +40,7 @@ public class Inventory{
 				if(invItem.getAmount()+item.getAmount() > Constants.MAX_AMOUNT) {
 					item.setAmount((invItem.getAmount() + item.getAmount()) % Constants.MAX_AMOUNT);
 					invItem.setAmount(Constants.MAX_AMOUNT);
-					return inventoryItems.add(item);
+					return inventoryItems.add(item.clone());
 				}else{
 					invItem.addAmount(item.getAmount());
 					return true;
@@ -48,7 +48,7 @@ public class Inventory{
 			}
 		}
 		if(inventoryItems.size() < Constants.MAX_INVENTORY_SLOTS){
-			return inventoryItems.add(item);
+			return inventoryItems.add(item.clone());
 		}
 		return false;
 	}

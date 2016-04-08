@@ -94,4 +94,11 @@ public class GoldItem implements IItem {
     public IItem.Type getType() {
         return Type.GOLD_ITEM;
     }
+
+	@Override
+	/**{@inheritDoc}*/
+	public GoldItem clone(){
+		return new GoldItem(this.amount);
+	}
+
 }
