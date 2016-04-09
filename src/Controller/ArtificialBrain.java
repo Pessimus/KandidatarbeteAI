@@ -70,7 +70,8 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	//private final HashMap<Path2D, ResourcePoint> resourceMap = new HashMap<>();
 	List<ResourcePoint> resourceMemory = new LinkedList<>();
 
-
+	private Interaction currentInteraction;
+	private Character interactionCharacter;
 
 	//Construction variables - What are we building?
 	private IStructure nextStructureToBuild = null;
@@ -373,10 +374,18 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		if(evt.getPropertyName().equals("attacked")){
 			// TODO: Implement a proper response to being attacked
 		}
-		if(evt.getPropertyName().equals("interacted")){
-			Character other = (Character) evt.getNewValue();
-			// TODO: Another character has interacted with this one
-			// TODO: Implement how this interaction should proceed!
+		if(evt.getPropertyName().equals("startInteraction")){
+			Character other = (Character)evt.getNewValue();
+			Interaction interaction = (Interaction)evt.getOldValue();
+
+			if(currentInteraction == null && interactionCharacter == null){
+				// TODO: Check if we want to start an interaction
+				currentInteraction = interaction;
+				interactionCharacter = other;
+				interaction.acceptInteraction(body.hashCode(), this);
+			} else{
+				interaction.declineInteraction();
+			}
 		}
 
 	}
