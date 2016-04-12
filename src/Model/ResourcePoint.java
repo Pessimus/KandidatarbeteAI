@@ -125,11 +125,11 @@ public class ResourcePoint implements ICollidable {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Character rhs){
-		if(!rhs.isWaiting()) {
-			rhs.wait(resource.getGatheringTime());
+//		if(!rhs.isWaiting()) {
+//			rhs.wait(resource.getGatheringTime());
 			rhs.addToInventory(resource.gatherResource());
 			//System.out.println("interacted" + this);
-		}
+//		}
 	}
 
 	@Override
@@ -144,6 +144,21 @@ public class ResourcePoint implements ICollidable {
 	public void attacked(Character rhs){
 		resource.setResourcesLeft(0);
 		System.out.println("attacked" + this);
+	}
+
+	@Override
+	public void interactedCommand(Character rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void consumedCommand(Character rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void attackedCommand(Character rhs) {
+		//TODO implement
 	}
 
 //------------------------------------------Update METHODS------------------------------------------------------------\\
