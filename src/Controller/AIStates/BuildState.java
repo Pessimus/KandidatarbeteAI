@@ -33,37 +33,10 @@ public class BuildState implements IState{
 		for(IItem itemCost : cost){
 			if(!brain.getBody().getInventory().contains(itemCost)){
 				remainingItems.add(itemCost);
-				/*
-				canPay = false;
-				break;
-				*/
 			}
 		}
 
 		return remainingItems;
-
-		/*
-		for (IStructure.StructureBuildingMaterialTuple tuple : structure.getBuildingMaterials()){
-			for(IItem item : brain.getBody().getInventory()){
-				if(item.getType().equals(tuple.getResourceType()) && item.getAmount() >= tuple.getResourceAmount()){
-					returns = true;
-				}
-			}
-			if(returns == false){
-				if (tuple.getResourceType() == IItem.Type.WOOD_ITEM) {
-					brain.setNextResourceToGather(IResource.ResourceType.WOOD);
-				}
-				if (tuple.getResourceType() == IItem.Type.STONE_ITEM) {
-					brain.setNextResourceToGather(IResource.ResourceType.STONE);
-				}
-				brain.queueState(brain.getGatherState());
-				return false;
-			} else{
-				returns = false;
-			}
-		}
-
-		return true;*/
 	}
 
 	@Override
@@ -83,9 +56,14 @@ public class BuildState implements IState{
 		}
 		*/
 
-		List<IItem> remaining = getRemainingMaterials(brain.getNextStructureToBuild());
+		//CHECK WHAT MATERIALS WE NEED FOR nextStructureToBuild, DO WE HAVE THEM?
+		IStructure.StructureType type = brain.getNextStructureToBuild();
+		List<IItem> remaining = getRemainingMaterials(type);
 
 		if(!remaining.isEmpty()){
+			//NO?
+			//FIND OUT WHAT WE ARE MISSING AND GO GATHER
+			brain.stackState(this);
 			for(IItem item : remaining){
 				switch (item.getType()) {
 					case MEAT_ITEM:
@@ -119,19 +97,20 @@ public class BuildState implements IState{
 						break;
 				}
 			}
-		} else{
-			// TODO: Check if it's possible to build the structure here, otherwise move!
-		}
 
-		//CHECK WHAT MATERIALS WE NEED FOR nextStructureToBuild, DO WE HAVE THEM?
+			brain.setState(brain.getStateQueue().poll());
+		} else{
 			//YES?
-				//ENTER CORRECT BUILD STATE
-			//NO?
-				//FIND OUT WHAT WE ARE MISSING AND GO GATHER
+			//ENTER CORRECT BUILD STATE
+			brain.getGatherStack().removeFirst();
+			// TODO: Check if it's possible to build the structure here, otherwise move!
+			brain.getBody().build(type);
+			brain.setNextStructureToBuild(null);
+		}
 
 		// IF WE DONT HAVE ENOUGH WOOD
 			//FIND WOOD AND GATHER
-		
+		/*
 			if(!(getRemainingMaterials(brain.getNextStructureToBuild()).isEmpty())) {
 				// TODO: Change so this works for all resource-types
 				//StructureFactory.getCost()
@@ -142,6 +121,7 @@ public class BuildState implements IState{
 				brain.queueState(brain.getGatherWoodState());
 				brain.setState(brain.getStateQueue().poll());
 			}
+			*/
 
 
 			/*for(RenderObject o : brain.map.getRenderObjects()) {
@@ -165,7 +145,7 @@ public class BuildState implements IState{
 
 		// IF WE DONT HAVE ENOUGH STONE
 			//FIND STONE AND GATHER
-
+		/*
 		for(RenderObject o : brain.map.getRenderObjects()) {
 			if((o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.STONE)) ||(o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.STONE2 ))) {
 				if (closestStone == null) {
@@ -184,6 +164,7 @@ public class BuildState implements IState{
 		brain.queueState(brain.getMovingState());
 		brain.queueState(brain.getGatherWoodState());
 		brain.setState(brain.getStateQueue().poll());
+		*/
 
 		}
 }

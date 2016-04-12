@@ -73,12 +73,12 @@ public class Stockpile implements IStructure {
 		return surroundingRadius;
 	}
 
-	/*@Override
+	@Override
 	public StructureType getStructureType() {
 		return structureType;
 	}
 
-	@Override
+	/*@Override
 	public StructureBuildingMaterialTuple[] getBuildingMaterials() {
 		return buildingMaterials;
 	}*/

@@ -34,7 +34,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private LinkedList<PathStep> path;
 
 	private IResource.ResourceType nextResourceToGather = null;
-	private LinkedList<IResource.ResourceType> gatherStack = null;
+	private LinkedList<IResource.ResourceType> gatherStack = new LinkedList<>();
 
 	private final Deque<IState> stateQueue = new LinkedList<>();
 
@@ -246,7 +246,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	}*/
 
 	public IResource.ResourceType getNextResourceToGather() {
-		return gatherStack.pop();
+		return gatherStack.peek();
 	}
 
 	public void setNextResourceToGather(IResource.ResourceType nextResourceToGather) {

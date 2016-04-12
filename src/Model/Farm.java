@@ -109,12 +109,12 @@ public class Farm implements IStructure, ITimeable{
 	/*@Override
 	public StructureBuildingMaterialTuple[] getBuildingMaterials() {
 		return buildingMaterials;
-	}
+	}*/
 
 	@Override
 	public StructureType getStructureType() {
 		return structureType;
-	}*/
+	}
 
 	@Override
 	/**{@inheritDoc}*/

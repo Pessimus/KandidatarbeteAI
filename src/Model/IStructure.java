@@ -34,8 +34,8 @@ public interface IStructure extends ICollidable{
     }
 
     StructureBuildingMaterialTuple[] getBuildingMaterials();
+    */
 
     StructureType getStructureType();
-*/
 
 }
