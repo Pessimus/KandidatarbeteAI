@@ -83,9 +83,23 @@ public class GatherState implements IState{
 
 	private void gatherSpecificResource(IResource.ResourceType type){
 		Point p = brain.getClosestResourcePoint(type);
+
 		switch (type){
 			case FOOD:
 				// TODO
+				/*if(p == null){
+					Random r = new Random();
+					p = new Point(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
+					brain.findPathTo(p.getX(), p.getY());
+					brain.stackState(brain.getGatherState());
+					brain.stackState(brain.getMovingState());
+				} else {
+					brain.findPathTo(p.getX(), p.getY());
+					brain.stackState(brain.getGatherMeatState());
+					brain.stackState(brain.getMovingState());
+					brain.getGatherStack().remove();
+				}
+				break;*/
 			case MEAT:
 				// TODO: Add to world, so the AI isn't trying to gather a non-existing resource
 				/*if(p == null){
@@ -98,6 +112,7 @@ public class GatherState implements IState{
 					brain.findPathTo(p.getX(), p.getY());
 					brain.stackState(brain.getGatherMeatState());
 					brain.stackState(brain.getMovingState());
+					brain.getGatherStack().remove();
 				}
 				break;*/
 			case FISH:
@@ -113,6 +128,7 @@ public class GatherState implements IState{
 					brain.findPathTo(p.getX(), p.getY());
 					brain.stackState(brain.getGatherFishState());
 					brain.stackState(brain.getMovingState());
+					brain.getGatherStack().remove();
 				}
 				break;
 				*/
@@ -127,6 +143,7 @@ public class GatherState implements IState{
 					brain.findPathTo(p.getX(), p.getY());
 					brain.stackState(brain.getGatherCropsState());
 					brain.stackState(brain.getMovingState());
+					brain.getGatherStack().remove();
 				}
 				break;
 			case WATER:
@@ -141,6 +158,7 @@ public class GatherState implements IState{
 					brain.findPathTo(p.getX(), p.getY());
 					brain.stackState(brain.getGatherWaterState());
 					brain.stackState(brain.getMovingState());
+					brain.getGatherStack().remove();
 				}
 				break;
 			case STONE:
@@ -154,6 +172,7 @@ public class GatherState implements IState{
 					brain.findPathTo(p.getX(), p.getY());
 					brain.stackState(brain.getGatherStoneState());
 					brain.stackState(brain.getMovingState());
+					brain.getGatherStack().remove();
 				}
 				break;
 			case GOLD:
@@ -169,6 +188,7 @@ public class GatherState implements IState{
 					brain.findPathTo(p.getX(), p.getY());
 					brain.stackState(brain.getGatherGoldState());
 					brain.stackState(brain.getMovingState());
+					brain.getGatherStack().remove();
 				}
 				break;
 				*/
@@ -183,6 +203,7 @@ public class GatherState implements IState{
 					brain.findPathTo(p.getX(), p.getY());
 					brain.stackState(brain.getGatherWoodState());
 					brain.stackState(brain.getMovingState());
+					brain.getGatherStack().remove();
 				}
 				break;
 		}
@@ -202,6 +223,11 @@ public class GatherState implements IState{
 		}else{
 			gatherSpecificResource(resource);
 		}
-		brain.setState(brain.getStateQueue().poll());
+		if(brain.getStateQueue().isEmpty()) {
+			brain.setState(brain.getIdleState());
+		}
+		else{
+			brain.setState(brain.getStateQueue().poll());
+		}
 	}
 }

@@ -97,15 +97,20 @@ public class BuildState implements IState{
 						break;
 				}
 			}
-
-			brain.setState(brain.getStateQueue().poll());
 		} else{
 			//YES?
 			//ENTER CORRECT BUILD STATE
-			brain.getGatherStack().removeFirst();
 			// TODO: Check if it's possible to build the structure here, otherwise move!
 			brain.getBody().build(type);
 			brain.setNextStructureToBuild(null);
+			brain.getStructureStack().remove();
+		}
+
+		if(brain.getStateQueue().isEmpty()) {
+			brain.setState(brain.getIdleState());
+		}
+		else{
+			brain.setState(brain.getStateQueue().poll());
 		}
 
 		// IF WE DONT HAVE ENOUGH WOOD

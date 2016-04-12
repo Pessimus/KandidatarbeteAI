@@ -77,6 +77,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	//Construction variables - What are we building?
 	private IStructure.StructureType nextStructureToBuild = null;
+	private LinkedList<IStructure.StructureType> buildStack = new LinkedList<>();
 
 	// TODO: Hardcoded universal vision
 	public World map;
@@ -262,11 +263,19 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	}
 
 	public IStructure.StructureType getNextStructureToBuild() {
-		return nextStructureToBuild;
+		return buildStack.peek();
 	}
 
 	public void setNextStructureToBuild(IStructure.StructureType nextStructureToBuild) {
 		this.nextStructureToBuild = nextStructureToBuild;
+	}
+
+	public void stackStructureToBuild(IStructure.StructureType type){
+		buildStack.push(type);
+	}
+
+	public LinkedList<IStructure.StructureType> getStructureStack(){
+		return buildStack;
 	}
 
 	public LinkedList<PathStep> getPath() {
