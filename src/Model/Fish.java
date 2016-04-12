@@ -9,6 +9,7 @@ public class Fish extends FiniteResource {
 
     public static final ResourceType resourceType = ResourceType.FISH;
     public static final String resourceName = "Fish";
+	public static final int gatheringTime = Constants.GATHER_FISH_STATE_TIME;
 
 	private int yield;
 
@@ -23,6 +24,11 @@ public class Fish extends FiniteResource {
         super(initial);
 		this.yield = yield;
     }
+
+	@Override
+	public int getGatheringTime() {
+		return gatheringTime;
+	}
 
 //---------------------------------------Interaction methods----------------------------------------------------------\\
 

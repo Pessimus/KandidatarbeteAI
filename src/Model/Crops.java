@@ -9,6 +9,7 @@ public class Crops extends FiniteResource {
 
     public static final ResourceType resourceType = ResourceType.CROPS;
     public static final String resourceName = "Crops";
+    public static final int gatheringTime = Constants.GATHER_CROPS_STATE_TIME;
 
 	private int yield;
 
@@ -53,6 +54,11 @@ public class Crops extends FiniteResource {
 	/**{@inheritDoc}*/
     public String getResourceName() {
         return resourceName;
+    }
+
+    @Override
+    public int getGatheringTime() {
+        return gatheringTime;
     }
 
 

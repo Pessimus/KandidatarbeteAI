@@ -125,8 +125,11 @@ public class ResourcePoint implements ICollidable {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Character rhs){
-		rhs.addToInventory(resource.gatherResource());
-		System.out.println("interacted" + this);
+		if(!rhs.isWaiting()) {
+			rhs.wait(resource.getGatheringTime());
+			rhs.addToInventory(resource.gatherResource());
+			System.out.println("interacted" + this);
+		}
 	}
 
 	@Override

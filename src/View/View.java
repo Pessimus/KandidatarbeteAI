@@ -85,6 +85,7 @@ public class View extends BasicGameState implements InputListener{
 			inventoryMap.put(e, new Image(e.pathToResource));
 		}
 
+		awtFont  = new java.awt.Font("Verdana", java.awt.Font.BOLD, Constants.FONT_SIZE/Constants.ZOOM_LEVEL);
 		font =  new TrueTypeFont(awtFont, false);
 
 		pcs.firePropertyChange("startController", false, true);
@@ -119,7 +120,7 @@ public class View extends BasicGameState implements InputListener{
 	float hungerPercent;
 	float thirstPercent;
 	float energyPercent;
-	java.awt.Font awtFont = new java.awt.Font("Century", java.awt.Font.BOLD, Constants.FONT_SIZE/Constants.ZOOM_LEVEL);
+	java.awt.Font awtFont;
 	TrueTypeFont font;
 
 	//Display Pause Variables
@@ -141,6 +142,7 @@ public class View extends BasicGameState implements InputListener{
 	@Override
 	public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
 		graphics.scale(scaleGraphicsX,scaleGraphicsY);
+		graphics.setFont(font);
 		try{
 			renderSema.acquire();
 			graphics.translate(-renderPointX, -renderPointY);
@@ -195,7 +197,6 @@ public class View extends BasicGameState implements InputListener{
 			graphics.setColor(Color.gray);
 			graphics.fillRect(0,gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL, Constants.BOX_WIDTH/Constants.ZOOM_LEVEL, Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL);
 			graphics.setColor(Color.white);
-			graphics.setFont(font);
 			graphics.drawString("Hunger:",Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL, hungerStringYPos);
 			graphics.drawRect(barXPos, hungerStringYPos,barWidth,barHeight);
 			if(hungerPercent < 0.2)

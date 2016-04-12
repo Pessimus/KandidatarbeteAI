@@ -11,6 +11,7 @@ public class Wood extends RenewableResource {
 
     public static final ResourceType resourceType = ResourceType.WOOD;
     public static final String resourceName = "Wood";
+	public static final int gatheringTime = Constants.GATHER_WOOD_STATE_TIME;
 
 	private final float xPoss;
 	private final float yPoss;
@@ -66,6 +67,11 @@ public class Wood extends RenewableResource {
     public String getResourceName() {
         return resourceName;
     }
+
+	@Override
+	public int getGatheringTime() {
+		return gatheringTime;
+	}
 
 //------------------------------------------UPDATE METHODS------------------------------------------------------------\\
 

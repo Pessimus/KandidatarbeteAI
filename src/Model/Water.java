@@ -9,8 +9,14 @@ public class Water extends InfiniteResource {
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 	public static final ResourceType resourceType = ResourceType.WATER;
 	public static final String resourceName = "Water";
+	public static final int gatheringTime = Constants.GATHER_WATER_STATE_TIME;
 
 	private int yield;
+
+	@Override
+	public int getGatheringTime() {
+		return gatheringTime;
+	}
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
