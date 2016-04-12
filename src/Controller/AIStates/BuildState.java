@@ -6,6 +6,8 @@ import Model.*;
 import Toolkit.RenderObject;
 
 import java.awt.*;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Tobias on 2016-03-29.
@@ -23,9 +25,24 @@ public class BuildState implements IState{
 		this.brain = brain;
 	}
 
-	private boolean hasMaterials(IStructure structure){
-		boolean returns = false;
+	private List<IItem> getRemainingMaterials(IStructure.StructureType structureType){
+		List<IItem> cost = StructureFactory.getCost(structureType);
 
+		List<IItem> remainingItems = new LinkedList<>();
+
+		for(IItem itemCost : cost){
+			if(!brain.getBody().getInventory().contains(itemCost)){
+				remainingItems.add(itemCost);
+				/*
+				canPay = false;
+				break;
+				*/
+			}
+		}
+
+		return remainingItems;
+
+		/*
 		for (IStructure.StructureBuildingMaterialTuple tuple : structure.getBuildingMaterials()){
 			for(IItem item : brain.getBody().getInventory()){
 				if(item.getType().equals(tuple.getResourceType()) && item.getAmount() >= tuple.getResourceAmount()){
@@ -46,7 +63,7 @@ public class BuildState implements IState{
 			}
 		}
 
-		return true;
+		return true;*/
 	}
 
 	@Override
@@ -75,8 +92,9 @@ public class BuildState implements IState{
 		// IF WE DONT HAVE ENOUGH WOOD
 			//FIND WOOD AND GATHER
 		
-			if(!hasMaterials(brain.getNextStructureToBuild())) {
+			if(!(getRemainingMaterials(brain.getNextStructureToBuild()).isEmpty())) {
 				// TODO: Change so this works for all resource-types
+				//StructureFactory.getCost()
 				brain.setNextResourceToGather(IResource.ResourceType.WOOD);
 				Point p = brain.getClosestResourcePoint(IResource.ResourceType.WOOD);
 				brain.findPathTo(p.getX(), p.getY());

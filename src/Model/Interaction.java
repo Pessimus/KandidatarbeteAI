@@ -4,6 +4,7 @@ import Toolkit.UniversalStaticMethods;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Arrays;
 
 /**
  * Created by Martin on 07/04/2016.
@@ -91,6 +92,9 @@ public class Interaction {
 		if(active){
 			if(detectable()) {
 				if(interactable()) {
+					switch(type){
+
+					}
 					//TODO swich case
 						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
 						//TODO update needs of c1
@@ -133,6 +137,7 @@ public class Interaction {
 					if (key == character1Key) {
 						acceptTradeCharacter1 = false;
 						acceptTradeCharacter2 = false;
+						//pcs.firePropertyChange("", , );
 						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
 						tradeOfferCharacter2.removeItem(item);
 					} else if (key == character2Key) {
@@ -275,8 +280,11 @@ public class Interaction {
 	public void endInteraction(){
 		this.active = false;
 		//TODO fire propertyChange  -----------------------------------------AI: What proertyChangeEvent should be sent?
+		//pcs.firePropertyChange("endInteraction", , );
 		character1 = null;
 		character2 = null;
+		Arrays.stream(pcs.getPropertyChangeListeners())
+				.forEach(o -> pcs.removePropertyChangeListener(o));
 	}
 
 	public void removePropertyChangeListener(PropertyChangeListener listener){

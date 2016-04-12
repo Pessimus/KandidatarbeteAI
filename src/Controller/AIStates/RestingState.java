@@ -16,9 +16,6 @@ public class RestingState implements IState{
 
 	@Override
 	public void run() {
-		/*if(brain.getBody().isHome()) {
-			brain.sleep;
-		}
-		 */
+		brain.getBody().sleep();
 	}
 }

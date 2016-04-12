@@ -14,6 +14,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.SynchronousQueue;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -24,7 +25,7 @@ import static Toolkit.UniversalStaticMethods.distanceBetweenPoints;
  */
 public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	// ---------------DEBUG VARIABLE-------------- \\
-	private static final boolean USE_MEMORY = false;
+	private static final boolean USE_MEMORY = true;
 	// ---------------------------------------------\\
 
 
@@ -74,7 +75,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private Character interactionCharacter;
 
 	//Construction variables - What are we building?
-	private IStructure nextStructureToBuild = null;
+	private IStructure.StructureType nextStructureToBuild = null;
 
 	// TODO: Hardcoded universal vision
 	public World map;
@@ -99,7 +100,8 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 		currentState.run();
 
-		body.getInventory().stream().forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));
+		body.getInventory().stream()
+				.forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));
 
 		System.out.println("\nHunger: " + needs[0]);
 		System.out.println("Thirst: " + needs[1]);
@@ -107,6 +109,13 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		System.out.println(currentState);
 		System.out.println(getStateQueue());
 
+		body.getSurroundings().stream()
+				.filter(o -> o.getClass().equals(ResourcePoint.class))
+				.map(o -> (ResourcePoint)o)
+				.filter(o -> !resourceMemory.contains(o))
+				.forEach(resourceMemory::add);
+
+		/*
 		for (ICollidable object : body.getSurroundings()) {
 			if (object.getClass().equals(ResourcePoint.class)) {
 				ResourcePoint resource = (ResourcePoint) object;
@@ -116,6 +125,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 			}
 		}
+		*/
 	}
 
 	@Override
@@ -238,11 +248,11 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		this.nextResourceToGather = nextResourceToGather;
 	}
 
-	public IStructure getNextStructureToBuild() {
+	public IStructure.StructureType getNextStructureToBuild() {
 		return nextStructureToBuild;
 	}
 
-	public void setNextStructureToBuild(IStructure nextStructureToBuild) {
+	public void setNextStructureToBuild(IStructure.StructureType nextStructureToBuild) {
 		this.nextStructureToBuild = nextStructureToBuild;
 	}
 
@@ -274,17 +284,28 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return resourceMemory;
 	}
 
+	private volatile ResourcePoint closest = null;
+
 	public Point getClosestResourcePoint(IResource.ResourceType type){
+		System.out.println(type);
 		if(USE_MEMORY) {
 			List<ICollidable> surround = getBody().getSurroundings();
-			ResourcePoint closest = null;
-			double closestDistance = Integer.MAX_VALUE;
+			closest = null;
+			//double closestDistance = Integer.MAX_VALUE;
 
+			surround.stream()
+					.filter(o -> o.getClass().equals(ResourcePoint.class))
+					.map(o -> (ResourcePoint)o)
+					.filter(o -> o.getResource().getResourceType().equals(type))
+					.reduce((rp1, rp2) -> distanceBetweenPoints(getBody().getX(), getBody().getY(), rp1.getX(), rp1.getY()) < distanceBetweenPoints(getBody().getX(), getBody().getY(), rp2.getX(), rp2.getY()) ? rp1 : rp2)
+					.ifPresent(rp -> closest = rp);
+
+			/*
 			for (ICollidable temp : surround) {
 				if (temp.getClass().equals(ResourcePoint.class)) {
 					ResourcePoint tempPoint = (ResourcePoint) temp;
 					if (tempPoint.getResource().getResourceType().equals(type)) {
-						double d = closestDistance = distanceBetweenPoints(getBody().getX(), getBody().getY(), tempPoint.getX(), tempPoint.getY());
+						double d = distanceBetweenPoints(getBody().getX(), getBody().getY(), tempPoint.getX(), tempPoint.getY());
 						if (d < closestDistance) {
 							closest = tempPoint;
 							closestDistance = d;
@@ -292,6 +313,17 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 					}
 				}
 			}
+			*/
+
+
+			if (closest == null) {
+				resourceMemory.stream()
+						.filter(o -> o.getResource().getResourceType().equals(type))
+						.reduce((rp1, rp2) -> distanceBetweenPoints(getBody().getX(), getBody().getY(), rp1.getX(), rp1.getY()) < distanceBetweenPoints(getBody().getX(), getBody().getY(), rp2.getX(), rp2.getY()) ? rp1 : rp2)
+						.ifPresent(rp -> closest = rp);
+			}
+
+			/*
 
 			if (closest == null) {
 				for (ResourcePoint temp : resourceMemory) {
@@ -304,6 +336,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 					}
 				}
 			}
+			*/
 
 			if (closest == null) {
 				// TODO: Find a resource even if it isn't close by, or in your memory
@@ -383,6 +416,8 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 				currentInteraction = interaction;
 				interactionCharacter = other;
 				interaction.acceptInteraction(body.hashCode(), this);
+				// TODO: Figure out how to interrupt current state!!!!!!
+				stackState(getSocializeState());
 			} else{
 				interaction.declineInteraction();
 			}
