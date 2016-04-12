@@ -31,6 +31,8 @@ public class Farm implements IStructure, ITimeable{
 	private float[] spawnPointsXpos;
 	private float[] spawnPointsYpos;
 
+	private int buildingPercent;
+
 //-----------------------------------------------CONSTRUCTOR----------------------------------------------------------\\
 
 	public Farm(float x, float y){
@@ -114,6 +116,11 @@ public class Farm implements IStructure, ITimeable{
 	@Override
 	public StructureType getStructureType() {
 		return structureType;
+	}
+
+	@Override
+	public int getConstructionStatus() {
+		return buildingPercent;
 	}
 
 	@Override

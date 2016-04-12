@@ -26,6 +26,8 @@ public class Stockpile implements IStructure {
 	private double interactionRadius;
 	private double surroundingRadius;
 
+	private int buildingPercent;
+
 //-----------------------------------------------CONSTRUCTOR----------------------------------------------------------\\
 
 	public Stockpile(float x, float y){
@@ -85,6 +87,11 @@ public class Stockpile implements IStructure {
 
 //----------------------------------------ADD & REMOVE OCCUPANTS------------------------------------------------------\\
 
+
+	@Override
+	public int getConstructionStatus() {
+		return buildingPercent;
+	}
 
 	@Override
 	/**{@inheritDoc}*/

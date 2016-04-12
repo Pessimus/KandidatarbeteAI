@@ -14,11 +14,6 @@ public class House implements IStructure {
     public static final StructureType structureType = StructureType.HOUSE;
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.HOUSE;
 
-    /*private static final StructureBuildingMaterialTuple[] buildingMaterials = new StructureBuildingMaterialTuple[]
-            {       new StructureBuildingMaterialTuple(IItem.Type.WOOD_ITEM, 10),
-                    new StructureBuildingMaterialTuple(IItem.Type.STONE_ITEM, 5)
-            };*/
-
     private int capacity;
     private int occupants;
     private boolean isFull = false;
@@ -30,6 +25,8 @@ public class House implements IStructure {
 	private double collisionRadius;
 	private double interactionRadius;
 	private double surroundingRadius;
+
+	private int buildingPercent;
 
 //-----------------------------------------------CONSTRUCTOR----------------------------------------------------------\\
     /**
@@ -45,6 +42,7 @@ public class House implements IStructure {
 		this.integrity = 10;
 
 		this.capacity=Constants.HOUSE_MAX_CAPACITY;
+		this.buildingPercent = 0;
 	}
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
@@ -84,12 +82,12 @@ public class House implements IStructure {
 		return structureType;
 	}
 
-    /*@Override
-    public StructureBuildingMaterialTuple[] getBuildingMaterials() {
-        return buildingMaterials;
-    }*/
-//---------------------------------------Getters & Setters------------------------------------------------------------\\
-    /** Returns the max capacity of the house. */
+	@Override
+	public int getConstructionStatus() {
+		return buildingPercent;
+	}
+
+	/** Returns the max capacity of the house. */
     public int getCapacity(){
         return capacity;
     }
@@ -164,7 +162,11 @@ public class House implements IStructure {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Character rhs) {
-		rhs.changeEnergy(Constants.CHARACTER_ENERGY_MAX);
+		if(buildingPercent == 100)
+			rhs.changeEnergy(Constants.CHARACTER_ENERGY_MAX);
+		else
+			buildingPercent+=5;
+
 	}
 
 	@Override
