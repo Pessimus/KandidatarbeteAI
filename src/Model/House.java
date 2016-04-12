@@ -14,10 +14,10 @@ public class House implements IStructure {
     public static final StructureType structureType = StructureType.HOUSE;
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.HOUSE;
 
-    private static final StructureBuildingMaterialTuple[] buildingMaterials = new StructureBuildingMaterialTuple[]
+    /*private static final StructureBuildingMaterialTuple[] buildingMaterials = new StructureBuildingMaterialTuple[]
             {       new StructureBuildingMaterialTuple(IItem.Type.WOOD_ITEM, 10),
                     new StructureBuildingMaterialTuple(IItem.Type.STONE_ITEM, 5)
-            };
+            };*/
 
     private int capacity;
     private int occupants;
@@ -79,7 +79,7 @@ public class House implements IStructure {
 		return surroundingRadius;
 	}
 
-	@Override
+	/*@Override
 	public StructureType getStructureType() {
 		return structureType;
 	}
@@ -87,7 +87,7 @@ public class House implements IStructure {
     @Override
     public StructureBuildingMaterialTuple[] getBuildingMaterials() {
         return buildingMaterials;
-    }
+    }*/
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
     /** Returns the max capacity of the house. */
     public int getCapacity(){

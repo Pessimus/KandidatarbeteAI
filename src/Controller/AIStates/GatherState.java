@@ -81,9 +81,9 @@ public class GatherState implements IState{
 		}
 	}
 
-	private void gatherSpecificResource(){
-		Point p = brain.getClosestResourcePoint(brain.getNextResourceToGather());
-		switch (brain.getNextResourceToGather()){
+	private void gatherSpecificResource(IResource.ResourceType type){
+		Point p = brain.getClosestResourcePoint(type);
+		switch (type){
 			case FOOD:
 				// TODO
 			case MEAT:
@@ -186,8 +186,6 @@ public class GatherState implements IState{
 				}
 				break;
 		}
-
-		brain.setNextResourceToGather(null);
 	}
 
 
@@ -198,10 +196,11 @@ public class GatherState implements IState{
 	 */
 	@Override
 	public void run() {
-		if(brain.getNextResourceToGather() == null) {
+		IResource.ResourceType resource = brain.getNextResourceToGather();
+		if(resource == null) {
 			gatherInterestingResource();
 		}else{
-			gatherSpecificResource();
+			gatherSpecificResource(resource);
 		}
 		brain.setState(brain.getStateQueue().poll());
 	}

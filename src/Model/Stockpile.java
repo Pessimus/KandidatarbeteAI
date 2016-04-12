@@ -11,10 +11,10 @@ public class Stockpile implements IStructure {
     public static final StructureType structureType = StructureType.STOCKPILE;
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.STOCKPILE;
 
-    private static final StructureBuildingMaterialTuple[] buildingMaterials = new StructureBuildingMaterialTuple[]
+    /*private static final StructureBuildingMaterialTuple[] buildingMaterials = new StructureBuildingMaterialTuple[]
             {       new StructureBuildingMaterialTuple(IItem.Type.WOOD_ITEM, 5),
                     new StructureBuildingMaterialTuple(IItem.Type.STONE_ITEM, 20)
-            };
+            };*/
 
     private Inventory inventory;
 
@@ -73,7 +73,7 @@ public class Stockpile implements IStructure {
 		return surroundingRadius;
 	}
 
-	@Override
+	/*@Override
 	public StructureType getStructureType() {
 		return structureType;
 	}
@@ -81,7 +81,7 @@ public class Stockpile implements IStructure {
 	@Override
 	public StructureBuildingMaterialTuple[] getBuildingMaterials() {
 		return buildingMaterials;
-	}
+	}*/
 
 //----------------------------------------ADD & REMOVE OCCUPANTS------------------------------------------------------\\
 

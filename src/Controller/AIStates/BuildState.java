@@ -83,6 +83,46 @@ public class BuildState implements IState{
 		}
 		*/
 
+		List<IItem> remaining = getRemainingMaterials(brain.getNextStructureToBuild());
+
+		if(!remaining.isEmpty()){
+			for(IItem item : remaining){
+				switch (item.getType()) {
+					case MEAT_ITEM:
+						/*brain.stackResourceToGather(IResource.ResourceType.MEAT);
+						brain.stackState(brain.getGatherState());
+						break;*/
+					case FISH_ITEM:
+						/*brain.stackResourceToGather(IResource.ResourceType.FISH);
+						brain.stackState(brain.getGatherState());
+						break;*/
+					case WATER_ITEM:
+						//brain.setNextResourceToGather(IResource.ResourceType.WATER);
+						brain.stackResourceToGather(IResource.ResourceType.WATER);
+						brain.stackState(brain.getGatherState());
+						break;
+					case WOOD_ITEM:
+						brain.stackResourceToGather(IResource.ResourceType.WOOD);
+						brain.stackState(brain.getGatherState());
+						break;
+					case STONE_ITEM:
+						brain.stackResourceToGather(IResource.ResourceType.STONE);
+						brain.stackState(brain.getGatherState());
+						break;
+					case GOLD_ITEM:
+						/*brain.stackResourceToGather(IResource.ResourceType.GOLD);
+						brain.stackState(brain.getGatherState());
+						break;*/
+					case CROPS_ITEM:
+						brain.stackResourceToGather(IResource.ResourceType.CROPS);
+						brain.stackState(brain.getGatherState());
+						break;
+				}
+			}
+		} else{
+			// TODO: Check if it's possible to build the structure here, otherwise move!
+		}
+
 		//CHECK WHAT MATERIALS WE NEED FOR nextStructureToBuild, DO WE HAVE THEM?
 			//YES?
 				//ENTER CORRECT BUILD STATE

@@ -10,10 +10,10 @@ public class Farm implements IStructure, ITimeable{
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 	public static final StructureType structureType = StructureType.FARM;
-	public static final StructureBuildingMaterialTuple[] buildingMaterials = new StructureBuildingMaterialTuple[]
+	/*public static final StructureBuildingMaterialTuple[] buildingMaterials = new StructureBuildingMaterialTuple[]
 			{       new StructureBuildingMaterialTuple(IItem.Type.WOOD_ITEM, 20),
 					new StructureBuildingMaterialTuple(IItem.Type.STONE_ITEM, 5)
-			};
+			};*/
 
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.FARM;
 
@@ -106,7 +106,7 @@ public class Farm implements IStructure, ITimeable{
 		return surroundingRadius;
 	}
 
-	@Override
+	/*@Override
 	public StructureBuildingMaterialTuple[] getBuildingMaterials() {
 		return buildingMaterials;
 	}
@@ -114,7 +114,7 @@ public class Farm implements IStructure, ITimeable{
 	@Override
 	public StructureType getStructureType() {
 		return structureType;
-	}
+	}*/
 
 	@Override
 	/**{@inheritDoc}*/
