@@ -7,6 +7,7 @@ import Model.IResource;
 import Model.ResourcePoint;
 import Toolkit.RenderObject;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -25,7 +26,27 @@ public class GatherGoldState implements IState {
 
 	@Override
 	public void run() {
-		if(waiting){
+		Iterator<ICollidable> iterator = brain.getBody().getInteractables().iterator();
+		int i = 0;
+		while (iterator.hasNext()) {
+			ICollidable next = iterator.next();
+			if(next.getClass().equals(ResourcePoint.class)){
+				ResourcePoint tempPoint = (ResourcePoint) next;
+				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.GOLD)) {
+					brain.getBody().interactObject(i);
+				}
+			}
+
+			i++;
+		}
+
+		if (brain.getStateQueue().isEmpty()) {
+			brain.setState(brain.getIdleState());
+		} else {
+			brain.setState(brain.getStateQueue().poll());
+		}
+
+		/*if(waiting){
 			if((waitUpdates = (++waitUpdates % Constants.GATHER_GOLD_STATE_TIME)) == 0) {
 				brain.getBody().interactObject(bestIndex);
 
@@ -62,6 +83,6 @@ public class GatherGoldState implements IState {
 					brain.setState(brain.getStateQueue().poll());
 				}
 			}
-		}
+		}*/
 	}
 }

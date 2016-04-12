@@ -23,42 +23,42 @@ public class IdleState implements IState {
 	 */
 	@Override
 	public void run() {
-			//DO WE NEED TO INCREASE ANY OF OUR NEEDS?
-			int[] needsArray = brain.getBody().getNeeds();
-			int minVal = needsArray[0];
-			int minindex = 0;
-			// Critical levels of Hunger, Thirst and Energy which
-			// needs to be dealt with immediately
-			int minimumNeed = 0; // = Math.min(Math.min(needsArray[0], needsArray[1]), needsArray[2]);
+		//DO WE NEED TO INCREASE ANY OF OUR NEEDS?
+		int[] needsArray = brain.getBody().getNeeds();
+		int minVal = needsArray[0];
+		int minindex = 0;
+		// Critical levels of Hunger, Thirst and Energy which
+		// needs to be dealt with immediately
+		int minimumNeed = 0; // = Math.min(Math.min(needsArray[0], needsArray[1]), needsArray[2]);
 
-			for (int i = 0; i < needsArray.length ; i++) {
-				if (needsArray[i] < minVal) {
-					minVal = needsArray[i];
-					minindex = i;
-				}
+		for (int i = 0; i < needsArray.length ; i++) {
+			if (needsArray[i] < minVal) {
+				minVal = needsArray[i];
+				minindex = i;
 			}
+		}
 
-			if(needsArray[0] <= 90){
-				brain.stackState((brain.getHungryState()));
-			}
+		if(needsArray[0] <= 70){
+			brain.stackState((brain.getHungryState()));
+		}
 
-			if(needsArray[1] <= 90){
+		if(needsArray[1] <= 70){
 
-				brain.stackState((brain.getThirstyState()));
+			brain.stackState((brain.getThirstyState()));
+		}
+		if (needsArray[2] <= 70){
+			brain.stackState((brain.getLowEnergyState()));
+		}
+		if(brain.getStateQueue().isEmpty()){
+			brain.stackStructureToBuild(IStructure.StructureType.HOUSE);
+			brain.stackState(brain.getBuildState());
+			//brain.queueState(brain.getGatherState());
+			/*
+			if(!body.hasHome()){
+				brain.setState(brain.getBuildHouseState());
 			}
-			if (needsArray[2] <= 90){
-				brain.stackState((brain.getLowEnergyState()));
-			}
-			if(brain.getStateQueue().isEmpty()){
-				brain.stackStructureToBuild(IStructure.StructureType.HOUSE);
-				brain.stackState(brain.getBuildState());
-				//brain.queueState(brain.getGatherState());
-				/*
-				if(!body.hasHome()){
-					brain.setState(brain.getBuildHouseState());
-				}
-				*/
-			}
+			*/
+		}
 		brain.setState(brain.getStateQueue().poll());
 	}
 }

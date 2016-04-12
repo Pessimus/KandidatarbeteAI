@@ -9,6 +9,7 @@ import Toolkit.RenderObject;
 import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.lwjgl.Sys;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 /**
@@ -27,7 +28,27 @@ public class GatherMeatState implements IState {
 
     @Override
     public void run() {
-        if(waiting){
+		Iterator<ICollidable> iterator = brain.getBody().getInteractables().iterator();
+		int i = 0;
+		while (iterator.hasNext()) {
+			ICollidable next = iterator.next();
+			if(next.getClass().equals(ResourcePoint.class)){
+				ResourcePoint tempPoint = (ResourcePoint) next;
+				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.MEAT)) {
+					brain.getBody().interactObject(i);
+				}
+			}
+
+			i++;
+		}
+
+		if (brain.getStateQueue().isEmpty()) {
+			brain.setState(brain.getIdleState());
+		} else {
+			brain.setState(brain.getStateQueue().poll());
+		}
+
+        /*if(waiting){
             if((waitUpdates = (++waitUpdates % Constants.GATHER_MEAT_STATE_TIME)) == 0) {
                 brain.getBody().consumeItem(bestIndex);
 
@@ -64,6 +85,6 @@ public class GatherMeatState implements IState {
                     brain.setState(brain.getStateQueue().poll());
                 }
             }
-        }
+        }*/
     }
 }

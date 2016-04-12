@@ -6,6 +6,7 @@ import Model.*;
 import Toolkit.RenderObject;
 
 import java.awt.*;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,9 +31,23 @@ public class BuildState implements IState{
 
 		List<IItem> remainingItems = new LinkedList<>();
 
-		for(IItem itemCost : cost){
+		// Works if the inventory is of the type Inventory (and not List<IItem>)
+		/*for(IItem itemCost : cost){
 			if(!brain.getBody().getInventory().contains(itemCost)){
 				remainingItems.add(itemCost);
+			}
+		}*/
+
+		for (IItem item : cost) {
+			boolean add = true;
+			for (IItem tmpItem : brain.getBody().getInventory()) {
+				if (tmpItem.getType().equals(item.getType()) && tmpItem.getAmount() >= item.getAmount()) {
+					add = false;
+				}
+			}
+
+			if(add) {
+				remainingItems.add(item);
 			}
 		}
 
@@ -101,6 +116,7 @@ public class BuildState implements IState{
 			//YES?
 			//ENTER CORRECT BUILD STATE
 			// TODO: Check if it's possible to build the structure here, otherwise move!
+			System.out.println("Building!");
 			brain.getBody().build(type);
 			brain.setNextStructureToBuild(null);
 			brain.getStructureStack().remove();
@@ -112,64 +128,5 @@ public class BuildState implements IState{
 		else{
 			brain.setState(brain.getStateQueue().poll());
 		}
-
-		// IF WE DONT HAVE ENOUGH WOOD
-			//FIND WOOD AND GATHER
-		/*
-			if(!(getRemainingMaterials(brain.getNextStructureToBuild()).isEmpty())) {
-				// TODO: Change so this works for all resource-types
-				//StructureFactory.getCost()
-				brain.setNextResourceToGather(IResource.ResourceType.WOOD);
-				Point p = brain.getClosestResourcePoint(IResource.ResourceType.WOOD);
-				brain.findPathTo(p.getX(), p.getY());
-				brain.queueState(brain.getMovingState());
-				brain.queueState(brain.getGatherWoodState());
-				brain.setState(brain.getStateQueue().poll());
-			}
-			*/
-
-
-			/*for(RenderObject o : brain.map.getRenderObjects()) {
-				if((o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.WOOD)) ||(o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.WOOD2))) {
-					if (closestWood == null) {
-						closestWood = o;
-					} else {
-						cdx = Math.abs(brain.getBody().getX() - closestWood.getX());
-						cdy = Math.abs(brain.getBody().getY() - closestWood.getY());
-						odx = Math.abs(brain.getBody().getX() - o.getX());
-						ody = Math.abs(brain.getBody().getY() - o.getY());
-						if (Math.sqrt(cdx) + Math.sqrt(cdy) > Math.sqrt(odx) + Math.sqrt(ody))
-							closestWood = o;
-					}
-				}
-			}
-			brain.findPathTo(closestWood.getX(), closestWood.getY());
-			brain.queueState(brain.getMovingState());
-			brain.queueState(brain.getGatherWoodState());
-			brain.setState(brain.getStateQueue().poll());*/
-
-		// IF WE DONT HAVE ENOUGH STONE
-			//FIND STONE AND GATHER
-		/*
-		for(RenderObject o : brain.map.getRenderObjects()) {
-			if((o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.STONE)) ||(o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.STONE2 ))) {
-				if (closestStone == null) {
-					closestStone = o;
-				} else {
-					cdx = Math.abs(brain.getBody().getX() - closestStone.getX());
-					cdy = Math.abs(brain.getBody().getY() - closestStone.getY());
-					odx = Math.abs(brain.getBody().getX() - o.getX());
-					ody = Math.abs(brain.getBody().getY() - o.getY());
-					if (Math.sqrt(cdx) + Math.sqrt(cdy) > Math.sqrt(odx) + Math.sqrt(ody))
-						closestStone = o;
-				}
-			}
-		}
-		brain.findPathTo(closestStone.getX(), closestStone.getY());
-		brain.queueState(brain.getMovingState());
-		brain.queueState(brain.getGatherWoodState());
-		brain.setState(brain.getStateQueue().poll());
-		*/
-
-		}
+	}
 }
