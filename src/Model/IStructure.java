@@ -13,6 +13,8 @@ public interface IStructure extends ICollidable{
         FARM
     }
 
+    // TODO: Remove maybe?
+    /*
     class StructureBuildingMaterialTuple{
         private final IItem.Type resourceType;
         private final int resourceAmount;
@@ -34,6 +36,6 @@ public interface IStructure extends ICollidable{
     StructureBuildingMaterialTuple[] getBuildingMaterials();
 
     StructureType getStructureType();
-
+*/
 
 }

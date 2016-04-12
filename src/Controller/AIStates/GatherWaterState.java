@@ -47,7 +47,12 @@ public class GatherWaterState implements IState {
 				if(temp.getClass().equals(ResourcePoint.class)){
 					ResourcePoint tempPoint = (ResourcePoint) temp;
 					if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.WATER)) {
-						bestIndex = i;
+						brain.getBody().interactObject(i);
+						if (brain.getStateQueue().isEmpty()) {
+							brain.setState(brain.getIdleState());
+						} else {
+							brain.setState(brain.getStateQueue().poll());
+						}
 						break;
 					}
 				}
