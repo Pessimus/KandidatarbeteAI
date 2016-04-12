@@ -8,6 +8,12 @@ public class Stone extends FiniteResource {
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 	public static final ResourceType resourceType = ResourceType.STONE;
 	public static final String resourceName = "Stone";
+	public static final int gatheringTime = Constants.GATHER_STONE_STATE_TIME;
+
+	@Override
+	public int getGatheringTime() {
+		return  gatheringTime;
+	}
 
 	private int yield;
 

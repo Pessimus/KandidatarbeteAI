@@ -9,6 +9,7 @@ public class Gold extends FiniteResource {
 
     public static final ResourceType resourceType = ResourceType.GOLD;
     public static final String resourceName = "Gold";
+	public static final int gatheringTime = Constants.GATHER_GOLD_STATE_TIME;
 
 	private int yield;
 
@@ -54,5 +55,10 @@ public class Gold extends FiniteResource {
     public String getResourceName() {
         return resourceName;
     }
+
+	@Override
+	public int getGatheringTime() {
+		return gatheringTime;
+	}
 
 }

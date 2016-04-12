@@ -9,6 +9,7 @@ public class Meat extends FiniteResource {
 
     public static final ResourceType resourceType = ResourceType.MEAT;
     public static final String resourceName = "Meat";
+	public static final int gatheringTime = Constants.GATHER_MEAT_STATE_TIME;
 
     private int yield;
 
@@ -54,5 +55,10 @@ public class Meat extends FiniteResource {
     public String getResourceName() {
         return resourceName;
     }
+
+	@Override
+	public int getGatheringTime() {
+		return gatheringTime;
+	}
 
 }

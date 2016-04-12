@@ -146,6 +146,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	private final int hungerUpdate;
 	private final int energyUpdate;
 
+	private boolean waiting = false;
+	private int waitingFrames = 0;
+
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
 	/**
@@ -464,6 +467,12 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		if(updateCounter == 0)
 			updateCounter++;*/
 		updateCounter++;
+		if(waitingFrames>0){
+			waitingFrames--;
+			waiting=true;
+		}else{
+			waiting = false;
+		}
 
 		if(updateCounter % hungerUpdate == 0){
 			changeHunger(-Constants.CHARACTER_HUNGER_CHANGE);
@@ -538,25 +547,29 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void moveUp() {
-		this.yPos -= this.stepLength;
+		if(!waiting)
+			this.yPos -= this.stepLength;
 	}
 
 	@Override
 	/**{@inheritDoc}*/
 	public void moveDown() {
-		this.yPos += this.stepLength;
+		if(!waiting)
+			this.yPos += this.stepLength;
 	}
 
 	@Override
 	/**{@inheritDoc}*/
 	public void moveLeft() {
-		this.xPos -= this.stepLength;
+		if(!waiting)
+			this.xPos -= this.stepLength;
 	}
 
 	@Override
 	/**{@inheritDoc}*/
 	public void moveRight() {
-		this.xPos += this.stepLength;
+		if(!waiting)
+			this.xPos += this.stepLength;
 	}
 
 	@Override
@@ -678,6 +691,14 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	public void build(IStructure.StructureType type){
 		this.typeToSpawn = type;
 		this.spawning = true;
+	}
+
+	public void wait(int frames){
+		waitingFrames = frames;
+	}
+
+	public boolean isWaiting(){
+		return waiting;
 	}
 
 }
