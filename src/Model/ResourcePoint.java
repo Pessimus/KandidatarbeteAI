@@ -128,7 +128,7 @@ public class ResourcePoint implements ICollidable {
 		if(!rhs.isWaiting()) {
 			rhs.wait(resource.getGatheringTime());
 			rhs.addToInventory(resource.gatherResource());
-			System.out.println("interacted" + this);
+			//System.out.println("interacted" + this);
 		}
 	}
 
@@ -136,7 +136,7 @@ public class ResourcePoint implements ICollidable {
 	/**{@inheritDoc}*/
 	public void consumed(Character rhs){
 		resource.gatherResource().consumed(rhs);
-		System.out.println("consumed" + this);
+		//System.out.println("consumed" + this);
 	}
 
 	@Override

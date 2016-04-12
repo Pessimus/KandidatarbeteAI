@@ -1,6 +1,7 @@
 package View;
 
 import Model.Constants;
+import Model.IStructure;
 import Toolkit.RenderObject;
 import Toolkit.InventoryRender;
 import org.newdawn.slick.*;

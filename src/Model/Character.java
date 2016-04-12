@@ -342,7 +342,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	 * @param item The item to be added.
 	 */
 	public void addToInventory(IItem item){
-		inventory.addItem(item);
+			inventory.addItem(item);
 	}
 
 	/**
@@ -458,7 +458,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		updateCounter++;
 		if(waitingFrames>0){
 			waitingFrames--;
-			waiting=true;
 		}else{
 			waiting = false;
 		}
@@ -508,6 +507,15 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		}
 
 		return list;
+	}
+
+	public void wait(int frames){
+		waitingFrames = frames;
+		waiting = true;
+	}
+
+	public boolean isWaiting(){
+		return waiting;
 	}
 
 //--------------------------------------ICharacterHandle methods------------------------------------------------------\\
@@ -682,12 +690,5 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.spawning = true;
 	}
 
-	public void wait(int frames){
-		waitingFrames = frames;
-	}
-
-	public boolean isWaiting(){
-		return waiting;
-	}
 
 }

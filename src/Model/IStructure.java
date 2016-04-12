@@ -13,5 +13,7 @@ public interface IStructure extends ICollidable{
 
     StructureType getStructureType();
 
+    int getConstructionStatus();
+
 
 }

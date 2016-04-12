@@ -21,6 +21,8 @@ public class Stockpile implements IStructure {
 	private double interactionRadius;
 	private double surroundingRadius;
 
+	private int buildingPercent;
+
 //-----------------------------------------------CONSTRUCTOR----------------------------------------------------------\\
 
 	public Stockpile(float x, float y){
@@ -71,6 +73,11 @@ public class Stockpile implements IStructure {
 	@Override
 	public StructureType getStructureType() {
 		return structureType;
+	}
+
+	@Override
+	public int getConstructionStatus() {
+		return buildingPercent;
 	}
 
 	@Override

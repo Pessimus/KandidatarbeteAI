@@ -23,6 +23,8 @@ public class House implements IStructure {
 	private double interactionRadius;
 	private double surroundingRadius;
 
+	private int buildingPercent;
+
 //-----------------------------------------------CONSTRUCTOR----------------------------------------------------------\\
     /**
      * A class representing the structure "House".
@@ -37,6 +39,7 @@ public class House implements IStructure {
 		this.integrity = 10;
 
 		this.capacity=Constants.HOUSE_MAX_CAPACITY;
+		this.buildingPercent = 0;
 	}
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
@@ -76,7 +79,12 @@ public class House implements IStructure {
 		return structureType;
 	}
 
-    /** Returns the max capacity of the house. */
+	@Override
+	public int getConstructionStatus() {
+		return buildingPercent;
+	}
+
+	/** Returns the max capacity of the house. */
     public int getCapacity(){
         return capacity;
     }
@@ -151,7 +159,11 @@ public class House implements IStructure {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Character rhs) {
-		rhs.changeEnergy(Constants.CHARACTER_ENERGY_MAX);
+		if(buildingPercent == 100)
+			rhs.changeEnergy(Constants.CHARACTER_ENERGY_MAX);
+		else
+			buildingPercent+=5;
+
 	}
 
 	@Override
