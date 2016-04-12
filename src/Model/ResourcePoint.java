@@ -127,7 +127,9 @@ public class ResourcePoint implements ICollidable {
 	public void interacted(Character rhs){
 //		if(!rhs.isWaiting()) {
 //			rhs.wait(resource.getGatheringTime());
-			rhs.addToInventory(resource.gatherResource());
+			System.out.println("Calling to schedule");
+			Schedule.addTask(new InteractTask(this,rhs,1000*3));
+			//rhs.addToInventory(resource.gatherResource());
 			//System.out.println("interacted" + this);
 //		}
 	}
@@ -148,7 +150,8 @@ public class ResourcePoint implements ICollidable {
 
 	@Override
 	public void interactedCommand(Character rhs) {
-		//TODO implement
+		System.out.println("commanded interaction");
+		rhs.addToInventory(resource.gatherResource());
 	}
 
 	@Override

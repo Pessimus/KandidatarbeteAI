@@ -5,5 +5,6 @@ package Model;
  */
 public interface ITask {
 	void execute();
-	int getWaittime();
+	long getWaittime();
+	long getEndtime();
 }

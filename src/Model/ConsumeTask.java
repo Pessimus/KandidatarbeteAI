@@ -8,11 +8,15 @@ public class ConsumeTask implements ITask {
 	private ICollidable consumable;
 	private Character actor;
 	private int waittime;
+	private long starttime;
+	private long endtime;
 
 	public ConsumeTask(ICollidable consumable, Character actor, int waittime){
 		this.consumable = consumable;
 		this.actor = actor;
 		this.waittime = waittime;
+		this.starttime = System.currentTimeMillis();
+		this.endtime = this.starttime + this.waittime;
 	}
 
 	@Override
@@ -21,8 +25,13 @@ public class ConsumeTask implements ITask {
 	}
 
 	@Override
-	public int getWaittime() {
+	public long getWaittime() {
 		return waittime;
+	}
+
+	@Override
+	public long getEndtime() {
+		return endtime;
 	}
 
 }
