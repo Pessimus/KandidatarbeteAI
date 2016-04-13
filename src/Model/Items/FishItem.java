@@ -1,4 +1,7 @@
-package Model;
+package Model.Items;
+
+import Model.*;
+import Model.Character;
 
 /**
  * Created by Oskar on 2016-03-10.
@@ -37,7 +40,7 @@ public class FishItem implements IItem {
 
 	@Override
 	/**{@inheritDoc}*/
-	public void interacted(Character rhs) {
+	public void interacted(Model.Character rhs) {
 		rhs.changeHunger(Constants.FISH_HUNGER_CHANGE_INTERACT);
 		rhs.changeEnergy(Constants.FISH_ENERGY_CHANGE_INTERACT);
 		rhs.changeThirst(Constants.FISH_THIRST_CHANGE_INTERACT);

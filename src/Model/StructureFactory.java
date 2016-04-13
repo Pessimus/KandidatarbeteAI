@@ -1,6 +1,7 @@
 package Model;
 
 import Model.IStructure.StructureType;
+import Model.Items.WoodItem;
 
 import java.util.LinkedList;
 

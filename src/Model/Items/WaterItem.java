@@ -1,9 +1,12 @@
-package Model;
+package Model.Items;
+
+import Model.*;
+import Model.Character;
 
 /**
  * Created by Tobias on 2016-03-10.
  */
-public class StoneItem implements IItem {
+public class WaterItem implements IItem {
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 
@@ -15,7 +18,7 @@ public class StoneItem implements IItem {
 	 * A class representing a amount of "Stone" when in a "Characters" "inventory".
 	 * @param amount The amount of "stone" to be represented.
 	 */
-	public StoneItem(int amount){
+	public WaterItem(int amount){
 		this.amount = amount;
 	}
 
@@ -37,26 +40,26 @@ public class StoneItem implements IItem {
 
 	@Override
 	/**{@inheritDoc}*/
-	public void interacted(Character rhs) {
-		rhs.changeHunger(Constants.STONE_HUNGER_CHANGE_INTERACT);
-		rhs.changeEnergy(Constants.STONE_ENERGY_CHANGE_INTERACT);
-		rhs.changeThirst(Constants.STONE_THIRST_CHANGE_INTERACT);
+	public void interacted(Model.Character rhs) {
+		rhs.changeHunger(Constants.WATER_HUNGER_CHANGE_INTERACT);
+		rhs.changeEnergy(Constants.WATER_ENERGY_CHANGE_INTERACT);
+		rhs.changeThirst(Constants.WATER_THIRST_CHANGE_INTERACT);
 	}
 
 	@Override
 	/**{@inheritDoc}*/
 	public void consumed(Character rhs) {
 		if(amount > 1) {
-			rhs.changeHunger(Constants.STONE_HUNGER_CHANGE_CONSUME);
-			rhs.changeEnergy(Constants.STONE_ENERGY_CHANGE_CONSUME);
-			rhs.changeThirst(Constants.STONE_THIRST_CHANGE_CONSUME);
+			rhs.changeHunger(Constants.WATER_HUNGER_CHANGE_CONSUME);
+			rhs.changeEnergy(Constants.WATER_ENERGY_CHANGE_CONSUME);
+			rhs.changeThirst(Constants.WATER_THIRST_CHANGE_CONSUME);
 			amount--;
-		}else if(amount == 1) {
-			rhs.changeHunger(Constants.STONE_HUNGER_CHANGE_CONSUME);
-			rhs.changeEnergy(Constants.STONE_ENERGY_CHANGE_CONSUME);
-			rhs.changeThirst(Constants.STONE_THIRST_CHANGE_CONSUME);
+		}else if (amount == 1) {
+			rhs.changeHunger(Constants.WATER_HUNGER_CHANGE_CONSUME);
+			rhs.changeEnergy(Constants.WATER_ENERGY_CHANGE_CONSUME);
+			rhs.changeThirst(Constants.WATER_THIRST_CHANGE_CONSUME);
 			rhs.removeFromInventory(this);
-		}else{
+		} else {
 			rhs.removeFromInventory(this);
 		}
 	}
@@ -64,9 +67,9 @@ public class StoneItem implements IItem {
 	@Override
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs) {
-		rhs.changeHunger(Constants.STONE_HUNGER_CHANGE_ATTACK);
-		rhs.changeEnergy(Constants.STONE_ENERGY_CHANGE_ATTACK);
-		rhs.changeThirst(Constants.STONE_THIRST_CHANGE_ATTACK);
+		rhs.changeHunger(Constants.WATER_HUNGER_CHANGE_ATTACK);
+		rhs.changeEnergy(Constants.WATER_ENERGY_CHANGE_ATTACK);
+		rhs.changeThirst(Constants.WATER_THIRST_CHANGE_ATTACK);
 	}
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
@@ -91,14 +94,13 @@ public class StoneItem implements IItem {
 
 	@Override
 	/**{@inheritDoc}*/
-	public Type getType() {
-		return Type.STONE_ITEM;
+	public IItem.Type getType() {
+		return Type.WATER_ITEM;
 	}
 
 	@Override
 	/**{@inheritDoc}*/
-	public StoneItem clone(){
-		return new StoneItem(this.amount);
+	public WaterItem clone(){
+		return new WaterItem(this.amount);
 	}
-
 }
