@@ -1,46 +1,51 @@
-package Model;
+package Model.Resources;
+
+import Model.Constants;
+import Model.FiniteResource;
+import Model.IItem;
+import Model.ItemFactory;
 
 /**
  * Created by Oskar on 2016-03-10.
  */
-public class Meat extends FiniteResource {
+public class Crops extends FiniteResource {
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 
-    public static final ResourceType resourceType = ResourceType.MEAT;
-    public static final String resourceName = "Meat";
-	public static final int gatheringTime = Constants.GATHER_MEAT_STATE_TIME;
+    public static final ResourceType resourceType = ResourceType.CROPS;
+    public static final String resourceName = "Crops";
+    public static final int gatheringTime = Constants.GATHER_CROPS_STATE_TIME;
 
-    private int yield;
+	private int yield;
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
 	/**
-	 * A class representing the resource "Meat".
+	 * A class representing the resource "Crops".
 	 * @param initial the initial amount of the resource.
 	 * @param yield the amount of the resource returned by gatherResource.
 	 */
-    public Meat(int initial, int yield){
+    public Crops(int initial, int yield){
         super(initial);
 		this.yield = yield;
     }
 
 //---------------------------------------Interaction methods----------------------------------------------------------\\
 
-	@Override
+    @Override
 	/**{@inheritDoc}*/
-	public IItem gatherResource() {
-		int resourceLeft = getResourcesLeft();
-		if(resourceLeft>yield){
-			setResourcesLeft(resourceLeft-yield);
+    public IItem gatherResource() {
+        int resourceLeft = getResourcesLeft();
+        if(resourceLeft>yield){
+            setResourcesLeft(resourceLeft-yield);
 			return ItemFactory.createItem(resourceType, yield);
-		}else if(resourceLeft>0){
+        }else if(resourceLeft>0){
 			setResourcesLeft(0);
 			return ItemFactory.createItem(resourceType, resourceLeft);
 		}else{
-			return null;
-		}
-	}
+            return null;
+        }
+    }
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
@@ -56,9 +61,10 @@ public class Meat extends FiniteResource {
         return resourceName;
     }
 
-	@Override
-	public int getGatheringTime() {
-		return gatheringTime;
-	}
+    @Override
+    public int getGatheringTime() {
+        return gatheringTime;
+    }
+
 
 }

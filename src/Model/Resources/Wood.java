@@ -1,5 +1,6 @@
-package Model;
+package Model.Resources;
 
+import Model.*;
 import Toolkit.RenderObject;
 
 /**

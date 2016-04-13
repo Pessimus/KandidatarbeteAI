@@ -1,5 +1,10 @@
-package Model;
+package Model.Resources;
 
+
+import Model.Constants;
+import Model.IItem;
+import Model.InfiniteResource;
+import Model.ItemFactory;
 
 /**
  * Created by Tobias on 2016-03-04.

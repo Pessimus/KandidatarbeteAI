@@ -1,4 +1,9 @@
-package Model;
+package Model.Resources;
+
+import Model.Constants;
+import Model.FiniteResource;
+import Model.IItem;
+import Model.ItemFactory;
 
 /**
  * Created by Oskar on 2016-03-10.
