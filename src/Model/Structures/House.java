@@ -1,5 +1,7 @@
-package Model;
+package Model.Structures;
 
+import Model.*;
+import Model.Character;
 import Toolkit.RenderObject;
 
 import java.util.LinkedList;
@@ -161,7 +163,7 @@ public class House implements IStructure {
 
 	@Override
 	/**{@inheritDoc}*/
-	public void interacted(Character rhs) {
+	public void interacted(Model.Character rhs) {
 		if(buildingPercent == 100)
 			rhs.changeEnergy(Constants.CHARACTER_ENERGY_MAX);
 		else
