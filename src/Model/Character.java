@@ -167,7 +167,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		//Initial position
 		this.xPos = xPos;
 		this.yPos = yPos;
- C
 
 		//Initialize needs
 		this.hunger = Constants.CHARACTER_HUNGER_MAX;
@@ -704,6 +703,4 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.typeToSpawn = type;
 		this.spawning = true;
 	}
-}}
-
 }

@@ -55,8 +55,8 @@ public final class Constants {
 	public static final 		int 		DEFAULT_WORLD_VIEW_X				= 	100;
 	public static final 		int 		DEFAULT_WORLD_VIEW_Y				= 	100;
 
-	public static final			float		WORLD_WIDTH							=	7980f;
-	public static final			float		WORLD_HEIGHT						=	7980f;
+	public static final			float		WORLD_WIDTH                         =   7980f;
+	public static final			float		WORLD_HEIGHT            			=	7980f;
 	public static final 		int 		TARGET_FRAMERATE 					= 	60;
 	public static final 		boolean		GAME_GRAB_MOUSE						= 	false;
 	public static final 		boolean 	RUN_IN_FULLSCREEN 					= 	false;
