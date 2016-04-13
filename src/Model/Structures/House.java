@@ -2,10 +2,8 @@ package Model.Structures;
 
 import Model.*;
 import Model.Character;
+import Toolkit.Constants;
 import Toolkit.RenderObject;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Oskar on 2016-04-01.

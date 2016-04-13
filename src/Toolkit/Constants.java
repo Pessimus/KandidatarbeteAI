@@ -1,4 +1,4 @@
-package Model;
+package Toolkit;
 
 import Controller.Pathfinder;
 

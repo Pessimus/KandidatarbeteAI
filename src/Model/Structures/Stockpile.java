@@ -2,6 +2,7 @@ package Model.Structures;
 
 import Model.*;
 import Model.Character;
+import Toolkit.Constants;
 import Toolkit.RenderObject;
 
 /**

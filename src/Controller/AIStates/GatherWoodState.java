@@ -1,17 +1,11 @@
 package Controller.AIStates;
 
 import Controller.ArtificialBrain;
-import Model.Constants;
 import Model.ICollidable;
 import Model.IResource;
 import Model.ResourcePoint;
-import Toolkit.RenderObject;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
-import org.lwjgl.Sys;
 
 import java.util.Iterator;
-import java.util.List;
-import java.util.stream.IntStream;
 
 /**
  * Created by Victor on 2016-04-01.

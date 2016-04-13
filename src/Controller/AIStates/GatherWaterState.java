@@ -1,16 +1,11 @@
 package Controller.AIStates;
 
 import Controller.ArtificialBrain;
-import Model.Constants;
 import Model.ICollidable;
 import Model.IResource;
 import Model.ResourcePoint;
-import Toolkit.RenderObject;
-import org.lwjgl.Sys;
 
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Tobias on 2016-03-31.

@@ -2,6 +2,7 @@ package Controller;
 
 import Model.*;
 import Model.Character;
+import Toolkit.Constants;
 import Toolkit.RenderObject;
 import View.*;
 import org.newdawn.slick.Input;

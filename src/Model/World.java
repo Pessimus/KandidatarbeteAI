@@ -1,6 +1,7 @@
 package Model;
 
 import Model.Resources.*;
+import Toolkit.Constants;
 import Toolkit.InventoryRender;
 import Toolkit.RenderObject;
 

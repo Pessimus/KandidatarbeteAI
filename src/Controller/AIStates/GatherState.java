@@ -1,6 +1,5 @@
 package Controller.AIStates;
 
-import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
 import Model.*;
 
@@ -135,7 +134,7 @@ public class GatherState implements IState{
 			case CROPS:
 				if(p == null){
 					Random r = new Random();
-					p = new Point(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
+					p = new Point(r.nextInt((int) Toolkit.Constants.WORLD_WIDTH), r.nextInt((int) Toolkit.Constants.WORLD_HEIGHT));
 					brain.findPathTo(p.getX(), p.getY());
 					brain.stackState(brain.getGatherState());
 					brain.stackState(brain.getMovingState());
@@ -149,7 +148,7 @@ public class GatherState implements IState{
 			case WATER:
 				if(p == null){
 					Random r = new Random();
-					p = new Point(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
+					p = new Point(r.nextInt((int) Toolkit.Constants.WORLD_WIDTH), r.nextInt((int) Toolkit.Constants.WORLD_HEIGHT));
 					brain.findPathTo(p.getX(), p.getY());
 					brain.stackState(brain.getGatherState());
 					brain.stackState(brain.getMovingState());
@@ -164,7 +163,7 @@ public class GatherState implements IState{
 			case STONE:
 				if(p == null){
 					Random r = new Random();
-					p = new Point(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
+					p = new Point(r.nextInt((int) Toolkit.Constants.WORLD_WIDTH), r.nextInt((int) Toolkit.Constants.WORLD_HEIGHT));
 					brain.findPathTo(p.getX(), p.getY());
 					brain.stackState(brain.getGatherState());
 					brain.stackState(brain.getMovingState());
@@ -195,7 +194,7 @@ public class GatherState implements IState{
 			case WOOD:
 				if(p == null){
 					Random r = new Random();
-					p = new Point(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
+					p = new Point(r.nextInt((int) Toolkit.Constants.WORLD_WIDTH), r.nextInt((int) Toolkit.Constants.WORLD_HEIGHT));
 					brain.findPathTo(p.getX(), p.getY());
 					brain.stackState(brain.getGatherState());
 					brain.stackState(brain.getMovingState());

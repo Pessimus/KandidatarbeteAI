@@ -1,6 +1,6 @@
 package Model.Resources;
 
-import Model.Constants;
+import Toolkit.Constants;
 import Model.IItem;
 import Model.ItemFactory;
 

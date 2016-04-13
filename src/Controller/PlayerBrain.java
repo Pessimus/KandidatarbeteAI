@@ -1,11 +1,9 @@
 package Controller;
 
 import Controller.AIStates.IState;
-import Model.Character;
-import Model.Constants;
+import Toolkit.Constants;
 import Model.ICharacterHandle;
 import Model.IStructure;
-import org.newdawn.slick.util.pathfinding.PathFinder;
 
 import java.util.LinkedList;
 

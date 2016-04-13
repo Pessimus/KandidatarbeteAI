@@ -1,12 +1,6 @@
 package Controller.AIStates;
 
-import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
-import Controller.PathStep;
-import Model.Constants;
-import Model.ICharacterHandle;
-
-import java.util.List;
 
 /**
  * Created by Tobias on 2016-03-29.
