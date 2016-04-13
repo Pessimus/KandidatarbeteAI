@@ -1,7 +1,8 @@
 package Model;
 
-import Toolkit.InventoryRender;
-import Toolkit.RenderObject;
+import Utility.Constants;
+import Utility.InventoryRender;
+import Utility.RenderObject;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

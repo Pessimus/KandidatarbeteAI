@@ -3,22 +3,18 @@ package Controller;
 import Controller.AIStates.*;
 import Model.*;
 import Model.Character;
-import Model.Constants;
+import Utility.Constants;
 import Model.ICharacterHandle;
-import Toolkit.*;
+import Utility.*;
 
 //import java.awt.*;
 import java.awt.*;
-import java.awt.image.renderable.RenderableImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.SynchronousQueue;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
-import static Toolkit.UniversalStaticMethods.distanceBetweenPoints;
+import static Utility.UniversalStaticMethods.distanceBetweenPoints;
 
 /**
  * Created by Gustav on 2016-03-23.

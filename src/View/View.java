@@ -1,9 +1,8 @@
 package View;
 
-import Model.Constants;
-import Model.IStructure;
-import Toolkit.RenderObject;
-import Toolkit.InventoryRender;
+import Utility.Constants;
+import Utility.RenderObject;
+import Utility.InventoryRender;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -12,7 +11,6 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
-import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.*;

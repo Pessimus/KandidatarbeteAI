@@ -1,12 +1,9 @@
 package Controller.AIStates;
 
-import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
 import Model.*;
-import Toolkit.RenderObject;
+import Utility.RenderObject;
 
-import java.awt.*;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 

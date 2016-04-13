@@ -1,14 +1,11 @@
 package Controller.AIStates;
 
 import Controller.ArtificialBrain;
-import Model.Constants;
 import Model.ICollidable;
 import Model.IResource;
 import Model.ResourcePoint;
-import Toolkit.RenderObject;
 
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created by Victor on 2016-04-04.

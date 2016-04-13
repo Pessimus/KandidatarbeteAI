@@ -2,7 +2,8 @@ package Controller;
 
 import Model.*;
 import Model.Character;
-import Toolkit.RenderObject;
+import Utility.Constants;
+import Utility.RenderObject;
 import View.*;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.BasicGameState;

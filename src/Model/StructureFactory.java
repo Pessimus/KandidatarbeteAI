@@ -1,6 +1,10 @@
 package Model;
 
 import Model.IStructure.StructureType;
+import Model.Items.WoodItem;
+import Model.Structures.Farm;
+import Model.Structures.House;
+import Model.Structures.Stockpile;
 
 import java.util.LinkedList;
 

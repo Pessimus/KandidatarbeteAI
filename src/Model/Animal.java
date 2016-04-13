@@ -1,6 +1,7 @@
 package Model;
 
-import Toolkit.RenderObject;
+import Utility.Constants;
+import Utility.RenderObject;
 
 import java.util.LinkedList;
 

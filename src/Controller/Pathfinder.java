@@ -114,7 +114,7 @@ public class Pathfinder {
 
     private LinkedList<Tuple> helpPath (int startx, int starty, int endx, int endy) {
         //initialize the open list
-        if (endx > width || endy > height || endx < 0 || endy < 0) {return null;}
+        if (endx >= width || endy >= height || endx < 0 || endy < 0) {return null;}
         if (!mask[endx][endy]) {return null;}
         PriorityQueue<Node> open = new PriorityQueue<>();
         //initialize the closed list

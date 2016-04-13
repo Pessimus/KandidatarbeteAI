@@ -1,10 +1,9 @@
 package Controller.AIStates;
 
-import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
 import Controller.PathStep;
 import Model.*;
-import Toolkit.RenderObject;
+import Utility.RenderObject;
 
 import java.util.Iterator;
 import java.util.List;

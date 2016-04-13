@@ -1,7 +1,7 @@
 package View;
 
-import Toolkit.RenderObject;
-import Toolkit.InventoryRender;
+import Utility.RenderObject;
+import Utility.InventoryRender;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;

@@ -1,10 +1,7 @@
 package Controller.AIStates;
 
-import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
-import Model.Character;
-import Model.Constants;
-import Model.ICharacterHandle;
+import Utility.Constants;
 import Model.IItem;
 
 import java.util.Iterator;

@@ -1,6 +1,6 @@
 package Model;
 
-import Toolkit.RenderObject;
+import Utility.RenderObject;
 
 /**
  * Created by Martin on 24/02/2016.
@@ -179,7 +179,10 @@ public class CollisionList {
 	}
 
 	public boolean canAdd(ICollidable collidable){
-		if(collidable.getX()<this.minX || collidable.getX()>this.maxX || collidable.getY()<this.minY || collidable.getY()>this.maxY){
+		if(collidable.getX() - collidable.getCollisionRadius() < this.minX
+				|| collidable.getX() + collidable.getCollisionRadius() > this.maxX
+				|| collidable.getY() - collidable.getCollisionRadius() < this.minY
+				|| collidable.getY() + collidable.getCollisionRadius() > this.maxY){
 			return false;
 		}
 
