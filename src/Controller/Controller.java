@@ -78,7 +78,7 @@ public class Controller implements PropertyChangeListener {
 
 		//TODO this is hardcoded testing code. Remove after Testing is done!!
 
-				player = new PlayerBrain(gameModel.addCharacter(650, 770, Constants.PLAYER_CHARACTER_KEY));
+				player = new PlayerBrain(gameModel.addCharacter(0, 0, Constants.PLAYER_CHARACTER_KEY));
 
 				((Character)player.getBody()).godMode = true;
 
@@ -140,14 +140,14 @@ public class Controller implements PropertyChangeListener {
 	private void updateView(){
 		List<RenderObject> temp = new LinkedList<>();
 		gameView.drawNeeds(player.getBody().getNeeds());
-		int width = (int)gameModel.getWidth();
-		int height = (int)gameModel.getHeight();
+		int width = (int)gameModel.getWidth()+Constants.VIEW_BORDER_WIDTH*2;
+		int height = (int)gameModel.getHeight()+Constants.VIEW_BORDER_HEIGHT*2;
 
 		//Centers the player in the middle of the screen
 		if(playerViewCentered) {
 			if (!gameModel.isPaused()){
-				float playerXPos = player.getBody().getX();
-				float playerYPos = player.getBody().getY();
+				float playerXPos = player.getBody().getX()+Constants.VIEW_BORDER_WIDTH;
+				float playerYPos = player.getBody().getY()+Constants.VIEW_BORDER_HEIGHT;
 
 
 				if (playerXPos - Constants.SCREEN_WIDTH / (2 * scaleGraphicsX) > 0) {
@@ -553,11 +553,11 @@ public class Controller implements PropertyChangeListener {
 //----------------------------------Model and View converting methods-------------------------------------------------\\
 
 	private float[] convertFromModelToViewCoords(float x, float y){
-		return new float[]{x - screenRect.getMinX(), y - screenRect.getMinY()};
+		return new float[]{x - screenRect.getMinX() + Constants.VIEW_BORDER_WIDTH, y - screenRect.getMinY() + Constants.VIEW_BORDER_HEIGHT};
 	}
 
 	private float[] convertFromViewToModelCoords(float x, float y){
-		return new float[]{x + screenRect.getMinX(), y + screenRect.getMinY()};
+		return new float[]{x + screenRect.getMinX() - Constants.VIEW_BORDER_WIDTH, y + screenRect.getMinY() - Constants.VIEW_BORDER_HEIGHT};
 	}
 
 	private final class ModelToViewRectangle{

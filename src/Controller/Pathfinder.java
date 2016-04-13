@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.CollisionList;
+import Model.ICollidable;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -34,8 +35,24 @@ public class Pathfinder {
         }
     }
 
+    public void upgradeMask(ICollidable c) { //Takes a single added object and adds it to the mask.
+        mask[(int) (c.getX() / gridSize)][(int) (c.getY() / gridSize)] = false;
+        for (double i = c.getX() - c.getCollisionRadius(); i < c.getX() + c.getCollisionRadius(); i = i+gridSize) {
+            for (double j = c.getY() - c.getCollisionRadius(); j < c.getY() + c.getCollisionRadius(); j = j+gridSize) {
+                if (i < gridSize*width && i >= 0 && j < gridSize*height && j >= 0) {
+                    mask[(int) (i / gridSize)][(int) (j / gridSize)] = false;
+                }
+                if (j + gridSize > c.getY() + c.getCollisionRadius() && i < gridSize*width && i >= 0 && (int)((c.getY()+c.getCollisionRadius())/gridSize) < mask[(int)(i/gridSize)].length) {
+                    mask[(int)(i/gridSize)][(int)((c.getY() + c.getCollisionRadius())/gridSize)] = false;
+                }
+            }
+            if (i + gridSize > c.getX() + c.getCollisionRadius()) {i = c.getX() + c.getCollisionRadius();}
+        }
+    }
+
     public void updateMask(CollisionList c) {
         fill(mask, true);
+        c.restart();
         while (c.next()) {
             mask[(int) (c.getX() / gridSize)][(int) (c.getY() / gridSize)] = false;
             for (double i = c.getX() - c.getRadius(); i < c.getX() + c.getRadius(); i = i+gridSize) {
@@ -63,6 +80,19 @@ public class Pathfinder {
 
     public boolean[][] getMask() {
         return mask;
+    }
+
+    public void showMask() {
+        for (int j = 0; j < height; j++) {
+            for (int i = 0; i < width; i++) {
+                if (mask[i][j]) {
+                    System.out.print(" ");
+                } else {
+                    System.out.print("#");
+                }
+            }
+            System.out.print("\n");
+        }
     }
 
     public double getGridSize() {
