@@ -487,19 +487,22 @@ public class CollisionList {
 		public void checkSurroundings(){}
 
 		@Override
-		public void interacted(Character rhs) {
-
-		}
+		public void interacted(Character rhs) {}
 
 		@Override
-		public void consumed(Character rhs) {
-
-		}
+		public void consumed(Character rhs) {}
 
 		@Override
-		public void attacked(Character rhs) {
+		public void attacked(Character rhs) {}
 
-		}
+		@Override
+		public void interactedCommand(Character rhs) {}
+
+		@Override
+		public void consumedCommand(Character rhs) {}
+
+		@Override
+		public void attackedCommand(Character rhs) {}
 
 		@Override
 		public boolean isImovable(){

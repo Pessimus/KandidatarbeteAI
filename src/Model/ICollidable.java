@@ -70,6 +70,22 @@ public interface ICollidable {
 	 */
 	void attacked(Character rhs);
 
+	/**
+	 * Executes the changes that should happen when a character interacts with it.
+	 * @param rhs the character that is interacting with it.
+	 */
+	void interactedCommand(Character rhs);
+	/**
+	 * Executes the changes that should happen when a character consumes with it.
+	 * @param rhs the character that is consuming it.
+	 */
+	void consumedCommand(Character rhs);
+	/**
+	 * Executes the changes that should happen when a character attacks with it.
+	 * @param rhs the character that is attacking it.
+	 */
+	void attackedCommand(Character rhs);
+
 	/** @return true if this Collidable should be removed.*/
 	boolean toBeRemoved();
 

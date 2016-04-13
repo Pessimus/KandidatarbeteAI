@@ -170,6 +170,21 @@ public class Animal implements ICollidable, ITimeable {
 		this.alive = false;
 	}
 
+	@Override
+	public void interactedCommand(Character rhs) {
+
+	}
+
+	@Override
+	public void consumedCommand(Character rhs) {
+
+	}
+
+	@Override
+	public void attackedCommand(Character rhs) {
+
+	}
+
 //------------------------------------------UPDATE METHODS------------------------------------------------------------\\
 
 	@Override

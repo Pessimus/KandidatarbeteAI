@@ -96,6 +96,8 @@ public class World{
 		//Initializing mask for pathfinding
 		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
 
+		Schedule.init();
+
 	}
 
 	//TODO remove hardcoded values (move them to constants)
@@ -175,6 +177,8 @@ public class World{
 			removeObjects();
 
 			this.collidables.handleCollision();
+
+			Schedule.executeTasks();
 
 			//TODO Code for updating the character (movement and actions?)
 
