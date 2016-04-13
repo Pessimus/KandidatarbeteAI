@@ -2,26 +2,41 @@ package Controller;
 
 import Controller.AIStates.*;
 import Model.*;
+import Model.Character;
 import Model.Constants;
 import Model.ICharacterHandle;
+import Toolkit.*;
 
 //import java.awt.*;
 import java.awt.*;
 import java.awt.image.renderable.RenderableImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.SynchronousQueue;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static Toolkit.UniversalStaticMethods.distanceBetweenPoints;
 
 /**
  * Created by Gustav on 2016-03-23.
  */
-public class ArtificialBrain implements AbstractBrain {
+public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
+	// ---------------DEBUG VARIABLE-------------- \\
+	private static final boolean USE_MEMORY = true;
+	// ---------------------------------------------\\
+
+
+
+
 	private LinkedList<PathStep> path;
 
 	private IResource.ResourceType nextResourceToGather = null;
+	private LinkedList<IResource.ResourceType> gatherStack = new LinkedList<>();
 
-	private final Queue<IState> stateQueue = new LinkedList<>();
+	private final Deque<IState> stateQueue = new LinkedList<>();
 
 	private ICharacterHandle body; // The character this Brain controls
 
@@ -38,10 +53,11 @@ public class ArtificialBrain implements AbstractBrain {
 	private IState eatState = new EatState(this);
 	private IState gatherCropsState = new GatherCropsState(this);
 	private IState gatherFishState = new GatherFishState(this);
-	private IState gatherMaterialState = new GatherMaterialState(this);
 	private IState gatherMeatState = new GatherMeatState(this);
 	private IState gatherWaterState = new GatherWaterState(this);
 	private IState gatherWoodState = new GatherWoodState(this);
+	private IState gatherGoldState = new GatherGoldState(this);
+	private IState gatherStoneState = new GatherStoneState(this);
 	private IState gatherState = new GatherState(this);
 	private IState hungryState = new HungryState(this);
 	private IState idleState = new IdleState(this);
@@ -55,6 +71,13 @@ public class ArtificialBrain implements AbstractBrain {
 
 	//private final HashMap<Path2D, ResourcePoint> resourceMap = new HashMap<>();
 	List<ResourcePoint> resourceMemory = new LinkedList<>();
+
+	private Interaction currentInteraction;
+	private Character interactionCharacter;
+
+	//Construction variables - What are we building?
+	private IStructure.StructureType nextStructureToBuild = null;
+	private LinkedList<IStructure.StructureType> buildStack = new LinkedList<>();
 
 	// TODO: Hardcoded universal vision
 	public World map;
@@ -77,14 +100,26 @@ public class ArtificialBrain implements AbstractBrain {
 		int[] traits = body.getTraits();
 		int[] skills = body.getSkills();
 
+		getStateQueue().stream()
+				.forEach(o -> System.out.println("State:\t" + o));
+		System.out.println(body.getInventory().size());
+		body.getInventory().stream()
+				.forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));
+
 		currentState.run();
 
-		/*System.out.println("Hunger: " + needs[0]);
+		System.out.println("\nHunger: " + needs[0]);
 		System.out.println("Thirst: " + needs[1]);
 		System.out.println("Energy: " + needs[2]);
 		System.out.println(currentState);
-		System.out.println(body.getInventory());*/
 
+		body.getSurroundings().stream()
+				.filter(o -> o.getClass().equals(ResourcePoint.class))
+				.map(o -> (ResourcePoint)o)
+				.filter(o -> !resourceMemory.contains(o))
+				.forEach(resourceMemory::add);
+
+		/*
 		for (ICollidable object : body.getSurroundings()) {
 			if (object.getClass().equals(ResourcePoint.class)) {
 				ResourcePoint resource = (ResourcePoint) object;
@@ -94,37 +129,7 @@ public class ArtificialBrain implements AbstractBrain {
 
 			}
 		}
-		/*
-		if (exploring) {
-			if (path != null) {
-				if (path.isEmpty()) {
-					path = null;
-				} else if (path.getFirst().stepTowards(body)) {
-					path.removeFirst();
-				}
-			}
-		} else {
-			if (needs[0] <= needs[1] && needs[0] <= needs[2]) {
-				ResourcePoint closestResource = resourceMemory.get(0);
-				Point closestPoint = new Point((int) closestResource.getX(), (int) closestResource.getY());
-				double closestDistance = closestPoint.distance(body.getX(), body.getY());
-				for (ResourcePoint resource : resourceMemory) {
-					if (resource.getResourceName().equals("Meat") || resource.getResourceName().equals("Fish")) {
-						if (closestPoint.distance(resource.getX(), resource.getY()) < closestDistance) {
-							closestResource = resource;
-							closestPoint = new Point((int) closestResource.getX(), (int) closestResource.getY());
-							closestDistance = closestPoint.distance(resource.getX(), resource.getY());
-						}
-					}
-				}
-
-				if (closestResource == null) {
-					exploring = true;
-				} else {
-					path = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), closestPoint.getX(), closestPoint.getY());
-				}
-			}
-		}*/
+		*/
 	}
 
 	@Override
@@ -179,10 +184,6 @@ public class ArtificialBrain implements AbstractBrain {
 		return gatherFishState;
 	}
 
-	public IState getGatherMaterialState() {
-		return gatherMaterialState;
-	}
-
 	public IState getGatherMeatState() {
 		return gatherMeatState;
 	}
@@ -235,12 +236,48 @@ public class ArtificialBrain implements AbstractBrain {
 		return gatherWoodState;
 	}
 
-	public IResource.ResourceType getNextResourceToGather() {
+	public IState getGatherStoneState() {
+		return gatherStoneState;
+	}
+
+	public IState getGatherGoldState() {
+		return gatherGoldState;
+	}
+
+	/*public IResource.ResourceType getNextResourceToGather() {
 		return nextResourceToGather;
+	}*/
+
+	public IResource.ResourceType getNextResourceToGather() {
+		return gatherStack.peek();
 	}
 
 	public void setNextResourceToGather(IResource.ResourceType nextResourceToGather) {
 		this.nextResourceToGather = nextResourceToGather;
+	}
+
+	public LinkedList<IResource.ResourceType> getGatherStack(){
+		return gatherStack;
+	}
+
+	public void stackResourceToGather(IResource.ResourceType stackedResource){
+		gatherStack.push(stackedResource);
+	}
+
+	public IStructure.StructureType getNextStructureToBuild() {
+		return buildStack.peek();
+	}
+
+	public void setNextStructureToBuild(IStructure.StructureType nextStructureToBuild) {
+		this.nextStructureToBuild = nextStructureToBuild;
+	}
+
+	public void stackStructureToBuild(IStructure.StructureType type){
+		buildStack.push(type);
+	}
+
+	public LinkedList<IStructure.StructureType> getStructureStack(){
+		return buildStack;
 	}
 
 	public LinkedList<PathStep> getPath() {
@@ -263,62 +300,152 @@ public class ArtificialBrain implements AbstractBrain {
 		stateQueue.offer(state);
 	}
 
+	public void stackState(IState state) {
+		stateQueue.push(state);
+	}
+
 	public List<ResourcePoint> getResourceMemory() {
 		return resourceMemory;
 	}
 
-	public Point getClosestResourcePoint(String type){
-		List<ICollidable> surround = getBody().getSurroundings();
-		ResourcePoint closest = null;
-		double closestDistance = Integer.MAX_VALUE;
+	private volatile ResourcePoint closest = null;
 
-		for (ICollidable temp : surround) {
-			if(temp.getClass().equals(ResourcePoint.class)){
-				ResourcePoint tempPoint = (ResourcePoint) temp;
-				if(tempPoint.getResourceName().toLowerCase().equals(type.toLowerCase())) {
-					double d = closestDistance = distanceBetweenPoints(getBody().getX(), getBody().getY(), tempPoint.getX(), tempPoint.getY());
-					if (d < closestDistance) {
-						closest = tempPoint;
-						closestDistance = d;
+	public Point getClosestResourcePoint(IResource.ResourceType type){
+		System.out.println(type);
+		if(USE_MEMORY) {
+			List<ICollidable> surround = getBody().getSurroundings();
+			closest = null;
+			//double closestDistance = Integer.MAX_VALUE;
+
+			surround.stream()
+					.filter(o -> o.getClass().equals(ResourcePoint.class))
+					.map(o -> (ResourcePoint)o)
+					.filter(o -> o.getResource().getResourceType().equals(type))
+					.reduce((rp1, rp2) -> distanceBetweenPoints(getBody().getX(), getBody().getY(), rp1.getX(), rp1.getY()) < distanceBetweenPoints(getBody().getX(), getBody().getY(), rp2.getX(), rp2.getY()) ? rp1 : rp2)
+					.ifPresent(rp -> closest = rp);
+
+			/*
+			for (ICollidable temp : surround) {
+				if (temp.getClass().equals(ResourcePoint.class)) {
+					ResourcePoint tempPoint = (ResourcePoint) temp;
+					if (tempPoint.getResource().getResourceType().equals(type)) {
+						double d = distanceBetweenPoints(getBody().getX(), getBody().getY(), tempPoint.getX(), tempPoint.getY());
+						if (d < closestDistance) {
+							closest = tempPoint;
+							closestDistance = d;
+						}
 					}
 				}
 			}
-		}
+			*/
 
-		System.out.println(resourceMemory.size());
 
-		if(closest == null){
-			for(ResourcePoint temp : resourceMemory){
-				if(temp.getResourceName().toLowerCase().equals(type.toLowerCase())) {
-					double d = distanceBetweenPoints(getBody().getX(), getBody().getY(), temp.getX(), temp.getY());
-					if (d < closestDistance) {
-						closest = temp;
-						closestDistance = d;
+			if (closest == null) {
+				resourceMemory.stream()
+						.filter(o -> o.getResource().getResourceType().equals(type))
+						.reduce((rp1, rp2) -> distanceBetweenPoints(getBody().getX(), getBody().getY(), rp1.getX(), rp1.getY()) < distanceBetweenPoints(getBody().getX(), getBody().getY(), rp2.getX(), rp2.getY()) ? rp1 : rp2)
+						.ifPresent(rp -> closest = rp);
+			}
+
+			/*
+
+			if (closest == null) {
+				for (ResourcePoint temp : resourceMemory) {
+					if (temp.getResource().getResourceType().equals(type)) {
+						double d = distanceBetweenPoints(getBody().getX(), getBody().getY(), temp.getX(), temp.getY());
+						if (d < closestDistance) {
+							closest = temp;
+							closestDistance = d;
+						}
 					}
 				}
 			}
-		}
+			*/
 
-		if(closest == null){
-			// TODO: Find a resource even if it isn't close by, or in your memory
-			System.out.println("Null point");
-			return null;
-		} else{
-			return new Point((int)closest.getX(), (int)closest.getY());
+			if (closest == null) {
+				// TODO: Find a resource even if it isn't close by, or in your memory
+				return null;
+			} else {
+				return new Point((int) closest.getX(), (int) closest.getY());
+			}
+		}
+		else{
+			RenderObject closestCrop = null;
+			double closestDistance = Float.MAX_VALUE;
+			double odx;
+			double ody;
+
+			RenderObject.RENDER_OBJECT_ENUM objectEnum = null;
+
+			switch (type){
+				case MEAT:
+					//objectEnum = RenderObject.RENDER_OBJECT_ENUM.ANIMAL;
+					break;
+				case CROPS:
+					objectEnum = RenderObject.RENDER_OBJECT_ENUM.CROPS;
+					break;
+				case FISH:
+				case WATER:
+					objectEnum = RenderObject.RENDER_OBJECT_ENUM.LAKE;
+					break;
+				case WOOD:
+					objectEnum = RenderObject.RENDER_OBJECT_ENUM.WOOD;
+					break;
+				case GOLD:
+					//objectEnum = RenderObject.RENDER_OBJECT_ENUM.GOLD;
+					break;
+				case STONE:
+					objectEnum = RenderObject.RENDER_OBJECT_ENUM.STONE;
+					break;
+			}
+
+
+			for(RenderObject o : map.getRenderObjects()) {
+				if(o.getRenderType().equals(objectEnum)) {
+					if (closestCrop == null) {
+						closestCrop = o;
+						closestDistance = UniversalStaticMethods.distanceBetweenPoints(getBody().getX(), getBody().getY(), o.getX(), o.getY());
+					} else {
+						odx = Math.abs(getBody().getX() - o.getX());
+						ody = Math.abs(getBody().getY() - o.getY());
+						double distance = Math.sqrt(odx) + Math.sqrt(ody);
+						if (closestDistance > distance) {
+							closestCrop = o;
+							closestDistance = distance;
+						}
+					}
+				}
+			}
+
+			if (closestCrop == null) {
+				// TODO: Find a resource even if it isn't close by, or in your memory
+				return null;
+			} else {
+				return new Point((int) closestCrop.getX(), (int) closestCrop.getY());
+			}
 		}
 	}
 
-	//Gives the AI a new path, probably redundant method. Only for testing purposes.
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if(evt.getPropertyName().equals("attacked")){
+			// TODO: Implement a proper response to being attacked
+		}
+		if(evt.getPropertyName().equals("startInteraction")){
+			Character other = (Character)evt.getNewValue();
+			Interaction interaction = (Interaction)evt.getOldValue();
 
-	/*
-	enum AIStates{
-		IDLE,
-		HUNGRY, COOK, EAT, EATMEAT, EATFISH, EATCROPS,
-		GATHER, GATHERMATERIAL, GATHERFOOD, GATHERWATER,
-		SLEEPY, GOHOME, SLEEP,
-		THIRSTY, DRINK,
-		SOCIALIZE, TALK,
-		BUILD, BUILDHOUSE, BUILDSTOCKPILE, BUILDFARM, BUILDMILL,
+			if(currentInteraction == null && interactionCharacter == null){
+				// TODO: Check if we want to start an interaction
+				currentInteraction = interaction;
+				interactionCharacter = other;
+				interaction.acceptInteraction(body.hashCode(), this);
+				// TODO: Figure out how to interrupt current state!!!!!!
+				stackState(getSocializeState());
+			} else{
+				interaction.declineInteraction();
+			}
+		}
+
 	}
-	*/
 }

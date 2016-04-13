@@ -28,7 +28,6 @@ public class DrinkState implements IState{
 	public void run() {
 		if(waiting){
 			if((waitUpdates = (++waitUpdates % Constants.DRINK_STATE_TIME)) == 0) {
-
 				brain.getBody().consumeItem(bestIndex);
 
 				waiting = false;
@@ -51,6 +50,8 @@ public class DrinkState implements IState{
 						if (bestIndex == -1) {
 							waiting = true;
 							bestIndex = currentIndex;
+
+
 							break loop;
 						}
 						/*

@@ -316,7 +316,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Character rhs){
-		rhs.startCharacterInteraction(this);
+		Interaction i = new Interaction(rhs, this);
+		pcs.firePropertyChange("startInteraction", i, rhs);
+		rhs.startCharacterInteraction(this, i);
 	}
 
 	@Override
@@ -328,7 +330,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs){
-		//pcs.firePropertyChange("Character attacked", null, rhs);
+		//pcs.firePropertyChange("attacked", null, rhs);
 		//TODO implement
 	}
 
@@ -347,8 +349,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		//TODO implement
 	}
 
-	private void startCharacterInteraction(Character rhs){
+	private void startCharacterInteraction(Character rhs, Interaction i){
 		//TODO implement
+		pcs.firePropertyChange("startInteraction", i, rhs);
 	}
 
 	/**
@@ -437,6 +440,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	@Override
 	public void spawn(World rhs) {
+		/*
 		LinkedList<IItem> cost = StructureFactory.getCost(typeToSpawn);
 		boolean canPay = true;
 		for(IItem itemCost : cost){
@@ -445,12 +449,19 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 				break;
 			}
 		}
+
 		if(canPay) {
 			for(IItem itemCost : cost){
 				System.out.println(inventory.removeItem(itemCost));
 			}
 			rhs.addStructure(xPos, yPos, typeToSpawn);
 		}
+		*/
+		LinkedList<IItem> cost = StructureFactory.getCost(typeToSpawn);
+		for(IItem itemCost : cost){
+			System.out.println(inventory.removeItem(itemCost));
+		}
+		rhs.addStructure(xPos, yPos, typeToSpawn);
 		spawning = false;
 	}
 

@@ -82,16 +82,15 @@ public class Controller implements PropertyChangeListener {
 
 				((Character)player.getBody()).godMode = true;
 
-
-				Character character = gameModel.addCharacter(1100,1100,2);
-
-				//Character character1 = gameModel.addCharacter(1200,1100,3);
-				//Character character2 = gameModel.addCharacter(1300,1100,4);
+				Character character = gameModel.addCharacter(1100, 1100, 2);
 				aiMap.put(character, new ArtificialBrain(gameModel, character));
-				//aiMap.put(character1, new ArtificialBrain(gameModel, character1));
-				//aiMap.put(character2, new ArtificialBrain(gameModel, character2));
 
-				//this.gameModel.addFiniteResourcePoint(new Crops(5),1010,1010,5);
+				Random r = new Random();
+
+				for(int i = 3; i < 1; i++) {
+					character = gameModel.addCharacter(r.nextInt(9600), r.nextInt(9600), i);
+					aiMap.put(character, new ArtificialBrain(gameModel, character));
+				}
 
 	}
 
@@ -475,7 +474,7 @@ public class Controller implements PropertyChangeListener {
 					if(clicks[1] == Input.MOUSE_LEFT_BUTTON){
 						//The left mouse button was pressed.
 						//TODO WHAT SHOULD BE DONE HERE?!
-						float[] tempFloats = convertFromViewToModelCoords(clicks[2]/(float)Constants.GRAPHICS_SCALE_X, clicks[3]/(float)Constants.GRAPHICS_SCALE_Y);
+						float[] tempFloats = convertFromViewToModelCoords((clicks[2]/(float)Constants.GRAPHICS_SCALE_X)/Constants.ZOOM_LEVEL, (clicks[3]/(float)Constants.GRAPHICS_SCALE_Y)/Constants.ZOOM_LEVEL);
 						player.moveToMouse(tempFloats[0], tempFloats[1]);
 					}
 

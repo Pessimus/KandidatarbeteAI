@@ -9,7 +9,7 @@ public class ResourcePoint implements ICollidable {
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 
-	IResource resource;
+	private IResource resource;
 
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum;
 
@@ -186,4 +186,7 @@ public class ResourcePoint implements ICollidable {
 		return renderObjectEnum;
 	}
 
+	public IResource getResource() {
+		return resource;
+	}
 }

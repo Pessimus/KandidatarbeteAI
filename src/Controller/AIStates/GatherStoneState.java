@@ -6,24 +6,22 @@ import Model.ICollidable;
 import Model.IResource;
 import Model.ResourcePoint;
 import Toolkit.RenderObject;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
-import org.lwjgl.Sys;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
+
 /**
- * Created by Oskar on 2016-04-01.
+ * Created by Victor on 2016-04-04.
  */
-public class GatherFishState implements IState {
+public class GatherStoneState implements IState {
     private final ArtificialBrain brain;
 
     private int waitUpdates = 0;
     private boolean waiting = false;
     private int bestIndex = -1;
 
-    public GatherFishState(ArtificialBrain brain) {
-        this.brain = brain;
+    public GatherStoneState(ArtificialBrain b){
+        brain = b;
     }
 
     @Override
@@ -34,7 +32,7 @@ public class GatherFishState implements IState {
 			ICollidable next = iterator.next();
 			if(next.getClass().equals(ResourcePoint.class)){
 				ResourcePoint tempPoint = (ResourcePoint) next;
-				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.FISH)) {
+				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.STONE)) {
 					brain.getBody().interactObject(i);
 				}
 			}
@@ -49,7 +47,7 @@ public class GatherFishState implements IState {
 		}
 
         /*if(waiting){
-            if((waitUpdates = (++waitUpdates % Constants.GATHER_FISH_STATE_TIME)) == 0) {
+            if((waitUpdates = (++waitUpdates % Constants.GATHER_STONE_STATE_TIME)) == 0) {
                 brain.getBody().interactObject(bestIndex);
 
                 waiting = false;
@@ -67,7 +65,7 @@ public class GatherFishState implements IState {
             for (ICollidable temp : surround) {
                 if(temp.getClass().equals(ResourcePoint.class)){
                     ResourcePoint tempPoint = (ResourcePoint) temp;
-                    if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.FISH)) {
+                    if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.STONE)) {
                         bestIndex = i;
                         break;
                     }
@@ -76,15 +74,15 @@ public class GatherFishState implements IState {
                 i++;
             }
 
-			if(bestIndex > 0){
-				waiting = true;
-			} else{
-				if (brain.getStateQueue().isEmpty()) {
-					brain.setState(brain.getIdleState());
-				} else {
-					brain.setState(brain.getStateQueue().poll());
-				}
-			}
+            if(bestIndex > 0){
+                waiting = true;
+            } else{
+                if (brain.getStateQueue().isEmpty()) {
+                    brain.setState(brain.getIdleState());
+                } else {
+                    brain.setState(brain.getStateQueue().poll());
+                }
+            }
         }*/
     }
 }

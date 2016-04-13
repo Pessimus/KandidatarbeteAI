@@ -1,14 +1,13 @@
 package Controller.AIStates;
 
 import Controller.ArtificialBrain;
-import Model.Constants;
-import Model.ICollidable;
-import Model.ResourcePoint;
+import Model.*;
 import Toolkit.RenderObject;
 import Toolkit.UniversalStaticMethods;
 import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.lwjgl.Sys;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,7 +27,27 @@ public class GatherCropsState implements IState {
 
 	@Override
 	public void run() {
-		if(waiting){
+		Iterator<ICollidable> iterator = brain.getBody().getInteractables().iterator();
+		int i = 0;
+		while (iterator.hasNext()) {
+			ICollidable next = iterator.next();
+			if(next.getClass().equals(ResourcePoint.class)){
+				ResourcePoint tempPoint = (ResourcePoint) next;
+				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.CROPS)) {
+					brain.getBody().interactObject(i);
+				}
+			}
+
+			i++;
+		}
+
+		if (brain.getStateQueue().isEmpty()) {
+			brain.setState(brain.getIdleState());
+		} else {
+			brain.setState(brain.getStateQueue().poll());
+		}
+
+		/*if(waiting){
 			if((waitUpdates = (++waitUpdates % Constants.GATHER_CROPS_STATE_TIME)) == 0) {
 				brain.getBody().interactObject(bestIndex);
 
@@ -43,13 +62,11 @@ public class GatherCropsState implements IState {
 			}
 		} else {
 			List<ICollidable> surround = brain.getBody().getInteractables();
-			ICollidable closest = null;
 			int i = 0;
 			for (ICollidable temp : surround) {
 				if(temp.getClass().equals(ResourcePoint.class)){
 					ResourcePoint tempPoint = (ResourcePoint) temp;
-					if(tempPoint.getResourceName().toLowerCase().equals("crops")) {
-						closest = temp;
+					if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.CROPS)) {
 						bestIndex = i;
 						break;
 					}
@@ -58,7 +75,7 @@ public class GatherCropsState implements IState {
 				i++;
 			}
 
-			if(closest != null){
+			if(bestIndex > 0){
 				waiting = true;
 			} else{
 				if (brain.getStateQueue().isEmpty()) {
@@ -67,6 +84,6 @@ public class GatherCropsState implements IState {
 					brain.setState(brain.getStateQueue().poll());
 				}
 			}
-		}
+		}*/
 	}
 }

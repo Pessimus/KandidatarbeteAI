@@ -11,6 +11,11 @@ public class Stockpile implements IStructure {
     public static final StructureType structureType = StructureType.STOCKPILE;
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.STOCKPILE;
 
+    /*private static final StructureBuildingMaterialTuple[] buildingMaterials = new StructureBuildingMaterialTuple[]
+            {       new StructureBuildingMaterialTuple(IItem.Type.WOOD_ITEM, 5),
+                    new StructureBuildingMaterialTuple(IItem.Type.STONE_ITEM, 20)
+            };*/
+
     private Inventory inventory;
 
 	private int integrity;
@@ -74,6 +79,14 @@ public class Stockpile implements IStructure {
 	public StructureType getStructureType() {
 		return structureType;
 	}
+
+	/*@Override
+	public StructureBuildingMaterialTuple[] getBuildingMaterials() {
+		return buildingMaterials;
+	}*/
+
+//----------------------------------------ADD & REMOVE OCCUPANTS------------------------------------------------------\\
+
 
 	@Override
 	public int getConstructionStatus() {
@@ -180,7 +193,6 @@ public class Stockpile implements IStructure {
 	public RenderObject.RENDER_OBJECT_ENUM getRenderType() {
 		return renderObjectEnum;
 	}
-
 }
 
 

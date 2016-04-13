@@ -79,6 +79,7 @@ public class Inventory{
 	public boolean contains(IItem item) {
 		for(IItem tmpItem : inventoryItems){
 			if(tmpItem.getType().equals(item.getType()) && tmpItem.getAmount() >= item.getAmount()){
+				System.out.println(item.getType() + ":" + item.getAmount() + " - " + tmpItem.getType() + ":" + tmpItem.getAmount());
 				return true;
 			}
 		}

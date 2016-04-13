@@ -21,6 +21,13 @@ public class ConverseState implements IState{
 
 	@Override
 	public void run() {
+
+		/*
+			* Increase social need
+			* Exchange information about the world characters between?
+			* Increase/Decrease relation
+			* Go back to SocializeState
+		 */
 		// TODO: HARDCODED TO INTERACT WITH FIRST CHARACTER IN INTERACTABLES LIST
 		// TODO: Find a way to measure what character is the most interesting to talk to
 		List<ICollidable> interactables = brain.getBody().getInteractables();

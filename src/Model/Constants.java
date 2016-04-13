@@ -13,8 +13,8 @@ public final class Constants {
 	// ----------- Controller Constants ----------- \\
 
 
-	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2;
+	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2;
 
     /*
     public static final         int         GRASS_START_PIXEL_X                 =   650;
@@ -248,15 +248,16 @@ public final class Constants {
 
 	// ----------- AI Constants ----------- \\
 
-    public static final			int			GATHER_GOLD_STATE_TIME				=	60;			// Number of updates ("frames") that the character will wait when gathering gold
-    public static final			int			GATHER_STONE_STATE_TIME				=	60;			// Number of updates ("frames") that the character will wait when gathering stone
-	public static final			int			GATHER_CROPS_STATE_TIME				=	60;			// Number of updates ("frames") that the character will wait when gathering crops
+	public static final			int			GATHER_CROPS_STATE_TIME				=	90;			// Number of updates ("frames") that the character will wait when gathering crops
+	public static final			int			GATHER_BERRIES_STATE_TIME			=	90;			// Number of updates ("frames") that the character will wait when gathering wild berries
 	public static final			int			GATHER_WATER_STATE_TIME				=	30;			// Number of updates ("frames") that the character will wait when gathering water
 	public static final			int			GATHER_MEAT_STATE_TIME				= 	60;			// Number of updates ("frames") that the character will wait when gathering meat
 	public static final			int			GATHER_FISH_STATE_TIME				= 	90;			// Number of updates ("frames") that the character will wait when gathering fish
-	public static final			int			GATHER_WOOD_STATE_TIME				= 	60;			// Number of updates ("frames") that the character will wait when gathering fish
-	public static final			int			EAT_STATE_TIME						=	15;			// Number of updates ("frames") that the character will wait when gathering water
-	public static final			int			DRINK_STATE_TIME					=	15;			// Number of updates ("frames") that the character will wait when gathering water
+	public static final			int			GATHER_WOOD_STATE_TIME				= 	60;			// Number of updates ("frames") that the character will wait when gathering wood
+	public static final			int			GATHER_GOLD_STATE_TIME				=	60;			// Number of updates ("frames") that the character will wait when gathering gold
+	public static final			int			GATHER_STONE_STATE_TIME				=	60;			// Number of updates ("frames") that the character will wait when gathering stone
+	public static final			int			EAT_STATE_TIME						=	15;			// Number of updates ("frames") that the character will wait when eating something
+	public static final			int			DRINK_STATE_TIME					=	15;			// Number of updates ("frames") that the character will wait when drinking something
 
 	// ----------- PATHFINDER Constants ----------- \\
 

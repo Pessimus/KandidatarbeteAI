@@ -19,65 +19,215 @@ public class GatherState implements IState{
 		this.brain = brain;
 	}
 
-	@Override
-	public void run() {
+	/**
+	 * If there is no explicit resource to be gathered next,
+	 * find the most interesting resource to gather, and queue
+	 * states in order to gather that resource.
+	 */
+	private void gatherInterestingResource(){
 		List<IItem> inventory = brain.getBody().getInventory();
 		IItem.Type lowestType = null;
 		int lowestAmount = 0;
 
 		HashMap<IItem.Type, Integer> itemMap = new HashMap<>();
 
-		for(IItem item : inventory){
-			if(itemMap.get(item.getType()) != null){
+		for (IItem item : inventory) {
+			if (itemMap.get(item.getType()) != null) {
 				itemMap.put(item.getType(), itemMap.get(item.getType()) + item.getAmount());
-			} else{
+			} else {
 				itemMap.put(item.getType(), itemMap.get(item.getType()));
 			}
 		}
 
-		for(IItem.Type type : IItem.Type.values()){
-			if(itemMap.get(type) == null){
+		for (IItem.Type type : IItem.Type.values()) {
+			if (itemMap.get(type) == null) {
 				itemMap.put(type, 0);
 				lowestType = type;
 				lowestAmount = 0;
-			} else if(itemMap.get(type) < lowestAmount){
+			} else if (itemMap.get(type) < lowestAmount) {
 				lowestType = type;
 				lowestAmount = itemMap.get(type);
 			}
 		}
 
-		if(lowestType == null){
-			brain.queueState(brain.getIdleState());
+		if (lowestType == null) {
+			brain.stackState(brain.getIdleState());
 		} else {
 			switch (lowestType) {
 				case MEAT_ITEM:
+					/*brain.setNextResourceToGather(IResource.ResourceType.MEAT);
+					break;*/
 				case FISH_ITEM:
+					/*brain.setNextResourceToGather(IResource.ResourceType.FISH);
+					break;*/
 				case WATER_ITEM:
-				case WOOD_ITEM:
-				case CROPS_ITEM:
-					gatherResource("crops");
+					brain.setNextResourceToGather(IResource.ResourceType.WATER);
 					break;
-				default:
-					brain.queueState(brain.getIdleState());
+				case WOOD_ITEM:
+					brain.setNextResourceToGather(IResource.ResourceType.WOOD);
+					break;
+				case STONE_ITEM:
+					brain.setNextResourceToGather(IResource.ResourceType.STONE);
+					break;
+				case GOLD_ITEM:
+					/*brain.setNextResourceToGather(IResource.ResourceType.GOLD);
+					break;*/
+				case CROPS_ITEM:
+					brain.setNextResourceToGather(IResource.ResourceType.CROPS);
 					break;
 			}
-		}
 
-		brain.setState(brain.getStateQueue().poll());
+			brain.stackState(brain.getGatherState());
+		}
 	}
 
-	private void gatherResource(String resource){
-		Point p = brain.getClosestResourcePoint(resource);
-		if(p == null){
-			Random r = new Random();
-			p = new Point(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
-			brain.findPathTo(p.getX(), p.getY());
-			brain.queueState(brain.getMovingState());
-			brain.queueState(brain.getGatherState());
-		} else {
-			brain.findPathTo(p.getX(), p.getY());
-			brain.queueState(brain.getMovingState());
-			brain.queueState(brain.getGatherCropsState());
+	private void gatherSpecificResource(IResource.ResourceType type){
+		Point p = brain.getClosestResourcePoint(type);
+
+		switch (type){
+			case FOOD:
+				// TODO
+				/*if(p == null){
+					Random r = new Random();
+					p = new Point(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
+					brain.findPathTo(p.getX(), p.getY());
+					brain.stackState(brain.getGatherState());
+					brain.stackState(brain.getMovingState());
+				} else {
+					brain.findPathTo(p.getX(), p.getY());
+					brain.stackState(brain.getGatherMeatState());
+					brain.stackState(brain.getMovingState());
+					brain.getGatherStack().remove();
+				}
+				break;*/
+			case MEAT:
+				// TODO: Add to world, so the AI isn't trying to gather a non-existing resource
+				/*if(p == null){
+					Random r = new Random();
+					p = new Point(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
+					brain.findPathTo(p.getX(), p.getY());
+					brain.stackState(brain.getGatherState());
+					brain.stackState(brain.getMovingState());
+				} else {
+					brain.findPathTo(p.getX(), p.getY());
+					brain.stackState(brain.getGatherMeatState());
+					brain.stackState(brain.getMovingState());
+					brain.getGatherStack().remove();
+				}
+				break;*/
+			case FISH:
+				// TODO: Add to world, so the AI isn't trying to gather a non-existing resource
+				/*
+				if(p == null){
+					Random r = new Random();
+					p = new Point(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
+					brain.findPathTo(p.getX(), p.getY());
+					brain.stackState(brain.getGatherState());
+					brain.stackState(brain.getMovingState());
+				} else {
+					brain.findPathTo(p.getX(), p.getY());
+					brain.stackState(brain.getGatherFishState());
+					brain.stackState(brain.getMovingState());
+					brain.getGatherStack().remove();
+				}
+				break;
+				*/
+			case CROPS:
+				if(p == null){
+					Random r = new Random();
+					p = new Point(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
+					brain.findPathTo(p.getX(), p.getY());
+					brain.stackState(brain.getGatherState());
+					brain.stackState(brain.getMovingState());
+				} else {
+					brain.findPathTo(p.getX(), p.getY());
+					brain.stackState(brain.getGatherCropsState());
+					brain.stackState(brain.getMovingState());
+					brain.getGatherStack().remove();
+				}
+				break;
+			case WATER:
+				if(p == null){
+					Random r = new Random();
+					p = new Point(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
+					brain.findPathTo(p.getX(), p.getY());
+					brain.stackState(brain.getGatherState());
+					brain.stackState(brain.getMovingState());
+				} else {
+					System.out.println(p);
+					brain.findPathTo(p.getX(), p.getY());
+					brain.stackState(brain.getGatherWaterState());
+					brain.stackState(brain.getMovingState());
+					brain.getGatherStack().remove();
+				}
+				break;
+			case STONE:
+				if(p == null){
+					Random r = new Random();
+					p = new Point(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
+					brain.findPathTo(p.getX(), p.getY());
+					brain.stackState(brain.getGatherState());
+					brain.stackState(brain.getMovingState());
+				} else {
+					brain.findPathTo(p.getX(), p.getY());
+					brain.stackState(brain.getGatherStoneState());
+					brain.stackState(brain.getMovingState());
+					brain.getGatherStack().remove();
+				}
+				break;
+			case GOLD:
+				// TODO: Add to world, so the AI isn't trying to gather a non-existing resource
+				/*
+				if(p == null){
+					Random r = new Random();
+					p = new Point(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
+					brain.findPathTo(p.getX(), p.getY());
+					brain.stackState(brain.getGatherState());
+					brain.stackState(brain.getMovingState());
+				} else {
+					brain.findPathTo(p.getX(), p.getY());
+					brain.stackState(brain.getGatherGoldState());
+					brain.stackState(brain.getMovingState());
+					brain.getGatherStack().remove();
+				}
+				break;
+				*/
+			case WOOD:
+				if(p == null){
+					Random r = new Random();
+					p = new Point(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
+					brain.findPathTo(p.getX(), p.getY());
+					brain.stackState(brain.getGatherState());
+					brain.stackState(brain.getMovingState());
+				} else {
+					brain.findPathTo(p.getX(), p.getY());
+					brain.stackState(brain.getGatherWoodState());
+					brain.stackState(brain.getMovingState());
+					brain.getGatherStack().remove();
+				}
+				break;
+		}
+	}
+
+
+	/**
+	 * Will try to gather a resource at all costs. This could be a predetermined
+	 * resource, if 'nextResourceToGather' is set in the brain, or a resource
+	 * the character has the smallest amount of.
+	 */
+	@Override
+	public void run() {
+		IResource.ResourceType resource = brain.getNextResourceToGather();
+		if(resource == null) {
+			gatherInterestingResource();
+		}else{
+			gatherSpecificResource(resource);
+		}
+		if(brain.getStateQueue().isEmpty()) {
+			brain.setState(brain.getIdleState());
+		}
+		else{
+			brain.setState(brain.getStateQueue().poll());
 		}
 	}
 }

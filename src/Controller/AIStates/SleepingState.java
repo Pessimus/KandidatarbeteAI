@@ -24,8 +24,12 @@ public class SleepingState implements IState{
 	@Override
 	public void run() {
 		brain.getBody().sleep();
-		brain.queueState(brain.getIdleState());
-		brain.setState(brain.getStateQueue().poll());
+		//TODO: Make so that the character sleeps until his energy is restored
+		if (brain.getStateQueue().isEmpty()) {
+			brain.setState(brain.getIdleState());
+		} else {
+			brain.setState(brain.getStateQueue().poll());
+		}
 		/*
 		if(brain.getBody().isHome()) {
 			brain.getBody().sleep();

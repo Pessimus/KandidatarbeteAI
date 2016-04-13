@@ -10,6 +10,11 @@ public class Farm implements IStructure, ITimeable{
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 	public static final StructureType structureType = StructureType.FARM;
+	/*public static final StructureBuildingMaterialTuple[] buildingMaterials = new StructureBuildingMaterialTuple[]
+			{       new StructureBuildingMaterialTuple(IItem.Type.WOOD_ITEM, 20),
+					new StructureBuildingMaterialTuple(IItem.Type.STONE_ITEM, 5)
+			};*/
+
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.FARM;
 
 	private int integrity;
@@ -102,6 +107,11 @@ public class Farm implements IStructure, ITimeable{
 	public double getSurroundingRadius() {
 		return surroundingRadius;
 	}
+
+	/*@Override
+	public StructureBuildingMaterialTuple[] getBuildingMaterials() {
+		return buildingMaterials;
+	}*/
 
 	@Override
 	public StructureType getStructureType() {

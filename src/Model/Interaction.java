@@ -1,7 +1,10 @@
 package Model;
 
+import Toolkit.UniversalStaticMethods;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Arrays;
 
 /**
  * Created by Martin on 07/04/2016.
@@ -9,7 +12,8 @@ import java.beans.PropertyChangeSupport;
 public class Interaction {
 
 	public enum InteractionType{
-		SOCIAL,HOSTILE  //TODO ------------------------------------------------AI: What different types should there be?
+		SOCIAL, TRADE, HOSTILE  //TODO ------------------------------------------------AI: What different types should there be?
+		// Social for information-exchange, Trade for item-exchange?
 	}
 
 	private PropertyChangeSupport pcs;
@@ -69,13 +73,17 @@ public class Interaction {
 //---------------------------------------------Help Methods-----------------------------------------------------------\\
 
 	private boolean interactable(){
-		return (Math.abs(character1.getX()-character2.getX())<Constants.CHARACTER_INTERACTION_RADIUS)
-				&& (Math.abs(character1.getY()-character2.getY())<Constants.CHARACTER_INTERACTION_RADIUS);
+		/*return (Math.abs(character1.getX()-character2.getX())<Constants.CHARACTER_INTERACTION_RADIUS)
+				&& (Math.abs(character1.getY()-character2.getY())<Constants.CHARACTER_INTERACTION_RADIUS);*/
+		// To use an existing method (and using the correct distance)
+		return UniversalStaticMethods.distanceBetweenPoints(character1.getX(), character1.getY(), character1.getX(), character1.getY()) < Constants.CHARACTER_INTERACTION_RADIUS;
 	}
 
 	private boolean detectable(){
-		return (Math.abs(character1.getX()-character2.getX())<Constants.CHARACTER_SURROUNDING_RADIUS)
-				&& (Math.abs(character1.getY()-character2.getY())<Constants.CHARACTER_SURROUNDING_RADIUS);
+		/*return (Math.abs(character1.getX()-character2.getX())<Constants.CHARACTER_SURROUNDING_RADIUS)
+				&& (Math.abs(character1.getY()-character2.getY())<Constants.CHARACTER_SURROUNDING_RADIUS);*/
+		// To use an existing method (and using the correct distance)
+		return UniversalStaticMethods.distanceBetweenPoints(character1.getX(), character1.getY(), character1.getX(), character1.getY()) < Constants.CHARACTER_SURROUNDING_RADIUS;
 	}
 
 //--------------------------------------------Social Methods----------------------------------------------------------\\
@@ -84,6 +92,9 @@ public class Interaction {
 		if(active){
 			if(detectable()) {
 				if(interactable()) {
+					switch(type){
+
+					}
 					//TODO swich case
 						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
 						//TODO update needs of c1
@@ -126,6 +137,7 @@ public class Interaction {
 					if (key == character1Key) {
 						acceptTradeCharacter1 = false;
 						acceptTradeCharacter2 = false;
+						//pcs.firePropertyChange("", , );
 						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
 						tradeOfferCharacter2.removeItem(item);
 					} else if (key == character2Key) {
@@ -268,8 +280,11 @@ public class Interaction {
 	public void endInteraction(){
 		this.active = false;
 		//TODO fire propertyChange  -----------------------------------------AI: What proertyChangeEvent should be sent?
+		//pcs.firePropertyChange("endInteraction", , );
 		character1 = null;
 		character2 = null;
+		Arrays.stream(pcs.getPropertyChangeListeners())
+				.forEach(o -> pcs.removePropertyChangeListener(o));
 	}
 
 	public void removePropertyChangeListener(PropertyChangeListener listener){

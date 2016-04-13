@@ -6,23 +6,21 @@ import Model.ICollidable;
 import Model.IResource;
 import Model.ResourcePoint;
 import Toolkit.RenderObject;
-import org.lwjgl.Sys;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by Tobias on 2016-03-31.
+ * Created by Tobias on 2016-04-05.
  */
-public class GatherWaterState implements IState {
+public class GatherGoldState implements IState {
 	private final ArtificialBrain brain;
 
 	private int waitUpdates = 0;
 	private boolean waiting = false;
 	private int bestIndex = -1;
 
-	public GatherWaterState(ArtificialBrain b){
+	public GatherGoldState(ArtificialBrain b){
 		brain = b;
 	}
 
@@ -34,7 +32,7 @@ public class GatherWaterState implements IState {
 			ICollidable next = iterator.next();
 			if(next.getClass().equals(ResourcePoint.class)){
 				ResourcePoint tempPoint = (ResourcePoint) next;
-				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.WATER)) {
+				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.GOLD)) {
 					brain.getBody().interactObject(i);
 				}
 			}
@@ -49,7 +47,7 @@ public class GatherWaterState implements IState {
 		}
 
 		/*if(waiting){
-			if((waitUpdates = (++waitUpdates % Constants.GATHER_WATER_STATE_TIME)) == 0) {
+			if((waitUpdates = (++waitUpdates % Constants.GATHER_GOLD_STATE_TIME)) == 0) {
 				brain.getBody().interactObject(bestIndex);
 
 				waiting = false;
@@ -67,13 +65,8 @@ public class GatherWaterState implements IState {
 			for (ICollidable temp : surround) {
 				if(temp.getClass().equals(ResourcePoint.class)){
 					ResourcePoint tempPoint = (ResourcePoint) temp;
-					if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.WATER)) {
-						brain.getBody().interactObject(i);
-						if (brain.getStateQueue().isEmpty()) {
-							brain.setState(brain.getIdleState());
-						} else {
-							brain.setState(brain.getStateQueue().poll());
-						}
+					if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.GOLD)) {
+						bestIndex = i;
 						break;
 					}
 				}

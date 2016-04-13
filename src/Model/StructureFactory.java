@@ -39,7 +39,7 @@ public class StructureFactory {
 
 			case HOUSE:
 //				cost.add(new StoneItem(2));
-//				cost.add(new WoodItem(4));
+				cost.add(new WoodItem(4));
 				return cost;
 
 			case FARM:
