@@ -1,5 +1,6 @@
 package Model;
 
+import Model.Tasks.InteractTask;
 import Toolkit.RenderObject;
 
 /**

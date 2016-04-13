@@ -1,21 +1,24 @@
-package Model;
+package Model.Tasks;
+
+import Model.*;
+import Model.Character;
 
 import java.beans.PropertyChangeEvent;
 
 /**
  * Created by Martin on 2016-04-12.
  */
-public class ConsumeTask implements ITask {
+public class InteractTask implements ITask {
 
-	private ICollidable consumable;
-	private Character actor;
-	private int waittime;
+	private ICollidable interactable;
+	private Model.Character actor;
+	private long waittime;
 	private long starttime;
 	private long endtime;
 	private boolean remove;
 
-	public ConsumeTask(ICollidable consumable, Character actor, int waittime){
-		this.consumable = consumable;
+	public InteractTask(ICollidable interactable, Character actor, long waittime){
+		this.interactable = interactable;
 		this.actor = actor;
 		actor.addPropertyChangeListener(this);
 		this.waittime = waittime;
@@ -26,7 +29,8 @@ public class ConsumeTask implements ITask {
 
 	@Override
 	public void execute() {
-		this.consumable.consumedCommand(this.actor);
+		System.out.println("Executing in task");
+		this.interactable.interactedCommand(this.actor);
 	}
 
 	@Override
@@ -41,13 +45,12 @@ public class ConsumeTask implements ITask {
 
 	@Override
 	public boolean toBeRemoved() {
-		return remove || consumable.toBeRemoved();
+		return remove || interactable.toBeRemoved();
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		this.remove = true;
 	}
-
 
 }

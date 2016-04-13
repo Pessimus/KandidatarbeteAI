@@ -1,21 +1,24 @@
-package Model;
+package Model.Tasks;
+
+import Model.*;
+import Model.Character;
 
 import java.beans.PropertyChangeEvent;
 
 /**
  * Created by Martin on 2016-04-12.
  */
-public class AttackTask implements ITask {
+public class ConsumeTask implements ITask {
 
-	private ICollidable attackable;
-	private Character actor;
+	private ICollidable consumable;
+	private Model.Character actor;
 	private int waittime;
 	private long starttime;
 	private long endtime;
 	private boolean remove;
 
-	public AttackTask(ICollidable attackable, Character actor, int waittime){
-		this.attackable = attackable;
+	public ConsumeTask(ICollidable consumable, Character actor, int waittime){
+		this.consumable = consumable;
 		this.actor = actor;
 		actor.addPropertyChangeListener(this);
 		this.waittime = waittime;
@@ -26,7 +29,7 @@ public class AttackTask implements ITask {
 
 	@Override
 	public void execute() {
-		this.attackable.attackedCommand(this.actor);
+		this.consumable.consumedCommand(this.actor);
 	}
 
 	@Override
@@ -41,11 +44,13 @@ public class AttackTask implements ITask {
 
 	@Override
 	public boolean toBeRemoved() {
-		return remove || attackable.toBeRemoved();
+		return remove || consumable.toBeRemoved();
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		this.remove = true;
 	}
+
+
 }
