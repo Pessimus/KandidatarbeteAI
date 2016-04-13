@@ -1,5 +1,6 @@
 package Model;
 
+import Model.Structures.House;
 import Utility.Constants;
 import Utility.InventoryRender;
 import Utility.RenderObject;
@@ -95,6 +96,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 	private Inventory inventory;
+
+	private House home = null;
 
 	private boolean spawning;
 	private IStructure.StructureType typeToSpawn;

@@ -31,6 +31,7 @@ public class GatherGoldState implements IState {
 				ResourcePoint tempPoint = (ResourcePoint) next;
 				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.GOLD)) {
 					brain.getBody().interactObject(i);
+					break;
 				}
 			}
 

@@ -128,6 +128,36 @@ public class Pathfinder {
         return ret;
     }
 
+	public LinkedList<PathStep> getPath (double startx, double starty, ICollidable end) {
+		int endx = (int)end.getX();
+		int endy = (int)end.getY();
+
+		// TODO: Find a workaround for pathfinding ONTO ResourcePoints by
+		// moving the endx/endy towards the character in-regards to collisionRadius
+		/*
+		if (!mask[(int)(endx/gridSize)][(int)(endy/gridSize)]) {
+			double dx = endx - startx;
+			double dy = endx - starty;
+			double h = Math.sqrt(dx*dx + dy*dy);
+
+
+
+			endx += end.getCollisionRadius() * (dy / Math.sin(h)) + 1;
+			endy += end.getCollisionRadius() * (dx / Math.cos(h)) + 1;
+		}
+		*/
+
+        LinkedList<PathStep> ret = new LinkedList<>();
+        LinkedList<Tuple> help = helpPath((int)(startx/gridSize), (int)(starty/gridSize), (int)(endx/gridSize), (int)(endy/gridSize));
+        if (help != null) {
+            for (Tuple t : help) {
+                ret.add(createPathStep(t.x, t.y));
+            }
+            ret.add(new PathStep(endx, endy));
+        }
+        return ret;
+    }
+
     private LinkedList<Tuple> helpPath (int startx, int starty, int endx, int endy) {
         //initialize the open list
         if (endx >= width || endy >= height || endx < 0 || endy < 0) {return null;}

@@ -31,6 +31,7 @@ public class GatherFishState implements IState {
 				ResourcePoint tempPoint = (ResourcePoint) next;
 				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.FISH)) {
 					brain.getBody().interactObject(i);
+					break;
 				}
 			}
 

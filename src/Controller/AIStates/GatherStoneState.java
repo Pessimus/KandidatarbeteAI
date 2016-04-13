@@ -31,6 +31,7 @@ public class GatherStoneState implements IState {
 				ResourcePoint tempPoint = (ResourcePoint) next;
 				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.STONE)) {
 					brain.getBody().interactObject(i);
+					break;
 				}
 			}
 

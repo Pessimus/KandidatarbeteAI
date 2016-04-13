@@ -31,6 +31,7 @@ public class GatherMeatState implements IState {
 				ResourcePoint tempPoint = (ResourcePoint) next;
 				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.MEAT)) {
 					brain.getBody().interactObject(i);
+					break;
 				}
 			}
 

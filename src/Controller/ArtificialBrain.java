@@ -288,6 +288,10 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		path = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), destX, destY);
 	}
 
+	public void findPathTo(ICollidable dest) {
+		path = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), dest);
+	}
+
 	public Queue<IState> getStateQueue() {
 		return stateQueue;
 	}
@@ -306,8 +310,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	private volatile ResourcePoint closest = null;
 
-	public Point getClosestResourcePoint(IResource.ResourceType type){
-		System.out.println(type);
+	public ResourcePoint getClosestResourcePoint(IResource.ResourceType type){
 		if(USE_MEMORY) {
 			List<ICollidable> surround = getBody().getSurroundings();
 			closest = null;
@@ -358,13 +361,10 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			}
 			*/
 
-			if (closest == null) {
-				// TODO: Find a resource even if it isn't close by, or in your memory
-				return null;
-			} else {
-				return new Point((int) closest.getX(), (int) closest.getY());
-			}
+			return closest;
 		}
+		return null;
+		/*
 		else{
 			RenderObject closestCrop = null;
 			double closestDistance = Float.MAX_VALUE;
@@ -420,6 +420,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 				return new Point((int) closestCrop.getX(), (int) closestCrop.getY());
 			}
 		}
+		*/
 	}
 
 	@Override

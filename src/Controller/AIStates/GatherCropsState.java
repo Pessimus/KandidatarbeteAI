@@ -29,6 +29,7 @@ public class GatherCropsState implements IState {
 				ResourcePoint tempPoint = (ResourcePoint) next;
 				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.CROPS)) {
 					brain.getBody().interactObject(i);
+					break;
 				}
 			}
 
