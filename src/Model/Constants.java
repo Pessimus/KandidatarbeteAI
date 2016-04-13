@@ -181,19 +181,6 @@ public final class Constants {
 	public static final 		int			FISH_ENERGY_CHANGE_ATTACK			=	-5;
 	public static final 		int			FISH_THIRST_CHANGE_ATTACK			=	-3;
 
-	//COOKED FISH\\
-	public static final 		int			COOKED_FISH_HUNGER_CHANGE_INTERACT	=	0;
-	public static final 		int			COOKED_FISH_ENERGY_CHANGE_INTERACT	=	0;
-	public static final 		int			COOKED_FISH_THIRST_CHANGE_INTERACT	=	0;
-
-	public static final 		int			COOKED_FISH_HUNGER_CHANGE_CONSUME	=	3;
-	public static final 		int			COOKED_FISH_ENERGY_CHANGE_CONSUME	=	1;
-	public static final 		int			COOKED_FISH_THIRST_CHANGE_CONSUME	=	-1;
-
-	public static final 		int			COOKED_FISH_HUNGER_CHANGE_ATTACK	=	30;
-	public static final 		int			COOKED_FISH_ENERGY_CHANGE_ATTACK	=	-5;
-	public static final 		int			COOKED_FISH_THIRST_CHANGE_ATTACK	=	-3;
-
 	//WOOD\\
 	public static final 		int			WOOD_HUNGER_CHANGE_INTERACT			=	0;
 	public static final 		int			WOOD_ENERGY_CHANGE_INTERACT			=	0;
@@ -232,19 +219,6 @@ public final class Constants {
 	public static final 		int			MEAT_HUNGER_CHANGE_ATTACK			=	0;
 	public static final 		int			MEAT_ENERGY_CHANGE_ATTACK			=	0;
 	public static final 		int			MEAT_THIRST_CHANGE_ATTACK			=	0;
-
-	//COOKED MEAT\\
-	public static final 		int			COOKED_MEAT_HUNGER_CHANGE_INTERACT	=	0;
-	public static final 		int			COOKED_MEAT_ENERGY_CHANGE_INTERACT	=	0;
-	public static final 		int			COOKED_MEAT_THIRST_CHANGE_INTERACT	=	0;
-
-	public static final 		int			COOKED_MEAT_HUNGER_CHANGE_CONSUME	=	6;
-	public static final 		int			COOKED_MEAT_ENERGY_CHANGE_CONSUME	=	3;
-	public static final 		int			COOKED_MEAT_THIRST_CHANGE_CONSUME	=	-2;
-
-	public static final 		int			COOKED_MEAT_HUNGER_CHANGE_ATTACK	=	0;
-	public static final 		int			COOKED_MEAT_ENERGY_CHANGE_ATTACK	=	0;
-	public static final 		int			COOKED_MEAT_THIRST_CHANGE_ATTACK	=	0;
 
 	// ----------- AI Constants ----------- \\
 
