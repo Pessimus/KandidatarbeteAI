@@ -16,6 +16,23 @@ public final class Constants {
 	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 
+    /*
+    public static final         int         GRASS_START_PIXEL_X                 =   650;
+    public static final         int         GRASS_END_PIXEL_X                   =   8630;
+    public static final         int         GRASS_START_PIXEL_Y                 =   770;
+    public static final         int         GRASS_END_PIXEL_Y                   =   8750;
+
+    public static final         int         SAND_START_PIXEL_X                  =   390;
+    public static final         int         SAND_END_PIXEL_X                    =   8890;
+    public static final         int         SAND_START_PIXEL_Y                  =   550;
+    public static final         int         SAND_END_PIXEL_Y                    =   8970;
+    */
+
+    public static final         int         VIEW_BORDER_WIDTH                   =   650;
+    public static final         int         VIEW_BORDER_HEIGHT                  =   770;
+
+
+
 	//Zoom level not final
 	public static 				int			ZOOM_LEVEL							= 	1;
 	public static final			int			FONT_SIZE							=	18;
@@ -38,8 +55,8 @@ public final class Constants {
 	public static final 		int 		DEFAULT_WORLD_VIEW_X				= 	100;
 	public static final 		int 		DEFAULT_WORLD_VIEW_Y				= 	100;
 
-	public static final			float		WORLD_WIDTH							=	9600f;
-	public static final			float		WORLD_HEIGHT						=	9600f;
+	public static final			float		WORLD_WIDTH							=	7980f;
+	public static final			float		WORLD_HEIGHT						=	7980f;
 	public static final 		int 		TARGET_FRAMERATE 					= 	60;
 	public static final 		boolean		GAME_GRAB_MOUSE						= 	false;
 	public static final 		boolean 	RUN_IN_FULLSCREEN 					= 	false;
@@ -65,6 +82,9 @@ public final class Constants {
 	public static final 		int			CHARACTER_HUNGER_MAX				=	100;
 	public static final 		int			CHARACTER_THIRST_MAX				=	100;
 	public static final 		int			CHARACTER_ENERGY_MAX				=	100;
+
+    public static final         int         CHARACTER_SOCIAL_MAX                =   100;
+    public static final         int         CHARACTER_INTEMACY_MAX              =   100;
 
 	public static final			int			CHARACTER_HUNGER_UPDATE				=	200;
 	public static final			int			CHARACTER_THIRST_UPDATE				=	150;

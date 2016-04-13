@@ -170,7 +170,7 @@ public class View extends BasicGameState implements InputListener{
 							imageScale = (float)(obj.getRadius()*2/imageWidth);
 						width = imageWidth*imageScale;
 						height = imageHeight*imageScale;
-						resourceMap.get(obj.getRenderType()).draw(obj.getX() - width/2, obj.getY() - height/2, width, height);
+						resourceMap.get(obj.getRenderType()).draw(obj.getX() - width/2, obj.getY()- height/2, width, height);
 					}
 				}
 			}
