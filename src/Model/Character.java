@@ -80,13 +80,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 //		}
 //	}
 
-
-	//---SECONDARY NEEDS---\\
-	//Ranges between 0-100, 100 is good, 0 is bad..
-//	private int social;
-//	private int intimacy;
-//	private int attention;
-
 	//TODO-------------------------------END ????---------------------------------------------------------------------\\
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
@@ -132,6 +125,12 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	private int hunger;
 	private int thirst;
 	private int energy;
+
+	//---SECONDARY NEEDS---\\
+	//Ranges between 0-100, 100 is good, 0 is bad..
+	private int social;
+	private int intimacy;
+	private int attention;
 
 	//---PERSONALITY TRAITS---\\
 	private int gluttony;		//Temperance(0)		- 		Gluttony(100)
@@ -704,6 +703,4 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.typeToSpawn = type;
 		this.spawning = true;
 	}
-
-
 }
