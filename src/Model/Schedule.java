@@ -21,13 +21,18 @@ public class Schedule {
 
 	public static void executeTasks(){
 		long time = (long)(System.currentTimeMillis()/1000+0.5)*1000;
+		LinkedList<ITask> rm = new LinkedList<>();
 		for(ITask task : tasks){
 			System.out.println("Checking task: " + time +" / " +task.getEndtime());
 			if(task.getEndtime() <= time){
 				System.out.println("Calling to execute");
-				tasks.remove(task);
+				//tasks.remove(task);
+				rm.add(task);
 				task.execute();
 			}
+		}
+		for(ITask t : rm){
+			tasks.remove(t);
 		}
 	}
 
