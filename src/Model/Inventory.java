@@ -35,7 +35,7 @@ public class Inventory{
 	 * @return true if items are successfully added, else false.
 	 */
 	public boolean addItem(IItem item){
-		if(item != null) {
+		//if(item != null) {
 			for (IItem invItem : inventoryItems) {
 				if (item.getType() == invItem.getType() && invItem.getAmount() < Constants.MAX_AMOUNT) {
 					if (invItem.getAmount() + item.getAmount() > Constants.MAX_AMOUNT) {
@@ -51,7 +51,7 @@ public class Inventory{
 			if (inventoryItems.size() < Constants.MAX_INVENTORY_SLOTS) {
 				return inventoryItems.add(item.clone());
 			}
-		}
+		//}
 		return false;
 	}
 

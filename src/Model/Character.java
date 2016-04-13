@@ -559,28 +559,32 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	/**{@inheritDoc}*/
 	public void moveUp() {
 //		if(!waiting)
-			this.yPos -= this.stepLength;
+		pcs.firePropertyChange("",0,1);
+		this.yPos -= this.stepLength;
 	}
 
 	@Override
 	/**{@inheritDoc}*/
 	public void moveDown() {
 //		if(!waiting)
-			this.yPos += this.stepLength;
+		pcs.firePropertyChange("",0,1);
+		this.yPos += this.stepLength;
 	}
 
 	@Override
 	/**{@inheritDoc}*/
 	public void moveLeft() {
 //		if(!waiting)
-			this.xPos -= this.stepLength;
+		pcs.firePropertyChange("",0,1);
+		this.xPos -= this.stepLength;
 	}
 
 	@Override
 	/**{@inheritDoc}*/
 	public void moveRight() {
 //		if(!waiting)
-			this.xPos += this.stepLength;
+		pcs.firePropertyChange("",0,1);
+		this.xPos += this.stepLength;
 	}
 
 	@Override
@@ -634,6 +638,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void interactObject(int index){
+		pcs.firePropertyChange("",0,1);
 		if(this.interactables.size()>index){
 			this.interactables.get(index).interacted(this);
 		}
@@ -642,7 +647,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void attackObject(int index){
-		if(this.interactables.size()>index){
+		pcs.firePropertyChange("",0,1);
+		if(this.interactables.size() > index){
 			this.interactables.get(index).attacked(this);
 		}
 	}
@@ -650,7 +656,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void consumeObject(int index){
-		if(this.interactables.size()>index){
+		pcs.firePropertyChange("",0,1);
+		if(this.interactables.size() > index){
 			this.interactables.get(index).consumed(this);
 		}
 	}
@@ -658,6 +665,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void interactItem(int index){
+		pcs.firePropertyChange("",0,1);
 		if(this.getInventory().size()>index){
 			this.getInventory().get(index).interacted(this);
 		}
@@ -666,6 +674,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void attackItem(int index){
+		pcs.firePropertyChange("",0,1);
 		if(this.getInventory().size()>index){
 			this.getInventory().get(index).attacked(this);
 		}
@@ -674,6 +683,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void consumeItem(int index){
+		pcs.firePropertyChange("",0,1);
 		if(this.getInventory().size()>index){
 			this.getInventory().get(index).consumed(this);
 		}
@@ -694,12 +704,14 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void sleep() {
+		pcs.firePropertyChange("",0,1);
 		this.energy = 100;
 	}
 
 	@Override
 	/**{@inheritDoc}*/
 	public void build(IStructure.StructureType type){
+		pcs.firePropertyChange("",0,1);
 		this.typeToSpawn = type;
 		this.spawning = true;
 	}

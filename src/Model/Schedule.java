@@ -23,8 +23,9 @@ public class Schedule {
 		long time = (long)(System.currentTimeMillis()/1000+0.5)*1000;
 		LinkedList<ITask> rm = new LinkedList<>();
 		for(ITask task : tasks){
-			System.out.println("Checking task: " + time +" / " +task.getEndtime());
-			if(task.getEndtime() <= time){
+			if(task.toBeRemoved()){
+				rm.add(task);
+			}else if (task.getEndtime() <= time) {
 				System.out.println("Calling to execute");
 				//tasks.remove(task);
 				rm.add(task);
