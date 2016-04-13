@@ -187,6 +187,21 @@ public class Farm implements IStructure, ITimeable{
 		this.integrity --;
 	}
 
+	@Override
+	public void interactedCommand(Character rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void consumedCommand(Character rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void attackedCommand(Character rhs) {
+		//TODO implement
+	}
+
 //------------------------------------------Update METHODS------------------------------------------------------------\\
 
 	@Override

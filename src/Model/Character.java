@@ -146,8 +146,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	private final int hungerUpdate;
 	private final int energyUpdate;
 
-	private boolean waiting = false;
-	private int waitingFrames = 0;
+//	private boolean waiting = false;
+//	private int waitingFrames = 0;
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
@@ -335,6 +335,21 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		//TODO implement
 	}
 
+	@Override
+	public void interactedCommand(Character rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void consumedCommand(Character rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void attackedCommand(Character rhs) {
+		//TODO implement
+	}
+
 	private void startCharacterInteraction(Character rhs, Interaction i){
 		//TODO implement
 		pcs.firePropertyChange("startInteraction", i, rhs);
@@ -467,11 +482,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		if(updateCounter == 0)
 			updateCounter++;*/
 		updateCounter++;
-		if(waitingFrames>0){
-			waitingFrames--;
-		}else{
-			waiting = false;
-		}
+//		if(waitingFrames>0){
+//			waitingFrames--;
+//		}else{
+//			waiting = false;
+//		}
 
 		if(updateCounter % hungerUpdate == 0){
 			changeHunger(-Constants.CHARACTER_HUNGER_CHANGE);
@@ -520,14 +535,14 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return list;
 	}
 
-	public void wait(int frames){
-		waitingFrames = frames;
-		waiting = true;
-	}
+//	public void wait(int frames){
+//		waitingFrames = frames;
+//		waiting = true;
+//	}
 
-	public boolean isWaiting(){
-		return waiting;
-	}
+//	public boolean isWaiting(){
+//		return waiting;
+//	}
 
 //--------------------------------------ICharacterHandle methods------------------------------------------------------\\
 
@@ -555,28 +570,28 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void moveUp() {
-		if(!waiting)
+//		if(!waiting)
 			this.yPos -= this.stepLength;
 	}
 
 	@Override
 	/**{@inheritDoc}*/
 	public void moveDown() {
-		if(!waiting)
+//		if(!waiting)
 			this.yPos += this.stepLength;
 	}
 
 	@Override
 	/**{@inheritDoc}*/
 	public void moveLeft() {
-		if(!waiting)
+//		if(!waiting)
 			this.xPos -= this.stepLength;
 	}
 
 	@Override
 	/**{@inheritDoc}*/
 	public void moveRight() {
-		if(!waiting)
+//		if(!waiting)
 			this.xPos += this.stepLength;
 	}
 
