@@ -1,9 +1,11 @@
-package Model;
+package Model.Resources;
+
+import Model.IResource;
 
 /**
  * Created by Tobias on 2016-02-26.
  */
-public abstract class FiniteResource implements IResource{
+public abstract class FiniteResource implements IResource {
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 

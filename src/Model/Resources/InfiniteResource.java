@@ -1,4 +1,6 @@
-package Model;
+package Model.Resources;
+
+import Model.IResource;
 
 /**
  * Created by Tobias on 2016-02-26.

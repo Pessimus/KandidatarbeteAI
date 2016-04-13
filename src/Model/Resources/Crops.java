@@ -1,7 +1,6 @@
 package Model.Resources;
 
 import Model.Constants;
-import Model.FiniteResource;
 import Model.IItem;
 import Model.ItemFactory;
 

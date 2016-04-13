@@ -1,9 +1,12 @@
-package Model;
+package Model.Resources;
+
+import Model.IResource;
+import Model.ITimeable;
 
 /**
  * Created by Tobias on 2016-02-26.
  */
-public abstract class RenewableResource implements ITimeable, IResource{
+public abstract class RenewableResource implements ITimeable, IResource {
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 

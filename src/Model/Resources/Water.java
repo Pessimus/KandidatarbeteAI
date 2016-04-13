@@ -3,7 +3,6 @@ package Model.Resources;
 
 import Model.Constants;
 import Model.IItem;
-import Model.InfiniteResource;
 import Model.ItemFactory;
 
 /**

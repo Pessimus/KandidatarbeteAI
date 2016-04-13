@@ -1,8 +1,6 @@
 package Model;
 
-import Model.Resources.Stone;
-import Model.Resources.Water;
-import Model.Resources.Wood;
+import Model.Resources.*;
 import Toolkit.InventoryRender;
 import Toolkit.RenderObject;
 
