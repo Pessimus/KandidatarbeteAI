@@ -299,7 +299,8 @@ public class World{
 			this.statics.add(point);
 
 			//update mask for pathfinding
-			Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+			//Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+			Constants.PATHFINDER_OBJECT.updateMask(point);
 
 			return point;
 		}
@@ -325,7 +326,8 @@ public class World{
 			this.statics.add(point);
 
 			//update mask for pathfinding
-			Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+			//Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+			Constants.PATHFINDER_OBJECT.updateMask(point);
 
 			return point;
 		}
@@ -353,7 +355,8 @@ public class World{
 			this.statics.add(point);
 
 			//update mask for pathfinding
-			Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+			//Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+			Constants.PATHFINDER_OBJECT.updateMask(point);
 
 			return point;
 		}

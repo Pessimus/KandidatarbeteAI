@@ -21,8 +21,8 @@ public class Pathfinder {
 
     public Pathfinder (double grid, double worldx, double worldy, double sCost, double dCost) {
         gridSize = grid;
-        width = (int) (worldx / grid);
-        height = (int) (worldy / grid);
+        width = (int) (Math.ceil(worldx / grid));
+        height = (int) (Math.ceil(worldy / grid));
         mask = new boolean[width][height];
         fill(mask, false);
         adjacentCost = sCost;
@@ -67,6 +67,22 @@ public class Pathfinder {
                 if (i + gridSize > c.getX() + c.getRadius()) {i = c.getX() + c.getRadius();}
             }
         }
+    }
+
+	// Tobias added this, because I thought it was unnecessary to update the entire mask if you only add one object.
+	public void updateMask(ICollidable c) {
+		mask[(int)(c.getX() / gridSize)][(int)(c.getY() / gridSize)] = false;
+		for (double i = c.getX() - c.getCollisionRadius(); i < c.getX() + c.getCollisionRadius(); i = i+gridSize) {
+			for (double j = c.getY() - c.getCollisionRadius(); j < c.getY() + c.getCollisionRadius(); j = j+gridSize) {
+				if (i < gridSize*width && i >= 0 && j < gridSize*height && j >= 0) {
+					mask[(int) (i / gridSize)][(int) (j / gridSize)] = false;
+				}
+				if (j + gridSize > c.getY() + c.getCollisionRadius() && i < gridSize*width && i >= 0 && (int)((c.getY()+c.getCollisionRadius())/gridSize) < mask[(int)(i/gridSize)].length) {
+					mask[(int)(i/gridSize)][(int)((c.getY() + c.getCollisionRadius())/gridSize)] = false;
+				}
+			}
+			if (i + gridSize > c.getX() + c.getCollisionRadius()) {i = c.getX() + c.getCollisionRadius();}
+		}
     }
 
     //returns whether or not the given position is empty in the mask. Always returns false for positions outside the grid.

@@ -88,7 +88,7 @@ public class Controller implements PropertyChangeListener {
 
 				Random r = new Random();
 
-				for(int i = 3; i < 1; i++) {
+				for(int i = 3; i < 6; i++) {
 					character = gameModel.addCharacter(r.nextInt(9600), r.nextInt(9600), i);
 					aiMap.put(character, new ArtificialBrain(gameModel, character));
 				}
