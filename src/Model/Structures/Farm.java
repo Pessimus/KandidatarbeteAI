@@ -3,8 +3,8 @@ package Model.Structures;
 import Model.*;
 import Model.Character;
 import Model.Resources.Crops;
-import Toolkit.Constants;
-import Toolkit.RenderObject;
+import Utility.Constants;
+import Utility.RenderObject;
 
 
 /**

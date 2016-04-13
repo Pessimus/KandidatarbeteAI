@@ -1,4 +1,4 @@
-package Toolkit;
+package Utility;
 
 import Controller.Pathfinder;
 

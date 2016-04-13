@@ -2,8 +2,8 @@ package Model.Structures;
 
 import Model.*;
 import Model.Character;
-import Toolkit.Constants;
-import Toolkit.RenderObject;
+import Utility.Constants;
+import Utility.RenderObject;
 
 /**
  * Created by Oskar on 2016-04-01.

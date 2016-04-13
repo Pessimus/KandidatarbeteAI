@@ -1,7 +1,7 @@
 package Controller;
 
 import Controller.AIStates.IState;
-import Toolkit.Constants;
+import Utility.Constants;
 import Model.ICharacterHandle;
 import Model.IStructure;
 

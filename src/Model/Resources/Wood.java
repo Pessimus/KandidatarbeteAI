@@ -1,8 +1,8 @@
 package Model.Resources;
 
 import Model.*;
-import Toolkit.Constants;
-import Toolkit.RenderObject;
+import Utility.Constants;
+import Utility.RenderObject;
 
 /**
  * Created by Oskar on 2016-03-04.

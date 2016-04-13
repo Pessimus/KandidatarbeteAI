@@ -1,4 +1,4 @@
-package Toolkit;
+package Utility;
 
 /**
  * Created by Martin on 03/03/2016.

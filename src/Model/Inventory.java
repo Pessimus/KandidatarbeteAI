@@ -1,6 +1,6 @@
 package Model;
 
-import Toolkit.Constants;
+import Utility.Constants;
 
 import java.util.LinkedList;
 

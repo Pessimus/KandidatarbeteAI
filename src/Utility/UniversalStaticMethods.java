@@ -1,6 +1,4 @@
-package Toolkit;
-
-import java.awt.*;
+package Utility;
 
 /**
  * Created by Tobias on 2016-04-04.

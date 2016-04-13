@@ -3,9 +3,9 @@ package Controller;
 import Controller.AIStates.*;
 import Model.*;
 import Model.Character;
-import Toolkit.Constants;
+import Utility.Constants;
 import Model.ICharacterHandle;
-import Toolkit.*;
+import Utility.*;
 
 //import java.awt.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ import java.beans.PropertyChangeListener;
 import java.util.*;
 import java.util.List;
 
-import static Toolkit.UniversalStaticMethods.distanceBetweenPoints;
+import static Utility.UniversalStaticMethods.distanceBetweenPoints;
 
 /**
  * Created by Gustav on 2016-03-23.

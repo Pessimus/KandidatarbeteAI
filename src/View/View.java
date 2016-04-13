@@ -1,8 +1,8 @@
 package View;
 
-import Toolkit.Constants;
-import Toolkit.RenderObject;
-import Toolkit.InventoryRender;
+import Utility.Constants;
+import Utility.RenderObject;
+import Utility.InventoryRender;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;

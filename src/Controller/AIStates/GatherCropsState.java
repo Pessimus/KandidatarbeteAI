@@ -2,14 +2,8 @@ package Controller.AIStates;
 
 import Controller.ArtificialBrain;
 import Model.*;
-import Toolkit.RenderObject;
-import Toolkit.UniversalStaticMethods;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
-import org.lwjgl.Sys;
 
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Tobias on 2016-03-31.

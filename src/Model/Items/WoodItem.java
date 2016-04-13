@@ -2,7 +2,7 @@ package Model.Items;
 
 import Model.*;
 import Model.Character;
-import Toolkit.Constants;
+import Utility.Constants;
 
 /**
  * Created by Tobias on 2016-03-10.

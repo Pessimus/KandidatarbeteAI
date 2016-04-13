@@ -1,7 +1,7 @@
 package Model;
 
-import Toolkit.Constants;
-import Toolkit.UniversalStaticMethods;
+import Utility.Constants;
+import Utility.UniversalStaticMethods;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

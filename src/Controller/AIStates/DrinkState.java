@@ -1,7 +1,7 @@
 package Controller.AIStates;
 
 import Controller.ArtificialBrain;
-import Toolkit.Constants;
+import Utility.Constants;
 import Model.IItem;
 
 import java.util.Iterator;
