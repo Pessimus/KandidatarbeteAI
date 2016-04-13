@@ -437,6 +437,10 @@ public class CollisionList {
 		}
 	}
 
+	public void restart() { //resets the counter back to the first element
+		currentNodeX = startNodeX;
+	}
+
 //---------------------------------Inner class for value of start nodes-----------------------------------------------\\
 
 	/**

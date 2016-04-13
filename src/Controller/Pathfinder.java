@@ -52,6 +52,7 @@ public class Pathfinder {
 
     public void updateMask(CollisionList c) {
         fill(mask, true);
+        c.restart();
         while (c.next()) {
             mask[(int) (c.getX() / gridSize)][(int) (c.getY() / gridSize)] = false;
             for (double i = c.getX() - c.getRadius(); i < c.getX() + c.getRadius(); i = i+gridSize) {
