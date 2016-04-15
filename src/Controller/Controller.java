@@ -55,6 +55,11 @@ public class Controller implements PropertyChangeListener {
 	private boolean showingPlayerInventory = false;
 	private boolean showingBuildOptions = false;
 
+	private float playerXPos = 0, playerYPos = 0;
+
+	private int characterIndex = 0;
+	private Character currentCharacter;
+
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
@@ -81,7 +86,7 @@ public class Controller implements PropertyChangeListener {
 
 				player = new PlayerBrain(gameModel.addCharacter(0, 0, Constants.PLAYER_CHARACTER_KEY));
 
-				((Character)player.getBody()).godMode = true;
+				((Character)player.getBody()).godMode = false;
 
 				Character character = gameModel.addCharacter(1100, 1100, 2);
 				aiMap.put(character, new ArtificialBrain(gameModel, character));
@@ -89,9 +94,12 @@ public class Controller implements PropertyChangeListener {
 				Random r = new Random();
 
 				for(int i = 3; i < 6; i++) {
-					character = gameModel.addCharacter(r.nextInt(9600), r.nextInt(9600), i);
+					character = gameModel.addCharacter(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT), i);
 					aiMap.put(character, new ArtificialBrain(gameModel, character));
 				}
+		if(gameModel.getCharacterList().size() > 0) {
+			currentCharacter = gameModel.getCharacterList().get(characterIndex);
+		}
 
 	}
 
@@ -144,11 +152,19 @@ public class Controller implements PropertyChangeListener {
 		int width = (int)gameModel.getWidth()+Constants.VIEW_BORDER_WIDTH*2;
 		int height = (int)gameModel.getHeight()+Constants.VIEW_BORDER_HEIGHT*2;
 
+		if(gameModel.getCharacterList().size()==0){
+			playerViewCentered = false;
+		}
+
+
 		//Centers the player in the middle of the screen
 		if(playerViewCentered) {
 			if (!gameModel.isPaused()){
-				float playerXPos = player.getBody().getX()+Constants.VIEW_BORDER_WIDTH;
-				float playerYPos = player.getBody().getY()+Constants.VIEW_BORDER_HEIGHT;
+				if(gameModel.getCharacterList().size() > 0) {
+					playerXPos = currentCharacter.getX() + Constants.VIEW_BORDER_WIDTH;
+					playerYPos = currentCharacter.getY() + Constants.VIEW_BORDER_HEIGHT;
+				}
+
 
 
 				if (playerXPos - Constants.SCREEN_WIDTH / (2 * scaleGraphicsX) > 0) {
@@ -278,6 +294,15 @@ public class Controller implements PropertyChangeListener {
 						case Input.KEY_RIGHT:
 							if(!gameModel.isPaused())
 								player.movePlayerRight();
+							break;
+						case Input.KEY_TAB:
+							if(characterIndex >= gameModel.getCharacterList().size()-1) {
+								characterIndex = 0;
+							}else if(gameModel.getCharacterList().size()>0){
+								characterIndex++;
+							}
+							if(gameModel.getCharacterList().size()>0)
+								currentCharacter = gameModel.getCharacterList().get(characterIndex);
 							break;
 						case Input.KEY_R:
 							player.playerRunning();
