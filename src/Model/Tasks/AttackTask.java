@@ -25,11 +25,13 @@ public class AttackTask implements ITask {
 		this.starttime = System.currentTimeMillis();
 		this.endtime = this.starttime + this.waittime;
 		this.remove = false;
+		this.actor.setWaiting(true);
 	}
 
 	@Override
 	public void execute() {
 		this.attackable.attackedCommand(this.actor);
+		this.actor.setWaiting(false);
 	}
 
 	@Override

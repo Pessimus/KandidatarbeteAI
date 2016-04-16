@@ -33,6 +33,7 @@ public class GatherWoodState implements IState {
 				ResourcePoint tempPoint = (ResourcePoint) next;
 				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.WOOD)) {
 					brain.getBody().interactObject(i);
+					System.out.println("Gathered wood!");
 					break;
 				}
 			}

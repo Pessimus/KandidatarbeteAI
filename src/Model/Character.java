@@ -99,6 +99,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	private House home = null;
 
+	private boolean waiting;
+
 	private boolean spawning;
 	private IStructure.StructureType typeToSpawn;
 
@@ -167,6 +169,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.key = key;
 
 		this.spawning = false;
+		this.waiting = false;
 
 		//Initial position
 		this.xPos = xPos;
@@ -729,5 +732,13 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		pcs.firePropertyChange("",0,1);
 		this.typeToSpawn = type;
 		this.spawning = true;
+	}
+
+	public void setWaiting(boolean w){
+		waiting = w;
+	}
+
+	public boolean isWaiting(){
+		return waiting;
 	}
 }

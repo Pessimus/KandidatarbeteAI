@@ -2,6 +2,7 @@ package Controller;
 
 import Model.CollisionList;
 import Model.ICollidable;
+import Utility.Constants;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -157,15 +158,15 @@ public class Pathfinder {
 		}*/
 
         if(startx >= end.getX()){
-            endx = (int)(end.getX() + (end.getCollisionRadius() + gridSize));
+            endx = (int)(end.getX() + (end.getCollisionRadius() + Math.min(Constants.CHARACTER_INTERACTION_RADIUS, Constants.PATHFINDER_GRID_SIZE)));
         } else{
-            endx = (int)(end.getX() - (end.getCollisionRadius() + gridSize));
+            endx = (int)(end.getX() - (end.getCollisionRadius() + Math.min(Constants.CHARACTER_INTERACTION_RADIUS, Constants.PATHFINDER_GRID_SIZE)));
         }
 
         if(starty >= end.getY()){
-            endy = (int)(end.getY() + (end.getCollisionRadius() + gridSize));
+            endy = (int)(end.getY() + (end.getCollisionRadius() + Math.min(Constants.CHARACTER_INTERACTION_RADIUS, Constants.PATHFINDER_GRID_SIZE)));
         } else{
-            endy = (int)(end.getY() - (end.getCollisionRadius() + gridSize));
+            endy = (int)(end.getY() - (end.getCollisionRadius() + Math.min(Constants.CHARACTER_INTERACTION_RADIUS, Constants.PATHFINDER_GRID_SIZE)));
         }
 
         LinkedList<PathStep> ret = new LinkedList<>();

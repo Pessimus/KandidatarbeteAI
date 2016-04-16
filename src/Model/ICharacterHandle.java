@@ -102,6 +102,8 @@ public interface ICharacterHandle {
 
 	void build(IStructure.StructureType type);
 
+	boolean isWaiting();
+
 	void addPropertyChangeListener(PropertyChangeListener listener);
 	void removePropertyChangeListener(PropertyChangeListener listener);
 }

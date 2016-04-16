@@ -25,11 +25,13 @@ public class ConsumeTask implements ITask {
 		this.starttime = System.currentTimeMillis();
 		this.endtime = this.starttime + this.waittime;
 		this.remove = false;
+		this.actor.setWaiting(true);
 	}
 
 	@Override
 	public void execute() {
 		this.consumable.consumedCommand(this.actor);
+		this.actor.setWaiting(false);
 	}
 
 	@Override

@@ -22,8 +22,6 @@ public class MovingState implements IState {
 	public void run() {
 		LinkedList<PathStep> tempPath = brain.getPath();
 
-		System.out.println("Position: " + brain.getBody().getX() + ":" + brain.getBody().getY());
-
 		if(tempPath != null){
 			if(!tempPath.isEmpty()){
 				tempPath.getFirst().stepTowards(brain.getBody());

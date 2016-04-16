@@ -96,18 +96,23 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		int[] traits = body.getTraits();
 		int[] skills = body.getSkills();
 
-		getStateQueue().stream()
-				.forEach(o -> System.out.println("State:\t" + o));
-		System.out.println(body.getInventory().size());
-		body.getInventory().stream()
-				.forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));
+		if(!body.isWaiting()) {
+			currentState.run();
 
-		currentState.run();
+			System.out.println();
+			getStateQueue().stream()
+					.forEach(o -> System.out.println("State:\t" + o));
+			System.out.println("Inventory:");
+			body.getInventory().stream()
+					.forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));
+			System.out.println("\nHunger:\t" + needs[0]);
+			System.out.println("Thirst:\t" + needs[1]);
+			System.out.println("Energy:\t" + needs[2]);
+			System.out.println(currentState);
+			System.out.println("Position:\t" + getBody().getX() + ":" + getBody().getY());
+		}
 
-		System.out.println("\nHunger: " + needs[0]);
-		System.out.println("Thirst: " + needs[1]);
-		System.out.println("Energy: " + needs[2]);
-		System.out.println(currentState);
+
 
 		body.getSurroundings().stream()
 				.filter(o -> o.getClass().equals(ResourcePoint.class))
