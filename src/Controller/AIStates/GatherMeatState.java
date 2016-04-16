@@ -43,44 +43,5 @@ public class GatherMeatState implements IState {
 		} else {
 			brain.setState(brain.getStateQueue().poll());
 		}
-
-        /*if(waiting){
-            if((waitUpdates = (++waitUpdates % Constants.GATHER_MEAT_STATE_TIME)) == 0) {
-                brain.getBody().consumeItem(bestIndex);
-
-                waiting = false;
-                bestIndex = -1;
-
-                if (brain.getStateQueue().isEmpty()) {
-                    brain.setState(brain.getIdleState());
-                } else {
-                    brain.setState(brain.getStateQueue().poll());
-                }
-            }
-        } else {
-            List<ICollidable> surround = brain.getBody().getInteractables();
-            int i = 0;
-            for (ICollidable temp : surround) {
-                if(temp.getClass().equals(ResourcePoint.class)){
-                    ResourcePoint tempPoint = (ResourcePoint) temp;
-                    if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.MEAT)) {
-                        bestIndex = i;
-                        break;
-                    }
-                }
-
-                i++;
-            }
-
-            if(bestIndex > 0){
-                waiting = true;
-            } else{
-                if (brain.getStateQueue().isEmpty()) {
-                    brain.setState(brain.getIdleState());
-                } else {
-                    brain.setState(brain.getStateQueue().poll());
-                }
-            }
-        }*/
     }
 }

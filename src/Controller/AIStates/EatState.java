@@ -22,45 +22,30 @@ public class EatState implements IState{
 
 	@Override
 	public void run() {
-		if(waiting){
-			if((waitUpdates = (++waitUpdates % Constants.EAT_STATE_TIME)) == 0) {
-				brain.getBody().consumeItem(bestIndex);
+		Iterator<IItem> iterator = brain.getBody().getInventory().iterator();
+		int currentIndex = 0;
 
-				waiting = false;
-				bestIndex = -1;
-
-				if (brain.getStateQueue().isEmpty()) {
-					brain.setState(brain.getIdleState());
-				} else {
-					brain.setState(brain.getStateQueue().poll());
-				}
+		while (iterator.hasNext()) {
+			IItem current = iterator.next();
+			switch (current.getType()) {
+				case CROPS_ITEM: //TODO: MORE ITEMS
+					bestIndex = currentIndex;
+					brain.getBody().consumeItem(bestIndex);
+					return;
+				case MEAT_ITEM:
+					break;
+				case FISH_ITEM:
+					break;
 			}
-		} else {
-			Iterator<IItem> iterator = brain.getBody().getInventory().iterator();
-			int currentIndex = 0;
 
-			loop:while (iterator.hasNext()) {
-				IItem current = iterator.next();
-				switch (current.getType()) {
-					case CROPS_ITEM: //TODO: MORE ITEMS
-						if (bestIndex == -1) {
-							bestIndex = currentIndex;
-							waiting = true;
-							break loop;
-						}
-						/*
-						if(best == null){
-							best = current;
-							//hungerAmount = best.getOutcome().getHunger();
-						}
-						/*else if(best.getOutcome().getHunger() < current.getOutcome().getHunger()){
-							best = current;
-							//thirstAmount = best.getOutcome().getHunger();
-						}*/
-				}
+			currentIndex++;
+		}
 
-				currentIndex++;
-			}
+		if(brain.getStateQueue().isEmpty()) {
+			brain.setState(brain.getIdleState());
+		}
+		else{
+			brain.setState(brain.getStateQueue().poll());
 		}
 	}
 }

@@ -4,6 +4,7 @@ import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
 import Model.ICharacterHandle;
 import Model.ICollidable;
+import Model.Structures.House;
 
 import java.util.List;
 
@@ -23,17 +24,25 @@ public class SleepingState implements IState{
 
 	@Override
 	public void run() {
-		brain.getBody().sleep();
-		//TODO: Make so that the character sleeps until his energy is restored
+		List<ICollidable> interact = brain.getBody().getInteractables();
+		int index = 0;
+		for(ICollidable temp : interact){
+			if(temp.equals(brain.getBody().getHome())){
+				brain.getBody().interactObject(index);
+				break;
+			}
+
+			index++;
+		}
+
+		if(index >= interact.size()){
+			throw new IllegalStateException("House of Character isn't in Interactables-list when in SleepingState!");
+		}
+
 		if (brain.getStateQueue().isEmpty()) {
 			brain.setState(brain.getIdleState());
 		} else {
 			brain.setState(brain.getStateQueue().poll());
 		}
-		/*
-		if(brain.getBody().isHome()) {
-			brain.getBody().sleep();
-		}
-		*/
 	}
 }

@@ -482,7 +482,15 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		for(IItem itemCost : cost){
 			System.out.println(inventory.removeItem(itemCost));
 		}
-		rhs.addStructure(xPos, yPos, typeToSpawn);
+
+		IStructure structure = rhs.addStructure(xPos, yPos, typeToSpawn);
+
+		if(structure != null){
+			if(structure.getClass().equals(House.class) && home == null){
+				home = (House) structure;
+			}
+
+		}
 		spawning = false;
 	}
 
@@ -577,14 +585,14 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public int[] getSkills() {
-		return new int[0];
+		return new int[]{};
 	}
 
 	//TODO implement, change type....
 	@Override
 	/**{@inheritDoc}*/
 	public int[] getTraits() {
-		return new int[0];
+		return new int[]{gluttony, sloth, lust, pride, greed, envy, wrath};
 	}
 
 	@Override
@@ -754,5 +762,15 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	public boolean isWaiting(){
 		return waiting;
+	}
+
+	@Override
+	public boolean hasHome() {
+		return home != null;
+	}
+
+	@Override
+	public ICollidable getHome() {
+		return home;
 	}
 }

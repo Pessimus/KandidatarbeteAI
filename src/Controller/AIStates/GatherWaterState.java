@@ -43,49 +43,5 @@ public class GatherWaterState implements IState {
 		} else {
 			brain.setState(brain.getStateQueue().poll());
 		}
-
-		/*if(waiting){
-			if((waitUpdates = (++waitUpdates % Constants.GATHER_WATER_STATE_TIME)) == 0) {
-				brain.getBody().interactObject(bestIndex);
-
-				waiting = false;
-				bestIndex = -1;
-
-				if (brain.getStateQueue().isEmpty()) {
-					brain.setState(brain.getIdleState());
-				} else {
-					brain.setState(brain.getStateQueue().poll());
-				}
-			}
-		} else {
-			List<ICollidable> surround = brain.getBody().getInteractables();
-			int i = 0;
-			for (ICollidable temp : surround) {
-				if(temp.getClass().equals(ResourcePoint.class)){
-					ResourcePoint tempPoint = (ResourcePoint) temp;
-					if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.WATER)) {
-						brain.getBody().interactObject(i);
-						if (brain.getStateQueue().isEmpty()) {
-							brain.setState(brain.getIdleState());
-						} else {
-							brain.setState(brain.getStateQueue().poll());
-						}
-						break;
-					}
-				}
-
-				i++;
-			}
-
-			if(bestIndex > 0){
-				waiting = true;
-			} else{
-				if (brain.getStateQueue().isEmpty()) {
-					brain.setState(brain.getIdleState());
-				} else {
-					brain.setState(brain.getStateQueue().poll());
-				}
-			}
-		}*/
 	}
 }

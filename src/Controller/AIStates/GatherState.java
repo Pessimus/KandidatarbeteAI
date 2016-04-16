@@ -84,128 +84,64 @@ public class GatherState implements IState{
 	private void gatherSpecificResource(IResource.ResourceType type){
 		ResourcePoint p = brain.getClosestResourcePoint(type);
 
-		switch (type){
-			case FOOD:
-				// TODO
-				/*if(p == null){
-					Random r = new Random();
-					Point point = new Point(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
-					brain.findPathTo(p.getX(), p.getY());
-					brain.stackState(brain.getGatherState());
-					brain.stackState(brain.getMovingState());
-				} else {
+		if(p == null) {
+			Random r = new Random();
+			Point point = new Point(r.nextInt((int) Constants.WORLD_WIDTH), r.nextInt((int) Constants.WORLD_HEIGHT));
+			brain.findPathTo(point.getX(), point.getY());
+			brain.stackState(brain.getGatherState());
+			brain.stackState(brain.getMovingState());
+		} else {
+			switch (type) {
+				case FOOD:
+					// TODO
 					brain.findPathTo(p);
 					brain.stackState(brain.getGatherMeatState());
 					brain.stackState(brain.getMovingState());
 					brain.getGatherStack().remove();
-				}
-				break;*/
-			case MEAT:
-				// TODO: Add to world, so the AI isn't trying to gather a non-existing resource
-				/*if(p == null){
-					Random r = new Random();
-					Point point = new Point(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
-					brain.findPathTo(p.getX(), p.getY());
-					brain.stackState(brain.getGatherState());
-					brain.stackState(brain.getMovingState());
-				} else {
-					brain.findPathTo(p);
+					break;
+				case MEAT:
+					// TODO: Add to world, so the AI isn't trying to gather a non-existing resource
+					/*brain.findPathTo(p);
 					brain.stackState(brain.getGatherMeatState());
 					brain.stackState(brain.getMovingState());
-					brain.getGatherStack().remove();
-				}
-				break;*/
-			case FISH:
-				// TODO: Add to world, so the AI isn't trying to gather a non-existing resource
-				/*
-				if(p == null){
-					Random r = new Random();
-					Point point = new Point(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
-					brain.findPathTo(p.getX(), p.getY());
-					brain.stackState(brain.getGatherState());
-					brain.stackState(brain.getMovingState());
-				} else {
-					brain.findPathTo(p);
+					brain.getGatherStack().remove();*/
+				case FISH:
+					// TODO: Add to world, so the AI isn't trying to gather a non-existing resource
+					/*brain.findPathTo(p);
 					brain.stackState(brain.getGatherFishState());
 					brain.stackState(brain.getMovingState());
-					brain.getGatherStack().remove();
-				}
-				break;
-				*/
-			case CROPS:
-				if(p == null){
-					Random r = new Random();
-					Point point = new Point(r.nextInt((int) Constants.WORLD_WIDTH), r.nextInt((int) Constants.WORLD_HEIGHT));
-					brain.findPathTo(point.getX(), point.getY());
-					brain.stackState(brain.getGatherState());
-					brain.stackState(brain.getMovingState());
-				} else {
-					brain.findPathTo(p);
+					brain.getGatherStack().remove();*/
+				case CROPS:
+					/*brain.findPathTo(p);
 					brain.stackState(brain.getGatherCropsState());
 					brain.stackState(brain.getMovingState());
-					brain.getGatherStack().remove();
-				}
-				break;
-			case WATER:
-				if(p == null){
-					Random r = new Random();
-					Point point = new Point(r.nextInt((int) Constants.WORLD_WIDTH), r.nextInt((int) Constants.WORLD_HEIGHT));
-					brain.findPathTo(point.getX(), point.getY());
-					brain.stackState(brain.getGatherState());
-					brain.stackState(brain.getMovingState());
-				} else {
-					System.out.println(p);
+					brain.getGatherStack().remove();*/
+					break;
+				case WATER:
 					brain.findPathTo(p);
 					brain.stackState(brain.getGatherWaterState());
 					brain.stackState(brain.getMovingState());
 					brain.getGatherStack().remove();
-				}
-				break;
-			case STONE:
-				if(p == null){
-					Random r = new Random();
-					Point point = new Point(r.nextInt((int) Constants.WORLD_WIDTH), r.nextInt((int) Constants.WORLD_HEIGHT));
-					brain.findPathTo(point.getX(), point.getY());
-					brain.stackState(brain.getGatherState());
-					brain.stackState(brain.getMovingState());
-				} else {
+					break;
+				case STONE:
 					brain.findPathTo(p);
 					brain.stackState(brain.getGatherStoneState());
 					brain.stackState(brain.getMovingState());
 					brain.getGatherStack().remove();
-				}
-				break;
-			case GOLD:
-				// TODO: Add to world, so the AI isn't trying to gather a non-existing resource
-				/*
-				if(p == null){
-					Random r = new Random();
-					Point point = new Point(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
-					brain.findPathTo(p.getX(), p.getY());
-					brain.stackState(brain.getGatherState());
-					brain.stackState(brain.getMovingState());
-				} else {
-					brain.findPathTo(p.getX(), p.getY());
+					break;
+				case GOLD:
+					// TODO: Add to world, so the AI isn't trying to gather a non-existing resource
+					/*brain.findPathTo(p.getX(), p.getY());
 					brain.stackState(brain.getGatherGoldState());
 					brain.stackState(brain.getMovingState());
-					brain.getGatherStack().remove();
-				}
-				break;
-				*/
-			case WOOD:
-				if(p == null){
-					Random r = new Random();
-					Point point = new Point(r.nextInt((int) Constants.WORLD_WIDTH), r.nextInt((int) Constants.WORLD_HEIGHT));
-					brain.findPathTo(point.getX(), point.getY());
-					brain.stackState(brain.getGatherState());
-					brain.stackState(brain.getMovingState());
-				} else {
+					brain.getGatherStack().remove();*/
+				case WOOD:
 					brain.findPathTo(p);
 					brain.stackState(brain.getGatherWoodState());
 					brain.stackState(brain.getMovingState());
 					brain.getGatherStack().remove();
-				}
-				break;
+					break;
+			}
 		}
 	}
 

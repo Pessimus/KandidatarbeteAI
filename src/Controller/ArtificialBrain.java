@@ -112,8 +112,6 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			System.out.println("Position:\t" + getBody().getX() + ":" + getBody().getY());
 		}
 
-
-
 		body.getSurroundings().stream()
 				.filter(o -> o.getClass().equals(ResourcePoint.class))
 				.map(o -> (ResourcePoint)o)
@@ -328,21 +326,6 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 					.reduce((rp1, rp2) -> distanceBetweenPoints(getBody().getX(), getBody().getY(), rp1.getX(), rp1.getY()) < distanceBetweenPoints(getBody().getX(), getBody().getY(), rp2.getX(), rp2.getY()) ? rp1 : rp2)
 					.ifPresent(rp -> closest = rp);
 
-			/*
-			for (ICollidable temp : surround) {
-				if (temp.getClass().equals(ResourcePoint.class)) {
-					ResourcePoint tempPoint = (ResourcePoint) temp;
-					if (tempPoint.getResource().getResourceType().equals(type)) {
-						double d = distanceBetweenPoints(getBody().getX(), getBody().getY(), tempPoint.getX(), tempPoint.getY());
-						if (d < closestDistance) {
-							closest = tempPoint;
-							closestDistance = d;
-						}
-					}
-				}
-			}
-			*/
-
 
 			if (closest == null) {
 				resourceMemory.stream()
@@ -351,81 +334,10 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 						.ifPresent(rp -> closest = rp);
 			}
 
-			/*
-
-			if (closest == null) {
-				for (ResourcePoint temp : resourceMemory) {
-					if (temp.getResource().getResourceType().equals(type)) {
-						double d = distanceBetweenPoints(getBody().getX(), getBody().getY(), temp.getX(), temp.getY());
-						if (d < closestDistance) {
-							closest = temp;
-							closestDistance = d;
-						}
-					}
-				}
-			}
-			*/
-
 			return closest;
 		}
+
 		return null;
-		/*
-		else{
-			RenderObject closestCrop = null;
-			double closestDistance = Float.MAX_VALUE;
-			double odx;
-			double ody;
-
-			RenderObject.RENDER_OBJECT_ENUM objectEnum = null;
-
-			switch (type){
-				case MEAT:
-					//objectEnum = RenderObject.RENDER_OBJECT_ENUM.ANIMAL;
-					break;
-				case CROPS:
-					objectEnum = RenderObject.RENDER_OBJECT_ENUM.CROPS;
-					break;
-				case FISH:
-				case WATER:
-					objectEnum = RenderObject.RENDER_OBJECT_ENUM.LAKE;
-					break;
-				case WOOD:
-					objectEnum = RenderObject.RENDER_OBJECT_ENUM.WOOD;
-					break;
-				case GOLD:
-					//objectEnum = RenderObject.RENDER_OBJECT_ENUM.GOLD;
-					break;
-				case STONE:
-					objectEnum = RenderObject.RENDER_OBJECT_ENUM.STONE;
-					break;
-			}
-
-
-			for(RenderObject o : map.getRenderObjects()) {
-				if(o.getRenderType().equals(objectEnum)) {
-					if (closestCrop == null) {
-						closestCrop = o;
-						closestDistance = UniversalStaticMethods.distanceBetweenPoints(getBody().getX(), getBody().getY(), o.getX(), o.getY());
-					} else {
-						odx = Math.abs(getBody().getX() - o.getX());
-						ody = Math.abs(getBody().getY() - o.getY());
-						double distance = Math.sqrt(odx) + Math.sqrt(ody);
-						if (closestDistance > distance) {
-							closestCrop = o;
-							closestDistance = distance;
-						}
-					}
-				}
-			}
-
-			if (closestCrop == null) {
-				// TODO: Find a resource even if it isn't close by, or in your memory
-				return null;
-			} else {
-				return new Point((int) closestCrop.getX(), (int) closestCrop.getY());
-			}
-		}
-		*/
 	}
 
 	@Override

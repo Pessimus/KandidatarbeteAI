@@ -41,24 +41,21 @@ public class IdleState implements IState {
 		if(needsArray[0] <= 70){
 			brain.stackState((brain.getHungryState()));
 		}
-
 		if(needsArray[1] <= 70){
-
 			brain.stackState((brain.getThirstyState()));
 		}
 		if (needsArray[2] <= 70){
 			brain.stackState((brain.getLowEnergyState()));
 		}
-		if(brain.getStateQueue().isEmpty()){
-			brain.stackStructureToBuild(IStructure.StructureType.HOUSE);
-			brain.stackState(brain.getBuildState());
-			//brain.queueState(brain.getGatherState());
-			/*
-			if(!body.hasHome()){
-				brain.setState(brain.getBuildHouseState());
+
+		if(brain.getStateQueue().isEmpty()) {
+			brain.stackState(brain.getSocializeState());
+			if (!brain.getBody().hasHome()){
+				brain.stackStructureToBuild(IStructure.StructureType.HOUSE);
+				brain.stackState(brain.getBuildState());
 			}
-			*/
 		}
+
 		brain.setState(brain.getStateQueue().poll());
 	}
 }

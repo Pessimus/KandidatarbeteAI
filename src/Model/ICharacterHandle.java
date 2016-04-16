@@ -1,5 +1,6 @@
 package Model;
 
+import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
@@ -103,6 +104,10 @@ public interface ICharacterHandle {
 	void build(IStructure.StructureType type);
 
 	boolean isWaiting();
+
+	boolean hasHome();
+
+	ICollidable getHome();
 
 	void addPropertyChangeListener(PropertyChangeListener listener);
 	void removePropertyChangeListener(PropertyChangeListener listener);
