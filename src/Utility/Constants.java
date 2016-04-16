@@ -235,7 +235,7 @@ public final class Constants {
 
 	// ----------- PATHFINDER Constants ----------- \\
 
-	public static final		int				PATHFINDER_GRID_SIZE				=	16;
+	public static final		int				PATHFINDER_GRID_SIZE				=	8;
 	public static final		double			PATHFINDER_PERPENDICULAR_COST		=	1.;
 	public static final		double			PATHFINDER_DIAGONAL_COST			=	1.4;
 	public static final 	Pathfinder		PATHFINDER_OBJECT					=	new Pathfinder(PATHFINDER_GRID_SIZE, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, PATHFINDER_PERPENDICULAR_COST, PATHFINDER_DIAGONAL_COST);

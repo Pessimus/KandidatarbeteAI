@@ -116,7 +116,6 @@ public class Pathfinder {
     }
 
     public LinkedList<PathStep> getPath (double startx, double starty, double endx, double endy) {
-
         LinkedList<PathStep> ret = new LinkedList<>();
         LinkedList<Tuple> help = helpPath((int)(startx/gridSize), (int)(starty/gridSize), (int)(endx/gridSize), (int)(endy/gridSize));
         if (help != null) {
@@ -128,24 +127,46 @@ public class Pathfinder {
         return ret;
     }
 
+	private double angle_trunc(double a) {
+		while (a < 0.0) {
+			a += Math.PI * 2;
+		}
+		return a;
+	}
+
 	public LinkedList<PathStep> getPath (double startx, double starty, ICollidable end) {
-		int endx = (int)end.getX();
-		int endy = (int)end.getY();
+		int endx;
+		int endy;
 
 		// TODO: Find a workaround for pathfinding ONTO ResourcePoints by
 		// moving the endx/endy towards the character in-regards to collisionRadius
-		/*
-		if (!mask[(int)(endx/gridSize)][(int)(endy/gridSize)]) {
-			double dx = endx - startx;
-			double dy = endx - starty;
-			double h = Math.sqrt(dx*dx + dy*dy);
 
+        // Tobias failed math-experiment
+        /*double dx = endx - startx;
+        double dy = endy - starty;
+        double h = Math.sqrt(dx*dx + dy*dy);
+        double angle = Math.atan2(dx, dy);
+		angle = angle_trunc(angle);
 
+		if(Math.abs(dx) >= Math.abs(dy)) {
+			endx += Math.signum(angle) * (end.getCollisionRadius() + 1);
+			endy += Math.sin(angle) * (end.getCollisionRadius() + 1);
+		} else{
+			endx += Math.cos(angle) * (end.getCollisionRadius() + 1);
+			endy += Math.signum(angle) * (end.getCollisionRadius() + 1);
+		}*/
 
-			endx += end.getCollisionRadius() * (dy / Math.sin(h)) + 1;
-			endy += end.getCollisionRadius() * (dx / Math.cos(h)) + 1;
-		}
-		*/
+        if(startx >= end.getX()){
+            endx = (int)(end.getX() + (end.getCollisionRadius() + gridSize));
+        } else{
+            endx = (int)(end.getX() - (end.getCollisionRadius() + gridSize));
+        }
+
+        if(starty >= end.getY()){
+            endy = (int)(end.getY() + (end.getCollisionRadius() + gridSize));
+        } else{
+            endy = (int)(end.getY() - (end.getCollisionRadius() + gridSize));
+        }
 
         LinkedList<PathStep> ret = new LinkedList<>();
         LinkedList<Tuple> help = helpPath((int)(startx/gridSize), (int)(starty/gridSize), (int)(endx/gridSize), (int)(endy/gridSize));
