@@ -8,6 +8,7 @@ import Utility.RenderObject;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 
@@ -461,6 +462,14 @@ public class World{
 	 */
 	public double getHeight() {
 		return height;
+	}
+
+	public LinkedList<Character> getCharacterList(){
+		LinkedList<Character> charList = new LinkedList<>();
+		Iterator<Character> it = characters.values().iterator();
+		while(it.hasNext())
+			charList.add(it.next());
+		return charList;
 	}
 
 }

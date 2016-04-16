@@ -91,7 +91,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	private int key;
 
-	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
+	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum;
 
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
@@ -123,6 +123,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	//TODO toBeRemoved after testing
 	public boolean godMode = false;
 
+	private boolean genderMale;
 	private boolean alive;
 	private int age;
 
@@ -199,6 +200,12 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		envy = (int)(Math.random()*range)+Constants.MIN_TRAIT_VALUE;
 		wrath = (int)(Math.random()*range)+Constants.MIN_TRAIT_VALUE;
 
+		int genderRandom = (int)(Math.random()*10)+1;
+		if(genderRandom>5)
+			renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
+		else
+			renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER2;
+
 		hungerUpdate = (int)(Constants.CHARACTER_HUNGER_UPDATE - Constants.CHARACTER_HUNGER_UPDATE/2*gluttony*0.01);
 		energyUpdate = (int)(Constants.CHARACTER_ENERGY_UPDATE - Constants.CHARACTER_ENERGY_UPDATE/2*sloth*0.01);
 
@@ -220,6 +227,13 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	 */
 	public int getKey(){
 		return key;
+	}
+
+	/**
+	 * @return the gender, true if man or false if female.
+	 */
+	public boolean getGenderMale(){
+		return genderMale;
 	}
 
 	@Override
