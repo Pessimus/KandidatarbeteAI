@@ -5,6 +5,7 @@ import Model.Tasks.InteractTask;
 import Utility.Constants;
 import Utility.InventoryRender;
 import Utility.RenderObject;
+import org.lwjgl.Sys;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -461,7 +462,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	@Override
 	public void spawn(World rhs) {
-		/*
 		LinkedList<IItem> cost = StructureFactory.getCost(typeToSpawn);
 		boolean canPay = true;
 		for(IItem itemCost : cost){
@@ -471,27 +471,23 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 			}
 		}
 
+		IStructure structure = null;
 		if(canPay) {
 			for(IItem itemCost : cost){
-				System.out.println(inventory.removeItem(itemCost));
+				inventory.removeItem(itemCost);
 			}
-			rhs.addStructure(xPos, yPos, typeToSpawn);
-		}
-		*/
-		LinkedList<IItem> cost = StructureFactory.getCost(typeToSpawn);
-		for(IItem itemCost : cost){
-			System.out.println(inventory.removeItem(itemCost));
+			structure = rhs.addStructure(xPos, (float)(yPos-Constants.CHARACTER_COLLISION_RADIUS), typeToSpawn);
 		}
 
-		IStructure structure = rhs.addStructure(xPos, yPos, typeToSpawn);
+		spawning = false;
+
+
 
 		if(structure != null){
 			if(structure.getClass().equals(House.class) && home == null){
 				home = (House) structure;
 			}
-
 		}
-		spawning = false;
 	}
 
 	/**

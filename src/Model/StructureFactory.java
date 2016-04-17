@@ -1,10 +1,12 @@
 package Model;
 
 import Model.IStructure.StructureType;
+import Model.Items.StoneItem;
 import Model.Items.WoodItem;
 import Model.Structures.Farm;
 import Model.Structures.House;
 import Model.Structures.Stockpile;
+import Utility.Constants;
 
 import java.util.LinkedList;
 
@@ -20,13 +22,13 @@ public class StructureFactory {
 	public static IStructure createStructure(StructureType type, float x, float y){
 		switch (type){
 			case STOCKPILE:
-				return new Stockpile(x, y);
+				return new Stockpile(x, (float)(y-Constants.STOCKPILE_COLLISION_RADIUS));
 
 			case HOUSE:
-				return new House(x, y);
+				return new House(x, (float)(y-Constants.HOUSE_COLLISION_RADIUS));
 
 			case FARM:
-				return new Farm(x, y);
+				return new Farm(x, (float)(y-Constants.FARM_COLLISION_RADIUS));
 
 			default:
 				return null;
@@ -37,22 +39,22 @@ public class StructureFactory {
 		LinkedList<IItem> cost = new LinkedList<>();
 		switch (typeToSpawn){
 			case STOCKPILE:
-//				cost.add(new StoneItem(1));
-//				cost.add(new WoodItem(2));
+				//cost.add(new StoneItem(1));
+				//cost.add(new WoodItem(2));
 				return cost;
 
 			case HOUSE:
-//				cost.add(new StoneItem(2));
-				cost.add(new WoodItem(4));
+				//cost.add(new StoneItem(2));
+				//cost.add(new WoodItem(4));
 				return cost;
 
 			case FARM:
-//				cost.add(new StoneItem(4));
-//				cost.add(new WoodItem(8));
+				//cost.add(new StoneItem(4));
+				//cost.add(new WoodItem(8));
 				return cost;
 
 			default:
-				return null;
+				return cost;
 		}
 	}
 }

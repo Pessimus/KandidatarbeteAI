@@ -264,8 +264,6 @@ public class World{
 	public IStructure addStructure(float xPoss, float yPoss, IStructure.StructureType type){
 		IStructure structure = StructureFactory.createStructure(type, xPoss, yPoss);
 
-		System.out.println(collidables.canAdd(structure));
-
 		if(collidables.canAdd(structure)) {
 			this.collidables.add(structure);
 			this.collidablesR.add(structure);
