@@ -129,7 +129,7 @@ public class ResourcePoint implements ICollidable {
 //		if(!rhs.isWaiting()) {
 //			rhs.wait(resource.getGatheringTime());
 			System.out.println("Calling to schedule");
-			Schedule.addTask(new InteractTask(this,rhs,1000*3));
+			Schedule.addTask(new InteractTask(this,rhs,60*3));
 			//rhs.addToInventory(resource.gatherResource());
 			//System.out.println("interacted" + this);
 //		}

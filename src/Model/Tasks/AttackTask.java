@@ -13,8 +13,8 @@ public class AttackTask implements ITask {
 	private ICollidable attackable;
 	private Model.Character actor;
 	private int waittime;
-	private long starttime;
-	private long endtime;
+	//private long starttime;
+	//private long endtime;
 	private boolean remove;
 
 	public AttackTask(ICollidable attackable, Character actor, int waittime){
@@ -22,8 +22,8 @@ public class AttackTask implements ITask {
 		this.actor = actor;
 		actor.addPropertyChangeListener(this);
 		this.waittime = waittime;
-		this.starttime = System.currentTimeMillis();
-		this.endtime = this.starttime + this.waittime;
+		//this.starttime = System.currentTimeMillis();
+		//this.endtime = this.starttime + this.waittime;
 		this.remove = false;
 		this.actor.setWaiting(true);
 	}
@@ -34,7 +34,7 @@ public class AttackTask implements ITask {
 		this.actor.setWaiting(false);
 	}
 
-	@Override
+	/*@Override
 	public long getWaittime() {
 		return waittime;
 	}
@@ -42,11 +42,20 @@ public class AttackTask implements ITask {
 	@Override
 	public long getEndtime() {
 		return endtime;
-	}
+	}*/
 
 	@Override
 	public boolean toBeRemoved() {
 		return remove || attackable.toBeRemoved();
+	}
+
+	/**
+	 * Updates the waittime of this task.
+	 * @return true if the remaining waittime is less then or equal to 0.
+	 */
+	@Override
+	public boolean updateTick() {
+		return this.waittime-- <=0;
 	}
 
 	@Override

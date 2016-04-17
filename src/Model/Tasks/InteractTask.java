@@ -13,8 +13,8 @@ public class InteractTask implements ITask {
 	private ICollidable interactable;
 	private Model.Character actor;
 	private long waittime;
-	private long starttime;
-	private long endtime;
+	//private long starttime;
+	//private long endtime;
 	private boolean remove;
 
 	public InteractTask(ICollidable interactable, Character actor, long waittime){
@@ -22,8 +22,8 @@ public class InteractTask implements ITask {
 		this.actor = actor;
 		actor.addPropertyChangeListener(this);
 		this.waittime = waittime;
-		this.starttime = System.currentTimeMillis();
-		this.endtime = this.starttime + this.waittime;
+		//this.starttime = System.currentTimeMillis();
+		//this.endtime = this.starttime + this.waittime;
 		this.remove = false;
 		this.actor.setWaiting(true);
 	}
@@ -35,7 +35,7 @@ public class InteractTask implements ITask {
 		this.actor.setWaiting(false);
 	}
 
-	@Override
+	/*@Override
 	public long getWaittime() {
 		return waittime;
 	}
@@ -43,11 +43,20 @@ public class InteractTask implements ITask {
 	@Override
 	public long getEndtime() {
 		return endtime;
-	}
+	}*/
 
 	@Override
 	public boolean toBeRemoved() {
 		return remove || interactable.toBeRemoved();
+	}
+
+	/**
+	 * Updates the waittime of this task.
+	 * @return true if the remaining waittime is less then or equal to 0.
+	 */
+	@Override
+	public boolean updateTick() {
+		return this.waittime-- <=0;
 	}
 
 	@Override
