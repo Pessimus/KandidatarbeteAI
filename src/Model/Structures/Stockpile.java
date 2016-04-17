@@ -2,6 +2,7 @@ package Model.Structures;
 
 import Model.*;
 import Model.Character;
+import Model.Tasks.AttackTask;
 import Utility.Constants;
 import Utility.RenderObject;
 
@@ -29,7 +30,7 @@ public class Stockpile implements IStructure {
 	private double interactionRadius;
 	private double surroundingRadius;
 
-	private int buildingPercent;
+//	private int buildingPercent;
 
 //-----------------------------------------------CONSTRUCTOR----------------------------------------------------------\\
 
@@ -91,10 +92,10 @@ public class Stockpile implements IStructure {
 //----------------------------------------ADD & REMOVE OCCUPANTS------------------------------------------------------\\
 
 
-	@Override
-	public int getConstructionStatus() {
-		return buildingPercent;
-	}
+//	@Override
+//	public int getConstructionStatus() {
+//		return buildingPercent;
+//	}
 
 	@Override
 	/**{@inheritDoc}*/
@@ -157,7 +158,7 @@ public class Stockpile implements IStructure {
 	@Override
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs) {
-		this.integrity --;
+		Schedule.addTask(new AttackTask(this,rhs,1*60));
 	}
 
 	@Override
@@ -172,7 +173,7 @@ public class Stockpile implements IStructure {
 
 	@Override
 	public void attackedCommand(Character rhs) {
-		//TODO implement
+		this.integrity --;
 	}
 
 //------------------------------------------Update METHODS------------------------------------------------------------\\

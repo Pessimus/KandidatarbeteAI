@@ -1,6 +1,7 @@
 package Model;
 
 import Model.Structures.House;
+import Model.Tasks.InteractTask;
 import Utility.Constants;
 import Utility.InventoryRender;
 import Utility.RenderObject;
@@ -337,9 +338,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Character rhs){
-		Interaction i = new Interaction(rhs, this);
-		pcs.firePropertyChange("startInteraction", i, rhs);
-		rhs.startCharacterInteraction(this, i);
+		Schedule.addTask(new InteractTask(this,rhs,0));
 	}
 
 	@Override
@@ -351,13 +350,14 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs){
-		//pcs.firePropertyChange("attacked", null, rhs);
 		//TODO implement
 	}
 
 	@Override
 	public void interactedCommand(Character rhs) {
-		//TODO implement
+		Interaction i = new Interaction(rhs, this);
+		pcs.firePropertyChange("startInteraction", i, rhs);
+		rhs.startCharacterInteraction(this, i);
 	}
 
 	@Override
@@ -563,15 +563,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return list;
 	}
 
-//	public void wait(int frames){
-//		waitingFrames = frames;
-//		waiting = true;
-//	}
-
-//	public boolean isWaiting(){
-//		return waiting;
-//	}
-
 //--------------------------------------ICharacterHandle methods------------------------------------------------------\\
 
 	//TODO implement, change type....
@@ -598,7 +589,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void moveUp() {
-//		if(!waiting)
 		pcs.firePropertyChange("",0,1);
 		this.yPos -= this.stepLength;
 	}
@@ -606,7 +596,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void moveDown() {
-//		if(!waiting)
 		pcs.firePropertyChange("",0,1);
 		this.yPos += this.stepLength;
 	}
@@ -614,7 +603,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void moveLeft() {
-//		if(!waiting)
 		pcs.firePropertyChange("",0,1);
 		this.xPos -= this.stepLength;
 	}
@@ -622,7 +610,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void moveRight() {
-//		if(!waiting)
 		pcs.firePropertyChange("",0,1);
 		this.xPos += this.stepLength;
 	}

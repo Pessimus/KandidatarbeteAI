@@ -2,6 +2,8 @@ package Model.Structures;
 
 import Model.*;
 import Model.Character;
+import Model.Tasks.AttackTask;
+import Model.Tasks.InteractTask;
 import Utility.Constants;
 import Utility.RenderObject;
 
@@ -26,7 +28,7 @@ public class House implements IStructure {
 	private double interactionRadius;
 	private double surroundingRadius;
 
-	private int buildingPercent;
+//	private int buildingPercent;
 
 //-----------------------------------------------CONSTRUCTOR----------------------------------------------------------\\
     /**
@@ -42,7 +44,7 @@ public class House implements IStructure {
 		this.integrity = 10;
 
 		this.capacity=Constants.HOUSE_MAX_CAPACITY;
-		this.buildingPercent = 0;
+//		this.buildingPercent = 0;
 	}
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
@@ -82,10 +84,10 @@ public class House implements IStructure {
 		return structureType;
 	}
 
-	@Override
-	public int getConstructionStatus() {
-		return buildingPercent;
-	}
+//	@Override
+//	public int getConstructionStatus() {
+//		return buildingPercent;
+//	}
 
 	/** Returns the max capacity of the house. */
     public int getCapacity(){
@@ -162,11 +164,8 @@ public class House implements IStructure {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Model.Character rhs) {
-		if(buildingPercent == 100)
-			rhs.changeEnergy(Constants.CHARACTER_ENERGY_MAX);
-		else
-			buildingPercent+=5;
-
+		rhs.changeEnergy(Constants.CHARACTER_ENERGY_MAX);
+		Schedule.addTask(new InteractTask(this,rhs,20*60));
 	}
 
 	@Override
@@ -178,12 +177,12 @@ public class House implements IStructure {
 	@Override
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs) {
-		this.integrity --;
+		Schedule.addTask(new AttackTask(this,rhs,1*60));
 	}
 
 	@Override
 	public void interactedCommand(Character rhs) {
-		//TODO implement
+		rhs.changeEnergy(Constants.CHARACTER_ENERGY_MAX);
 	}
 
 	@Override
@@ -193,7 +192,7 @@ public class House implements IStructure {
 
 	@Override
 	public void attackedCommand(Character rhs) {
-		//TODO implement
+		this.integrity --;
 	}
 
 //------------------------------------------Update METHODS------------------------------------------------------------\\
