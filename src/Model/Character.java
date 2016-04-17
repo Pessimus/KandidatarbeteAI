@@ -597,6 +597,10 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return new int[]{hunger, thirst, energy};
 	}
 
+	public int[] getSecondaryNeeds() {
+		return new int[]{social, intimacy, attention};
+	}
+
 	//TODO implement, change type....
 	@Override
 	/**{@inheritDoc}*/

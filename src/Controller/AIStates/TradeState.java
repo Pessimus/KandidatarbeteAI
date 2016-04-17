@@ -16,6 +16,12 @@ public class TradeState implements IState{
 
 	@Override
 	public void run() {
-		;
+
+
+		if (brain.getStateQueue().isEmpty()) {
+			brain.setState(brain.getIdleState());
+		} else {
+			brain.setState(brain.getStateQueue().poll());
+		}
 	}
 }

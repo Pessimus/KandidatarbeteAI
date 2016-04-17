@@ -37,7 +37,6 @@ public class BuildingState implements IState {
 		if(canBuild){
 			System.out.println("Building!");
 			brain.getBody().build(brain.getStructureStack().pop());
-			brain.setNextStructureToBuild(null);
 		} else{
 			brain.stackState(this);
 			// TODO: Remove random point!!!

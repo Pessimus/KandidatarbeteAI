@@ -55,25 +55,25 @@ public class GatherState implements IState{
 		} else {
 			switch (lowestType) {
 				case MEAT_ITEM:
-					/*brain.setNextResourceToGather(IResource.ResourceType.MEAT);
+					/*brain.stackResourceToGather(IResource.ResourceType.MEAT);
 					break;*/
 				case FISH_ITEM:
-					/*brain.setNextResourceToGather(IResource.ResourceType.FISH);
-					break;*/
+					brain.stackResourceToGather(IResource.ResourceType.FISH);
+					break;
 				case WATER_ITEM:
-					brain.setNextResourceToGather(IResource.ResourceType.WATER);
+					brain.stackResourceToGather(IResource.ResourceType.WATER);
 					break;
 				case WOOD_ITEM:
-					brain.setNextResourceToGather(IResource.ResourceType.WOOD);
+					brain.stackResourceToGather(IResource.ResourceType.WOOD);
 					break;
 				case STONE_ITEM:
-					brain.setNextResourceToGather(IResource.ResourceType.STONE);
+					brain.stackResourceToGather(IResource.ResourceType.STONE);
 					break;
 				case GOLD_ITEM:
-					/*brain.setNextResourceToGather(IResource.ResourceType.GOLD);
+					/*brain.stackResourceToGather(IResource.ResourceType.GOLD);
 					break;*/
 				case CROPS_ITEM:
-					brain.setNextResourceToGather(IResource.ResourceType.CROPS);
+					brain.stackResourceToGather(IResource.ResourceType.CROPS);
 					break;
 			}
 
@@ -91,7 +91,9 @@ public class GatherState implements IState{
 			brain.stackState(brain.getGatherState());
 			brain.stackState(brain.getMovingState());
 		} else {
-			switch (type) {
+			IResource.ResourceType selectType = p.getResource().getResourceType();
+
+			switch (selectType) {
 				case FOOD:
 					// TODO
 					brain.findPathTo(p);
@@ -107,10 +109,10 @@ public class GatherState implements IState{
 					brain.getGatherStack().remove();*/
 				case FISH:
 					// TODO: Add to world, so the AI isn't trying to gather a non-existing resource
-					/*brain.findPathTo(p);
+					brain.findPathTo(p);
 					brain.stackState(brain.getGatherFishState());
 					brain.stackState(brain.getMovingState());
-					brain.getGatherStack().remove();*/
+					brain.getGatherStack().remove();
 				case CROPS:
 					/*brain.findPathTo(p);
 					brain.stackState(brain.getGatherCropsState());

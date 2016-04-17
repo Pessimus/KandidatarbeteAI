@@ -20,5 +20,11 @@ public class BuildHouseState implements IState{
 		// TODO: Gather the remaining resources for the house
 		// TODO: Build the house
 
+		if (brain.getStateQueue().isEmpty()) {
+			brain.setState(brain.getIdleState());
+		} else {
+			brain.setState(brain.getStateQueue().poll());
+		}
+
 	}
 }

@@ -256,9 +256,9 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return gatherStack.peek();
 	}
 
-	public void setNextResourceToGather(IResource.ResourceType nextResourceToGather) {
+	/*public void setNextResourceToGather(IResource.ResourceType nextResourceToGather) {
 		this.nextResourceToGather = nextResourceToGather;
-	}
+	}*/
 
 	public LinkedList<IResource.ResourceType> getGatherStack(){
 		return gatherStack;
@@ -272,9 +272,9 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return buildStack.peek();
 	}
 
-	public void setNextStructureToBuild(IStructure.StructureType nextStructureToBuild) {
+	/*public void setNextStructureToBuild(IStructure.StructureType nextStructureToBuild) {
 		this.nextStructureToBuild = nextStructureToBuild;
-	}
+	}*/
 
 	public void stackStructureToBuild(IStructure.StructureType type){
 		buildStack.push(type);
@@ -318,6 +318,11 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	private volatile ResourcePoint closest = null;
 
+	/**
+	 * Finds the closest object of the type 'ResourcePoint' to the character
+	 * @param type The type of resource to look for
+	 * @return the 'ResourcePoint' which is closest, or null if none is found in memory
+	 */
 	public ResourcePoint getClosestResourcePoint(IResource.ResourceType type){
 		if(USE_MEMORY) {
 			List<ICollidable> surround = getBody().getSurroundings();
@@ -349,8 +354,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	public void propertyChange(PropertyChangeEvent evt) {
 		if(evt.getPropertyName().equals("attacked")){
 			// TODO: Implement a proper response to being attacked
-		}
-		if(evt.getPropertyName().equals("startInteraction")){
+		} else if(evt.getPropertyName().equals("startInteraction")){
 			Character other = (Character)evt.getNewValue();
 			Interaction interaction = (Interaction)evt.getOldValue();
 
@@ -364,6 +368,55 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			} else{
 				interaction.declineInteraction();
 			}
+		} else if(evt.getPropertyName().equals("interactionType")){
+			Interaction.InteractionType type = (Interaction.InteractionType)evt.getNewValue();
+			switch(type){
+				case TRADE:
+					stackState(getTradeState());
+					break;
+				case HOSTILE:
+					break;
+				case SOCIAL:
+					stackState(getConverseState());
+					break;
+			}
+		}
+		else if(evt.getPropertyName().equals("itemAddedToOfferBy" + interactionCharacter.getKey())){
+			// TODO: What to do
+		}
+		else if(evt.getPropertyName().equals("itemAddedToOfferFailedBy" + getBody().getKey())){
+			// TODO: What to do
+		}
+		else if(evt.getPropertyName().equals("itemAddedToRequestBy" + interactionCharacter.getKey())){
+			// TODO: What to do
+		}
+		else if(evt.getPropertyName().equals("itemAddedToRequestFailedBy" + getBody().getKey())) {
+			// TODO: What to do
+		}
+		else if(evt.getPropertyName().equals("itemRemovedFromOfferBy" + interactionCharacter.getKey())){
+			// TODO: What to do
+		}
+		else if(evt.getPropertyName().equals("itemRemovedFromOfferFailedBy" + getBody().getKey())){
+			// TODO: What to do
+		}
+		else if(evt.getPropertyName().equals("itemRemovedFromRequestBy" + interactionCharacter.getKey())){
+			// TODO: What to do
+		}
+		else if(evt.getPropertyName().equals("itemRemovedFromRequestFailedBy" + getBody().getKey())){
+			// TODO: What to do
+		}
+		else if(evt.getPropertyName().equals("tradeAcceptedBy" + interactionCharacter.getKey())){
+			// TODO: What to do
+		}
+		else if(evt.getPropertyName().equals("tradeDeclinedBy" + interactionCharacter.getKey())){
+			// TODO: What to do
+		}
+		else if(evt.getPropertyName().equals("transferredTrade")){
+			// TODO: What to do
+		}
+		else if(evt.getPropertyName().equals("endInteraction")){
+			currentInteraction = null;
+			interactionCharacter = null;
 		}
 
 	}

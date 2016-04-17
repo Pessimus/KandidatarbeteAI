@@ -21,6 +21,8 @@ public class Interaction {
 
 	private boolean active;
 
+	private InteractionType typeOfInteraction = null;
+
 	private Character character1;
 	private Character character2;
 
@@ -41,7 +43,7 @@ public class Interaction {
 	public Interaction(Character character1, Character character2){
 		this.pcs = new PropertyChangeSupport(this);
 
-		this.active = true;
+		this.active = false;
 
 		this.character1 = character1;
 		this.character2 = character2;
@@ -62,8 +64,18 @@ public class Interaction {
 //---------------------------------------------Start Methods----------------------------------------------------------\\
 
 	public void acceptInteraction(int key, PropertyChangeListener listener){
-		if(active) {
-			pcs.addPropertyChangeListener(listener);
+		if(!active && (key == character1Key || key == character2Key)) {
+			if(detectable()) {
+				if (key == character1Key) {
+					character1Active = true;
+				} else if (key == character2Key) {
+					character2Active = true;
+				}
+
+				pcs.addPropertyChangeListener(listener);
+			} else{
+				endInteraction();
+			}
 		}
 	}
 
@@ -76,29 +88,35 @@ public class Interaction {
 	private boolean interactable(){
 		return (Math.abs(character1.getX()-character2.getX())<Constants.CHARACTER_INTERACTION_RADIUS)
 				&& (Math.abs(character1.getY()-character2.getY())<Constants.CHARACTER_INTERACTION_RADIUS);
-
-		//TODO REMOVE THIS CHANGE FROM THE CORRECT METHOD TO A INCORRECT METHOD!
-			// To use an existing method (and using the correct distance)
-			//return UniversalStaticMethods.distanceBetweenPoints(character1.getX(), character1.getY(), character1.getX(), character1.getY()) < Constants.CHARACTER_INTERACTION_RADIUS;
 	}
 
 	private boolean detectable(){
 		return (Math.abs(character1.getX()-character2.getX())<Constants.CHARACTER_SURROUNDING_RADIUS)
 				&& (Math.abs(character1.getY()-character2.getY())<Constants.CHARACTER_SURROUNDING_RADIUS);
-
-		//TODO REMOVE THIS CHANGE FROM THE CORRECT METHOD TO A INCORRECT METHOD!
-			// To use an existing method (and using the correct distance)
-			//return UniversalStaticMethods.distanceBetweenPoints(character1.getX(), character1.getY(), character1.getX(), character1.getY()) < Constants.CHARACTER_SURROUNDING_RADIUS;
 	}
 
 //--------------------------------------------Social Methods----------------------------------------------------------\\
 
 	public void talk(InteractionType type){
-		if(active){
+		if(character1Active && character2Active){
 			if(detectable()) {
-				if(interactable()) {
-					switch(type){
+				active = true;
 
+				if(interactable()) {
+					pcs.firePropertyChange("interactionType", null, type);
+
+					typeOfInteraction = type;
+
+					switch(type){
+						case TRADE:
+							break;
+						case HOSTILE:
+							// TODO: Not implementing this, as far as I'm aware
+							endInteraction();
+							break;
+						case SOCIAL:
+							// TODO: Add to social-need
+							break;
 					}
 					//TODO swich case
 						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
@@ -121,11 +139,13 @@ public class Interaction {
 						acceptTradeCharacter1 = false;
 						acceptTradeCharacter2 = false;
 						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
+						pcs.firePropertyChange("itemRemovedFromOfferBy" + key, key, item);
 						tradeOfferCharacter1.removeItem(item);
 					} else if (key == character2Key) {
 						acceptTradeCharacter1 = false;
 						acceptTradeCharacter2 = false;
 						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
+						pcs.firePropertyChange("itemRemovedFromOfferBy" + key, key, item);
 						tradeOfferCharacter2.removeItem(item);
 					}
 				} else {
@@ -142,13 +162,14 @@ public class Interaction {
 					if (key == character1Key) {
 						acceptTradeCharacter1 = false;
 						acceptTradeCharacter2 = false;
-						//pcs.firePropertyChange("", , );
+						pcs.firePropertyChange("itemRemovedFromRequestBy" + key, key, item);
 						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
 						tradeOfferCharacter2.removeItem(item);
 					} else if (key == character2Key) {
 						acceptTradeCharacter1 = false;
 						acceptTradeCharacter2 = false;
 						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
+						pcs.firePropertyChange("itemRemovedFromRequestBy" + key, key, item);
 						tradeOfferCharacter1.removeItem(item);
 					}
 				} else {
@@ -167,18 +188,22 @@ public class Interaction {
 							acceptTradeCharacter1 = false;
 							acceptTradeCharacter2 = false;
 							//TODO fire propertyChange  ---------------------AI: What proertyChangeEvent should be sent?
+							pcs.firePropertyChange("itemAddedToOfferBy" + key, key, item);
 							tradeOfferCharacter1.addItem(item);
 						}else {//Item not in characters inventory
 							//TODO fire propertyChange  ---------------------AI: What proertyChangeEvent should be sent?
+							pcs.firePropertyChange("itemAddedToOfferFailedBy" + key, key, item);
 						}
 					} else if (key == character2Key) {
 						if(character2.inventoryContains(item)) {
 							acceptTradeCharacter1 = false;
 							acceptTradeCharacter2 = false;
 							//TODO fire propertyChange  ---------------------AI: What proertyChangeEvent should be sent?
+							pcs.firePropertyChange("itemAddedToOfferBy" + key, key, item);
 							tradeOfferCharacter2.addItem(item);
 						}else {//Item not in characters inventory
 							//TODO fire propertyChange  ---------------------AI: What proertyChangeEvent should be sent?
+							pcs.firePropertyChange("itemAddedToOfferFailedBy" + key, key, item);
 						}
 					}
 				} else {
@@ -197,18 +222,22 @@ public class Interaction {
 							acceptTradeCharacter1 = false;
 							acceptTradeCharacter2 = false;
 							//TODO fire propertyChange  ---------------------AI: What proertyChangeEvent should be sent?
+							pcs.firePropertyChange("itemAddedToRequestBy" + key, key, item);
 							tradeOfferCharacter2.addItem(item);
 						}else {//Item not in characters inventory
 							//TODO fire propertyChange  ---------------------AI: What proertyChangeEvent should be sent?
+							pcs.firePropertyChange("itemAddedToRequestFailedBy" + key, key, item);
 						}
 					} else if (key == character2Key) {
 						if (character1.inventoryContains(item)) {
 							acceptTradeCharacter1 = false;
 							acceptTradeCharacter2 = false;
 							//TODO fire propertyChange  ---------------------AI: What proertyChangeEvent should be sent?
+							pcs.firePropertyChange("itemAddedToRequestBy" + key, key, item);
 							tradeOfferCharacter1.addItem(item);
 						}else {//Item not in characters inventory
 							//TODO fire propertyChange  ---------------------AI: What proertyChangeEvent should be sent?
+							pcs.firePropertyChange("itemAddedToRequestFailedBy" + key, key, item);
 						}
 					}
 				} else {
@@ -224,6 +253,7 @@ public class Interaction {
 				if (interactable()) {
 					if (key == character1Key) {
 						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
+						pcs.firePropertyChange("tradeAcceptedBy" + key, 0, 1);
 						this.acceptTradeCharacter1 = true;
 						if (acceptTradeCharacter2) {
 							//TODO fire propertyChange  ---------------------AI: What proertyChangeEvent should be sent?
@@ -231,6 +261,7 @@ public class Interaction {
 						}
 					} else if (key == character2Key) {
 						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
+						pcs.firePropertyChange("tradeAcceptedBy" + key, 0, 1);
 						this.acceptTradeCharacter2 = true;
 						if (acceptTradeCharacter1) {
 							//TODO fire propertyChange  ---------------------AI: What proertyChangeEvent should be sent?
@@ -250,6 +281,7 @@ public class Interaction {
 				if (interactable()) {
 					if (key == character1Key) {
 						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
+						pcs.firePropertyChange("tradeDeclinedBy" + key, 0, 1);
 						this.acceptTradeCharacter1 = false;
 					} else if (key == character2Key) {
 						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
@@ -278,6 +310,7 @@ public class Interaction {
 			character1.addToInventory(tmpItem);
 		}
 
+		pcs.firePropertyChange("transferredTrade", null, this);
 	}
 
 //----------------------------------------------End Methods-----------------------------------------------------------\\
@@ -285,11 +318,9 @@ public class Interaction {
 	public void endInteraction(){
 		this.active = false;
 		//TODO fire propertyChange  -----------------------------------------AI: What proertyChangeEvent should be sent?
-		//pcs.firePropertyChange("endInteraction", , );
+		pcs.firePropertyChange("endInteraction", null, this);
 		character1 = null;
 		character2 = null;
-		Arrays.stream(pcs.getPropertyChangeListeners())
-				.forEach(o -> pcs.removePropertyChangeListener(o));
 	}
 
 	public void removePropertyChangeListener(PropertyChangeListener listener){

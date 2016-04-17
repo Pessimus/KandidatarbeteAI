@@ -25,6 +25,7 @@ public class IdleState implements IState {
 	public void run() {
 		//DO WE NEED TO INCREASE ANY OF OUR NEEDS?
 		int[] needsArray = brain.getBody().getNeeds();
+		int[] secondaryNeedsArray = brain.getBody().getSecondaryNeeds();
 		int minVal = needsArray[0];
 		int minindex = 0;
 		// Critical levels of Hunger, Thirst and Energy which
@@ -38,6 +39,20 @@ public class IdleState implements IState {
 			}
 		}
 
+		if(brain.getStateQueue().isEmpty()) {
+			if (!brain.getBody().hasHome()){
+				brain.stackStructureToBuild(IStructure.StructureType.HOUSE);
+				brain.stackState(brain.getBuildState());
+			} else{
+				if(secondaryNeedsArray[0] < 20){
+					brain.stackState(brain.getSocializeState());
+				} else {
+					brain.stackStructureToBuild(IStructure.StructureType.FARM);
+					brain.stackState(brain.getBuildState());
+				}
+			}
+		}
+
 		if(needsArray[0] <= 70){
 			brain.stackState((brain.getHungryState()));
 		}
@@ -46,17 +61,6 @@ public class IdleState implements IState {
 		}
 		if (needsArray[2] <= 70){
 			brain.stackState((brain.getLowEnergyState()));
-		}
-
-		if(brain.getStateQueue().isEmpty()) {
-			brain.stackState(brain.getSocializeState());
-			if (!brain.getBody().hasHome()){
-				brain.stackStructureToBuild(IStructure.StructureType.HOUSE);
-				brain.stackState(brain.getBuildState());
-			} else{
-				brain.stackStructureToBuild(IStructure.StructureType.FARM);
-				brain.stackState(brain.getBuildState());
-			}
 		}
 
 		brain.setState(brain.getStateQueue().poll());
