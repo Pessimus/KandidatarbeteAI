@@ -44,7 +44,7 @@ public class IdleState implements IState {
 				brain.stackStructureToBuild(IStructure.StructureType.HOUSE);
 				brain.stackState(brain.getBuildState());
 			} else{
-				if(secondaryNeedsArray[0] < 20){
+				if(secondaryNeedsArray[0] < -20){
 					brain.stackState(brain.getSocializeState());
 				} else {
 					brain.stackStructureToBuild(IStructure.StructureType.FARM);

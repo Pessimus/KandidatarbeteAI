@@ -5,10 +5,8 @@ import Model.*;
 import Model.Character;
 import Utility.Constants;
 import Model.ICharacterHandle;
-import Utility.*;
 
 //import java.awt.*;
-import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
@@ -41,7 +39,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	// IState variables for every state possible
 	private IState currentState;
 
-	private IState buildHouseState = new BuildHouseState(this);
+	private IState buildHouseState = new BuildingHouseState(this);
 	private IState buildState = new BuildState(this);
 	private IState buildingState = new BuildingState(this);
 	private IState converseState = new ConverseState(this);
@@ -101,6 +99,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			currentState.run();
 
 			System.out.println();
+			System.out.println("Current state: " + currentState);
 			getStateQueue().stream()
 					.forEach(o -> System.out.println("State:\t" + o));
 			System.out.println("Inventory:");
@@ -109,7 +108,6 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			System.out.println("\nHunger:\t" + needs[0]);
 			System.out.println("Thirst:\t" + needs[1]);
 			System.out.println("Energy:\t" + needs[2]);
-			System.out.println(currentState);
 			System.out.println("Position:\t" + getBody().getX() + ":" + getBody().getY());
 		}
 

@@ -39,7 +39,7 @@ public class HungryState implements IState {
 		}
 
 		if(best == null){
-			brain.setNextResourceToGather(IResource.ResourceType.FOOD);
+			brain.stackResourceToGather(IResource.ResourceType.FOOD);
 			brain.stackState(brain.getEatState());
 			brain.stackState(brain.getGatherState());
 			brain.setState(brain.getStateQueue().poll());

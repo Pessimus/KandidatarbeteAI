@@ -18,7 +18,8 @@ public class BuildingState implements IState {
 
 	@Override
 	public void run() {
-		int x = (int)brain.getBody().getX();
+		brain.getBody().build(brain.getStructureStack().pop());
+		/*int x = (int)brain.getBody().getX();
 		int y = (int)brain.getBody().getY();
 
 		boolean[][] mask = Constants.PATHFINDER_OBJECT.getMask();
@@ -43,7 +44,7 @@ public class BuildingState implements IState {
 			Random r = new Random();
 			brain.findPathTo(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
 			brain.stackState(brain.getMovingState());
-		}
+		}*/
 
 		if(brain.getStateQueue().isEmpty()) {
 			brain.setState(brain.getIdleState());

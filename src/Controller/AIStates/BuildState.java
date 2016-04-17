@@ -77,16 +77,18 @@ public class BuildState implements IState{
 			//NO?
 			//FIND OUT WHAT WE ARE MISSING AND GO GATHER
 			brain.stackState(this);
+			System.out.println("REMAINING:");
 			for(IItem item : remaining){
+				System.out.println(item.getType());
 				switch (item.getType()) {
 					case MEAT_ITEM:
 						/*brain.stackResourceToGather(IResource.ResourceType.MEAT);
 						brain.stackState(brain.getGatherState());
 						break;*/
 					case FISH_ITEM:
-						/*brain.stackResourceToGather(IResource.ResourceType.FISH);
+						brain.stackResourceToGather(IResource.ResourceType.FISH);
 						brain.stackState(brain.getGatherState());
-						break;*/
+						break;
 					case WATER_ITEM:
 						//brain.setNextResourceToGather(IResource.ResourceType.WATER);
 						brain.stackResourceToGather(IResource.ResourceType.WATER);
@@ -114,6 +116,36 @@ public class BuildState implements IState{
 			//YES?
 			//ENTER CORRECT BUILD STATE
 			// TODO: Check if it's possible to build the structure here, otherwise move!
+
+			/*int x = (int)brain.getBody().getX();
+			int y = (int)brain.getBody().getY();
+
+			boolean[][] mask = Constants.PATHFINDER_OBJECT.getMask();
+			boolean canBuild = true;
+
+			int collision = 0;
+
+			switch (brain.getStructureStack().peek()){
+				case FARM:
+					collision = (int) Constants.FARM_COLLISION_RADIUS;
+					break;
+				case HOUSE:
+					collision = (int) Constants.HOUSE_COLLISION_RADIUS;
+					break;
+				case STOCKPILE:
+					collision = (int) Constants.STOCKPILE_COLLISION_RADIUS;
+					break;
+			}
+
+			firstLoop:
+			for (int i = x - collision; i <= x + collision; i++) {
+				for (int j = y - collision; j <= y + collision; j++) {
+					if (!mask[i/Constants.PATHFINDER_GRID_SIZE][j/Constants.PATHFINDER_GRID_SIZE]) {
+						canBuild = false;
+						break firstLoop;
+					}
+				}
+			}*/
 
 			brain.stackState(brain.getBuildingState());
 

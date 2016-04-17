@@ -8,6 +8,7 @@ import Utility.InventoryRender;
 import Utility.RenderObject;
 import org.lwjgl.Sys;
 
+import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.*;
@@ -505,18 +506,73 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 			for(IItem itemCost : cost){
 				inventory.removeItem(itemCost);
 			}
-			structure = rhs.addStructure(xPos, (float)(yPos-Constants.CHARACTER_COLLISION_RADIUS), typeToSpawn);
+			int collision = 0;
+
+			switch (typeToSpawn){
+				case FARM:
+					collision = (int) Constants.FARM_COLLISION_RADIUS;
+					break;
+				case HOUSE:
+					collision = (int) Constants.HOUSE_COLLISION_RADIUS;
+					break;
+				case STOCKPILE:
+					collision = (int) Constants.STOCKPILE_COLLISION_RADIUS;
+					break;
+			}
+			//structure = rhs.addStructure(xPos, (float)(yPos-Constants.CHARACTER_INTERACTION_RADIUS), typeToSpawn);
+			structure = rhs.addStructure(xPos, yPos-collision, typeToSpawn);
+
+			if(structure != null){
+				if(structure.getClass().equals(House.class) && home == null){
+					home = (House) structure;
+				}
+			} else{
+				// TODO: Find a location where it's possible to spawn the structure
+				int tempX = (int)xPos;
+				int tempY = (int)yPos;
+
+				Queue<Point> queue = new LinkedList<>();
+
+				queue.offer(new Point(tempX, tempY - collision));
+				queue.offer(new Point(tempX + collision, tempY));
+				queue.offer(new Point(tempX, tempY + collision));
+				queue.offer(new Point(tempX - collision, tempY));
+
+				Point tempPoint = queue.poll();
+				tempX = tempPoint.x;
+				tempY = tempPoint.y;
+
+				int i = -1;
+				// Ugly breadth-first-search for a valid building-spot
+				while(rhs.addStructure(tempX, tempY, typeToSpawn) == null){
+					i = (i + 1)%4;
+
+					if(i == 0){
+						queue.offer(new Point(tempX, tempY - Constants.PATHFINDER_GRID_SIZE));
+						queue.offer(new Point(tempX + Constants.PATHFINDER_GRID_SIZE, tempY));
+						queue.offer(new Point(tempX - Constants.PATHFINDER_GRID_SIZE, tempY));
+					} else if(i == 1){
+						queue.offer(new Point(tempX, tempY - Constants.PATHFINDER_GRID_SIZE));
+						queue.offer(new Point(tempX + Constants.PATHFINDER_GRID_SIZE, tempY));
+						queue.offer(new Point(tempX, tempY + Constants.PATHFINDER_GRID_SIZE));
+					}else if(i == 2){
+						queue.offer(new Point(tempX + Constants.PATHFINDER_GRID_SIZE, tempY));
+						queue.offer(new Point(tempX, tempY + Constants.PATHFINDER_GRID_SIZE));
+						queue.offer(new Point(tempX - Constants.PATHFINDER_GRID_SIZE, tempY));
+					}else if(i == 3){
+						queue.offer(new Point(tempX, tempY -  Constants.PATHFINDER_GRID_SIZE));
+						queue.offer(new Point(tempX, tempY +  Constants.PATHFINDER_GRID_SIZE));
+						queue.offer(new Point(tempX -  Constants.PATHFINDER_GRID_SIZE, tempY));
+					}
+
+					tempPoint = queue.poll();
+					tempX = tempPoint.x;
+					tempY = tempPoint.y;
+				}
+			}
 		}
 
 		spawning = false;
-
-
-
-		if(structure != null){
-			if(structure.getClass().equals(House.class) && home == null){
-				home = (House) structure;
-			}
-		}
 	}
 
 	/**
