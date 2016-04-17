@@ -117,6 +117,11 @@ public class World{
 
 		this(width, height);
 
+		Animal animal = new Animal(50,50,new Meat(10,10));
+		this.collidablesR.add(animal);
+		this.collidables.add(animal);
+		this.timeables.add(animal);
+
 		int i = 0;
 		float tmpX;
 		float tmpY;

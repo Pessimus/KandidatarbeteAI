@@ -1,5 +1,7 @@
 package Model;
 
+import Controller.Pathfinder;
+import Model.Tasks.AttackTask;
 import Utility.Constants;
 import Utility.RenderObject;
 
@@ -156,6 +158,21 @@ public class Animal implements ICollidable, ITimeable {
 
 	@Override
 	public void consumed(Character rhs) {
+		Schedule.addTask(new AttackTask(this,rhs,5*60));
+	}
+
+	@Override
+	public void attacked(Character rhs) {
+		Schedule.addTask(new AttackTask(this,rhs,5*60));
+	}
+
+	@Override
+	public void interactedCommand(Character rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void consumedCommand(Character rhs) {
 		rhs.changeHunger(Constants.ANIMAL_HUNGER_CHANGE_CONSUME);
 		rhs.changeEnergy(Constants.ANIMAL_ENERGY_CHANGE_CONSUME);
 		rhs.changeThirst(Constants.ANIMAL_THIRST_CHANGE_CONSUME);
@@ -163,27 +180,12 @@ public class Animal implements ICollidable, ITimeable {
 	}
 
 	@Override
-	public void attacked(Character rhs) {
+	public void attackedCommand(Character rhs) {
 		rhs.changeHunger(Constants.ANIMAL_HUNGER_CHANGE_ATTACK);
 		rhs.changeEnergy(Constants.ANIMAL_ENERGY_CHANGE_ATTACK);
 		rhs.changeThirst(Constants.ANIMAL_THIRST_CHANGE_ATTACK);
 		rhs.addToInventory(resource.gatherResource());
 		this.alive = false;
-	}
-
-	@Override
-	public void interactedCommand(Character rhs) {
-
-	}
-
-	@Override
-	public void consumedCommand(Character rhs) {
-
-	}
-
-	@Override
-	public void attackedCommand(Character rhs) {
-
 	}
 
 	@Override
@@ -203,25 +205,65 @@ public class Animal implements ICollidable, ITimeable {
 
 //------------------------------------------UPDATE METHODS------------------------------------------------------------\\
 
+	int xAxisSteps = 0;
+	int yAxisSteps = 0;
+	boolean moveLeft = false;
+	boolean moveRight = false;
+	boolean moveUp = false;
+	boolean moveDown = false;
+
 	@Override
 	public void updateTimeable() {
-		Character target = null;
-		for(ICollidable collidable : this.surroundings){
-			if(collidable.getRenderType() == RenderObject.RENDER_OBJECT_ENUM.CHARACTER){
-				target = (Character)collidable;
-				break;
+
+		if(xAxisSteps != 0) {
+			xAxisSteps--;
+			if (moveLeft) {
+				this.xPoss--;
+			} else if (moveRight) {
+				this.xPoss++;
+			}
+		}else{
+			xAxisSteps = (int)(Math.random()*60*5+10*60);
+			int movement = (int)(Math.random()*2);
+			switch (movement){
+				case 0:
+					moveLeft = true;
+					moveRight = false;
+					break;
+				case 1:
+					moveLeft = false;
+					moveRight = true;
+					break;
+				case 2:
+					moveLeft = false;
+					moveRight = false;
+					break;
 			}
 		}
-		if(!(target == null)){
-			if(target.getX() > this.getX()){
-				this.xPoss++;
-			}else if(target.getX() < this.getX()){
-				this.xPoss--;
-			}
-			if(target.getY() > this.getY()){
-				this.yPoss++;
-			}else if(target.getY() < this.getY()){
+
+		if(yAxisSteps != 0) {
+			yAxisSteps--;
+			if (moveUp) {
 				this.yPoss--;
+			} else if (moveDown) {
+				this.yPoss++;
+			}
+		}else{
+			yAxisSteps = (int)(Math.random()*60*5+10*60);
+			int movement = (int)(Math.random()*2);
+			switch (movement){
+				case 0:
+					moveUp = true;
+					moveDown = false;
+					break;
+				case 1:
+					moveUp = false;
+					moveDown = true;
+					break;
+				case 2:
+					moveUp = false;
+					moveDown = false;
+					break;
 			}
 		}
 	}
