@@ -1,6 +1,7 @@
 package Model.Resources;
 
 import Model.*;
+import Model.Character;
 import Utility.Constants;
 import Utility.RenderObject;
 
@@ -56,6 +57,21 @@ public class Wood extends RenewableResource {
 		}
 	}
 
+	@Override
+	public void interacted(Character rhs) {
+		rhs.addToInventory(this.gatherResource());
+	}
+
+	@Override
+	public void consumed(Character rhs) {
+		this.gatherResource().consumed(rhs);
+	}
+
+	@Override
+	public void attacked(Character rhs) {
+		this.setResourcesLeft(0);
+	}
+
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
     @Override
@@ -107,4 +123,5 @@ public class Wood extends RenewableResource {
 		rhs.addRenewableResourcePoint(wood, RenderObject.RENDER_OBJECT_ENUM.WOOD, xPoss + xDiff, yPoss + yDiff, 75);
 		this.spawning = false;
 	}
+
 }

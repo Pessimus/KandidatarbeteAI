@@ -145,17 +145,20 @@ public class ResourcePoint implements ICollidable {
 
 	@Override
 	public void interactedCommand(Character rhs) {
-		rhs.addToInventory(resource.gatherResource());
+		this.resource.interacted(rhs);
+//		rhs.addToInventory(resource.gatherResource());
 	}
 
 	@Override
 	public void consumedCommand(Character rhs) {
-		resource.gatherResource().consumed(rhs);
+		this.resource.consumed(rhs);
+//		resource.gatherResource().consumed(rhs);
 	}
 
 	@Override
 	public void attackedCommand(Character rhs) {
-		resource.setResourcesLeft(0);
+		this.resource.attacked(rhs);
+//		resource.setResourcesLeft(0);
 	}
 
 	@Override

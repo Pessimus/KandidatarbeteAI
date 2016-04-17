@@ -1,5 +1,6 @@
 package Model.Resources;
 
+import Model.Character;
 import Utility.Constants;
 import Model.IItem;
 import Model.ItemFactory;
@@ -48,6 +49,21 @@ public class Stone extends FiniteResource {
 		}else{
 			return null;
 		}
+	}
+
+	@Override
+	public void interacted(Character rhs) {
+		rhs.addToInventory(this.gatherResource());
+	}
+
+	@Override
+	public void consumed(Character rhs) {
+		this.gatherResource().consumed(rhs);
+	}
+
+	@Override
+	public void attacked(Character rhs) {
+		this.setResourcesLeft(0);
 	}
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\

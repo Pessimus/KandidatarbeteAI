@@ -134,7 +134,7 @@ public class World{
 			tmpX = (float)(Math.random()*this.width);
 			tmpY = (float)(Math.random()*this.height);
 
-			Water tmpLake = new Water(1);
+			Water tmpLake = new Water(1,1);
 			addInfiniteResourcePoint(tmpLake, RenderObject.RENDER_OBJECT_ENUM.LAKE, tmpX, tmpY, 100);
 
 			i++;

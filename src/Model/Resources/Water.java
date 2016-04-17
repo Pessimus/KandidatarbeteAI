@@ -1,6 +1,7 @@
 package Model.Resources;
 
 
+import Model.Character;
 import Utility.Constants;
 import Model.IItem;
 import Model.ItemFactory;
@@ -12,10 +13,13 @@ public class Water extends InfiniteResource {
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 	public static final ResourceType resourceType = ResourceType.WATER;
+	public static final ResourceType secondaryResourceType = ResourceType.FISH;
 	public static final String resourceName = "Water";
 	public static final int gatheringTime = Constants.GATHER_WATER_STATE_TIME;
+	public static final int secondaryGatheringTime = Constants.GATHER_FISH_STATE_TIME;
 
 	private int yield;
+	private int secondaryYield;
 
 	@Override
 	public int getGatheringTime() {
@@ -28,8 +32,9 @@ public class Water extends InfiniteResource {
 	 * A class representing the resource "Water".
 	 * @param yield The amount of items gained from this resource at a time.
 	 */
-	public Water(int yield){
+	public Water(int yield, int secondaryYield){
 		this.yield = yield;
+		this.secondaryYield = secondaryYield;
 	}
 
 	//-------------------------------------Interaction methods--------------------------------------------------------\\
@@ -38,6 +43,25 @@ public class Water extends InfiniteResource {
 	/**{@inheritDoc}*/
 	public IItem gatherResource() {
 		return ItemFactory.createItem(resourceType, yield);
+	}
+
+	private IItem gatherSecondaryResource(){
+		return ItemFactory.createItem(secondaryResourceType, secondaryYield);
+	}
+
+	@Override
+	public void interacted(Character rhs) {
+		rhs.addToInventory(this.gatherResource());
+	}
+
+	@Override
+	public void consumed(Character rhs) {
+		this.gatherSecondaryResource().consumed(rhs);
+	}
+
+	@Override
+	public void attacked(Character rhs) {
+		rhs.addToInventory(this.gatherSecondaryResource());
 	}
 
 //------------------------------------------Getters & Setters---------------------------------------------------------\\

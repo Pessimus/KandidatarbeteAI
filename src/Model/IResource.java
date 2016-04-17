@@ -5,24 +5,6 @@ package Model;
  */
 public interface IResource {
 
-	/*
-	enum ResourceType{
-		WOOD("Wood"),
-		WATER("Water"),
-		GOLD("Gold"),
-		STONE("Stone"),
-		FISH("Fish"),
-		CROPS("Crops"),
-		MEAT("Meat");
-
-		public String resourceName;
-
-		ResourceType(String name){
-			resourceName = name;
-		}
-	}
-	*/
-
 	enum ResourceType{
 		WOOD,
 		WATER,
@@ -49,7 +31,7 @@ public interface IResource {
 	/** @return the remaining amount of resources at this point. */
 	int getResourcesLeft();
 
-	/** @return the time (in FRAMES) how long it takes to gather a certain resource. */
+	/** @return the time how long it takes to gather this resource. */
 	int getGatheringTime();
 
 	/**
@@ -57,5 +39,12 @@ public interface IResource {
 	 * @param amount the amount to set the number of remaining resources to.
 	 */
 	void setResourcesLeft(int amount);
+
+
+	void interacted(Character rhs);
+
+	void consumed(Character rhs);
+
+	void attacked(Character rhs);
 
 }
