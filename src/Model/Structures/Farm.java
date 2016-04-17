@@ -3,6 +3,8 @@ package Model.Structures;
 import Model.*;
 import Model.Character;
 import Model.Resources.Crops;
+import Model.Tasks.AttackTask;
+import Model.Tasks.InteractTask;
 import Utility.Constants;
 import Utility.RenderObject;
 
@@ -35,7 +37,7 @@ public class Farm implements IStructure, ITimeable {
 	private float[] spawnPointsXpos;
 	private float[] spawnPointsYpos;
 
-	private int buildingPercent;
+	//private int buildingPercent;
 
 //-----------------------------------------------CONSTRUCTOR----------------------------------------------------------\\
 
@@ -112,20 +114,15 @@ public class Farm implements IStructure, ITimeable {
 		return surroundingRadius;
 	}
 
-	/*@Override
-	public StructureBuildingMaterialTuple[] getBuildingMaterials() {
-		return buildingMaterials;
-	}*/
-
 	@Override
 	public StructureType getStructureType() {
 		return structureType;
 	}
 
-	@Override
-	public int getConstructionStatus() {
-		return buildingPercent;
-	}
+//	@Override
+//	public int getConstructionStatus() {
+//		return buildingPercent;
+//	}
 
 	@Override
 	/**{@inheritDoc}*/
@@ -176,7 +173,7 @@ public class Farm implements IStructure, ITimeable {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Model.Character rhs) {
-		this.spawning = true;
+		Schedule.addTask(new InteractTask(this,rhs,10*60));
 	}
 
 	@Override
@@ -188,12 +185,12 @@ public class Farm implements IStructure, ITimeable {
 	@Override
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs) {
-		this.integrity --;
+		Schedule.addTask(new AttackTask(this,rhs,1*60));
 	}
 
 	@Override
 	public void interactedCommand(Character rhs) {
-		//TODO implement
+		this.spawning = true;
 	}
 
 	@Override
@@ -203,6 +200,21 @@ public class Farm implements IStructure, ITimeable {
 
 	@Override
 	public void attackedCommand(Character rhs) {
+		this.integrity --;
+	}
+
+	@Override
+	public void interactedInterrupted(Character rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void consumedInterrupted(Character rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void attackedInterrupted(Character rhs) {
 		//TODO implement
 	}
 

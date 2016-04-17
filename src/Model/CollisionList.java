@@ -512,6 +512,15 @@ public class CollisionList {
 		public void attackedCommand(Character rhs) {}
 
 		@Override
+		public void interactedInterrupted(Character rhs) {}
+
+		@Override
+		public void consumedInterrupted(Character rhs) {}
+
+		@Override
+		public void attackedInterrupted(Character rhs) {}
+
+		@Override
 		public boolean isImovable(){
 			return false;
 		}

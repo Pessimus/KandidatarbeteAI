@@ -86,6 +86,22 @@ public interface ICollidable {
 	 */
 	void attackedCommand(Character rhs);
 
+	/**
+	 * Interrupts a interaction that was about to happen.
+	 * @param rhs the character that was about to interact with it.
+	 */
+	void interactedInterrupted(Character rhs);
+	/**
+	 * Interrupts a consummation that was about to happen.
+	 * @param rhs the character that was about to consume it.
+	 */
+	void consumedInterrupted(Character rhs);
+	/**
+	 * Interrupts a attack that was about to happen.
+	 * @param rhs the character that was about to attack it.
+	 */
+	void attackedInterrupted(Character rhs);
+
 	/** @return true if this Collidable should be removed.*/
 	boolean toBeRemoved();
 

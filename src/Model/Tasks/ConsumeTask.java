@@ -13,8 +13,8 @@ public class ConsumeTask implements ITask {
 	private ICollidable consumable;
 	private Model.Character actor;
 	private int waittime;
-	private long starttime;
-	private long endtime;
+	//private long starttime;
+	//private long endtime;
 	private boolean remove;
 
 	public ConsumeTask(ICollidable consumable, Character actor, int waittime){
@@ -22,8 +22,8 @@ public class ConsumeTask implements ITask {
 		this.actor = actor;
 		actor.addPropertyChangeListener(this);
 		this.waittime = waittime;
-		this.starttime = System.currentTimeMillis();
-		this.endtime = this.starttime + this.waittime;
+		//this.starttime = System.currentTimeMillis();
+		//this.endtime = this.starttime + this.waittime;
 		this.remove = false;
 		this.actor.setWaiting(true);
 	}
@@ -35,6 +35,12 @@ public class ConsumeTask implements ITask {
 	}
 
 	@Override
+	public void interrupt() {
+		this.remove = true;
+		this.consumable.consumedInterrupted(this.actor);
+	}
+
+	/*@Override
 	public long getWaittime() {
 		return waittime;
 	}
@@ -42,11 +48,20 @@ public class ConsumeTask implements ITask {
 	@Override
 	public long getEndtime() {
 		return endtime;
-	}
+	}*/
 
 	@Override
 	public boolean toBeRemoved() {
 		return remove || consumable.toBeRemoved();
+	}
+
+	/**
+	 * Updates the waittime of this task.
+	 * @return true if the remaining waittime is less then or equal to 0.
+	 */
+	@Override
+	public boolean updateTick() {
+		return this.waittime-- <=0;
 	}
 
 	@Override

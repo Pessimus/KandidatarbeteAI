@@ -1,9 +1,12 @@
 package Model;
 
 import Model.Structures.House;
+import Model.Structures.Stockpile;
+import Model.Tasks.InteractTask;
 import Utility.Constants;
 import Utility.InventoryRender;
 import Utility.RenderObject;
+import org.lwjgl.Sys;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -351,13 +354,12 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs){
-		//pcs.firePropertyChange("attacked", null, rhs);
 		//TODO implement
 	}
 
 	@Override
 	public void interactedCommand(Character rhs) {
-		//TODO implement
+		//Not used. Interaction instant.
 	}
 
 	@Override
@@ -370,9 +372,27 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		//TODO implement
 	}
 
-	private void startCharacterInteraction(Character rhs, Interaction i){
+	@Override
+	public void interactedInterrupted(Character rhs) {
 		//TODO implement
+	}
+
+	@Override
+	public void consumedInterrupted(Character rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void attackedInterrupted(Character rhs) {
+		//TODO implement
+	}
+
+	private void startCharacterInteraction(Character rhs, Interaction i){
 		pcs.firePropertyChange("startInteraction", i, rhs);
+	}
+
+	public void startStockpileInteraction(Stockpile rhs, StockpileInteraction i){
+		pcs.firePropertyChange("startStockpileInteraction", i, rhs);
 	}
 
 	/**
@@ -431,6 +451,16 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		}
 	}
 
+	public void enterHouse(House house){
+		this.xPos = house.getX()-1;//-1 for rendering order... (instead of using a third dimension)
+		this.yPos = house.getY()-1;
+	}
+
+	public void exitHouse(House house){
+		this.xPos = house.getDoorPositionX();
+		this.yPos = house.getDoorPositionY();
+	}
+
 //------------------------------------------UPDATE METHODS------------------------------------------------------------\\
 
 	/**
@@ -461,7 +491,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	@Override
 	public void spawn(World rhs) {
-		/*
 		LinkedList<IItem> cost = StructureFactory.getCost(typeToSpawn);
 		boolean canPay = true;
 		for(IItem itemCost : cost){
@@ -471,27 +500,23 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 			}
 		}
 
+		IStructure structure = null;
 		if(canPay) {
 			for(IItem itemCost : cost){
-				System.out.println(inventory.removeItem(itemCost));
+				inventory.removeItem(itemCost);
 			}
-			rhs.addStructure(xPos, yPos, typeToSpawn);
-		}
-		*/
-		LinkedList<IItem> cost = StructureFactory.getCost(typeToSpawn);
-		for(IItem itemCost : cost){
-			System.out.println(inventory.removeItem(itemCost));
+			structure = rhs.addStructure(xPos, (float)(yPos-Constants.CHARACTER_COLLISION_RADIUS), typeToSpawn);
 		}
 
-		IStructure structure = rhs.addStructure(xPos, yPos, typeToSpawn);
+		spawning = false;
+
+
 
 		if(structure != null){
 			if(structure.getClass().equals(House.class) && home == null){
 				home = (House) structure;
 			}
-
 		}
-		spawning = false;
 	}
 
 	/**
@@ -563,15 +588,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return list;
 	}
 
-//	public void wait(int frames){
-//		waitingFrames = frames;
-//		waiting = true;
-//	}
-
-//	public boolean isWaiting(){
-//		return waiting;
-//	}
-
 //--------------------------------------ICharacterHandle methods------------------------------------------------------\\
 
 	//TODO implement, change type....
@@ -598,7 +614,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void moveUp() {
-//		if(!waiting)
 		pcs.firePropertyChange("",0,1);
 		this.yPos -= this.stepLength;
 	}
@@ -606,7 +621,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void moveDown() {
-//		if(!waiting)
 		pcs.firePropertyChange("",0,1);
 		this.yPos += this.stepLength;
 	}
@@ -614,7 +628,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void moveLeft() {
-//		if(!waiting)
 		pcs.firePropertyChange("",0,1);
 		this.xPos -= this.stepLength;
 	}
@@ -622,7 +635,6 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void moveRight() {
-//		if(!waiting)
 		pcs.firePropertyChange("",0,1);
 		this.xPos += this.stepLength;
 	}

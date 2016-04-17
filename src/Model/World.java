@@ -134,7 +134,7 @@ public class World{
 			tmpX = (float)(Math.random()*this.width);
 			tmpY = (float)(Math.random()*this.height);
 
-			Water tmpLake = new Water(1);
+			Water tmpLake = new Water(1,1);
 			addInfiniteResourcePoint(tmpLake, RenderObject.RENDER_OBJECT_ENUM.LAKE, tmpX, tmpY, 100);
 
 			i++;
@@ -263,8 +263,6 @@ public class World{
 	//TODO code this in a good way, this is not good.
 	public IStructure addStructure(float xPoss, float yPoss, IStructure.StructureType type){
 		IStructure structure = StructureFactory.createStructure(type, xPoss, yPoss);
-
-		System.out.println(collidables.canAdd(structure));
 
 		if(collidables.canAdd(structure)) {
 			this.collidables.add(structure);

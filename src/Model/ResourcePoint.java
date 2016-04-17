@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Tasks.AttackTask;
+import Model.Tasks.ConsumeTask;
 import Model.Tasks.InteractTask;
 import Utility.RenderObject;
 
@@ -126,44 +128,47 @@ public class ResourcePoint implements ICollidable {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Character rhs){
-//		if(!rhs.isWaiting()) {
-//			rhs.wait(resource.getGatheringTime());
-			System.out.println("Calling to schedule");
-			Schedule.addTask(new InteractTask(this,rhs,1000*3));
-			//rhs.addToInventory(resource.gatherResource());
-			//System.out.println("interacted" + this);
-//		}
+		Schedule.addTask(new InteractTask(this,rhs,60*3));
 	}
 
 	@Override
 	/**{@inheritDoc}*/
 	public void consumed(Character rhs){
-		resource.gatherResource().consumed(rhs);
-		//System.out.println("consumed" + this);
+		Schedule.addTask(new ConsumeTask(this,rhs,60*3));
 	}
 
 	@Override
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs){
-		resource.setResourcesLeft(0);
-		System.out.println("attacked" + this);
+		Schedule.addTask(new AttackTask(this,rhs,60*3));
 	}
 
 	@Override
 	public void interactedCommand(Character rhs) {
-		System.out.println("commanded interaction");
-		rhs.addToInventory(resource.gatherResource());
+		this.resource.interacted(rhs);
+//		rhs.addToInventory(resource.gatherResource());
 	}
 
 	@Override
 	public void consumedCommand(Character rhs) {
-		//TODO implement
+		this.resource.consumed(rhs);
+//		resource.gatherResource().consumed(rhs);
 	}
 
 	@Override
 	public void attackedCommand(Character rhs) {
-		//TODO implement
+		this.resource.attacked(rhs);
+//		resource.setResourcesLeft(0);
 	}
+
+	@Override
+	public void interactedInterrupted(Character rhs) {}
+
+	@Override
+	public void consumedInterrupted(Character rhs) {}
+
+	@Override
+	public void attackedInterrupted(Character rhs) {}
 
 //------------------------------------------Update METHODS------------------------------------------------------------\\
 

@@ -186,6 +186,21 @@ public class Animal implements ICollidable, ITimeable {
 
 	}
 
+	@Override
+	public void interactedInterrupted(Character rhs) {
+
+	}
+
+	@Override
+	public void consumedInterrupted(Character rhs) {
+
+	}
+
+	@Override
+	public void attackedInterrupted(Character rhs) {
+
+	}
+
 //------------------------------------------UPDATE METHODS------------------------------------------------------------\\
 
 	@Override

@@ -74,17 +74,21 @@ public class Interaction {
 //---------------------------------------------Help Methods-----------------------------------------------------------\\
 
 	private boolean interactable(){
-		/*return (Math.abs(character1.getX()-character2.getX())<Constants.CHARACTER_INTERACTION_RADIUS)
-				&& (Math.abs(character1.getY()-character2.getY())<Constants.CHARACTER_INTERACTION_RADIUS);*/
-		// To use an existing method (and using the correct distance)
-		return UniversalStaticMethods.distanceBetweenPoints(character1.getX(), character1.getY(), character1.getX(), character1.getY()) < Constants.CHARACTER_INTERACTION_RADIUS;
+		return (Math.abs(character1.getX()-character2.getX())<Constants.CHARACTER_INTERACTION_RADIUS)
+				&& (Math.abs(character1.getY()-character2.getY())<Constants.CHARACTER_INTERACTION_RADIUS);
+
+		//TODO REMOVE THIS CHANGE FROM THE CORRECT METHOD TO A INCORRECT METHOD!
+			// To use an existing method (and using the correct distance)
+			//return UniversalStaticMethods.distanceBetweenPoints(character1.getX(), character1.getY(), character1.getX(), character1.getY()) < Constants.CHARACTER_INTERACTION_RADIUS;
 	}
 
 	private boolean detectable(){
-		/*return (Math.abs(character1.getX()-character2.getX())<Constants.CHARACTER_SURROUNDING_RADIUS)
-				&& (Math.abs(character1.getY()-character2.getY())<Constants.CHARACTER_SURROUNDING_RADIUS);*/
-		// To use an existing method (and using the correct distance)
-		return UniversalStaticMethods.distanceBetweenPoints(character1.getX(), character1.getY(), character1.getX(), character1.getY()) < Constants.CHARACTER_SURROUNDING_RADIUS;
+		return (Math.abs(character1.getX()-character2.getX())<Constants.CHARACTER_SURROUNDING_RADIUS)
+				&& (Math.abs(character1.getY()-character2.getY())<Constants.CHARACTER_SURROUNDING_RADIUS);
+
+		//TODO REMOVE THIS CHANGE FROM THE CORRECT METHOD TO A INCORRECT METHOD!
+			// To use an existing method (and using the correct distance)
+			//return UniversalStaticMethods.distanceBetweenPoints(character1.getX(), character1.getY(), character1.getX(), character1.getY()) < Constants.CHARACTER_SURROUNDING_RADIUS;
 	}
 
 //--------------------------------------------Social Methods----------------------------------------------------------\\

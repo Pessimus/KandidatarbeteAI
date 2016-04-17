@@ -2,6 +2,7 @@ package Model.Structures;
 
 import Model.*;
 import Model.Character;
+import Model.Tasks.AttackTask;
 import Utility.Constants;
 import Utility.RenderObject;
 
@@ -29,7 +30,7 @@ public class Stockpile implements IStructure {
 	private double interactionRadius;
 	private double surroundingRadius;
 
-	private int buildingPercent;
+//	private int buildingPercent;
 
 //-----------------------------------------------CONSTRUCTOR----------------------------------------------------------\\
 
@@ -83,23 +84,14 @@ public class Stockpile implements IStructure {
 		return structureType;
 	}
 
-	/*@Override
-	public StructureBuildingMaterialTuple[] getBuildingMaterials() {
-		return buildingMaterials;
-	}*/
-
-//----------------------------------------ADD & REMOVE OCCUPANTS------------------------------------------------------\\
-
-
-	@Override
-	public int getConstructionStatus() {
-		return buildingPercent;
-	}
-
 	@Override
 	/**{@inheritDoc}*/
 	public boolean isImovable(){
 		return true;
+	}
+
+	public Inventory getInventory(){
+		return this.inventory;
 	}
 
 //---------------------------------------Collision Methods------------------------------------------------------------\\
@@ -145,7 +137,8 @@ public class Stockpile implements IStructure {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Model.Character rhs) {
-		//TODO implement
+		StockpileInteraction i = new StockpileInteraction(rhs, this);
+		rhs.startStockpileInteraction(this, i);
 	}
 
 	@Override
@@ -157,7 +150,7 @@ public class Stockpile implements IStructure {
 	@Override
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs) {
-		this.integrity --;
+		Schedule.addTask(new AttackTask(this,rhs,1*60));
 	}
 
 	@Override
@@ -172,6 +165,21 @@ public class Stockpile implements IStructure {
 
 	@Override
 	public void attackedCommand(Character rhs) {
+		this.integrity --;
+	}
+
+	@Override
+	public void interactedInterrupted(Character rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void consumedInterrupted(Character rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void attackedInterrupted(Character rhs) {
 		//TODO implement
 	}
 

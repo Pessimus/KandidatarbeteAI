@@ -7,7 +7,15 @@ import java.beans.PropertyChangeListener;
  */
 public interface ITask extends PropertyChangeListener{
 	void execute();
-	long getWaittime();
-	long getEndtime();
+	void interrupt();
 	boolean toBeRemoved();
+
+	//Using update tick
+	boolean updateTick();
+
+	//Using time
+	//long getWaittime();
+	//long getEndtime();
+
+
 }
