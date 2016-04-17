@@ -1,6 +1,7 @@
 package Model;
 
 import Model.Structures.House;
+import Model.Structures.Stockpile;
 import Model.Tasks.InteractTask;
 import Utility.Constants;
 import Utility.InventoryRender;
@@ -339,7 +340,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Character rhs){
-		Schedule.addTask(new InteractTask(this,rhs,0));
+		Interaction i = new Interaction(rhs, this);
+		pcs.firePropertyChange("startInteraction", i, rhs);
+		rhs.startCharacterInteraction(this, i);
 	}
 
 	@Override
@@ -356,9 +359,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	@Override
 	public void interactedCommand(Character rhs) {
-		Interaction i = new Interaction(rhs, this);
-		pcs.firePropertyChange("startInteraction", i, rhs);
-		rhs.startCharacterInteraction(this, i);
+		//Not used. Interaction instant.
 	}
 
 	@Override
@@ -387,8 +388,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	}
 
 	private void startCharacterInteraction(Character rhs, Interaction i){
-		//TODO implement
 		pcs.firePropertyChange("startInteraction", i, rhs);
+	}
+
+	public void startStockpileInteraction(Stockpile rhs, StockpileInteraction i){
+		pcs.firePropertyChange("startStockpileInteraction", i, rhs);
 	}
 
 	/**

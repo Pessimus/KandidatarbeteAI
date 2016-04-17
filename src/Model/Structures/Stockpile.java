@@ -84,23 +84,14 @@ public class Stockpile implements IStructure {
 		return structureType;
 	}
 
-	/*@Override
-	public StructureBuildingMaterialTuple[] getBuildingMaterials() {
-		return buildingMaterials;
-	}*/
-
-//----------------------------------------ADD & REMOVE OCCUPANTS------------------------------------------------------\\
-
-
-//	@Override
-//	public int getConstructionStatus() {
-//		return buildingPercent;
-//	}
-
 	@Override
 	/**{@inheritDoc}*/
 	public boolean isImovable(){
 		return true;
+	}
+
+	public Inventory getInventory(){
+		return this.inventory;
 	}
 
 //---------------------------------------Collision Methods------------------------------------------------------------\\
@@ -146,7 +137,8 @@ public class Stockpile implements IStructure {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Model.Character rhs) {
-		//TODO implement
+		StockpileInteraction i = new StockpileInteraction(rhs, this);
+		rhs.startStockpileInteraction(this, i);
 	}
 
 	@Override
