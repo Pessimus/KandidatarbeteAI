@@ -2,6 +2,7 @@ package Controller.AIStates;
 
 import Controller.ArtificialBrain;
 import Model.*;
+import Utility.Constants;
 import Utility.RenderObject;
 
 import java.util.LinkedList;
@@ -113,10 +114,13 @@ public class BuildState implements IState{
 			//YES?
 			//ENTER CORRECT BUILD STATE
 			// TODO: Check if it's possible to build the structure here, otherwise move!
-			System.out.println("Building!");
-			brain.getBody().build(type);
-			brain.setNextStructureToBuild(null);
-			brain.getStructureStack().remove();
+
+			brain.stackState(brain.getBuildingState());
+
+			if(brain.getBody().hasHome()) {
+				brain.findPathTo(brain.getBody().getHome());
+				brain.stackState(brain.getMovingState());
+			}
 		}
 
 		if(brain.getStateQueue().isEmpty()) {

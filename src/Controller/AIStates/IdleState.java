@@ -53,6 +53,9 @@ public class IdleState implements IState {
 			if (!brain.getBody().hasHome()){
 				brain.stackStructureToBuild(IStructure.StructureType.HOUSE);
 				brain.stackState(brain.getBuildState());
+			} else{
+				brain.stackStructureToBuild(IStructure.StructureType.FARM);
+				brain.stackState(brain.getBuildState());
 			}
 		}
 

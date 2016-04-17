@@ -43,6 +43,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	private IState buildHouseState = new BuildHouseState(this);
 	private IState buildState = new BuildState(this);
+	private IState buildingState = new BuildingState(this);
 	private IState converseState = new ConverseState(this);
 	private IState cookState = new CookState(this);
 	private IState drinkState = new DrinkState(this);
@@ -157,6 +158,10 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	public IState getBuildState() {
 		return buildState;
+	}
+
+	public IState getBuildingState() {
+		return buildingState;
 	}
 
 	public IState getConverseState() {
