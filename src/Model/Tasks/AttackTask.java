@@ -34,6 +34,12 @@ public class AttackTask implements ITask {
 		this.actor.setWaiting(false);
 	}
 
+	@Override
+	public void interrupt() {
+		this.remove = true;
+		this.attackable.attackedInterrupted(this.actor);
+	}
+
 	/*@Override
 	public long getWaittime() {
 		return waittime;

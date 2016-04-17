@@ -24,6 +24,7 @@ public class Schedule {
 		LinkedList<ITask> rm = new LinkedList<>();
 		for(ITask task : tasks){
 			if(task.toBeRemoved()){
+				task.interrupt();
 				rm.add(task);
 			//}else if (task.getEndtime() <= time) {
 			}else if (task.updateTick()) {

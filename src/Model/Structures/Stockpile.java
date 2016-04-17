@@ -176,6 +176,21 @@ public class Stockpile implements IStructure {
 		this.integrity --;
 	}
 
+	@Override
+	public void interactedInterrupted(Character rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void consumedInterrupted(Character rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void attackedInterrupted(Character rhs) {
+		//TODO implement
+	}
+
 //------------------------------------------Update METHODS------------------------------------------------------------\\
 
 	@Override

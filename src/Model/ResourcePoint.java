@@ -158,6 +158,15 @@ public class ResourcePoint implements ICollidable {
 		resource.setResourcesLeft(0);
 	}
 
+	@Override
+	public void interactedInterrupted(Character rhs) {}
+
+	@Override
+	public void consumedInterrupted(Character rhs) {}
+
+	@Override
+	public void attackedInterrupted(Character rhs) {}
+
 //------------------------------------------Update METHODS------------------------------------------------------------\\
 
 	@Override

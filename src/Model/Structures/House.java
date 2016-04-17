@@ -61,6 +61,14 @@ public class House implements IStructure {
 		return yPos;
 	}
 
+	public float getDoorPositionX(){
+		return  this.xPos;
+	}
+	public float getDoorPositionY(){
+		//TODO add empty collidable;
+		return (float)(this.yPos+collisionRadius+Constants.CHARACTER_COLLISION_RADIUS+1);
+	}
+
 	@Override
 	/**{@inheritDoc}*/
 	public double getCollisionRadius() {
@@ -165,6 +173,7 @@ public class House implements IStructure {
 	/**{@inheritDoc}*/
 	public void interacted(Model.Character rhs) {
 		rhs.changeEnergy(Constants.CHARACTER_ENERGY_MAX);
+		rhs.enterHouse(this);
 		Schedule.addTask(new InteractTask(this,rhs,20*60));
 	}
 
@@ -183,6 +192,7 @@ public class House implements IStructure {
 	@Override
 	public void interactedCommand(Character rhs) {
 		rhs.changeEnergy(Constants.CHARACTER_ENERGY_MAX);
+		rhs.exitHouse(this);
 	}
 
 	@Override
@@ -193,6 +203,21 @@ public class House implements IStructure {
 	@Override
 	public void attackedCommand(Character rhs) {
 		this.integrity --;
+	}
+
+	@Override
+	public void interactedInterrupted(Character rhs) {
+		rhs.exitHouse(this);
+	}
+
+	@Override
+	public void consumedInterrupted(Character rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void attackedInterrupted(Character rhs) {
+		//TODO implement
 	}
 
 //------------------------------------------Update METHODS------------------------------------------------------------\\

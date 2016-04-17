@@ -30,9 +30,14 @@ public class InteractTask implements ITask {
 
 	@Override
 	public void execute() {
-		System.out.println("Executing in task");
 		this.interactable.interactedCommand(this.actor);
 		this.actor.setWaiting(false);
+	}
+
+	@Override
+	public void interrupt() {
+		this.remove = true;
+		this.interactable.interactedInterrupted(this.actor);
 	}
 
 	/*@Override

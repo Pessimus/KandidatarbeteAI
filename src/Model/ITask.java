@@ -7,6 +7,7 @@ import java.beans.PropertyChangeListener;
  */
 public interface ITask extends PropertyChangeListener{
 	void execute();
+	void interrupt();
 	boolean toBeRemoved();
 
 	//Using update tick

@@ -371,6 +371,21 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		//TODO implement
 	}
 
+	@Override
+	public void interactedInterrupted(Character rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void consumedInterrupted(Character rhs) {
+		//TODO implement
+	}
+
+	@Override
+	public void attackedInterrupted(Character rhs) {
+		//TODO implement
+	}
+
 	private void startCharacterInteraction(Character rhs, Interaction i){
 		//TODO implement
 		pcs.firePropertyChange("startInteraction", i, rhs);
@@ -430,6 +445,16 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		}else{
 			this.energy = energy + change;
 		}
+	}
+
+	public void enterHouse(House house){
+		this.xPos = house.getX()-1;//-1 for rendering order... (instead of using a third dimension)
+		this.yPos = house.getY()-1;
+	}
+
+	public void exitHouse(House house){
+		this.xPos = house.getDoorPositionX();
+		this.yPos = house.getDoorPositionY();
 	}
 
 //------------------------------------------UPDATE METHODS------------------------------------------------------------\\
