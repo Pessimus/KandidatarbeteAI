@@ -97,13 +97,9 @@ public class Interaction {
 		if(active){
 			if(detectable()) {
 				if(interactable()) {
-					switch(type){
-
-					}
-					//TODO swich case
 						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
-						//TODO update needs of c1
-						//TODO update needs of c2
+					character1.changeSocial(5);
+					character2.changeSocial(5);
 				}
 			}else {
 				this.endInteraction();

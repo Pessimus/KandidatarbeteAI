@@ -2,6 +2,7 @@ package Model;
 
 import Model.Structures.House;
 import Model.Structures.Stockpile;
+import Model.Tasks.AttackTask;
 import Model.Tasks.InteractTask;
 import Utility.Constants;
 import Utility.InventoryRender;
@@ -139,17 +140,17 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	//---SECONDARY NEEDS---\\
 	//Ranges between 0-100, 100 is good, 0 is bad..
 	private int social;
-	private int intimacy;
-	private int attention;
+//	private int intimacy;
+//	private int attention;
 
 	//---PERSONALITY TRAITS---\\
-	private int gluttony;		//Temperance(0)		- 		Gluttony(100)
-	private int sloth;			//Diligent(0)		-		Sloth(100)
-	private int lust;			//Chasity(0)		-		Lust(100)
-	private int pride;			//Humility(0)		-		Pride(100)
+	private int gluttony;		//Temperance(0)		- 		Gluttony(100) 		(Increases hunger decrease over time)
+	private int sloth;			//Diligent(0)		-		Sloth(100)			(Increases energy decrease over time)
+	private int lust;			//Virtues(0)		-		Lust(100)
+	private int pride;			//Humility(0)		-		Pride(100)			(Decreases social increase from interaction)
 	private int greed;			//Charity(0)		-		Greed(100)
-	private int envy;			//Benevolence(0)	-		Envy(100)
-	private int wrath;			//Happiness(0)		-		Wrath(100)
+	private int envy;			//Benevolence(0)	-		Envy(100)			(Increases surrounding range)
+	private int wrath;			//Tranquility(0)	-		Wrath(100)			(Decreases the change in energy from attacks)
 
 	//---UPDATE NEEDS BASED ON TRAITS---\\
 	private final int hungerUpdate;
@@ -280,7 +281,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public double getSurroundingRadius(){
-		return Constants.CHARACTER_SURROUNDING_RADIUS;
+		return Constants.CHARACTER_SURROUNDING_RADIUS*(1+envy/(Constants.MAX_TRAIT_VALUE*10));
 	}
 
 	@Override
@@ -354,7 +355,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs){
-		//TODO implement
+		//TODO fire property change
+		Schedule.addTask(new AttackTask(this,rhs,2*60));
 	}
 
 	@Override
@@ -369,7 +371,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	@Override
 	public void attackedCommand(Character rhs) {
-		//TODO implement
+		this.changeEnergy(10-((5/100)*this.wrath));
 	}
 
 	@Override
@@ -448,6 +450,14 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 			energy = Constants.CHARACTER_ENERGY_MAX;
 		}else{
 			this.energy = energy + change;
+		}
+	}
+
+	public void changeSocial(int change){
+		if(social+change >= Constants.CHARACTER_SOCIAL_MAX){
+			social = Constants.CHARACTER_SOCIAL_MAX;
+		}else{
+			this.social = social + change*(1-pride/(Constants.MAX_TRAIT_VALUE*10));
 		}
 	}
 
@@ -549,6 +559,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		}
 		if(updateCounter % Constants.CHARACTER_THIRST_UPDATE == 0){
 			changeThirst(-Constants.CHARACTER_THIRST_CHANGE);
+		}
+		if(updateCounter % Constants.CHARACTER_SOCIAL_UPDATE == 0){
+			age++;
 		}
 		if(updateCounter % Constants.CHARACTER_AGE_UPDATE == 0){
 			age++;

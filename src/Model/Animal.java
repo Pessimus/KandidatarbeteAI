@@ -2,6 +2,7 @@ package Model;
 
 import Controller.Pathfinder;
 import Model.Tasks.AttackTask;
+import Model.Tasks.InteractTask;
 import Utility.Constants;
 import Utility.RenderObject;
 
@@ -153,7 +154,7 @@ public class Animal implements ICollidable, ITimeable {
 
 	@Override
 	public void interacted(Character rhs) {
-		//TODO social need should be updated
+		Schedule.addTask(new InteractTask(this,rhs,20*60));
 	}
 
 	@Override
@@ -168,7 +169,7 @@ public class Animal implements ICollidable, ITimeable {
 
 	@Override
 	public void interactedCommand(Character rhs) {
-		//TODO implement
+		rhs.changeSocial(10);
 	}
 
 	@Override
