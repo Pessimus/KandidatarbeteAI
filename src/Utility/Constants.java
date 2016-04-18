@@ -79,9 +79,9 @@ public final class Constants {
 	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	20;
 	public static final 		double		CHARACTER_SURROUNDING_RADIUS		=	150;
 
-	public static final 		int			CHARACTER_HUNGER_MAX				=	100;
-	public static final 		int			CHARACTER_THIRST_MAX				=	100;
-	public static final 		int			CHARACTER_ENERGY_MAX				=	100;
+	public static final 		int			CHARACTER_HUNGER_MAX				=	15;
+	public static final 		int			CHARACTER_THIRST_MAX				=	15;
+	public static final 		int			CHARACTER_ENERGY_MAX				=	15;
 
     public static final         int         CHARACTER_SOCIAL_MAX                =   100;
     public static final         int         CHARACTER_INTEMACY_MAX              =   100;
