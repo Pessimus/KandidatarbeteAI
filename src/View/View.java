@@ -41,6 +41,7 @@ public class View extends BasicGameState implements InputListener{
 	private int inventoryIndex = 0;
 
 	private int[] playerNeeds;
+	private String characterName;
 
 	private boolean displayInventory = false;
 	private boolean displayPlayerNeeds = false;
@@ -113,6 +114,7 @@ public class View extends BasicGameState implements InputListener{
 	float hungerStringYPos;
 	float thirstStringYPos;
 	float energyStringYPos;
+	float nameStringYPos;
 	float barWidth;
 	float barHeight;
 	float barXPos;
@@ -180,9 +182,10 @@ public class View extends BasicGameState implements InputListener{
 		}
 			// ----------- Temporary display needs ----------- \\
 		if(displayPlayerNeeds){
-			hungerStringYPos = gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL+Constants.MARGIN_TOP/Constants.ZOOM_LEVEL-Constants.HALF_TEXT_HEIGHT/Constants.ZOOM_LEVEL;
-			thirstStringYPos = gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL+Constants.MARGIN_TOP/Constants.ZOOM_LEVEL*2-Constants.HALF_TEXT_HEIGHT/Constants.ZOOM_LEVEL;
-			energyStringYPos = gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL+Constants.MARGIN_TOP/Constants.ZOOM_LEVEL*3-Constants.HALF_TEXT_HEIGHT/Constants.ZOOM_LEVEL;
+			nameStringYPos = gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL+Constants.MARGIN_TOP/Constants.ZOOM_LEVEL-Constants.HALF_TEXT_HEIGHT/Constants.ZOOM_LEVEL;
+			hungerStringYPos = gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL+Constants.MARGIN_TOP/Constants.ZOOM_LEVEL*2-Constants.HALF_TEXT_HEIGHT/Constants.ZOOM_LEVEL;
+			thirstStringYPos = gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL+Constants.MARGIN_TOP/Constants.ZOOM_LEVEL*3-Constants.HALF_TEXT_HEIGHT/Constants.ZOOM_LEVEL;
+			energyStringYPos = gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL+Constants.MARGIN_TOP/Constants.ZOOM_LEVEL*4-Constants.HALF_TEXT_HEIGHT/Constants.ZOOM_LEVEL;
 
 			barWidth = Constants.BOX_WIDTH/Constants.ZOOM_LEVEL-3*Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL-graphics.getFont().getWidth("Hunger");
 			barHeight = graphics.getFont().getHeight("Hunger")/Constants.ZOOM_LEVEL;
@@ -196,6 +199,8 @@ public class View extends BasicGameState implements InputListener{
 			graphics.setColor(Color.gray);
 			graphics.fillRect(0,gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL, Constants.BOX_WIDTH/Constants.ZOOM_LEVEL, Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL);
 			graphics.setColor(Color.white);
+			graphics.drawString("Name:",Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL, nameStringYPos);
+			graphics.drawString(characterName, barXPos, nameStringYPos);
 			graphics.drawString("Hunger:",Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL, hungerStringYPos);
 			graphics.drawRect(barXPos, hungerStringYPos,barWidth,barHeight);
 			if(hungerPercent < 0.2)
@@ -317,6 +322,10 @@ public class View extends BasicGameState implements InputListener{
 
 	public void setPlayerNeeds(int[] needs){
 		playerNeeds = needs.clone();
+	}
+
+	public void setCharacterName(String name){
+		characterName = name;
 	}
 
 	// ----------- Key, mouse and property events ----------- \\

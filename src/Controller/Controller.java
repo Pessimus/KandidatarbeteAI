@@ -148,7 +148,9 @@ public class Controller implements PropertyChangeListener {
 	 */
 	private void updateView(){
 		List<RenderObject> temp = new LinkedList<>();
-		gameView.drawNeeds(player.getBody().getNeeds());
+		gameView.drawNeeds(currentCharacter.getNeeds());
+
+
 		int width = (int)gameModel.getWidth()+Constants.VIEW_BORDER_WIDTH*2;
 		int height = (int)gameModel.getHeight()+Constants.VIEW_BORDER_HEIGHT*2;
 
@@ -163,6 +165,7 @@ public class Controller implements PropertyChangeListener {
 				if(gameModel.getCharacterList().size() > 0) {
 					playerXPos = currentCharacter.getX() + Constants.VIEW_BORDER_WIDTH;
 					playerYPos = currentCharacter.getY() + Constants.VIEW_BORDER_HEIGHT;
+
 				}
 
 
@@ -237,7 +240,8 @@ public class Controller implements PropertyChangeListener {
 		}
 
 		if (showingPlayerInventory) {
-			gameView.drawInventory(gameModel.displayPlayerInventory());
+			gameView.drawInventory(currentCharacter.getRenderInventory());
+			gameView.setCharacterName(currentCharacter.getName());
 		}
 
 	}
