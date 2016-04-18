@@ -98,7 +98,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		if(!body.isWaiting()) {
 			currentState.run();
 
-			System.out.println();
+			/*System.out.println();
 			System.out.println("Current state: " + currentState);
 			getStateQueue().stream()
 					.forEach(o -> System.out.println("State:\t" + o));
@@ -108,7 +108,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			System.out.println("\nHunger:\t" + needs[0]);
 			System.out.println("Thirst:\t" + needs[1]);
 			System.out.println("Energy:\t" + needs[2]);
-			System.out.println("Position:\t" + getBody().getX() + ":" + getBody().getY());
+			System.out.println("Position:\t" + getBody().getX() + ":" + getBody().getY());*/
 		}
 
 		body.getSurroundings().parallelStream()
@@ -138,6 +138,10 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	@Override
 	public ICharacterHandle getBody() {
 		return body;
+	}
+
+	public IState getCurrentState(){
+		return currentState;
 	}
 
 	@Override
