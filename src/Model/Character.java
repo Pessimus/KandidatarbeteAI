@@ -526,56 +526,57 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 					break;
 			}
 			//structure = rhs.addStructure(xPos, (float)(yPos-Constants.CHARACTER_INTERACTION_RADIUS), typeToSpawn);
-			structure = rhs.addStructure(xPos, yPos-collision, typeToSpawn);
+			//structure = rhs.addStructure(xPos, yPos-collision, typeToSpawn);
 
-			if(structure != null){
-				if(structure.getClass().equals(House.class) && home == null){
-					home = (House) structure;
+			int tempX = (int)xPos / Constants.PATHFINDER_GRID_SIZE;
+			int tempY = (int)yPos / Constants.PATHFINDER_GRID_SIZE;
+
+			Queue<Point> queue = new LinkedList<>();
+
+			int tempPositiveX = tempX + collision / Constants.PATHFINDER_GRID_SIZE + 1;
+			int tempNegativeX = tempX - collision / Constants.PATHFINDER_GRID_SIZE - 1;
+			int tempPositiveY = tempY + collision / Constants.PATHFINDER_GRID_SIZE + 1;
+			int tempNegativeY = tempY - collision / Constants.PATHFINDER_GRID_SIZE - 1;
+
+			queue.offer(new Point(tempPositiveX, tempPositiveY));
+			queue.offer(new Point(tempPositiveX, tempNegativeY));
+			queue.offer(new Point(tempNegativeX, tempPositiveY));
+			queue.offer(new Point(tempNegativeX, tempNegativeY));
+
+			Point tempPoint = queue.poll();
+			tempX = tempPoint.x;
+			tempY = tempPoint.y;
+
+			while((structure = rhs.addStructure(tempX * Constants.PATHFINDER_GRID_SIZE, tempY * Constants.PATHFINDER_GRID_SIZE, typeToSpawn)) == null) {
+				Point p = new Point(tempPositiveX, tempPositiveY);
+				if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
+					queue.offer(p);
 				}
-			} else{
-				// TODO: Find a location where it's possible to spawn the structure
-				int tempX = (int)xPos / Constants.PATHFINDER_GRID_SIZE;
-				int tempY = (int)yPos / Constants.PATHFINDER_GRID_SIZE;
+				p = new Point(tempPositiveX, tempNegativeY);
+				if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
+					queue.offer(p);
+				}
+				p = new Point(tempNegativeX, tempPositiveY);
+				if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
+					queue.offer(p);
+				}
+				p = new Point(tempNegativeX, tempNegativeY);
+				if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
+					queue.offer(p);
+				}
 
-				Queue<Point> queue = new LinkedList<>();
+				tempPositiveX++;
+				tempNegativeX--;
+				tempPositiveY++;
+				tempNegativeY--;
 
-				int tempPositiveX = tempX + collision / Constants.PATHFINDER_GRID_SIZE + 1;
-				int tempNegativeX = tempX - collision / Constants.PATHFINDER_GRID_SIZE - 1;
-				int tempPositiveY = tempY + collision / Constants.PATHFINDER_GRID_SIZE + 1;
-				int tempNegativeY = tempY - collision / Constants.PATHFINDER_GRID_SIZE - 1;
-
-				queue.offer(new Point(tempPositiveX, tempPositiveY));
-				queue.offer(new Point(tempPositiveX, tempNegativeY));
-				queue.offer(new Point(tempNegativeX, tempPositiveY));
-				queue.offer(new Point(tempNegativeX, tempNegativeY));
-
-				Point tempPoint = queue.poll();
+				tempPoint = queue.poll();
 				tempX = tempPoint.x;
 				tempY = tempPoint.y;
+			}
 
-				while(rhs.addStructure(tempX * Constants.PATHFINDER_GRID_SIZE, tempY * Constants.PATHFINDER_GRID_SIZE, typeToSpawn) == null) {
-					Point p = new Point(tempPositiveX, tempPositiveY);
-					if(Math.abs(xPos - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE && Math.abs(yPos - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE){
-						queue.offer(p);
-					}
-					p = new Point(tempPositiveX, tempNegativeY);
-					if(Math.abs(xPos - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE && Math.abs(yPos - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE){
-						queue.offer(p);
-					}
-					p = new Point(tempNegativeX, tempPositiveY);
-					if(Math.abs(xPos - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE && Math.abs(yPos - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE){
-						queue.offer(p);
-					}
-					p = new Point(tempNegativeX, tempNegativeY);
-					if(Math.abs(xPos - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE && Math.abs(yPos - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE){
-						queue.offer(p);
-					}
-
-					tempPositiveY++;
-					tempNegativeY--;
-					tempPositiveX++;
-					tempNegativeX--;
-				}
+			if(structure.getClass().equals(House.class) && home == null){
+				home = (House) structure;
 			}
 		}
 

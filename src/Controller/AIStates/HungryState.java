@@ -39,36 +39,10 @@ public class HungryState implements IState {
 		}
 
 		if(best == null){
-			brain.stackResourceToGather(IResource.ResourceType.FOOD);
 			brain.stackState(brain.getEatState());
+			brain.stackResourceToGather(IResource.ResourceType.FOOD);
 			brain.stackState(brain.getGatherState());
 			brain.setState(brain.getStateQueue().poll());
-
-			/*
-			// TODO: Pathfinding to nearest/best food-resource
-			// TODO: Queue MovingState correctly
-			//TODO: Add different kinds of foods to look for and gather
-			for(RenderObject o : brain.map.getRenderObjects()) {
-				if(o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.CROPS)) {
-					if (closestCrop == null) {
-						closestCrop = o;
-					} else {
-						cdx = Math.abs(brain.getBody().getX() - closestCrop.getX());
-						cdy = Math.abs(brain.getBody().getY() - closestCrop.getY());
-						odx = Math.abs(brain.getBody().getX() - o.getX());
-						ody = Math.abs(brain.getBody().getY() - o.getY());
-						if (Math.sqrt(cdx) + Math.sqrt(cdy) > Math.sqrt(odx) + Math.sqrt(ody))
-							closestCrop = o;
-					}
-				}
-
-			}
-			brain.findPathTo(closestCrop.getX(), closestCrop.getY());
-			brain.queueState(brain.getMovingState());
-			brain.queueState(brain.getGatherCropsState());
-			brain.queueState(brain.getEatState());
-			brain.setState(brain.getStateQueue().poll());
-			*/
 		}
 		else{
 			brain.setState(brain.getEatState());

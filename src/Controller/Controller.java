@@ -69,7 +69,7 @@ public class Controller implements PropertyChangeListener {
 		//setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT));
 
 		//TODO remove test
-			setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, 100, 20, 100, 200));
+			setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, 100, 20, 100, 200, 50));
 
 		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT, scaleGraphicsX, scaleGraphicsY));
 

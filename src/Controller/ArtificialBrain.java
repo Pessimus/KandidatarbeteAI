@@ -111,7 +111,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			System.out.println("Position:\t" + getBody().getX() + ":" + getBody().getY());
 		}
 
-		body.getSurroundings().stream()
+		body.getSurroundings().parallelStream()
 				.filter(o -> o.getClass().equals(ResourcePoint.class))
 				.map(o -> (ResourcePoint)o)
 				.filter(o -> !resourceMemory.contains(o))
@@ -246,17 +246,9 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return gatherGoldState;
 	}
 
-	/*public IResource.ResourceType getNextResourceToGather() {
-		return nextResourceToGather;
-	}*/
-
 	public IResource.ResourceType getNextResourceToGather() {
 		return gatherStack.peek();
 	}
-
-	/*public void setNextResourceToGather(IResource.ResourceType nextResourceToGather) {
-		this.nextResourceToGather = nextResourceToGather;
-	}*/
 
 	public LinkedList<IResource.ResourceType> getGatherStack(){
 		return gatherStack;
@@ -269,10 +261,6 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	public IStructure.StructureType getNextStructureToBuild() {
 		return buildStack.peek();
 	}
-
-	/*public void setNextStructureToBuild(IStructure.StructureType nextStructureToBuild) {
-		this.nextStructureToBuild = nextStructureToBuild;
-	}*/
 
 	public void stackStructureToBuild(IStructure.StructureType type){
 		buildStack.push(type);
@@ -314,8 +302,6 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return resourceMemory;
 	}
 
-	private volatile ResourcePoint closest = null;
-
 	/**
 	 * Finds the closest object of the type 'ResourcePoint' to the character
 	 * @param type The type of resource to look for
@@ -323,26 +309,19 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	 */
 	public ResourcePoint getClosestResourcePoint(IResource.ResourceType type){
 		if(USE_MEMORY) {
-			List<ICollidable> surround = getBody().getSurroundings();
-			closest = null;
-			//double closestDistance = Integer.MAX_VALUE;
 
-			surround.stream()
+			/*surround.stream()
 					.filter(o -> o.getClass().equals(ResourcePoint.class))
 					.map(o -> (ResourcePoint)o)
 					.filter(o -> o.getResource().getResourceType().equals(type))
 					.reduce((rp1, rp2) -> distanceBetweenPoints(getBody().getX(), getBody().getY(), rp1.getX(), rp1.getY()) < distanceBetweenPoints(getBody().getX(), getBody().getY(), rp2.getX(), rp2.getY()) ? rp1 : rp2)
-					.ifPresent(rp -> closest = rp);
+					.ifPresent(rp -> closest = rp);*/
 
 
-			if (closest == null) {
-				resourceMemory.stream()
-						.filter(o -> o.getResource().getResourceType().equals(type))
-						.reduce((rp1, rp2) -> distanceBetweenPoints(getBody().getX(), getBody().getY(), rp1.getX(), rp1.getY()) < distanceBetweenPoints(getBody().getX(), getBody().getY(), rp2.getX(), rp2.getY()) ? rp1 : rp2)
-						.ifPresent(rp -> closest = rp);
-			}
-
-			return closest;
+			return resourceMemory.stream()
+					.filter(o -> o.getResource().getResourceType().equals(type))
+					.reduce((rp1, rp2) -> distanceBetweenPoints(getBody().getX(), getBody().getY(), rp1.getX(), rp1.getY()) < distanceBetweenPoints(getBody().getX(), getBody().getY(), rp2.getX(), rp2.getY()) ? rp1 : rp2)
+					.orElseGet(() -> null);
 		}
 
 		return null;

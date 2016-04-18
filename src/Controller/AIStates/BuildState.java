@@ -77,9 +77,7 @@ public class BuildState implements IState{
 			//NO?
 			//FIND OUT WHAT WE ARE MISSING AND GO GATHER
 			brain.stackState(this);
-			System.out.println("REMAINING:");
 			for(IItem item : remaining){
-				System.out.println(item.getType());
 				switch (item.getType()) {
 					case MEAT_ITEM:
 						/*brain.stackResourceToGather(IResource.ResourceType.MEAT);
