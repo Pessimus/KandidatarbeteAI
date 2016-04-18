@@ -111,6 +111,10 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 		view.setPlayerNeeds(needs.clone());
 	}
 
+	public void setCharacterName(String name){
+		view.setCharacterName(name);
+	}
+
 	public void highlightInventoryItem(int index){
 		view.setItemInFocus(index);
 	}

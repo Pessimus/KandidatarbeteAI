@@ -246,8 +246,8 @@ public final class Constants {
 
 	// ----------- Display Needs ----------- \\
 	public static final		int				BOX_WIDTH							=	600;
-	public static final		int				BOX_HEIGHT							=	150;
-	public static final		int				MARGIN_TOP							=	BOX_HEIGHT/4;
+	public static final		int				BOX_HEIGHT							=	175;
+	public static final		int				MARGIN_TOP							=	BOX_HEIGHT/5;
 	public static final		int				MARGIN_LEFT							=	20;
 	public static final 	int				HALF_TEXT_HEIGHT					=	9;
 

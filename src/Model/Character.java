@@ -823,6 +823,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 				if(counter==randomNr) {
 					String[] delims = strLine.split(" ");
 					name = delims[0];
+					name = name.substring(0,1).toUpperCase()+name.substring(1).toLowerCase();
 					break;
 				}
 				counter++;
