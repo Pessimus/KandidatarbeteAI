@@ -6,6 +6,7 @@ import Model.Tasks.InteractTask;
 import Utility.Constants;
 import Utility.InventoryRender;
 import Utility.RenderObject;
+import Utility.UniversalStaticMethods;
 import org.lwjgl.Sys;
 
 import java.awt.*;
@@ -490,6 +491,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return false;
 	}
 
+	/*private class Node{
+		private final Point p;
+
+	}*/
+
 	@Override
 	public void spawn(World rhs) {
 		LinkedList<IItem> cost = StructureFactory.getCost(typeToSpawn);
@@ -528,46 +534,47 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 				}
 			} else{
 				// TODO: Find a location where it's possible to spawn the structure
-				int tempX = (int)xPos;
-				int tempY = (int)yPos;
+				int tempX = (int)xPos / Constants.PATHFINDER_GRID_SIZE;
+				int tempY = (int)yPos / Constants.PATHFINDER_GRID_SIZE;
 
 				Queue<Point> queue = new LinkedList<>();
 
-				queue.offer(new Point(tempX, tempY - collision));
-				queue.offer(new Point(tempX + collision, tempY));
-				queue.offer(new Point(tempX, tempY + collision));
-				queue.offer(new Point(tempX - collision, tempY));
+				int tempPositiveX = tempX + collision / Constants.PATHFINDER_GRID_SIZE + 1;
+				int tempNegativeX = tempX - collision / Constants.PATHFINDER_GRID_SIZE - 1;
+				int tempPositiveY = tempY + collision / Constants.PATHFINDER_GRID_SIZE + 1;
+				int tempNegativeY = tempY - collision / Constants.PATHFINDER_GRID_SIZE - 1;
+
+				queue.offer(new Point(tempPositiveX, tempPositiveY));
+				queue.offer(new Point(tempPositiveX, tempNegativeY));
+				queue.offer(new Point(tempNegativeX, tempPositiveY));
+				queue.offer(new Point(tempNegativeX, tempNegativeY));
 
 				Point tempPoint = queue.poll();
 				tempX = tempPoint.x;
 				tempY = tempPoint.y;
 
-				int i = -1;
-				// Ugly breadth-first-search for a valid building-spot
-				while(rhs.addStructure(tempX, tempY, typeToSpawn) == null){
-					i = (i + 1)%4;
-
-					if(i == 0){
-						queue.offer(new Point(tempX, tempY - Constants.PATHFINDER_GRID_SIZE));
-						queue.offer(new Point(tempX + Constants.PATHFINDER_GRID_SIZE, tempY));
-						queue.offer(new Point(tempX - Constants.PATHFINDER_GRID_SIZE, tempY));
-					} else if(i == 1){
-						queue.offer(new Point(tempX, tempY - Constants.PATHFINDER_GRID_SIZE));
-						queue.offer(new Point(tempX + Constants.PATHFINDER_GRID_SIZE, tempY));
-						queue.offer(new Point(tempX, tempY + Constants.PATHFINDER_GRID_SIZE));
-					}else if(i == 2){
-						queue.offer(new Point(tempX + Constants.PATHFINDER_GRID_SIZE, tempY));
-						queue.offer(new Point(tempX, tempY + Constants.PATHFINDER_GRID_SIZE));
-						queue.offer(new Point(tempX - Constants.PATHFINDER_GRID_SIZE, tempY));
-					}else if(i == 3){
-						queue.offer(new Point(tempX, tempY -  Constants.PATHFINDER_GRID_SIZE));
-						queue.offer(new Point(tempX, tempY +  Constants.PATHFINDER_GRID_SIZE));
-						queue.offer(new Point(tempX -  Constants.PATHFINDER_GRID_SIZE, tempY));
+				while(rhs.addStructure(tempX * Constants.PATHFINDER_GRID_SIZE, tempY * Constants.PATHFINDER_GRID_SIZE, typeToSpawn) == null) {
+					Point p = new Point(tempPositiveX, tempPositiveY);
+					if(Math.abs(xPos - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE && Math.abs(yPos - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE){
+						queue.offer(p);
+					}
+					p = new Point(tempPositiveX, tempNegativeY);
+					if(Math.abs(xPos - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE && Math.abs(yPos - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE){
+						queue.offer(p);
+					}
+					p = new Point(tempNegativeX, tempPositiveY);
+					if(Math.abs(xPos - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE && Math.abs(yPos - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE){
+						queue.offer(p);
+					}
+					p = new Point(tempNegativeX, tempNegativeY);
+					if(Math.abs(xPos - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE && Math.abs(yPos - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE){
+						queue.offer(p);
 					}
 
-					tempPoint = queue.poll();
-					tempX = tempPoint.x;
-					tempY = tempPoint.y;
+					tempPositiveY++;
+					tempNegativeY--;
+					tempPositiveX++;
+					tempNegativeX--;
 				}
 			}
 		}
