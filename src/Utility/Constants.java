@@ -74,13 +74,17 @@ public final class Constants {
 	public static final			float		CHARACTER_RUN_SPEED					=	12f;
 	public static final 		int			CHARACTER_UPDATE_INTERVAL			=	60;
 
+	public static final		int			NUMBER_OF_FEMALE_NAMES				=	4275;
+	public static final		int			NUMBER_OF_MALE_NAMES				=	1219;
+
+
 	public static final 		double		CHARACTER_COLLISION_RADIUS			=	12;
 	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	20;
 	public static final 		double		CHARACTER_SURROUNDING_RADIUS		=	150;
 
-	public static final 		int			CHARACTER_HUNGER_MAX				=	100;
-	public static final 		int			CHARACTER_THIRST_MAX				=	100;
-	public static final 		int			CHARACTER_ENERGY_MAX				=	100;
+	public static final 		int			CHARACTER_HUNGER_MAX				=	15;
+	public static final 		int			CHARACTER_THIRST_MAX				=	15;
+	public static final 		int			CHARACTER_ENERGY_MAX				=	15;
 
     public static final         int         CHARACTER_SOCIAL_MAX                =   100;
     public static final         int         CHARACTER_INTEMACY_MAX              =   100;
@@ -242,8 +246,8 @@ public final class Constants {
 
 	// ----------- Display Needs ----------- \\
 	public static final		int				BOX_WIDTH							=	600;
-	public static final		int				BOX_HEIGHT							=	150;
-	public static final		int				MARGIN_TOP							=	BOX_HEIGHT/4;
+	public static final		int				BOX_HEIGHT							=	175;
+	public static final		int				MARGIN_TOP							=	BOX_HEIGHT/5;
 	public static final		int				MARGIN_LEFT							=	20;
 	public static final 	int				HALF_TEXT_HEIGHT					=	9;
 
