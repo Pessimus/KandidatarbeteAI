@@ -418,9 +418,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	 * If this change would set the hunger level to higher than the maximum, it is set to the maximum instead.
 	 * @param change the desired change in hunger.
 	 */
-	public void changeHunger(int change){
-		if(hunger+change >= Constants.CHARACTER_HUNGER_MAX){
+	public void changeHunger(int change) {
+		if (hunger + change >= Constants.CHARACTER_HUNGER_MAX) {
 			hunger = Constants.CHARACTER_HUNGER_MAX;
+		} else if (hunger + change <= 0){
+			hunger = 0;
 		}else{
 			this.hunger = hunger + change;
 		}
@@ -435,6 +437,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	public void changeThirst(int change){
 		if(thirst+change >= Constants.CHARACTER_THIRST_MAX){
 			thirst = Constants.CHARACTER_THIRST_MAX;
+		} else if (thirst + change <= 0){
+			thirst = 0;
 		}else{
 			this.thirst = thirst + change;
 		}
@@ -448,6 +452,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	public void changeEnergy(int change){
 		if(energy+change >= Constants.CHARACTER_ENERGY_MAX){
 			energy = Constants.CHARACTER_ENERGY_MAX;
+		} else if (energy + change <= 0){
+			energy = 0;
 		}else{
 			this.energy = energy + change;
 		}
@@ -456,6 +462,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	public void changeSocial(int change){
 		if(social+change >= Constants.CHARACTER_SOCIAL_MAX){
 			social = Constants.CHARACTER_SOCIAL_MAX;
+		} else if (social + change <= 0){
+			social = 0;
 		}else{
 			this.social = social + change*(1-pride/(Constants.MAX_TRAIT_VALUE*10));
 		}
@@ -552,13 +560,13 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 //		}
 
 		if(updateCounter % hungerUpdate == 0){
-			changeHunger(-Constants.CHARACTER_HUNGER_CHANGE + (social/10));
+			changeHunger(-Constants.CHARACTER_HUNGER_CHANGE + (social/100));
 		}
 		if(updateCounter % energyUpdate == 0){
-			changeEnergy(-Constants.CHARACTER_ENERGY_CHANGE + (social/10));
+			changeEnergy(-Constants.CHARACTER_ENERGY_CHANGE + (social/100));
 		}
 		if(updateCounter % Constants.CHARACTER_THIRST_UPDATE == 0){
-			changeThirst(-Constants.CHARACTER_THIRST_CHANGE + (social/10));
+			changeThirst(-Constants.CHARACTER_THIRST_CHANGE + (social/100));
 		}
 		if(updateCounter % Constants.CHARACTER_SOCIAL_UPDATE == 0){
 			changeSocial(-Constants.CHARACTER_SOCIAL_UPDATE);
