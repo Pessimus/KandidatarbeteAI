@@ -32,23 +32,23 @@ public class IdleState implements IState {
 		// needs to be dealt with immediately
 		int minimumNeed = 0; // = Math.min(Math.min(needsArray[0], needsArray[1]), needsArray[2]);
 
-		for (int i = 0; i < needsArray.length ; i++) {
-			if (needsArray[i] < minVal) {
-				minVal = needsArray[i];
-				minindex = i;
-			}
-		}
-
-		if(brain.getStateQueue().isEmpty()) {
+		if(brain.getStateQueue().isEmpty()){
 			if (!brain.getBody().hasHome()){
 				brain.stackStructureToBuild(IStructure.StructureType.HOUSE);
 				brain.stackState(brain.getBuildState());
 			} else{
+				System.out.println("Build farm");
 				if(secondaryNeedsArray[0] < -20){
 					brain.stackState(brain.getSocializeState());
 				} else {
 					brain.stackStructureToBuild(IStructure.StructureType.FARM);
 					brain.stackState(brain.getBuildState());
+				}
+				for (int i = 0; i < needsArray.length ; i++) {
+					if (needsArray[i] < minVal) {
+						minVal = needsArray[i];
+						minindex = i;
+					}
 				}
 			}
 		}

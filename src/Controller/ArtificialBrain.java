@@ -25,9 +25,8 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 
 
-	private LinkedList<PathStep> path;
+	private LinkedList<LinkedList<PathStep>> path = new LinkedList<>();
 
-	private IResource.ResourceType nextResourceToGather = null;
 	private LinkedList<IResource.ResourceType> gatherStack = new LinkedList<>();
 
 	private final Deque<IState> stateQueue = new LinkedList<>();
@@ -71,7 +70,6 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private Character interactionCharacter;
 
 	//Construction variables - What are we building?
-	private IStructure.StructureType nextStructureToBuild = null;
 	private LinkedList<IStructure.StructureType> buildStack = new LinkedList<>();
 
 	// TODO: Hardcoded universal vision
@@ -100,8 +98,8 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 			/*System.out.println();
 			System.out.println("Current state: " + currentState);
-			getStateQueue().stream()
-					.forEach(o -> System.out.println("State:\t" + o));
+			/*getStateQueue().stream()
+					.forEach(o -> System.out.println("State:\t" + o));*/
 			System.out.println("Inventory:");
 			body.getInventory().stream()
 					.forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));
@@ -274,20 +272,20 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return buildStack;
 	}
 
-	public LinkedList<PathStep> getPath() {
+	public LinkedList<PathStep> getNextPath() {
+		return path.peek();
+	}
+
+	public LinkedList<LinkedList<PathStep>> getPathStack() {
 		return path;
 	}
 
-	public void setPath(LinkedList<PathStep> newPath) {
-		path = newPath;
-	}
-
 	public void findPathTo(double destX, double destY) {
-		path = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), destX, destY);
+		path.push(Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), destX, destY));
 	}
 
 	public void findPathTo(ICollidable dest) {
-		path = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), dest);
+		path.push(Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), dest));
 	}
 
 	public Queue<IState> getStateQueue() {

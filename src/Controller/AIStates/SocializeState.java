@@ -22,10 +22,6 @@ public class SocializeState implements IState{
 			* Enter correct interaction state
 			* Go back to idleState
 		 */
-		if (brain.getStateQueue().isEmpty()) {
-			brain.setState(brain.getIdleState());
-		} else {
-			brain.setState(brain.getStateQueue().poll());
-		}
+		brain.setState(brain.getIdleState());
 	}
 }

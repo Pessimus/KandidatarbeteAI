@@ -20,11 +20,6 @@ public class BuildingState implements IState {
 	public void run() {
 		brain.getBody().build(brain.getStructureStack().pop());
 
-		if(brain.getStateQueue().isEmpty()) {
-			brain.setState(brain.getIdleState());
-		}
-		else{
-			brain.setState(brain.getStateQueue().poll());
-		}
+		brain.setState(brain.getIdleState());
 	}
 }

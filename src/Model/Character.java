@@ -199,6 +199,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.thirst = Constants.CHARACTER_THIRST_MAX;
 		this.energy = Constants.CHARACTER_ENERGY_MAX;
 
+		//Initialize secondary needs
+		this.social = 100;
+		this.intimacy = 100;
+		this.attention = 100;
+
 		//Initialize collision detection lists
 		this.surroundingX = new LinkedList<>();
 		this.surroundingY = new LinkedList<>();
