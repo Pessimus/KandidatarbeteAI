@@ -10,6 +10,7 @@ import org.lwjgl.Sys;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.*;
 import java.util.*;
 import java.util.List;
 
@@ -127,6 +128,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	public boolean godMode = false;
 
 	private boolean genderMale;
+	private String name;
 	private boolean alive;
 	private int age;
 
@@ -172,6 +174,17 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.inventory = new Inventory();
 		this.key = key;
 
+		int genderRandom = (int)(Math.random()*10)+1;
+		if(genderRandom>5) {
+			genderMale = true;
+			renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
+		}else {
+			renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER2;
+			genderMale = false;
+		}
+
+		this.name = randomizeName();
+
 		this.spawning = false;
 		this.waiting = false;
 
@@ -203,11 +216,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		envy = (int)(Math.random()*range)+Constants.MIN_TRAIT_VALUE;
 		wrath = (int)(Math.random()*range)+Constants.MIN_TRAIT_VALUE;
 
-		int genderRandom = (int)(Math.random()*10)+1;
-		if(genderRandom>5)
-			renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
-		else
-			renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER2;
+
 
 		hungerUpdate = (int)(Constants.CHARACTER_HUNGER_UPDATE - Constants.CHARACTER_HUNGER_UPDATE/2*gluttony*0.01);
 		energyUpdate = (int)(Constants.CHARACTER_ENERGY_UPDATE - Constants.CHARACTER_ENERGY_UPDATE/2*sloth*0.01);
@@ -230,6 +239,10 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	 */
 	public int getKey(){
 		return key;
+	}
+
+	public String getName(){
+		return name;
 	}
 
 	/**
@@ -776,6 +789,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return waiting;
 	}
 
+
 	@Override
 	public boolean hasHome() {
 		return home != null;
@@ -784,5 +798,40 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	public ICollidable getHome() {
 		return home;
+	}
+
+	public String randomizeName(){
+		String name = "";
+		try{
+			FileInputStream fstream;
+			int random_max;
+			if(genderMale) {
+				fstream = new FileInputStream("res/boy_names.txt");
+				random_max = Constants.NUMBER_OF_MALE_NAMES;
+			}else {
+				fstream = new FileInputStream("res/girl_names.txt");
+				random_max = Constants.NUMBER_OF_FEMALE_NAMES;
+			}
+			int randomNr = (int)(Math.random()*random_max)+1;
+			DataInputStream din = new DataInputStream(fstream);
+			BufferedReader br = new BufferedReader(new InputStreamReader(din));
+			PrintWriter writer = new PrintWriter("girl_names.txt", "UTF-8");
+
+			String strLine;
+			int counter = 1;
+			while((strLine = br.readLine()) != null){
+				if(counter==randomNr) {
+					String[] delims = strLine.split(" ");
+					name = delims[0];
+					break;
+				}
+				counter++;
+			}
+			din.close();
+			writer.close();
+		}catch(Exception e){//Catch exception if any
+			System.err.println("Error: " + e.getMessage());
+		}
+		return name;
 	}
 }

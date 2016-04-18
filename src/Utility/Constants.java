@@ -75,6 +75,10 @@ public final class Constants {
 	public static final			float		CHARACTER_RUN_SPEED					=	12f;
 	public static final 		int			CHARACTER_UPDATE_INTERVAL			=	60;
 
+	public static final		int			NUMBER_OF_FEMALE_NAMES				=	4275;
+	public static final		int			NUMBER_OF_MALE_NAMES				=	1219;
+
+
 	public static final 		double		CHARACTER_COLLISION_RADIUS			=	12;
 	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	20;
 	public static final 		double		CHARACTER_SURROUNDING_RADIUS		=	150;

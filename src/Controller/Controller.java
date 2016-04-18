@@ -165,6 +165,7 @@ public class Controller implements PropertyChangeListener {
 				if(gameModel.getCharacterList().size() > 0) {
 					playerXPos = currentCharacter.getX() + Constants.VIEW_BORDER_WIDTH;
 					playerYPos = currentCharacter.getY() + Constants.VIEW_BORDER_HEIGHT;
+
 				}
 
 
