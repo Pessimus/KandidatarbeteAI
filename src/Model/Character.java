@@ -590,6 +590,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 			if(structure.getClass().equals(House.class) && home == null){
 				home = (House) structure;
+				home.addOccupant();
 			}
 		}
 
