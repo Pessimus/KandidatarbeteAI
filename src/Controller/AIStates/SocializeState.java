@@ -37,7 +37,7 @@ public class SocializeState implements IState{
 			switch (brain.getBody().getInteractionType()){
 				case SOCIAL:
 					brain.getCurrentInteraction().acceptInteraction(brain.getBody().getKey(), brain);
-					brain.setState(brain.getConverseState());
+					brain.stackState(brain.getConverseState());
 					break;
 				case TRADE:
 					break;

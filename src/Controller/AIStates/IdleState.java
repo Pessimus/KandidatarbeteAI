@@ -50,7 +50,7 @@ public class IdleState implements IState {
 						brain.stackStructureToBuild(IStructure.StructureType.FARM);
 						brain.stackState(brain.getBuildState());
 					} else{
-						brain.stackState(brain.getSocializeState());
+						brain.stackState(brain.getIdleState());
 					}
 				}
 				for (int i = 0; i < needsArray.length ; i++) {
@@ -62,15 +62,15 @@ public class IdleState implements IState {
 			}
 		}
 
-		if (needsArray[2] <= 70){
+		if (needsArray[2] <= 20){
 			if(!brain.getStateQueue().contains(brain.getLowEnergyState()))
 				brain.stackState((brain.getLowEnergyState()));
 		}
-		if(needsArray[0] <= 70){
+		if(needsArray[0] <= 20){
 			if(!brain.getStateQueue().contains(brain.getHungryState()))
 				brain.stackState((brain.getHungryState()));
 		}
-		if(needsArray[1] <= 70){
+		if(needsArray[1] <= 20){
 			if(!brain.getStateQueue().contains(brain.getThirstyState()))
 				brain.stackState((brain.getThirstyState()));
 		}
