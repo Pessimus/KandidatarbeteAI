@@ -22,14 +22,27 @@ public class SocializeState implements IState{
 
 	@Override
 	public void run() {
-		List<ICollidable> surround = brain.getBody().getSurroundings();
-		int i = 0;
-		for(ICollidable o : surround){
-			if(o.getClass().equals(Character.class)){
-				Character c = (Character) o;
-				// TODO: Find what interaction should be done
-				brain.getBody().setInteractionType(Interaction.InteractionType.SOCIAL);
-				brain.getBody().interactObject(i);
+		if(brain.getBody().getInteractionType() == null) {
+			List<ICollidable> surround = brain.getBody().getSurroundings();
+			int i = 0;
+			for (ICollidable o : surround) {
+				if (o.getClass().equals(Character.class)) {
+					Character c = (Character) o;
+					// TODO: Find what interaction should be done
+					brain.getBody().setInteractionType(Interaction.InteractionType.SOCIAL);
+					brain.getBody().interactObject(i);
+				}
+			}
+		} else{
+			switch (brain.getBody().getInteractionType()){
+				case SOCIAL:
+					brain.getCurrentInteraction().acceptInteraction(brain.getBody().getKey(), brain);
+					brain.setState(brain.getConverseState());
+					break;
+				case TRADE:
+					break;
+				case HOSTILE:
+					break;
 			}
 		}
 

@@ -353,7 +353,11 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			Interaction interaction = (Interaction)evt.getOldValue();
 
 			if(currentInteraction == null && interactionCharacter == null){
-				switch (interaction.getTypeOfInteraction()){
+				currentInteraction = interaction;
+				interactionCharacter = other;
+				stackState(currentState);
+				setState(getSocializeState());
+				/*switch (interaction.getTypeOfInteraction()){
 					case SOCIAL:
 						stackState(currentState);
 						setState(getConverseState());
@@ -364,7 +368,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 						break;
 					case HOSTILE:
 						break;
-				}
+				}*/
 			} else{
 				interaction.declineInteraction();
 			}
@@ -405,6 +409,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		else if(evt.getPropertyName().equals("endInteraction")){
 			currentInteraction = null;
 			interactionCharacter = null;
+			body.setInteractionType(null);
 		}
 
 	}

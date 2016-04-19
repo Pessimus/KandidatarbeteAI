@@ -30,15 +30,8 @@ public class ConverseState implements IState{
 		 */
 		// TODO: HARDCODED TO INTERACT WITH FIRST CHARACTER IN INTERACTABLES LIST
 		// TODO: Find a way to measure what character is the most interesting to talk to
-		List<ICollidable> interactables = brain.getBody().getInteractables();
-
-		for(ICollidable interact : interactables){
-			if(interact instanceof ICharacterHandle){
-				interact.interacted((Character)brain.getBody());
-				break;
-			}
-		}
-
+		brain.getCurrentInteraction().talk();
+		brain.getCurrentInteraction().endInteraction();
 		brain.setState(brain.getIdleState());
 	}
 }
