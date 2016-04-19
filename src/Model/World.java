@@ -117,7 +117,7 @@ public class World{
 
 		this(width, height);
 
-		Animal animal = new Animal(50,50,new Meat(10,10));
+		Animal animal = new Animal(500,500,new Meat(10,10));
 		this.collidablesR.add(animal);
 		this.collidables.add(animal);
 		this.timeables.add(animal);

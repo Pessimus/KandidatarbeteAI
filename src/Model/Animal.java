@@ -51,7 +51,7 @@ public class Animal implements ICollidable, ITimeable {
 
 		this.alive = true;
 
-		this.collisionRadius = Constants.ANIMAL_COLLISION_RADIUS;
+		this.collisionRadius = Constants.ANIMAL_COLLISION_RADIUS*10;
 		this.interactionRadius = Constants.ANIMAL_INTERACTION_RADIUS;
 		this.surroundingRadius = Constants.ANIMAL_SURROUNDING_RADIUS;
 
@@ -213,15 +213,79 @@ public class Animal implements ICollidable, ITimeable {
 	boolean moveUp = false;
 	boolean moveDown = false;
 
+	private void moveToLeft(){
+		boolean canMove = true;
+		for(ICollidable collidable: this.surroundings){
+			if(!(Math.abs(this.xPoss-collidable.getX())>(this.collisionRadius+collidable.getCollisionRadius()+1)
+					|| Math.abs(this.yPoss-collidable.getY())>(this.collisionRadius+collidable.getCollisionRadius())
+					|| this.xPoss < collidable.getX())){
+				//Cant move!
+				canMove = false;
+				break;
+			}
+		}
+		if(canMove) {
+			this.xPoss--;
+		}
+	}
+
+	private void moveToRight(){
+		boolean canMove = true;
+		for(ICollidable collidable: this.surroundings){
+			if(!(Math.abs(this.xPoss-collidable.getX())>(this.collisionRadius+collidable.getCollisionRadius()+1)
+					|| Math.abs(this.yPoss-collidable.getY())>(this.collisionRadius+collidable.getCollisionRadius())
+					|| this.xPoss > collidable.getX())){
+				//Cant move!
+				canMove = false;
+				break;
+			}
+		}
+		if(canMove) {
+			this.xPoss++;
+		}
+	}
+
+	private void moveToUp(){
+		boolean canMove = true;
+		for(ICollidable collidable: this.surroundings){
+			if(!(Math.abs(this.xPoss-collidable.getX())>(this.collisionRadius+collidable.getCollisionRadius())
+					|| Math.abs(this.yPoss-collidable.getY())>(this.collisionRadius+collidable.getCollisionRadius()+1)
+					|| this.yPoss < collidable.getY())){
+				//Cant move!
+				canMove = false;
+				break;
+			}
+		}
+		if(canMove) {
+			this.yPoss--;
+		}
+	}
+
+	private void moveToDown(){
+		boolean canMove = true;
+		for(ICollidable collidable: this.surroundings){
+			if(!(Math.abs(this.xPoss-collidable.getX())>(this.collisionRadius+collidable.getCollisionRadius())
+					|| Math.abs(this.yPoss-collidable.getY())>(this.collisionRadius+collidable.getCollisionRadius()+1)
+					|| this.yPoss > collidable.getY())){
+				//Cant move!
+				canMove = false;
+				break;
+			}
+		}
+		if(canMove) {
+			this.yPoss++;
+		}
+	}
+
 	@Override
 	public void updateTimeable() {
 
 		if(xAxisSteps != 0) {
 			xAxisSteps--;
 			if (moveLeft) {
-				this.xPoss--;
+				this.moveToLeft();
 			} else if (moveRight) {
-				this.xPoss++;
+				this.moveToRight();
 			}
 		}else{
 			xAxisSteps = (int)(Math.random()*60*5+10*60);
@@ -245,9 +309,9 @@ public class Animal implements ICollidable, ITimeable {
 		if(yAxisSteps != 0) {
 			yAxisSteps--;
 			if (moveUp) {
-				this.yPoss--;
+				this.moveToUp();
 			} else if (moveDown) {
-				this.yPoss++;
+				this.moveToDown();
 			}
 		}else{
 			yAxisSteps = (int)(Math.random()*60*5+10*60);
