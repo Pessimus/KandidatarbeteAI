@@ -37,23 +37,22 @@ public class Inventory{
 	 * @return true if items are successfully added, else false.
 	 */
 	public boolean addItem(IItem item){
-		//if(item != null) {
-			for (IItem invItem : inventoryItems) {
-				if (item.getType() == invItem.getType() && invItem.getAmount() < Constants.MAX_AMOUNT) {
-					if (invItem.getAmount() + item.getAmount() > Constants.MAX_AMOUNT) {
-						item.setAmount((invItem.getAmount() + item.getAmount()) % Constants.MAX_AMOUNT);
-						invItem.setAmount(Constants.MAX_AMOUNT);
-						return inventoryItems.add(item.clone());
-					} else {
-						invItem.addAmount(item.getAmount());
-						return true;
-					}
+		for (IItem invItem : inventoryItems) {
+			if (item.getType() == invItem.getType() && invItem.getAmount() < Constants.MAX_AMOUNT) {
+				if (invItem.getAmount() + item.getAmount() > Constants.MAX_AMOUNT) {
+					item.setAmount((invItem.getAmount() + item.getAmount()) % Constants.MAX_AMOUNT);
+					invItem.setAmount(Constants.MAX_AMOUNT);
+					return inventoryItems.add(item.clone());
+				} else {
+					invItem.addAmount(item.getAmount());
+					return true;
 				}
 			}
-			if (inventoryItems.size() < Constants.MAX_INVENTORY_SLOTS) {
-				return inventoryItems.add(item.clone());
-			}
-		//}
+		}
+		if (inventoryItems.size() < Constants.MAX_INVENTORY_SLOTS) {
+			return inventoryItems.add(item.clone());
+		}
+
 		return false;
 	}
 
@@ -81,7 +80,6 @@ public class Inventory{
 	public boolean contains(IItem item) {
 		for(IItem tmpItem : inventoryItems){
 			if(tmpItem.getType().equals(item.getType()) && tmpItem.getAmount() >= item.getAmount()){
-				System.out.println(item.getType() + ":" + item.getAmount() + " - " + tmpItem.getType() + ":" + tmpItem.getAmount());
 				return true;
 			}
 		}

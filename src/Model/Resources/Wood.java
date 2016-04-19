@@ -72,6 +72,21 @@ public class Wood extends RenewableResource {
 		this.setResourcesLeft(0);
 	}
 
+	@Override
+	public int getInteractedTime() {
+		return Constants.WOOD_INTERACTED_TIME;
+	}
+
+	@Override
+	public int getConsumedTime() {
+		return Constants.WOOD_CONSUMED_TIME;
+	}
+
+	@Override
+	public int getAttackedTime() {
+		return Constants.WOOD_ATTACKED_TIME;
+	}
+
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
     @Override
@@ -117,10 +132,10 @@ public class Wood extends RenewableResource {
 
 	@Override
 	public void spawn(World rhs) {
-		float xDiff = ((float) Math.random() * 500) - 250;
-		float yDiff = ((float) Math.random() * 500) - 250;
-		Wood wood = new Wood(10, 10, 1, xPoss + xDiff, yPoss + yDiff);
-		rhs.addRenewableResourcePoint(wood, RenderObject.RENDER_OBJECT_ENUM.WOOD, xPoss + xDiff, yPoss + yDiff, 75);
+		float xDiff = ((float) Math.random() * Constants.TREE_SPAWN_RADIUS) - Constants.TREE_SPAWN_RADIUS/2;
+		float yDiff = ((float) Math.random() * Constants.TREE_SPAWN_RADIUS) - Constants.TREE_SPAWN_RADIUS/2;
+		Wood wood = new Wood(Constants.WOOD_INITIAL_RESOURCES, Constants.WOOD_MAX_RESOURCES, Constants.WOOD_RESOURCE_GAIN, xPoss + xDiff, yPoss + yDiff);
+		rhs.addRenewableResourcePoint(wood, RenderObject.RENDER_OBJECT_ENUM.WOOD, xPoss + xDiff, yPoss + yDiff, Constants.TREE_COLLISION_RADIUS);
 		this.spawning = false;
 	}
 

@@ -209,13 +209,13 @@ public class View extends BasicGameState implements InputListener{
 			graphics.drawString(Integer.toString(characterAge), halfBarWidth+Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL+graphics.getFont().getWidth("Age:"), nameStringYPos);
 			graphics.drawString("Hunger:",Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL, hungerStringYPos);
 			graphics.drawRect(barXPos, hungerStringYPos,barWidth,barHeight);
-			if(hungerPercent < 0.2)
+			if(hungerPercent < Constants.NEEDS_CRITICAL_LEVEL)
 				graphics.setColor(Color.red);
 			if(hungerPercent > 0)
 				graphics.fillRect(barXPos+barWidth*(1-hungerPercent), hungerStringYPos, barWidth-barWidth*(1-hungerPercent), barHeight);
 			graphics.setColor(Color.white);
 			graphics.drawString("Thirst:",Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL, thirstStringYPos);
-			if(thirstPercent < 0.2)
+			if(thirstPercent < Constants.NEEDS_CRITICAL_LEVEL)
 				graphics.setColor(Color.red);
 			if(thirstPercent > 0)
 				graphics.fillRect(barXPos+barWidth*(1-thirstPercent), thirstStringYPos, barWidth-barWidth*(1-thirstPercent), barHeight);
@@ -223,7 +223,7 @@ public class View extends BasicGameState implements InputListener{
 			graphics.drawRect(barXPos, thirstStringYPos,barWidth,barHeight);
 			graphics.drawString("Energy:",Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL, energyStringYPos);
 			graphics.drawRect(barXPos, energyStringYPos,barWidth,barHeight);
-			if(energyPercent < 0.2)
+			if(energyPercent < Constants.NEEDS_CRITICAL_LEVEL)
 				graphics.setColor(Color.red);
 			if(energyPercent > 0)
 				graphics.fillRect(barXPos+barWidth*(1-energyPercent), energyStringYPos, barWidth-barWidth*(1-energyPercent), barHeight);

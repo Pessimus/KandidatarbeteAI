@@ -202,9 +202,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.energy = Constants.CHARACTER_ENERGY_MAX;
 
 		//Initialize secondary needs
-		this.social = 100;
-		this.intimacy = 100;
-		this.attention = 100;
+		this.social = Constants.CHARACTER_SOCIAL_MAX;
+		//this.intimacy = 100;
+		//this.attention = 100;
 
 		//Initialize collision detection lists
 		this.surroundingX = new LinkedList<>();
@@ -227,8 +227,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 
 
-		hungerUpdate = (int)(Constants.CHARACTER_HUNGER_UPDATE - Constants.CHARACTER_HUNGER_UPDATE/2*gluttony*0.01);
-		energyUpdate = (int)(Constants.CHARACTER_ENERGY_UPDATE - Constants.CHARACTER_ENERGY_UPDATE/2*sloth*0.01);
+		hungerUpdate = (int)(Constants.CHARACTER_HUNGER_UPDATE - Constants.CHARACTER_HUNGER_UPDATE*gluttony*Constants.GLUTTONY_HUNGER_CHANGE_MODIFIER);
+		energyUpdate = (int)(Constants.CHARACTER_ENERGY_UPDATE - Constants.CHARACTER_ENERGY_UPDATE*sloth*Constants.SLOTH_ENERGY_CHANGE_MODIFIER);
 
 		//TODO check if this should be removed
 		//this.pathTest = new Pathfinder(16, 9600, 9600, 1, 1.4);
@@ -256,6 +256,42 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	public int getAge(){
 		return age;
+	}
+
+	public String randomizeName(){
+		String name = "";
+		try{
+			FileInputStream fstream;
+			int random_max;
+			if(genderMale) {
+				fstream = new FileInputStream("res/boy_names.txt");
+				random_max = Constants.NUMBER_OF_MALE_NAMES;
+			}else {
+				fstream = new FileInputStream("res/girl_names.txt");
+				random_max = Constants.NUMBER_OF_FEMALE_NAMES;
+			}
+			int randomNr = (int)(Math.random()*random_max)+1;
+			DataInputStream din = new DataInputStream(fstream);
+			BufferedReader br = new BufferedReader(new InputStreamReader(din));
+			PrintWriter writer = new PrintWriter("girl_names.txt", "UTF-8");
+
+			String strLine;
+			int counter = 1;
+			while((strLine = br.readLine()) != null){
+				if(counter==randomNr) {
+					String[] delims = strLine.split(" ");
+					name = delims[0];
+					name = name.substring(0,1).toUpperCase()+name.substring(1).toLowerCase();
+					break;
+				}
+				counter++;
+			}
+			din.close();
+			writer.close();
+		}catch(Exception e){//Catch exception if any
+			System.err.println("Error: " + e.getMessage());
+		}
+		return name;
 	}
 
 	/**
@@ -306,7 +342,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public double getSurroundingRadius(){
-		return Constants.CHARACTER_SURROUNDING_RADIUS*(1+envy/(Constants.MAX_TRAIT_VALUE*10));
+		return Constants.CHARACTER_SURROUNDING_RADIUS*(1+envy/Constants.ENVY_SURROUNDING_RADIUS_MODIFYER);
 	}
 
 	@Override
@@ -390,7 +426,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs){
 		//TODO fire property change
-		Schedule.addTask(new AttackTask(this,rhs,2*60));
+		Schedule.addTask(new AttackTask(this,rhs,Constants.CHARACTER_ATTACKED_TIME));
 	}
 
 	@Override
@@ -405,7 +441,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	@Override
 	public void attackedCommand(Character rhs) {
-		this.changeEnergy(10-((5/100)*this.wrath));
+		this.changeEnergy(Constants.CHARACTER_ATTACKED_ENERGY_CHANGE-(int)(Constants.WRATH_ENERGY_ATTACK_MODIFIER*this.wrath));
 	}
 
 	@Override
@@ -499,13 +535,13 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		} else if (social + change <= 0){
 			social = 0;
 		}else{
-			this.social = social + change*(1-pride/(Constants.MAX_TRAIT_VALUE*10));
+			this.social = social + change*(1-pride/Constants.PRIDE_INTERACT_SOCIAL_MODIFIER);
 		}
 	}
 
 	public void enterHouse(House house){
-		this.xPos = house.getX()-1;//-1 for rendering order... (instead of using a third dimension)
-		this.yPos = house.getY()-1;
+		this.xPos = house.getX();
+		this.yPos = house.getY()-1;//-1 for rendering order... (instead of using a third dimension)
 	}
 
 	public void exitHouse(House house){
@@ -657,21 +693,21 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 //		}
 
 		if(updateCounter % hungerUpdate == 0){
-			changeHunger(-Constants.CHARACTER_HUNGER_CHANGE + (social/100));
+			changeHunger(-Constants.CHARACTER_HUNGER_CHANGE + (social/Constants.CHARACTER_SOCIAL_NEEDS_MODIFIER));
 		}
 		if(updateCounter % energyUpdate == 0){
-			changeEnergy(-Constants.CHARACTER_ENERGY_CHANGE + (social/100));
+			changeEnergy(-Constants.CHARACTER_ENERGY_CHANGE + (social/Constants.CHARACTER_SOCIAL_NEEDS_MODIFIER));
 		}
 		if(updateCounter % Constants.CHARACTER_THIRST_UPDATE == 0){
-			changeThirst(-Constants.CHARACTER_THIRST_CHANGE + (social/100));
+			changeThirst(-Constants.CHARACTER_THIRST_CHANGE + (social/Constants.CHARACTER_SOCIAL_NEEDS_MODIFIER));
 		}
 		if(updateCounter % Constants.CHARACTER_SOCIAL_UPDATE == 0){
 			changeSocial(-Constants.CHARACTER_SOCIAL_CHANGE);
 		}
 		if(updateCounter % Constants.CHARACTER_AGE_UPDATE == 0){
 			age++;
-			if(age >= 80){
-				int kill = (int)(Math.random()*20 + 80);
+			if(age >= Constants.CHARACTER_MIN_DEATH_AGE){
+				int kill = (int)(Math.random()*(Constants.CHARACTER_DEATH_AGE_SPANN) + Constants.CHARACTER_MIN_DEATH_AGE);
 				if(age >= kill){
 					this.alive = false;
 				}
@@ -863,7 +899,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void consumeItem(int index){
-		pcs.firePropertyChange("",0,1);
+		pcs.firePropertyChange("", 0, 1);
 		if(this.getInventory().size()>index){
 			this.getInventory().get(index).consumed(this);
 		}
@@ -913,41 +949,5 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	public ICollidable getHome() {
 		return home;
-	}
-
-	public String randomizeName(){
-		String name = "";
-		try{
-			FileInputStream fstream;
-			int random_max;
-			if(genderMale) {
-				fstream = new FileInputStream("res/boy_names.txt");
-				random_max = Constants.NUMBER_OF_MALE_NAMES;
-			}else {
-				fstream = new FileInputStream("res/girl_names.txt");
-				random_max = Constants.NUMBER_OF_FEMALE_NAMES;
-			}
-			int randomNr = (int)(Math.random()*random_max)+1;
-			DataInputStream din = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(din));
-			PrintWriter writer = new PrintWriter("girl_names.txt", "UTF-8");
-
-			String strLine;
-			int counter = 1;
-			while((strLine = br.readLine()) != null){
-				if(counter==randomNr) {
-					String[] delims = strLine.split(" ");
-					name = delims[0];
-					name = name.substring(0,1).toUpperCase()+name.substring(1).toLowerCase();
-					break;
-				}
-				counter++;
-			}
-			din.close();
-			writer.close();
-		}catch(Exception e){//Catch exception if any
-			System.err.println("Error: " + e.getMessage());
-		}
-		return name;
 	}
 }

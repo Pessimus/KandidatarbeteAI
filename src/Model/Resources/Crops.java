@@ -62,6 +62,21 @@ public class Crops extends FiniteResource {
 		this.setResourcesLeft(0);
 	}
 
+    @Override
+    public int getInteractedTime() {
+        return Constants.CROPS_INTERACTED_TIME;
+    }
+
+    @Override
+    public int getConsumedTime() {
+        return Constants.CROPS_CONSUMED_TIME;
+    }
+
+    @Override
+    public int getAttackedTime() {
+        return Constants.CROPS_ATTACKED_TIME;
+    }
+
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
     @Override
