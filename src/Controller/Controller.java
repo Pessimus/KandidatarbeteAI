@@ -243,6 +243,7 @@ public class Controller implements PropertyChangeListener {
 		if (showingPlayerInventory) {
 			gameView.drawInventory(currentCharacter.getRenderInventory());
 			gameView.setCharacterName(currentCharacter.getName());
+			gameView.setCharacterAge(currentCharacter.getAge());
 		}
 
 	}

@@ -247,6 +247,10 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return name;
 	}
 
+	public int getAge(){
+		return age;
+	}
+
 	/**
 	 * @return the gender, true if man or false if female.
 	 */

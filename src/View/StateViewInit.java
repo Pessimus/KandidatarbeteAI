@@ -115,6 +115,10 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 		view.setCharacterName(name);
 	}
 
+	public void setCharacterAge(int age){
+		view.setCharacterAge(age);
+	}
+
 	public void highlightInventoryItem(int index){
 		view.setItemInFocus(index);
 	}
