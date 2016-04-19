@@ -16,6 +16,8 @@ public class TradeState implements IState{
 
 	@Override
 	public void run() {
-		;
+
+
+		brain.setState(brain.getIdleState());
 	}
 }

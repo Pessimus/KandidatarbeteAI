@@ -16,10 +16,12 @@ public class SocializeState implements IState{
 
 	@Override
 	public void run() {
+
 		/* *Request interaction
 			*Determine type of interaction
 			* Enter correct interaction state
 			* Go back to idleState
 		 */
+		brain.setState(brain.getIdleState());
 	}
 }

@@ -114,7 +114,7 @@ public class World{
 	 * @param nrStones the number of stones to randomly spawn in the world at creation.
 	 * @param nrCrops the number of crops to randomly spawn in the world at creation.
 	 */
-	public World (double width, double height, int nrTrees, int nrLakes, int nrStones, int nrCrops){
+	public World (double width, double height, int nrTrees, int nrLakes, int nrStones, int nrGold, int nrCrops){
 
 		this(width, height);
 
@@ -155,6 +155,16 @@ public class World{
 
 			i++;
 		}
+		i = 0;
+		while(i < nrGold){
+			tmpX = (float)(Math.random()*this.width);
+			tmpY = (float)(Math.random()*this.height);
+
+			Gold tmpStone = new Gold(50,5);
+			addFiniteResourcePoint(tmpStone, RenderObject.RENDER_OBJECT_ENUM.GOLD, tmpX, tmpY, 10);
+
+			i++;
+		}
 		//TODO remove as crops now spawn from farms.
 		/*i = 0;
 		while(i < nrCrops){
@@ -177,7 +187,6 @@ public class World{
 	 * check what objects collide with each other.
 	 */
 	public void update() {
-
 		if (!pause) {
 			updateTimeables();
 

@@ -7,10 +7,10 @@ import Model.ICharacterHandle;
 /**
  * Created by Tobias on 2016-03-29.
  */
-public class BuildHouseState implements IState{
+public class BuildingHouseState implements IState{
 	private final ArtificialBrain brain;
 
-	public BuildHouseState(ArtificialBrain brain){
+	public BuildingHouseState(ArtificialBrain brain){
 		this.brain = brain;
 	}
 
@@ -20,5 +20,6 @@ public class BuildHouseState implements IState{
 		// TODO: Gather the remaining resources for the house
 		// TODO: Build the house
 
+		brain.setState(brain.getIdleState());
 	}
 }

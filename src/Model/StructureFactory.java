@@ -20,7 +20,7 @@ public class StructureFactory {
 	 * @return a item of the the specified type and amount.
 	 */
 	public static IStructure createStructure(StructureType type, float x, float y){
-		switch (type){
+		/*switch (type){
 			case STOCKPILE:
 				return new Stockpile(x, (float)(y-Constants.STOCKPILE_COLLISION_RADIUS));
 
@@ -32,6 +32,19 @@ public class StructureFactory {
 
 			default:
 				return null;
+		}*/
+		switch (type){
+			case STOCKPILE:
+				return new Stockpile(x, y);
+
+			case HOUSE:
+				return new House(x, y);
+
+			case FARM:
+				return new Farm(x, y);
+
+			default:
+				return null;
 		}
 	}
 
@@ -39,17 +52,17 @@ public class StructureFactory {
 		LinkedList<IItem> cost = new LinkedList<>();
 		switch (typeToSpawn){
 			case STOCKPILE:
-				//cost.add(new StoneItem(1));
-				//cost.add(new WoodItem(2));
+				cost.add(new StoneItem(1));
+				cost.add(new WoodItem(2));
 				return cost;
 
 			case HOUSE:
-				//cost.add(new StoneItem(2));
-				//cost.add(new WoodItem(4));
+				cost.add(new StoneItem(2));
+				cost.add(new WoodItem(4));
 				return cost;
 
 			case FARM:
-				//cost.add(new StoneItem(4));
+				cost.add(new StoneItem(20));
 				//cost.add(new WoodItem(8));
 				return cost;
 

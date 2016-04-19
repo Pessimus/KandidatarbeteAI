@@ -39,10 +39,6 @@ public class SleepingState implements IState{
 			throw new IllegalStateException("House of Character isn't in Interactables-list when in SleepingState!");
 		}
 
-		if (brain.getStateQueue().isEmpty()) {
-			brain.setState(brain.getIdleState());
-		} else {
-			brain.setState(brain.getStateQueue().poll());
-		}
+		brain.setState(brain.getIdleState());
 	}
 }
