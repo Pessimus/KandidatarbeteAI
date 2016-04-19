@@ -586,6 +586,12 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		}
 		if(updateCounter % Constants.CHARACTER_AGE_UPDATE == 0){
 			age++;
+			if(age >= 80){
+				int kill = (int)(Math.random()*20 + 80);
+				if(age >= kill){
+					this.alive = false;
+				}
+			}
 		}
 
 		updateAlive();
