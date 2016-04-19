@@ -3,6 +3,7 @@ package Model.Structures;
 import Model.*;
 import Model.Character;
 import Model.Tasks.AttackTask;
+import Model.Tasks.InteractTask;
 import Utility.Constants;
 import Utility.RenderObject;
 
@@ -41,7 +42,7 @@ public class Stockpile implements IStructure {
 		this.interactionRadius = 0;
 		this.surroundingRadius = 0;
 
-		this.integrity = 10;
+		this.integrity = Constants.MAX_INTEGRETY_STOCKPILE;
 
 		inventory = new Inventory();
 
@@ -137,8 +138,7 @@ public class Stockpile implements IStructure {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Model.Character rhs) {
-		StockpileInteraction i = new StockpileInteraction(rhs, this);
-		rhs.startStockpileInteraction(this, i);
+		Schedule.addTask(new InteractTask(this,rhs,Constants.STOCKPILE_INTERACTION_TIME));
 	}
 
 	@Override
@@ -150,12 +150,13 @@ public class Stockpile implements IStructure {
 	@Override
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs) {
-		Schedule.addTask(new AttackTask(this,rhs,1*60));
+		Schedule.addTask(new AttackTask(this,rhs,Constants.STOCKPILE_ATTACKED_TIME));
 	}
 
 	@Override
 	public void interactedCommand(Character rhs) {
-		//TODO implement
+		StockpileInteraction i = new StockpileInteraction(rhs, this);
+		rhs.startStockpileInteraction(this, i);
 	}
 
 	@Override

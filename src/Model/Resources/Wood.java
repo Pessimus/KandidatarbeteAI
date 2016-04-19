@@ -72,6 +72,21 @@ public class Wood extends RenewableResource {
 		this.setResourcesLeft(0);
 	}
 
+	@Override
+	public int getInteractedTime() {
+		return Constants.WOOD_INTERACTED_TIME;
+	}
+
+	@Override
+	public int getConsumedTime() {
+		return Constants.WOOD_CONSUMED_TIME;
+	}
+
+	@Override
+	public int getAttackedTime() {
+		return Constants.WOOD_ATTACKED_TIME;
+	}
+
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
     @Override

@@ -128,19 +128,19 @@ public class ResourcePoint implements ICollidable {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Character rhs){
-		Schedule.addTask(new InteractTask(this,rhs,60*3));
+		Schedule.addTask(new InteractTask(this,rhs,resource.getInteractedTime()));
 	}
 
 	@Override
 	/**{@inheritDoc}*/
 	public void consumed(Character rhs){
-		Schedule.addTask(new ConsumeTask(this,rhs,60*3));
+		Schedule.addTask(new ConsumeTask(this,rhs,resource.getConsumedTime()));
 	}
 
 	@Override
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs){
-		Schedule.addTask(new AttackTask(this,rhs,60*3));
+		Schedule.addTask(new AttackTask(this,rhs,resource.getAttackedTime()));
 	}
 
 	@Override

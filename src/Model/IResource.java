@@ -47,4 +47,10 @@ public interface IResource {
 
 	void attacked(Character rhs);
 
+	int getInteractedTime();
+
+	int getConsumedTime();
+
+	int getAttackedTime();
+
 }

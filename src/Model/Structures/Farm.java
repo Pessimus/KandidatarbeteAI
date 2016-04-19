@@ -17,7 +17,7 @@ public class Farm implements IStructure, ITimeable {
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 	public static final StructureType structureType = StructureType.FARM;
 	/*public static final StructureBuildingMaterialTuple[] buildingMaterials = new StructureBuildingMaterialTuple[]
-			{       new StructureBuildingMaterialTuple(IItem.Type.WOOD_ITEM, 20),
+			{       new StructureBuildingMaterialTuple(IItem.Type.WOOD_ITEM, Constants.WHEAT_COLLISION_RADIUS),
 					new StructureBuildingMaterialTuple(IItem.Type.STONE_ITEM, 5)
 			};*/
 
@@ -32,7 +32,7 @@ public class Farm implements IStructure, ITimeable {
 	private double surroundingRadius;
 
 	private boolean spawning;
-	private int nbrOfSpawnPoints;
+	private final int nbrOfSpawnPoints = 8;
 	private Crops[] spawnPoints;
 	private float[] spawnPointsXpos;
 	private float[] spawnPointsYpos;
@@ -48,36 +48,35 @@ public class Farm implements IStructure, ITimeable {
 		this.interactionRadius = 0;
 		this.surroundingRadius = 0;
 
-		this.integrity = 10;
+		this.integrity = Constants.MAX_INTEGRETY_FARM;
 
 		this.spawning = false;
-		nbrOfSpawnPoints = 8;
 		spawnPoints = new Crops[nbrOfSpawnPoints];
 		spawnPointsXpos = new float[nbrOfSpawnPoints];
 		spawnPointsYpos = new float[nbrOfSpawnPoints];
 
-		spawnPointsXpos[0] = (float)(x-(collisionRadius+20+1));
-		spawnPointsYpos[0] = (float)(y-(collisionRadius+20+1));
+		spawnPointsXpos[0] = (float)(x-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
+		spawnPointsYpos[0] = (float)(y-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
 
 		spawnPointsXpos[1] = x;
-		spawnPointsYpos[1] = (float)(y-(collisionRadius+20+1));
+		spawnPointsYpos[1] = (float)(y-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
 
-		spawnPointsXpos[2] = (float)(x+(collisionRadius+20+1));
-		spawnPointsYpos[2] = (float)(y-(collisionRadius+20+1));
+		spawnPointsXpos[2] = (float)(x+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
+		spawnPointsYpos[2] = (float)(y-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
 
-		spawnPointsXpos[3] = (float)(x+(collisionRadius+20+1));
+		spawnPointsXpos[3] = (float)(x+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
 		spawnPointsYpos[3] = y;
 
-		spawnPointsXpos[4] = (float)(x+(collisionRadius+20+1));
-		spawnPointsYpos[4] = (float)(y+(collisionRadius+20+1));
+		spawnPointsXpos[4] = (float)(x+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
+		spawnPointsYpos[4] = (float)(y+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
 
 		spawnPointsXpos[5] = x;
-		spawnPointsYpos[5] = (float)(y+(collisionRadius+20+1));
+		spawnPointsYpos[5] = (float)(y+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
 
-		spawnPointsXpos[6] = (float)(x-(collisionRadius+20+1));
-		spawnPointsYpos[6] = (float)(y+(collisionRadius+20+1));
+		spawnPointsXpos[6] = (float)(x-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
+		spawnPointsYpos[6] = (float)(y+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
 
-		spawnPointsXpos[7] = (float)(x-(collisionRadius+20+1));
+		spawnPointsXpos[7] = (float)(x-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
 		spawnPointsYpos[7] = y;
 
 	}
@@ -173,7 +172,7 @@ public class Farm implements IStructure, ITimeable {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Model.Character rhs) {
-		Schedule.addTask(new InteractTask(this,rhs,10*60));
+		Schedule.addTask(new InteractTask(this,rhs,Constants.FARM_INTERACTION_TIME));
 	}
 
 	@Override
@@ -185,7 +184,7 @@ public class Farm implements IStructure, ITimeable {
 	@Override
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs) {
-		Schedule.addTask(new AttackTask(this,rhs,1*60));
+		Schedule.addTask(new AttackTask(this,rhs,Constants.FARM_ATTACKED_TIME));
 	}
 
 	@Override
@@ -247,8 +246,8 @@ public class Farm implements IStructure, ITimeable {
 		int i = 0;
 		while(i < nbrOfSpawnPoints) {
 			if(spawnPoints[i] == null) {
-				Crops crops = new Crops(100, 10);
-				ResourcePoint rp = rhs.addFiniteResourcePoint(crops, RenderObject.RENDER_OBJECT_ENUM.CROPS, spawnPointsXpos[i], spawnPointsYpos[i], 20);
+				Crops crops = new Crops(Constants.CROPS_INITIAL_AMOUNT, Constants.CROPS_YEILD_AMOUNT);
+				ResourcePoint rp = rhs.addFiniteResourcePoint(crops, RenderObject.RENDER_OBJECT_ENUM.CROPS, spawnPointsXpos[i], spawnPointsYpos[i], Constants.WHEAT_COLLISION_RADIUS);
 				if(rp != null) {
 					spawnPoints[i] = crops;
 					spawning = false;

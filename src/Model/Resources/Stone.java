@@ -66,6 +66,21 @@ public class Stone extends FiniteResource {
 		this.setResourcesLeft(0);
 	}
 
+	@Override
+	public int getInteractedTime() {
+		return Constants.STONE_INTERACTED_TIME;
+	}
+
+	@Override
+	public int getConsumedTime() {
+		return Constants.STONE_CONSUMED_TIME;
+	}
+
+	@Override
+	public int getAttackedTime() {
+		return Constants.STONE_ATTACKED_TIME;
+	}
+
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
 	@Override
