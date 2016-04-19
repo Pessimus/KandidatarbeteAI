@@ -33,7 +33,6 @@ public class GatherWoodState implements IState {
 				ResourcePoint tempPoint = (ResourcePoint) next;
 				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.WOOD)) {
 					brain.getBody().interactObject(i);
-					System.out.println("Gathered wood!");
 					break;
 				}
 			}
@@ -41,10 +40,6 @@ public class GatherWoodState implements IState {
 			i++;
 		}
 
-		if (brain.getStateQueue().isEmpty()) {
-			brain.setState(brain.getIdleState());
-		} else {
-			brain.setState(brain.getStateQueue().poll());
-		}
+		brain.setState(brain.getIdleState());
     }
 }

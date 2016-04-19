@@ -69,7 +69,7 @@ public class Controller implements PropertyChangeListener {
 		//setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT));
 
 		//TODO remove test
-			setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, 100, 20, 100, 200));
+			setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, 100, 20, 100, 200, 50));
 
 		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT, scaleGraphicsX, scaleGraphicsY));
 
@@ -165,7 +165,8 @@ public class Controller implements PropertyChangeListener {
 				if(gameModel.getCharacterList().size() > 0) {
 					playerXPos = currentCharacter.getX() + Constants.VIEW_BORDER_WIDTH;
 					playerYPos = currentCharacter.getY() + Constants.VIEW_BORDER_HEIGHT;
-
+					if(!currentCharacter.equals(player.getBody()))
+						System.out.println(aiMap.get(currentCharacter).getState());
 				}
 
 
@@ -242,6 +243,7 @@ public class Controller implements PropertyChangeListener {
 		if (showingPlayerInventory) {
 			gameView.drawInventory(currentCharacter.getRenderInventory());
 			gameView.setCharacterName(currentCharacter.getName());
+			gameView.setCharacterAge(currentCharacter.getAge());
 		}
 
 	}

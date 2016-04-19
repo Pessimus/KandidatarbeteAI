@@ -42,6 +42,7 @@ public class View extends BasicGameState implements InputListener{
 
 	private int[] playerNeeds;
 	private String characterName;
+	private int characterAge;
 
 	private boolean displayInventory = false;
 	private boolean displayPlayerNeeds = false;
@@ -117,6 +118,7 @@ public class View extends BasicGameState implements InputListener{
 	float nameStringYPos;
 	float barWidth;
 	float barHeight;
+	float halfBarWidth;
 	float barXPos;
 	float hungerPercent;
 	float thirstPercent;
@@ -190,6 +192,8 @@ public class View extends BasicGameState implements InputListener{
 			barWidth = Constants.BOX_WIDTH/Constants.ZOOM_LEVEL-3*Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL-graphics.getFont().getWidth("Hunger");
 			barHeight = graphics.getFont().getHeight("Hunger")/Constants.ZOOM_LEVEL;
 
+			halfBarWidth = Constants.BOX_WIDTH/2;
+
 			barXPos = Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL*2+graphics.getFont().getWidth("Hunger");
 
 			hungerPercent = (float)playerNeeds[0]/(float)Constants.CHARACTER_HUNGER_MAX;
@@ -201,6 +205,8 @@ public class View extends BasicGameState implements InputListener{
 			graphics.setColor(Color.white);
 			graphics.drawString("Name:",Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL, nameStringYPos);
 			graphics.drawString(characterName, barXPos, nameStringYPos);
+			graphics.drawString("Age:",halfBarWidth, nameStringYPos);
+			graphics.drawString(Integer.toString(characterAge), halfBarWidth+Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL+graphics.getFont().getWidth("Age:"), nameStringYPos);
 			graphics.drawString("Hunger:",Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL, hungerStringYPos);
 			graphics.drawRect(barXPos, hungerStringYPos,barWidth,barHeight);
 			if(hungerPercent < 0.2)
@@ -326,6 +332,10 @@ public class View extends BasicGameState implements InputListener{
 
 	public void setCharacterName(String name){
 		characterName = name;
+	}
+
+	public void setCharacterAge(int age){
+		characterAge = age;
 	}
 
 	// ----------- Key, mouse and property events ----------- \\

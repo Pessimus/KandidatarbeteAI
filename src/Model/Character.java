@@ -7,8 +7,10 @@ import Model.Tasks.InteractTask;
 import Utility.Constants;
 import Utility.InventoryRender;
 import Utility.RenderObject;
+import Utility.UniversalStaticMethods;
 import org.lwjgl.Sys;
 
+import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
@@ -142,8 +144,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	//---SECONDARY NEEDS---\\
 	//Ranges between 0-100, 100 is good, 0 is bad..
 	private int social;
-//	private int intimacy;
-//	private int attention;
+	private int intimacy;
+	private int attention;
 
 	//---PERSONALITY TRAITS---\\
 	private int gluttony;		//Temperance(0)		- 		Gluttony(100) 		(Increases hunger decrease over time)
@@ -198,6 +200,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.thirst = Constants.CHARACTER_THIRST_MAX;
 		this.energy = Constants.CHARACTER_ENERGY_MAX;
 
+		//Initialize secondary needs
+		this.social = 100;
+		this.intimacy = 100;
+		this.attention = 100;
+
 		//Initialize collision detection lists
 		this.surroundingX = new LinkedList<>();
 		this.surroundingY = new LinkedList<>();
@@ -244,6 +251,10 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	public String getName(){
 		return name;
+	}
+
+	public int getAge(){
+		return age;
 	}
 
 	/**
@@ -520,6 +531,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return false;
 	}
 
+	/*private class Node{
+		private final Point p;
+
+	}*/
+
 	@Override
 	public void spawn(World rhs) {
 		LinkedList<IItem> cost = StructureFactory.getCost(typeToSpawn);
@@ -536,18 +552,76 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 			for(IItem itemCost : cost){
 				inventory.removeItem(itemCost);
 			}
-			structure = rhs.addStructure(xPos, (float)(yPos-Constants.CHARACTER_COLLISION_RADIUS), typeToSpawn);
+			int collision = 0;
+
+			switch (typeToSpawn){
+				case FARM:
+					collision = (int) Constants.FARM_COLLISION_RADIUS;
+					break;
+				case HOUSE:
+					collision = (int) Constants.HOUSE_COLLISION_RADIUS;
+					break;
+				case STOCKPILE:
+					collision = (int) Constants.STOCKPILE_COLLISION_RADIUS;
+					break;
+			}
+			//structure = rhs.addStructure(xPos, (float)(yPos-Constants.CHARACTER_INTERACTION_RADIUS), typeToSpawn);
+			//structure = rhs.addStructure(xPos, yPos-collision, typeToSpawn);
+
+			int tempX = (int)xPos / Constants.PATHFINDER_GRID_SIZE;
+			int tempY = (int)yPos / Constants.PATHFINDER_GRID_SIZE;
+
+			Queue<Point> queue = new LinkedList<>();
+
+			int tempPositiveX = tempX + collision / Constants.PATHFINDER_GRID_SIZE + 1;
+			int tempNegativeX = tempX - collision / Constants.PATHFINDER_GRID_SIZE - 1;
+			int tempPositiveY = tempY + collision / Constants.PATHFINDER_GRID_SIZE + 1;
+			int tempNegativeY = tempY - collision / Constants.PATHFINDER_GRID_SIZE - 1;
+
+			queue.offer(new Point(tempPositiveX, tempPositiveY));
+			queue.offer(new Point(tempPositiveX, tempNegativeY));
+			queue.offer(new Point(tempNegativeX, tempPositiveY));
+			queue.offer(new Point(tempNegativeX, tempNegativeY));
+
+			Point tempPoint = queue.poll();
+			tempX = tempPoint.x;
+			tempY = tempPoint.y;
+
+			while((structure = rhs.addStructure(tempX * Constants.PATHFINDER_GRID_SIZE, tempY * Constants.PATHFINDER_GRID_SIZE, typeToSpawn)) == null) {
+				Point p = new Point(tempPositiveX, tempPositiveY);
+				if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
+					queue.offer(p);
+				}
+				p = new Point(tempPositiveX, tempNegativeY);
+				if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
+					queue.offer(p);
+				}
+				p = new Point(tempNegativeX, tempPositiveY);
+				if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
+					queue.offer(p);
+				}
+				p = new Point(tempNegativeX, tempNegativeY);
+				if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
+					queue.offer(p);
+				}
+
+				tempPositiveX++;
+				tempNegativeX--;
+				tempPositiveY++;
+				tempNegativeY--;
+
+				tempPoint = queue.poll();
+				tempX = tempPoint.x;
+				tempY = tempPoint.y;
+			}
+
+			if(structure.getClass().equals(House.class) && home == null){
+				home = (House) structure;
+				home.addOccupant();
+			}
 		}
 
 		spawning = false;
-
-
-
-		if(structure != null){
-			if(structure.getClass().equals(House.class) && home == null){
-				home = (House) structure;
-			}
-		}
 	}
 
 	/**
@@ -629,6 +703,10 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	/**{@inheritDoc}*/
 	public int[] getNeeds() {
 		return new int[]{hunger, thirst, energy};
+	}
+
+	public int[] getSecondaryNeeds() {
+		return new int[]{social, intimacy, attention};
 	}
 
 	//TODO implement, change type....

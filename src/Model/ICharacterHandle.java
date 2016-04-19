@@ -27,10 +27,14 @@ public interface ICharacterHandle {
 
 	/** @return a array containing the values of the characters needs. */
 	int[] getNeeds();
+	/** @return a array containing the values of the characters secondary needs. */
+	int[] getSecondaryNeeds();
 	/** * @return a array containing the values of the characters skills. */
 	int[] getSkills();
 	/** @return a array containing the values of the characters traits. */
 	int[] getTraits();
+
+	int getKey();
 
 	/** @return the position of the character on the x-axis. */
 	float getX();
