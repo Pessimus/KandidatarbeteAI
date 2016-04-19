@@ -43,7 +43,7 @@ public class House implements IStructure {
 		this.interactionRadius = 0;
 		this.surroundingRadius = 0;
 
-		this.integrity = 10;
+		this.integrity = Constants.MAX_INTEGRETY_HOUSE;
 
 		this.exit = new CollidableBlocker(xPos,(float)(yPos+collisionRadius+Constants.CHARACTER_COLLISION_RADIUS+1),(float)(collisionRadius+Constants.CHARACTER_COLLISION_RADIUS+1));
 
@@ -182,7 +182,7 @@ public class House implements IStructure {
 	public void interacted(Model.Character rhs) {
 		rhs.changeEnergy(Constants.CHARACTER_ENERGY_MAX);
 		rhs.enterHouse(this);
-		Schedule.addTask(new InteractTask(this,rhs,20*60));
+		Schedule.addTask(new InteractTask(this,rhs,Constants.HOUSE_INTERACTION_TIME));
 	}
 
 	@Override
@@ -198,7 +198,7 @@ public class House implements IStructure {
 		if(integrity <= 0){
 			this.exit.setRemove(true);
 		}
-		Schedule.addTask(new AttackTask(this,rhs,1*60));
+		Schedule.addTask(new AttackTask(this,rhs,Constants.HOUSE_ATTACKED_TIME));
 	}
 
 	@Override

@@ -62,6 +62,21 @@ public class Meat extends FiniteResource {
 		this.setResourcesLeft(0);
 	}
 
+	@Override
+	public int getInteractedTime() {
+		return Constants.MEAT_INTERACTED_TIME;
+	}
+
+	@Override
+	public int getConsumedTime() {
+		return Constants.MEAT_CONSUMED_TIME;
+	}
+
+	@Override
+	public int getAttackedTime() {
+		return Constants.MEAT_ATTACKED_TIME;
+	}
+
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
     @Override

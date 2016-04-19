@@ -52,18 +52,18 @@ public class StructureFactory {
 		LinkedList<IItem> cost = new LinkedList<>();
 		switch (typeToSpawn){
 			case STOCKPILE:
-				cost.add(new StoneItem(1));
-				cost.add(new WoodItem(2));
+				cost.add(new StoneItem(Constants.STOCKPILE_STONE_COST));
+				cost.add(new WoodItem(Constants.STOCKPILE_WOOD_COST));
 				return cost;
 
 			case HOUSE:
-				cost.add(new StoneItem(2));
-				cost.add(new WoodItem(4));
+				cost.add(new StoneItem(Constants.HOUSE_STONE_COST));
+				cost.add(new WoodItem(Constants.HOUSE_WOOD_COST));
 				return cost;
 
 			case FARM:
-				cost.add(new StoneItem(20));
-				//cost.add(new WoodItem(8));
+				cost.add(new StoneItem(Constants.FARM_STONE_COST));
+				//cost.add(new WoodItem(Constants.FARM_WOOD_COST));
 				return cost;
 
 			default:

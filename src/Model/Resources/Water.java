@@ -64,6 +64,21 @@ public class Water extends InfiniteResource {
 		rhs.addToInventory(this.gatherSecondaryResource());
 	}
 
+	@Override
+	public int getInteractedTime() {
+		return Constants.WATER_INTERACTED_TIME;
+	}
+
+	@Override
+	public int getConsumedTime() {
+		return Constants.WATER_CONSUMED_TIME;
+	}
+
+	@Override
+	public int getAttackedTime() {
+		return Constants.WATER_ATTACKED_TIME;
+	}
+
 //------------------------------------------Getters & Setters---------------------------------------------------------\\
 
 	@Override

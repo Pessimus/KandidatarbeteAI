@@ -123,6 +123,23 @@ public final class Constants {
 	public static final			double		FARM_COLLISION_RADIUS				=	50;
 	public static final 		int 		HOUSE_MAX_CAPACITY					=	2;
 
+	public static final			int			MAX_INTEGRETY_HOUSE					=	10;
+	public static final			int			MAX_INTEGRETY_FARM					=	10;
+	public static final			int			MAX_INTEGRETY_STOCKPILE				=	10;
+	public static final			int			FARM_INTERACTION_TIME				=	10*60;
+	public static final			int			FARM_ATTACKED_TIME					=	1*60;
+	public static final			int			HOUSE_INTERACTION_TIME				=	20*60;
+	public static final			int			HOUSE_ATTACKED_TIME					=	1*60;
+	public static final			int			STOCKPILE_INTERACTION_TIME			=	0;
+	public static final			int			STOCKPILE_ATTACKED_TIME				=	1*60;
+
+	public static final			int			HOUSE_WOOD_COST						=	4;
+	public static final			int			HOUSE_STONE_COST					=	2;
+	public static final			int			FARM_WOOD_COST						=	0;
+	public static final			int			FARM_STONE_COST						=	20;
+	public static final			int			STOCKPILE_WOOD_COST					=	2;
+	public static final			int			STOCKPILE_STONE_COST				=	1;
+
 	//----------- Animal Constants ------------- \\
 	public static final 		double		ANIMAL_COLLISION_RADIUS				=	5;
 	public static final 		double		ANIMAL_INTERACTION_RADIUS			=	20;
@@ -146,11 +163,36 @@ public final class Constants {
 
 	//-------------------------- Resource Constants -------------------------- \\
 	public static final 		int 		TREE_UPDATE_INTERVAL 				=	12000;
+
 	public static final			float		TREE_SPAWN_RADIUS					=	500;
 	public static final 		float		TREE_COLLISION_RADIUS				=	75;
 	public static final			int 		WOOD_MAX_RESOURCES					=	10;
 	public static final			int 		WOOD_INITIAL_RESOURCES				=	10;
 	public static final 		int 		WOOD_RESOURCE_GAIN					=	1;
+
+	public static final			float		WHEAT_COLLISION_RADIUS				=	20;
+	public static final			int			CROPS_INITIAL_AMOUNT				=	100;
+	public static final			int			CROPS_YEILD_AMOUNT					=	10;
+
+	public static final			int			CROPS_INTERACTED_TIME				=	1*60;
+	public static final			int			CROPS_ATTACKED_TIME					=	1*60;
+	public static final			int			CROPS_CONSUMED_TIME					=	1*60;
+	public static final			int			GOLD_INTERACTED_TIME				=	1*60;
+	public static final			int			GOLD_ATTACKED_TIME					=	1*60;
+	public static final			int			GOLD_CONSUMED_TIME					=	1*60;
+	public static final			int			MEAT_INTERACTED_TIME				=	1*60;
+	public static final			int			MEAT_ATTACKED_TIME					=	1*60;
+	public static final			int			MEAT_CONSUMED_TIME					=	1*60;
+	public static final			int			STONE_INTERACTED_TIME				=	1*60;
+	public static final			int			STONE_ATTACKED_TIME					=	1*60;
+	public static final			int			STONE_CONSUMED_TIME					=	1*60;
+	public static final			int			WATER_INTERACTED_TIME				=	1*60;
+	public static final			int			WATER_ATTACKED_TIME					=	1*60;
+	public static final			int			WATER_CONSUMED_TIME					=	1*60;
+	public static final			int			WOOD_INTERACTED_TIME				=	1*60;
+	public static final			int			WOOD_ATTACKED_TIME					=	1*60;
+	public static final			int			WOOD_CONSUMED_TIME					=	1*60;
+
 
 	//------------------------------Item Constants------------------------------\\
 	//CROPS\\
@@ -270,6 +312,7 @@ public final class Constants {
 	public static final		int				MARGIN_TOP							=	BOX_HEIGHT/5;
 	public static final		int				MARGIN_LEFT							=	20;
 	public static final 	int				HALF_TEXT_HEIGHT					=	9;
+	public static final		double			NEEDS_CRITICAL_LEVEL				=	0.2;
 
 	// ----------- Character Traits ----------- \\
 	public static final		int				MAX_TRAIT_VALUE						=	100;
