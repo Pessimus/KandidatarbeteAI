@@ -135,9 +135,35 @@ public class Pathfinder {
 		return a;
 	}
 
+    private LinkedList<Tuple> getPoints (ICollidable c) {
+        LinkedList<Tuple> ret = new LinkedList<>();
+        for (double i = c.getX() - c.getCollisionRadius() - gridSize; i < c.getX() + c.getCollisionRadius() + gridSize; i = i+gridSize) {
+            for (double j = c.getY() - c.getCollisionRadius() -gridSize; j < c.getY() + c.getCollisionRadius() + gridSize; j = j+gridSize) {
+                if (i < gridSize*width && i >= 0 && j < gridSize*height && j >= 0 &&  mask[(int) (i / gridSize)][(int) (j / gridSize)]) {
+                    ret.add(new Tuple((int) (i/gridSize), (int) (j/gridSize)));
+                }
+                //if (j > c.getY() + c.getCollisionRadius()) {j = c.getX() + c.getCollisionRadius();}
+            }
+            //if (i > c.getX() + c.getCollisionRadius()) {i = c.getX() + c.getCollisionRadius();}
+        }
+        return ret;
+    }
+
+    private Tuple closestPoint (int x, int y,LinkedList<Tuple> points) {
+        double closestDistance = 999999;
+        Tuple closestPoint = new Tuple(-1, -1);
+        if (points.isEmpty()) {return null;}
+        for (Tuple point : points) {
+            double distance = Math.sqrt((point.x - x)^2 + (point.y - y)^2);
+            if (distance < closestDistance) {
+                closestPoint = point;
+                closestDistance = distance;
+            }
+        }
+        return closestPoint;
+    }
+
 	public LinkedList<PathStep> getPath (double startx, double starty, ICollidable end) {
-		int endx;
-		int endy;
 
 		// TODO: Find a workaround for pathfinding ONTO ResourcePoints by
 		// moving the endx/endy towards the character in-regards to collisionRadius
@@ -156,7 +182,7 @@ public class Pathfinder {
 			endx += Math.cos(angle) * (end.getCollisionRadius() + 1);
 			endy += Math.signum(angle) * (end.getCollisionRadius() + 1);
 		}*/
-
+        /*
         if(startx >= end.getX()){
             endx = (int)(end.getX() + (end.getCollisionRadius() + Math.min(Constants.CHARACTER_INTERACTION_RADIUS, Constants.PATHFINDER_GRID_SIZE)));
         } else{
@@ -168,9 +194,13 @@ public class Pathfinder {
         } else{
             endy = (int)(end.getY() - (end.getCollisionRadius() + Math.min(Constants.CHARACTER_INTERACTION_RADIUS, Constants.PATHFINDER_GRID_SIZE)));
         }
-
+        */
+        Tuple endPoint =  closestPoint((int) (startx/gridSize), (int) (starty/gridSize), getPoints(end));
+        double endx = endPoint.x*gridSize;
+        double endy = endPoint.y*gridSize;
         LinkedList<PathStep> ret = new LinkedList<>();
         LinkedList<Tuple> help = helpPath((int)(startx/gridSize), (int)(starty/gridSize), (int)(endx/gridSize), (int)(endy/gridSize));
+
         if (help != null) {
             for (Tuple t : help) {
                 ret.add(createPathStep(t.x, t.y));
