@@ -77,6 +77,9 @@ public final class Constants {
 	public static final			int			NUMBER_OF_FEMALE_NAMES				=	4275;
 	public static final			int			NUMBER_OF_MALE_NAMES				=	1219;
 
+	public static final 		int			CHARACTER_ATTACKED_TIME				=	2*60;
+	public static final 		int			CHARACTER_ATTACKED_ENERGY_CHANGE	=	10;
+
 
 	public static final 		double		CHARACTER_COLLISION_RADIUS			=	12;
 	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	20;
@@ -87,13 +90,18 @@ public final class Constants {
 	public static final 		int			CHARACTER_ENERGY_MAX				=	100;
 
     public static final         int         CHARACTER_SOCIAL_MAX                =   100;
+	public static final 		int			CHARACTER_SOCIAL_NEEDS_MODIFIER		=	100; //(1/100)
     public static final         int         CHARACTER_INTEMACY_MAX              =   100;
 
 	public static final			int			CHARACTER_HUNGER_UPDATE				=	200;
 	public static final			int			CHARACTER_THIRST_UPDATE				=	150;
 	public static final			int			CHARACTER_ENERGY_UPDATE				=	200;
 	public static final 		int 		CHARACTER_SOCIAL_UPDATE 			= 	300;
+
 	public static final			int			CHARACTER_AGE_UPDATE				=	60*60*5;
+	public static final 		int			CHARACTER_MIN_DEATH_AGE				=	80;
+	public static final 		int			CHARACTER_MAX_AGE					=	100;
+	public static final			int			CHARACTER_DEATH_AGE_SPANN			=	CHARACTER_MAX_AGE-CHARACTER_MIN_DEATH_AGE;
 
 	public static final			int			CHARACTER_HUNGER_CHANGE				=	1;
 	public static final			int			CHARACTER_THIRST_CHANGE				=	1;
@@ -119,6 +127,12 @@ public final class Constants {
 	public static final 		double		ANIMAL_COLLISION_RADIUS				=	5;
 	public static final 		double		ANIMAL_INTERACTION_RADIUS			=	20;
 	public static final 		double		ANIMAL_SURROUNDING_RADIUS			=	200;
+	public static final			int 		ANIMAL_MIN_STEP_AMOUNT				=	600;
+	public static final 		int			ANIMAL_STEP_AMOUNT_DIFF				=	60*5;
+
+	public static final 		int 		ANIMAL_INTERACTED_TIME				=	20*60;
+	public static final 		int			ANIMAL_CONSUMED_TIME				=	5*60;
+	public static final 		int			ANIMAL_ATTACKED_TIME				=	5*60;
 
 	public static final 		int			ANIMAL_HUNGER_CHANGE_CONSUME		=	20;
 	public static final 		int			ANIMAL_ENERGY_CHANGE_CONSUME		=	-5;
@@ -128,9 +142,15 @@ public final class Constants {
 	public static final 		int			ANIMAL_ENERGY_CHANGE_ATTACK			=	-10;
 	public static final 		int			ANIMAL_THIRST_CHANGE_ATTACK			=	0;
 
+	public static final			int			ANIMAL_SOCIAL_CHANGE_INTERACT		=	10;
+
 	//-------------------------- Resource Constants -------------------------- \\
 	public static final 		int 		TREE_UPDATE_INTERVAL 				=	12000;
-	public static final 		int			TREE_INCREASE_AMOUNT				=	10;
+	public static final			float		TREE_SPAWN_RADIUS					=	500;
+	public static final 		float		TREE_COLLISION_RADIUS				=	75;
+	public static final			int 		WOOD_MAX_RESOURCES					=	10;
+	public static final			int 		WOOD_INITIAL_RESOURCES				=	10;
+	public static final 		int 		WOOD_RESOURCE_GAIN					=	1;
 
 	//------------------------------Item Constants------------------------------\\
 	//CROPS\\
@@ -254,6 +274,11 @@ public final class Constants {
 	// ----------- Character Traits ----------- \\
 	public static final		int				MAX_TRAIT_VALUE						=	100;
 	public static final		int				MIN_TRAIT_VALUE						=	0;
+	public static final 	double			GLUTTONY_HUNGER_CHANGE_MODIFIER		=	0.01*0.5;
+	public static final 	double			SLOTH_ENERGY_CHANGE_MODIFIER		=	0.01*0.5;
+	public static final 	double			ENVY_SURROUNDING_RADIUS_MODIFYER	=	MAX_TRAIT_VALUE*10;
+	public static final		double			WRATH_ENERGY_ATTACK_MODIFIER		=	0.05;
+	public static final 	int				PRIDE_INTERACT_SOCIAL_MODIFIER		=	MAX_TRAIT_VALUE*10;
 
 	// ----------- Display Item highlight options ----------- \\
 	public static final		int				OPTION_BOX_WIDTH					=	500;

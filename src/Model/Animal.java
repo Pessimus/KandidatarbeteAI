@@ -163,22 +163,22 @@ public class Animal implements ICollidable, ITimeable {
 
 	@Override
 	public void interacted(Character rhs) {
-		Schedule.addTask(new InteractTask(this,rhs,20*60));
+		Schedule.addTask(new InteractTask(this,rhs,Constants.ANIMAL_INTERACTED_TIME));
 	}
 
 	@Override
 	public void consumed(Character rhs) {
-		Schedule.addTask(new AttackTask(this,rhs,5*60));
+		Schedule.addTask(new AttackTask(this,rhs,Constants.ANIMAL_CONSUMED_TIME));
 	}
 
 	@Override
 	public void attacked(Character rhs) {
-		Schedule.addTask(new AttackTask(this,rhs,5*60));
+		Schedule.addTask(new AttackTask(this,rhs,Constants.ANIMAL_ATTACKED_TIME));
 	}
 
 	@Override
 	public void interactedCommand(Character rhs) {
-		rhs.changeSocial(10);
+		rhs.changeSocial(Constants.ANIMAL_SOCIAL_CHANGE_INTERACT);
 	}
 
 	@Override
@@ -215,12 +215,12 @@ public class Animal implements ICollidable, ITimeable {
 
 //------------------------------------------UPDATE METHODS------------------------------------------------------------\\
 
-	int xAxisSteps = 0;
-	int yAxisSteps = 0;
-	boolean moveLeft = false;
-	boolean moveRight = false;
-	boolean moveUp = false;
-	boolean moveDown = false;
+	private int xAxisSteps = 0;
+	private int yAxisSteps = 0;
+	private boolean moveLeft = false;
+	private boolean moveRight = false;
+	private boolean moveUp = false;
+	private boolean moveDown = false;
 
 	private boolean moveToLeft(){
 		if(this.xPoss-this.collisionRadius-1<this.territoryMinX){
@@ -301,7 +301,7 @@ public class Animal implements ICollidable, ITimeable {
 			}
 		}else{
 			movedX = true;
-			xAxisSteps = (int)(Math.random()*60*5+10*60);
+			xAxisSteps = (int)(Math.random()*Constants.ANIMAL_STEP_AMOUNT_DIFF + Constants.ANIMAL_MIN_STEP_AMOUNT);
 			int movement = (int)(Math.random()*3);
 			switch (movement){
 				case 0:
@@ -328,7 +328,7 @@ public class Animal implements ICollidable, ITimeable {
 			}
 		}else{
 			movedY = true;
-			yAxisSteps = (int)(Math.random()*60*5+3*60);
+			yAxisSteps = (int)(Math.random()*Constants.ANIMAL_STEP_AMOUNT_DIFF + Constants.ANIMAL_MIN_STEP_AMOUNT);
 			int movement = (int)(Math.random()*3);
 			switch (movement){
 				case 0:
