@@ -33,9 +33,13 @@ public class EatState implements IState{
 					brain.getBody().consumeItem(bestIndex);
 					return;
 				case MEAT_ITEM:
-					break;
+					bestIndex = currentIndex;
+					brain.getBody().consumeItem(bestIndex);
+					return;
 				case FISH_ITEM:
-					break;
+					bestIndex = currentIndex;
+					brain.getBody().consumeItem(bestIndex);
+					return;
 			}
 
 			currentIndex++;

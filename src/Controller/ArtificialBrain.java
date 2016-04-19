@@ -97,17 +97,17 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		if(!body.isWaiting()) {
 			currentState.run();
 
-			/*System.out.println();
+			System.out.println();
 			System.out.println("Current state: " + currentState);
-			/*getStateQueue().stream()
-					.forEach(o -> System.out.println("State:\t" + o));*/
+			getStateQueue().stream()
+					.forEach(o -> System.out.println("State:\t" + o));
 			System.out.println("Inventory:");
 			body.getInventory().stream()
 					.forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));
-			System.out.println("\nHunger:\t" + needs[0]);
+			/*System.out.println("\nHunger:\t" + needs[0]);
 			System.out.println("Thirst:\t" + needs[1]);
 			System.out.println("Energy:\t" + needs[2]);
-			System.out.println("Position:\t" + getBody().getX() + ":" + getBody().getY());
+			System.out.println("Position:\t" + getBody().getX() + ":" + getBody().getY());*/
 		}
 
 		body.getSurroundings().parallelStream()
@@ -319,6 +319,12 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 					.filter(o -> o.getResource().getResourceType().equals(type))
 					.reduce((rp1, rp2) -> distanceBetweenPoints(getBody().getX(), getBody().getY(), rp1.getX(), rp1.getY()) < distanceBetweenPoints(getBody().getX(), getBody().getY(), rp2.getX(), rp2.getY()) ? rp1 : rp2)
 					.ifPresent(rp -> closest = rp);*/
+			if(type.equals(IResource.ResourceType.FOOD)){
+				return resourceMemory.stream()
+						.filter(o -> o.getResource().getResourceType().equals(IResource.ResourceType.WATER) || o.getResource().getResourceType().equals(IResource.ResourceType.MEAT) || o.getResource().getResourceType().equals(IResource.ResourceType.CROPS))
+						.reduce((rp1, rp2) -> distanceBetweenPoints(getBody().getX(), getBody().getY(), rp1.getX(), rp1.getY()) < distanceBetweenPoints(getBody().getX(), getBody().getY(), rp2.getX(), rp2.getY()) ? rp1 : rp2)
+						.orElseGet(() -> null);
+			}
 
 
 			return resourceMemory.stream()

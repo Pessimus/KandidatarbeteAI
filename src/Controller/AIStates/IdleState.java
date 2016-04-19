@@ -41,26 +41,33 @@ public class IdleState implements IState {
 				if(secondaryNeedsArray[0] < -20){
 					brain.stackState(brain.getSocializeState());
 				} else {
-					brain.stackStructureToBuild(IStructure.StructureType.STOCKPILE);
+					if(Math.random() > 0.5) {
+						brain.stackStructureToBuild(IStructure.StructureType.STOCKPILE);
+					} else {
+						brain.stackStructureToBuild(IStructure.StructureType.FARM);
+					}
 					brain.stackState(brain.getBuildState());
 				}
 				for (int i = 0; i < needsArray.length ; i++) {
 					if (needsArray[i] < minVal) {
 						minVal = needsArray[i];
 						minindex = i;
-					}
-				}
-			}
+	}
+}
+}
 		}
 
+		if (needsArray[2] <= 70){
+		if(!brain.getStateQueue().contains(brain.getLowEnergyState()))
+			brain.stackState((brain.getLowEnergyState()));
+		}
 		if(needsArray[0] <= 70){
-			brain.stackState((brain.getHungryState()));
+			if(!brain.getStateQueue().contains(brain.getHungryState()))
+				brain.stackState((brain.getHungryState()));
 		}
 		if(needsArray[1] <= 70){
-			brain.stackState((brain.getThirstyState()));
-		}
-		if (needsArray[2] <= 70){
-			brain.stackState((brain.getLowEnergyState()));
+			if(!brain.getStateQueue().contains(brain.getThirstyState()))
+				brain.stackState((brain.getThirstyState()));
 		}
 
 		brain.setState(brain.getStateQueue().poll());
