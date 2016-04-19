@@ -165,7 +165,8 @@ public class Pathfinder {
 
 	public LinkedList<PathStep> getPath (double startx, double starty, ICollidable end) {
 
-		// TODO: Find a workaround for pathfinding ONTO ResourcePoints by
+		// TODO: Find a workaround for pathfinding ONTO ResourcePoints by (solved?)
+
 		// moving the endx/endy towards the character in-regards to collisionRadius
 
         // Tobias failed math-experiment
@@ -182,6 +183,8 @@ public class Pathfinder {
 			endx += Math.cos(angle) * (end.getCollisionRadius() + 1);
 			endy += Math.signum(angle) * (end.getCollisionRadius() + 1);
 		}*/
+
+        //previous code for traveling to point close to an ICollidable
         /*
         if(startx >= end.getX()){
             endx = (int)(end.getX() + (end.getCollisionRadius() + Math.min(Constants.CHARACTER_INTERACTION_RADIUS, Constants.PATHFINDER_GRID_SIZE)));

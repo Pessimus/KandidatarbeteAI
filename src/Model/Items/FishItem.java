@@ -105,4 +105,12 @@ public class FishItem implements IItem {
 		return new FishItem(this.amount);
 	}
 
+	@Override
+	public int[] getNeedsChange() {
+		int[] ret = new int[3]; //hunger, thirst, energy
+		ret[0] = Constants.FISH_HUNGER_CHANGE_CONSUME;
+		ret[1] = Constants.FISH_HUNGER_CHANGE_CONSUME;
+		ret[2] = Constants.FISH_HUNGER_CHANGE_CONSUME;
+		return ret;
+	}
 }

@@ -106,21 +106,44 @@ public class PlannerBrain implements AbstractBrain {
 
         int[] needs;
         LinkedList<IItem> inventory;
+        LinkedList<ResourcePoint> surroundings;
+        PlanState previous;
+        ResourcePoint actionPoint;
+        IItem actionItem;
 
         public PlanState (int[] need, LinkedList<IItem> inv) {
             needs = need;
             inventory = inv;
+            previous = null;
+            actionPoint = null;
+            actionItem = null;
+            surroundings = null;
+
         }
 
         public PlanState () {
-            this(body.getNeeds(), new LinkedList<IItem>(body.getInventory()));
+            this(body.getNeeds(), new LinkedList<>(body.getInventory()));
+            LinkedList<ICollidable> list = new LinkedList<>(body.getSurroundings());
+            LinkedList<ResourcePoint> list2 = new LinkedList<>();
+            for (ICollidable c : list) {
+                if (c.getClass().equals(ResourcePoint.class)) {
+                    list2.add((ResourcePoint) c);
+                }
+            }
+            surroundings = list2;
         }
 
-        /*
-        public PlanState (PlanState previous, int[] needChange, LinkedList<IItem>){
-
+        public PlanState (PlanState previous, IItem item) {
+            this.previous = previous;
+            actionPoint = null;
+            actionItem = item;
         }
-        */
+
+        public PlanState (PlanState previous, ResourcePoint point) {
+            this.previous = previous;
+            actionItem = null;
+            actionPoint = point;
+        }
 
         public boolean critical() {
             return needs[0] < criticalAt || needs[1] < criticalAt || needs[2] < criticalAt || (needs[0] < criticalIf && needs[1] < criticalIf && needs[2] < criticalIf);
