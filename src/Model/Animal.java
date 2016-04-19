@@ -21,6 +21,11 @@ public class Animal implements ICollidable, ITimeable {
 	private float xPoss;
 	private float yPoss;
 
+	private float territoryMinX;
+	private float territoryMaxX;
+	private float territoryMinY;
+	private float territoryMaxY;
+
 	private IResource resource;
 
 	private boolean alive;
@@ -43,11 +48,16 @@ public class Animal implements ICollidable, ITimeable {
 	 * @param yPoss the position on the y-axis
 	 * @param resourceType the resource that can be gathered from this animal
 	 */
-	public Animal(float xPoss, float yPoss, IResource resourceType){
+	public Animal(float xPoss, float yPoss, IResource resourceType, float territoryMinX, float territoryMinY, float territoryMaxX, float territoryMaxY){
 		this.xPoss = xPoss;
 		this.yPoss = yPoss;
 
 		this.resource = resourceType;
+
+		this.territoryMinX = territoryMinX;
+		this.territoryMaxX = territoryMaxX;
+		this.territoryMinY = territoryMinY;
+		this.territoryMaxY = territoryMaxY;
 
 		this.alive = true;
 
@@ -213,83 +223,114 @@ public class Animal implements ICollidable, ITimeable {
 	boolean moveUp = false;
 	boolean moveDown = false;
 
-	private void moveToLeft(){
-		boolean canMove = true;
+	private boolean moveToLeft(){
+		if(this.xPoss-this.collisionRadius-1<this.territoryMinX){
+			return false;
+		}
+//		boolean canMove = true;
 		for(ICollidable collidable: this.surroundings){
 			if(!(Math.abs(this.xPoss-collidable.getX())>(this.collisionRadius+collidable.getCollisionRadius()+1)
 					|| Math.abs(this.yPoss-collidable.getY())>(this.collisionRadius+collidable.getCollisionRadius())
 					|| this.xPoss < collidable.getX())){
 				//Cant move!
-				canMove = false;
-				break;
+//				canMove = false;
+//				break;
+				return false;
 			}
 		}
-		if(canMove) {
+//		if(canMove) {
 			this.xPoss--;
-		}
+			return true;
+//		}
 	}
 
-	private void moveToRight(){
-		boolean canMove = true;
+	private boolean moveToRight(){
+		if(this.xPoss+this.collisionRadius+1>this.territoryMaxX){
+			return false;
+		}
+//		boolean canMove = true;
 		for(ICollidable collidable: this.surroundings){
 			if(!(Math.abs(this.xPoss-collidable.getX())>(this.collisionRadius+collidable.getCollisionRadius()+1)
 					|| Math.abs(this.yPoss-collidable.getY())>(this.collisionRadius+collidable.getCollisionRadius())
 					|| this.xPoss > collidable.getX())){
 				//Cant move!
-				canMove = false;
-				break;
+//				canMove = false;
+//				break;
+				return false;
 			}
 		}
-		if(canMove) {
+//		if(canMove) {
 			this.xPoss++;
-		}
+			return true;
+//		}
 	}
 
-	private void moveToUp(){
-		boolean canMove = true;
+	private boolean moveToUp(){
+		if(this.yPoss-this.collisionRadius-1<this.territoryMinY){
+			return false;
+		}
+//		boolean canMove = true;
 		for(ICollidable collidable: this.surroundings){
 			if(!(Math.abs(this.xPoss-collidable.getX())>(this.collisionRadius+collidable.getCollisionRadius())
 					|| Math.abs(this.yPoss-collidable.getY())>(this.collisionRadius+collidable.getCollisionRadius()+1)
 					|| this.yPoss < collidable.getY())){
 				//Cant move!
-				canMove = false;
-				break;
+//				canMove = false;
+//				break;
+				return false;
 			}
 		}
-		if(canMove) {
+//		if(canMove) {
 			this.yPoss--;
-		}
+			return true;
+//		}
 	}
 
-	private void moveToDown(){
-		boolean canMove = true;
+	private boolean moveToDown(){
+		if(this.yPoss+this.collisionRadius+1>this.territoryMaxY){
+			return false;
+		}
+//		boolean canMove = true;
 		for(ICollidable collidable: this.surroundings){
 			if(!(Math.abs(this.xPoss-collidable.getX())>(this.collisionRadius+collidable.getCollisionRadius())
 					|| Math.abs(this.yPoss-collidable.getY())>(this.collisionRadius+collidable.getCollisionRadius()+1)
 					|| this.yPoss > collidable.getY())){
 				//Cant move!
-				canMove = false;
-				break;
+//				canMove = false;
+//				break;
+				return false;
 			}
 		}
-		if(canMove) {
+//		if(canMove) {
 			this.yPoss++;
-		}
+			return true;
+//		}
 	}
 
 	@Override
 	public void updateTimeable() {
 
+		System.out.println("------------------------");
+		System.out.println("Moving up: "+ moveUp);
+		System.out.println("Moving down: "+ moveDown);
+		System.out.println("Moving left: "+ moveLeft);
+		System.out.println("Moving right: "+moveRight);
+
+
+		boolean movedX = false;
+		boolean movedY = false;
+
 		if(xAxisSteps != 0) {
 			xAxisSteps--;
 			if (moveLeft) {
-				this.moveToLeft();
+				movedX = this.moveToLeft();
 			} else if (moveRight) {
-				this.moveToRight();
+				movedX = this.moveToRight();
 			}
 		}else{
+			movedX = true;
 			xAxisSteps = (int)(Math.random()*60*5+10*60);
-			int movement = (int)(Math.random()*2);
+			int movement = (int)(Math.random()*3);
 			switch (movement){
 				case 0:
 					moveLeft = true;
@@ -299,7 +340,7 @@ public class Animal implements ICollidable, ITimeable {
 					moveLeft = false;
 					moveRight = true;
 					break;
-				case 2:
+				default:
 					moveLeft = false;
 					moveRight = false;
 					break;
@@ -309,13 +350,14 @@ public class Animal implements ICollidable, ITimeable {
 		if(yAxisSteps != 0) {
 			yAxisSteps--;
 			if (moveUp) {
-				this.moveToUp();
+				movedY = this.moveToUp();
 			} else if (moveDown) {
-				this.moveToDown();
+				movedY = this.moveToDown();
 			}
 		}else{
-			yAxisSteps = (int)(Math.random()*60*5+10*60);
-			int movement = (int)(Math.random()*2);
+			movedY = true;
+			yAxisSteps = (int)(Math.random()*60*5+3*60);
+			int movement = (int)(Math.random()*3);
 			switch (movement){
 				case 0:
 					moveUp = true;
@@ -325,12 +367,19 @@ public class Animal implements ICollidable, ITimeable {
 					moveUp = false;
 					moveDown = true;
 					break;
-				case 2:
+				default:
 					moveUp = false;
 					moveDown = false;
 					break;
 			}
 		}
+
+//		if(((!movedY && (moveDown || moveUp)) || ) && (!movedX && (moveRight || moveLeft))){
+		if(!movedY && !movedX && (moveUp || moveDown || moveLeft || moveRight)){
+			xAxisSteps = 0;
+			yAxisSteps = 0;
+		}
+
 	}
 
 	@Override
