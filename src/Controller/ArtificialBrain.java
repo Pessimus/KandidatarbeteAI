@@ -100,7 +100,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			System.out.println("Current state: " + currentState);
 			/*getStateQueue().stream()
 					.forEach(o -> System.out.println("State:\t" + o));*/
-			System.out.println("Inventory:");
+			/*System.out.println("Inventory:");
 			body.getInventory().stream()
 					.forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));
 			System.out.println("\nHunger:\t" + needs[0]);
