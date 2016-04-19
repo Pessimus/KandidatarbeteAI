@@ -93,7 +93,7 @@ public class Controller implements PropertyChangeListener {
 
 				Random r = new Random();
 
-				for(int i = 3; i < 6; i++) {
+				for(int i = 3; i < 30; i++) {
 					character = gameModel.addCharacter(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT), i);
 					aiMap.put(character, new ArtificialBrain(gameModel, character));
 				}
@@ -165,8 +165,10 @@ public class Controller implements PropertyChangeListener {
 				if(gameModel.getCharacterList().size() > 0) {
 					playerXPos = currentCharacter.getX() + Constants.VIEW_BORDER_WIDTH;
 					playerYPos = currentCharacter.getY() + Constants.VIEW_BORDER_HEIGHT;
-					if(!currentCharacter.equals(player.getBody()))
-						System.out.println(aiMap.get(currentCharacter).getState());
+					if(!currentCharacter.equals(player.getBody())){
+						System.out.println("Social" + currentCharacter.getSecondaryNeeds()[0]);
+					}
+						//System.out.println(aiMap.get(currentCharacter).getState());
 				}
 
 

@@ -7,6 +7,7 @@ import Model.IStructure;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
 /**
  * Created by Tobias on 2016-03-29.
@@ -37,29 +38,33 @@ public class IdleState implements IState {
 				brain.stackStructureToBuild(IStructure.StructureType.HOUSE);
 				brain.stackState(brain.getBuildState());
 			} else{
-				System.out.println("Build farm");
-				if(secondaryNeedsArray[0] < -20){
+				if(secondaryNeedsArray[0] < 99){
 					brain.stackState(brain.getSocializeState());
 				} else {
-					if(Math.random() > 0.5) {
+					Random r = new Random();
+					double d = r.nextDouble();
+					if(d > 0.8) {
 						brain.stackStructureToBuild(IStructure.StructureType.STOCKPILE);
-					} else {
+						brain.stackState(brain.getBuildState());
+					} else if(d > 0.6){
 						brain.stackStructureToBuild(IStructure.StructureType.FARM);
+						brain.stackState(brain.getBuildState());
+					} else{
+						brain.stackState(brain.getSocializeState());
 					}
-					brain.stackState(brain.getBuildState());
 				}
 				for (int i = 0; i < needsArray.length ; i++) {
 					if (needsArray[i] < minVal) {
 						minVal = needsArray[i];
 						minindex = i;
-	}
-}
-}
+					}
+				}
+			}
 		}
 
 		if (needsArray[2] <= 70){
-		if(!brain.getStateQueue().contains(brain.getLowEnergyState()))
-			brain.stackState((brain.getLowEnergyState()));
+			if(!brain.getStateQueue().contains(brain.getLowEnergyState()))
+				brain.stackState((brain.getLowEnergyState()));
 		}
 		if(needsArray[0] <= 70){
 			if(!brain.getStateQueue().contains(brain.getHungryState()))

@@ -40,7 +40,7 @@ public class Interaction {
 
 //----------------------------------------------Constructor-----------------------------------------------------------\\
 
-	public Interaction(Character character1, Character character2){
+	public Interaction(Character character1, Character character2, InteractionType type){
 		this.pcs = new PropertyChangeSupport(this);
 
 		this.active = false;
@@ -59,6 +59,8 @@ public class Interaction {
 
 		this.acceptTradeCharacter1 = false;
 		this.acceptTradeCharacter2 = false;
+
+		typeOfInteraction = type;
 	}
 
 //---------------------------------------------Start Methods----------------------------------------------------------\\
@@ -76,6 +78,10 @@ public class Interaction {
 			} else{
 				endInteraction();
 			}
+		}
+
+		if(character1Active && character2Active){
+			active = true;
 		}
 	}
 
@@ -97,37 +103,23 @@ public class Interaction {
 
 //--------------------------------------------Social Methods----------------------------------------------------------\\
 
-	public void talk(InteractionType type){
-		if(character1Active && character2Active){
+	public boolean talk(){
+		if(active){
 			if(detectable()) {
-				active = true;
-
 				if(interactable()) {
-
-					pcs.firePropertyChange("interactionType", null, type);
-
-					typeOfInteraction = type;
-
-					switch(type){
-						case TRADE:
-							break;
-						case HOSTILE:
-							// TODO: Not implementing this, as far as I'm aware
-							endInteraction();
-							break;
-						case SOCIAL:
-							// TODO: Add to social-need
-							break;
+					if(typeOfInteraction.equals(InteractionType.SOCIAL)){
+						character1.changeSocial(30);
+						character2.changeSocial(30);
+						pcs.firePropertyChange("doneTalking", 0, 1);
+						return true;
 					}
-					//TODO swich case
-						//TODO fire propertyChange  -------------------------AI: What proertyChangeEvent should be sent?
-					character1.changeSocial(5);
-					character2.changeSocial(5);
 				}
 			}else {
 				this.endInteraction();
 			}
 		}
+
+		return false;
 	}
 
 //---------------------------------------------Trade Methods----------------------------------------------------------\\
@@ -328,4 +320,7 @@ public class Interaction {
 		pcs.removePropertyChangeListener(listener);
 	}
 
+	public InteractionType getTypeOfInteraction() {
+		return typeOfInteraction;
+	}
 }

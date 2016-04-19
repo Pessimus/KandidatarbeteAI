@@ -113,6 +113,9 @@ public interface ICharacterHandle {
 
 	ICollidable getHome();
 
+	void setInteractionType(Interaction.InteractionType type);
+	Interaction.InteractionType getInteractionType();
+
 	void addPropertyChangeListener(PropertyChangeListener listener);
 	void removePropertyChangeListener(PropertyChangeListener listener);
 }

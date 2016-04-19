@@ -98,6 +98,7 @@ public final class Constants {
 	public static final			int			CHARACTER_HUNGER_CHANGE				=	1;
 	public static final			int			CHARACTER_THIRST_CHANGE				=	1;
 	public static final			int			CHARACTER_ENERGY_CHANGE				=	1;
+	public static final			int			CHARACTER_SOCIAL_CHANGE				=	1;
 
 	//----------- Inventory Constants ------------- \\
 	//Has to be a power of 2. Ex 1,4,9,16,25,36...
@@ -177,7 +178,7 @@ public final class Constants {
 	public static final 		int			FISH_ENERGY_CHANGE_INTERACT			=	0;
 	public static final 		int			FISH_THIRST_CHANGE_INTERACT			=	0;
 
-	public static final 		int			FISH_HUNGER_CHANGE_CONSUME			=	3;
+	public static final 		int			FISH_HUNGER_CHANGE_CONSUME			=	33;
 	public static final 		int			FISH_ENERGY_CHANGE_CONSUME			=	1;
 	public static final 		int			FISH_THIRST_CHANGE_CONSUME			=	-1;
 
@@ -205,7 +206,7 @@ public final class Constants {
 
 	public static final 		int			WATER_HUNGER_CHANGE_CONSUME			=	0;
 	public static final 		int			WATER_ENERGY_CHANGE_CONSUME			=	1;
-	public static final 		int			WATER_THIRST_CHANGE_CONSUME			=	3;
+	public static final 		int			WATER_THIRST_CHANGE_CONSUME			=	50;
 
 	public static final 		int			WATER_HUNGER_CHANGE_ATTACK			=	0;
 	public static final 		int			WATER_ENERGY_CHANGE_ATTACK			=	0;
@@ -216,7 +217,7 @@ public final class Constants {
 	public static final 		int			MEAT_ENERGY_CHANGE_INTERACT			=	0;
 	public static final 		int			MEAT_THIRST_CHANGE_INTERACT			=	0;
 
-	public static final 		int			MEAT_HUNGER_CHANGE_CONSUME			=	4;
+	public static final 		int			MEAT_HUNGER_CHANGE_CONSUME			=	33;
 	public static final 		int			MEAT_ENERGY_CHANGE_CONSUME			=	1;
 	public static final 		int			MEAT_THIRST_CHANGE_CONSUME			=	-1;
 
