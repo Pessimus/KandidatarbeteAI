@@ -2,6 +2,7 @@ package Model;
 
 import Model.Structures.House;
 import Model.Structures.Stockpile;
+import Model.Tasks.AttackTask;
 import Model.Tasks.InteractTask;
 import Utility.Constants;
 import Utility.InventoryRender;
@@ -141,17 +142,17 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	//---SECONDARY NEEDS---\\
 	//Ranges between 0-100, 100 is good, 0 is bad..
 	private int social;
-	private int intimacy;
-	private int attention;
+//	private int intimacy;
+//	private int attention;
 
 	//---PERSONALITY TRAITS---\\
-	private int gluttony;		//Temperance(0)		- 		Gluttony(100)
-	private int sloth;			//Diligent(0)		-		Sloth(100)
-	private int lust;			//Chasity(0)		-		Lust(100)
-	private int pride;			//Humility(0)		-		Pride(100)
+	private int gluttony;		//Temperance(0)		- 		Gluttony(100) 		(Increases hunger decrease over time)
+	private int sloth;			//Diligent(0)		-		Sloth(100)			(Increases energy decrease over time)
+	private int lust;			//Virtues(0)		-		Lust(100)
+	private int pride;			//Humility(0)		-		Pride(100)			(Decreases social increase from interaction)
 	private int greed;			//Charity(0)		-		Greed(100)
-	private int envy;			//Benevolence(0)	-		Envy(100)
-	private int wrath;			//Happiness(0)		-		Wrath(100)
+	private int envy;			//Benevolence(0)	-		Envy(100)			(Increases surrounding range)
+	private int wrath;			//Tranquility(0)	-		Wrath(100)			(Decreases the change in energy from attacks)
 
 	//---UPDATE NEEDS BASED ON TRAITS---\\
 	private final int hungerUpdate;
@@ -293,7 +294,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public double getSurroundingRadius(){
-		return Constants.CHARACTER_SURROUNDING_RADIUS;
+		return Constants.CHARACTER_SURROUNDING_RADIUS*(1+envy/(Constants.MAX_TRAIT_VALUE*10));
 	}
 
 	@Override
@@ -367,7 +368,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs){
-		//TODO implement
+		//TODO fire property change
+		Schedule.addTask(new AttackTask(this,rhs,2*60));
 	}
 
 	@Override
@@ -382,7 +384,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	@Override
 	public void attackedCommand(Character rhs) {
-		//TODO implement
+		this.changeEnergy(10-((5/100)*this.wrath));
 	}
 
 	@Override
@@ -429,9 +431,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	 * If this change would set the hunger level to higher than the maximum, it is set to the maximum instead.
 	 * @param change the desired change in hunger.
 	 */
-	public void changeHunger(int change){
-		if(hunger+change >= Constants.CHARACTER_HUNGER_MAX){
+	public void changeHunger(int change) {
+		if (hunger + change >= Constants.CHARACTER_HUNGER_MAX) {
 			hunger = Constants.CHARACTER_HUNGER_MAX;
+		} else if (hunger + change <= 0){
+			hunger = 0;
 		}else{
 			this.hunger = hunger + change;
 		}
@@ -446,6 +450,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	public void changeThirst(int change){
 		if(thirst+change >= Constants.CHARACTER_THIRST_MAX){
 			thirst = Constants.CHARACTER_THIRST_MAX;
+		} else if (thirst + change <= 0){
+			thirst = 0;
 		}else{
 			this.thirst = thirst + change;
 		}
@@ -459,8 +465,20 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	public void changeEnergy(int change){
 		if(energy+change >= Constants.CHARACTER_ENERGY_MAX){
 			energy = Constants.CHARACTER_ENERGY_MAX;
+		} else if (energy + change <= 0){
+			energy = 0;
 		}else{
 			this.energy = energy + change;
+		}
+	}
+
+	public void changeSocial(int change){
+		if(social+change >= Constants.CHARACTER_SOCIAL_MAX){
+			social = Constants.CHARACTER_SOCIAL_MAX;
+		} else if (social + change <= 0){
+			social = 0;
+		}else{
+			this.social = social + change*(1-pride/(Constants.MAX_TRAIT_VALUE*10));
 		}
 	}
 
@@ -555,13 +573,16 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 //		}
 
 		if(updateCounter % hungerUpdate == 0){
-			changeHunger(-Constants.CHARACTER_HUNGER_CHANGE);
+			changeHunger(-Constants.CHARACTER_HUNGER_CHANGE + (social/100));
 		}
 		if(updateCounter % energyUpdate == 0){
-			changeEnergy(-Constants.CHARACTER_ENERGY_CHANGE);
+			changeEnergy(-Constants.CHARACTER_ENERGY_CHANGE + (social/100));
 		}
 		if(updateCounter % Constants.CHARACTER_THIRST_UPDATE == 0){
-			changeThirst(-Constants.CHARACTER_THIRST_CHANGE);
+			changeThirst(-Constants.CHARACTER_THIRST_CHANGE + (social/100));
+		}
+		if(updateCounter % Constants.CHARACTER_SOCIAL_UPDATE == 0){
+			changeSocial(-Constants.CHARACTER_SOCIAL_UPDATE);
 		}
 		if(updateCounter % Constants.CHARACTER_AGE_UPDATE == 0){
 			age++;

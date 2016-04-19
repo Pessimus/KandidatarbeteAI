@@ -1,6 +1,7 @@
 package Model;
 
 import Model.Resources.*;
+import Model.Structures.House;
 import Utility.Constants;
 import Utility.InventoryRender;
 import Utility.RenderObject;
@@ -116,6 +117,11 @@ public class World{
 	public World (double width, double height, int nrTrees, int nrLakes, int nrStones, int nrCrops){
 
 		this(width, height);
+
+		Animal animal = new Animal(500,500,new Meat(10,10), 0,0,(float)width,(float)height);
+		this.collidablesR.add(animal);
+		this.collidables.add(animal);
+		this.timeables.add(animal);
 
 		int i = 0;
 		float tmpX;
@@ -263,19 +269,45 @@ public class World{
 	public IStructure addStructure(float xPoss, float yPoss, IStructure.StructureType type){
 		IStructure structure = StructureFactory.createStructure(type, xPoss, yPoss);
 
-		if(collidables.canAdd(structure)) {
-			this.collidables.add(structure);
-			this.collidablesR.add(structure);
-			this.statics.add(structure);
-			if (type.equals(IStructure.StructureType.FARM)) {
+		if (type.equals(IStructure.StructureType.FARM)) {
+			if(collidables.canAdd(structure)) {
+				this.collidables.add(structure);
+				this.collidablesR.add(structure);
+				this.statics.add(structure);
 				this.timeables.add((ITimeable) structure);
+
+				//update mask for pathfinding
+				Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+
+				return structure;
 			}
+		}else if(type.equals(IStructure.StructureType.HOUSE)){
+			ICollidable door = ((House)structure).getDoor();
+			if(collidables.canAdd(structure) && collidables.canAdd(door)) {
+				this.collidables.add(structure);
+				this.collidablesR.add(structure);
+				this.statics.add(structure);
+				this.collidables.add(door);
+				this.collidablesR.add(door);
 
-			//update mask for pathfinding
-			Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+				//update mask for pathfinding
+				Constants.PATHFINDER_OBJECT.updateMask(this.statics);
 
-			return structure;
+				return structure;
+			}
+		}else{
+			if(collidables.canAdd(structure)) {
+				this.collidables.add(structure);
+				this.collidablesR.add(structure);
+				this.statics.add(structure);
+
+				//update mask for pathfinding
+				Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+
+				return structure;
+			}
 		}
+
 		return null;
 	}
 

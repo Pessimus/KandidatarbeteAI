@@ -32,7 +32,6 @@ public final class Constants {
     public static final         int         VIEW_BORDER_HEIGHT                  =   770;
 
 
-
 	//Zoom level not final
 	public static 				int			ZOOM_LEVEL							= 	1;
 	public static final			int			FONT_SIZE							=	18;
@@ -93,6 +92,7 @@ public final class Constants {
 	public static final			int			CHARACTER_HUNGER_UPDATE				=	200;
 	public static final			int			CHARACTER_THIRST_UPDATE				=	150;
 	public static final			int			CHARACTER_ENERGY_UPDATE				=	200;
+	public static final 		int 		CHARACTER_SOCIAL_UPDATE 			= 	300;
 	public static final			int			CHARACTER_AGE_UPDATE				=	60;
 
 	public static final			int			CHARACTER_HUNGER_CHANGE				=	1;
