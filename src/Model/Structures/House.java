@@ -28,6 +28,8 @@ public class House implements IStructure {
 	private double interactionRadius;
 	private double surroundingRadius;
 
+	private CollidableBlocker exit;
+
 //	private int buildingPercent;
 
 //-----------------------------------------------CONSTRUCTOR----------------------------------------------------------\\
@@ -42,6 +44,8 @@ public class House implements IStructure {
 		this.surroundingRadius = 0;
 
 		this.integrity = 10;
+
+		this.exit = new CollidableBlocker(xPos,(float)(yPos+collisionRadius+Constants.CHARACTER_COLLISION_RADIUS+1),(float)(collisionRadius+Constants.CHARACTER_COLLISION_RADIUS+1));
 
 		this.capacity=Constants.HOUSE_MAX_CAPACITY;
 //		this.buildingPercent = 0;
@@ -62,11 +66,15 @@ public class House implements IStructure {
 	}
 
 	public float getDoorPositionX(){
-		return  this.xPos;
+		return  this.exit.getX();
 	}
 	public float getDoorPositionY(){
 		//TODO add empty collidable;
-		return (float)(this.yPos+collisionRadius+Constants.CHARACTER_COLLISION_RADIUS+1);
+		return this.exit.getY();
+		//return (float)(this.yPos+collisionRadius+Constants.CHARACTER_COLLISION_RADIUS+1);
+	}
+	public ICollidable getDoor(){
+		return this.exit;
 	}
 
 	@Override
@@ -186,6 +194,10 @@ public class House implements IStructure {
 	@Override
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs) {
+		this.integrity--;
+		if(integrity <= 0){
+			this.exit.setRemove(true);
+		}
 		Schedule.addTask(new AttackTask(this,rhs,1*60));
 	}
 
@@ -203,6 +215,9 @@ public class House implements IStructure {
 	@Override
 	public void attackedCommand(Character rhs) {
 		this.integrity --;
+		if(integrity <= 0){
+			this.exit.setRemove(true);
+		}
 	}
 
 	@Override
