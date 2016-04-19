@@ -36,10 +36,6 @@ public class GatherCropsState implements IState {
 			i++;
 		}
 
-		if (brain.getStateQueue().isEmpty()) {
-			brain.setState(brain.getIdleState());
-		} else {
-			brain.setState(brain.getStateQueue().poll());
-		}
+		brain.setState(brain.getIdleState());
 	}
 }

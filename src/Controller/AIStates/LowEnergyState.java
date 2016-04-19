@@ -21,10 +21,10 @@ public class LowEnergyState implements IState{
 			brain.findPathTo(home);
 			brain.stackState(brain.getSleepingState());
 			brain.stackState(brain.getMovingState());
-			brain.setState(brain.getStateQueue().poll());
 		} else {
-			brain.setState(brain.getRestingState());
+			brain.stackState(brain.getRestingState());
 		}
 
+		brain.setState(brain.getIdleState());
 	}
 }

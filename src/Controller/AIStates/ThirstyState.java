@@ -41,39 +41,15 @@ public class ThirstyState implements IState {
 					break loop;
 			}
 		}
+
+		brain.stackState(brain.getDrinkState());
+
 		if (best == null) {
 			brain.stackResourceToGather(IResource.ResourceType.WATER);
-			brain.stackState(brain.getDrinkState());
 			brain.stackState(brain.getGatherState());
-			brain.setState(brain.getStateQueue().poll());
-			/*
-			// TODO: Pathfinding to nearest/best food-resource
-			// TODO: Queue MovingState correctly
-			for (RenderObject o : brain.map.getRenderObjects()) {
-				if (o.getRenderType().equals(RenderObject.RENDER_OBJECT_ENUM.LAKE)) {
-					if (closestLake == null) {
-						closestLake = o;
-					} else {
-						cdx = Math.abs(brain.getBody().getX() - closestLake.getX());
-						cdy = Math.abs(brain.getBody().getY() - closestLake.getY());
-						odx = Math.abs(brain.getBody().getX() - o.getX());
-						ody = Math.abs(brain.getBody().getY() - o.getY());
-						if (Math.sqrt(cdx) + Math.sqrt(cdy) > Math.sqrt(odx) + Math.sqrt(ody))
-							closestLake = o;
-					}
-				}
-			}
-			brain.findPathTo(closestLake.getX(), closestLake.getY());
-			brain.queueState(brain.getMovingState());
-			brain.queueState(brain.getGatherWaterState());
-			brain.queueState(brain.getDrinkState());
-			brain.setState(brain.getStateQueue().poll());
-			*/
 
 		}
-		else{
-			brain.stackState(brain.getDrinkState());
-			brain.setState(brain.getStateQueue().poll());
-		}
+
+		brain.setState(brain.getIdleState());
 	}
 }

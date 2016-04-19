@@ -32,20 +32,19 @@ public class HungryState implements IState {
 			switch (current.getType()) {
 				case FISH_ITEM:
 				case MEAT_ITEM:
-				case CROPS_ITEM: //TODO: CHANGE FISH TO FOOD
+				case CROPS_ITEM:
 					best = current;
 					break loop;
 			}
 		}
 
+		brain.stackState(brain.getEatState());
+
 		if(best == null){
-			brain.stackState(brain.getEatState());
 			brain.stackResourceToGather(IResource.ResourceType.FOOD);
 			brain.stackState(brain.getGatherState());
-			brain.setState(brain.getStateQueue().poll());
 		}
-		else{
-			brain.setState(brain.getEatState());
-		}
+
+		brain.setState(brain.getIdleState());
 	}
 }

@@ -20,7 +20,7 @@ public class MovingState implements IState {
 
 	@Override
 	public void run() {
-		LinkedList<PathStep> tempPath = brain.getPath();
+		LinkedList<PathStep> tempPath = brain.getNextPath();
 
 		if(tempPath != null){
 			if(!tempPath.isEmpty()){
@@ -30,21 +30,12 @@ public class MovingState implements IState {
 				}
 			}
 			else{
-				if(brain.getStateQueue().isEmpty()) {
-					brain.setState(brain.getIdleState());
-				}
-				else{
-					brain.setState(brain.getStateQueue().poll());
-				}
+				brain.getPathStack().remove();
+				brain.setState(brain.getIdleState());
 			}
 		}
 		else{
-			if(brain.getStateQueue().isEmpty()) {
-				brain.setState(brain.getIdleState());
-			}
-			else{
-				brain.setState(brain.getStateQueue().poll());
-			}
+			brain.setState(brain.getIdleState());
 		}
 	}
 }
