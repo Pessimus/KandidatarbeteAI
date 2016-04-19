@@ -1,6 +1,5 @@
 package Model;
 
-import Controller.Pathfinder;
 import Model.Tasks.AttackTask;
 import Model.Tasks.InteractTask;
 import Utility.Constants;
@@ -227,95 +226,68 @@ public class Animal implements ICollidable, ITimeable {
 		if(this.xPoss-this.collisionRadius-1<this.territoryMinX){
 			return false;
 		}
-//		boolean canMove = true;
 		for(ICollidable collidable: this.surroundings){
 			if(!(Math.abs(this.xPoss-collidable.getX())>(this.collisionRadius+collidable.getCollisionRadius()+1)
 					|| Math.abs(this.yPoss-collidable.getY())>(this.collisionRadius+collidable.getCollisionRadius())
 					|| this.xPoss < collidable.getX())){
 				//Cant move!
-//				canMove = false;
-//				break;
 				return false;
 			}
 		}
-//		if(canMove) {
 			this.xPoss--;
 			return true;
-//		}
 	}
 
 	private boolean moveToRight(){
 		if(this.xPoss+this.collisionRadius+1>this.territoryMaxX){
 			return false;
 		}
-//		boolean canMove = true;
 		for(ICollidable collidable: this.surroundings){
 			if(!(Math.abs(this.xPoss-collidable.getX())>(this.collisionRadius+collidable.getCollisionRadius()+1)
 					|| Math.abs(this.yPoss-collidable.getY())>(this.collisionRadius+collidable.getCollisionRadius())
 					|| this.xPoss > collidable.getX())){
 				//Cant move!
-//				canMove = false;
-//				break;
 				return false;
 			}
 		}
-//		if(canMove) {
 			this.xPoss++;
 			return true;
-//		}
 	}
 
 	private boolean moveToUp(){
 		if(this.yPoss-this.collisionRadius-1<this.territoryMinY){
 			return false;
 		}
-//		boolean canMove = true;
 		for(ICollidable collidable: this.surroundings){
 			if(!(Math.abs(this.xPoss-collidable.getX())>(this.collisionRadius+collidable.getCollisionRadius())
 					|| Math.abs(this.yPoss-collidable.getY())>(this.collisionRadius+collidable.getCollisionRadius()+1)
 					|| this.yPoss < collidable.getY())){
 				//Cant move!
-//				canMove = false;
-//				break;
 				return false;
 			}
 		}
-//		if(canMove) {
 			this.yPoss--;
 			return true;
-//		}
 	}
 
 	private boolean moveToDown(){
 		if(this.yPoss+this.collisionRadius+1>this.territoryMaxY){
 			return false;
 		}
-//		boolean canMove = true;
 		for(ICollidable collidable: this.surroundings){
 			if(!(Math.abs(this.xPoss-collidable.getX())>(this.collisionRadius+collidable.getCollisionRadius())
 					|| Math.abs(this.yPoss-collidable.getY())>(this.collisionRadius+collidable.getCollisionRadius()+1)
 					|| this.yPoss > collidable.getY())){
 				//Cant move!
-//				canMove = false;
-//				break;
 				return false;
 			}
 		}
-//		if(canMove) {
 			this.yPoss++;
 			return true;
-//		}
 	}
 
 	@Override
 	public void updateTimeable() {
-
-		System.out.println("------------------------");
-		System.out.println("Moving up: "+ moveUp);
-		System.out.println("Moving down: "+ moveDown);
-		System.out.println("Moving left: "+ moveLeft);
-		System.out.println("Moving right: "+moveRight);
-
 
 		boolean movedX = false;
 		boolean movedY = false;
@@ -374,7 +346,6 @@ public class Animal implements ICollidable, ITimeable {
 			}
 		}
 
-//		if(((!movedY && (moveDown || moveUp)) || ) && (!movedX && (moveRight || moveLeft))){
 		if(!movedY && !movedX && (moveUp || moveDown || moveLeft || moveRight)){
 			xAxisSteps = 0;
 			yAxisSteps = 0;
