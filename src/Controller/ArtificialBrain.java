@@ -74,6 +74,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	//Construction variables - What are we building?
 	private IStructure.StructureType nextStructureToBuild = null;
 	private LinkedList<IStructure.StructureType> buildStack = new LinkedList<>();
+	
 
 	// TODO: Hardcoded universal vision
 	public World map;

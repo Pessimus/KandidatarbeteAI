@@ -171,7 +171,6 @@ public class World{
 	 * check what objects collide with each other.
 	 */
 	public void update() {
-
 		if (!pause) {
 			updateTimeables();
 
