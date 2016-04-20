@@ -65,7 +65,7 @@ public class StructureFactory {
 				return cost;
 
 			case FARM:
-				
+
 				cost.add(new StoneItem(Constants.FARM_STONE_COST));
 				//cost.add(new WoodItem(Constants.FARM_WOOD_COST));
 				return cost;

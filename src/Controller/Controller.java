@@ -90,7 +90,9 @@ public class Controller implements PropertyChangeListener {
 
 				((Character)player.getBody()).godMode = true;
 
-				Character character = gameModel.addCharacter(1100, 1100);
+				Character character = gameModel.addCharacter(600, 650);
+				aiMap.put(character, new ArtificialBrain(gameModel, character));
+				character = gameModel.addCharacter(690, 650);
 				aiMap.put(character, new ArtificialBrain(gameModel, character));
 
 				Random r = new Random();
@@ -168,9 +170,9 @@ public class Controller implements PropertyChangeListener {
 					playerXPos = currentCharacter.getX() + Constants.VIEW_BORDER_WIDTH;
 					playerYPos = currentCharacter.getY() + Constants.VIEW_BORDER_HEIGHT;
 					if(!currentCharacter.equals(player.getBody())){
+						//System.out.println(((ArtificialBrain)aiMap.get(currentCharacter)).getStateQueue());
 						System.out.println("Social" + currentCharacter.getSecondaryNeeds()[0]);
 					}
-						//System.out.println(aiMap.get(currentCharacter).getState());
 				}
 
 

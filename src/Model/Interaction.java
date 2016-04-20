@@ -91,12 +91,12 @@ public class Interaction {
 
 //---------------------------------------------Help Methods-----------------------------------------------------------\\
 
-	private boolean interactable(){
+	public boolean interactable(){
 		return (Math.abs(character1.getX()-character2.getX())<Constants.CHARACTER_INTERACTION_RADIUS)
 				&& (Math.abs(character1.getY()-character2.getY())<Constants.CHARACTER_INTERACTION_RADIUS);
 	}
 
-	private boolean detectable(){
+	public boolean detectable(){
 		return (Math.abs(character1.getX()-character2.getX())<Constants.CHARACTER_SURROUNDING_RADIUS)
 				&& (Math.abs(character1.getY()-character2.getY())<Constants.CHARACTER_SURROUNDING_RADIUS);
 	}
