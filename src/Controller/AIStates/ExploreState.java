@@ -23,36 +23,39 @@ public class ExploreState implements IState {
     private LinkedList<PathStep> currentPath = null;
     @Override
     public void run() {
-        boolean foundObject = false;
+        if(brain.getObjectToFind() != null) {
+            boolean foundObject = false;
 
-        for(ICollidable o : brain.getBody().getSurroundings()){
-            if(o.getClass().equals(brain.getObjectToFind())){
-                foundObject = true;
-                brain.setObjectToFind(null);
-                currentPath = null;
-                break;
+            for (ICollidable o : brain.getBody().getSurroundings()) {
+                if (o.getClass().equals(brain.getObjectToFind())) {
+                    System.out.println("FOUND OBJECT WHILE EXPLORING");
+                    foundObject = true;
+                    brain.setObjectToFind(null);
+                    currentPath = null;
+                    break;
+                }
             }
-        }
 
-        if(!foundObject) {
-            //Have a resource to look for
-            if (currentPath != null) {
-                if (!currentPath.isEmpty()) {
-                    currentPath.getFirst().stepTowards(brain.getBody());
-                    if (currentPath.getFirst().reached(brain.getBody())) {
-                        currentPath.removeFirst();
+            if (!foundObject) {
+                //Have a resource to look for
+                if (currentPath != null) {
+                    if (!currentPath.isEmpty()) {
+                        currentPath.getFirst().stepTowards(brain.getBody());
+                        if (currentPath.getFirst().reached(brain.getBody())) {
+                            currentPath.removeFirst();
+                        }
+                    } else {
+                        brain.findPathTo(brain.getBody().getX() + ((1 - (Math.random() * 2)) * 120), brain.getBody().getY() + ((1 - (Math.random() * 2)) * 120));
+                        currentPath = brain.getNextPath();
                     }
-                } else{
+                } else {
                     brain.findPathTo(brain.getBody().getX() + ((1 - (Math.random() * 2)) * 120), brain.getBody().getY() + ((1 - (Math.random() * 2)) * 120));
                     currentPath = brain.getNextPath();
                 }
-            } else{
-                brain.findPathTo(brain.getBody().getX() + ((1 - (Math.random() * 2)) * 120), brain.getBody().getY() + ((1 - (Math.random() * 2)) * 120));
-                currentPath = brain.getNextPath();
+                //If we se it, enter that state
+                //Randomize a point nearby to move towards
+                brain.stackState(this);
             }
-            //If we se it, enter that state
-            //Randomize a point nearby to move towards
-            brain.stackState(this);
         }
 
         brain.setState(brain.getIdleState());

@@ -286,7 +286,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		gatherStack.push(stackedResource);
 	}
 
-	public IStructure.StructureType getNextStructureToBuild() {
+	public IStructure.StructureType peekStructureStack() {
 		return buildStack.peek();
 	}
 
