@@ -101,8 +101,8 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			System.out.println();
 			//System.out.println("Current state: " + currentState);
 			/*getStateQueue().stream()
-					.forEach(o -> System.out.println("State:\t" + o));
-			System.out.println("Inventory:");
+					.forEach(o -> System.out.println("State:\t" + o));*/
+			/*System.out.println("Inventory:");
 			body.getInventory().stream()
 					.forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));*/
 			/*System.out.println("\nHunger:\t" + needs[0]);
@@ -111,6 +111,16 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			System.out.println("Position:\t" + getBody().getX() + ":" + getBody().getY());*/
 		}
 
+		/*
+		//removing things from memory that might not be there anymore. Anything deleted that is still there will be rediscovered.
+		for (int i = 0; i < resourceMemory.size()-1; i++) {
+			if (Math.abs(resourceMemory.get(i).getX() - body.getX()) < Constants.CHARACTER_SURROUNDING_RADIUS || Math.abs(resourceMemory.get(i).getY() - body.getY()) < Constants.CHARACTER_SURROUNDING_RADIUS) {
+				resourceMemory.remove(i);
+				//i--;
+			}
+		}
+		*/
+		
 		body.getSurroundings().parallelStream()
 				.filter(o -> o.getClass().equals(ResourcePoint.class))
 				.map(o -> (ResourcePoint)o)
