@@ -127,10 +127,13 @@ public final class Constants {
 	public static final			int			MAX_INTEGRETY_HOUSE					=	10;
 	public static final			int			MAX_INTEGRETY_FARM					=	10;
 	public static final			int			MAX_INTEGRETY_STOCKPILE				=	10;
+	public static final			int 		FARM_BUILD_TIME						=	0;
 	public static final			int			FARM_INTERACTION_TIME				=	10*60;
 	public static final			int			FARM_ATTACKED_TIME					=	1*60;
+	public static final			int 		HOUSE_BUILD_TIME						=	0;
 	public static final			int			HOUSE_INTERACTION_TIME				=	20*60;
 	public static final			int			HOUSE_ATTACKED_TIME					=	1*60;
+	public static final			int 		STOCKPILE_BUILD_TIME						=	0;
 	public static final			int			STOCKPILE_INTERACTION_TIME			=	0;
 	public static final			int			STOCKPILE_ATTACKED_TIME				=	1*60;
 

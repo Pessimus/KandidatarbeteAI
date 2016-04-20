@@ -35,6 +35,22 @@ public class StructureFactory {
 		}
 	}
 
+	public static int getWaitTime(StructureType typeToSpawn){
+		switch (typeToSpawn){
+			case STOCKPILE:
+				return Constants.STOCKPILE_BUILD_TIME;
+
+			case HOUSE:
+				return Constants.HOUSE_BUILD_TIME;
+
+			case FARM:
+				return Constants.FARM_BUILD_TIME;
+
+			default:
+				return 0;
+		}
+	}
+
 	public static LinkedList<IItem> getCost(StructureType typeToSpawn) {
 		LinkedList<IItem> cost = new LinkedList<>();
 		switch (typeToSpawn){
