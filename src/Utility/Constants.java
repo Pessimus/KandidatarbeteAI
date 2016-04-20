@@ -104,7 +104,7 @@ public final class Constants {
 	public static final			int			CHARACTER_DEATH_AGE_SPANN			=	CHARACTER_MAX_AGE-CHARACTER_MIN_DEATH_AGE;
 
 	public static final			int			CHARACTER_HUNGER_CHANGE				=	2;
-	public static final			int			CHARACTER_THIRST_CHANGE				=	3;
+	public static final			int			CHARACTER_THIRST_CHANGE				=	1;
 	public static final			int			CHARACTER_ENERGY_CHANGE				=	1;
 	public static final			int			CHARACTER_SOCIAL_CHANGE				=	1;
 

@@ -45,6 +45,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private IState cookState = new CookState(this);
 	private IState drinkState = new DrinkState(this);
 	private IState eatState = new EatState(this);
+	private IState followState = new FollowState(this);
 	private IState gatherCropsState = new GatherCropsState(this);
 	private IState gatherFishState = new GatherFishState(this);
 	private IState gatherMeatState = new GatherMeatState(this);
@@ -62,12 +63,16 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private IState socializeState = new SocializeState(this);
 	private IState thirstyState = new ThirstyState(this);
 	private IState tradeState = new TradeState(this);
+	private IState exploreState = new ExploreState(this);
 
 	//private final HashMap<Path2D, ResourcePoint> resourceMap = new HashMap<>();
 	List<ResourcePoint> resourceMemory = new LinkedList<>();
 
 	private Interaction currentInteraction;
 	private Character interactionCharacter;
+
+	private ICollidable objectToFollow = null;
+	private Class objectToFind = null;
 
 	//Construction variables - What are we building?
 	private LinkedList<IStructure.StructureType> buildStack = new LinkedList<>();
@@ -85,6 +90,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	public ArtificialBrain(ICharacterHandle c) {
 		body = c;
 		currentState = idleState;
+		c.addPropertyChangeListener(this);
 
 	}
 
@@ -95,14 +101,14 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		int[] skills = body.getSkills();
 
 		if(!body.isWaiting()) {
-			System.out.println("Current state: " + currentState);
+			//System.out.println("Current state: " + currentState);
 			currentState.run();
 
-			System.out.println();
+			//System.out.println();
 			//System.out.println("Current state: " + currentState);
 			/*getStateQueue().stream()
-					.forEach(o -> System.out.println("State:\t" + o));
-			System.out.println("Inventory:");
+					.forEach(o -> System.out.println("State:\t" + o));*/
+			/*System.out.println("Inventory:");
 			body.getInventory().stream()
 					.forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));*/
 			/*System.out.println("\nHunger:\t" + needs[0]);
@@ -182,6 +188,10 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return eatState;
 	}
 
+	public IState getFollowState() {
+		return followState;
+	}
+
 	public IState getGatherCropsState() {
 		return gatherCropsState;
 	}
@@ -244,6 +254,10 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	public IState getGatherStoneState() {
 		return gatherStoneState;
+	}
+
+	public IState getExploreState() {
+		return exploreState;
 	}
 
 	public IState getGatherGoldState() {
@@ -352,6 +366,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		} else if(evt.getPropertyName().equals("startInteraction")){
 			Character other = (Character)evt.getNewValue();
 			Interaction interaction = (Interaction)evt.getOldValue();
+			System.out.println(interaction);
 
 			if(currentInteraction == null && interactionCharacter == null){
 				currentInteraction = interaction;
@@ -362,44 +377,52 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 				interaction.declineInteraction();
 			}
 		}
-		else if(evt.getPropertyName().equals("itemAddedToOfferBy" + interactionCharacter.getKey())){
-			// TODO: What to do
-		}
-		else if(evt.getPropertyName().equals("itemAddedToOfferFailedBy" + getBody().getKey())){
-			// TODO: What to do
-		}
-		else if(evt.getPropertyName().equals("itemAddedToRequestBy" + interactionCharacter.getKey())){
-			// TODO: What to do
-		}
-		else if(evt.getPropertyName().equals("itemAddedToRequestFailedBy" + getBody().getKey())) {
-			// TODO: What to do
-		}
-		else if(evt.getPropertyName().equals("itemRemovedFromOfferBy" + interactionCharacter.getKey())){
-			// TODO: What to do
-		}
-		else if(evt.getPropertyName().equals("itemRemovedFromOfferFailedBy" + getBody().getKey())){
-			// TODO: What to do
-		}
-		else if(evt.getPropertyName().equals("itemRemovedFromRequestBy" + interactionCharacter.getKey())){
-			// TODO: What to do
-		}
-		else if(evt.getPropertyName().equals("itemRemovedFromRequestFailedBy" + getBody().getKey())){
-			// TODO: What to do
-		}
-		else if(evt.getPropertyName().equals("tradeAcceptedBy" + interactionCharacter.getKey())){
-			// TODO: What to do
-		}
-		else if(evt.getPropertyName().equals("tradeDeclinedBy" + interactionCharacter.getKey())){
-			// TODO: What to do
-		}
-		else if(evt.getPropertyName().equals("transferredTrade")){
-			// TODO: What to do
-		}
-		else if(evt.getPropertyName().equals("endInteraction")){
-			currentInteraction = null;
-			interactionCharacter = null;
-			body.setInteractionType(null);
+		else if (interactionCharacter != null){
+
+			if (evt.getPropertyName().equals("itemAddedToOfferBy" + interactionCharacter.hashCode())) {
+				// TODO: What to do
+			} else if (evt.getPropertyName().equals("itemAddedToOfferFailedBy" + getBody().hashCode())) {
+				// TODO: What to do
+			} else if (evt.getPropertyName().equals("itemAddedToRequestBy" + interactionCharacter.hashCode())) {
+				// TODO: What to do
+			} else if (evt.getPropertyName().equals("itemAddedToRequestFailedBy" + getBody().hashCode())) {
+				// TODO: What to do
+			} else if (evt.getPropertyName().equals("itemRemovedFromOfferBy" + interactionCharacter.hashCode())) {
+				// TODO: What to do
+			} else if (evt.getPropertyName().equals("itemRemovedFromOfferFailedBy" + getBody().hashCode())) {
+				// TODO: What to do
+			} else if (evt.getPropertyName().equals("itemRemovedFromRequestBy" + interactionCharacter.hashCode())) {
+				// TODO: What to do
+			} else if (evt.getPropertyName().equals("itemRemovedFromRequestFailedBy" + getBody().hashCode())) {
+				// TODO: What to do
+			} else if (evt.getPropertyName().equals("tradeAcceptedBy" + interactionCharacter.hashCode())) {
+				// TODO: What to do
+			} else if (evt.getPropertyName().equals("tradeDeclinedBy" + interactionCharacter.hashCode())) {
+				// TODO: What to do
+			} else if (evt.getPropertyName().equals("transferredTrade")) {
+				// TODO: What to do
+			} else if (evt.getPropertyName().equals("endInteraction")) {
+				currentInteraction = null;
+				interactionCharacter = null;
+				body.setInteractionType(null);
+			}
 		}
 
+	}
+
+	public ICollidable getObjectToFollow() {
+		return objectToFollow;
+	}
+
+	public void setObjectToFollow(ICollidable objectToFollow) {
+		this.objectToFollow = objectToFollow;
+	}
+
+	public Class getObjectToFind() {
+		return objectToFind;
+	}
+
+	public void setObjectToFind(Class ObjectToFind) {
+		this.objectToFind = ObjectToFind;
 	}
 }
