@@ -29,6 +29,7 @@ public class ExploreState implements IState {
             if(o.getClass().equals(brain.getObjectToFind())){
                 foundObject = true;
                 brain.setObjectToFind(null);
+                currentPath = null;
                 break;
             }
         }

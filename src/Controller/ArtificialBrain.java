@@ -25,7 +25,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 
 
-	private LinkedList<LinkedList<PathStep>> path = new LinkedList<>();
+	private LinkedList<LinkedList<PathStep>> pathStack = new LinkedList<>();
 
 	private LinkedList<IResource.ResourceType> gatherStack = new LinkedList<>();
 
@@ -299,19 +299,19 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	}
 
 	public LinkedList<PathStep> getNextPath() {
-		return path.peek();
+		return pathStack.peek();
 	}
 
 	public LinkedList<LinkedList<PathStep>> getPathStack() {
-		return path;
+		return pathStack;
 	}
 
 	public void findPathTo(double destX, double destY) {
-		path.push(Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), destX, destY));
+		pathStack.push(Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), destX, destY));
 	}
 
 	public void findPathTo(ICollidable dest) {
-		path.push(Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), dest));
+		pathStack.push(Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), dest));
 	}
 
 	public Queue<IState> getStateQueue() {
