@@ -92,11 +92,11 @@ public class CollidableBlocker implements ICollidable{
 	@Override
 	public RenderObject getRenderObject() {
 		//TODO change render image.
-		return new RenderObject(getX(), getY(), getCollisionRadius(), RenderObject.RENDER_OBJECT_ENUM.CROPS);
+		return new RenderObject(getX(), getY(), getCollisionRadius(), RenderObject.RENDER_OBJECT_ENUM.EMPTY);
 	}
 
 	@Override
 	public RenderObject.RENDER_OBJECT_ENUM getRenderType() {
-		return RenderObject.RENDER_OBJECT_ENUM.CROPS;
+		return RenderObject.RENDER_OBJECT_ENUM.EMPTY;
 	}
 }
