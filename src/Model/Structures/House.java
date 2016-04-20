@@ -22,8 +22,8 @@ public class House implements IStructure {
 
 	private int integrity;
 
-	private float xPos;
-	private float yPos;
+	private double xPos;
+	private double yPos;
 	private double collisionRadius;
 	private double interactionRadius;
 	private double surroundingRadius;
@@ -36,7 +36,7 @@ public class House implements IStructure {
     /**
      * A class representing the structure "House".
      */
-    public House(float x, float y){
+    public House(double x, double y){
 		this.xPos = x;
 		this.yPos = y;
 		this.collisionRadius = Constants.HOUSE_COLLISION_RADIUS;
@@ -45,7 +45,7 @@ public class House implements IStructure {
 
 		this.integrity = Constants.MAX_INTEGRETY_HOUSE;
 
-		this.exit = new CollidableBlocker(xPos,(float)(yPos+collisionRadius+Constants.CHARACTER_COLLISION_RADIUS+1),(float)(collisionRadius+Constants.CHARACTER_COLLISION_RADIUS+1));
+		this.exit = new CollidableBlocker(xPos,yPos+collisionRadius+Constants.CHARACTER_COLLISION_RADIUS+1,collisionRadius+Constants.CHARACTER_COLLISION_RADIUS+1);
 
 		this.capacity=Constants.HOUSE_MAX_CAPACITY;
 //		this.buildingPercent = 0;
@@ -55,23 +55,22 @@ public class House implements IStructure {
 
 	@Override
 	/**{@inheritDoc}*/
-	public float getX() {
+	public double getX() {
 		return xPos;
 	}
 
 	@Override
 	/**{@inheritDoc}*/
-	public float getY() {
+	public double getY() {
 		return yPos;
 	}
 
-	public float getDoorPositionX(){
+	public double getDoorPositionX(){
 		return  this.exit.getX();
 	}
-	public float getDoorPositionY(){
+	public double getDoorPositionY(){
 		//TODO add empty collidable;
 		return this.exit.getY();
-		//return (float)(this.yPos+collisionRadius+Constants.CHARACTER_COLLISION_RADIUS+1);
 	}
 	public ICollidable getDoor(){
 		return this.exit;

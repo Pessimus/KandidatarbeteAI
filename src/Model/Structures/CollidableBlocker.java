@@ -9,12 +9,12 @@ import Utility.RenderObject;
  */
 public class CollidableBlocker implements ICollidable{
 
-	private float xPos;
-	private float yPos;
-	private float radius;
+	private double xPos;
+	private double yPos;
+	private double radius;
 	private boolean remove;
 
-	public CollidableBlocker(float xPos, float yPos, float radius){
+	public CollidableBlocker(double xPos, double yPos, double radius){
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.radius = radius;
@@ -22,12 +22,12 @@ public class CollidableBlocker implements ICollidable{
 	}
 
 	@Override
-	public float getX() {
+	public double getX() {
 		return this.xPos;
 	}
 
 	@Override
-	public float getY() {
+	public double getY() {
 		return this.yPos;
 	}
 

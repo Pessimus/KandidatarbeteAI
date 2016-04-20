@@ -80,7 +80,7 @@ public class PlayerBrain implements AbstractBrain {
     public void movePlayerRight() {
 		this.walkingRight = true;
     }
-    public void moveToMouse(float destX, float destY) {
+    public void moveToMouse(double destX, double destY) {
 		//Intiates the optimal path to destination when left mouse button is clicked.
 		pathSteps = Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), destX, destY);
     }

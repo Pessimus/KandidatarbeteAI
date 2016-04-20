@@ -48,14 +48,14 @@ public class Controller implements PropertyChangeListener {
 	private final Queue<Integer[]> keyboardInputQueue;
 	private final Queue<Integer[]> mouseInputQueue;
 	private ModelToViewRectangle screenRect;
-	private float mouseX;
-	private float mouseY;
-	private float scaleGraphicsX;
-	private float scaleGraphicsY;
+	private double mouseX;
+	private double mouseY;
+	private double scaleGraphicsX;
+	private double scaleGraphicsY;
 	private boolean showingPlayerInventory = false;
 	private boolean showingBuildOptions = false;
 
-	private float playerXPos = 0, playerYPos = 0;
+	private double playerXPos = 0, playerYPos = 0;
 
 	private int characterIndex = 0;
 	private Character currentCharacter;
@@ -64,8 +64,8 @@ public class Controller implements PropertyChangeListener {
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
 	public Controller(){
-		scaleGraphicsX = (float)(Constants.SCREEN_WIDTH*Constants.ZOOM_LEVEL/Constants.STANDARD_SCREEN_WIDTH);
-		scaleGraphicsY = (float)(Constants.SCREEN_HEIGHT*Constants.ZOOM_LEVEL/Constants.STANDARD_SCREEN_HEIGHT);
+		scaleGraphicsX = Constants.SCREEN_WIDTH*Constants.ZOOM_LEVEL/Constants.STANDARD_SCREEN_WIDTH;
+		scaleGraphicsY = Constants.SCREEN_HEIGHT*Constants.ZOOM_LEVEL/Constants.STANDARD_SCREEN_HEIGHT;
 		//setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT));
 
 		//TODO remove test
@@ -77,10 +77,10 @@ public class Controller implements PropertyChangeListener {
 		keyboardInputQueue = new LinkedList<>();
 		mouseInputQueue = new LinkedList<>();
 
-		mouseX = (float)Constants.SCREEN_WIDTH/2;
-		mouseY = (float)Constants.SCREEN_HEIGHT/2;
+		mouseX = Constants.SCREEN_WIDTH/2;
+		mouseY = Constants.SCREEN_HEIGHT/2;
 
-		screenRect = new ModelToViewRectangle(Constants.DEFAULT_WORLD_VIEW_X, Constants.DEFAULT_WORLD_VIEW_Y, (float)Constants.SCREEN_WIDTH, (float)Constants.SCREEN_HEIGHT);
+		screenRect = new ModelToViewRectangle(Constants.DEFAULT_WORLD_VIEW_X, Constants.DEFAULT_WORLD_VIEW_Y, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
 
 		//TODO this is hardcoded testing code. Remove after Testing is done!!
 
@@ -173,7 +173,7 @@ public class Controller implements PropertyChangeListener {
 
 				if (playerXPos - Constants.SCREEN_WIDTH / (2 * scaleGraphicsX) > 0) {
 					if (playerXPos + Constants.SCREEN_WIDTH / (2 * scaleGraphicsX) < width) {
-						screenRect.setMinX((float)(playerXPos - Constants.SCREEN_WIDTH / (2 * scaleGraphicsX)));
+						screenRect.setMinX(playerXPos - Constants.SCREEN_WIDTH / (2 * scaleGraphicsX));
 					} else {
 						screenRect.setMaxX(width);
 					}
@@ -183,7 +183,7 @@ public class Controller implements PropertyChangeListener {
 
 				if (playerYPos - Constants.SCREEN_HEIGHT / (2 * scaleGraphicsY) > 0) {
 					if (playerYPos + Constants.SCREEN_HEIGHT / (2 * scaleGraphicsY) < height) {
-						screenRect.setMinY((float)(playerYPos - Constants.SCREEN_HEIGHT / (2 * scaleGraphicsY)));
+						screenRect.setMinY(playerYPos - Constants.SCREEN_HEIGHT / (2 * scaleGraphicsY));
 					} else {
 						screenRect.setMaxY(height);
 					}
@@ -230,8 +230,8 @@ public class Controller implements PropertyChangeListener {
 		RenderObject[] obj = gameModel.getRenderObjects();
 
 		for (RenderObject tempObj : obj) {
-			float[] tempFloats = convertFromModelToViewCoords(tempObj.getX(), tempObj.getY());
-			temp.add(new RenderObject(tempFloats[0], tempFloats[1], tempObj.getRadius(), tempObj.getRenderType()));
+			double[] tempDoubles = convertFromModelToViewCoords(tempObj.getX(), tempObj.getY());
+			temp.add(new RenderObject(tempDoubles[0], tempDoubles[1], tempObj.getRadius(), tempObj.getRenderType()));
 		}
 
 		gameView.setRenderPoint(screenRect.getMinX(), screenRect.getMinY());
@@ -506,8 +506,8 @@ public class Controller implements PropertyChangeListener {
 					if(clicks[1] == Input.MOUSE_LEFT_BUTTON){
 						//The left mouse button was pressed.
 						//TODO WHAT SHOULD BE DONE HERE?!
-						float[] tempFloats = convertFromViewToModelCoords((clicks[2]/(float)Constants.GRAPHICS_SCALE_X)/Constants.ZOOM_LEVEL, (clicks[3]/(float)Constants.GRAPHICS_SCALE_Y)/Constants.ZOOM_LEVEL);
-						player.moveToMouse(tempFloats[0], tempFloats[1]);
+						double[] tempDoubles = convertFromViewToModelCoords((clicks[2]/Constants.GRAPHICS_SCALE_X)/Constants.ZOOM_LEVEL, (clicks[3]/Constants.GRAPHICS_SCALE_Y)/Constants.ZOOM_LEVEL);
+						player.moveToMouse(tempDoubles[0], tempDoubles[1]);
 					}
 
 					if(clicks[1] == Input.MOUSE_RIGHT_BUTTON){
@@ -584,20 +584,20 @@ public class Controller implements PropertyChangeListener {
 
 //----------------------------------Model and View converting methods-------------------------------------------------\\
 
-	private float[] convertFromModelToViewCoords(float x, float y){
-		return new float[]{x - screenRect.getMinX() + Constants.VIEW_BORDER_WIDTH, y - screenRect.getMinY() + Constants.VIEW_BORDER_HEIGHT};
+	private double[] convertFromModelToViewCoords(double x, double y){
+		return new double[]{x - screenRect.getMinX() + Constants.VIEW_BORDER_WIDTH, y - screenRect.getMinY() + Constants.VIEW_BORDER_HEIGHT};
 	}
 
-	private float[] convertFromViewToModelCoords(float x, float y){
-		return new float[]{x + screenRect.getMinX() - Constants.VIEW_BORDER_WIDTH, y + screenRect.getMinY() - Constants.VIEW_BORDER_HEIGHT};
+	private double[] convertFromViewToModelCoords(double x, double y){
+		return new double[]{x + screenRect.getMinX() - Constants.VIEW_BORDER_WIDTH, y + screenRect.getMinY() - Constants.VIEW_BORDER_HEIGHT};
 	}
 
 	private final class ModelToViewRectangle{
-		float rectWidth, rectHeight;
+		double rectWidth, rectHeight;
 
-		float minX, minY, maxX, maxY, scale;
+		double minX, minY, maxX, maxY, scale;
 
-		ModelToViewRectangle(float x, float y, float width, float height){
+		ModelToViewRectangle(double x, double y, double width, double height){
 			rectWidth = width/scaleGraphicsX;
 			rectHeight = height/scaleGraphicsY;
 
@@ -607,58 +607,58 @@ public class Controller implements PropertyChangeListener {
 			maxY = (y + height)/scaleGraphicsY;
 		}
 
-		public void translatePosition(float deltaX, float deltaY){
+		public void translatePosition(double deltaX, double deltaY){
 			minX += deltaX;
 			minY += deltaY;
 			maxX += deltaX;
 			maxY += deltaY;
 		}
 
-		public boolean contains(float x, float y){
+		public boolean contains(double x, double y){
 			return x >= minX && x <= maxX && y >= minY && y <= maxY;
 		}
 
-		public float getMinX() {
+		public double getMinX() {
 			return minX;
 		}
 
-		public float getMinY() {
+		public double getMinY() {
 			return minY;
 		}
 
-		public float getMaxX() {
+		public double getMaxX() {
 			return maxX;
 		}
 
-		public float getMaxY() {
+		public double getMaxY() {
 			return maxY;
 		}
 
-		public float getWidth() {
+		public double getWidth() {
 			return rectWidth;
 		}
 
-		public float getHeight() {
+		public double getHeight() {
 			return rectHeight;
 		}
 
 
-		public void setMinX(float minX) {
+		public void setMinX(double minX) {
 			this.maxX += (minX - this.minX);
 			this.minX = minX;
 		}
 
-		public void setMinY(float minY) {
+		public void setMinY(double minY) {
 			this.maxY += (minY - this.minY);
 			this.minY = minY;
 		}
 
-		public void setMaxX(float maxX) {
+		public void setMaxX(double maxX) {
 			this.minX += (maxX - this.maxX);
 			this.maxX = maxX;
 		}
 
-		public void setMaxY(float maxY) {
+		public void setMaxY(double maxY) {
 			this.minY += (maxY - this.maxY);
 			this.maxY = maxY;
 		}

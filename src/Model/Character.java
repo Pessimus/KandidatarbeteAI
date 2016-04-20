@@ -112,10 +112,10 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	private IStructure.StructureType typeToSpawn;
 
 	//--------------------Collision---------------------\\
-	private float xPos;
-	private float yPos;
+	private double xPos;
+	private double yPos;
 
-	private float stepLength = Constants.CHARACTER_WALK_SPEED;
+	private double stepLength = Constants.CHARACTER_WALK_SPEED;
 
 	private LinkedList<ICollidable> surroundingX;
 	private LinkedList<ICollidable> surroundingY;
@@ -171,7 +171,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	 * @param yPos the position on the y-axis
 	 * @param key a unique value to identify this character
 	 */
-	public Character(float xPos, float yPos, int key){
+	public Character(double xPos, double yPos, int key){
 		this.alive = true;
 		this.age = 0;
 		this.inventory = new Inventory();
@@ -302,20 +302,20 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	@Override
 	/**{@inheritDoc}*/
-	public float getX() {
+	public double getX() {
 		return this.xPos;
 	}
 
 	@Override
 	/**{@inheritDoc}*/
-	public float getY() {
+	public double getY() {
 		return this.yPos;
 	}
 
 	/**
 	 * @return the distance moved by this character in one update.
 	 */
-	public float getSteplength(){
+	public double getSteplength(){
 		return stepLength;
 	}
 
@@ -601,7 +601,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 					collision = (int) Constants.STOCKPILE_COLLISION_RADIUS;
 					break;
 			}
-			//structure = rhs.addStructure(xPos, (float)(yPos-Constants.CHARACTER_INTERACTION_RADIUS), typeToSpawn);
+			//structure = rhs.addStructure(xPos, ()(yPos-Constants.CHARACTER_INTERACTION_RADIUS), typeToSpawn);
 			//structure = rhs.addStructure(xPos, yPos-collision, typeToSpawn);
 
 			int tempX = (int)xPos / Constants.PATHFINDER_GRID_SIZE;

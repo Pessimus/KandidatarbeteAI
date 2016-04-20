@@ -66,10 +66,10 @@ public class View extends BasicGameState implements InputListener{
         }
     }
 
-    public View(int i, float scaleX, float scaleY) {
+    public View(int i, double scaleX, double scaleY) {
         stateNr = i;
-		scaleGraphicsX = scaleX;
-		scaleGraphicsY = scaleY;
+		scaleGraphicsX = (float)scaleX;
+		scaleGraphicsY = (float)scaleY;
     }
 
     @Override
@@ -172,7 +172,7 @@ public class View extends BasicGameState implements InputListener{
 							imageScale = (float)(obj.getRadius()*2/imageWidth);
 						width = imageWidth*imageScale;
 						height = imageHeight*imageScale;
-						resourceMap.get(obj.getRenderType()).draw(obj.getX() - width/2, obj.getY()- height/2, width, height);
+						resourceMap.get(obj.getRenderType()).draw((float)obj.getX() - width/2, (float)obj.getY()- height/2, width, height);
 					}
 				}
 			}
@@ -393,7 +393,7 @@ public class View extends BasicGameState implements InputListener{
 		}
 	}
 
-	public void setRenderPoint(float x, float y){
+	public void setRenderPoint(double x, double y){
 		try{
 			renderSema.acquire();
 			renderPointX = (int) x;

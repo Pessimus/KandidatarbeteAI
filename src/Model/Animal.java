@@ -17,13 +17,13 @@ public class Animal implements ICollidable, ITimeable {
 	// TODO: Enum type for animal
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
 
-	private float xPoss;
-	private float yPoss;
+	private double xPoss;
+	private double yPoss;
 
-	private float territoryMinX;
-	private float territoryMaxX;
-	private float territoryMinY;
-	private float territoryMaxY;
+	private double territoryMinX;
+	private double territoryMaxX;
+	private double territoryMinY;
+	private double territoryMaxY;
 
 	private IResource resource;
 
@@ -47,7 +47,7 @@ public class Animal implements ICollidable, ITimeable {
 	 * @param yPoss the position on the y-axis
 	 * @param resourceType the resource that can be gathered from this animal
 	 */
-	public Animal(float xPoss, float yPoss, IResource resourceType, float territoryMinX, float territoryMinY, float territoryMaxX, float territoryMaxY){
+	public Animal(double xPoss, double yPoss, IResource resourceType, double territoryMinX, double territoryMinY, double territoryMaxX, double territoryMaxY){
 		this.xPoss = xPoss;
 		this.yPoss = yPoss;
 
@@ -77,12 +77,12 @@ public class Animal implements ICollidable, ITimeable {
 //---------------------------------------Collision Methods------------------------------------------------------------\\
 
 	@Override
-	public float getX() {
+	public double getX() {
 		return xPoss;
 	}
 
 	@Override
-	public float getY() {
+	public double getY() {
 		return yPoss;
 	}
 
