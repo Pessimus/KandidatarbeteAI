@@ -2,9 +2,7 @@ package Model;
 
 import Model.Structures.House;
 import Model.Structures.Stockpile;
-import Model.Tasks.AttackTask;
-import Model.Tasks.BuildTask;
-import Model.Tasks.InteractTask;
+import Model.Tasks.*;
 import Utility.Constants;
 import Utility.InventoryRender;
 import Utility.RenderObject;
@@ -111,6 +109,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	private boolean spawning;
 	private IStructure.StructureType typeToSpawn;
+
+	private boolean pregnant;
+	private Character father;
+	private boolean labour;
+
 	private Interaction.InteractionType currentInteraction;
 
 	//--------------------Collision---------------------\\
@@ -191,6 +194,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.name = randomizeName();
 
 		this.spawning = false;
+		this.pregnant = false;
+		this.labour = false;
+
 		this.waiting = false;
 
 		//Initial position
@@ -417,6 +423,21 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		rhs.startCharacterInteraction(this, i);
 	}
 
+	public  boolean reproduce(Character rhs){
+		if(!this.genderMale && rhs.genderMale && !this.pregnant){
+			this.pregnant = true;
+			this.father = rhs;
+			Schedule.addTask(new ReproduceTask(this,Constants.CHARACTER_PREGNANCY_TIME));//TODO remove magic number
+			return true;
+		}else if(!rhs.genderMale && this.genderMale && !rhs.pregnant){
+			rhs.pregnant = true;
+			rhs.father = rhs;
+			Schedule.addTask(new ReproduceTask(rhs,Constants.CHARACTER_PREGNANCY_TIME));//TODO remove magic number
+			return true;
+		}
+		return false;
+	}
+
 	@Override
 	/**{@inheritDoc}*/
 	public void consumed(Character rhs){
@@ -427,12 +448,16 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs){
 		//TODO fire property change
-		Schedule.addTask(new AttackTask(this,rhs,Constants.CHARACTER_ATTACKED_TIME));
+		Schedule.addTask(new AttackTask(this, rhs, Constants.CHARACTER_ATTACKED_TIME));
 	}
 
 	@Override
 	public void interactedCommand(Character rhs) {
 		//Not used. Interaction instant.
+	}
+
+	public void reproduceCommand(){
+		this.labour = true;
 	}
 
 	@Override
@@ -570,6 +595,20 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	public boolean isSpawning() {
 		return spawning;
+	}
+
+	public boolean isPregnant(){
+		return pregnant;
+	}
+
+	public boolean isInLabour(){
+		return labour;
+	}
+
+	public void birth(World world){
+		this.labour = false;
+		this.pregnant = false;
+		world.addCharacter(this.xPos,this.yPos,30);
 	}
 
 	@Override
