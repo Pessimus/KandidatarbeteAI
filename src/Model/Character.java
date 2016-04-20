@@ -20,81 +20,13 @@ import java.util.List;
  * Created by Tobias on 2016-02-26.
  */
 public class Character implements ICollidable, ITimeable, ICharacterHandle {
-	//TODO-------------------------------????-------------------------------------------------------------------------\\
-
-	/*TODO REMOVE depricated methods
-	//---------NEED REPLENESHING METHODS--------------
-	public void eat() {
-		this.hunger += 25;
-	}
-	public void drink() {
-		this.thirst += 10;
-	}
-
-	public void rest() {
-		this.energy += 20;
-	}*/
-
-//	TODO REMOVE, after checking why they existed in the first place
-//		/*
-//		Method for checking where the character wants to move
-//		 */
-//		public double getNextXPosition(){
-//			return this.xPos+this.xSpeed;
-//		}
-//
-//
-//		/*
-//		Method for checking where the character wants to move
-//		 */
-//		public double getNextYPosition(){
-//			return this.yPos+this.ySpeed;
-//		}
-	//---------------TRAITS VARIABLES--------------------
-
-//	public enum TRAITS_ENUM{
-//		HUNGER, THIRST, ENERGY
-//	}
-
-//	public enum GENDER_ENUM {
-//		MAN("man"), WOMAN("woman");
-//		private  String gender;
-//
-//		GENDER_ENUM (String g) {gender = g; }
-//
-//		public String getGender(){
-//			return gender;
-//		}
-//	}
-//	private String gender;
-
-
-	//TESTING
-//	private Pathfinder pathTest;
-//	private LinkedList<PathStep> stepTest;
-
-
-//	public enum NEEDS_ENUM{
-//		HUNGER, THIRST, ENERGY
-//	}
-
-
-	//generates a gender for the character.
-//	public void generateGender() {
-//		if(Math.random()<= 0.5) {
-//			this.gender = GENDER_ENUM.MAN.getGender();
-//		} else {
-//			this.gender = GENDER_ENUM.WOMAN.getGender();
-//		}
-//	}
-
-	//TODO-------------------------------END ????---------------------------------------------------------------------\\
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 
 	//------------------Functionality-------------------\\
 	private int updateCounter = 0;
 
+	private static int nexKey = 1;
 	private int key;
 
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum;
@@ -165,11 +97,16 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	private final int hungerUpdate;
 	private final int energyUpdate;
 
-//	private boolean waiting = false;
-//	private int waitingFrames = 0;
-
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
+	/**
+	 * A class representing a human in the world.
+	 * @param xPos the position on the x-axis
+	 * @param yPos the position on the y-axis
+	 */
+	public Character(double xPos, double yPos) {
+		this(xPos,yPos,nexKey++);
+	}
 	/**
 	 * A class representing a human in the world.
 	 * @param xPos the position on the x-axis
@@ -237,18 +174,18 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		hungerUpdate = (int)(Constants.CHARACTER_HUNGER_UPDATE - Constants.CHARACTER_HUNGER_UPDATE*gluttony*Constants.GLUTTONY_HUNGER_CHANGE_MODIFIER);
 		energyUpdate = (int)(Constants.CHARACTER_ENERGY_UPDATE - Constants.CHARACTER_ENERGY_UPDATE*sloth*Constants.SLOTH_ENERGY_CHANGE_MODIFIER);
 
-		//TODO check if this should be removed
-		//this.pathTest = new Pathfinder(16, 9600, 9600, 1, 1.4);
-		//this.pathTest.updateMask(new CollisionList());
-		//this.stepTest = null;
-
-		//TODO check if this should be removed
-		//Generate Gender
-		//generateGender();
-
 	}
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
+
+	/**
+	 * @param key The key identifying this character.
+	 */
+	public void setKey(int key){
+		if(key < 1 && key > nexKey) {
+			this.key = key;
+		}
+	}
 
 	/**
 	 * @return the key identifying this character.
@@ -608,7 +545,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	public void birth(World world){
 		this.labour = false;
 		this.pregnant = false;
-		world.addCharacter(this.xPos,this.yPos,30);
+		world.addCharacter(this.xPos,this.yPos);
 	}
 
 	@Override

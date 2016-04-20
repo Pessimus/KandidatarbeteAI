@@ -267,16 +267,15 @@ public class World{
 	 * Adds a new character to the world at the specified position.
 	 * @param xPoss the position on the x axis.
 	 * @param yPoss the position on the y axis.
-	 * @param key the key of the character, uniquely defines it for ease of access.
 	 * @return the character that was just created.
 	 */
-	public Character addCharacter(double xPoss, double yPoss, int key) {
-		Character character = new Character(xPoss, yPoss, key);
+	public Character addCharacter(double xPoss, double yPoss) {
+		Character character = new Character(xPoss, yPoss);
 
 		this.collidablesR.add(character);
 		this.collidables.add(character);
 		this.timeables.add(character);
-		this.characters.put(key, character);
+		this.characters.put(character.getKey(), character);
 
 		return character;
 	}

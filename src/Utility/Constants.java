@@ -69,7 +69,7 @@ public final class Constants {
 	public static final 		int 		HORIZONTAL_TILES 					=	(int) (SCREEN_WIDTH /WORLD_TILE_SIZE);
 
 	//----------- Character Constants ------------- \\
-	public static final			int			PLAYER_CHARACTER_KEY				= 	1;
+	public static final			int			PLAYER_CHARACTER_KEY				= 	0;
 	public static final			float		CHARACTER_WALK_SPEED				=	6f;
 	public static final			float		CHARACTER_RUN_SPEED					=	12f;
 	public static final 		int			CHARACTER_UPDATE_INTERVAL			=	60;
