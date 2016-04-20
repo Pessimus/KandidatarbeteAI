@@ -25,8 +25,8 @@ public class Stockpile implements IStructure {
 
 	private int integrity;
 
-	private float xPos;
-	private float yPos;
+	private double xPos;
+	private double yPos;
 	private double collisionRadius;
 	private double interactionRadius;
 	private double surroundingRadius;
@@ -35,7 +35,7 @@ public class Stockpile implements IStructure {
 
 //-----------------------------------------------CONSTRUCTOR----------------------------------------------------------\\
 
-	public Stockpile(float x, float y){
+	public Stockpile(double x, double y){
 		this.xPos = x;
 		this.yPos = y;
 		this.collisionRadius = Constants.STOCKPILE_COLLISION_RADIUS;
@@ -52,13 +52,13 @@ public class Stockpile implements IStructure {
 
 	@Override
 	/**{@inheritDoc}*/
-	public float getX() {
+	public double getX() {
 		return xPos;
 	}
 
 	@Override
 	/**{@inheritDoc}*/
-	public float getY() {
+	public double getY() {
 		return yPos;
 	}
 

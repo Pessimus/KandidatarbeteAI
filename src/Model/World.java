@@ -118,17 +118,17 @@ public class World{
 
 		this(width, height);
 
-		Animal animal = new Animal(500,500,new Meat(10,10), 0,0,(float)width,(float)height);
+		Animal animal = new Animal(500,500,new Meat(10,10), 0,0,width,height);
 		this.collidablesR.add(animal);
 		this.collidables.add(animal);
 		this.timeables.add(animal);
 
 		int i = 0;
-		float tmpX;
-		float tmpY;
+		double tmpX;
+		double tmpY;
 		while(i < nrTrees){
-			tmpX = (float)(Math.random()*this.width);
-			tmpY = (float)(Math.random()*this.height);
+			tmpX = Math.random()*this.width;
+			tmpY = Math.random()*this.height;
 
 			Wood tmpWood = new Wood(10,10,1,tmpX,tmpY);
 			addRenewableResourcePoint(tmpWood, RenderObject.RENDER_OBJECT_ENUM.WOOD, tmpX, tmpY, 75);
@@ -137,8 +137,8 @@ public class World{
 		}
 		i = 0;
 		while(i < nrLakes){
-			tmpX = (float)(Math.random()*this.width);
-			tmpY = (float)(Math.random()*this.height);
+			tmpX = Math.random()*this.width;
+			tmpY = Math.random()*this.height;
 
 			Water tmpLake = new Water(1,1);
 			addInfiniteResourcePoint(tmpLake, RenderObject.RENDER_OBJECT_ENUM.LAKE, tmpX, tmpY, 100);
@@ -147,8 +147,8 @@ public class World{
 		}
 		i = 0;
 		while(i < nrStones){
-			tmpX = (float)(Math.random()*this.width);
-			tmpY = (float)(Math.random()*this.height);
+			tmpX = Math.random()*this.width;
+			tmpY = Math.random()*this.height;
 
 			Stone tmpStone = new Stone(50,5);
 			addFiniteResourcePoint(tmpStone, RenderObject.RENDER_OBJECT_ENUM.STONE, tmpX, tmpY, 10);
@@ -157,25 +157,14 @@ public class World{
 		}
 		i = 0;
 		while(i < nrGold){
-			tmpX = (float)(Math.random()*this.width);
-			tmpY = (float)(Math.random()*this.height);
+			tmpX = Math.random()*this.width;
+			tmpY = Math.random()*this.height;
 
 			Gold tmpStone = new Gold(50,5);
 			addFiniteResourcePoint(tmpStone, RenderObject.RENDER_OBJECT_ENUM.GOLD, tmpX, tmpY, 10);
 
 			i++;
 		}
-		//TODO remove as crops now spawn from farms.
-		/*i = 0;
-		while(i < nrCrops){
-			tmpX = (float)(Math.random()*this.width);
-			tmpY = (float)(Math.random()*this.height);
-
-			Crops tmpCrops = new Crops(100,5);
-			addFiniteResourcePoint(tmpCrops, RenderObject.RENDER_OBJECT_ENUM.CROPS,tmpX,tmpY,20);
-
-			i++;
-		}*/
 
 	}
 
@@ -264,7 +253,7 @@ public class World{
 	 * @param key the key of the character, uniquely defines it for ease of access.
 	 * @return the character that was just created.
 	 */
-	public Character addCharacter(float xPoss, float yPoss, int key) {
+	public Character addCharacter(double xPoss, double yPoss, int key) {
 		Character character = new Character(xPoss, yPoss, key);
 
 		this.collidablesR.add(character);
@@ -276,7 +265,7 @@ public class World{
 	}
 
 	//TODO code this in a good way, this is not good.
-	public IStructure addStructure(float xPoss, float yPoss, IStructure.StructureType type){
+	public IStructure addStructure(double xPoss, double yPoss, IStructure.StructureType type){
 		IStructure structure = StructureFactory.createStructure(type, xPoss, yPoss);
 
 		if (type.equals(IStructure.StructureType.FARM)) {
@@ -330,7 +319,7 @@ public class World{
 	 * @param radius the collision radius of the point.
 	 * @return the resource point that was just added.
 	 */
-	public ResourcePoint addFiniteResourcePoint(FiniteResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float xPoss, float yPoss, double radius){
+	public ResourcePoint addFiniteResourcePoint(FiniteResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, double xPoss, double yPoss, double radius){
 		ResourcePoint point = new ResourcePoint(resourceType, renderEnum, xPoss, yPoss, radius);
 
 		if(collidables.canAdd(point)) {
@@ -357,7 +346,7 @@ public class World{
 	 * @param radius the collision radius of the point.
 	 * @return the resource point that was just added.
 	 */
-	public ResourcePoint addInfiniteResourcePoint(InfiniteResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float xPoss, float yPoss, double radius){
+	public ResourcePoint addInfiniteResourcePoint(InfiniteResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, double xPoss, double yPoss, double radius){
 		ResourcePoint point = new ResourcePoint(resourceType, renderEnum, xPoss, yPoss, radius);
 
 		if(collidables.canAdd(point)) {
@@ -385,7 +374,7 @@ public class World{
 	 * @param radius the collision radius of the point.
 	 * @return the resource point that was just added.
 	 */
-	public ResourcePoint addRenewableResourcePoint(RenewableResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, float xPoss, float yPoss, double radius){
+	public ResourcePoint addRenewableResourcePoint(RenewableResource resourceType, RenderObject.RENDER_OBJECT_ENUM renderEnum, double xPoss, double yPoss, double radius){
 		ResourcePoint point = new ResourcePoint(resourceType, renderEnum, xPoss, yPoss, radius);
 
 		if(collidables.canAdd(point)) {

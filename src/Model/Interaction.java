@@ -101,6 +101,14 @@ public class Interaction {
 				&& (Math.abs(character1.getY()-character2.getY())<Constants.CHARACTER_SURROUNDING_RADIUS);
 	}
 
+	public boolean isActive(){
+		return active;
+	}
+
+	public boolean isCharacterActive(int key){
+		return (key == character1Key && character1Active) || (key == character2Key && character2Active);
+	}
+
 //--------------------------------------------Social Methods----------------------------------------------------------\\
 
 	public boolean talk(){

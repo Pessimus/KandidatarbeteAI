@@ -25,8 +25,8 @@ public class Farm implements IStructure, ITimeable {
 
 	private int integrity;
 
-	private float xPos;
-	private float yPos;
+	private double xPos;
+	private double yPos;
 	private double collisionRadius;
 	private double interactionRadius;
 	private double surroundingRadius;
@@ -34,14 +34,14 @@ public class Farm implements IStructure, ITimeable {
 	private boolean spawning;
 	private final int nbrOfSpawnPoints = 8;
 	private Crops[] spawnPoints;
-	private float[] spawnPointsXpos;
-	private float[] spawnPointsYpos;
+	private double[] spawnPointsXpos;
+	private double[] spawnPointsYpos;
 
 	//private int buildingPercent;
 
 //-----------------------------------------------CONSTRUCTOR----------------------------------------------------------\\
 
-	public Farm(float x, float y){
+	public Farm(double x, double y){
 		this.xPos = x;
 		this.yPos = y;
 		this.collisionRadius = Constants.FARM_COLLISION_RADIUS;
@@ -52,31 +52,31 @@ public class Farm implements IStructure, ITimeable {
 
 		this.spawning = false;
 		spawnPoints = new Crops[nbrOfSpawnPoints];
-		spawnPointsXpos = new float[nbrOfSpawnPoints];
-		spawnPointsYpos = new float[nbrOfSpawnPoints];
+		spawnPointsXpos = new double[nbrOfSpawnPoints];
+		spawnPointsYpos = new double[nbrOfSpawnPoints];
 
-		spawnPointsXpos[0] = (float)(x-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
-		spawnPointsYpos[0] = (float)(y-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
+		spawnPointsXpos[0] = x-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
+		spawnPointsYpos[0] = y-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
 
 		spawnPointsXpos[1] = x;
-		spawnPointsYpos[1] = (float)(y-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
+		spawnPointsYpos[1] = y-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
 
-		spawnPointsXpos[2] = (float)(x+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
-		spawnPointsYpos[2] = (float)(y-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
+		spawnPointsXpos[2] = x+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
+		spawnPointsYpos[2] = y-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
 
-		spawnPointsXpos[3] = (float)(x+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
+		spawnPointsXpos[3] = x+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
 		spawnPointsYpos[3] = y;
 
-		spawnPointsXpos[4] = (float)(x+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
-		spawnPointsYpos[4] = (float)(y+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
+		spawnPointsXpos[4] = x+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
+		spawnPointsYpos[4] = y+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
 
 		spawnPointsXpos[5] = x;
-		spawnPointsYpos[5] = (float)(y+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
+		spawnPointsYpos[5] = y+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
 
-		spawnPointsXpos[6] = (float)(x-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
-		spawnPointsYpos[6] = (float)(y+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
+		spawnPointsXpos[6] = x-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
+		spawnPointsYpos[6] = y+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
 
-		spawnPointsXpos[7] = (float)(x-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1));
+		spawnPointsXpos[7] = x-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
 		spawnPointsYpos[7] = y;
 
 	}
@@ -85,13 +85,13 @@ public class Farm implements IStructure, ITimeable {
 
 	@Override
 	/**{@inheritDoc}*/
-	public float getX() {
+	public double getX() {
 		return xPos;
 	}
 
 	@Override
 	/**{@inheritDoc}*/
-	public float getY() {
+	public double getY() {
 		return yPos;
 	}
 

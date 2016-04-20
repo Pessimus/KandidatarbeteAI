@@ -451,12 +451,12 @@ public class CollisionList {
 	 */
 	private class CollidableDummy implements ICollidable{
 		@Override
-		public float getX() {
+		public double getX() {
 			return -1000000;
 		}
 
 		@Override
-		public float getY() {
+		public double getY() {
 			return -1000000;
 		}
 

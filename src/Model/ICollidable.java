@@ -9,9 +9,9 @@ import Utility.RenderObject;
 public interface ICollidable {
 
 	/** @return the position of the Collidable on the x-axis. */
-	float getX();
+	double getX();
 	/** @return the position of the Collidable on the y-axis. */
-	float getY();
+	double getY();
 	/** @return the radius of the Collidable. */
 	double getCollisionRadius();
 	/** @return radius of the Collidables interaction area.*/

@@ -91,7 +91,7 @@ public final class Constants {
 
     public static final         int         CHARACTER_SOCIAL_MAX                =   100;
 	public static final 		int			CHARACTER_SOCIAL_NEEDS_MODIFIER		=	100; //(1/100)
-    public static final         int         CHARACTER_INTEMACY_MAX              =   100;
+    public static final         int         CHARACTER_INTIMACY_MAX              =   100;
 
 	public static final			int			CHARACTER_HUNGER_UPDATE				=	200;
 	public static final			int			CHARACTER_THIRST_UPDATE				=	150;
@@ -103,8 +103,8 @@ public final class Constants {
 	public static final 		int			CHARACTER_MAX_AGE					=	100;
 	public static final			int			CHARACTER_DEATH_AGE_SPANN			=	CHARACTER_MAX_AGE-CHARACTER_MIN_DEATH_AGE;
 
-	public static final			int			CHARACTER_HUNGER_CHANGE				=	1;
-	public static final			int			CHARACTER_THIRST_CHANGE				=	1;
+	public static final			int			CHARACTER_HUNGER_CHANGE				=	2;
+	public static final			int			CHARACTER_THIRST_CHANGE				=	3;
 	public static final			int			CHARACTER_ENERGY_CHANGE				=	1;
 	public static final			int			CHARACTER_SOCIAL_CHANGE				=	1;
 
