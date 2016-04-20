@@ -62,6 +62,21 @@ public class Gold extends FiniteResource {
 		this.setResourcesLeft(0);
 	}
 
+	@Override
+	public int getInteractedTime() {
+		return Constants.GOLD_INTERACTED_TIME;
+	}
+
+	@Override
+	public int getConsumedTime() {
+		return Constants.GOLD_CONSUMED_TIME;
+	}
+
+	@Override
+	public int getAttackedTime() {
+		return Constants.GOLD_ATTACKED_TIME;
+	}
+
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
     @Override

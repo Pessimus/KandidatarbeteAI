@@ -2,6 +2,8 @@ package Model;
 
 import Model.Structures.House;
 import Model.Structures.Stockpile;
+import Model.Tasks.AttackTask;
+import Model.Tasks.BuildTask;
 import Model.Tasks.InteractTask;
 import Utility.Constants;
 import Utility.InventoryRender;
@@ -109,12 +111,13 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	private boolean spawning;
 	private IStructure.StructureType typeToSpawn;
+	private Interaction.InteractionType currentInteraction;
 
 	//--------------------Collision---------------------\\
-	private float xPos;
-	private float yPos;
+	private double xPos;
+	private double yPos;
 
-	private float stepLength = Constants.CHARACTER_WALK_SPEED;
+	private double stepLength = Constants.CHARACTER_WALK_SPEED;
 
 	private LinkedList<ICollidable> surroundingX;
 	private LinkedList<ICollidable> surroundingY;
@@ -147,13 +150,13 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	private int attention;
 
 	//---PERSONALITY TRAITS---\\
-	private int gluttony;		//Temperance(0)		- 		Gluttony(100)
-	private int sloth;			//Diligent(0)		-		Sloth(100)
-	private int lust;			//Chasity(0)		-		Lust(100)
-	private int pride;			//Humility(0)		-		Pride(100)
+	private int gluttony;		//Temperance(0)		- 		Gluttony(100) 		(Increases hunger decrease over time)
+	private int sloth;			//Diligent(0)		-		Sloth(100)			(Increases energy decrease over time)
+	private int lust;			//Virtues(0)		-		Lust(100)
+	private int pride;			//Humility(0)		-		Pride(100)			(Decreases social increase from interaction)
 	private int greed;			//Charity(0)		-		Greed(100)
-	private int envy;			//Benevolence(0)	-		Envy(100)
-	private int wrath;			//Happiness(0)		-		Wrath(100)
+	private int envy;			//Benevolence(0)	-		Envy(100)			(Increases surrounding range)
+	private int wrath;			//Tranquility(0)	-		Wrath(100)			(Decreases the change in energy from attacks)
 
 	//---UPDATE NEEDS BASED ON TRAITS---\\
 	private final int hungerUpdate;
@@ -170,7 +173,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	 * @param yPos the position on the y-axis
 	 * @param key a unique value to identify this character
 	 */
-	public Character(float xPos, float yPos, int key){
+	public Character(double xPos, double yPos, int key){
 		this.alive = true;
 		this.age = 0;
 		this.inventory = new Inventory();
@@ -200,9 +203,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.energy = Constants.CHARACTER_ENERGY_MAX;
 
 		//Initialize secondary needs
-		this.social = 100;
-		this.intimacy = 100;
-		this.attention = 100;
+		this.social = Constants.CHARACTER_SOCIAL_MAX;
+		//this.intimacy = 100;
+		//this.attention = 100;
 
 		//Initialize collision detection lists
 		this.surroundingX = new LinkedList<>();
@@ -225,8 +228,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 
 
-		hungerUpdate = (int)(Constants.CHARACTER_HUNGER_UPDATE - Constants.CHARACTER_HUNGER_UPDATE/2*gluttony*0.01);
-		energyUpdate = (int)(Constants.CHARACTER_ENERGY_UPDATE - Constants.CHARACTER_ENERGY_UPDATE/2*sloth*0.01);
+		hungerUpdate = (int)(Constants.CHARACTER_HUNGER_UPDATE - Constants.CHARACTER_HUNGER_UPDATE*gluttony*Constants.GLUTTONY_HUNGER_CHANGE_MODIFIER);
+		energyUpdate = (int)(Constants.CHARACTER_ENERGY_UPDATE - Constants.CHARACTER_ENERGY_UPDATE*sloth*Constants.SLOTH_ENERGY_CHANGE_MODIFIER);
 
 		//TODO check if this should be removed
 		//this.pathTest = new Pathfinder(16, 9600, 9600, 1, 1.4);
@@ -256,6 +259,42 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return age;
 	}
 
+	public String randomizeName(){
+		String name = "";
+		try{
+			FileInputStream fstream;
+			int random_max;
+			if(genderMale) {
+				fstream = new FileInputStream("res/boy_names.txt");
+				random_max = Constants.NUMBER_OF_MALE_NAMES;
+			}else {
+				fstream = new FileInputStream("res/girl_names.txt");
+				random_max = Constants.NUMBER_OF_FEMALE_NAMES;
+			}
+			int randomNr = (int)(Math.random()*random_max)+1;
+			DataInputStream din = new DataInputStream(fstream);
+			BufferedReader br = new BufferedReader(new InputStreamReader(din));
+			PrintWriter writer = new PrintWriter("girl_names.txt", "UTF-8");
+
+			String strLine;
+			int counter = 1;
+			while((strLine = br.readLine()) != null){
+				if(counter==randomNr) {
+					String[] delims = strLine.split(" ");
+					name = delims[0];
+					name = name.substring(0,1).toUpperCase()+name.substring(1).toLowerCase();
+					break;
+				}
+				counter++;
+			}
+			din.close();
+			writer.close();
+		}catch(Exception e){//Catch exception if any
+			System.err.println("Error: " + e.getMessage());
+		}
+		return name;
+	}
+
 	/**
 	 * @return the gender, true if man or false if female.
 	 */
@@ -265,20 +304,20 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	@Override
 	/**{@inheritDoc}*/
-	public float getX() {
+	public double getX() {
 		return this.xPos;
 	}
 
 	@Override
 	/**{@inheritDoc}*/
-	public float getY() {
+	public double getY() {
 		return this.yPos;
 	}
 
 	/**
 	 * @return the distance moved by this character in one update.
 	 */
-	public float getSteplength(){
+	public double getSteplength(){
 		return stepLength;
 	}
 
@@ -304,7 +343,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public double getSurroundingRadius(){
-		return Constants.CHARACTER_SURROUNDING_RADIUS;
+		return Constants.CHARACTER_SURROUNDING_RADIUS*(1+envy/Constants.ENVY_SURROUNDING_RADIUS_MODIFYER);
 	}
 
 	@Override
@@ -361,10 +400,19 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 //---------------------------------------Interaction methods----------------------------------------------------------\\
 
+	public Interaction.InteractionType getInteractionType(){
+		return currentInteraction;
+	}
+
+	public void setInteractionType(Interaction.InteractionType type){
+		currentInteraction = type;
+	}
+
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Character rhs){
-		Interaction i = new Interaction(rhs, this);
+		Interaction i = new Interaction(rhs, this, rhs.getInteractionType());
+		currentInteraction = rhs.getInteractionType();
 		pcs.firePropertyChange("startInteraction", i, rhs);
 		rhs.startCharacterInteraction(this, i);
 	}
@@ -378,7 +426,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs){
-		//TODO implement
+		//TODO fire property change
+		Schedule.addTask(new AttackTask(this,rhs,Constants.CHARACTER_ATTACKED_TIME));
 	}
 
 	@Override
@@ -393,7 +442,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	@Override
 	public void attackedCommand(Character rhs) {
-		//TODO implement
+		this.changeEnergy(Constants.CHARACTER_ATTACKED_ENERGY_CHANGE-(int)(Constants.WRATH_ENERGY_ATTACK_MODIFIER*this.wrath));
 	}
 
 	@Override
@@ -440,9 +489,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	 * If this change would set the hunger level to higher than the maximum, it is set to the maximum instead.
 	 * @param change the desired change in hunger.
 	 */
-	public void changeHunger(int change){
-		if(hunger+change >= Constants.CHARACTER_HUNGER_MAX){
+	public void changeHunger(int change) {
+		if (hunger + change >= Constants.CHARACTER_HUNGER_MAX) {
 			hunger = Constants.CHARACTER_HUNGER_MAX;
+		} else if (hunger + change <= 0){
+			hunger = 0;
 		}else{
 			this.hunger = hunger + change;
 		}
@@ -457,6 +508,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	public void changeThirst(int change){
 		if(thirst+change >= Constants.CHARACTER_THIRST_MAX){
 			thirst = Constants.CHARACTER_THIRST_MAX;
+		} else if (thirst + change <= 0){
+			thirst = 0;
 		}else{
 			this.thirst = thirst + change;
 		}
@@ -470,14 +523,26 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	public void changeEnergy(int change){
 		if(energy+change >= Constants.CHARACTER_ENERGY_MAX){
 			energy = Constants.CHARACTER_ENERGY_MAX;
+		} else if (energy + change <= 0){
+			energy = 0;
 		}else{
 			this.energy = energy + change;
 		}
 	}
 
+	public void changeSocial(int change){
+		if(social+change >= Constants.CHARACTER_SOCIAL_MAX){
+			social = Constants.CHARACTER_SOCIAL_MAX;
+		} else if (social + change <= 0){
+			social = 0;
+		}else{
+			this.social = social + change*(1-pride/Constants.PRIDE_INTERACT_SOCIAL_MODIFIER);
+		}
+	}
+
 	public void enterHouse(House house){
-		this.xPos = house.getX()-1;//-1 for rendering order... (instead of using a third dimension)
-		this.yPos = house.getY()-1;
+		this.xPos = house.getX();
+		this.yPos = house.getY()-1;//-1 for rendering order... (instead of using a third dimension)
 	}
 
 	public void exitHouse(House house){
@@ -529,81 +594,86 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 			}
 		}
 
-		IStructure structure = null;
 		if(canPay) {
-			for(IItem itemCost : cost){
-				inventory.removeItem(itemCost);
-			}
-			int collision = 0;
-
-			switch (typeToSpawn){
-				case FARM:
-					collision = (int) Constants.FARM_COLLISION_RADIUS;
-					break;
-				case HOUSE:
-					collision = (int) Constants.HOUSE_COLLISION_RADIUS;
-					break;
-				case STOCKPILE:
-					collision = (int) Constants.STOCKPILE_COLLISION_RADIUS;
-					break;
-			}
-			//structure = rhs.addStructure(xPos, (float)(yPos-Constants.CHARACTER_INTERACTION_RADIUS), typeToSpawn);
-			//structure = rhs.addStructure(xPos, yPos-collision, typeToSpawn);
-
-			int tempX = (int)xPos / Constants.PATHFINDER_GRID_SIZE;
-			int tempY = (int)yPos / Constants.PATHFINDER_GRID_SIZE;
-
-			Queue<Point> queue = new LinkedList<>();
-
-			int tempPositiveX = tempX + collision / Constants.PATHFINDER_GRID_SIZE + 1;
-			int tempNegativeX = tempX - collision / Constants.PATHFINDER_GRID_SIZE - 1;
-			int tempPositiveY = tempY + collision / Constants.PATHFINDER_GRID_SIZE + 1;
-			int tempNegativeY = tempY - collision / Constants.PATHFINDER_GRID_SIZE - 1;
-
-			queue.offer(new Point(tempPositiveX, tempPositiveY));
-			queue.offer(new Point(tempPositiveX, tempNegativeY));
-			queue.offer(new Point(tempNegativeX, tempPositiveY));
-			queue.offer(new Point(tempNegativeX, tempNegativeY));
-
-			Point tempPoint = queue.poll();
-			tempX = tempPoint.x;
-			tempY = tempPoint.y;
-
-			while((structure = rhs.addStructure(tempX * Constants.PATHFINDER_GRID_SIZE, tempY * Constants.PATHFINDER_GRID_SIZE, typeToSpawn)) == null) {
-				Point p = new Point(tempPositiveX, tempPositiveY);
-				if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
-					queue.offer(p);
-				}
-				p = new Point(tempPositiveX, tempNegativeY);
-				if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
-					queue.offer(p);
-				}
-				p = new Point(tempNegativeX, tempPositiveY);
-				if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
-					queue.offer(p);
-				}
-				p = new Point(tempNegativeX, tempNegativeY);
-				if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
-					queue.offer(p);
-				}
-
-				tempPositiveX++;
-				tempNegativeX--;
-				tempPositiveY++;
-				tempNegativeY--;
-
-				tempPoint = queue.poll();
-				tempX = tempPoint.x;
-				tempY = tempPoint.y;
-			}
-
-			if(structure.getClass().equals(House.class) && home == null){
-				home = (House) structure;
-				home.addOccupant();
-			}
+			Schedule.addTask(new BuildTask(this,cost,rhs,StructureFactory.getWaitTime(typeToSpawn)));
 		}
 
 		spawning = false;
+	}
+
+	public void build(LinkedList<IItem> cost, World rhs){
+
+		IStructure structure = null;
+		for(IItem itemCost : cost){
+			inventory.removeItem(itemCost);
+		}
+		int collision = 0;
+
+		switch (typeToSpawn){
+			case FARM:
+				collision = (int) Constants.FARM_COLLISION_RADIUS;
+				break;
+			case HOUSE:
+				collision = (int) Constants.HOUSE_COLLISION_RADIUS;
+				break;
+			case STOCKPILE:
+				collision = (int) Constants.STOCKPILE_COLLISION_RADIUS;
+				break;
+		}
+		//structure = rhs.addStructure(xPos, ()(yPos-Constants.CHARACTER_INTERACTION_RADIUS), typeToSpawn);
+		//structure = rhs.addStructure(xPos, yPos-collision, typeToSpawn);
+
+		int tempX = (int)xPos / Constants.PATHFINDER_GRID_SIZE;
+		int tempY = (int)yPos / Constants.PATHFINDER_GRID_SIZE;
+
+		Queue<Point> queue = new LinkedList<>();
+
+		int tempPositiveX = tempX + collision / Constants.PATHFINDER_GRID_SIZE + 1;
+		int tempNegativeX = tempX - collision / Constants.PATHFINDER_GRID_SIZE - 1;
+		int tempPositiveY = tempY + collision / Constants.PATHFINDER_GRID_SIZE + 1;
+		int tempNegativeY = tempY - collision / Constants.PATHFINDER_GRID_SIZE - 1;
+
+		queue.offer(new Point(tempPositiveX, tempPositiveY));
+		queue.offer(new Point(tempPositiveX, tempNegativeY));
+		queue.offer(new Point(tempNegativeX, tempPositiveY));
+		queue.offer(new Point(tempNegativeX, tempNegativeY));
+
+		Point tempPoint = queue.poll();
+		tempX = tempPoint.x;
+		tempY = tempPoint.y;
+
+		while((structure = rhs.addStructure(tempX * Constants.PATHFINDER_GRID_SIZE, tempY * Constants.PATHFINDER_GRID_SIZE, typeToSpawn)) == null) {
+			Point p = new Point(tempPositiveX, tempPositiveY);
+			if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
+				queue.offer(p);
+			}
+			p = new Point(tempPositiveX, tempNegativeY);
+			if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
+				queue.offer(p);
+			}
+			p = new Point(tempNegativeX, tempPositiveY);
+			if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
+				queue.offer(p);
+			}
+			p = new Point(tempNegativeX, tempNegativeY);
+			if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
+				queue.offer(p);
+			}
+
+			tempPositiveX++;
+			tempNegativeX--;
+			tempPositiveY++;
+			tempNegativeY--;
+
+			tempPoint = queue.poll();
+			tempX = tempPoint.x;
+			tempY = tempPoint.y;
+		}
+
+		if(structure.getClass().equals(House.class) && home == null){
+			home = (House) structure;
+			home.addOccupant();
+		}
 	}
 
 	/**
@@ -629,16 +699,25 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 //		}
 
 		if(updateCounter % hungerUpdate == 0){
-			changeHunger(-Constants.CHARACTER_HUNGER_CHANGE);
+			changeHunger(-Constants.CHARACTER_HUNGER_CHANGE + (social/Constants.CHARACTER_SOCIAL_NEEDS_MODIFIER));
 		}
 		if(updateCounter % energyUpdate == 0){
-			changeEnergy(-Constants.CHARACTER_ENERGY_CHANGE);
+			changeEnergy(-Constants.CHARACTER_ENERGY_CHANGE + (social/Constants.CHARACTER_SOCIAL_NEEDS_MODIFIER));
 		}
 		if(updateCounter % Constants.CHARACTER_THIRST_UPDATE == 0){
-			changeThirst(-Constants.CHARACTER_THIRST_CHANGE);
+			changeThirst(-Constants.CHARACTER_THIRST_CHANGE + (social/Constants.CHARACTER_SOCIAL_NEEDS_MODIFIER));
+		}
+		if(updateCounter % Constants.CHARACTER_SOCIAL_UPDATE == 0){
+			changeSocial(-Constants.CHARACTER_SOCIAL_CHANGE);
 		}
 		if(updateCounter % Constants.CHARACTER_AGE_UPDATE == 0){
 			age++;
+			if(age >= Constants.CHARACTER_MIN_DEATH_AGE){
+				int kill = (int)(Math.random()*(Constants.CHARACTER_DEATH_AGE_SPANN) + Constants.CHARACTER_MIN_DEATH_AGE);
+				if(age >= kill){
+					this.alive = false;
+				}
+			}
 		}
 
 		updateAlive();
@@ -826,7 +905,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void consumeItem(int index){
-		pcs.firePropertyChange("",0,1);
+		pcs.firePropertyChange("", 0, 1);
 		if(this.getInventory().size()>index){
 			this.getInventory().get(index).consumed(this);
 		}
@@ -876,41 +955,5 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	public ICollidable getHome() {
 		return home;
-	}
-
-	public String randomizeName(){
-		String name = "";
-		try{
-			FileInputStream fstream;
-			int random_max;
-			if(genderMale) {
-				fstream = new FileInputStream("res/boy_names.txt");
-				random_max = Constants.NUMBER_OF_MALE_NAMES;
-			}else {
-				fstream = new FileInputStream("res/girl_names.txt");
-				random_max = Constants.NUMBER_OF_FEMALE_NAMES;
-			}
-			int randomNr = (int)(Math.random()*random_max)+1;
-			DataInputStream din = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(din));
-			PrintWriter writer = new PrintWriter("girl_names.txt", "UTF-8");
-
-			String strLine;
-			int counter = 1;
-			while((strLine = br.readLine()) != null){
-				if(counter==randomNr) {
-					String[] delims = strLine.split(" ");
-					name = delims[0];
-					name = name.substring(0,1).toUpperCase()+name.substring(1).toLowerCase();
-					break;
-				}
-				counter++;
-			}
-			din.close();
-			writer.close();
-		}catch(Exception e){//Catch exception if any
-			System.err.println("Error: " + e.getMessage());
-		}
-		return name;
 	}
 }

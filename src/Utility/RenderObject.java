@@ -7,8 +7,8 @@ public final class RenderObject{
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 
-	private final float xPos;
-	private final float yPos;
+	private final double xPos;
+	private final double yPos;
 	private final double radius;
 
 	private RENDER_OBJECT_ENUM objectType;
@@ -31,7 +31,7 @@ public final class RenderObject{
 
 //----------------------------------------------CONSTRUCTOR-----------------------------------------------------------\\
 
-	public RenderObject(float x, float y, double r, RENDER_OBJECT_ENUM type){
+	public RenderObject(double x, double y, double r, RENDER_OBJECT_ENUM type){
 		xPos = x;
 		yPos = y;
 		radius = r;
@@ -41,11 +41,11 @@ public final class RenderObject{
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 
-	public final float getX() {
+	public final double getX() {
 		return xPos;
 	}
 
-	public final float getY() {
+	public final double getY() {
 		return yPos;
 	}
 

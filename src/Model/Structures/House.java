@@ -22,11 +22,13 @@ public class House implements IStructure {
 
 	private int integrity;
 
-	private float xPos;
-	private float yPos;
+	private double xPos;
+	private double yPos;
 	private double collisionRadius;
 	private double interactionRadius;
 	private double surroundingRadius;
+
+	private CollidableBlocker exit;
 
 //	private int buildingPercent;
 
@@ -34,14 +36,16 @@ public class House implements IStructure {
     /**
      * A class representing the structure "House".
      */
-    public House(float x, float y){
+    public House(double x, double y){
 		this.xPos = x;
 		this.yPos = y;
 		this.collisionRadius = Constants.HOUSE_COLLISION_RADIUS;
 		this.interactionRadius = 0;
 		this.surroundingRadius = 0;
 
-		this.integrity = 10;
+		this.integrity = Constants.MAX_INTEGRETY_HOUSE;
+
+		this.exit = new CollidableBlocker(xPos,yPos+collisionRadius+Constants.CHARACTER_COLLISION_RADIUS+1,collisionRadius+Constants.CHARACTER_COLLISION_RADIUS+1);
 
 		this.capacity=Constants.HOUSE_MAX_CAPACITY;
 //		this.buildingPercent = 0;
@@ -51,22 +55,25 @@ public class House implements IStructure {
 
 	@Override
 	/**{@inheritDoc}*/
-	public float getX() {
+	public double getX() {
 		return xPos;
 	}
 
 	@Override
 	/**{@inheritDoc}*/
-	public float getY() {
+	public double getY() {
 		return yPos;
 	}
 
-	public float getDoorPositionX(){
-		return  this.xPos;
+	public double getDoorPositionX(){
+		return  this.exit.getX();
 	}
-	public float getDoorPositionY(){
+	public double getDoorPositionY(){
 		//TODO add empty collidable;
-		return (float)(this.yPos+collisionRadius+Constants.CHARACTER_COLLISION_RADIUS+1);
+		return this.exit.getY();
+	}
+	public ICollidable getDoor(){
+		return this.exit;
 	}
 
 	@Override
@@ -174,7 +181,7 @@ public class House implements IStructure {
 	public void interacted(Model.Character rhs) {
 		rhs.changeEnergy(Constants.CHARACTER_ENERGY_MAX);
 		rhs.enterHouse(this);
-		Schedule.addTask(new InteractTask(this,rhs,20*60));
+		Schedule.addTask(new InteractTask(this,rhs,Constants.HOUSE_INTERACTION_TIME));
 	}
 
 	@Override
@@ -186,7 +193,11 @@ public class House implements IStructure {
 	@Override
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs) {
-		Schedule.addTask(new AttackTask(this,rhs,1*60));
+		this.integrity--;
+		if(integrity <= 0){
+			this.exit.setRemove(true);
+		}
+		Schedule.addTask(new AttackTask(this,rhs,Constants.HOUSE_ATTACKED_TIME));
 	}
 
 	@Override
@@ -203,6 +214,9 @@ public class House implements IStructure {
 	@Override
 	public void attackedCommand(Character rhs) {
 		this.integrity --;
+		if(integrity <= 0){
+			this.exit.setRemove(true);
+		}
 	}
 
 	@Override

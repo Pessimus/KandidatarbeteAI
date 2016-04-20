@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Tasks.AttackTask;
+import Model.Tasks.InteractTask;
 import Utility.Constants;
 import Utility.RenderObject;
 
@@ -15,8 +17,13 @@ public class Animal implements ICollidable, ITimeable {
 	// TODO: Enum type for animal
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
 
-	private float xPoss;
-	private float yPoss;
+	private double xPoss;
+	private double yPoss;
+
+	private double territoryMinX;
+	private double territoryMaxX;
+	private double territoryMinY;
+	private double territoryMaxY;
 
 	private IResource resource;
 
@@ -40,15 +47,20 @@ public class Animal implements ICollidable, ITimeable {
 	 * @param yPoss the position on the y-axis
 	 * @param resourceType the resource that can be gathered from this animal
 	 */
-	public Animal(float xPoss, float yPoss, IResource resourceType){
+	public Animal(double xPoss, double yPoss, IResource resourceType, double territoryMinX, double territoryMinY, double territoryMaxX, double territoryMaxY){
 		this.xPoss = xPoss;
 		this.yPoss = yPoss;
 
 		this.resource = resourceType;
 
+		this.territoryMinX = territoryMinX;
+		this.territoryMaxX = territoryMaxX;
+		this.territoryMinY = territoryMinY;
+		this.territoryMaxY = territoryMaxY;
+
 		this.alive = true;
 
-		this.collisionRadius = Constants.ANIMAL_COLLISION_RADIUS;
+		this.collisionRadius = Constants.ANIMAL_COLLISION_RADIUS*10;
 		this.interactionRadius = Constants.ANIMAL_INTERACTION_RADIUS;
 		this.surroundingRadius = Constants.ANIMAL_SURROUNDING_RADIUS;
 
@@ -65,12 +77,12 @@ public class Animal implements ICollidable, ITimeable {
 //---------------------------------------Collision Methods------------------------------------------------------------\\
 
 	@Override
-	public float getX() {
+	public double getX() {
 		return xPoss;
 	}
 
 	@Override
-	public float getY() {
+	public double getY() {
 		return yPoss;
 	}
 
@@ -151,11 +163,26 @@ public class Animal implements ICollidable, ITimeable {
 
 	@Override
 	public void interacted(Character rhs) {
-		//TODO social need should be updated
+		Schedule.addTask(new InteractTask(this,rhs,Constants.ANIMAL_INTERACTED_TIME));
 	}
 
 	@Override
 	public void consumed(Character rhs) {
+		Schedule.addTask(new AttackTask(this,rhs,Constants.ANIMAL_CONSUMED_TIME));
+	}
+
+	@Override
+	public void attacked(Character rhs) {
+		Schedule.addTask(new AttackTask(this,rhs,Constants.ANIMAL_ATTACKED_TIME));
+	}
+
+	@Override
+	public void interactedCommand(Character rhs) {
+		rhs.changeSocial(Constants.ANIMAL_SOCIAL_CHANGE_INTERACT);
+	}
+
+	@Override
+	public void consumedCommand(Character rhs) {
 		rhs.changeHunger(Constants.ANIMAL_HUNGER_CHANGE_CONSUME);
 		rhs.changeEnergy(Constants.ANIMAL_ENERGY_CHANGE_CONSUME);
 		rhs.changeThirst(Constants.ANIMAL_THIRST_CHANGE_CONSUME);
@@ -163,27 +190,12 @@ public class Animal implements ICollidable, ITimeable {
 	}
 
 	@Override
-	public void attacked(Character rhs) {
+	public void attackedCommand(Character rhs) {
 		rhs.changeHunger(Constants.ANIMAL_HUNGER_CHANGE_ATTACK);
 		rhs.changeEnergy(Constants.ANIMAL_ENERGY_CHANGE_ATTACK);
 		rhs.changeThirst(Constants.ANIMAL_THIRST_CHANGE_ATTACK);
 		rhs.addToInventory(resource.gatherResource());
 		this.alive = false;
-	}
-
-	@Override
-	public void interactedCommand(Character rhs) {
-
-	}
-
-	@Override
-	public void consumedCommand(Character rhs) {
-
-	}
-
-	@Override
-	public void attackedCommand(Character rhs) {
-
 	}
 
 	@Override
@@ -203,27 +215,142 @@ public class Animal implements ICollidable, ITimeable {
 
 //------------------------------------------UPDATE METHODS------------------------------------------------------------\\
 
+	private int xAxisSteps = 0;
+	private int yAxisSteps = 0;
+	private boolean moveLeft = false;
+	private boolean moveRight = false;
+	private boolean moveUp = false;
+	private boolean moveDown = false;
+
+	private boolean moveToLeft(){
+		if(this.xPoss-this.collisionRadius-1<this.territoryMinX){
+			return false;
+		}
+		for(ICollidable collidable: this.surroundings){
+			if(!(Math.abs(this.xPoss-collidable.getX())>(this.collisionRadius+collidable.getCollisionRadius()+1)
+					|| Math.abs(this.yPoss-collidable.getY())>(this.collisionRadius+collidable.getCollisionRadius())
+					|| this.xPoss < collidable.getX())){
+				//Cant move!
+				return false;
+			}
+		}
+			this.xPoss--;
+			return true;
+	}
+
+	private boolean moveToRight(){
+		if(this.xPoss+this.collisionRadius+1>this.territoryMaxX){
+			return false;
+		}
+		for(ICollidable collidable: this.surroundings){
+			if(!(Math.abs(this.xPoss-collidable.getX())>(this.collisionRadius+collidable.getCollisionRadius()+1)
+					|| Math.abs(this.yPoss-collidable.getY())>(this.collisionRadius+collidable.getCollisionRadius())
+					|| this.xPoss > collidable.getX())){
+				//Cant move!
+				return false;
+			}
+		}
+			this.xPoss++;
+			return true;
+	}
+
+	private boolean moveToUp(){
+		if(this.yPoss-this.collisionRadius-1<this.territoryMinY){
+			return false;
+		}
+		for(ICollidable collidable: this.surroundings){
+			if(!(Math.abs(this.xPoss-collidable.getX())>(this.collisionRadius+collidable.getCollisionRadius())
+					|| Math.abs(this.yPoss-collidable.getY())>(this.collisionRadius+collidable.getCollisionRadius()+1)
+					|| this.yPoss < collidable.getY())){
+				//Cant move!
+				return false;
+			}
+		}
+			this.yPoss--;
+			return true;
+	}
+
+	private boolean moveToDown(){
+		if(this.yPoss+this.collisionRadius+1>this.territoryMaxY){
+			return false;
+		}
+		for(ICollidable collidable: this.surroundings){
+			if(!(Math.abs(this.xPoss-collidable.getX())>(this.collisionRadius+collidable.getCollisionRadius())
+					|| Math.abs(this.yPoss-collidable.getY())>(this.collisionRadius+collidable.getCollisionRadius()+1)
+					|| this.yPoss > collidable.getY())){
+				//Cant move!
+				return false;
+			}
+		}
+			this.yPoss++;
+			return true;
+	}
+
 	@Override
 	public void updateTimeable() {
-		Character target = null;
-		for(ICollidable collidable : this.surroundings){
-			if(collidable.getRenderType() == RenderObject.RENDER_OBJECT_ENUM.CHARACTER){
-				target = (Character)collidable;
-				break;
+
+		boolean movedX = false;
+		boolean movedY = false;
+
+		if(xAxisSteps != 0) {
+			xAxisSteps--;
+			if (moveLeft) {
+				movedX = this.moveToLeft();
+			} else if (moveRight) {
+				movedX = this.moveToRight();
+			}
+		}else{
+			movedX = true;
+			xAxisSteps = (int)(Math.random()*Constants.ANIMAL_STEP_AMOUNT_DIFF + Constants.ANIMAL_MIN_STEP_AMOUNT);
+			int movement = (int)(Math.random()*3);
+			switch (movement){
+				case 0:
+					moveLeft = true;
+					moveRight = false;
+					break;
+				case 1:
+					moveLeft = false;
+					moveRight = true;
+					break;
+				default:
+					moveLeft = false;
+					moveRight = false;
+					break;
 			}
 		}
-		if(!(target == null)){
-			if(target.getX() > this.getX()){
-				this.xPoss++;
-			}else if(target.getX() < this.getX()){
-				this.xPoss--;
+
+		if(yAxisSteps != 0) {
+			yAxisSteps--;
+			if (moveUp) {
+				movedY = this.moveToUp();
+			} else if (moveDown) {
+				movedY = this.moveToDown();
 			}
-			if(target.getY() > this.getY()){
-				this.yPoss++;
-			}else if(target.getY() < this.getY()){
-				this.yPoss--;
+		}else{
+			movedY = true;
+			yAxisSteps = (int)(Math.random()*Constants.ANIMAL_STEP_AMOUNT_DIFF + Constants.ANIMAL_MIN_STEP_AMOUNT);
+			int movement = (int)(Math.random()*3);
+			switch (movement){
+				case 0:
+					moveUp = true;
+					moveDown = false;
+					break;
+				case 1:
+					moveUp = false;
+					moveDown = true;
+					break;
+				default:
+					moveUp = false;
+					moveDown = false;
+					break;
 			}
 		}
+
+		if(!movedY && !movedX && (moveUp || moveDown || moveLeft || moveRight)){
+			xAxisSteps = 0;
+			yAxisSteps = 0;
+		}
+
 	}
 
 	@Override

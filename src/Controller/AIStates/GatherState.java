@@ -97,8 +97,8 @@ public class GatherState implements IState{
 			switch (selectType) {
 				case MEAT:
 					// TODO: Add to world, so the AI isn't trying to gather a non-existing resource
-					brain.stackState(brain.getGatherMeatState());
-					break;
+					/*brain.stackState(brain.getGatherMeatState());
+					break;*/
 				case FISH:
 					// TODO: Add to world, so the AI isn't trying to gather a non-existing resource
 					brain.stackState(brain.getGatherFishState());
@@ -107,7 +107,11 @@ public class GatherState implements IState{
 					brain.stackState(brain.getGatherCropsState());
 					break;
 				case WATER:
-					brain.stackState(brain.getGatherWaterState());
+					if(type.equals(IResource.ResourceType.FOOD)){
+						brain.stackState(brain.getGatherFishState());
+					} else {
+						brain.stackState(brain.getGatherWaterState());
+					}
 					break;
 				case STONE:
 					brain.stackState(brain.getGatherStoneState());

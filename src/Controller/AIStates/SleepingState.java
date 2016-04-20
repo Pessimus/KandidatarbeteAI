@@ -35,7 +35,7 @@ public class SleepingState implements IState{
 			index++;
 		}
 
-		if(index >= interact.size()){
+		if(index > interact.size()){
 			throw new IllegalStateException("House of Character isn't in Interactables-list when in SleepingState!");
 		}
 

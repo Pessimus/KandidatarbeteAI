@@ -28,28 +28,32 @@ public class ThirstyState implements IState {
 
 	@Override
 	public void run() {
-		Iterator<IItem> iterator = brain.getBody().getInventory().iterator();
-		IItem best = null;
-		int thirstAmount = -1;
+		if(brain.getBody().getNeeds()[1] < 95) {
+			brain.stackState(brain.getThirstyState());
+			Iterator<IItem> iterator = brain.getBody().getInventory().iterator();
+			IItem best = null;
+			int thirstAmount = -1;
 
-		loop:
-		while (iterator.hasNext()) {
-			IItem current = iterator.next();
-			switch (current.getType()) {
-				case WATER_ITEM:
-					best = current;
-					break loop;
+			loop:
+			while (iterator.hasNext()) {
+				IItem current = iterator.next();
+				switch (current.getType()) {
+					case WATER_ITEM:
+						best = current;
+						break loop;
+				}
 			}
+
+			brain.stackState(brain.getDrinkState());
+
+			if (best == null) {
+				brain.stackResourceToGather(IResource.ResourceType.WATER);
+				brain.stackState(brain.getGatherState());
+
+			}
+			brain.setState(brain.getStateQueue().poll());
+		} else {
+			brain.setState(brain.getIdleState());
 		}
-
-		brain.stackState(brain.getDrinkState());
-
-		if (best == null) {
-			brain.stackResourceToGather(IResource.ResourceType.WATER);
-			brain.stackState(brain.getGatherState());
-
-		}
-
-		brain.setState(brain.getIdleState());
 	}
 }

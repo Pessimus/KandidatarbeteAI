@@ -37,9 +37,9 @@ public interface ICharacterHandle {
 	int getKey();
 
 	/** @return the position of the character on the x-axis. */
-	float getX();
+	double getX();
 	/** @return the position of the character on the y-axis. */
-	float getY();
+	double getY();
 
 	/** Increases the characters y position by the characters step-length. */
 	void moveUp();
@@ -51,7 +51,7 @@ public interface ICharacterHandle {
 	void moveRight();
 
 	/** @return the change in position used by the move methods*/
-	float getSteplength();
+	double getSteplength();
 
 
 	/** Changes the step-length to the running value in the Constants. */
@@ -112,6 +112,9 @@ public interface ICharacterHandle {
 	boolean hasHome();
 
 	ICollidable getHome();
+
+	void setInteractionType(Interaction.InteractionType type);
+	Interaction.InteractionType getInteractionType();
 
 	void addPropertyChangeListener(PropertyChangeListener listener);
 	void removePropertyChangeListener(PropertyChangeListener listener);

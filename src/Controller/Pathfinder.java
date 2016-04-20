@@ -301,7 +301,7 @@ public class Pathfinder {
             }
             if (n.x - 1 >= 0) {
                 if (n.y + 1 < height && mask[n.x-1][n.y+1]) {ret.add(new Node(n.x-1,n.y+1,n.g+diagonalCost,optimalDistance(n.x-1, n.y+1, endx, endy),n));}
-                if (n.y - 1 >= 0 && mask[n.x-1][n.y+1]) {ret.add(new Node(n.x-1,n.y-1,n.g+diagonalCost,optimalDistance(n.x-1, n.y-1, endx, endy),n));}
+                if (n.y - 1 >= 0 && mask[n.x-1][n.y-1]) {ret.add(new Node(n.x-1,n.y-1,n.g+diagonalCost,optimalDistance(n.x-1, n.y-1, endx, endy),n));}
             }
         }
         return ret;

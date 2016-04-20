@@ -29,8 +29,8 @@ public class GatherFishState implements IState {
 			ICollidable next = iterator.next();
 			if(next.getClass().equals(ResourcePoint.class)){
 				ResourcePoint tempPoint = (ResourcePoint) next;
-				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.FISH)) {
-					brain.getBody().interactObject(i);
+				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.WATER)) {
+					brain.getBody().attackObject(i);
 					break;
 				}
 			}

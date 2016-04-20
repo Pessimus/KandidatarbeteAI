@@ -19,20 +19,7 @@ public class StructureFactory {
 	 * @param type the type of structure to generate.
 	 * @return a item of the the specified type and amount.
 	 */
-	public static IStructure createStructure(StructureType type, float x, float y){
-		/*switch (type){
-			case STOCKPILE:
-				return new Stockpile(x, (float)(y-Constants.STOCKPILE_COLLISION_RADIUS));
-
-			case HOUSE:
-				return new House(x, (float)(y-Constants.HOUSE_COLLISION_RADIUS));
-
-			case FARM:
-				return new Farm(x, (float)(y-Constants.FARM_COLLISION_RADIUS));
-
-			default:
-				return null;
-		}*/
+	public static IStructure createStructure(StructureType type, double x, double y){
 		switch (type){
 			case STOCKPILE:
 				return new Stockpile(x, y);
@@ -48,22 +35,39 @@ public class StructureFactory {
 		}
 	}
 
+	public static int getWaitTime(StructureType typeToSpawn){
+		switch (typeToSpawn){
+			case STOCKPILE:
+				return Constants.STOCKPILE_BUILD_TIME;
+
+			case HOUSE:
+				return Constants.HOUSE_BUILD_TIME;
+
+			case FARM:
+				return Constants.FARM_BUILD_TIME;
+
+			default:
+				return 0;
+		}
+	}
+
 	public static LinkedList<IItem> getCost(StructureType typeToSpawn) {
 		LinkedList<IItem> cost = new LinkedList<>();
 		switch (typeToSpawn){
 			case STOCKPILE:
-				cost.add(new StoneItem(1));
-				cost.add(new WoodItem(2));
+				cost.add(new StoneItem(Constants.STOCKPILE_STONE_COST));
+				cost.add(new WoodItem(Constants.STOCKPILE_WOOD_COST));
 				return cost;
 
 			case HOUSE:
-				cost.add(new StoneItem(2));
-				cost.add(new WoodItem(4));
+				cost.add(new StoneItem(Constants.HOUSE_STONE_COST));
+				cost.add(new WoodItem(Constants.HOUSE_WOOD_COST));
 				return cost;
 
 			case FARM:
-				cost.add(new StoneItem(20));
-				//cost.add(new WoodItem(8));
+				
+				cost.add(new StoneItem(Constants.FARM_STONE_COST));
+				//cost.add(new WoodItem(Constants.FARM_WOOD_COST));
 				return cost;
 
 			default:
