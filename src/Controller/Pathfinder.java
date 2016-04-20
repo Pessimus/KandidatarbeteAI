@@ -123,7 +123,7 @@ public class Pathfinder {
             for (Tuple t : help) {
                 ret.add(createPathStep(t.x, t.y));
             }
-            ret.add(new PathStep(endx, endy));
+            ret.addLast(new PathStep(endx, endy));
         }
         return ret;
     }
@@ -198,10 +198,12 @@ public class Pathfinder {
             endy = (int)(end.getY() - (end.getCollisionRadius() + Math.min(Constants.CHARACTER_INTERACTION_RADIUS, Constants.PATHFINDER_GRID_SIZE)));
         }
         */
+        LinkedList<PathStep> ret = new LinkedList<>();
         Tuple endPoint =  closestPoint((int) (startx/gridSize), (int) (starty/gridSize), getPoints(end));
+        if (endPoint == null) {return ret;}
         double endx = endPoint.x*gridSize;
         double endy = endPoint.y*gridSize;
-        LinkedList<PathStep> ret = new LinkedList<>();
+
         LinkedList<Tuple> help = helpPath((int)(startx/gridSize), (int)(starty/gridSize), (int)(endx/gridSize), (int)(endy/gridSize));
 
         if (help != null) {
