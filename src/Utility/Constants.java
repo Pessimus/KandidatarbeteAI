@@ -123,7 +123,7 @@ public final class Constants {
 	//----------- Structure Constants ------------- \\
 	public static final			double		HOUSE_COLLISION_RADIUS				=	50;
 	public static final			double		STOCKPILE_COLLISION_RADIUS			=	50;
-	public static final			double		FARM_COLLISION_RADIUS				=	50;
+	public static final			double		FARM_COLLISION_RADIUS				=	100;
 	public static final 		int 		HOUSE_MAX_CAPACITY					=	2;
 
 	public static final			int			MAX_INTEGRETY_HOUSE					=	10;
@@ -176,7 +176,7 @@ public final class Constants {
 	public static final			int 		WOOD_INITIAL_RESOURCES				=	10;
 	public static final 		int 		WOOD_RESOURCE_GAIN					=	1;
 
-	public static final			float		WHEAT_COLLISION_RADIUS				=	20;
+	public static final			float 		CROPS_COLLISION_RADIUS 				=	40;
 	public static final			int			CROPS_INITIAL_AMOUNT				=	100;
 	public static final			int			CROPS_YEILD_AMOUNT					=	10;
 
