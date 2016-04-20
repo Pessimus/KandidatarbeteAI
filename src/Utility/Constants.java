@@ -147,7 +147,7 @@ public final class Constants {
 	public static final			int			STOCKPILE_STONE_COST				=	1;
 
 	//----------- Animal Constants ------------- \\
-	public static final 		double		ANIMAL_COLLISION_RADIUS				=	5;
+	public static final 		double		ANIMAL_COLLISION_RADIUS				=	30;
 	public static final 		double		ANIMAL_INTERACTION_RADIUS			=	20;
 	public static final 		double		ANIMAL_SURROUNDING_RADIUS			=	200;
 	public static final			int 		ANIMAL_MIN_STEP_AMOUNT				=	600;
