@@ -201,7 +201,8 @@ public class View extends BasicGameState implements InputListener{
 			energyPercent = (float)playerNeeds[2]/(float)Constants.CHARACTER_ENERGY_MAX;
 
 			graphics.setColor(Color.gray);
-			graphics.fillRect(0,gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL, Constants.BOX_WIDTH/Constants.ZOOM_LEVEL, Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL);
+			new Image("res/ui_needs.png").draw(0,gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL, Constants.BOX_WIDTH/Constants.ZOOM_LEVEL, Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL);
+			//graphics.fillRect(0,gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL, Constants.BOX_WIDTH/Constants.ZOOM_LEVEL, Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL);
 			graphics.setColor(Color.white);
 			graphics.drawString("Name:",Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL, nameStringYPos);
 			graphics.drawString(characterName, barXPos, nameStringYPos);
@@ -236,13 +237,17 @@ public class View extends BasicGameState implements InputListener{
 		// ----------- Temporary display of the inventory ----------- \\
 
 		if (displayInventory) {
+			x=(int)(gameContainer.getWidth()/scaleGraphicsX)-Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL*3;
+			y=(int)(gameContainer.getHeight()/scaleGraphicsY)-Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL*3;
+			new Image("res/ui_inventory.png").draw(x-5,y-5,gameContainer.getWidth()/scaleGraphicsX-x+5,gameContainer.getHeight()/scaleGraphicsY-y+5);
+
 			tilesPerColumn = tilesPerRow = (int)Math.sqrt(Constants.MAX_INVENTORY_SLOTS);
 			for (int i = tilesPerRow; i >= 1 ; i--) {
 				for (int j = tilesPerColumn; j >= 1; j--) {
 					x=(int)(gameContainer.getWidth()/scaleGraphicsX)-Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL*j;
 					y=(int)(gameContainer.getHeight()/scaleGraphicsY)-Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL*i;
 					graphics.setLineWidth(Constants.GRID_LINE_WIDTH);
-					graphics.drawRect(x, y, Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL, Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL);
+					//graphics.drawRect(x, y, Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL, Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL);
 					if(inventoryIndex == (3-i)*tilesPerRow+(4-j)){
 						optionStartX = gameContainer.getWidth()/scaleGraphicsX-tilesPerRow*Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.OPTION_BOX_WIDTH/Constants.ZOOM_LEVEL;
 						optionStartY = gameContainer.getHeight()/scaleGraphicsY-Constants.OPTION_BOX_HEIGHT/Constants.ZOOM_LEVEL;
@@ -267,8 +272,8 @@ public class View extends BasicGameState implements InputListener{
 				y=(int)(gameContainer.getHeight()/scaleGraphicsY)-Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL*j;
 
 				new Image(invRender.type.pathToResource).draw(x+lineWidth/scaleGraphicsX, y+lineWidth/scaleGraphicsY, 1f/Constants.ZOOM_LEVEL);
-				graphics.fillRect(x+Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL, y+Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL,
-						Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL, Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL);
+				//graphics.fillRect(x+Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL, y+Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL,
+				//		Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL, Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL);
 				graphics.setColor(Color.black);
 				if(invRender.amount < 10) {
 					graphics.drawString(Integer.toString(invRender.amount), x + Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL-Constants.SLOT_DISPLAY_AMOUNT/Constants.ZOOM_LEVEL+Constants.AMOUNT_DISPLAY_MARGIN,
