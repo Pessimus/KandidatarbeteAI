@@ -16,7 +16,7 @@ public class LowEnergyState implements IState{
 	@Override
 	public void run() {
 		if(brain.getBody().getNeeds()[2] < 95) {
-			brain.setState(brain.getLowEnergyState());
+			brain.stackState(brain.getLowEnergyState());
 			if (brain.getBody().hasHome()) {
 				ICollidable home = brain.getBody().getHome();
 

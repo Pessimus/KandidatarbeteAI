@@ -110,6 +110,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	private boolean spawning;
 	private IStructure.StructureType typeToSpawn;
+	private Interaction.InteractionType currentInteraction;
 
 	//--------------------Collision---------------------\\
 	private double xPos;
@@ -398,10 +399,19 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 //---------------------------------------Interaction methods----------------------------------------------------------\\
 
+	public Interaction.InteractionType getInteractionType(){
+		return currentInteraction;
+	}
+
+	public void setInteractionType(Interaction.InteractionType type){
+		currentInteraction = type;
+	}
+
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Character rhs){
-		Interaction i = new Interaction(rhs, this);
+		Interaction i = new Interaction(rhs, this, rhs.getInteractionType());
+		currentInteraction = rhs.getInteractionType();
 		pcs.firePropertyChange("startInteraction", i, rhs);
 		rhs.startCharacterInteraction(this, i);
 	}
@@ -692,7 +702,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 			changeThirst(-Constants.CHARACTER_THIRST_CHANGE + (social/Constants.CHARACTER_SOCIAL_NEEDS_MODIFIER));
 		}
 		if(updateCounter % Constants.CHARACTER_SOCIAL_UPDATE == 0){
-			changeSocial(-Constants.CHARACTER_SOCIAL_UPDATE);
+			changeSocial(-Constants.CHARACTER_SOCIAL_CHANGE);
 		}
 		if(updateCounter % Constants.CHARACTER_AGE_UPDATE == 0){
 			age++;

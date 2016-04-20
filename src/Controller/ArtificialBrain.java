@@ -95,15 +95,16 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		int[] skills = body.getSkills();
 
 		if(!body.isWaiting()) {
+			System.out.println("Current state: " + currentState);
 			currentState.run();
 
 			System.out.println();
-			System.out.println("Current state: " + currentState);
-			getStateQueue().stream()
+			//System.out.println("Current state: " + currentState);
+			/*getStateQueue().stream()
 					.forEach(o -> System.out.println("State:\t" + o));
 			System.out.println("Inventory:");
 			body.getInventory().stream()
-					.forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));
+					.forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));*/
 			/*System.out.println("\nHunger:\t" + needs[0]);
 			System.out.println("Thirst:\t" + needs[1]);
 			System.out.println("Energy:\t" + needs[2]);
@@ -336,6 +337,14 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return null;
 	}
 
+	public Interaction getCurrentInteraction() {
+		return currentInteraction;
+	}
+
+	public Character getInteractionCharacter() {
+		return interactionCharacter;
+	}
+
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if(evt.getPropertyName().equals("attacked")){
@@ -345,26 +354,12 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			Interaction interaction = (Interaction)evt.getOldValue();
 
 			if(currentInteraction == null && interactionCharacter == null){
-				// TODO: Check if we want to start an interaction
 				currentInteraction = interaction;
 				interactionCharacter = other;
-				interaction.acceptInteraction(body.hashCode(), this);
-				// TODO: Figure out how to interrupt current state!!!!!!
-				stackState(getSocializeState());
+				stackState(currentState);
+				setState(getSocializeState());
 			} else{
 				interaction.declineInteraction();
-			}
-		} else if(evt.getPropertyName().equals("interactionType")){
-			Interaction.InteractionType type = (Interaction.InteractionType)evt.getNewValue();
-			switch(type){
-				case TRADE:
-					stackState(getTradeState());
-					break;
-				case HOSTILE:
-					break;
-				case SOCIAL:
-					stackState(getConverseState());
-					break;
 			}
 		}
 		else if(evt.getPropertyName().equals("itemAddedToOfferBy" + interactionCharacter.getKey())){
@@ -403,6 +398,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		else if(evt.getPropertyName().equals("endInteraction")){
 			currentInteraction = null;
 			interactionCharacter = null;
+			body.setInteractionType(null);
 		}
 
 	}
