@@ -187,8 +187,25 @@ public class World{
 
 			Schedule.executeTasks();
 
+			updateCharacters();
+
 			//TODO Code for updating the character (movement and actions?)
 
+		}
+	}
+
+	private void updateCharacters(){
+		LinkedList<Character> mothers = new LinkedList<>();
+		for(Character character : this.characters.values()){
+			if(character.isInLabour()){
+				//Character tmp = character.birth();
+				mothers.add(character);
+				//this.characters.put(tmp.getKey(),tmp);
+			}
+		}
+		for(Character tmp : mothers){
+			tmp.birth(this);
+			//this.characters.put(tmp.getKey(),tmp);
 		}
 	}
 

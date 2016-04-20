@@ -331,6 +331,10 @@ public class Controller implements PropertyChangeListener {
 							if(!gameModel.isPaused())
 								player.consume();
 							break;
+						case Input.KEY_H:
+							if(!gameModel.isPaused())
+								player.reproduce();
+							break;
 						case Input.KEY_B:
 							if (playerViewCentered && showingPlayerInventory && !gameModel.isPaused()) {
 								itemHighlighted = -1;

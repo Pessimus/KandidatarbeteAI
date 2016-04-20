@@ -1,9 +1,9 @@
 package Controller;
 
 import Controller.AIStates.IState;
+import Model.*;
+import Model.Character;
 import Utility.Constants;
-import Model.ICharacterHandle;
-import Model.IStructure;
 
 import java.util.LinkedList;
 
@@ -130,6 +130,14 @@ public class PlayerBrain implements AbstractBrain {
 			case 3:
 				body.build(IStructure.StructureType.STOCKPILE);
 				break;
+		}
+	}
+
+	public void reproduce() {
+		for(ICollidable collidable : body.getInteractables()){
+			if(collidable.getClass() == Model.Character.class){
+				((Character)collidable).reproduce((Character)body);
+			}
 		}
 	}
 }
