@@ -318,7 +318,8 @@ public final class Constants {
 	public static final		int				MARGIN_TOP							=	BOX_HEIGHT/5;
 	public static final		int				MARGIN_LEFT							=	20;
 	public static final 	int				HALF_TEXT_HEIGHT					=	9;
-	public static final		double			NEEDS_CRITICAL_LEVEL				=	0.2;
+	public static final		double			NEEDS_CRITICAL_LEVEL				=	0.3;
+	public static final		double			NEEDS_CONFORTABLE_LEVEL				=	0.7;
 
 	// ----------- Character Traits ----------- \\
 	public static final		int				MAX_TRAIT_VALUE						=	100;

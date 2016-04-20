@@ -201,33 +201,63 @@ public class View extends BasicGameState implements InputListener{
 			energyPercent = (float)playerNeeds[2]/(float)Constants.CHARACTER_ENERGY_MAX;
 
 			graphics.setColor(Color.gray);
-			graphics.fillRect(0,gameContainer.getHeight()/scaleGraphicsY-Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL, Constants.BOX_WIDTH/Constants.ZOOM_LEVEL, Constants.BOX_HEIGHT/Constants.ZOOM_LEVEL);
+			graphics.fillRect(0, gameContainer.getHeight() / scaleGraphicsY - Constants.BOX_HEIGHT / Constants.ZOOM_LEVEL, Constants.BOX_WIDTH / Constants.ZOOM_LEVEL, Constants.BOX_HEIGHT / Constants.ZOOM_LEVEL);
 			graphics.setColor(Color.white);
-			graphics.drawString("Name:",Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL, nameStringYPos);
+			graphics.drawString("Name:", Constants.MARGIN_LEFT / Constants.ZOOM_LEVEL, nameStringYPos);
 			graphics.drawString(characterName, barXPos, nameStringYPos);
 			graphics.drawString("Age:",halfBarWidth, nameStringYPos);
 			graphics.drawString(Integer.toString(characterAge), halfBarWidth+Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL+graphics.getFont().getWidth("Age:"), nameStringYPos);
-			graphics.drawString("Hunger:",Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL, hungerStringYPos);
-			graphics.drawRect(barXPos, hungerStringYPos,barWidth,barHeight);
-			if(hungerPercent < Constants.NEEDS_CRITICAL_LEVEL)
-				graphics.setColor(Color.red);
-			if(hungerPercent > 0)
-				graphics.fillRect(barXPos+barWidth*(1-hungerPercent), hungerStringYPos, barWidth-barWidth*(1-hungerPercent), barHeight);
+
+			//Hunger
 			graphics.setColor(Color.white);
+			graphics.drawString("Hunger:", Constants.MARGIN_LEFT / Constants.ZOOM_LEVEL, hungerStringYPos);
+			//graphics.drawRect(barXPos, hungerStringYPos,barWidth,barHeight);
+
+			if(hungerPercent > 0) {
+				if(hungerPercent < Constants.NEEDS_CRITICAL_LEVEL) {
+					graphics.setColor(Color.red);
+				}else if(hungerPercent > Constants.NEEDS_CONFORTABLE_LEVEL) {
+					graphics.setColor(Color.green);
+				}
+				//X,Y,width,height
+//				graphics.fillRect(barXPos + barWidth * (1 - hungerPercent), hungerStringYPos, barWidth - barWidth * (1 - hungerPercent), barHeight);
+				graphics.fillRect(barXPos,hungerStringYPos,barWidth*hungerPercent,barHeight);
+			}
+
+			//Thirst
+			graphics.setColor(Color.white);
+
 			graphics.drawString("Thirst:",Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL, thirstStringYPos);
-			if(thirstPercent < Constants.NEEDS_CRITICAL_LEVEL)
-				graphics.setColor(Color.red);
-			if(thirstPercent > 0)
-				graphics.fillRect(barXPos+barWidth*(1-thirstPercent), thirstStringYPos, barWidth-barWidth*(1-thirstPercent), barHeight);
+			//graphics.drawRect(barXPos, thirstStringYPos,barWidth,barHeight);
+
+			if(thirstPercent > 0) {
+				if(thirstPercent < Constants.NEEDS_CRITICAL_LEVEL) {
+					graphics.setColor(Color.red);
+				}else if(thirstPercent > Constants.NEEDS_CONFORTABLE_LEVEL) {
+					graphics.setColor(Color.green);
+				}
+//				graphics.fillRect(barXPos + barWidth * (1 - thirstPercent), thirstStringYPos, barWidth - barWidth * (1 - thirstPercent), barHeight);
+				graphics.fillRect(barXPos,thirstStringYPos,barWidth*thirstPercent,barHeight);
+			}
+
+			//Energy
 			graphics.setColor(Color.white);
-			graphics.drawRect(barXPos, thirstStringYPos,barWidth,barHeight);
+
 			graphics.drawString("Energy:",Constants.MARGIN_LEFT/Constants.ZOOM_LEVEL, energyStringYPos);
-			graphics.drawRect(barXPos, energyStringYPos,barWidth,barHeight);
-			if(energyPercent < Constants.NEEDS_CRITICAL_LEVEL)
-				graphics.setColor(Color.red);
-			if(energyPercent > 0)
-				graphics.fillRect(barXPos+barWidth*(1-energyPercent), energyStringYPos, barWidth-barWidth*(1-energyPercent), barHeight);
+			//graphics.drawRect(barXPos, energyStringYPos,barWidth,barHeight);
+
+			if(energyPercent > 0) {
+				if(energyPercent < Constants.NEEDS_CRITICAL_LEVEL) {
+					graphics.setColor(Color.red);
+				}else if(energyPercent > Constants.NEEDS_CONFORTABLE_LEVEL) {
+					graphics.setColor(Color.green);
+				}
+//				graphics.fillRect(barXPos + barWidth * (1 - energyPercent), energyStringYPos, barWidth - barWidth * (1 - energyPercent), barHeight);
+				graphics.fillRect(barXPos,energyStringYPos,barWidth*energyPercent,barHeight);
+			}
+
 			graphics.setColor(Color.white);
+
 		}
 
 
