@@ -105,4 +105,13 @@ public class GoldItem implements IItem {
 		return new GoldItem(this.amount);
 	}
 
+    @Override
+    public int[] getNeedsChange() {
+        int[] ret = new int[3]; //hunger, thirst, energy
+        ret[0] = Constants.GOLD_HUNGER_CHANGE_CONSUME;
+        ret[1] = Constants.GOLD_HUNGER_CHANGE_CONSUME;
+        ret[2] = Constants.GOLD_HUNGER_CHANGE_CONSUME;
+        return ret;
+    }
+
 }

@@ -104,4 +104,13 @@ public class WaterItem implements IItem {
 	public WaterItem clone(){
 		return new WaterItem(this.amount);
 	}
+
+	@Override
+	public int[] getNeedsChange() {
+		int[] ret = new int[3]; //hunger, thirst, energy
+		ret[0] = Constants.WATER_HUNGER_CHANGE_CONSUME;
+		ret[1] = Constants.WATER_HUNGER_CHANGE_CONSUME;
+		ret[2] = Constants.WATER_HUNGER_CHANGE_CONSUME;
+		return ret;
+	}
 }

@@ -59,4 +59,6 @@ public interface IItem <T extends IItem<T>>{
 
 	/** @return the type of item that is represented. */
 	Type getType();
+
+	int[] getNeedsChange();
 }

@@ -2,8 +2,7 @@ package Model;
 
 import Model.Structures.House;
 import Model.Structures.Stockpile;
-import Model.Tasks.AttackTask;
-import Model.Tasks.InteractTask;
+import Model.Tasks.*;
 import Utility.Constants;
 import Utility.InventoryRender;
 import Utility.RenderObject;
@@ -110,6 +109,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	private boolean spawning;
 	private IStructure.StructureType typeToSpawn;
+
+	private boolean pregnant;
+	private Character father;
+	private boolean labour;
+
 	private Interaction.InteractionType currentInteraction;
 
 	//--------------------Collision---------------------\\
@@ -190,6 +194,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		this.name = randomizeName();
 
 		this.spawning = false;
+		this.pregnant = false;
+		this.labour = false;
+
 		this.waiting = false;
 
 		//Initial position
@@ -416,6 +423,21 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		rhs.startCharacterInteraction(this, i);
 	}
 
+	public  boolean reproduce(Character rhs){
+		if(!this.genderMale && rhs.genderMale && !this.pregnant){
+			this.pregnant = true;
+			this.father = rhs;
+			Schedule.addTask(new ReproduceTask(this,Constants.CHARACTER_PREGNANCY_TIME));//TODO remove magic number
+			return true;
+		}else if(!rhs.genderMale && this.genderMale && !rhs.pregnant){
+			rhs.pregnant = true;
+			rhs.father = rhs;
+			Schedule.addTask(new ReproduceTask(rhs,Constants.CHARACTER_PREGNANCY_TIME));//TODO remove magic number
+			return true;
+		}
+		return false;
+	}
+
 	@Override
 	/**{@inheritDoc}*/
 	public void consumed(Character rhs){
@@ -426,12 +448,16 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	/**{@inheritDoc}*/
 	public void attacked(Character rhs){
 		//TODO fire property change
-		Schedule.addTask(new AttackTask(this,rhs,Constants.CHARACTER_ATTACKED_TIME));
+		Schedule.addTask(new AttackTask(this, rhs, Constants.CHARACTER_ATTACKED_TIME));
 	}
 
 	@Override
 	public void interactedCommand(Character rhs) {
 		//Not used. Interaction instant.
+	}
+
+	public void reproduceCommand(){
+		this.labour = true;
 	}
 
 	@Override
@@ -571,6 +597,20 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return spawning;
 	}
 
+	public boolean isPregnant(){
+		return pregnant;
+	}
+
+	public boolean isInLabour(){
+		return labour;
+	}
+
+	public void birth(World world){
+		this.labour = false;
+		this.pregnant = false;
+		world.addCharacter(this.xPos,this.yPos,30);
+	}
+
 	@Override
 	/**{@inheritDoc}*/
 	public boolean isImovable(){
@@ -593,81 +633,86 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 			}
 		}
 
-		IStructure structure = null;
 		if(canPay) {
-			for(IItem itemCost : cost){
-				inventory.removeItem(itemCost);
-			}
-			int collision = 0;
-
-			switch (typeToSpawn){
-				case FARM:
-					collision = (int) Constants.FARM_COLLISION_RADIUS;
-					break;
-				case HOUSE:
-					collision = (int) Constants.HOUSE_COLLISION_RADIUS;
-					break;
-				case STOCKPILE:
-					collision = (int) Constants.STOCKPILE_COLLISION_RADIUS;
-					break;
-			}
-			//structure = rhs.addStructure(xPos, ()(yPos-Constants.CHARACTER_INTERACTION_RADIUS), typeToSpawn);
-			//structure = rhs.addStructure(xPos, yPos-collision, typeToSpawn);
-
-			int tempX = (int)xPos / Constants.PATHFINDER_GRID_SIZE;
-			int tempY = (int)yPos / Constants.PATHFINDER_GRID_SIZE;
-
-			Queue<Point> queue = new LinkedList<>();
-
-			int tempPositiveX = tempX + collision / Constants.PATHFINDER_GRID_SIZE + 1;
-			int tempNegativeX = tempX - collision / Constants.PATHFINDER_GRID_SIZE - 1;
-			int tempPositiveY = tempY + collision / Constants.PATHFINDER_GRID_SIZE + 1;
-			int tempNegativeY = tempY - collision / Constants.PATHFINDER_GRID_SIZE - 1;
-
-			queue.offer(new Point(tempPositiveX, tempPositiveY));
-			queue.offer(new Point(tempPositiveX, tempNegativeY));
-			queue.offer(new Point(tempNegativeX, tempPositiveY));
-			queue.offer(new Point(tempNegativeX, tempNegativeY));
-
-			Point tempPoint = queue.poll();
-			tempX = tempPoint.x;
-			tempY = tempPoint.y;
-
-			while((structure = rhs.addStructure(tempX * Constants.PATHFINDER_GRID_SIZE, tempY * Constants.PATHFINDER_GRID_SIZE, typeToSpawn)) == null) {
-				Point p = new Point(tempPositiveX, tempPositiveY);
-				if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
-					queue.offer(p);
-				}
-				p = new Point(tempPositiveX, tempNegativeY);
-				if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
-					queue.offer(p);
-				}
-				p = new Point(tempNegativeX, tempPositiveY);
-				if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
-					queue.offer(p);
-				}
-				p = new Point(tempNegativeX, tempNegativeY);
-				if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
-					queue.offer(p);
-				}
-
-				tempPositiveX++;
-				tempNegativeX--;
-				tempPositiveY++;
-				tempNegativeY--;
-
-				tempPoint = queue.poll();
-				tempX = tempPoint.x;
-				tempY = tempPoint.y;
-			}
-
-			if(structure.getClass().equals(House.class) && home == null){
-				home = (House) structure;
-				home.addOccupant();
-			}
+			Schedule.addTask(new BuildTask(this,cost,rhs,StructureFactory.getWaitTime(typeToSpawn)));
 		}
 
 		spawning = false;
+	}
+
+	public void build(LinkedList<IItem> cost, World rhs){
+
+		IStructure structure = null;
+		for(IItem itemCost : cost){
+			inventory.removeItem(itemCost);
+		}
+		int collision = 0;
+
+		switch (typeToSpawn){
+			case FARM:
+				collision = (int) Constants.FARM_COLLISION_RADIUS;
+				break;
+			case HOUSE:
+				collision = (int) Constants.HOUSE_COLLISION_RADIUS;
+				break;
+			case STOCKPILE:
+				collision = (int) Constants.STOCKPILE_COLLISION_RADIUS;
+				break;
+		}
+		//structure = rhs.addStructure(xPos, ()(yPos-Constants.CHARACTER_INTERACTION_RADIUS), typeToSpawn);
+		//structure = rhs.addStructure(xPos, yPos-collision, typeToSpawn);
+
+		int tempX = (int)xPos / Constants.PATHFINDER_GRID_SIZE;
+		int tempY = (int)yPos / Constants.PATHFINDER_GRID_SIZE;
+
+		Queue<Point> queue = new LinkedList<>();
+
+		int tempPositiveX = tempX + collision / Constants.PATHFINDER_GRID_SIZE + 1;
+		int tempNegativeX = tempX - collision / Constants.PATHFINDER_GRID_SIZE - 1;
+		int tempPositiveY = tempY + collision / Constants.PATHFINDER_GRID_SIZE + 1;
+		int tempNegativeY = tempY - collision / Constants.PATHFINDER_GRID_SIZE - 1;
+
+		queue.offer(new Point(tempPositiveX, tempPositiveY));
+		queue.offer(new Point(tempPositiveX, tempNegativeY));
+		queue.offer(new Point(tempNegativeX, tempPositiveY));
+		queue.offer(new Point(tempNegativeX, tempNegativeY));
+
+		Point tempPoint = queue.poll();
+		tempX = tempPoint.x;
+		tempY = tempPoint.y;
+
+		while((structure = rhs.addStructure(tempX * Constants.PATHFINDER_GRID_SIZE, tempY * Constants.PATHFINDER_GRID_SIZE, typeToSpawn)) == null) {
+			Point p = new Point(tempPositiveX, tempPositiveY);
+			if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
+				queue.offer(p);
+			}
+			p = new Point(tempPositiveX, tempNegativeY);
+			if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
+				queue.offer(p);
+			}
+			p = new Point(tempNegativeX, tempPositiveY);
+			if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
+				queue.offer(p);
+			}
+			p = new Point(tempNegativeX, tempNegativeY);
+			if(Math.abs(xPos / Constants.PATHFINDER_GRID_SIZE - p.getX()) > collision / Constants.PATHFINDER_GRID_SIZE + 1 && Math.abs(yPos / Constants.PATHFINDER_GRID_SIZE - p.getY()) > collision / Constants.PATHFINDER_GRID_SIZE + 1){
+				queue.offer(p);
+			}
+
+			tempPositiveX++;
+			tempNegativeX--;
+			tempPositiveY++;
+			tempNegativeY--;
+
+			tempPoint = queue.poll();
+			tempX = tempPoint.x;
+			tempY = tempPoint.y;
+		}
+
+		if(structure.getClass().equals(House.class) && home == null){
+			home = (House) structure;
+			home.addOccupant();
+		}
 	}
 
 	/**
