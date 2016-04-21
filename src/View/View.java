@@ -86,7 +86,7 @@ public class View extends BasicGameState implements InputListener{
 			inventoryMap.put(e, new Image(e.pathToResource));
 		}
 
-		awtFont  = new java.awt.Font("Verdana", java.awt.Font.BOLD, Constants.FONT_SIZE/Constants.ZOOM_LEVEL);
+		awtFont  = new java.awt.Font("SWTOR Trajan", java.awt.Font.BOLD, Constants.FONT_SIZE/Constants.ZOOM_LEVEL);
 		font =  new TrueTypeFont(awtFont, false);
 
 		pcs.firePropertyChange("startController", false, true);
