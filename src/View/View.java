@@ -232,10 +232,11 @@ public class View extends BasicGameState implements InputListener{
 					eatStringWidth = graphics.getFont().getWidth("c: Consume");
 					dropStringWidth = graphics.getFont().getWidth("d: Drop");
 
-					graphics.fillRect(optionStartX, optionStartY, Constants.OPTION_BOX_WIDTH/Constants.ZOOM_LEVEL, Constants.OPTION_BOX_HEIGHT/Constants.ZOOM_LEVEL);
+					graphics.fillRect(optionStartX, optionStartY, Constants.OPTION_BOX_WIDTH / Constants.ZOOM_LEVEL, Constants.OPTION_BOX_HEIGHT / Constants.ZOOM_LEVEL);
 
-					graphics.setColor(new Color(180, 180, 180));
-					graphics.fillRect(x, y, Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL, Constants.SLOT_DISPLAY_SIZE/Constants.ZOOM_LEVEL);
+//					graphics.setColor(new Color(180, 180, 180));
+//					graphics.fillRect(x, y, Constants.SLOT_DISPLAY_SIZE / Constants.ZOOM_LEVEL, Constants.SLOT_DISPLAY_SIZE / Constants.ZOOM_LEVEL);
+					new Image("res/ui_inventory_selected.png").draw(x, y, Constants.SLOT_DISPLAY_SIZE / Constants.ZOOM_LEVEL, Constants.SLOT_DISPLAY_SIZE / Constants.ZOOM_LEVEL);
 
 					graphics.setColor(Color.black);
 					graphics.drawString("c: Consume", optionStartX+Constants.OPTION_MARGIN_LEFT/Constants.ZOOM_LEVEL, optionStartY+Constants.OPTION_MARGIN_TOP/Constants.ZOOM_LEVEL);
