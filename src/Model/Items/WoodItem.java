@@ -48,17 +48,20 @@ public class WoodItem implements IItem {
 	}
 
 	@Override
+	public void consumedEffect(Character rhs) {
+		rhs.changeHunger(Constants.WOOD_HUNGER_CHANGE_CONSUME);
+		rhs.changeEnergy(Constants.WOOD_ENERGY_CHANGE_CONSUME);
+		rhs.changeThirst(Constants.WOOD_THIRST_CHANGE_CONSUME);
+	}
+
+	@Override
 	/**{@inheritDoc}*/
 	public void consumed(Character rhs) {
 		if(amount > 1) {
-			rhs.changeHunger(Constants.WOOD_HUNGER_CHANGE_CONSUME);
-			rhs.changeEnergy(Constants.WOOD_ENERGY_CHANGE_CONSUME);
-			rhs.changeThirst(Constants.WOOD_THIRST_CHANGE_CONSUME);
+			consumed(rhs);
 			amount--;
 		}else if(amount == 1) {
-			rhs.changeHunger(Constants.WOOD_HUNGER_CHANGE_CONSUME);
-			rhs.changeEnergy(Constants.WOOD_ENERGY_CHANGE_CONSUME);
-			rhs.changeThirst(Constants.WOOD_THIRST_CHANGE_CONSUME);
+			consumedEffect(rhs);
 			rhs.removeFromInventory(this);
 		}else{
 			rhs.removeFromInventory(this);

@@ -46,6 +46,9 @@ public interface IItem <T extends IItem<T>>{
 	 * @param rhs the character that is interacting with it.
 	 */
 	void interacted(Character rhs);
+
+	void consumedEffect(Character rhs);
+
 	/**
 	 * Indicates that a Character is consuming the item.
 	 * @param rhs the character that is consuming it.

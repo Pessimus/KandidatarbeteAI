@@ -64,7 +64,7 @@ public class Wood extends RenewableResource {
 
 	@Override
 	public void consumed(Character rhs) {
-		this.gatherResource().consumed(rhs);
+		this.gatherResource().consumedEffect(rhs);
 	}
 
 	@Override
