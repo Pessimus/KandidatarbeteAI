@@ -131,7 +131,7 @@ public class World{
 			tmpY = Math.random()*this.height;
 
 			Wood tmpWood = new Wood(10,10,1,tmpX,tmpY);
-			addRenewableResourcePoint(tmpWood, RenderObject.RENDER_OBJECT_ENUM.WOOD, tmpX, tmpY, 75);
+			addRenewableResourcePoint(tmpWood, RenderObject.RENDER_OBJECT_ENUM.WOOD, tmpX, tmpY, Constants.TREE_COLLISION_RADIUS);
 
 			i++;
 		}
@@ -141,7 +141,7 @@ public class World{
 			tmpY = Math.random()*this.height;
 
 			Water tmpLake = new Water(1,1);
-			addInfiniteResourcePoint(tmpLake, RenderObject.RENDER_OBJECT_ENUM.LAKE, tmpX, tmpY, 100);
+			addInfiniteResourcePoint(tmpLake, RenderObject.RENDER_OBJECT_ENUM.LAKE, tmpX, tmpY, Constants.LAKE_COLLISION_RADIUS);
 
 			i++;
 		}
@@ -151,7 +151,7 @@ public class World{
 			tmpY = Math.random()*this.height;
 
 			Stone tmpStone = new Stone(50,5);
-			addFiniteResourcePoint(tmpStone, RenderObject.RENDER_OBJECT_ENUM.STONE, tmpX, tmpY, 10);
+			addFiniteResourcePoint(tmpStone, RenderObject.RENDER_OBJECT_ENUM.STONE, tmpX, tmpY, Constants.STONE_COLLISION_RADIUS);
 
 			i++;
 		}
@@ -161,7 +161,7 @@ public class World{
 			tmpY = Math.random()*this.height;
 
 			Gold tmpStone = new Gold(50,5);
-			addFiniteResourcePoint(tmpStone, RenderObject.RENDER_OBJECT_ENUM.GOLD, tmpX, tmpY, 10);
+			addFiniteResourcePoint(tmpStone, RenderObject.RENDER_OBJECT_ENUM.GOLD, tmpX, tmpY, Constants.STONE_COLLISION_RADIUS);
 
 			i++;
 		}
@@ -187,8 +187,25 @@ public class World{
 
 			Schedule.executeTasks();
 
+			updateCharacters();
+
 			//TODO Code for updating the character (movement and actions?)
 
+		}
+	}
+
+	private void updateCharacters(){
+		LinkedList<Character> mothers = new LinkedList<>();
+		for(Character character : this.characters.values()){
+			if(character.isInLabour()){
+				//Character tmp = character.birth();
+				mothers.add(character);
+				//this.characters.put(tmp.getKey(),tmp);
+			}
+		}
+		for(Character tmp : mothers){
+			tmp.birth(this);
+			//this.characters.put(tmp.getKey(),tmp);
 		}
 	}
 
@@ -250,16 +267,15 @@ public class World{
 	 * Adds a new character to the world at the specified position.
 	 * @param xPoss the position on the x axis.
 	 * @param yPoss the position on the y axis.
-	 * @param key the key of the character, uniquely defines it for ease of access.
 	 * @return the character that was just created.
 	 */
-	public Character addCharacter(double xPoss, double yPoss, int key) {
-		Character character = new Character(xPoss, yPoss, key);
+	public Character addCharacter(double xPoss, double yPoss) {
+		Character character = new Character(xPoss, yPoss);
 
 		this.collidablesR.add(character);
 		this.collidables.add(character);
 		this.timeables.add(character);
-		this.characters.put(key, character);
+		this.characters.put(character.getKey(), character);
 
 		return character;
 	}

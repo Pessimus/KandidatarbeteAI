@@ -17,7 +17,7 @@ public class Farm implements IStructure, ITimeable {
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 	public static final StructureType structureType = StructureType.FARM;
 	/*public static final StructureBuildingMaterialTuple[] buildingMaterials = new StructureBuildingMaterialTuple[]
-			{       new StructureBuildingMaterialTuple(IItem.Type.WOOD_ITEM, Constants.WHEAT_COLLISION_RADIUS),
+			{       new StructureBuildingMaterialTuple(IItem.Type.WOOD_ITEM, Constants.CROPS_COLLISION_RADIUS),
 					new StructureBuildingMaterialTuple(IItem.Type.STONE_ITEM, 5)
 			};*/
 
@@ -55,28 +55,28 @@ public class Farm implements IStructure, ITimeable {
 		spawnPointsXpos = new double[nbrOfSpawnPoints];
 		spawnPointsYpos = new double[nbrOfSpawnPoints];
 
-		spawnPointsXpos[0] = x-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
-		spawnPointsYpos[0] = y-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
+		spawnPointsXpos[0] = x-(collisionRadius+Constants.CROPS_COLLISION_RADIUS +1);
+		spawnPointsYpos[0] = y-(collisionRadius+Constants.CROPS_COLLISION_RADIUS +1);
 
 		spawnPointsXpos[1] = x;
-		spawnPointsYpos[1] = y-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
+		spawnPointsYpos[1] = y-(collisionRadius+Constants.CROPS_COLLISION_RADIUS +1);
 
-		spawnPointsXpos[2] = x+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
-		spawnPointsYpos[2] = y-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
+		spawnPointsXpos[2] = x+(collisionRadius+Constants.CROPS_COLLISION_RADIUS +1);
+		spawnPointsYpos[2] = y-(collisionRadius+Constants.CROPS_COLLISION_RADIUS +1);
 
-		spawnPointsXpos[3] = x+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
+		spawnPointsXpos[3] = x+(collisionRadius+Constants.CROPS_COLLISION_RADIUS +1);
 		spawnPointsYpos[3] = y;
 
-		spawnPointsXpos[4] = x+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
-		spawnPointsYpos[4] = y+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
+		spawnPointsXpos[4] = x+(collisionRadius+Constants.CROPS_COLLISION_RADIUS +1);
+		spawnPointsYpos[4] = y+(collisionRadius+Constants.CROPS_COLLISION_RADIUS +1);
 
 		spawnPointsXpos[5] = x;
-		spawnPointsYpos[5] = y+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
+		spawnPointsYpos[5] = y+(collisionRadius+Constants.CROPS_COLLISION_RADIUS +1);
 
-		spawnPointsXpos[6] = x-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
-		spawnPointsYpos[6] = y+(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
+		spawnPointsXpos[6] = x-(collisionRadius+Constants.CROPS_COLLISION_RADIUS +1);
+		spawnPointsYpos[6] = y+(collisionRadius+Constants.CROPS_COLLISION_RADIUS +1);
 
-		spawnPointsXpos[7] = x-(collisionRadius+Constants.WHEAT_COLLISION_RADIUS+1);
+		spawnPointsXpos[7] = x-(collisionRadius+Constants.CROPS_COLLISION_RADIUS +1);
 		spawnPointsYpos[7] = y;
 
 	}
@@ -247,7 +247,7 @@ public class Farm implements IStructure, ITimeable {
 		while(i < nbrOfSpawnPoints) {
 			if(spawnPoints[i] == null) {
 				Crops crops = new Crops(Constants.CROPS_INITIAL_AMOUNT, Constants.CROPS_YEILD_AMOUNT);
-				ResourcePoint rp = rhs.addFiniteResourcePoint(crops, RenderObject.RENDER_OBJECT_ENUM.CROPS, spawnPointsXpos[i], spawnPointsYpos[i], Constants.WHEAT_COLLISION_RADIUS);
+				ResourcePoint rp = rhs.addFiniteResourcePoint(crops, RenderObject.RENDER_OBJECT_ENUM.CROPS, spawnPointsXpos[i], spawnPointsYpos[i], Constants.CROPS_COLLISION_RADIUS);
 				if(rp != null) {
 					spawnPoints[i] = crops;
 					spawning = false;

@@ -84,17 +84,21 @@ public class Controller implements PropertyChangeListener {
 
 		//TODO this is hardcoded testing code. Remove after Testing is done!!
 
-				player = new PlayerBrain(gameModel.addCharacter(0, 0, Constants.PLAYER_CHARACTER_KEY));
+				Character pc = gameModel.addCharacter(0, 0);
+				pc.setKey(Constants.PLAYER_CHARACTER_KEY);
+				player = new PlayerBrain(pc);
 
 				((Character)player.getBody()).godMode = true;
 
-				Character character = gameModel.addCharacter(1100, 1100, 2);
+				Character character = gameModel.addCharacter(600, 650);
+				aiMap.put(character, new ArtificialBrain(gameModel, character));
+				character = gameModel.addCharacter(690, 650);
 				aiMap.put(character, new ArtificialBrain(gameModel, character));
 
 				Random r = new Random();
 
 				for(int i = 3; i < 30; i++) {
-					character = gameModel.addCharacter(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT), i);
+					character = gameModel.addCharacter(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
 					aiMap.put(character, new ArtificialBrain(gameModel, character));
 				}
 		if(gameModel.getCharacterList().size() > 0) {
@@ -166,9 +170,9 @@ public class Controller implements PropertyChangeListener {
 					playerXPos = currentCharacter.getX() + Constants.VIEW_BORDER_WIDTH;
 					playerYPos = currentCharacter.getY() + Constants.VIEW_BORDER_HEIGHT;
 					if(!currentCharacter.equals(player.getBody())){
+						//System.out.println(((ArtificialBrain)aiMap.get(currentCharacter)).getStateQueue());
 						System.out.println("Social" + currentCharacter.getSecondaryNeeds()[0]);
 					}
-						//System.out.println(aiMap.get(currentCharacter).getState());
 				}
 
 
@@ -330,6 +334,10 @@ public class Controller implements PropertyChangeListener {
 						case Input.KEY_E:
 							if(!gameModel.isPaused())
 								player.consume();
+							break;
+						case Input.KEY_H:
+							if(!gameModel.isPaused())
+								player.reproduce();
 							break;
 						case Input.KEY_B:
 							if (playerViewCentered && showingPlayerInventory && !gameModel.isPaused()) {

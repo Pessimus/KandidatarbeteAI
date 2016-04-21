@@ -13,8 +13,8 @@ public final class Constants {
 	// ----------- Controller Constants ----------- \\
 
 
-	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2;
-	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2;
+	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 
     /*
     public static final         int         GRASS_START_PIXEL_X                 =   650;
@@ -69,7 +69,7 @@ public final class Constants {
 	public static final 		int 		HORIZONTAL_TILES 					=	(int) (SCREEN_WIDTH /WORLD_TILE_SIZE);
 
 	//----------- Character Constants ------------- \\
-	public static final			int			PLAYER_CHARACTER_KEY				= 	1;
+	public static final			int			PLAYER_CHARACTER_KEY				= 	0;
 	public static final			float		CHARACTER_WALK_SPEED				=	6f;
 	public static final			float		CHARACTER_RUN_SPEED					=	12f;
 	public static final 		int			CHARACTER_UPDATE_INTERVAL			=	60;
@@ -82,7 +82,7 @@ public final class Constants {
 
 
 	public static final 		double		CHARACTER_COLLISION_RADIUS			=	12;
-	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	20;
+	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	28;
 	public static final 		double		CHARACTER_SURROUNDING_RADIUS		=	150;
 
 	public static final 		int			CHARACTER_HUNGER_MAX				=	100;
@@ -103,8 +103,10 @@ public final class Constants {
 	public static final 		int			CHARACTER_MAX_AGE					=	100;
 	public static final			int			CHARACTER_DEATH_AGE_SPANN			=	CHARACTER_MAX_AGE-CHARACTER_MIN_DEATH_AGE;
 
+	public static final			int			CHARACTER_PREGNANCY_TIME			=	(CHARACTER_AGE_UPDATE/4)*3;
+
 	public static final			int			CHARACTER_HUNGER_CHANGE				=	2;
-	public static final			int			CHARACTER_THIRST_CHANGE				=	3;
+	public static final			int			CHARACTER_THIRST_CHANGE				=	1;
 	public static final			int			CHARACTER_ENERGY_CHANGE				=	1;
 	public static final			int			CHARACTER_SOCIAL_CHANGE				=	1;
 
@@ -121,7 +123,7 @@ public final class Constants {
 	//----------- Structure Constants ------------- \\
 	public static final			double		HOUSE_COLLISION_RADIUS				=	50;
 	public static final			double		STOCKPILE_COLLISION_RADIUS			=	50;
-	public static final			double		FARM_COLLISION_RADIUS				=	50;
+	public static final			double		FARM_COLLISION_RADIUS				=	100;
 	public static final 		int 		HOUSE_MAX_CAPACITY					=	2;
 
 	public static final			int			MAX_INTEGRETY_HOUSE					=	10;
@@ -145,7 +147,7 @@ public final class Constants {
 	public static final			int			STOCKPILE_STONE_COST				=	1;
 
 	//----------- Animal Constants ------------- \\
-	public static final 		double		ANIMAL_COLLISION_RADIUS				=	5;
+	public static final 		double		ANIMAL_COLLISION_RADIUS				=	30;
 	public static final 		double		ANIMAL_INTERACTION_RADIUS			=	20;
 	public static final 		double		ANIMAL_SURROUNDING_RADIUS			=	200;
 	public static final			int 		ANIMAL_MIN_STEP_AMOUNT				=	600;
@@ -170,11 +172,13 @@ public final class Constants {
 
 	public static final			float		TREE_SPAWN_RADIUS					=	500;
 	public static final 		float		TREE_COLLISION_RADIUS				=	75;
+	public static final			double		LAKE_COLLISION_RADIUS				=	100;
+	public static final			double		STONE_COLLISION_RADIUS				= 	10;
 	public static final			int 		WOOD_MAX_RESOURCES					=	10;
 	public static final			int 		WOOD_INITIAL_RESOURCES				=	10;
 	public static final 		int 		WOOD_RESOURCE_GAIN					=	1;
 
-	public static final			float		WHEAT_COLLISION_RADIUS				=	20;
+	public static final			float 		CROPS_COLLISION_RADIUS 				=	40;
 	public static final			int			CROPS_INITIAL_AMOUNT				=	100;
 	public static final			int			CROPS_YEILD_AMOUNT					=	10;
 
@@ -316,7 +320,8 @@ public final class Constants {
 	public static final		int				MARGIN_TOP							=	BOX_HEIGHT/5;
 	public static final		int				MARGIN_LEFT							=	20;
 	public static final 	int				HALF_TEXT_HEIGHT					=	9;
-	public static final		double			NEEDS_CRITICAL_LEVEL				=	0.2;
+	public static final		double			NEEDS_CRITICAL_LEVEL				=	0.3;
+	public static final		double			NEEDS_CONFORTABLE_LEVEL				=	0.7;
 
 	// ----------- Character Traits ----------- \\
 	public static final		int				MAX_TRAIT_VALUE						=	100;

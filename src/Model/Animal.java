@@ -15,7 +15,9 @@ public class Animal implements ICollidable, ITimeable {
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 
 	// TODO: Enum type for animal
-	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.CHARACTER;
+	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnumLeft = RenderObject.RENDER_OBJECT_ENUM.COW_LEFT;
+	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnumRight = RenderObject.RENDER_OBJECT_ENUM.COW_RIGHT;
+	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.COW_LEFT;
 
 	private double xPoss;
 	private double yPoss;
@@ -60,7 +62,7 @@ public class Animal implements ICollidable, ITimeable {
 
 		this.alive = true;
 
-		this.collisionRadius = Constants.ANIMAL_COLLISION_RADIUS*10;
+		this.collisionRadius = Constants.ANIMAL_COLLISION_RADIUS;
 		this.interactionRadius = Constants.ANIMAL_INTERACTION_RADIUS;
 		this.surroundingRadius = Constants.ANIMAL_SURROUNDING_RADIUS;
 
@@ -307,10 +309,12 @@ public class Animal implements ICollidable, ITimeable {
 				case 0:
 					moveLeft = true;
 					moveRight = false;
+					this.renderObjectEnum = renderObjectEnumLeft;
 					break;
 				case 1:
 					moveLeft = false;
 					moveRight = true;
+					this.renderObjectEnum = renderObjectEnumRight;
 					break;
 				default:
 					moveLeft = false;
