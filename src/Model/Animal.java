@@ -14,6 +14,8 @@ public class Animal implements ICollidable, ITimeable {
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 
+	private static LinkedList<Animal> animals = new LinkedList<>();
+
 	// TODO: Enum type for animal
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnumLeft = RenderObject.RENDER_OBJECT_ENUM.COW_LEFT;
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnumRight = RenderObject.RENDER_OBJECT_ENUM.COW_RIGHT;
