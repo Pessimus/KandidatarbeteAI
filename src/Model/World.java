@@ -131,7 +131,7 @@ public class World{
 			tmpY = Math.random()*this.height;
 
 			Wood tmpWood = new Wood(10,10,1,tmpX,tmpY);
-			addRenewableResourcePoint(tmpWood, RenderObject.RENDER_OBJECT_ENUM.WOOD, tmpX, tmpY, 75);
+			addRenewableResourcePoint(tmpWood, RenderObject.RENDER_OBJECT_ENUM.WOOD, tmpX, tmpY, Constants.TREE_COLLISION_RADIUS);
 
 			i++;
 		}
@@ -141,7 +141,7 @@ public class World{
 			tmpY = Math.random()*this.height;
 
 			Water tmpLake = new Water(1,1);
-			addInfiniteResourcePoint(tmpLake, RenderObject.RENDER_OBJECT_ENUM.LAKE, tmpX, tmpY, 100);
+			addInfiniteResourcePoint(tmpLake, RenderObject.RENDER_OBJECT_ENUM.LAKE, tmpX, tmpY, Constants.LAKE_COLLISION_RADIUS);
 
 			i++;
 		}
@@ -151,7 +151,7 @@ public class World{
 			tmpY = Math.random()*this.height;
 
 			Stone tmpStone = new Stone(50,5);
-			addFiniteResourcePoint(tmpStone, RenderObject.RENDER_OBJECT_ENUM.STONE, tmpX, tmpY, 10);
+			addFiniteResourcePoint(tmpStone, RenderObject.RENDER_OBJECT_ENUM.STONE, tmpX, tmpY, Constants.STONE_COLLISION_RADIUS);
 
 			i++;
 		}
@@ -161,7 +161,7 @@ public class World{
 			tmpY = Math.random()*this.height;
 
 			Gold tmpStone = new Gold(50,5);
-			addFiniteResourcePoint(tmpStone, RenderObject.RENDER_OBJECT_ENUM.GOLD, tmpX, tmpY, 10);
+			addFiniteResourcePoint(tmpStone, RenderObject.RENDER_OBJECT_ENUM.GOLD, tmpX, tmpY, Constants.STONE_COLLISION_RADIUS);
 
 			i++;
 		}

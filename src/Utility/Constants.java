@@ -82,7 +82,7 @@ public final class Constants {
 
 
 	public static final 		double		CHARACTER_COLLISION_RADIUS			=	12;
-	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	20;
+	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	28;
 	public static final 		double		CHARACTER_SURROUNDING_RADIUS		=	150;
 
 	public static final 		int			CHARACTER_HUNGER_MAX				=	100;
@@ -172,6 +172,8 @@ public final class Constants {
 
 	public static final			float		TREE_SPAWN_RADIUS					=	500;
 	public static final 		float		TREE_COLLISION_RADIUS				=	75;
+	public static final			double		LAKE_COLLISION_RADIUS				=	100;
+	public static final			double		STONE_COLLISION_RADIUS				= 	10;
 	public static final			int 		WOOD_MAX_RESOURCES					=	10;
 	public static final			int 		WOOD_INITIAL_RESOURCES				=	10;
 	public static final 		int 		WOOD_RESOURCE_GAIN					=	1;
