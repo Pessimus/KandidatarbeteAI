@@ -137,8 +137,8 @@ public class Pathfinder {
 
     private LinkedList<Tuple> getPoints (ICollidable c) {
         LinkedList<Tuple> ret = new LinkedList<>();
-        for (double i = c.getX() - c.getCollisionRadius() - gridSize; i < c.getX() + c.getCollisionRadius() + gridSize; i = i+gridSize) {
-            for (double j = c.getY() - c.getCollisionRadius() -gridSize; j < c.getY() + c.getCollisionRadius() + gridSize; j = j+gridSize) {
+        for (double i = c.getX() - c.getCollisionRadius() - gridSize-1; i < c.getX() + c.getCollisionRadius() + gridSize+1; i = i+gridSize) {
+            for (double j = c.getY() - c.getCollisionRadius() -gridSize-1; j < c.getY() + c.getCollisionRadius() + gridSize+1; j = j+gridSize) {
                 if (i < gridSize*width && i >= 0 && j < gridSize*height && j >= 0 &&  mask[(int) (i / gridSize)][(int) (j / gridSize)]) {
                     ret.add(new Tuple((int) (i/gridSize), (int) (j/gridSize)));
                 }
@@ -150,11 +150,11 @@ public class Pathfinder {
     }
 
     private Tuple closestPoint (int x, int y,LinkedList<Tuple> points) {
-        double closestDistance = 999999;
+        double closestDistance = 9999999;
         Tuple closestPoint = new Tuple(-1, -1);
         if (points.isEmpty()) {return null;}
         for (Tuple point : points) {
-            double distance = Math.sqrt((point.x - x)^2 + (point.y - y)^2);
+            double distance = Math.abs((point.x - x))^2 + Math.abs((point.y - y))^2;
             if (distance < closestDistance) {
                 closestPoint = point;
                 closestDistance = distance;

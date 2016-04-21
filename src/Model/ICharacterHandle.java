@@ -118,4 +118,8 @@ public interface ICharacterHandle {
 
 	void addPropertyChangeListener(PropertyChangeListener listener);
 	void removePropertyChangeListener(PropertyChangeListener listener);
+
+	String getName ();
+
+	int getAge ();
 }
