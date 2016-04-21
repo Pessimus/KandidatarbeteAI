@@ -13,8 +13,8 @@ public final class Constants {
 	// ----------- Controller Constants ----------- \\
 
 
-	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2;
-	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2;
+	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 
     /*
     public static final         int         GRASS_START_PIXEL_X                 =   650;
@@ -82,7 +82,7 @@ public final class Constants {
 
 
 	public static final 		double		CHARACTER_COLLISION_RADIUS			=	12;
-	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	20;
+	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	28;
 	public static final 		double		CHARACTER_SURROUNDING_RADIUS		=	150;
 
 	public static final 		int			CHARACTER_HUNGER_MAX				=	100;
@@ -172,6 +172,8 @@ public final class Constants {
 
 	public static final			float		TREE_SPAWN_RADIUS					=	500;
 	public static final 		float		TREE_COLLISION_RADIUS				=	75;
+	public static final			double		LAKE_COLLISION_RADIUS				=	100;
+	public static final			double		STONE_COLLISION_RADIUS				= 	10;
 	public static final			int 		WOOD_MAX_RESOURCES					=	10;
 	public static final			int 		WOOD_INITIAL_RESOURCES				=	10;
 	public static final 		int 		WOOD_RESOURCE_GAIN					=	1;
@@ -318,7 +320,8 @@ public final class Constants {
 	public static final		int				MARGIN_TOP							=	BOX_HEIGHT/5;
 	public static final		int				MARGIN_LEFT							=	20;
 	public static final 	int				HALF_TEXT_HEIGHT					=	9;
-	public static final		double			NEEDS_CRITICAL_LEVEL				=	0.2;
+	public static final		double			NEEDS_CRITICAL_LEVEL				=	0.3;
+	public static final		double			NEEDS_CONFORTABLE_LEVEL				=	0.7;
 
 	// ----------- Character Traits ----------- \\
 	public static final		int				MAX_TRAIT_VALUE						=	100;
