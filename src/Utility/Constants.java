@@ -167,6 +167,9 @@ public final class Constants {
 
 	public static final			int			ANIMAL_SOCIAL_CHANGE_INTERACT		=	10;
 
+	public static final 		int 		ANIMAL_MATING_COUNTER_MAX			=	12000;//60*30;
+	public static final 		int 		ANIMAL_MATING_COUNTER_INTERVALL		=	60*10;
+
 	//-------------------------- Resource Constants -------------------------- \\
 	public static final 		int 		TREE_UPDATE_INTERVAL 				=	12000;
 

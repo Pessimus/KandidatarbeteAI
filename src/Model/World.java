@@ -1,7 +1,9 @@
 package Model;
 
 import Model.Resources.*;
+import Model.Structures.Farm;
 import Model.Structures.House;
+import Model.Structures.Stockpile;
 import Utility.Constants;
 import Utility.InventoryRender;
 import Utility.RenderObject;
@@ -45,6 +47,11 @@ public class World{
 //	public void hit() {
 //		this.characters.get(1).hit();
 //	}
+
+	public static int nbrCharacters = 0;
+	public static int nbrStructures = 0;
+	public static int nbrTrees = 0;
+	public static int nbrAnimals = 0;
 
 	//TODO-------------------------------END ????---------------------------------------------------------------------\\
 
@@ -118,10 +125,17 @@ public class World{
 
 		this(width, height);
 
+
 		Animal animal = new Animal(500,500,new Meat(10,10), 0,0,width,height);
+		Animal animal2 = new Animal(600,600,new Meat(10,10), 0,0,width,height);
 		this.collidablesR.add(animal);
 		this.collidables.add(animal);
 		this.timeables.add(animal);
+		this.collidablesR.add(animal2);
+		this.collidables.add(animal2);
+		this.timeables.add(animal2);
+
+		nbrAnimals = 2;
 
 		int i = 0;
 		double tmpX;
@@ -234,6 +248,21 @@ public class World{
 			if (collidable.toBeRemoved()) {
 				collidablestoberemoved.add(collidable);
 				collideablesrtoberemoved.add(collidable);
+
+				if(collidable.getClass()==Character.class){
+					nbrCharacters--;
+				}else if(collidable.getClass()==Animal.class){
+					nbrAnimals--;
+				}else if(collidable.getClass()==ResourcePoint.class){
+					ResourcePoint rp = (ResourcePoint)collidable;
+					if(rp.getResource().getClass()==Wood.class) {
+						nbrTrees--;
+					}
+				}else if(collidable.getClass()==House.class || collidable.getClass()==Stockpile.class || collidable.getClass()==Farm.class){
+					nbrStructures--;
+				}
+
+
 			}
 		}
 		for (ITimeable timeable : timeables){
@@ -277,7 +306,21 @@ public class World{
 		this.timeables.add(character);
 		this.characters.put(character.getKey(), character);
 
+		nbrCharacters++;
+
 		return character;
+	}
+
+	public Animal addAnimal(double xPoss, double yPoss, IResource resourceType, double territoryMinX, double territoryMinY, double territoryMaxX, double territoryMaxY) {
+		Animal animal = new Animal(xPoss, yPoss, resourceType, territoryMinX, territoryMinY, territoryMaxX, territoryMaxY);
+
+		this.collidablesR.add(animal);
+		this.collidables.add(animal);
+		this.timeables.add(animal);
+
+		nbrAnimals++;
+
+		return animal;
 	}
 
 	//TODO code this in a good way, this is not good.
@@ -294,6 +337,8 @@ public class World{
 				//update mask for pathfinding
 				Constants.PATHFINDER_OBJECT.updateMask(this.statics);
 
+				nbrStructures++;
+
 				return structure;
 			}
 		}else if(type.equals(IStructure.StructureType.HOUSE)){
@@ -308,6 +353,8 @@ public class World{
 				//update mask for pathfinding
 				Constants.PATHFINDER_OBJECT.updateMask(this.statics);
 
+				nbrStructures++;
+
 				return structure;
 			}
 		}else{
@@ -318,6 +365,8 @@ public class World{
 
 				//update mask for pathfinding
 				Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+
+				nbrStructures++;
 
 				return structure;
 			}
@@ -402,6 +451,8 @@ public class World{
 			//update mask for pathfinding
 			//Constants.PATHFINDER_OBJECT.updateMask(this.statics);
 			Constants.PATHFINDER_OBJECT.updateMask(point);
+
+			nbrTrees++;
 
 			return point;
 		}
