@@ -142,6 +142,24 @@ public class Controller implements PropertyChangeListener {
 		}
 		updateModel();
 		updateView();
+		aiCleanup();
+	}
+
+	public void aiCleanup() {
+		LinkedList<Character> removeList = new LinkedList<>();
+		Iterator ais = aiMap.entrySet().iterator();
+		while (ais.hasNext()) {
+			Character c = (Character) ((Map.Entry)ais.next()).getKey();
+			if (!gameModel.getCharacterList().contains(aiMap.get(c).getBody())) {
+				removeList.add(c);
+				System.out.print("Delete: " +  c.toString());
+			}
+			//ais.remove();
+		}
+		for (Character c2 : removeList) {
+			aiMap.remove(c2);
+			System.out.print("Delete2: " +  c2.toString());
+		}
 	}
 
 	/**

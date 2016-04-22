@@ -7,8 +7,10 @@ import Utility.Constants;
 import Model.ICharacterHandle;
 
 //import java.awt.*;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.List;
 
@@ -23,9 +25,10 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	// ---------------------------------------------\\
 
 
-
+	private PrintWriter debugger;
 
 	private LinkedList<LinkedList<PathStep>> pathStack = new LinkedList<>();
+	private LinkedList<Point> pointStack = new LinkedList<>();
 
 	private LinkedList<IResource.ResourceType> gatherStack = new LinkedList<>();
 
@@ -91,7 +94,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		body = c;
 		currentState = idleState;
 		c.addPropertyChangeListener(this);
-
+		//try {debugger = new PrintWriter(body.getName() + "_log.txt"); debugger.println(body.getName());} catch (Exception E) {};
 	}
 
 	@Override
@@ -163,6 +166,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	@Override
 	public void setState(IState state) {
 		currentState = state;
+		//debugger.println(state.getClass().toString());
 	}
 
 	@Override
@@ -435,4 +439,25 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	public void setObjectToFind(Class ObjectToFind) {
 		this.objectToFind = ObjectToFind;
 	}
+
+	public LinkedList<Point> getPointStack() {
+		return pointStack;
+	}
+
+	public void stackPoint(Point p) {
+		pointStack.offer(p);
+	}
+
+	/*public void finalWords() {
+		int[] needs = body.getNeeds();
+		int age = body.getAge();
+		debugger.print("Cause of death ");
+		if (needs[0] <= 0) {debugger.println("hunger.");}
+		else if (needs[0] <= 0) {debugger.println("thirst.");}
+		else if (needs[0] <= 0) {debugger.println("energy.");}
+		else {debugger.println("age.");}
+		debugger.print("Age upon death " + Integer.toString(age));
+		debugger.flush();
+		debugger.close();
+	}*/
 }

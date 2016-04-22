@@ -13,8 +13,8 @@ public final class Constants {
 	// ----------- Controller Constants ----------- \\
 
 
-	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2;
+	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2;
 
     /*
     public static final         int         GRASS_START_PIXEL_X                 =   650;
@@ -334,7 +334,7 @@ public final class Constants {
 
 	// ----------- Display Item highlight options ----------- \\
 	public static final		int				OPTION_BOX_WIDTH					=	500;
-	public static final		int				OPTION_BOX_HEIGHT					=	SLOT_DISPLAY_SIZE/2;
-	public static final		int				OPTION_MARGIN_TOP					=	OPTION_BOX_HEIGHT/12;
+	public static final		int				OPTION_BOX_HEIGHT					=	SLOT_DISPLAY_SIZE*2/3;
+	public static final		int				OPTION_MARGIN_TOP					=	OPTION_BOX_HEIGHT/6;
 	public static final		int				OPTION_MARGIN_LEFT					=	60;
 }

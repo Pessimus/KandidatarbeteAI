@@ -56,7 +56,8 @@ public class Water extends InfiniteResource {
 
 	@Override
 	public void consumed(Character rhs) {
-		this.gatherSecondaryResource().consumed(rhs);
+		this.gatherResource().consumedEffect(rhs);
+		//this.gatherSecondaryResource().consumed(rhs);
 	}
 
 	@Override

@@ -97,6 +97,8 @@ public class Interaction {
 	}
 
 	public boolean detectable(){
+		System.out.println(character1.getX());
+		System.out.println(character2.getX());
 		return (Math.abs(character1.getX()-character2.getX())<Constants.CHARACTER_SURROUNDING_RADIUS)
 				&& (Math.abs(character1.getY()-character2.getY())<Constants.CHARACTER_SURROUNDING_RADIUS);
 	}

@@ -34,7 +34,7 @@ public class Wood extends RenewableResource {
     public Wood(int initial, int maxResources, int yield, double xPoss, double yPoss){
         super(initial, maxResources);
 		this.yield = yield;
-		this.updateCounter = 0;
+		this.updateCounter = (int)Math.random()*Constants.TREE_UPDATE_INTERVAL;
 		this.spawning = false;
 		this.xPoss = xPoss;
 		this.yPoss = yPoss;
@@ -64,7 +64,7 @@ public class Wood extends RenewableResource {
 
 	@Override
 	public void consumed(Character rhs) {
-		this.gatherResource().consumed(rhs);
+		this.gatherResource().consumedEffect(rhs);
 	}
 
 	@Override

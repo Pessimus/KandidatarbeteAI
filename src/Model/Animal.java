@@ -175,6 +175,7 @@ public class Animal implements ICollidable, ITimeable {
 
 	@Override
 	public void attacked(Character rhs) {
+		this.attacked = true;
 		Schedule.addTask(new AttackTask(this,rhs,Constants.ANIMAL_ATTACKED_TIME));
 	}
 
@@ -212,7 +213,7 @@ public class Animal implements ICollidable, ITimeable {
 
 	@Override
 	public void attackedInterrupted(Character rhs) {
-
+		this.attacked = false;
 	}
 
 //------------------------------------------UPDATE METHODS------------------------------------------------------------\\
@@ -223,6 +224,7 @@ public class Animal implements ICollidable, ITimeable {
 	private boolean moveRight = false;
 	private boolean moveUp = false;
 	private boolean moveDown = false;
+	private boolean attacked = false;
 
 	private boolean moveToLeft(){
 		if(this.xPoss-this.collisionRadius-1<this.territoryMinX){
@@ -288,72 +290,78 @@ public class Animal implements ICollidable, ITimeable {
 			return true;
 	}
 
+	private void move(){
+		if(!attacked) {
+			boolean movedX = false;
+			boolean movedY = false;
+
+			if (xAxisSteps != 0) {
+				xAxisSteps--;
+				if (moveLeft) {
+					movedX = this.moveToLeft();
+				} else if (moveRight) {
+					movedX = this.moveToRight();
+				}
+			} else {
+				movedX = true;
+				xAxisSteps = (int) (Math.random() * Constants.ANIMAL_STEP_AMOUNT_DIFF + Constants.ANIMAL_MIN_STEP_AMOUNT);
+				int movement = (int) (Math.random() * 3);
+				switch (movement) {
+					case 0:
+						moveLeft = true;
+						moveRight = false;
+						this.renderObjectEnum = renderObjectEnumLeft;
+						break;
+					case 1:
+						moveLeft = false;
+						moveRight = true;
+						this.renderObjectEnum = renderObjectEnumRight;
+						break;
+					default:
+						moveLeft = false;
+						moveRight = false;
+						break;
+				}
+			}
+
+			if (yAxisSteps != 0) {
+				yAxisSteps--;
+				if (moveUp) {
+					movedY = this.moveToUp();
+				} else if (moveDown) {
+					movedY = this.moveToDown();
+				}
+			} else {
+				movedY = true;
+				yAxisSteps = (int) (Math.random() * Constants.ANIMAL_STEP_AMOUNT_DIFF + Constants.ANIMAL_MIN_STEP_AMOUNT);
+				int movement = (int) (Math.random() * 3);
+				switch (movement) {
+					case 0:
+						moveUp = true;
+						moveDown = false;
+						break;
+					case 1:
+						moveUp = false;
+						moveDown = true;
+						break;
+					default:
+						moveUp = false;
+						moveDown = false;
+						break;
+				}
+			}
+
+			if (!movedY && !movedX && (moveUp || moveDown || moveLeft || moveRight)) {
+				xAxisSteps = 0;
+				yAxisSteps = 0;
+			}
+		}
+	}
+
 	@Override
 	public void updateTimeable() {
 
-		boolean movedX = false;
-		boolean movedY = false;
-
-		if(xAxisSteps != 0) {
-			xAxisSteps--;
-			if (moveLeft) {
-				movedX = this.moveToLeft();
-			} else if (moveRight) {
-				movedX = this.moveToRight();
-			}
-		}else{
-			movedX = true;
-			xAxisSteps = (int)(Math.random()*Constants.ANIMAL_STEP_AMOUNT_DIFF + Constants.ANIMAL_MIN_STEP_AMOUNT);
-			int movement = (int)(Math.random()*3);
-			switch (movement){
-				case 0:
-					moveLeft = true;
-					moveRight = false;
-					this.renderObjectEnum = renderObjectEnumLeft;
-					break;
-				case 1:
-					moveLeft = false;
-					moveRight = true;
-					this.renderObjectEnum = renderObjectEnumRight;
-					break;
-				default:
-					moveLeft = false;
-					moveRight = false;
-					break;
-			}
-		}
-
-		if(yAxisSteps != 0) {
-			yAxisSteps--;
-			if (moveUp) {
-				movedY = this.moveToUp();
-			} else if (moveDown) {
-				movedY = this.moveToDown();
-			}
-		}else{
-			movedY = true;
-			yAxisSteps = (int)(Math.random()*Constants.ANIMAL_STEP_AMOUNT_DIFF + Constants.ANIMAL_MIN_STEP_AMOUNT);
-			int movement = (int)(Math.random()*3);
-			switch (movement){
-				case 0:
-					moveUp = true;
-					moveDown = false;
-					break;
-				case 1:
-					moveUp = false;
-					moveDown = true;
-					break;
-				default:
-					moveUp = false;
-					moveDown = false;
-					break;
-			}
-		}
-
-		if(!movedY && !movedX && (moveUp || moveDown || moveLeft || moveRight)){
-			xAxisSteps = 0;
-			yAxisSteps = 0;
-		}
+		this.move();
 
 	}
 

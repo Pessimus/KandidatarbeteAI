@@ -123,8 +123,6 @@ public class GatherState implements IState{
 					brain.stackState(brain.getGatherWoodState());
 					break;
 			}
-
-			brain.getGatherStack().remove();
 		}
 
 		brain.stackState(brain.getMovingState());

@@ -48,18 +48,21 @@ public class CropsItem implements IItem {
     }
 
     @Override
+    public void consumedEffect(Character rhs) {
+        rhs.changeHunger(Constants.CROP_HUNGER_CHANGE_CONSUME);
+        rhs.changeEnergy(Constants.CROP_ENERGY_CHANGE_CONSUME);
+        rhs.changeThirst(Constants.CROP_THIRST_CHANGE_CONSUME);
+    }
+
+    @Override
 	/**{@inheritDoc}*/
     public void consumed(Character rhs) {
         if(amount > 1) {
-            rhs.changeHunger(Constants.CROP_HUNGER_CHANGE_CONSUME);
-            rhs.changeEnergy(Constants.CROP_ENERGY_CHANGE_CONSUME);
-            rhs.changeThirst(Constants.CROP_THIRST_CHANGE_CONSUME);
+            consumedEffect(rhs);
             amount--;
         }
         else if (amount == 1){
-			rhs.changeHunger(Constants.CROP_HUNGER_CHANGE_CONSUME);
-			rhs.changeEnergy(Constants.CROP_ENERGY_CHANGE_CONSUME);
-			rhs.changeThirst(Constants.CROP_THIRST_CHANGE_CONSUME);
+			consumedEffect(rhs);
 			rhs.removeFromInventory(this);
         }
 		else {

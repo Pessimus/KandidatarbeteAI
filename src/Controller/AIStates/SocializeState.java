@@ -51,9 +51,6 @@ public class SocializeState implements IState{
 		} else{
 			switch (brain.getBody().getInteractionType()){
 				case SOCIAL:
-					System.out.println(brain.getCurrentInteraction());
-					System.out.println(brain.getBody().getInteractionType());
-					System.out.println(brain.getBody().getSecondaryNeeds()[0]);
 					if(brain.getCurrentInteraction() != null) {
 						brain.getCurrentInteraction().acceptInteraction(brain.getBody().hashCode(), brain);
 						brain.stackState(brain.getConverseState());

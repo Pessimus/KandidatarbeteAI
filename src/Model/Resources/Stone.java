@@ -58,7 +58,7 @@ public class Stone extends FiniteResource {
 
 	@Override
 	public void consumed(Character rhs) {
-		this.gatherResource().consumed(rhs);
+		this.gatherResource().consumedEffect(rhs);
 	}
 
 	@Override
