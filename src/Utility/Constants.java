@@ -148,7 +148,7 @@ public final class Constants {
 
 	//----------- Animal Constants ------------- \\
 	public static final 		double		ANIMAL_COLLISION_RADIUS				=	30;
-	public static final 		double		ANIMAL_INTERACTION_RADIUS			=	20;
+	public static final 		double		ANIMAL_INTERACTION_RADIUS			=	100;
 	public static final 		double		ANIMAL_SURROUNDING_RADIUS			=	200;
 	public static final			int 		ANIMAL_MIN_STEP_AMOUNT				=	600;
 	public static final 		int			ANIMAL_STEP_AMOUNT_DIFF				=	60*5;
@@ -167,7 +167,7 @@ public final class Constants {
 
 	public static final			int			ANIMAL_SOCIAL_CHANGE_INTERACT		=	10;
 
-	public static final 		int 		ANIMAL_MATING_COUNTER_MAX			=	12000;//60*30;
+	public static final 		int 		ANIMAL_MATING_COUNTER_MAX			=	2400;//60*60;
 	public static final 		int 		ANIMAL_MATING_COUNTER_INTERVALL		=	60*10;
 
 	//-------------------------- Resource Constants -------------------------- \\

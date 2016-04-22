@@ -119,27 +119,24 @@ public class World{
 	 * @param nrTrees the number of trees to randomly spawn in the world at creation.
 	 * @param nrLakes the number of lakes to randomly spawn in the world at creation.
 	 * @param nrStones the number of stones to randomly spawn in the world at creation.
-	 * @param nrCrops the number of crops to randomly spawn in the world at creation.
+	 * @param nrAnimals the number of crops to randomly spawn in the world at creation.
 	 */
-	public World (double width, double height, int nrTrees, int nrLakes, int nrStones, int nrGold, int nrCrops){
+	public World (double width, double height, int nrTrees, int nrLakes, int nrStones, int nrGold, int nrAnimals){
 
 		this(width, height);
-
-
-		Animal animal = new Animal(500,500,new Meat(10,10), 0,0,width,height);
-		Animal animal2 = new Animal(600,600,new Meat(10,10), 0,0,width,height);
-		this.collidablesR.add(animal);
-		this.collidables.add(animal);
-		this.timeables.add(animal);
-		this.collidablesR.add(animal2);
-		this.collidables.add(animal2);
-		this.timeables.add(animal2);
-
-		nbrAnimals = 2;
 
 		int i = 0;
 		double tmpX;
 		double tmpY;
+		while(i < nrAnimals){
+			tmpX = Math.random()*this.width;
+			tmpY = Math.random()*this.height;
+
+			addAnimal(tmpX, tmpY, new Meat(10, 10), 0, 0, width, height);
+
+			i++;
+		}
+		i = 0;
 		while(i < nrTrees){
 			tmpX = Math.random()*this.width;
 			tmpY = Math.random()*this.height;

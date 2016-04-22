@@ -188,7 +188,7 @@ public class CollisionList {
 
 		Node tmpNode = startNodeX.next;
 		while(tmpNode != null){
-			if(tmpNode.value.isImovable()) {
+//			if(tmpNode.value.isImovable()) {
 				if (tmpNode.value.getX() <= collidable.getX()) {//to the left
 					if (tmpNode.value.getX() + tmpNode.value.getCollisionRadius() >= collidable.getX() - collidable.getCollisionRadius()) {//Collision in x
 						if (tmpNode.value.getY() <= collidable.getY()) {//above
@@ -218,7 +218,7 @@ public class CollisionList {
 						}
 					}
 				}
-			}
+//			}
 			tmpNode = tmpNode.next;
 		}
 
