@@ -84,7 +84,7 @@ public class Controller implements PropertyChangeListener {
 
 		//TODO this is hardcoded testing code. Remove after Testing is done!!
 
-				Character pc = gameModel.addCharacter(0, 0);
+				Character pc = gameModel.addCharacter(20, 20);
 				pc.setKey(Constants.PLAYER_CHARACTER_KEY);
 				player = new PlayerBrain(pc);
 
@@ -99,7 +99,11 @@ public class Controller implements PropertyChangeListener {
 
 				for(int i = 3; i < 30; i++) {
 					character = gameModel.addCharacter(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
-					aiMap.put(character, new ArtificialBrain(gameModel, character));
+					if(character != null) {
+						aiMap.put(character, new ArtificialBrain(gameModel, character));
+					}else {
+						i--;
+					}
 				}
 		if(gameModel.getCharacterList().size() > 0) {
 			currentCharacter = gameModel.getCharacterList().get(characterIndex);
@@ -333,6 +337,12 @@ public class Controller implements PropertyChangeListener {
 							}
 							if(gameModel.getCharacterList().size()>0)
 								currentCharacter = gameModel.getCharacterList().get(characterIndex);
+							break;
+						case Input.KEY_0:
+							if(((Character)player.getBody()).isAlive()) {
+								characterIndex = Constants.PLAYER_CHARACTER_KEY;
+								currentCharacter = gameModel.getCharacterList().get(characterIndex);
+							}
 							break;
 						case Input.KEY_R:
 							player.playerRunning();

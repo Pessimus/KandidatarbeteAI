@@ -298,26 +298,31 @@ public class World{
 	public Character addCharacter(double xPoss, double yPoss) {
 		Character character = new Character(xPoss, yPoss);
 
-		this.collidablesR.add(character);
-		this.collidables.add(character);
-		this.timeables.add(character);
-		this.characters.put(character.getKey(), character);
+		if(collidables.canAdd(character)) {
+			this.collidablesR.add(character);
+			this.collidables.add(character);
+			this.timeables.add(character);
+			this.characters.put(character.getKey(), character);
+			nbrCharacters++;
+			return character;
+		}
 
-		nbrCharacters++;
-
-		return character;
+		return null;
 	}
 
 	public Animal addAnimal(double xPoss, double yPoss, IResource resourceType, double territoryMinX, double territoryMinY, double territoryMaxX, double territoryMaxY) {
 		Animal animal = new Animal(xPoss, yPoss, resourceType, territoryMinX, territoryMinY, territoryMaxX, territoryMaxY);
 
-		this.collidablesR.add(animal);
-		this.collidables.add(animal);
-		this.timeables.add(animal);
+		if(collidables.canAdd(animal)) {
+			this.collidablesR.add(animal);
+			this.collidables.add(animal);
+			this.timeables.add(animal);
+			nbrAnimals++;
+			return animal;
+		}
 
-		nbrAnimals++;
+		return null;
 
-		return animal;
 	}
 
 	//TODO code this in a good way, this is not good.
