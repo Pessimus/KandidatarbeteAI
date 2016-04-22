@@ -26,17 +26,19 @@ public class SleepingState implements IState{
 	public void run() {
 		List<ICollidable> interact = brain.getBody().getInteractables();
 		int index = 0;
+		boolean foundHouse = false;
 		for(ICollidable temp : interact){
 			if(temp.equals(brain.getBody().getHome())){
 				brain.getBody().interactObject(index);
+				foundHouse = true;
 				break;
 			}
 
 			index++;
 		}
 
-		if(index > interact.size()){
-			throw new IllegalStateException("House of Character isn't in Interactables-list when in SleepingState!");
+		if(!foundHouse){
+			brain.stackState(brain.getLowEnergyState());
 		}
 
 		brain.setState(brain.getIdleState());
