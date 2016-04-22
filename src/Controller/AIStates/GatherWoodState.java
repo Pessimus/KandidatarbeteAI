@@ -27,17 +27,24 @@ public class GatherWoodState implements IState {
     public void run() {
 		Iterator<ICollidable> iterator = brain.getBody().getInteractables().iterator();
 		int i = 0;
+		boolean found = false;
 		while (iterator.hasNext()) {
 			ICollidable next = iterator.next();
 			if(next.getClass().equals(ResourcePoint.class)){
 				ResourcePoint tempPoint = (ResourcePoint) next;
 				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.WOOD)) {
 					brain.getBody().interactObject(i);
+					brain.getGatherStack().remove();
+					found = true;
 					break;
 				}
 			}
 
 			i++;
+		}
+
+		if(!found){
+			brain.stackState(brain.getGatherState());
 		}
 
 		brain.setState(brain.getIdleState());
