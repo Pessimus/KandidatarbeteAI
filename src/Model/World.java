@@ -1,7 +1,9 @@
 package Model;
 
 import Model.Resources.*;
+import Model.Structures.Farm;
 import Model.Structures.House;
+import Model.Structures.Stockpile;
 import Utility.Constants;
 import Utility.InventoryRender;
 import Utility.RenderObject;
@@ -45,6 +47,11 @@ public class World{
 //	public void hit() {
 //		this.characters.get(1).hit();
 //	}
+
+	public static int nbrCharacters = 0;
+	public static int nbrStructures = 0;
+	public static int nbrTrees = 0;
+	public static int nbrAnimals = 0;
 
 	//TODO-------------------------------END ????---------------------------------------------------------------------\\
 
@@ -112,20 +119,24 @@ public class World{
 	 * @param nrTrees the number of trees to randomly spawn in the world at creation.
 	 * @param nrLakes the number of lakes to randomly spawn in the world at creation.
 	 * @param nrStones the number of stones to randomly spawn in the world at creation.
-	 * @param nrCrops the number of crops to randomly spawn in the world at creation.
+	 * @param nrAnimals the number of crops to randomly spawn in the world at creation.
 	 */
-	public World (double width, double height, int nrTrees, int nrLakes, int nrStones, int nrGold, int nrCrops){
+	public World (double width, double height, int nrTrees, int nrLakes, int nrStones, int nrGold, int nrAnimals){
 
 		this(width, height);
-
-		Animal animal = new Animal(500,500,new Meat(10,10), 0,0,width,height);
-		this.collidablesR.add(animal);
-		this.collidables.add(animal);
-		this.timeables.add(animal);
 
 		int i = 0;
 		double tmpX;
 		double tmpY;
+		while(i < nrAnimals){
+			tmpX = Math.random()*this.width;
+			tmpY = Math.random()*this.height;
+
+			addAnimal(tmpX, tmpY, new Meat(10, 10), 0, 0, width, height);
+
+			i++;
+		}
+		i = 0;
 		while(i < nrTrees){
 			tmpX = Math.random()*this.width;
 			tmpY = Math.random()*this.height;
@@ -234,6 +245,21 @@ public class World{
 			if (collidable.toBeRemoved()) {
 				collidablestoberemoved.add(collidable);
 				collideablesrtoberemoved.add(collidable);
+
+				if(collidable.getClass()==Character.class){
+					nbrCharacters--;
+				}else if(collidable.getClass()==Animal.class){
+					nbrAnimals--;
+				}else if(collidable.getClass()==ResourcePoint.class){
+					ResourcePoint rp = (ResourcePoint)collidable;
+					if(rp.getResource().getClass()==Wood.class) {
+						nbrTrees--;
+					}
+				}else if(collidable.getClass()==House.class || collidable.getClass()==Stockpile.class || collidable.getClass()==Farm.class){
+					nbrStructures--;
+				}
+
+
 			}
 		}
 		for (ITimeable timeable : timeables){
@@ -272,12 +298,31 @@ public class World{
 	public Character addCharacter(double xPoss, double yPoss) {
 		Character character = new Character(xPoss, yPoss);
 
-		this.collidablesR.add(character);
-		this.collidables.add(character);
-		this.timeables.add(character);
-		this.characters.put(character.getKey(), character);
+		if(collidables.canAdd(character)) {
+			this.collidablesR.add(character);
+			this.collidables.add(character);
+			this.timeables.add(character);
+			this.characters.put(character.getKey(), character);
+			nbrCharacters++;
+			return character;
+		}
 
-		return character;
+		return null;
+	}
+
+	public Animal addAnimal(double xPoss, double yPoss, IResource resourceType, double territoryMinX, double territoryMinY, double territoryMaxX, double territoryMaxY) {
+		Animal animal = new Animal(xPoss, yPoss, resourceType, territoryMinX, territoryMinY, territoryMaxX, territoryMaxY);
+
+		if(collidables.canAdd(animal)) {
+			this.collidablesR.add(animal);
+			this.collidables.add(animal);
+			this.timeables.add(animal);
+			nbrAnimals++;
+			return animal;
+		}
+
+		return null;
+
 	}
 
 	//TODO code this in a good way, this is not good.
@@ -294,6 +339,8 @@ public class World{
 				//update mask for pathfinding
 				Constants.PATHFINDER_OBJECT.updateMask(this.statics);
 
+				nbrStructures++;
+
 				return structure;
 			}
 		}else if(type.equals(IStructure.StructureType.HOUSE)){
@@ -308,6 +355,8 @@ public class World{
 				//update mask for pathfinding
 				Constants.PATHFINDER_OBJECT.updateMask(this.statics);
 
+				nbrStructures++;
+
 				return structure;
 			}
 		}else{
@@ -318,6 +367,8 @@ public class World{
 
 				//update mask for pathfinding
 				Constants.PATHFINDER_OBJECT.updateMask(this.statics);
+
+				nbrStructures++;
 
 				return structure;
 			}
@@ -402,6 +453,8 @@ public class World{
 			//update mask for pathfinding
 			//Constants.PATHFINDER_OBJECT.updateMask(this.statics);
 			Constants.PATHFINDER_OBJECT.updateMask(point);
+
+			nbrTrees++;
 
 			return point;
 		}

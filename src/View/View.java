@@ -1,5 +1,6 @@
 package View;
 
+import Model.World;
 import Utility.Constants;
 import Utility.RenderObject;
 import Utility.InventoryRender;
@@ -207,10 +208,19 @@ public class View extends BasicGameState implements InputListener{
 			float buildingWidth = gameContainer.getWidth()/(2*scaleGraphicsX)-halfTextWidth;
 			float buildingHeight = gameContainer.getHeight()/(4*scaleGraphicsY);
 			graphics.drawString("Building in process", buildingWidth, buildingHeight);
-
-
 		}
+
+
+		float xPosText = gameContainer.getWidth()/(2*scaleGraphicsX)-halfTextWidth;
+		float yPosText = gameContainer.getHeight()/(4*scaleGraphicsY);
+		float ydiff = graphics.getFont().getHeight("N");
+		graphics.drawString("Number of characters: "+ World.nbrCharacters	, xPosText, yPosText);
+		graphics.drawString("Number of Animals   : "+ World.nbrAnimals		, xPosText, yPosText+ydiff);
+		graphics.drawString("Number of trees     : "+ World.nbrTrees		, xPosText, yPosText+2*ydiff);
+		graphics.drawString("Number of structures: "+ World.nbrStructures	, xPosText, yPosText+3*ydiff);
 	}
+
+
 	int borderMargin = 10;
 	private void drawInventoryBackground(GameContainer gameContainer, Graphics graphics) throws SlickException {
 
