@@ -35,6 +35,7 @@ public class MovingState implements IState {
 			}
 		}
 		else{
+			brain.getPathStack().remove();
 			brain.setState(brain.getIdleState());
 		}
 	}
