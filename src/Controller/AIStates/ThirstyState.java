@@ -29,7 +29,6 @@ public class ThirstyState implements IState {
 	@Override
 	public void run() {
 		if(brain.getBody().getNeeds()[1] < 95) {
-			brain.stackState(brain.getThirstyState());
 			Iterator<IItem> iterator = brain.getBody().getInventory().iterator();
 			IItem best = null;
 
