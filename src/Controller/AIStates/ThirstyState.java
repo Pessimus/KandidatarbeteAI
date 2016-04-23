@@ -32,7 +32,6 @@ public class ThirstyState implements IState {
 			brain.stackState(brain.getThirstyState());
 			Iterator<IItem> iterator = brain.getBody().getInventory().iterator();
 			IItem best = null;
-			int thirstAmount = -1;
 
 			loop:
 			while (iterator.hasNext()) {
@@ -44,14 +43,14 @@ public class ThirstyState implements IState {
 				}
 			}
 
-			brain.stackState(brain.getDrinkState());
+			brain.stackState(this);
 
 			if (best == null) {
 				brain.stackResourceToGather(IResource.ResourceType.WATER);
-				brain.stackState(brain.getGatherState());
-
+				brain.setState(brain.getGatherState());
+			} else {
+				brain.setState(brain.getDrinkState());
 			}
-			brain.setState(brain.getStateQueue().poll());
 		} else {
 			brain.setState(brain.getIdleState());
 		}

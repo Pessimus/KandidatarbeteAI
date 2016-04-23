@@ -43,9 +43,8 @@ public class GatherWaterState implements IState {
 
 		if(!found){
 			brain.stackState(brain.getGatherState());
-			brain.getResourceMemory().remove(brain.getClosestResourcePoint(IResource.ResourceType.WATER));
+		} else {
+			brain.setState(brain.getIdleState());
 		}
-
-		brain.setState(brain.getIdleState());
 	}
 }

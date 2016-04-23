@@ -40,35 +40,34 @@ public class FindResourceState implements IState {
 
 		if(!foundObject) {
 			//Have a resource to look for
-			if(currentPath != brain.getPathStack().peek()){
+			//System.out.println("Not found object");
+			/*if(currentPath != brain.getPathStack().peek()){
 				brain.setState(brain.getIdleState());
 				return;
 			} else{
 				currentPath = brain.getPathStack().poll();
-			}
+			}*/
 
 			if (currentPath != null) {
+				//System.out.println("'currentPath != null");
 				if (!currentPath.isEmpty()) {
 					currentPath.getFirst().stepTowards(brain.getBody());
 					if (currentPath.getFirst().reached(brain.getBody())) {
 						currentPath.removeFirst();
 					}
 				} else{
-					currentDirection += 1 * (1 - (Math.random() * 2));
-					brain.findPathTo(brain.getBody().getX() + 50 * Math.sin(Math.toRadians(currentDirection)), brain.getBody().getY() + 50 * Math.cos(Math.toRadians(currentDirection)));
-					currentPath = brain.getPathStack().peek();
+					currentDirection += 25 * (1 - (Math.random() * 2));
+					brain.findPathTo(brain.getBody().getX() + 75 * Math.sin(Math.toRadians(currentDirection)), brain.getBody().getY() + 50 * Math.cos(Math.toRadians(currentDirection)));
+					currentPath = brain.getPathStack().poll();
 				}
 			} else{
-				currentDirection += 1 * (1 - (Math.random() * 2));
-				brain.findPathTo(brain.getBody().getX() + 50 * Math.sin(Math.toRadians(currentDirection)), brain.getBody().getY() + 50 * Math.cos(Math.toRadians(currentDirection)));
-				currentPath = brain.getPathStack().peek();
+				currentDirection += 25 * (1 - (Math.random() * 2));
+				brain.findPathTo(brain.getBody().getX() + 75 * Math.sin(Math.toRadians(currentDirection)), brain.getBody().getY() + 50 * Math.cos(Math.toRadians(currentDirection)));
+				currentPath = brain.getPathStack().poll();
 			}
-
-			brain.stackState(this);
 		} else {
 			currentPath = null;
+			brain.setState(brain.getIdleState());
 		}
-
-		brain.setState(brain.getIdleState());
 	}
 }

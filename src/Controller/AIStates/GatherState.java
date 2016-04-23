@@ -29,6 +29,8 @@ public class GatherState implements IState{
 		IItem.Type lowestType = null;
 		int lowestAmount = 0;
 
+		System.out.println("Interesting resource!");
+
 		HashMap<IItem.Type, Integer> itemMap = new HashMap<>();
 
 		for (IItem item : inventory) {
@@ -51,33 +53,34 @@ public class GatherState implements IState{
 		}
 
 		if (lowestType == null) {
+			System.out.println("SHOULD NEVER RUN!");
 			brain.setState(brain.getIdleState());
 		} else {
 			switch (lowestType) {
 				case MEAT_ITEM:
-					/*brain.stackResourceToFind(IResource.ResourceType.MEAT);
+					/*brain.stackResourceToGather(IResource.ResourceType.MEAT);
 					break;*/
 				case CROPS_ITEM:
-					/*brain.stackResourceToFind(IResource.ResourceType.CROPS);
+					/*brain.stackResourceToGather(IResource.ResourceType.CROPS);
 					break;*/
 				case FISH_ITEM:
-					brain.stackResourceToFind(IResource.ResourceType.FISH);
+					brain.stackResourceToGather(IResource.ResourceType.WATER);
 					break;
 				case WATER_ITEM:
-					brain.stackResourceToFind(IResource.ResourceType.WATER);
+					brain.stackResourceToGather(IResource.ResourceType.WATER);
 					break;
 				case WOOD_ITEM:
-					brain.stackResourceToFind(IResource.ResourceType.WOOD);
+					brain.stackResourceToGather(IResource.ResourceType.WOOD);
 					break;
 				case STONE_ITEM:
-					brain.stackResourceToFind(IResource.ResourceType.STONE);
+					brain.stackResourceToGather(IResource.ResourceType.STONE);
 					break;
 				case GOLD_ITEM:
-					brain.stackResourceToFind(IResource.ResourceType.GOLD);
+					brain.stackResourceToGather(IResource.ResourceType.GOLD);
 					break;
 			}
 
-			brain.stackState(brain.getGatherState());
+			brain.setState(brain.getGatherState());
 		}
 	}
 
@@ -87,7 +90,7 @@ public class GatherState implements IState{
 		if(p == null) {
 			brain.stackState(brain.getGatherState());
 			brain.stackResourceToFind(type);
-			brain.stackState(brain.getFindResourceState());
+			brain.setState(brain.getFindResourceState());
 		} else {
 			IResource.ResourceType selectType = p.getResource().getResourceType();
 
@@ -122,9 +125,9 @@ public class GatherState implements IState{
 					brain.stackState(brain.getGatherWoodState());
 					break;
 			}
-		}
 
-		brain.stackState(brain.getMovingState());
+			brain.setState(brain.getMovingState());
+		}
 	}
 
 
@@ -137,14 +140,12 @@ public class GatherState implements IState{
 	public void run() {
 		IResource.ResourceType resource = brain.getNextResourceToGather();
 
-		System.out.println(resource);
-
 		if(resource == null) {
 			gatherInterestingResource();
 		}else{
 			gatherSpecificResource(resource);
 		}
 
-		brain.setState(brain.getIdleState());
+		//brain.setState(brain.getIdleState());
 	}
 }

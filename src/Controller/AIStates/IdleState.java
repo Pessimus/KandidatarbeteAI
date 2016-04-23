@@ -64,20 +64,6 @@ public class IdleState implements IState {
 			}
 		}
 
-		if (needsArray[2] <= 80){
-			if(!brain.getStateQueue().contains(brain.getLowEnergyState()))
-				brain.stackState((brain.getLowEnergyState()));
-		}
-		if(needsArray[0] <= 80){
-			if(!brain.getStateQueue().contains(brain.getHungryState()))
-				brain.stackState((brain.getHungryState()));
-		}
-		if(needsArray[1] <= 80){
-			if(!brain.getStateQueue().contains(brain.getThirstyState()))
-				brain.stackState((brain.getThirstyState()));
-		}
-
-
 		brain.setState(brain.getStateQueue().poll());
 	}
 }

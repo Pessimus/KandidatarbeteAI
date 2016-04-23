@@ -17,6 +17,7 @@ public class LowEnergyState implements IState{
 	public void run() {
 		if(brain.getBody().getNeeds()[2] < 95) {
 			brain.stackState(brain.getLowEnergyState());
+
 			if (brain.getBody().hasHome()) {
 				ICollidable home = brain.getBody().getHome();
 
@@ -26,6 +27,7 @@ public class LowEnergyState implements IState{
 			} else {
 				brain.stackState(brain.getRestingState());
 			}
+
 			brain.setState(brain.getStateQueue().poll());
 		} else {
 			brain.setState(brain.getIdleState());

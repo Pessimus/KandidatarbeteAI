@@ -107,16 +107,26 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		int[] skills = body.getSkills();
 
 		if(!body.isWaiting()) {
-			System.out.println("Current state: " + currentState);
+			//System.out.println("Current state: " + currentState);
 			currentState.run();
-			if (needs[2] <= 20){
-				this.setState((this.getLowEnergyState()));
+
+			if (needs[2] <= 80){
+				if(!stateQueue.contains(this.getLowEnergyState())) {
+					this.stackState(currentState);
+					this.setState((this.getLowEnergyState()));
+				}
 			}
-			if(needs[0] <= 20){
-				this.setState((this.getHungryState()));
+			if(needs[0] <= 80){
+				if(!stateQueue.contains(this.getHungryState())) {
+					this.stackState(currentState);
+					this.setState((this.getHungryState()));
+				}
 			}
-			if(needs[1] <= 20){
-				this.setState((this.getThirstyState()));
+			if(needs[1] <= 80){
+				if(!stateQueue.contains(this.getThirstyState())) {
+					this.stackState(currentState);
+					this.setState((this.getThirstyState()));
+				}
 			}
 
 			//System.out.println();

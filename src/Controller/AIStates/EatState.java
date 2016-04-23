@@ -29,13 +29,7 @@ public class EatState implements IState{
 			IItem current = iterator.next();
 			switch (current.getType()) {
 				case CROPS_ITEM: //TODO: MORE ITEMS
-					bestIndex = currentIndex;
-					brain.getBody().consumeItem(bestIndex);
-					return;
 				case MEAT_ITEM:
-					bestIndex = currentIndex;
-					brain.getBody().consumeItem(bestIndex);
-					return;
 				case FISH_ITEM:
 					bestIndex = currentIndex;
 					brain.getBody().consumeItem(bestIndex);

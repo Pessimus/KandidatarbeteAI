@@ -189,9 +189,19 @@ public class Controller implements PropertyChangeListener {
 					playerXPos = currentCharacter.getX() + Constants.VIEW_BORDER_WIDTH;
 					playerYPos = currentCharacter.getY() + Constants.VIEW_BORDER_HEIGHT;
 					if(!currentCharacter.equals(player.getBody())){
-						System.out.println(((ArtificialBrain)aiMap.get(currentCharacter)).getStateQueue());
+						System.out.println();
 						System.out.println("Current state: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getCurrentState());
+						System.out.println();
 						System.out.println("Social" + currentCharacter.getSecondaryNeeds()[0]);
+						System.out.println("State stack:");
+						((ArtificialBrain)aiMap.get(currentCharacter)).getStateQueue().stream()
+								.forEach(o -> System.out.print("\t" + o));
+						System.out.println("\nGather stack:");
+						((ArtificialBrain)aiMap.get(currentCharacter)).getGatherStack().stream()
+								.forEach(o -> System.out.print("\t" + o));
+						System.out.println("\nPath stack:\n");
+						((ArtificialBrain)aiMap.get(currentCharacter)).getPathStack().stream()
+								.forEach(o -> System.out.print("\t" + o));
 					}
 				}
 
