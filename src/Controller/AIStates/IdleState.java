@@ -51,7 +51,7 @@ public class IdleState implements IState {
 						brain.stackStructureToBuild(IStructure.StructureType.FARM);
 						brain.stackState(brain.getBuildState());
 					} else{
-						brain.stackState(brain.getExploreState());
+						brain.stackState(brain.getGatherState());
 						//brain.stackState(brain.getIdleState());
 					}
 				}

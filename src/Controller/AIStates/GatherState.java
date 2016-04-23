@@ -55,25 +55,25 @@ public class GatherState implements IState{
 		} else {
 			switch (lowestType) {
 				case MEAT_ITEM:
-					/*brain.stackResourceToGather(IResource.ResourceType.MEAT);
+					/*brain.stackResourceToFind(IResource.ResourceType.MEAT);
 					break;*/
 				case CROPS_ITEM:
-					/*brain.stackResourceToGather(IResource.ResourceType.CROPS);
+					/*brain.stackResourceToFind(IResource.ResourceType.CROPS);
 					break;*/
 				case FISH_ITEM:
-					brain.stackResourceToGather(IResource.ResourceType.FISH);
+					brain.stackResourceToFind(IResource.ResourceType.FISH);
 					break;
 				case WATER_ITEM:
-					brain.stackResourceToGather(IResource.ResourceType.WATER);
+					brain.stackResourceToFind(IResource.ResourceType.WATER);
 					break;
 				case WOOD_ITEM:
-					brain.stackResourceToGather(IResource.ResourceType.WOOD);
+					brain.stackResourceToFind(IResource.ResourceType.WOOD);
 					break;
 				case STONE_ITEM:
-					brain.stackResourceToGather(IResource.ResourceType.STONE);
+					brain.stackResourceToFind(IResource.ResourceType.STONE);
 					break;
 				case GOLD_ITEM:
-					brain.stackResourceToGather(IResource.ResourceType.GOLD);
+					brain.stackResourceToFind(IResource.ResourceType.GOLD);
 					break;
 			}
 
@@ -85,10 +85,9 @@ public class GatherState implements IState{
 		ResourcePoint p = brain.getClosestResourcePoint(type);
 
 		if(p == null) {
-			Random r = new Random();
-			Point point = new Point(r.nextInt((int) Constants.WORLD_WIDTH), r.nextInt((int) Constants.WORLD_HEIGHT));
-			brain.findPathTo(point.getX(), point.getY());
 			brain.stackState(brain.getGatherState());
+			brain.stackResourceToFind(type);
+			brain.stackState(brain.getFindResourceState());
 		} else {
 			IResource.ResourceType selectType = p.getResource().getResourceType();
 
@@ -137,6 +136,8 @@ public class GatherState implements IState{
 	@Override
 	public void run() {
 		IResource.ResourceType resource = brain.getNextResourceToGather();
+
+		System.out.println(resource);
 
 		if(resource == null) {
 			gatherInterestingResource();

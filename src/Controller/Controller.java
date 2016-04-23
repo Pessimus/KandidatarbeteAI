@@ -83,22 +83,19 @@ public class Controller implements PropertyChangeListener {
 		screenRect = new ModelToViewRectangle(Constants.DEFAULT_WORLD_VIEW_X, Constants.DEFAULT_WORLD_VIEW_Y, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
 
 		//TODO this is hardcoded testing code. Remove after Testing is done!!
-
-				Character pc = gameModel.addCharacter(20, 20);
+				Character pc;
+				do{
+					pc = gameModel.addCharacter(20, 20);
+				} while(pc == null);
 				pc.setKey(Constants.PLAYER_CHARACTER_KEY);
 				player = new PlayerBrain(pc);
 
 				((Character)player.getBody()).godMode = true;
 
-				Character character = gameModel.addCharacter(600, 650);
-				aiMap.put(character, new ArtificialBrain(gameModel, character));
-				character = gameModel.addCharacter(690, 650);
-				aiMap.put(character, new ArtificialBrain(gameModel, character));
-
 				Random r = new Random();
 
-				for(int i = 3; i < 30; i++) {
-					character = gameModel.addCharacter(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
+				for(int i = 1; i < 3; i++) {
+					Character character = gameModel.addCharacter(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
 					if(character != null) {
 						aiMap.put(character, new ArtificialBrain(gameModel, character));
 					}else {

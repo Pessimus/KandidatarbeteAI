@@ -66,7 +66,7 @@ public class Interaction {
 //---------------------------------------------Start Methods----------------------------------------------------------\\
 
 	public void acceptInteraction(int key, PropertyChangeListener listener){
-		if(!active && (key == character1Key || key == character2Key)) {
+		if(!active && (key == character1Key || key == character2Key) && character1 != null && character2 != null) {
 			if(detectable()) {
 				if (key == character1Key) {
 					character1Active = true;
@@ -78,6 +78,8 @@ public class Interaction {
 			} else{
 				endInteraction();
 			}
+		} else{
+			endInteraction();
 		}
 
 		if(character1Active && character2Active){

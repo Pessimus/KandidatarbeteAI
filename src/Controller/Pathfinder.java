@@ -150,11 +150,11 @@ public class Pathfinder {
     }
 
     private Tuple closestPoint (int x, int y,LinkedList<Tuple> points) {
-        double closestDistance = 9999999;
+        double closestDistance = Double.MAX_VALUE;
         Tuple closestPoint = new Tuple(-1, -1);
         if (points.isEmpty()) {return null;}
         for (Tuple point : points) {
-            double distance = Math.abs((point.x - x))^2 + Math.abs((point.y - y))^2;
+            double distance = Math.abs(point.x - x) + Math.abs(point.y - y);
             if (distance < closestDistance) {
                 closestPoint = point;
                 closestDistance = distance;
