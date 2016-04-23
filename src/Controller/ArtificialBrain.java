@@ -32,6 +32,8 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	private LinkedList<IResource.ResourceType> gatherStack = new LinkedList<>();
 
+	private LinkedList<IResource.ResourceType> resourceToFindStack = new LinkedList<>();
+
 	private final Deque<IState> stateQueue = new LinkedList<>();
 
 	private ICharacterHandle body; // The character this Brain controls
@@ -49,6 +51,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private IState drinkState = new DrinkState(this);
 	private IState eatState = new EatState(this);
 	private IState followState = new FollowState(this);
+	private IState findResourceState = new FindResourceState(this);
 	private IState gatherCropsState = new GatherCropsState(this);
 	private IState gatherFishState = new GatherFishState(this);
 	private IState gatherMeatState = new GatherMeatState(this);
@@ -104,7 +107,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		int[] skills = body.getSkills();
 
 		if(!body.isWaiting()) {
-			//System.out.println("Current state: " + currentState);
+			System.out.println("Current state: " + currentState);
 			currentState.run();
 
 			//System.out.println();
@@ -446,6 +449,18 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	public void stackPoint(Point p) {
 		pointStack.offer(p);
+	}
+
+	public void stackResourceToFind(IResource.ResourceType res){
+		resourceToFindStack.push(res);
+	}
+
+	public LinkedList<IResource.ResourceType> getResourceToFindStack(){
+		return resourceToFindStack;
+	}
+
+	public IState getFindResourceState() {
+		return findResourceState;
 	}
 
 	/*public void finalWords() {
