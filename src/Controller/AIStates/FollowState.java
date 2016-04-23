@@ -37,12 +37,12 @@ public class FollowState implements IState {
                     }
                 } else {
                     brain.findPathTo(brain.getObjectToFollow());
-                    currentPath = brain.getNextPath();
+                    //currentPath = brain.getNextPath();
                 }
                 brain.stackState(this);
             } else {
                 brain.findPathTo(brain.getObjectToFollow());
-                currentPath = brain.getNextPath();
+                //currentPath = brain.getNextPath();
                 brain.stackState(this);
             }
         }

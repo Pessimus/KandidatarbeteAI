@@ -27,7 +27,6 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	private PrintWriter debugger;
 
-	private LinkedList<LinkedList<PathStep>> pathStack = new LinkedList<>();
 	private LinkedList<Point> pointStack = new LinkedList<>();
 
 	private LinkedList<IResource.ResourceType> gatherStack = new LinkedList<>();
@@ -302,28 +301,17 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return buildStack;
 	}
 
-	public LinkedList<PathStep> getNextPath() {
-		return pathStack.peek();
-	}
-
-	public LinkedList<LinkedList<PathStep>> getPathStack() {
-		return pathStack;
-	}
-
 	public void findPathTo(double destX, double destY) {
-		pathStack.push(Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), destX, destY));
+		pointStack.push(new Point((int)destX, (int)destY));
+		//pathStack.push(Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), destX, destY));
 	}
 
-	public void findPathTo(ICollidable dest) {
-		pathStack.push(Constants.PATHFINDER_OBJECT.getPath(body.getX(), body.getY(), dest));
+	public void findPathfindingPoint(ICollidable dest) {
+		pointStack.push(Constants.PATHFINDER_OBJECT.closestPoint((int)body.getX(), (int)body.getY(), Constants.PATHFINDER_OBJECT.getPoints(dest)).getPoint());
 	}
 
 	public Queue<IState> getStateQueue() {
 		return stateQueue;
-	}
-
-	public void queueState(IState state) {
-		stateQueue.offer(state);
 	}
 
 	public void stackState(IState state) {
@@ -445,7 +433,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	}
 
 	public void stackPoint(Point p) {
-		pointStack.offer(p);
+		pointStack.push(p);
 	}
 
 	/*public void finalWords() {

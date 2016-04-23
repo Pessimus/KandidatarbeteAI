@@ -7,6 +7,7 @@ import Model.ICharacterHandle;
 import Model.ICollidable;
 import Utility.Constants;
 
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,10 +38,10 @@ public class ConverseState implements IState{
 					brain.getCurrentInteraction().endInteraction();
 				} else {
 					brain.stackState(this);
-					double dx = brain.getInteractionCharacter().getX() - brain.getBody().getX();
-					double dy = brain.getInteractionCharacter().getY() - brain.getBody().getY();
+					double dx = Math.abs(brain.getInteractionCharacter().getX() - brain.getBody().getX());
+					double dy = Math.abs(brain.getInteractionCharacter().getY() - brain.getBody().getY());
 
-					brain.findPathTo((int) (brain.getBody().getX() + Math.abs(dx)), (int) (brain.getBody().getY() + Math.abs(dy)));
+					brain.stackPoint(new Point((int) (brain.getBody().getX() + dx), (int) (brain.getBody().getY() + dy)));
 					brain.stackState(brain.getMovingState());
 				}
 			}

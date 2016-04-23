@@ -4,6 +4,7 @@ import Model.CollisionList;
 import Model.ICollidable;
 import Utility.Constants;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
@@ -135,7 +136,7 @@ public class Pathfinder {
 		return a;
 	}
 
-    private LinkedList<Tuple> getPoints (ICollidable c) {
+    public LinkedList<Tuple> getPoints (ICollidable c) {
         LinkedList<Tuple> ret = new LinkedList<>();
         for (double i = c.getX() - c.getCollisionRadius() - gridSize-1; i < c.getX() + c.getCollisionRadius() + gridSize+1; i = i+gridSize) {
             for (double j = c.getY() - c.getCollisionRadius() -gridSize-1; j < c.getY() + c.getCollisionRadius() + gridSize+1; j = j+gridSize) {
@@ -149,12 +150,12 @@ public class Pathfinder {
         return ret;
     }
 
-    private Tuple closestPoint (int x, int y,LinkedList<Tuple> points) {
-        double closestDistance = 9999999;
+    public Tuple closestPoint (int x, int y, LinkedList<Tuple> points) {
+        double closestDistance = Double.MAX_VALUE;
         Tuple closestPoint = new Tuple(-1, -1);
         if (points.isEmpty()) {return null;}
         for (Tuple point : points) {
-            double distance = Math.abs((point.x - x))^2 + Math.abs((point.y - y))^2;
+            double distance = Math.abs(point.x - x) + Math.abs(point.y - y);
             if (distance < closestDistance) {
                 closestPoint = point;
                 closestDistance = distance;
@@ -284,7 +285,7 @@ public class Pathfinder {
     }
 
     private PathStep createPathStep (int x, int y) {
-        return new PathStep((double)(x*gridSize + gridSize/2), (double)(y*gridSize + gridSize/2));
+        return new PathStep(x*gridSize + gridSize/2, y*gridSize + gridSize/2);
     }
 
     private LinkedList<Node> successors(Node n, int endx, int endy) {
@@ -310,10 +311,12 @@ public class Pathfinder {
         return ret;
     }
 
-    private class Tuple {
+    public class Tuple {
         public int x;
         public int y;
         public Tuple (int u, int v) {x=u; y=v;}
+
+		public Point getPoint(){return new Point(x, y);}
     }
 
     private class Node implements Comparable<Node> {

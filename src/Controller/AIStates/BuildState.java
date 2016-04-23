@@ -5,6 +5,7 @@ import Model.*;
 import Utility.Constants;
 import Utility.RenderObject;
 
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -100,7 +101,7 @@ public class BuildState implements IState{
 			brain.stackState(brain.getBuildingState());
 
 			if(brain.getBody().hasHome()) {
-				brain.findPathTo(brain.getBody().getHome());
+				brain.stackPoint(new Point((int)brain.getBody().getHome().getX(), (int)brain.getBody().getHome().getY()));
 				brain.stackState(brain.getMovingState());
 			}
 		}

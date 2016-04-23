@@ -23,18 +23,18 @@ public class MovingState implements IState {
 	private LinkedList<PathStep> currentPath = null;
 	private Point currentPoint = null;
 
-	/*@Override
+	@Override
 	public void run() {
 		Point p = brain.getPointStack().peek();
 
-		if(currentPoint != brain.getPointStack().peek()){
+		if(currentPoint != p){
 			currentPath = null;
 			currentPoint = null;
 		}
 
 		if(currentPoint == null){
-			if(!brain.getPointStack().isEmpty()){
-				currentPoint = brain.getPointStack().peek();
+			if(p != null){
+				currentPoint = p;
 			} else{
 				throw new IllegalStateException("No next point in PointStack at 'run()' in MovingState");
 			}
@@ -55,27 +55,5 @@ public class MovingState implements IState {
 		}
 
 		brain.setState(brain.getIdleState());
-	}*/
-
-	@Override
-	public void run() {
-		LinkedList<PathStep> tempPath = brain.getNextPath();
-
-		if(tempPath != null){
-			if(!tempPath.isEmpty()){
-				tempPath.getFirst().stepTowards(brain.getBody());
-				if(tempPath.getFirst().reached(brain.getBody())){
-					tempPath.removeFirst();
-				}
-			}
-			else{
-				brain.getPathStack().remove();
-				brain.setState(brain.getIdleState());
-			}
-		}
-		else{
-			brain.getPathStack().remove();
-			brain.setState(brain.getIdleState());
-		}
 	}
 }
