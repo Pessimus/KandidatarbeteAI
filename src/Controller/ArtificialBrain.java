@@ -106,6 +106,15 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		if(!body.isWaiting()) {
 			//System.out.println("Current state: " + currentState);
 			currentState.run();
+			if (needs[2] <= 20){
+				this.setState((this.getLowEnergyState()));
+			}
+			if(needs[0] <= 20){
+				this.setState((this.getHungryState()));
+			}
+			if(needs[1] <= 20){
+				this.setState((this.getThirstyState()));
+			}
 
 			//System.out.println();
 			//System.out.println("Current state: " + currentState);
@@ -290,7 +299,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		gatherStack.push(stackedResource);
 	}
 
-	public IStructure.StructureType getNextStructureToBuild() {
+	public IStructure.StructureType peekStructureStack() {
 		return buildStack.peek();
 	}
 
