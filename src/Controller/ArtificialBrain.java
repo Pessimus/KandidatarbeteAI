@@ -96,78 +96,57 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		body = c;
 		currentState = idleState;
 		c.addPropertyChangeListener(this);
-		//try {debugger = new PrintWriter(body.getName() + "_log.txt"); debugger.println(body.getName());} catch (Exception E) {};
 	}
 
 	@Override
 	public void update() {
-		int[] needs = body.getNeeds();
+		int[] needsArray = body.getNeeds();
 		int[] traits = body.getTraits();
 		int[] skills = body.getSkills();
 
 		if(!body.isWaiting()) {
-			//System.out.println("Current state: " + currentState);
 			currentState.run();
 
-			if (needs[2] <= 80){
-				if(!stateQueue.contains(this.getLowEnergyState())) {
-					this.stackState(currentState);
-					this.setState((this.getLowEnergyState()));
-				}
-			}
-			if(needs[0] <= 80){
-				if(!stateQueue.contains(this.getHungryState())) {
-					this.stackState(currentState);
-					this.setState((this.getHungryState()));
-				}
-			}
-			if(needs[1] <= 80){
-				if(!stateQueue.contains(this.getThirstyState())) {
-					this.stackState(currentState);
-					this.setState((this.getThirstyState()));
-				}
-			}
+			int minVal = needsArray[0];
+			int minindex = 0;
 
-			//System.out.println();
-			//System.out.println("Current state: " + currentState);
-			/*getStateQueue().stream()
-					.forEach(o -> System.out.println("State:\t" + o));*/
-			/*System.out.println("Inventory:");
-			body.getInventory().stream()
-					.forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));*/
-			/*System.out.println("\nHunger:\t" + needs[0]);
-			System.out.println("Thirst:\t" + needs[1]);
-			System.out.println("Energy:\t" + needs[2]);
-			System.out.println("Position:\t" + getBody().getX() + ":" + getBody().getY());*/
-		}
+			if(needsArray[0] < 80 || needsArray[1] < 80 || needsArray[2] < 80) {
+				if (!stateQueue.contains(this.getHungryState()) && !stateQueue.contains(this.getThirstyState()) && !stateQueue.contains(this.getLowEnergyState())) {
+					for (int i = 0; i < needsArray.length; i++) {
+						if (needsArray[i] < minVal) {
+							minVal = needsArray[i];
+							minindex = i;
+						}
+					}
 
-		/*
-		//removing things from memory that might not be there anymore. Anything deleted that is still there will be rediscovered.
-		for (int i = 0; i < resourceMemory.size()-1; i++) {
-			if (Math.abs(resourceMemory.get(i).getX() - body.getX()) < Constants.CHARACTER_SURROUNDING_RADIUS || Math.abs(resourceMemory.get(i).getY() - body.getY()) < Constants.CHARACTER_SURROUNDING_RADIUS) {
-				resourceMemory.remove(i);
-				//i--;
+					switch (minindex) {
+						case 0:
+							this.stackState(currentState);
+							this.setState((this.getHungryState()));
+							break;
+						case 1:
+							this.stackState(currentState);
+							this.setState((this.getThirstyState()));
+							break;
+						case 2:
+							this.stackState(currentState);
+							this.setState((this.getLowEnergyState()));
+							break;
+
+						default:
+							this.stackState(currentState);
+							this.setState((this.getHungryState()));
+							break;
+					}
+				}
 			}
 		}
-		*/
 		
 		body.getSurroundings().parallelStream()
 				.filter(o -> o.getClass().equals(ResourcePoint.class))
 				.map(o -> (ResourcePoint)o)
 				.filter(o -> !resourceMemory.contains(o))
 				.forEach(resourceMemory::add);
-
-		/*
-		for (ICollidable object : body.getSurroundings()) {
-			if (object.getClass().equals(ResourcePoint.class)) {
-				ResourcePoint resource = (ResourcePoint) object;
-				if (!resourceMemory.contains(resource)) {
-					resourceMemory.add(resource);
-				}
-
-			}
-		}
-		*/
 	}
 
 	@Override
@@ -361,31 +340,20 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	 * @return the 'ResourcePoint' which is closest, or null if none is found in memory
 	 */
 	public ResourcePoint getClosestResourcePoint(IResource.ResourceType type){
-		if(USE_MEMORY) {
-
-			/*surround.stream()
-					.filter(o -> o.getClass().equals(ResourcePoint.class))
-					.map(o -> (ResourcePoint)o)
-					.filter(o -> o.getResource().getResourceType().equals(type))
-					.reduce((rp1, rp2) -> distanceBetweenPoints(getBody().getX(), getBody().getY(), rp1.getX(), rp1.getY()) < distanceBetweenPoints(getBody().getX(), getBody().getY(), rp2.getX(), rp2.getY()) ? rp1 : rp2)
-					.ifPresent(rp -> closest = rp);*/
-			if(type.equals(IResource.ResourceType.FOOD)){
-				return resourceMemory.stream()
-						.filter(o -> o.getResource().getResourceType().equals(IResource.ResourceType.WATER) || o.getResource().getResourceType().equals(IResource.ResourceType.MEAT) || o.getResource().getResourceType().equals(IResource.ResourceType.CROPS))
-						.reduce((rp1, rp2) -> (Math.abs(getBody().getX() - rp1.getX()) < Math.abs(getBody().getX() - rp2.getX())
-								&& Math.abs(getBody().getY() - rp1.getY()) < Math.abs(getBody().getX() - rp2.getX())) ? rp1 : rp2)
-						.orElseGet(() -> null);
-			}
-
-
+		if(type.equals(IResource.ResourceType.FOOD)){
 			return resourceMemory.stream()
-					.filter(o -> o.getResource().getResourceType().equals(type))
+					.filter(o -> o.getResource().getResourceType().equals(IResource.ResourceType.WATER) || o.getResource().getResourceType().equals(IResource.ResourceType.MEAT) || o.getResource().getResourceType().equals(IResource.ResourceType.CROPS))
 					.reduce((rp1, rp2) -> (Math.abs(getBody().getX() - rp1.getX()) < Math.abs(getBody().getX() - rp2.getX())
 							&& Math.abs(getBody().getY() - rp1.getY()) < Math.abs(getBody().getX() - rp2.getX())) ? rp1 : rp2)
 					.orElseGet(() -> null);
 		}
 
-		return null;
+
+		return resourceMemory.stream()
+				.filter(o -> o.getResource().getResourceType().equals(type))
+				.reduce((rp1, rp2) -> (Math.abs(getBody().getX() - rp1.getX()) < Math.abs(getBody().getX() - rp2.getX())
+						&& Math.abs(getBody().getY() - rp1.getY()) < Math.abs(getBody().getX() - rp2.getX())) ? rp1 : rp2)
+				.orElseGet(() -> null);
 	}
 
 	public Interaction getCurrentInteraction() {
