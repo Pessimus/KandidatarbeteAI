@@ -77,6 +77,7 @@ public class IdleState implements IState {
 				brain.stackState((brain.getThirstyState()));
 		}
 
+
 		brain.setState(brain.getStateQueue().poll());
 	}
 }
