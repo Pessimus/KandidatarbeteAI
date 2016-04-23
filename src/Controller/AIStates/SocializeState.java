@@ -35,9 +35,10 @@ public class SocializeState implements IState{
 							&& Math.abs(brain.getBody().getY() - c.getY()) < Constants.CHARACTER_INTERACTION_RADIUS){
 						brain.getBody().setInteractionType(Interaction.InteractionType.SOCIAL);
 						brain.getBody().interactObject(i);
+						brain.setState(brain.getIdleState());
 					} else{
 						brain.setObjectToFollow(c);
-						brain.stackState(brain.getFollowState());
+						brain.setState(brain.getFollowState());
 					}
 					isSomebodyAround = true;
 					break;
@@ -45,30 +46,26 @@ public class SocializeState implements IState{
 				i++;
 			}
 			if(!isSomebodyAround) {
-				brain.stackState(brain.getFindCharacterState());
+				brain.setState(brain.getFindCharacterState());
 			}
 		} else{
 			switch (brain.getBody().getInteractionType()){
 				case SOCIAL:
 					if(brain.getCurrentInteraction() != null) {
 						brain.getCurrentInteraction().acceptInteraction(brain.getBody().hashCode(), brain);
-						brain.stackState(brain.getConverseState());
+						brain.setState(brain.getConverseState());
 					}
 					break;
 				case TRADE:
+					brain.setState(brain.getIdleState());
 					break;
 				case HOSTILE:
+					brain.setState(brain.getIdleState());
+					break;
+				default:
+					brain.setState(brain.getIdleState());
 					break;
 			}
 		}
-
-
-
-		/* *Request interaction
-			*Determine type of interaction
-			* Enter correct interaction state
-			* Go back to idleState
-		 */
-		brain.setState(brain.getIdleState());
 	}
 }

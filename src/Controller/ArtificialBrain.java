@@ -14,8 +14,6 @@ import java.io.PrintWriter;
 import java.util.*;
 import java.util.List;
 
-import static Utility.UniversalStaticMethods.distanceBetweenPoints;
-
 /**
  * Created by Gustav on 2016-03-23.
  */
@@ -374,14 +372,16 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			if(type.equals(IResource.ResourceType.FOOD)){
 				return resourceMemory.stream()
 						.filter(o -> o.getResource().getResourceType().equals(IResource.ResourceType.WATER) || o.getResource().getResourceType().equals(IResource.ResourceType.MEAT) || o.getResource().getResourceType().equals(IResource.ResourceType.CROPS))
-						.reduce((rp1, rp2) -> distanceBetweenPoints(getBody().getX(), getBody().getY(), rp1.getX(), rp1.getY()) < distanceBetweenPoints(getBody().getX(), getBody().getY(), rp2.getX(), rp2.getY()) ? rp1 : rp2)
+						.reduce((rp1, rp2) -> (Math.abs(getBody().getX() - rp1.getX()) < Math.abs(getBody().getX() - rp2.getX())
+								&& Math.abs(getBody().getY() - rp1.getY()) < Math.abs(getBody().getX() - rp2.getX())) ? rp1 : rp2)
 						.orElseGet(() -> null);
 			}
 
 
 			return resourceMemory.stream()
 					.filter(o -> o.getResource().getResourceType().equals(type))
-					.reduce((rp1, rp2) -> distanceBetweenPoints(getBody().getX(), getBody().getY(), rp1.getX(), rp1.getY()) < distanceBetweenPoints(getBody().getX(), getBody().getY(), rp2.getX(), rp2.getY()) ? rp1 : rp2)
+					.reduce((rp1, rp2) -> (Math.abs(getBody().getX() - rp1.getX()) < Math.abs(getBody().getX() - rp2.getX())
+							&& Math.abs(getBody().getY() - rp1.getY()) < Math.abs(getBody().getX() - rp2.getX())) ? rp1 : rp2)
 					.orElseGet(() -> null);
 		}
 
@@ -403,7 +403,6 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		} else if(evt.getPropertyName().equals("startInteraction")){
 			Character other = (Character)evt.getNewValue();
 			Interaction interaction = (Interaction)evt.getOldValue();
-			System.out.println(interaction);
 
 			if(currentInteraction == null && interactionCharacter == null){
 				currentInteraction = interaction;

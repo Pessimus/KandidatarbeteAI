@@ -1,14 +1,6 @@
 package Controller.AIStates;
 
-import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
-import Model.Character;
-import Model.ICharacterHandle;
-import Model.ICollidable;
-import Utility.Constants;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Tobias on 2016-03-29.
@@ -35,14 +27,16 @@ public class ConverseState implements IState{
 			if (brain.getCurrentInteraction().isCharacterActive(brain.getBody().hashCode()) && brain.getCurrentInteraction().isActive()) {
 				if (brain.getCurrentInteraction().talk()) {
 					brain.getCurrentInteraction().endInteraction();
+					brain.setState(brain.getIdleState());
 				} else {
-					brain.stackState(this);
 					double dx = brain.getInteractionCharacter().getX() - brain.getBody().getX();
 					double dy = brain.getInteractionCharacter().getY() - brain.getBody().getY();
 
 					brain.findPathTo((int) (brain.getBody().getX() + Math.abs(dx)), (int) (brain.getBody().getY() + Math.abs(dy)));
 					brain.stackState(brain.getMovingState());
 				}
+			} else{
+				brain.getCurrentInteraction().endInteraction();
 			}
 		}
 

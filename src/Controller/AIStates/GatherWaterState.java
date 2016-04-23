@@ -42,7 +42,7 @@ public class GatherWaterState implements IState {
 		}
 
 		if(!found){
-			brain.stackState(brain.getGatherState());
+			brain.setState(brain.getGatherState());
 		} else {
 			brain.setState(brain.getIdleState());
 		}
