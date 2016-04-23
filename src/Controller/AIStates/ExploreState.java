@@ -51,13 +51,15 @@ public class ExploreState implements IState {
                 } else {
                     brain.findPathTo(brain.getBody().getX() + ((1 - (Math.random() * 2)) * 120), brain.getBody().getY() + ((1 - (Math.random() * 2)) * 120));
                     currentPath = brain.getNextPath();
-                }
-                //If we se it, enter that state
-                //Randomize a point nearby to move towards
-                brain.stackState(this);
+                    brain.getPathStack().poll();
+            }
+            } else{
+                brain.findPathTo(brain.getBody().getX() + ((1 - (Math.random() * 2)) * 120), brain.getBody().getY() + ((1 - (Math.random() * 2)) * 120));
+                currentPath = brain.getNextPath();
+                brain.getPathStack().poll();
             }
         }
-
+        currentPath = null;
         brain.setState(brain.getIdleState());
     }
 }

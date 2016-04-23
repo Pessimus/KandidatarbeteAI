@@ -14,6 +14,8 @@ public class Animal implements ICollidable, ITimeable {
 
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 
+	private static LinkedList<Animal> animals = new LinkedList<>();
+
 	// TODO: Enum type for animal
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnumLeft = RenderObject.RENDER_OBJECT_ENUM.COW_LEFT;
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnumRight = RenderObject.RENDER_OBJECT_ENUM.COW_RIGHT;
@@ -28,6 +30,11 @@ public class Animal implements ICollidable, ITimeable {
 	private double territoryMaxY;
 
 	private IResource resource;
+
+	private int matingCounter;
+	private boolean mating;
+	private boolean spawning;
+	private Animal mate;
 
 	private boolean alive;
 
@@ -60,6 +67,10 @@ public class Animal implements ICollidable, ITimeable {
 		this.territoryMinY = territoryMinY;
 		this.territoryMaxY = territoryMaxY;
 
+		this.matingCounter = Constants.ANIMAL_MATING_COUNTER_MAX;
+		this.mating = false;
+		this.spawning = false;
+
 		this.alive = true;
 
 		this.collisionRadius = Constants.ANIMAL_COLLISION_RADIUS;
@@ -74,6 +85,8 @@ public class Animal implements ICollidable, ITimeable {
 		this.interactableX = new LinkedList<>();
 		this.interactableY = new LinkedList<>();
 		this.interactables = new LinkedList<>();
+
+		animals.add(this);
 	}
 
 //---------------------------------------Collision Methods------------------------------------------------------------\\
@@ -363,6 +376,22 @@ public class Animal implements ICollidable, ITimeable {
 
 		this.move();
 
+		this.matingCounter --;
+
+		if(this.matingCounter < 0) {
+			this.matingCounter = Constants.ANIMAL_MATING_COUNTER_MAX;
+		}else if(this.matingCounter<Constants.ANIMAL_MATING_COUNTER_INTERVALL){
+			this.mating = true;
+			for(Animal tmpAnimal : animals){
+				if(this.interactables.contains(tmpAnimal) && tmpAnimal.mating){
+					this.spawning = true;
+					this.mate = tmpAnimal;
+					this.mating = false;
+					this.matingCounter = Constants.ANIMAL_MATING_COUNTER_MAX;
+				}
+			}
+		}
+
 	}
 
 	@Override
@@ -372,12 +401,19 @@ public class Animal implements ICollidable, ITimeable {
 
 	@Override
 	public boolean isSpawning() {
-		return false;
+		return spawning;
 	}
 
 	@Override
 	public void spawn(World rhs) {
-
+		rhs.addAnimal((this.xPoss+mate.xPoss)/2,
+				(this.yPoss+mate.yPoss)/2,
+				this.resource,
+				(this.territoryMinX+mate.territoryMinX)/2,
+				(this.territoryMinY+mate.territoryMinY)/2,
+				(this.territoryMaxX+mate.territoryMaxX)/2,
+				(this.territoryMaxY+mate.territoryMaxY)/2);
+		this.spawning = false;
 	}
 
 //------------------------------------------------RENDER METHODS------------------------------------------------------\
