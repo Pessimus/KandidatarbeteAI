@@ -45,8 +45,7 @@ public class SocializeState implements IState{
 				i++;
 			}
 			if(!isSomebodyAround) {
-				brain.setObjectToFind(Character.class);
-				brain.stackState(brain.getExploreState());
+				brain.stackState(brain.getFindCharacterState());
 			}
 		} else{
 			switch (brain.getBody().getInteractionType()){

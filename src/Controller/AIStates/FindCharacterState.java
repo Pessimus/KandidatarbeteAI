@@ -2,22 +2,22 @@ package Controller.AIStates;
 
 import Controller.ArtificialBrain;
 import Controller.PathStep;
+import Model.Character;
 import Model.ICollidable;
 import Model.ResourcePoint;
-import Utility.Constants;
 
 import java.util.LinkedList;
 
 /**
  * Created by Tobias on 2016-04-23.
  */
-public class FindResourceState implements IState {
+public class FindCharacterState implements IState {
 	private final ArtificialBrain brain;
 
 	private LinkedList<PathStep> currentPath = null;
 	private double currentDirection = 0;
 
-	public FindResourceState(ArtificialBrain b){
+	public FindCharacterState(ArtificialBrain b){
 		brain = b;
 	}
 
@@ -26,13 +26,9 @@ public class FindResourceState implements IState {
 		boolean foundObject = false;
 
 		for(ICollidable o : brain.getBody().getSurroundings()){
-			if(o.getClass().equals(ResourcePoint.class)){
-				ResourcePoint p = (ResourcePoint) o;
-				if(p.getResource().getResourceType().equals(brain.getResourceToFindStack().peek())) {
-					foundObject = true;
-					brain.getResourceToFindStack().pop();
-					break;
-				}
+			if(o.getClass().equals(Character.class)){
+				foundObject = true;
+				break;
 			}
 		}
 

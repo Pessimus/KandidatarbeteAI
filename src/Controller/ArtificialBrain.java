@@ -51,6 +51,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private IState drinkState = new DrinkState(this);
 	private IState eatState = new EatState(this);
 	private IState followState = new FollowState(this);
+	private IState findCharacterState = new FindCharacterState(this);
 	private IState findResourceState = new FindResourceState(this);
 	private IState gatherCropsState = new GatherCropsState(this);
 	private IState gatherFishState = new GatherFishState(this);
@@ -480,6 +481,10 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	public IState getFindResourceState() {
 		return findResourceState;
+	}
+
+	public IState getFindCharacterState() {
+		return findCharacterState;
 	}
 
 	/*public void finalWords() {
