@@ -16,7 +16,7 @@ import java.util.Random;
 public class IdleState implements IState {
 	private final ArtificialBrain brain;
 
-	public IdleState(ArtificialBrain brain){
+	public IdleState(ArtificialBrain brain) {
 		this.brain = brain;
 	}
 
@@ -25,21 +25,18 @@ public class IdleState implements IState {
 	 */
 	@Override
 	public void run() {
-		//DO WE NEED TO INCREASE ANY OF OUR NEEDS?
-		int[] needsArray = brain.getBody().getNeeds();
 		int[] secondaryNeedsArray = brain.getBody().getSecondaryNeeds();
-		int minVal = needsArray[0];
-		int minindex = 0;
-		// Critical levels of Hunger, Thirst and Energy which
-		// needs to be dealt with immediately
-		int minimumNeed = 0; // = Math.min(Math.min(needsArray[0], needsArray[1]), needsArray[2]);
 
-		if(brain.getStateQueue().isEmpty()){
+
+		if (secondaryNeedsArray[0] < 101) {
+			brain.stackState(brain.getSocializeState());
+
+		/*if(brain.getStateQueue().isEmpty()){
 			if (!brain.getBody().hasHome()){
 				brain.stackStructureToBuild(IStructure.StructureType.HOUSE);
 				brain.stackState(brain.getBuildState());
 			} else{
-				if(secondaryNeedsArray[0] < 95){
+				if(secondaryNeedsArray[0] < 99){
 					brain.stackState(brain.getSocializeState());
 				} else {
 					Random r = new Random();
@@ -52,18 +49,12 @@ public class IdleState implements IState {
 						brain.stackState(brain.getBuildState());
 					} else{
 						brain.stackState(brain.getGatherState());
-						//brain.stackState(brain.getIdleState());
-					}
-				}
-				for (int i = 0; i < needsArray.length ; i++) {
-					if (needsArray[i] < minVal) {
-						minVal = needsArray[i];
-						minindex = i;
 					}
 				}
 			}
-		}
+		}*/
 
-		brain.setState(brain.getStateQueue().poll());
+			brain.setState(brain.getStateQueue().poll());
+		}
 	}
 }

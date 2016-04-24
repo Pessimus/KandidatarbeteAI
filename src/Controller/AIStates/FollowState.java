@@ -39,6 +39,7 @@ public class FollowState implements IState {
                 } else {
                     brain.findPathTo(brain.getObjectToFollow());
                     currentPath = brain.getNextPath();
+                    brain.getPathStack().removeFirst();
                 }
 
                 brain.stackState(this);
@@ -46,6 +47,7 @@ public class FollowState implements IState {
                 brain.findPathTo(brain.getObjectToFollow());
                 currentPath = brain.getNextPath();
                 brain.stackState(this);
+                brain.getPathStack().removeFirst();
             }
         }
 

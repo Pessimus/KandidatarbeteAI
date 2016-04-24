@@ -89,7 +89,11 @@ public class GatherState implements IState{
 
 		if(p == null) {
 			brain.stackState(brain.getGatherState());
-			brain.stackResourceToFind(type);
+			if(type == IResource.ResourceType.FOOD) {
+				brain.stackResourceToFind(IResource.ResourceType.WATER);
+			} else {
+				brain.stackResourceToFind(type);
+			}
 			brain.setState(brain.getFindResourceState());
 		} else {
 			IResource.ResourceType selectType = p.getResource().getResourceType();
