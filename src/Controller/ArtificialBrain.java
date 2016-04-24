@@ -33,6 +33,8 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	private LinkedList<IResource.ResourceType> resourceToFindStack = new LinkedList<>();
 
+	private LinkedList<Character> blackList = new LinkedList<>();
+
 	private final Deque<IState> stateQueue = new LinkedList<>();
 
 	private ICharacterHandle body; // The character this Brain controls
@@ -370,6 +372,10 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return interactionCharacter;
 	}
 
+	public LinkedList<Character> getBlackList(){
+		return blackList;
+	}
+
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if(evt.getPropertyName().equals("attacked")){
@@ -381,9 +387,6 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			if(currentInteraction == null && interactionCharacter == null){
 				currentInteraction = interaction;
 				interactionCharacter = other;
-				if(getCurrentState() != getSocializeState())
-					stackState(currentState);
-				setState(getSocializeState());
 			} else{
 				interaction.declineInteraction();
 			}

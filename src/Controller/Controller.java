@@ -92,21 +92,21 @@ public class Controller implements PropertyChangeListener {
 
 				((Character)player.getBody()).godMode = true;
 
-				/*Character character2 = gameModel.addCharacter(1500, 2500);
+				Character character2 = gameModel.addCharacter(1500, 2500);
 				aiMap.put(character2, new ArtificialBrain(gameModel, character2));
 				Character character3 = gameModel.addCharacter(1500, 2525);
-				aiMap.put(character3, new ArtificialBrain(gameModel, character3));*/
+				aiMap.put(character3, new ArtificialBrain(gameModel, character3));
 
 				Random r = new Random();
 
-				for(int i = 1; i < 30; i++) {
+				/*for(int i = 1; i < 30; i++) {
 					Character character = gameModel.addCharacter(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
 					if(character != null) {
 						aiMap.put(character, new ArtificialBrain(gameModel, character));
 					}else {
 						i--;
 					}
-				}
+				}*/
 		if(gameModel.getCharacterList().size() > 0) {
 			currentCharacter = gameModel.getCharacterList().get(characterIndex);
 		}
@@ -194,22 +194,23 @@ public class Controller implements PropertyChangeListener {
 					playerXPos = currentCharacter.getX() + Constants.VIEW_BORDER_WIDTH;
 					playerYPos = currentCharacter.getY() + Constants.VIEW_BORDER_HEIGHT;
 					if(!currentCharacter.equals(player.getBody())){
+
 						System.out.println("\nSocial" + currentCharacter.getSecondaryNeeds()[0]);
 						System.out.println();
-
 						System.out.println("Current state: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getCurrentState());
 						System.out.println();
 						System.out.println("State stack:");
 						((ArtificialBrain)aiMap.get(currentCharacter)).getStateQueue().stream()
 								.forEach(o -> System.out.print("\t\t" + o));
-						System.out.println("\nGather stack:");
+						/*System.out.println("\nGather stack:");
 						((ArtificialBrain)aiMap.get(currentCharacter)).getGatherStack().stream()
-								.forEach(o -> System.out.print("\t" + o));
+								.forEach(o -> System.out.print("\t" + o));*/
 						System.out.println("\nPath stack:\n");
 						((ArtificialBrain)aiMap.get(currentCharacter)).getPathStack().stream()
 								.forEach(o -> System.out.print("\t" + o));
-						System.out.println("State stack:");
 						System.out.println("Resource to find: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getResourceToFindStack());
+						System.out.println();
+						System.out.println("BLACKLIST: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getBlackList());
 					}
 				}
 

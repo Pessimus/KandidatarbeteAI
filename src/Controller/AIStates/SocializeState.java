@@ -24,26 +24,45 @@ public class SocializeState implements IState{
 	@Override
 	public void run() {
 		if(brain.getBody().getInteractionType() == null) {
+
 			List<ICollidable> surround = brain.getBody().getSurroundings();
 			int i = 0;
 			boolean isSomebodyAround = false;
+
+			//CHECK OUR SURROUNDINGS
 			for (ICollidable o : surround) {
+				//IS IT A CHARACTER?
 				if (o.getClass().equals(Character.class)) {
 					Character c = (Character) o;
-					if(c.getInteractionType() == null) {
+					//IS THAT CHARACTER INTERACTING IR IS IT BLACKLISTED?
+					if(!brain.getBlackList().contains(c)) {
 						// TODO: Find what interaction should be done
+						//NO, CHECK IF WE ARE WE CLOSE ENOUGH TO INTERACT
 						if (Math.abs(brain.getBody().getX() - c.getX()) < Constants.CHARACTER_INTERACTION_RADIUS
 								&& Math.abs(brain.getBody().getY() - c.getY()) < Constants.CHARACTER_INTERACTION_RADIUS) {
-							brain.setState(brain.getIdleState());
-							brain.getBody().setInteractionType(Interaction.InteractionType.SOCIAL);
+							//YES? INTERACT WITH CHARACTER
+							//brain.setState(brain.getIdleState());
 							brain.getBody().interactObject(brain.getBody().getInteractables().indexOf(c));
+							brain.getBody().setInteractionType(Interaction.InteractionType.SOCIAL);
 						} else {
+							//NO? FOlLOW THE CHARACTER
 							brain.setObjectToFollow(c);
 							brain.setState(brain.getFollowState());
 						}
 
 						isSomebodyAround = true;
 						break;
+					} else {
+						//YES
+						//IS OUR BLACKLIST CONTAINING A LOT OF CHARACTERS?
+						if(brain.getBlackList().size() > 5) {
+							//YES? CLEAR SO WE CAN TRY AGAIN
+							brain.getBlackList().clear();
+						}
+						//NO? ADD CHARACTER TO BLACKLIST IF THEY ARE NOT ALREADY IN IT
+						if(!brain.getBlackList().contains(c)) {
+							brain.getBlackList().add(c);
+						}
 					}
 				}
 				i++;
@@ -57,6 +76,8 @@ public class SocializeState implements IState{
 					if(brain.getCurrentInteraction() != null) {
 						brain.getCurrentInteraction().acceptInteraction(brain.getBody().hashCode(), brain);
 						brain.setState(brain.getConverseState());
+					} else {
+						brain.setState(brain.getIdleState());
 					}
 					break;
 				case TRADE:

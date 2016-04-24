@@ -25,7 +25,7 @@ public class FindCharacterState implements IState {
 	public void run() {
 		boolean foundObject = false;
 		for(ICollidable o : brain.getBody().getSurroundings()){
-			if(o.getClass().equals(Character.class)){
+			if(o.getClass().equals(Character.class) && !brain.getBlackList().contains(o)){
 				foundObject = true;
 				brain.setObjectToFollow(o);
 				break;
