@@ -1,9 +1,13 @@
 package Controller.AIStates;
 
 import Controller.ArtificialBrain;
+import Model.ICollidable;
+import Model.ResourcePoint;
 import Model.Structures.Farm;
 import Utility.Constants;
 import Utility.UniversalStaticMethods;
+
+import java.util.Iterator;
 
 /**
  * Created by Tobias on 2016-04-18.
@@ -17,16 +21,34 @@ public class WorkFarmState implements IState {
 
 	@Override
 	public void run() {
-		Farm f = brain.getBody().getSurroundings().stream()
+		Iterator<ICollidable> iteratorC = brain.getBody().getInteractables().iterator();
+		int i = -1;
+		boolean hasFound = false;
+		while(iteratorC.hasNext()) {
+			i++;
+			ICollidable tempC = iteratorC.next();
+			if(tempC.getClass().equals(Farm.class)){
+				Farm tempF = (Farm) tempC;
+				brain.getBody().interactObject(i);
+				hasFound = true;
+				break;
+			}
+		}
 
-				.filter(o -> o.getClass().equals(Farm.class))
-				.map(o -> (Farm)o)
-				.reduce((f1, f2) -> (Math.abs(brain.getBody().getX() - f1.getX()) < Math.abs(brain.getBody().getX() - f2.getX())
-										&& Math.abs(brain.getBody().getY() - f1.getY()) < Math.abs(brain.getBody().getX() - f2.getX())) ? f1 : f2)
-				.orElseGet(() -> null);
-
-		if(f != null){
-
+		if(!hasFound){
+			Iterator<ResourcePoint> iterator = brain.getResourceMemory().iterator();
+			i = -1;
+			hasFound = false;
+			while(iterator.hasNext()) {
+				i++;
+				ICollidable tempC = iterator.next();
+				if(tempC.getClass().equals(Farm.class)){
+					Farm tempF = (Farm) tempC;
+					brain.getBody().interactObject(i);
+					hasFound = true;
+					break;
+				}
+			}
 		}
 	}
 }

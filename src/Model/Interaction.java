@@ -327,6 +327,8 @@ public class Interaction {
 		pcs.firePropertyChange("endInteraction", null, this);
 		character1 = null;
 		character2 = null;
+		Arrays.stream(pcs.getPropertyChangeListeners())
+				.forEach(pcs::removePropertyChangeListener);
 	}
 
 	public void removePropertyChangeListener(PropertyChangeListener listener){

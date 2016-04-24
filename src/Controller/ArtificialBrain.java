@@ -72,7 +72,8 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private IState exploreState = new ExploreState(this);
 
 	//private final HashMap<Path2D, ResourcePoint> resourceMap = new HashMap<>();
-	List<ResourcePoint> resourceMemory = new LinkedList<>();
+	private List<ResourcePoint> resourceMemory = new LinkedList<>();
+	private List<ResourcePoint> structureMemory = new LinkedList<>();
 
 	private Interaction currentInteraction;
 	private Character interactionCharacter;
