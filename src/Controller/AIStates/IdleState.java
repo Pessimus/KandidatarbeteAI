@@ -28,10 +28,7 @@ public class IdleState implements IState {
 		int[] secondaryNeedsArray = brain.getBody().getSecondaryNeeds();
 
 
-		if (secondaryNeedsArray[0] < 101) {
-			brain.stackState(brain.getSocializeState());
-
-		/*if(brain.getStateQueue().isEmpty()){
+		if(brain.getStateQueue().isEmpty()){
 			if (!brain.getBody().hasHome()){
 				brain.stackStructureToBuild(IStructure.StructureType.HOUSE);
 				brain.stackState(brain.getBuildState());
@@ -52,9 +49,8 @@ public class IdleState implements IState {
 					}
 				}
 			}
-		}*/
+		}
 
 			brain.setState(brain.getStateQueue().poll());
 		}
 	}
-}

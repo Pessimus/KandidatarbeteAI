@@ -380,7 +380,8 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			if(currentInteraction == null && interactionCharacter == null){
 				currentInteraction = interaction;
 				interactionCharacter = other;
-				stackState(currentState);
+				if(getCurrentState() != getSocializeState())
+					stackState(currentState);
 				setState(getSocializeState());
 			} else{
 				interaction.declineInteraction();
