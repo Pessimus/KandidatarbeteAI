@@ -354,10 +354,12 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Character rhs){
-		Interaction i = new Interaction(rhs, this, rhs.getInteractionType());
-		currentInteraction = rhs.getInteractionType();
-		pcs.firePropertyChange("startInteraction", i, rhs);
-		rhs.startCharacterInteraction(this, i);
+		if(currentInteraction != null) {
+			Interaction i = new Interaction(rhs, this, rhs.getInteractionType());
+			currentInteraction = rhs.getInteractionType();
+			pcs.firePropertyChange("startInteraction", i, rhs);
+			rhs.startCharacterInteraction(this, i);
+		}
 	}
 
 	public  boolean reproduce(Character rhs){
