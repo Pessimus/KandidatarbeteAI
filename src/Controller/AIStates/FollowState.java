@@ -30,7 +30,6 @@ public class FollowState implements IState {
                     && Math.abs(brain.getBody().getY() - brain.getObjectToFollow().getY()) < Constants.CHARACTER_INTERACTION_RADIUS) {
                 brain.setObjectToFollow(null);
                 currentPath = null;
-                System.out.println("Found character to socialize with!");
             } else if (currentPath != null) {
                 if (!currentPath.isEmpty()) {
                     currentPath.getFirst().stepTowards(brain.getBody());
@@ -38,7 +37,6 @@ public class FollowState implements IState {
                         currentPath.removeFirst();
                     }
                 } else {
-					brain.getPathStack().remove();
                     brain.findPathTo(brain.getObjectToFollow());
                     currentPath = brain.getNextPath();
                     brain.getPathStack().removeFirst();
@@ -46,7 +44,6 @@ public class FollowState implements IState {
 
                 brain.stackState(this);
             } else {
-				brain.getPathStack().poll();
                 brain.findPathTo(brain.getObjectToFollow());
                 currentPath = brain.getNextPath();
                 brain.stackState(this);
