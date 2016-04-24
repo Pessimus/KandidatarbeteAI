@@ -28,17 +28,14 @@ public class IdleState implements IState {
 		int[] secondaryNeedsArray = brain.getBody().getSecondaryNeeds();
 
 
-		if(secondaryNeedsArray[0] < 101){
-			brain.stackState(brain.getSocializeState());
-		}
-		/*if(brain.getStateQueue().isEmpty()){
+		if(brain.getStateQueue().isEmpty()){
 			if (!brain.getBody().hasHome()){
 				brain.stackStructureToBuild(IStructure.StructureType.HOUSE);
 				brain.stackState(brain.getBuildState());
 			} else{
-				if(secondaryNeedsArray[0] < 99){
+			/*	if(secondaryNeedsArray[0] < 99){
 					brain.stackState(brain.getSocializeState());
-				} else {
+				} else {*/
 					Random r = new Random();
 					double d = r.nextDouble();
 					if(d > 0.8) {
@@ -51,8 +48,8 @@ public class IdleState implements IState {
 						brain.stackState(brain.getGatherState());
 					}
 				}
-			}
-		}*/
+			//}
+		}
 
 			brain.setState(brain.getStateQueue().poll());
 		}
