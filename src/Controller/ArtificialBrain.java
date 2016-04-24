@@ -26,6 +26,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 
 	private PrintWriter debugger;
+	private LinkedList<Character> uninteractableCharacters = new LinkedList<>();
 
 	private LinkedList<LinkedList<PathStep>> pathStack = new LinkedList<>();
 	private LinkedList<Point> pointStack = new LinkedList<>();
@@ -51,6 +52,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private IState drinkState = new DrinkState(this);
 	private IState eatState = new EatState(this);
 	private IState followState = new FollowState(this);
+	private IState findCharacterState = new FindCharacterState(this);
 	private IState findResourceState = new FindResourceState(this);
 	private IState gatherCropsState = new GatherCropsState(this);
 	private IState gatherFishState = new GatherFishState(this);
@@ -107,16 +109,26 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		int[] skills = body.getSkills();
 
 		if(!body.isWaiting()) {
-			System.out.println("Current state: " + currentState);
+			//System.out.println("Current state: " + currentState);
 			currentState.run();
-			if (needs[2] <= 20){
-				this.setState((this.getLowEnergyState()));
+
+			if (needs[2] <= 80){
+				if(!stateQueue.contains(this.getLowEnergyState())) {
+					this.stackState(currentState);
+					this.setState((this.getLowEnergyState()));
+				}
 			}
-			if(needs[0] <= 20){
-				this.setState((this.getHungryState()));
+			if(needs[0] <= 80){
+				if(!stateQueue.contains(this.getHungryState())) {
+					this.stackState(currentState);
+					this.setState((this.getHungryState()));
+				}
 			}
-			if(needs[1] <= 20){
-				this.setState((this.getThirstyState()));
+			if(needs[1] <= 80){
+				if(!stateQueue.contains(this.getThirstyState())) {
+					this.stackState(currentState);
+					this.setState((this.getThirstyState()));
+				}
 			}
 
 			//System.out.println();
@@ -346,6 +358,10 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return resourceMemory;
 	}
 
+	public LinkedList<Character> getUninteractableCharacters() {
+		return uninteractableCharacters;
+	}
+
 	/**
 	 * Finds the closest object of the type 'ResourcePoint' to the character
 	 * @param type The type of resource to look for
@@ -431,6 +447,11 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 				currentInteraction = null;
 				interactionCharacter = null;
 				body.setInteractionType(null);
+			} else if (evt.getPropertyName().equals("interactionNotActive" + interactionCharacter.hashCode())) {
+				if(uninteractableCharacters.size() > 5) {
+					uninteractableCharacters.clear();
+				}
+				uninteractableCharacters.add(interactionCharacter);
 			}
 		}
 
@@ -470,6 +491,10 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	public IState getFindResourceState() {
 		return findResourceState;
+	}
+
+	public IState getFindCharacterState() {
+		return findCharacterState;
 	}
 
 	/*public void finalWords() {

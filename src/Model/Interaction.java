@@ -84,6 +84,8 @@ public class Interaction {
 
 		if(character1Active && character2Active){
 			active = true;
+		} else {
+			pcs.firePropertyChange("interactionNotActive", 0, 1);
 		}
 	}
 

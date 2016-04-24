@@ -19,15 +19,8 @@ public class HungryState implements IState {
 	@Override
 	public void run() {
 		if(brain.getBody().getNeeds()[0] < 95) {
-			brain.stackState(brain.getHungryState());
 			Iterator<IItem> iterator = brain.getBody().getInventory().iterator();
 			IItem best = null;
-			int hungerAmount = -1;
-			RenderObject closestCrop = null;
-			double cdx = 0;
-			double cdy = 0;
-			double odx = 0;
-			double ody = 0;
 
 			loop:
 			while (iterator.hasNext()) {
@@ -41,13 +34,14 @@ public class HungryState implements IState {
 				}
 			}
 
-			brain.stackState(brain.getEatState());
+			brain.stackState(this);
 
 			if (best == null) {
 				brain.stackResourceToGather(IResource.ResourceType.FOOD);
-				brain.stackState(brain.getGatherState());
+				brain.setState(brain.getGatherState());
+			} else {
+				brain.setState(brain.getEatState());
 			}
-			brain.setState(brain.getStateQueue().poll());
 		} else {
 			brain.setState(brain.getIdleState());
 		}

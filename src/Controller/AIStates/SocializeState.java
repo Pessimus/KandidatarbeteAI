@@ -30,23 +30,24 @@ public class SocializeState implements IState{
 			for (ICollidable o : surround) {
 				if (o.getClass().equals(Character.class)) {
 					Character c = (Character) o;
-					// TODO: Find what interaction should be done
-					if(Math.abs(brain.getBody().getX() - c.getX()) < Constants.CHARACTER_INTERACTION_RADIUS
-							&& Math.abs(brain.getBody().getY() - c.getY()) < Constants.CHARACTER_INTERACTION_RADIUS){
-						brain.getBody().setInteractionType(Interaction.InteractionType.SOCIAL);
-						brain.getBody().interactObject(i);
-					} else{
-						brain.setObjectToFollow(c);
-						brain.stackState(brain.getFollowState());
+					if(!brain.getUninteractableCharacters().contains(c)) {
+						// TODO: Find what interaction should be done
+						if (Math.abs(brain.getBody().getX() - c.getX()) < Constants.CHARACTER_INTERACTION_RADIUS
+								&& Math.abs(brain.getBody().getY() - c.getY()) < Constants.CHARACTER_INTERACTION_RADIUS) {
+							brain.getBody().setInteractionType(Interaction.InteractionType.SOCIAL);
+							brain.getBody().interactObject(i);
+						} else {
+							brain.setObjectToFollow(c);
+							brain.stackState(brain.getFollowState());
+						}
+						isSomebodyAround = true;
+						break;
 					}
-					isSomebodyAround = true;
-					break;
 				}
 				i++;
 			}
 			if(!isSomebodyAround) {
-				brain.setObjectToFind(Character.class);
-				brain.stackState(brain.getExploreState());
+				brain.stackState(brain.getFindCharacterState());
 			}
 		} else{
 			switch (brain.getBody().getInteractionType()){
