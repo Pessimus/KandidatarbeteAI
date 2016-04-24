@@ -19,7 +19,6 @@ public class BuildingState implements IState {
 	@Override
 	public void run() {
 		brain.getBody().build(brain.getStructureStack().pop());
-
 		brain.setState(brain.getIdleState());
 	}
 }

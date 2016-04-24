@@ -38,11 +38,11 @@ public class IdleState implements IState {
 				} else {*/
 					Random r = new Random();
 					double d = r.nextDouble();
-					if(d > 0.8) {
-						brain.stackStructureToBuild(IStructure.StructureType.STOCKPILE);
-						brain.stackState(brain.getBuildState());
-					} else if(d > 0.6){
+					if(d > 0.8  && !brain.getBody().hasFarm()) {
 						brain.stackStructureToBuild(IStructure.StructureType.FARM);
+						brain.stackState(brain.getBuildState());
+					} else if(d > 0.6 && !brain.getBody().hasStockPile()){
+						brain.stackStructureToBuild(IStructure.StructureType.STOCKPILE);
 						brain.stackState(brain.getBuildState());
 					} else{
 						brain.stackState(brain.getGatherState());

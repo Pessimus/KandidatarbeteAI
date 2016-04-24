@@ -114,7 +114,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			int minVal = needsArray[0];
 			int minindex = 0;
 
-			/*if(needsArray[0] < 80 || needsArray[1] < 80 || needsArray[2] < 80) {
+			if(needsArray[0] < 80 || needsArray[1] < 80 || needsArray[2] < 80) {
 				if (!stateQueue.contains(this.getHungryState()) && !stateQueue.contains(this.getThirstyState()) && !stateQueue.contains(this.getLowEnergyState())) {
 					for (int i = 0; i < needsArray.length; i++) {
 						if (needsArray[i] < minVal) {
@@ -143,7 +143,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 							break;
 					}
 				}
-			}*/
+			}
 		}
 		
 		body.getSurroundings().parallelStream()

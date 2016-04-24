@@ -1,6 +1,7 @@
 package Model;
 
 import Controller.ArtificialBrain;
+import Model.Structures.Farm;
 import Model.Structures.House;
 import Model.Structures.Stockpile;
 import Model.Tasks.*;
@@ -37,6 +38,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	private Inventory inventory;
 
 	private House home = null;
+	private boolean hasFarm = false;
+	private boolean hasStockpile = false;
 
 	private boolean waiting;
 
@@ -591,12 +594,14 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		switch (typeToSpawn){
 			case FARM:
 				collision = (int) Constants.FARM_COLLISION_RADIUS;
+				hasFarm = true;
 				break;
 			case HOUSE:
 				collision = (int) Constants.HOUSE_COLLISION_RADIUS;
 				break;
 			case STOCKPILE:
 				collision = (int) Constants.STOCKPILE_COLLISION_RADIUS;
+				hasStockpile = true;
 				break;
 		}
 		//structure = rhs.addStructure(xPos, ()(yPos-Constants.CHARACTER_INTERACTION_RADIUS), typeToSpawn);
@@ -930,7 +935,14 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	public boolean hasHome() {
 		return home != null;
 	}
-
+	@Override
+	public boolean hasFarm() {return hasFarm; };
+	@Override
+	public boolean hasStockPile(){return hasStockpile;}
+	@Override
+	public void setHasStockpile(boolean b) {hasStockpile = b; }
+	@Override
+	public void setHasFarm(boolean b) {hasFarm = b; }
 	@Override
 	public ICollidable getHome() {
 		return home;
