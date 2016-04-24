@@ -26,6 +26,7 @@ public class FollowState implements IState {
     @Override
     public void run() {
         if(brain.getObjectToFollow() != null) {
+
             if (currentPath != null) {
                 if (!currentPath.isEmpty()) {
                     currentPath.getFirst().stepTowards(brain.getBody());
@@ -35,14 +36,10 @@ public class FollowState implements IState {
                 } else {
                     brain.findPathTo(brain.getObjectToFollow());
                     currentPath = brain.getNextPath();
-                    brain.getPathStack().removeFirst();
                 }
-
-                brain.stackState(this);
             } else {
                 brain.findPathTo(brain.getObjectToFollow());
                 currentPath = brain.getNextPath();
-                brain.stackState(this);
                 brain.getPathStack().removeFirst();
             }
 
@@ -52,8 +49,5 @@ public class FollowState implements IState {
                 currentPath = null;
             }
         }
-
-
-        brain.setState(brain.getIdleState());
     }
 }

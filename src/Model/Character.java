@@ -1,5 +1,6 @@
 package Model;
 
+import Controller.ArtificialBrain;
 import Model.Structures.House;
 import Model.Structures.Stockpile;
 import Model.Tasks.*;
@@ -685,9 +686,9 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		if(updateCounter % Constants.CHARACTER_THIRST_UPDATE == 0){
 			changeThirst(-Constants.CHARACTER_THIRST_CHANGE + (social/Constants.CHARACTER_SOCIAL_NEEDS_MODIFIER));
 		}
-		if(updateCounter % Constants.CHARACTER_SOCIAL_UPDATE == 0){
+		/*if(updateCounter % Constants.CHARACTER_SOCIAL_UPDATE == 0){
 			changeSocial(-Constants.CHARACTER_SOCIAL_CHANGE);
-		}
+		}*/
 		if(updateCounter % Constants.CHARACTER_AGE_UPDATE == 0){
 			age++;
 			if(age >= Constants.CHARACTER_MIN_DEATH_AGE){
