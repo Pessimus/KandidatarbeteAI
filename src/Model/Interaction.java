@@ -84,6 +84,8 @@ public class Interaction {
 
 		if(character1Active && character2Active){
 			active = true;
+		} else {
+			pcs.firePropertyChange("interactionNotActive", 0, 1);
 		}
 	}
 
@@ -99,8 +101,9 @@ public class Interaction {
 	}
 
 	public boolean detectable(){
-		return (Math.abs(character1.getX()-character2.getX())<Constants.CHARACTER_SURROUNDING_RADIUS)
-				&& (Math.abs(character1.getY()-character2.getY())<Constants.CHARACTER_SURROUNDING_RADIUS);
+		return (Math.abs(character1.getX()-character2.getX()) < Constants.CHARACTER_SURROUNDING_RADIUS)
+				&& (Math.abs(character1.getY()-character2.getY()) < Constants.CHARACTER_SURROUNDING_RADIUS);
+
 	}
 
 	public boolean isActive(){

@@ -24,6 +24,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 
 	private PrintWriter debugger;
+	private LinkedList<Character> uninteractableCharacters = new LinkedList<>();
 
 	private LinkedList<LinkedList<PathStep>> pathStack = new LinkedList<>();
 	private LinkedList<Point> pointStack = new LinkedList<>();
@@ -111,7 +112,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			int minVal = needsArray[0];
 			int minindex = 0;
 
-			if(needsArray[0] < 80 || needsArray[1] < 80 || needsArray[2] < 80) {
+			/*if(needsArray[0] < 80 || needsArray[1] < 80 || needsArray[2] < 80) {
 				if (!stateQueue.contains(this.getHungryState()) && !stateQueue.contains(this.getThirstyState()) && !stateQueue.contains(this.getLowEnergyState())) {
 					for (int i = 0; i < needsArray.length; i++) {
 						if (needsArray[i] < minVal) {
@@ -140,7 +141,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 							break;
 					}
 				}
-			}
+			}*/
 		}
 		
 		body.getSurroundings().parallelStream()
@@ -335,6 +336,10 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return resourceMemory;
 	}
 
+	public LinkedList<Character> getUninteractableCharacters() {
+		return uninteractableCharacters;
+	}
+
 	/**
 	 * Finds the closest object of the type 'ResourcePoint' to the character
 	 * @param type The type of resource to look for
@@ -410,6 +415,11 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 				currentInteraction = null;
 				interactionCharacter = null;
 				body.setInteractionType(null);
+			} else if (evt.getPropertyName().equals("interactionNotActive" + interactionCharacter.hashCode())) {
+				if(uninteractableCharacters.size() > 5) {
+					uninteractableCharacters.clear();
+				}
+				uninteractableCharacters.add(interactionCharacter);
 			}
 		}
 

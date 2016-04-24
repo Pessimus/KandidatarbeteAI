@@ -30,18 +30,21 @@ public class SocializeState implements IState{
 			for (ICollidable o : surround) {
 				if (o.getClass().equals(Character.class)) {
 					Character c = (Character) o;
+
 					// TODO: Find what interaction should be done
 					if(Math.abs(brain.getBody().getX() - c.getX()) < Constants.CHARACTER_INTERACTION_RADIUS
 							&& Math.abs(brain.getBody().getY() - c.getY()) < Constants.CHARACTER_INTERACTION_RADIUS){
 						brain.getBody().setInteractionType(Interaction.InteractionType.SOCIAL);
 						brain.getBody().interactObject(brain.getBody().getInteractables().indexOf(c));
 						brain.setState(brain.getIdleState());
+						isSomebodyAround = true;
+						break;
 					} else{
+						isSomebodyAround = true;
 						brain.setObjectToFollow(c);
 						brain.setState(brain.getFollowState());
+						break;
 					}
-					isSomebodyAround = true;
-					break;
 				}
 				i++;
 			}
@@ -51,6 +54,7 @@ public class SocializeState implements IState{
 		} else{
 			switch (brain.getBody().getInteractionType()){
 				case SOCIAL:
+					System.out.println("I AM IN SOCIAL! " + brain.getBody().getInteractionType());
 					if(brain.getCurrentInteraction() != null) {
 						brain.getCurrentInteraction().acceptInteraction(brain.getBody().hashCode(), brain);
 						brain.setState(brain.getConverseState());
@@ -63,6 +67,7 @@ public class SocializeState implements IState{
 					brain.setState(brain.getIdleState());
 					break;
 				default:
+					System.out.println("I AM IN DEFAULT! " + brain.getBody().getInteractionType());
 					brain.setState(brain.getIdleState());
 					break;
 			}

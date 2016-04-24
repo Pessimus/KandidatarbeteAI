@@ -24,7 +24,6 @@ public class FindCharacterState implements IState {
 	@Override
 	public void run() {
 		boolean foundObject = false;
-
 		for(ICollidable o : brain.getBody().getSurroundings()){
 			if(o.getClass().equals(Character.class)){
 				foundObject = true;
