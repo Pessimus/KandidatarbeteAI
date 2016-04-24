@@ -38,10 +38,8 @@ public class FollowState implements IState {
                         currentPath.removeFirst();
                     }
                 } else {
-					brain.getPathStack().remove();
                     brain.findPathTo(brain.getObjectToFollow());
                     currentPath = brain.getNextPath();
-                    brain.getPathStack().removeFirst();
                 }
 
                 brain.stackState(this);
