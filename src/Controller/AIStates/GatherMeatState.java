@@ -1,6 +1,7 @@
 package Controller.AIStates;
 
 import Controller.ArtificialBrain;
+import Model.Animal;
 import Model.ICollidable;
 import Model.IResource;
 import Model.ResourcePoint;
@@ -28,14 +29,11 @@ public class GatherMeatState implements IState {
 		boolean found = false;
 		while (iterator.hasNext()) {
 			ICollidable next = iterator.next();
-			if(next.getClass().equals(ResourcePoint.class)){
-				ResourcePoint tempPoint = (ResourcePoint) next;
-				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.MEAT)) {
-					brain.getBody().interactObject(i);
-					brain.getGatherStack().remove();
-					found = true;
-					break;
-				}
+			if(next.getClass().equals(Animal.class)){
+				brain.getBody().attackObject(i);
+				brain.getGatherStack().remove();
+				found = true;
+				break;
 			}
 
 			i++;

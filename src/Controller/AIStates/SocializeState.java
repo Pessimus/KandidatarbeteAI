@@ -34,7 +34,7 @@ public class SocializeState implements IState{
 					if(Math.abs(brain.getBody().getX() - c.getX()) < Constants.CHARACTER_INTERACTION_RADIUS
 							&& Math.abs(brain.getBody().getY() - c.getY()) < Constants.CHARACTER_INTERACTION_RADIUS){
 						brain.getBody().setInteractionType(Interaction.InteractionType.SOCIAL);
-						brain.getBody().interactObject(i);
+						brain.getBody().interactObject(brain.getBody().getInteractables().indexOf(c));
 						brain.setState(brain.getIdleState());
 					} else{
 						brain.setObjectToFollow(c);

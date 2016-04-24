@@ -28,6 +28,7 @@ public class FindCharacterState implements IState {
 		for(ICollidable o : brain.getBody().getSurroundings()){
 			if(o.getClass().equals(Character.class)){
 				foundObject = true;
+				brain.setObjectToFollow(o);
 				break;
 			}
 		}
@@ -52,6 +53,7 @@ public class FindCharacterState implements IState {
 			}
 		} else {
 			currentPath = null;
+			brain.stackState(brain.getFollowState());
 			brain.setState(brain.getIdleState());
 		}
 	}
