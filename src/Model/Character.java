@@ -1,5 +1,6 @@
 package Model;
 
+import Controller.ArtificialBrain;
 import Model.Structures.House;
 import Model.Structures.Stockpile;
 import Model.Tasks.*;

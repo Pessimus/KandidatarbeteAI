@@ -124,6 +124,7 @@ public class Interaction {
 						character1.changeSocial(30);
 						character2.changeSocial(30);
 						pcs.firePropertyChange("doneTalking", 0, 1);
+						//endInteraction();
 						return true;
 					}
 				}
