@@ -25,7 +25,6 @@ public class ConverseState implements IState{
 		// TODO: Find a way to measure what character is the most interesting to talk to
 		if(brain.getCurrentInteraction() != null) {
 			if (brain.getCurrentInteraction().isActive()) {
-				System.out.println("Converse");
 				if (brain.getCurrentInteraction().talk()) {
 					brain.getCurrentInteraction().endInteraction();
 				} else {
