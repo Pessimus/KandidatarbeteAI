@@ -80,7 +80,8 @@ public class GatherState implements IState{
 					break;
 			}
 
-			brain.setState(brain.getGatherState());
+			brain.stackState(brain.getGatherState());
+			brain.setState(brain.getIdleState());
 		}
 	}
 

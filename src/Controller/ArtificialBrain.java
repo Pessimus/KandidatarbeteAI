@@ -33,6 +33,8 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	private LinkedList<IResource.ResourceType> resourceToFindStack = new LinkedList<>();
 
+	private LinkedList<IStructure> structureToFindStack = new LinkedList<>();
+
 	private final Deque<IState> stateQueue = new LinkedList<>();
 
 	private ICharacterHandle body; // The character this Brain controls
@@ -70,10 +72,11 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private IState thirstyState = new ThirstyState(this);
 	private IState tradeState = new TradeState(this);
 	private IState exploreState = new ExploreState(this);
+	private IState workFarmState = new WorkFarmState(this);
 
 	//private final HashMap<Path2D, ResourcePoint> resourceMap = new HashMap<>();
 	private List<ResourcePoint> resourceMemory = new LinkedList<>();
-	private List<ResourcePoint> structureMemory = new LinkedList<>();
+	private List<IStructure> structureMemory = new LinkedList<>();
 
 	private Interaction currentInteraction;
 	private Character interactionCharacter;
@@ -149,6 +152,12 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 				.map(o -> (ResourcePoint)o)
 				.filter(o -> !resourceMemory.contains(o))
 				.forEach(resourceMemory::add);
+
+		body.getSurroundings().parallelStream()
+				.filter(o -> o instanceof IStructure)
+				.map(o -> (IStructure)o)
+				.filter(o -> !structureMemory.contains(o))
+				.forEach(structureMemory::add);
 	}
 
 	@Override
@@ -280,6 +289,10 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return gatherGoldState;
 	}
 
+	public IState getWorkFarmState() {
+		return workFarmState;
+	}
+
 	public IResource.ResourceType getNextResourceToGather() {
 		return gatherStack.peek();
 	}
@@ -334,6 +347,10 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	public List<ResourcePoint> getResourceMemory() {
 		return resourceMemory;
+	}
+
+	public List<IStructure> getStructureMemory() {
+		return structureMemory;
 	}
 
 	public LinkedList<Character> getUninteractableCharacters() {
@@ -467,6 +484,10 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	public IState getFindCharacterState() {
 		return findCharacterState;
+	}
+
+	public LinkedList<IStructure> getStructureToFindStack(){
+		return structureToFindStack;
 	}
 
 	/*public void finalWords() {
