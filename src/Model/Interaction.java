@@ -114,6 +114,14 @@ public class Interaction {
 		return (key == character1Key && character1Active) || (key == character2Key && character2Active);
 	}
 
+	public int getCharacter1Key(){
+		return character1Key;
+	}
+
+	public int getCharacter2Key(){
+		return character2Key;
+	}
+
 //--------------------------------------------Social Methods----------------------------------------------------------\\
 
 	public boolean talk(){

@@ -61,7 +61,7 @@ public class SocializeState implements IState{
 						}
 						//NO? ADD CHARACTER TO BLACKLIST IF THEY ARE NOT ALREADY IN IT
 						if(!brain.getBlackList().contains(c)) {
-							brain.getBlackList().add(c);
+						//	brain.getBlackList().add(c);
 						}
 					}
 				}
