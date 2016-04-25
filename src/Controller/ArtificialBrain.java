@@ -65,6 +65,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private IState gatherStoneState = new GatherStoneState(this);
 	private IState gatherState = new GatherState(this);
 	private IState hungryState = new HungryState(this);
+	private IState huntingState = new HuntingState(this);
 	private IState idleState = new IdleState(this);
 	private IState lowEnergyState = new LowEnergyState(this);
 	private IState movingState = new MovingState(this);
@@ -112,7 +113,6 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		int[] traits = body.getTraits();
 		int[] skills = body.getSkills();
 		if(!body.isWaiting()) {
-
 			currentState.run();
 
 			int minVal = needsArray[0];
@@ -238,6 +238,10 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	public IState getHungryState() {
 		return hungryState;
+	}
+
+	public IState getHuntingState() {
+		return huntingState;
 	}
 
 	public IState getIdleState() {
@@ -366,7 +370,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	 * @return the 'ResourcePoint' which is closest, or null if none is found in memory
 	 */
 	public ResourcePoint getClosestResourcePoint(IResource.ResourceType type){
-
+		/*
 		if(USE_MEMORY) {
 
 			/*surround.stream()
@@ -383,15 +387,13 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 						.orElseGet(() -> null);
 			}
 
-
+*/
 		if(type.equals(IResource.ResourceType.FOOD)){
 			return resourceMemory.stream()
 					.filter(o -> o.getResource().getResourceType().equals(IResource.ResourceType.WATER) || o.getResource().getResourceType().equals(IResource.ResourceType.MEAT) || o.getResource().getResourceType().equals(IResource.ResourceType.CROPS))
 					.reduce((rp1, rp2) -> (Math.abs(getBody().getX() - rp1.getX()) < Math.abs(getBody().getX() - rp2.getX())
 							&& Math.abs(getBody().getY() - rp1.getY()) < Math.abs(getBody().getX() - rp2.getX())) ? rp1 : rp2)
 					.orElseGet(() -> null);
-					*/
-
 		}
 
 

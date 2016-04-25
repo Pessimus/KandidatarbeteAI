@@ -31,7 +31,7 @@ public class ConverseState implements IState {
 					double dx = brain.getInteractionCharacter().getX() - brain.getBody().getX();
 					double dy = brain.getInteractionCharacter().getY() - brain.getBody().getY();
 
-					brain.findPathTo((int) (brain.getBody().getX() + Math.abs(dx)), (int) (brain.getBody().getY() + Math.abs(dy)));
+					brain.findPathTo((int) (brain.getBody().getX() + dx/2), (int) (brain.getBody().getY() + dy/2));
 					brain.setState(brain.getMovingState());
 					return;
 				}
