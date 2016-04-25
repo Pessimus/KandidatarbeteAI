@@ -23,12 +23,15 @@ public class GatherCropsState implements IState {
 	public void run() {
 		Iterator<ICollidable> iterator = brain.getBody().getInteractables().iterator();
 		int i = 0;
+		boolean found = false;
 		while (iterator.hasNext()) {
 			ICollidable next = iterator.next();
 			if(next.getClass().equals(ResourcePoint.class)){
 				ResourcePoint tempPoint = (ResourcePoint) next;
 				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.CROPS)) {
 					brain.getBody().interactObject(i);
+					brain.getGatherStack().remove();
+					found = true;
 					break;
 				}
 			}
@@ -36,6 +39,10 @@ public class GatherCropsState implements IState {
 			i++;
 		}
 
-		brain.setState(brain.getIdleState());
+		if(!found){
+			brain.setState(brain.getGatherState());
+		} else {
+			brain.setState(brain.getIdleState());
+		}
 	}
 }

@@ -2,7 +2,6 @@ package Controller.AIStates;
 
 import Controller.ArtificialBrain;
 import Model.*;
-import Utility.Constants;
 import Utility.RenderObject;
 
 import java.util.LinkedList;
@@ -62,7 +61,7 @@ public class BuildState implements IState{
 		 */
 
 		//CHECK WHAT MATERIALS WE NEED FOR nextStructureToBuild, DO WE HAVE THEM?
-		IStructure.StructureType type = brain.getNextStructureToBuild();
+		IStructure.StructureType type = brain.peekStructureStack();
 		List<IItem> remaining = getRemainingMaterials(type);
 
 		if(!remaining.isEmpty()){

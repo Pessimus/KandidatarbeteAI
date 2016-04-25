@@ -66,7 +66,7 @@ public class Interaction {
 //---------------------------------------------Start Methods----------------------------------------------------------\\
 
 	public void acceptInteraction(int key, PropertyChangeListener listener){
-		if(!active && (key == character1Key || key == character2Key)) {
+		if(!active && (key == character1Key || key == character2Key) && character1 != null && character2 != null) {
 			if(detectable()) {
 				if (key == character1Key) {
 					character1Active = true;
@@ -78,10 +78,14 @@ public class Interaction {
 			} else{
 				endInteraction();
 			}
+		} else{
+			endInteraction();
 		}
 
 		if(character1Active && character2Active){
 			active = true;
+		} else {
+			pcs.firePropertyChange("interactionNotActive", 0, 1);
 		}
 	}
 
@@ -97,8 +101,9 @@ public class Interaction {
 	}
 
 	public boolean detectable(){
-		return (Math.abs(character1.getX()-character2.getX())<Constants.CHARACTER_SURROUNDING_RADIUS)
-				&& (Math.abs(character1.getY()-character2.getY())<Constants.CHARACTER_SURROUNDING_RADIUS);
+		return (Math.abs(character1.getX()-character2.getX()) < Constants.CHARACTER_SURROUNDING_RADIUS)
+				&& (Math.abs(character1.getY()-character2.getY()) < Constants.CHARACTER_SURROUNDING_RADIUS);
+
 	}
 
 	public boolean isActive(){
@@ -107,6 +112,14 @@ public class Interaction {
 
 	public boolean isCharacterActive(int key){
 		return (key == character1Key && character1Active) || (key == character2Key && character2Active);
+	}
+
+	public int getCharacter1Key(){
+		return character1Key;
+	}
+
+	public int getCharacter2Key(){
+		return character2Key;
 	}
 
 //--------------------------------------------Social Methods----------------------------------------------------------\\
@@ -119,6 +132,7 @@ public class Interaction {
 						character1.changeSocial(30);
 						character2.changeSocial(30);
 						pcs.firePropertyChange("doneTalking", 0, 1);
+						//endInteraction();
 						return true;
 					}
 				}
@@ -322,6 +336,8 @@ public class Interaction {
 		pcs.firePropertyChange("endInteraction", null, this);
 		character1 = null;
 		character2 = null;
+		Arrays.stream(pcs.getPropertyChangeListeners())
+				.forEach(pcs::removePropertyChangeListener);
 	}
 
 	public void removePropertyChangeListener(PropertyChangeListener listener){

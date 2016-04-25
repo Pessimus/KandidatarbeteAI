@@ -14,8 +14,6 @@ import java.io.PrintWriter;
 import java.util.*;
 import java.util.List;
 
-import static Utility.UniversalStaticMethods.distanceBetweenPoints;
-
 /**
  * Created by Gustav on 2016-03-23.
  */
@@ -26,11 +24,18 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 
 	private PrintWriter debugger;
+	private LinkedList<Character> uninteractableCharacters = new LinkedList<>();
 
 	private LinkedList<LinkedList<PathStep>> pathStack = new LinkedList<>();
 	private LinkedList<Point> pointStack = new LinkedList<>();
 
 	private LinkedList<IResource.ResourceType> gatherStack = new LinkedList<>();
+
+	private LinkedList<IResource.ResourceType> resourceToFindStack = new LinkedList<>();
+
+	private LinkedList<IStructure> structureToFindStack = new LinkedList<>();
+
+	private LinkedList<Character> blackList = new LinkedList<>();
 
 	private final Deque<IState> stateQueue = new LinkedList<>();
 
@@ -49,6 +54,8 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private IState drinkState = new DrinkState(this);
 	private IState eatState = new EatState(this);
 	private IState followState = new FollowState(this);
+	private IState findCharacterState = new FindCharacterState(this);
+	private IState findResourceState = new FindResourceState(this);
 	private IState gatherCropsState = new GatherCropsState(this);
 	private IState gatherFishState = new GatherFishState(this);
 	private IState gatherMeatState = new GatherMeatState(this);
@@ -67,9 +74,12 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private IState thirstyState = new ThirstyState(this);
 	private IState tradeState = new TradeState(this);
 	private IState exploreState = new ExploreState(this);
+	private IState workFarmState = new WorkFarmState(this);
 
 	//private final HashMap<Path2D, ResourcePoint> resourceMap = new HashMap<>();
-	ResourceMemory resourceMemory = new ResourceMemory();
+
+	private List<ResourcePoint> resourceMemory = new LinkedList<>();
+	private List<IStructure> structureMemory = new LinkedList<>();
 
 	private Interaction currentInteraction;
 	private Character interactionCharacter;
@@ -94,64 +104,63 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		body = c;
 		currentState = idleState;
 		c.addPropertyChangeListener(this);
-		//try {debugger = new PrintWriter(body.getName() + "_log.txt"); debugger.println(body.getName());} catch (Exception E) {};
 	}
 
 	@Override
 	public void update() {
-		int[] needs = body.getNeeds();
+		int[] needsArray = body.getNeeds();
 		int[] traits = body.getTraits();
 		int[] skills = body.getSkills();
 		if(!body.isWaiting()) {
-			//System.out.println("Current state: " + currentState);
 
 			currentState.run();
 
-			//removing things from memory that might not be there anymore. Anything deleted that is still there will be rediscovered.
-			resourceMemory.clearSurroundings(getBody());
+			int minVal = needsArray[0];
+			int minindex = 0;
 
+			if(needsArray[0] < 80 || needsArray[1] < 80 || needsArray[2] < 80) {
+				if (!stateQueue.contains(this.getHungryState()) && !stateQueue.contains(this.getThirstyState()) && !stateQueue.contains(this.getLowEnergyState())) {
+					for (int i = 0; i < needsArray.length; i++) {
+						if (needsArray[i] < minVal) {
+							minVal = needsArray[i];
+							minindex = i;
+						}
+					}
 
-			body.getSurroundings().parallelStream()
-					.filter(o -> o.getClass().equals(ResourcePoint.class))
-					.map(o -> (ResourcePoint)o)
-					.filter(o -> !resourceMemory.contains(o))
-					.forEach(resourceMemory::addFirst);
+					switch (minindex) {
+						case 0:
+							this.stackState(currentState);
+							this.setState((this.getHungryState()));
+							break;
+						case 1:
+							this.stackState(currentState);
+							this.setState((this.getThirstyState()));
+							break;
+						case 2:
+							this.stackState(currentState);
+							this.setState((this.getLowEnergyState()));
+							break;
 
-			//System.out.println();
-			//System.out.println("Current state: " + currentState);
-			/*getStateQueue().stream()
-					.forEach(o -> System.out.println("State:\t" + o));*/
-			/*System.out.println("Inventory:");
-			body.getInventory().stream()
-					.forEach(i -> System.out.print(i.getType() + ":" + i.getAmount() + "  "));*/
-			/*System.out.println("\nHunger:\t" + needs[0]);
-			System.out.println("Thirst:\t" + needs[1]);
-			System.out.println("Energy:\t" + needs[2]);
-			System.out.println("Position:\t" + getBody().getX() + ":" + getBody().getY());*/
-		}
-
-
-		/*
-		for (int i = 0; i < resourceMemory.size()-1; i++) {
-			if (Math.abs(resourceMemory.get(i).getX() - body.getX()) < Constants.CHARACTER_SURROUNDING_RADIUS || Math.abs(resourceMemory.get(i).getY() - body.getY()) < Constants.CHARACTER_SURROUNDING_RADIUS) {
-				resourceMemory.remove(i);
-				//i--;
-			}
-		}
-		*/
-
-
-		/*
-		for (ICollidable object : body.getSurroundings()) {
-			if (object.getClass().equals(ResourcePoint.class)) {
-				ResourcePoint resource = (ResourcePoint) object;
-				if (!resourceMemory.contains(resource)) {
-					resourceMemory.add(resource);
+						default:
+							this.stackState(currentState);
+							this.setState((this.getHungryState()));
+							break;
+					}
 				}
-
 			}
 		}
-		*/
+		
+		body.getSurroundings().parallelStream()
+				.filter(o -> o.getClass().equals(ResourcePoint.class))
+				.map(o -> (ResourcePoint)o)
+				.filter(o -> !resourceMemory.contains(o))
+				.forEach(resourceMemory::add);
+
+		body.getSurroundings().parallelStream()
+				.filter(o -> o instanceof IStructure)
+				.map(o -> (IStructure)o)
+				.filter(o -> !structureMemory.contains(o))
+				.forEach(structureMemory::add);
 	}
 
 	@Override
@@ -283,6 +292,10 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return gatherGoldState;
 	}
 
+	public IState getWorkFarmState() {
+		return workFarmState;
+	}
+
 	public IResource.ResourceType getNextResourceToGather() {
 		return gatherStack.peek();
 	}
@@ -295,7 +308,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		gatherStack.push(stackedResource);
 	}
 
-	public IStructure.StructureType getNextStructureToBuild() {
+	public IStructure.StructureType peekStructureStack() {
 		return buildStack.peek();
 	}
 
@@ -335,8 +348,16 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		stateQueue.push(state);
 	}
 
-	public ResourceMemory getResourceMemory() {
+	public List<ResourcePoint> getResourceMemory() {
 		return resourceMemory;
+	}
+
+	public List<IStructure> getStructureMemory() {
+		return structureMemory;
+	}
+
+	public LinkedList<Character> getUninteractableCharacters() {
+		return uninteractableCharacters;
 	}
 
 	/**
@@ -345,6 +366,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	 * @return the 'ResourcePoint' which is closest, or null if none is found in memory
 	 */
 	public ResourcePoint getClosestResourcePoint(IResource.ResourceType type){
+
 		if(USE_MEMORY) {
 
 			/*surround.stream()
@@ -362,15 +384,22 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			}
 
 
+		if(type.equals(IResource.ResourceType.FOOD)){
 			return resourceMemory.stream()
-					.filter(o -> o.getResource().getResourceType().equals(type))
-					.reduce((rp1, rp2) -> distanceBetweenPoints(getBody().getX(), getBody().getY(), rp1.getX(), rp1.getY()) < distanceBetweenPoints(getBody().getX(), getBody().getY(), rp2.getX(), rp2.getY()) ? rp1 : rp2)
+					.filter(o -> o.getResource().getResourceType().equals(IResource.ResourceType.WATER) || o.getResource().getResourceType().equals(IResource.ResourceType.MEAT) || o.getResource().getResourceType().equals(IResource.ResourceType.CROPS))
+					.reduce((rp1, rp2) -> (Math.abs(getBody().getX() - rp1.getX()) < Math.abs(getBody().getX() - rp2.getX())
+							&& Math.abs(getBody().getY() - rp1.getY()) < Math.abs(getBody().getX() - rp2.getX())) ? rp1 : rp2)
 					.orElseGet(() -> null);
 					*/
-			return resourceMemory.getClosest(type, getBody());
+
 		}
 
-		return null;
+
+		return resourceMemory.stream()
+				.filter(o -> o.getResource().getResourceType().equals(type))
+				.reduce((rp1, rp2) -> (Math.abs(getBody().getX() - rp1.getX()) < Math.abs(getBody().getX() - rp2.getX())
+						&& Math.abs(getBody().getY() - rp1.getY()) < Math.abs(getBody().getX() - rp2.getX())) ? rp1 : rp2)
+				.orElseGet(() -> null);
 	}
 
 	public Interaction getCurrentInteraction() {
@@ -381,6 +410,10 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return interactionCharacter;
 	}
 
+	public LinkedList<Character> getBlackList(){
+		return blackList;
+	}
+
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if(evt.getPropertyName().equals("attacked")){
@@ -388,13 +421,18 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		} else if(evt.getPropertyName().equals("startInteraction")){
 			Character other = (Character)evt.getNewValue();
 			Interaction interaction = (Interaction)evt.getOldValue();
-			System.out.println(interaction);
 
-			if(currentInteraction == null && interactionCharacter == null){
+			if(		(currentInteraction == null || interactionCharacter == null) ||
+					(currentInteraction.getCharacter1Key() == body.hashCode() && currentInteraction.getCharacter2Key() == interactionCharacter.hashCode()) ||
+					(currentInteraction.getCharacter2Key() == body.hashCode() && currentInteraction.getCharacter1Key() == interactionCharacter.hashCode())){
 				currentInteraction = interaction;
 				interactionCharacter = other;
-				stackState(currentState);
+
+				if(getCurrentState() != getSocializeState()) {
+					stackState(currentState);
+				}
 				setState(getSocializeState());
+
 			} else{
 				interaction.declineInteraction();
 			}
@@ -427,6 +465,11 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 				currentInteraction = null;
 				interactionCharacter = null;
 				body.setInteractionType(null);
+			} else if (evt.getPropertyName().equals("interactionNotActive" + interactionCharacter.hashCode())) {
+				if(uninteractableCharacters.size() > 5) {
+					uninteractableCharacters.clear();
+				}
+				uninteractableCharacters.add(interactionCharacter);
 			}
 		}
 
@@ -454,6 +497,22 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	public void stackPoint(Point p) {
 		pointStack.offer(p);
+	}
+
+	public void stackResourceToFind(IResource.ResourceType res){
+		resourceToFindStack.push(res);
+	}
+
+	public LinkedList<IResource.ResourceType> getResourceToFindStack(){
+		return resourceToFindStack;
+	}
+
+	public IState getFindResourceState() {
+		return findResourceState;
+	}
+
+	public IState getFindCharacterState() {
+		return findCharacterState;
 	}
 
 	/*public void finalWords() {

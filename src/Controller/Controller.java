@@ -83,22 +83,29 @@ public class Controller implements PropertyChangeListener {
 		screenRect = new ModelToViewRectangle(Constants.DEFAULT_WORLD_VIEW_X, Constants.DEFAULT_WORLD_VIEW_Y, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
 
 		//TODO this is hardcoded testing code. Remove after Testing is done!!
-
-				Character pc = gameModel.addCharacter(20, 20);
+				Character pc;
+				do{
+					pc = gameModel.addCharacter(20, 20);
+				} while(pc == null);
 				pc.setKey(Constants.PLAYER_CHARACTER_KEY);
 				player = new PlayerBrain(pc);
 
 				((Character)player.getBody()).godMode = true;
 
-				Character character = gameModel.addCharacter(600, 650);
-				aiMap.put(character, new ArtificialBrain(gameModel, character));
-				character = gameModel.addCharacter(690, 650);
-				aiMap.put(character, new ArtificialBrain(gameModel, character));
+				/*Character character2 = gameModel.addCharacter(1500, 2500);
+				aiMap.put(character2, new ArtificialBrain(gameModel, character2));
+				Character character3 = gameModel.addCharacter(1500, 2525);
+				aiMap.put(character3, new ArtificialBrain(gameModel, character3));*/
+
+				/*Character character4 = gameModel.addCharacter(1475, 2525);
+				aiMap.put(character4, new ArtificialBrain(gameModel, character3));*/
+
 
 				Random r = new Random();
 
+
 				for(int i = 3; i < Constants.NUMBER_OF_NPCS; i++) {
-					character = gameModel.addCharacter(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
+					Character character = gameModel.addCharacter(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
 					if(character != null) {
 						aiMap.put(character, new ArtificialBrain(gameModel, character));
 					}else {
@@ -193,8 +200,25 @@ public class Controller implements PropertyChangeListener {
 					playerXPos = currentCharacter.getX() + Constants.VIEW_BORDER_WIDTH;
 					playerYPos = currentCharacter.getY() + Constants.VIEW_BORDER_HEIGHT;
 					if(!currentCharacter.equals(player.getBody())){
-						//System.out.println(((ArtificialBrain)aiMap.get(currentCharacter)).getStateQueue());
-						System.out.println("Social" + currentCharacter.getSecondaryNeeds()[0]);
+
+						System.out.println("Current state: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getCurrentState());
+						System.out.println();
+						System.out.println("State stack:");
+						((ArtificialBrain)aiMap.get(currentCharacter)).getStateQueue().stream()
+								.forEach(o -> System.out.print("\t\t" + o));
+						System.out.println("\nGather stack:");
+						((ArtificialBrain)aiMap.get(currentCharacter)).getGatherStack().stream()
+								.forEach(o -> System.out.print("\t" + o));
+						System.out.println("\nPath stack:\n");
+						((ArtificialBrain)aiMap.get(currentCharacter)).getPathStack().stream()
+								.forEach(o -> System.out.print("\t" + o));
+						System.out.println("\nBuild stack:\n");
+						((ArtificialBrain)aiMap.get(currentCharacter)).getStructureStack().stream()
+								.forEach(o -> System.out.print("\t" + o));
+
+						System.out.println("State stack:");
+						System.out.println("Resource to find: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getResourceToFindStack());
+
 					}
 				}
 

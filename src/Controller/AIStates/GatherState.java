@@ -29,6 +29,8 @@ public class GatherState implements IState{
 		IItem.Type lowestType = null;
 		int lowestAmount = 0;
 
+		System.out.println("Interesting resource!");
+
 		HashMap<IItem.Type, Integer> itemMap = new HashMap<>();
 
 		for (IItem item : inventory) {
@@ -51,6 +53,7 @@ public class GatherState implements IState{
 		}
 
 		if (lowestType == null) {
+			System.out.println("SHOULD NEVER RUN!");
 			brain.setState(brain.getIdleState());
 		} else {
 			switch (lowestType) {
@@ -61,7 +64,7 @@ public class GatherState implements IState{
 					/*brain.stackResourceToGather(IResource.ResourceType.CROPS);
 					break;*/
 				case FISH_ITEM:
-					brain.stackResourceToGather(IResource.ResourceType.FISH);
+					brain.stackResourceToGather(IResource.ResourceType.WATER);
 					break;
 				case WATER_ITEM:
 					brain.stackResourceToGather(IResource.ResourceType.WATER);
@@ -78,6 +81,7 @@ public class GatherState implements IState{
 			}
 
 			brain.stackState(brain.getGatherState());
+			brain.setState(brain.getIdleState());
 		}
 	}
 
@@ -85,10 +89,9 @@ public class GatherState implements IState{
 		ResourcePoint p = brain.getClosestResourcePoint(type);
 
 		if(p == null) {
-			Random r = new Random();
-			Point point = new Point(r.nextInt((int) Constants.WORLD_WIDTH), r.nextInt((int) Constants.WORLD_HEIGHT));
-			brain.findPathTo(point.getX(), point.getY());
 			brain.stackState(brain.getGatherState());
+			brain.stackResourceToFind((type.equals(IResource.ResourceType.FOOD)) ? IResource.ResourceType.WATER : type);
+			brain.setState(brain.getFindResourceState());
 		} else {
 			IResource.ResourceType selectType = p.getResource().getResourceType();
 
@@ -123,9 +126,9 @@ public class GatherState implements IState{
 					brain.stackState(brain.getGatherWoodState());
 					break;
 			}
-		}
 
-		brain.stackState(brain.getMovingState());
+			brain.setState(brain.getMovingState());
+		}
 	}
 
 
@@ -144,6 +147,6 @@ public class GatherState implements IState{
 			gatherSpecificResource(resource);
 		}
 
-		brain.setState(brain.getIdleState());
+		//brain.setState(brain.getIdleState());
 	}
 }

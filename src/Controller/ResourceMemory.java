@@ -65,7 +65,7 @@ public class ResourceMemory {
             }
             counter = counter.next;
         }
-        System.out.println("Done");
+        //System.out.println("Done");
     }
 
     public ResourcePoint remove(int i) {
