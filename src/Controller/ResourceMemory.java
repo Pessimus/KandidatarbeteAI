@@ -49,7 +49,7 @@ public class ResourceMemory {
         Node newNode = new Node(item, last.previous, last, item.getX(), item.getY()); size++;
     }
 
-    public void addFirst (ResourcePoint item, double x, double y) {
+    public void addFirst (ResourcePoint item) {
         Node newNode = new Node(item, first, first.next, item.getX(), item.getY()); size++;
     }
 
@@ -154,7 +154,7 @@ public class ResourceMemory {
         ResourcePoint p;
         ResourcePoint closest = null;
         IResource.ResourceType pType;
-        double distance = 999999;
+        double distance = Double.MAX_VALUE;
         double testDistance;
         while (hasNext()) {
             p = next();

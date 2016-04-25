@@ -69,7 +69,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private IState exploreState = new ExploreState(this);
 
 	//private final HashMap<Path2D, ResourcePoint> resourceMap = new HashMap<>();
-	List<ResourcePoint> resourceMemory = new LinkedList<>();
+	ResourceMemory resourceMemory = new ResourceMemory();
 
 	private Interaction currentInteraction;
 	private Character interactionCharacter;
@@ -102,10 +102,20 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		int[] needs = body.getNeeds();
 		int[] traits = body.getTraits();
 		int[] skills = body.getSkills();
-
 		if(!body.isWaiting()) {
 			//System.out.println("Current state: " + currentState);
+
 			currentState.run();
+
+			//removing things from memory that might not be there anymore. Anything deleted that is still there will be rediscovered.
+			resourceMemory.clearSurroundings(getBody());
+
+
+			body.getSurroundings().parallelStream()
+					.filter(o -> o.getClass().equals(ResourcePoint.class))
+					.map(o -> (ResourcePoint)o)
+					.filter(o -> !resourceMemory.contains(o))
+					.forEach(resourceMemory::addFirst);
 
 			//System.out.println();
 			//System.out.println("Current state: " + currentState);
@@ -120,8 +130,8 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			System.out.println("Position:\t" + getBody().getX() + ":" + getBody().getY());*/
 		}
 
+
 		/*
-		//removing things from memory that might not be there anymore. Anything deleted that is still there will be rediscovered.
 		for (int i = 0; i < resourceMemory.size()-1; i++) {
 			if (Math.abs(resourceMemory.get(i).getX() - body.getX()) < Constants.CHARACTER_SURROUNDING_RADIUS || Math.abs(resourceMemory.get(i).getY() - body.getY()) < Constants.CHARACTER_SURROUNDING_RADIUS) {
 				resourceMemory.remove(i);
@@ -129,12 +139,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			}
 		}
 		*/
-		
-		body.getSurroundings().parallelStream()
-				.filter(o -> o.getClass().equals(ResourcePoint.class))
-				.map(o -> (ResourcePoint)o)
-				.filter(o -> !resourceMemory.contains(o))
-				.forEach(resourceMemory::add);
+
 
 		/*
 		for (ICollidable object : body.getSurroundings()) {
@@ -330,7 +335,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		stateQueue.push(state);
 	}
 
-	public List<ResourcePoint> getResourceMemory() {
+	public ResourceMemory getResourceMemory() {
 		return resourceMemory;
 	}
 
@@ -348,6 +353,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 					.filter(o -> o.getResource().getResourceType().equals(type))
 					.reduce((rp1, rp2) -> distanceBetweenPoints(getBody().getX(), getBody().getY(), rp1.getX(), rp1.getY()) < distanceBetweenPoints(getBody().getX(), getBody().getY(), rp2.getX(), rp2.getY()) ? rp1 : rp2)
 					.ifPresent(rp -> closest = rp);*/
+			/*
 			if(type.equals(IResource.ResourceType.FOOD)){
 				return resourceMemory.stream()
 						.filter(o -> o.getResource().getResourceType().equals(IResource.ResourceType.WATER) || o.getResource().getResourceType().equals(IResource.ResourceType.MEAT) || o.getResource().getResourceType().equals(IResource.ResourceType.CROPS))
@@ -360,6 +366,8 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 					.filter(o -> o.getResource().getResourceType().equals(type))
 					.reduce((rp1, rp2) -> distanceBetweenPoints(getBody().getX(), getBody().getY(), rp1.getX(), rp1.getY()) < distanceBetweenPoints(getBody().getX(), getBody().getY(), rp2.getX(), rp2.getY()) ? rp1 : rp2)
 					.orElseGet(() -> null);
+					*/
+			return resourceMemory.getClosest(type, getBody());
 		}
 
 		return null;
