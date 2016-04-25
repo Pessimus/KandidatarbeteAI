@@ -88,11 +88,8 @@ public class Pathfinder {
 
     //returns whether or not the given position is empty in the mask. Always returns false for positions outside the grid.
     public boolean isEmpty(double x, double y) {
-        if (((int) (x / gridSize)) > width || ((int) (y / gridSize)) > height) {
-            return false;
-        } else {
-            return mask[(int)(x/gridSize)][(int)(y/gridSize)];
-        }
+        if ((int) (x/gridSize) >= width || (int) (y/gridSize) >= height || (int) (x/gridSize) < 0 || (int) (y/gridSize) < 0) {return false;}
+        return mask[(int)(x/gridSize)][(int)(y/gridSize)];
     }
 
     public boolean[][] getMask() {
