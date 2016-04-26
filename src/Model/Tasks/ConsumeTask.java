@@ -36,8 +36,10 @@ public class ConsumeTask implements ITask {
 
 	@Override
 	public void interrupt() {
+		this.actor.setWaiting(false);
 		this.remove = true;
 		this.consumable.consumedInterrupted(this.actor);
+
 	}
 
 	/*@Override

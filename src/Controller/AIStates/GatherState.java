@@ -100,11 +100,11 @@ public class GatherState implements IState{
 					brain.stackState(brain.getGatherState());
 					brain.setState(brain.getWorkFarmState());
 					break;
-				case WATER:
+				/*case WATER:
 				case FISH:
 				case STONE:
 				case GOLD:
-				case WOOD:
+				case WOOD:*/
 				default:
 					brain.stackState(brain.getGatherState());
 					brain.stackResourceToFind((type.equals(IResource.ResourceType.FOOD)) ? IResource.ResourceType.WATER : type);

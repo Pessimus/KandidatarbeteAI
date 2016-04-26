@@ -36,6 +36,7 @@ public class AttackTask implements ITask {
 
 	@Override
 	public void interrupt() {
+		this.actor.setWaiting(false);
 		this.remove = true;
 		this.attackable.attackedInterrupted(this.actor);
 	}

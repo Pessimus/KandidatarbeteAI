@@ -22,7 +22,7 @@ public class HuntingState implements IState {
 
 	@Override
 	public void run() {
-		if (World.nbrAnimals > 9) {
+		if (World.nbrAnimals > 9 && !brain.getStateQueue().contains(brain.getGatherMeatState())) {
 			boolean foundObject = false;
 			for (ICollidable o : brain.getBody().getSurroundings()) {
 				if (o.getClass().equals(Animal.class)) {

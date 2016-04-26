@@ -112,6 +112,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		int[] needsArray = body.getNeeds();
 		int[] traits = body.getTraits();
 		int[] skills = body.getSkills();
+
 		if(!body.isWaiting()) {
 			currentState.run();
 

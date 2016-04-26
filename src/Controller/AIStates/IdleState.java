@@ -37,10 +37,10 @@ public class IdleState implements IState {
 				} else {
 					Random r = new Random();
 					double d = r.nextDouble();
-					if(d > 0.6  && !brain.getBody().hasFarm()) {
+					if(d > 0.5  && !brain.getBody().hasFarm()) {
 						brain.stackStructureToBuild(IStructure.StructureType.FARM);
 						brain.stackState(brain.getBuildState());
-					} else if(d < 0.6 && !brain.getBody().hasStockPile()){
+					} else if(d < 0.5 && !brain.getBody().hasStockPile()){
 						brain.stackStructureToBuild(IStructure.StructureType.STOCKPILE);
 						brain.stackState(brain.getBuildState());
 					} else{
@@ -48,7 +48,7 @@ public class IdleState implements IState {
 						d = r.nextDouble();
 						if (d > 0.7){
 							brain.stackState(brain.getGatherState());
-						} else if(d > 0.3){
+						} else if(d > 0.3 && d < 0.7 ) {
 							brain.stackState(brain.getWorkFarmState());
 						} else {
 							brain.stackState(brain.getHuntingState());

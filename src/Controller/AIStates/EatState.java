@@ -33,7 +33,7 @@ public class EatState implements IState{
 				case FISH_ITEM:
 					bestIndex = currentIndex;
 					brain.getBody().consumeItem(bestIndex);
-					return;
+					break;
 			}
 
 			currentIndex++;
