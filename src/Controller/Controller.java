@@ -175,14 +175,11 @@ public class Controller implements PropertyChangeListener {
 			Character c = (Character) ((Map.Entry)ais.next()).getKey();
 			if (!gameModel.getCharacterList().contains(aiMap.get(c).getBody())) {
 				removeList.add(c);
-				System.out.println("Delete: " +  c.toString());
-				System.out.println("#######################################################################");
 			}
 			//ais.remove();
 		}
 		for (Character c2 : removeList) {
 			aiMap.remove(c2);
-			System.out.print("Delete2: " +  c2.toString());
 		}
 	}
 
