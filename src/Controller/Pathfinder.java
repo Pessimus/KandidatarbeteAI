@@ -3,6 +3,7 @@ package Controller;
 import Model.CollisionList;
 import Model.ICollidable;
 import Utility.Constants;
+import org.newdawn.slick.util.pathfinding.navmesh.Link;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -217,6 +218,7 @@ public class Pathfinder {
         if (endx >= width || endy >= height || endx < 0 || endy < 0) {return null;}
         if (!mask[endx][endy]) {return null;}
         if (startx == endx && starty == endy) {return null;}
+        if (!mask[startx][starty]) {LinkedList<Tuple> ret = new LinkedList<>(); ret.add(new Tuple(startx+1, starty)); return ret;}
         PriorityQueue<Node> open = new PriorityQueue<>();
         //initialize the closed list
         PriorityQueue<Node> closed = new PriorityQueue<>();
