@@ -5,6 +5,7 @@ import Model.Character;
 import Utility.Constants;
 import Utility.RenderObject;
 import View.*;
+import org.lwjgl.Sys;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.BasicGameState;
 
@@ -131,22 +132,33 @@ public class Controller implements PropertyChangeListener {
 		this.gameView.run();
 	}
 
+	Timer timer;
+
 	private void runModel(){
-		new Timer().scheduleAtFixedRate(new TimerTask() {
+		timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
 			public void run() {
 				update();
 			}
-		}, 0, 1000 / gameSpeed);
+		}, 0, 100 / gameSpeed);
 	}
 
+	private int updateCounter = 0;
+	private int updateCounterMax = 10;
+	private boolean paused = false;
 	public void update(){
-		player.update();
-		for (AbstractBrain brain : aiMap.values()) {
-			brain.update();
+		updateInput();
+
+		updateCounter = (updateCounter+1)%updateCounterMax;
+		if(updateCounter == 0 && !paused) {
+			player.update();
+			for (AbstractBrain brain : aiMap.values()) {
+				brain.update();
+			}
+			gameModel.update();
+			updateView();
+			aiCleanup();
 		}
-		updateModel();
-		updateView();
-		aiCleanup();
 	}
 
 	public void aiCleanup() {
@@ -279,7 +291,7 @@ public class Controller implements PropertyChangeListener {
 	/**
 	 * Uses input from the View to manipulate the Model.
 	 */
-	private void updateModel(){
+	private void updateInput(){
 		//TODO fix concurrency
 		Object[] tempList = keyboardInputQueue.toArray();
 		keyboardInputQueue.clear();
@@ -298,7 +310,7 @@ public class Controller implements PropertyChangeListener {
 			handleMouseInput(tempMouseList);
 		}
 
-		gameModel.update();
+//		gameModel.update();
 	}
 
 //--------------------------------------------Input Methods-----------------------------------------------------------\\
@@ -313,6 +325,17 @@ public class Controller implements PropertyChangeListener {
 				// clicks[1] = What key was pressed/released
 				if (clicks[0] == View.INPUT_ENUM.KEY_PRESSED.value) {
 					switch (clicks[1]) {
+						case Input.KEY_M:
+							System.out.println("+++++++++++++++++++++++");
+							this.updateCounterMax = 1;
+							break;
+						case Input.KEY_N:
+							System.out.println("-----------------------");
+							this.updateCounterMax = 10;
+							break;
+						case Input.KEY_SPACE:
+							System.out.println("_______________________");
+							this.paused = !paused;
 						case Input.KEY_UP:
 							if(!gameModel.isPaused())
 								player.movePlayerUp();

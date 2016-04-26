@@ -218,6 +218,7 @@ public class View extends BasicGameState implements InputListener{
 		graphics.drawString("Number of Animals   : "+ World.nbrAnimals		, xPosText, yPosText+ydiff);
 		graphics.drawString("Number of trees     : "+ World.nbrTrees		, xPosText, yPosText+2*ydiff);
 		graphics.drawString("Number of structures: "+ World.nbrStructures	, xPosText, yPosText+3*ydiff);
+		graphics.drawString("Number of TIME	     : "+ World.nbrTime			, xPosText, yPosText+4*ydiff);
 	}
 
 

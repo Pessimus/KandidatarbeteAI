@@ -52,6 +52,7 @@ public class World{
 	public static int nbrStructures = 0;
 	public static int nbrTrees = 0;
 	public static int nbrAnimals = 0;
+	public static int nbrTime = 0;
 
 	//TODO-------------------------------END ????---------------------------------------------------------------------\\
 
@@ -187,6 +188,9 @@ public class World{
 	 * check what objects collide with each other.
 	 */
 	public void update() {
+
+		World.nbrTime = nbrTime+1;//%100000;
+
 		if (!pause) {
 			updateTimeables();
 

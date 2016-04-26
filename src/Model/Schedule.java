@@ -15,7 +15,6 @@ public class Schedule {
 	}
 
 	public static void addTask(ITask task){
-		System.out.println("Adding task");
 		tasks.add(task);
 	}
 
@@ -28,7 +27,6 @@ public class Schedule {
 				rm.add(task);
 			//}else if (task.getEndtime() <= time) {
 			}else if (task.updateTick()) {
-				System.out.println("Calling to execute");
 				//tasks.remove(task);
 				rm.add(task);
 				task.execute();
