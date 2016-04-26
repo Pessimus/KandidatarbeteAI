@@ -88,11 +88,8 @@ public class Pathfinder {
 
     //returns whether or not the given position is empty in the mask. Always returns false for positions outside the grid.
     public boolean isEmpty(double x, double y) {
-        if (((int) (x / gridSize)) > width || ((int) (y / gridSize)) > height) {
-            return false;
-        } else {
-            return mask[(int)(x/gridSize)][(int)(y/gridSize)];
-        }
+        if ((int) (x/gridSize) >= width || (int) (y/gridSize) >= height || (int) (x/gridSize) < 0 || (int) (y/gridSize) < 0) {return false;}
+        return mask[(int)(x/gridSize)][(int)(y/gridSize)];
     }
 
     public boolean[][] getMask() {
@@ -150,11 +147,11 @@ public class Pathfinder {
     }
 
     private Tuple closestPoint (int x, int y,LinkedList<Tuple> points) {
-        double closestDistance = 9999999;
+        double closestDistance = Double.MAX_VALUE;
         Tuple closestPoint = new Tuple(-1, -1);
         if (points.isEmpty()) {return null;}
         for (Tuple point : points) {
-            double distance = Math.abs((point.x - x))^2 + Math.abs((point.y - y))^2;
+            double distance = Math.abs(point.x - x) + Math.abs(point.y - y);
             if (distance < closestDistance) {
                 closestPoint = point;
                 closestDistance = distance;

@@ -13,8 +13,8 @@ public final class Constants {
 	// ----------- Controller Constants ----------- \\
 
 
-	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2;
+	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2;
 
     /*
     public static final         int         GRASS_START_PIXEL_X                 =   650;
@@ -74,6 +74,8 @@ public final class Constants {
 	public static final			float		CHARACTER_RUN_SPEED					=	12f;
 	public static final 		int			CHARACTER_UPDATE_INTERVAL			=	60;
 
+	public static final			int			NUMBER_OF_NPCS						=	30; // Used in initialization of Controller to deterimine the number of NPCs to spawn
+
 	public static final			int			NUMBER_OF_FEMALE_NAMES				=	4275;
 	public static final			int			NUMBER_OF_MALE_NAMES				=	1219;
 
@@ -83,7 +85,7 @@ public final class Constants {
 
 	public static final 		double		CHARACTER_COLLISION_RADIUS			=	12;
 	public static final 		double		CHARACTER_INTERACTION_RADIUS		=	28;
-	public static final 		double		CHARACTER_SURROUNDING_RADIUS		=	150;
+	public static final 		double		CHARACTER_SURROUNDING_RADIUS		=	500;
 
 	public static final 		int			CHARACTER_HUNGER_MAX				=	100;
 	public static final 		int			CHARACTER_THIRST_MAX				=	100;

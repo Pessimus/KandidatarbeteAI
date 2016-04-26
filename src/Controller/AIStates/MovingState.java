@@ -21,41 +21,6 @@ public class MovingState implements IState {
 	}
 
 	private LinkedList<PathStep> currentPath = null;
-	private Point currentPoint = null;
-
-	/*@Override
-	public void run() {
-		Point p = brain.getPointStack().peek();
-
-		if(currentPoint != brain.getPointStack().peek()){
-			currentPath = null;
-			currentPoint = null;
-		}
-
-		if(currentPoint == null){
-			if(!brain.getPointStack().isEmpty()){
-				currentPoint = brain.getPointStack().peek();
-			} else{
-				throw new IllegalStateException("No next point in PointStack at 'run()' in MovingState");
-			}
-		}
-		if(currentPath == null){
-			currentPath = Constants.PATHFINDER_OBJECT.getPath(brain.getBody().getX(), brain.getBody().getY(), currentPoint.getX(), currentPoint.getY());
-		}
-
-		if (!currentPath.isEmpty()) {
-			currentPath.getFirst().stepTowards(brain.getBody());
-			if (currentPath.getFirst().reached(brain.getBody())) {
-				currentPath.removeFirst();
-			}
-		} else {
-			brain.getPointStack().remove();
-			currentPoint = null;
-			currentPath = null;
-		}
-
-		brain.setState(brain.getIdleState());
-	}*/
 
 	@Override
 	public void run() {
@@ -67,13 +32,12 @@ public class MovingState implements IState {
 				if(tempPath.getFirst().reached(brain.getBody())){
 					tempPath.removeFirst();
 				}
-			}
-			else{
+			} else{
 				brain.getPathStack().remove();
 				brain.setState(brain.getIdleState());
 			}
-		}
-		else{
+		} else{
+			brain.getPathStack().remove();
 			brain.setState(brain.getIdleState());
 		}
 	}

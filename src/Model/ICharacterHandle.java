@@ -119,6 +119,12 @@ public interface ICharacterHandle {
 	void addPropertyChangeListener(PropertyChangeListener listener);
 	void removePropertyChangeListener(PropertyChangeListener listener);
 
+	public boolean hasFarm();
+	public boolean hasStockPile();
+
+	public void setHasStockpile(boolean b);
+	public void setHasFarm(boolean b);
+
 	String getName ();
 
 	int getAge ();

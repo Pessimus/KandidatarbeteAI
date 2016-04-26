@@ -26,10 +26,7 @@ public class FollowState implements IState {
     @Override
     public void run() {
         if(brain.getObjectToFollow() != null) {
-            if(Math.abs(brain.getBody().getX() - brain.getObjectToFollow().getX()) < Constants.CHARACTER_INTERACTION_RADIUS
-                    && Math.abs(brain.getBody().getY() - brain.getObjectToFollow().getY()) < Constants.CHARACTER_INTERACTION_RADIUS) {
-                brain.setObjectToFollow(null);
-            } else if (currentPath != null) {
+            if (currentPath != null) {
                 if (!currentPath.isEmpty()) {
                     currentPath.getFirst().stepTowards(brain.getBody());
                     if (currentPath.getFirst().reached(brain.getBody())) {
@@ -38,16 +35,23 @@ public class FollowState implements IState {
                 } else {
                     brain.findPathTo(brain.getObjectToFollow());
                     currentPath = brain.getNextPath();
+                    brain.getPathStack().removeFirst();
                 }
-                brain.stackState(this);
             } else {
                 brain.findPathTo(brain.getObjectToFollow());
                 currentPath = brain.getNextPath();
-                brain.stackState(this);
+                brain.getPathStack().removeFirst();
             }
+
+            if(Math.abs(brain.getBody().getX() - brain.getObjectToFollow().getX()) < Constants.CHARACTER_INTERACTION_RADIUS + brain.getObjectToFollow().getCollisionRadius()
+                    && Math.abs(brain.getBody().getY() - brain.getObjectToFollow().getY()) < Constants.CHARACTER_INTERACTION_RADIUS + brain.getObjectToFollow().getCollisionRadius()) {
+                brain.setObjectToFollow(null);
+                currentPath = null;
+                brain.setState(brain.getIdleState());
+            }
+        } else{
+            currentPath = null;
+			brain.setState(brain.getIdleState());
         }
-
-
-        brain.setState(brain.getIdleState());
     }
 }
