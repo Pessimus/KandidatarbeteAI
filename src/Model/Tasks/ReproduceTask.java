@@ -24,6 +24,7 @@ public class ReproduceTask implements ITask{
 
 	@Override
 	public void interrupt() {
+		this.actor.setWaiting(false);
 	}
 
 	@Override

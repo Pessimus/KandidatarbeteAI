@@ -105,18 +105,14 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		body = c;
 		currentState = idleState;
 		c.addPropertyChangeListener(this);
-		time = System.currentTimeMillis();
 	}
-
-	long time;
 
 	@Override
 	public void update() {
-		System.out.println(System.currentTimeMillis() - time);
-		time = System.currentTimeMillis();
 		int[] needsArray = body.getNeeds();
 		int[] traits = body.getTraits();
 		int[] skills = body.getSkills();
+
 		if(!body.isWaiting()) {
 			currentState.run();
 
@@ -154,7 +150,20 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 				}
 			}
 		}
-		
+
+		// Clearing out objects in surroundings from memory. Every object forgotten that is still in surroundings will be relearned.
+		LinkedList<ResourcePoint> removeList = new LinkedList<>();
+		resourceMemory.stream()
+				.filter(o -> o != null)
+				.filter(o -> o.toBeRemoved() && Math.abs(o.getX()-getBody().getX()) < Constants.CHARACTER_SURROUNDING_RADIUS && Math.abs(o.getY()-getBody().getY()) < Constants.CHARACTER_SURROUNDING_RADIUS)
+				.forEach(removeList::add);
+		resourceMemory.stream()
+				.filter(o -> o == null)
+				.forEach(removeList::add);
+		removeList.stream()
+				.forEach(resourceMemory::remove);
+
+
 		body.getSurroundings().stream()
 				.filter(o -> o.getClass().equals(ResourcePoint.class))
 				.map(o -> (ResourcePoint)o)
