@@ -38,14 +38,16 @@ public class Inventory{
 	 */
 	public boolean addItem(IItem item){
 		for (IItem invItem : inventoryItems) {
-			if (item.getType() == invItem.getType() && invItem.getAmount() < Constants.MAX_AMOUNT) {
-				if (invItem.getAmount() + item.getAmount() > Constants.MAX_AMOUNT) {
-					item.setAmount((invItem.getAmount() + item.getAmount()) % Constants.MAX_AMOUNT);
-					invItem.setAmount(Constants.MAX_AMOUNT);
-					return inventoryItems.add(item.clone());
-				} else {
-					invItem.addAmount(item.getAmount());
-					return true;
+			if (invItem != null) {
+				if (item.getType() == invItem.getType() && invItem.getAmount() < Constants.MAX_AMOUNT) {
+					if (invItem.getAmount() + item.getAmount() > Constants.MAX_AMOUNT) {
+						item.setAmount((invItem.getAmount() + item.getAmount()) % Constants.MAX_AMOUNT);
+						invItem.setAmount(Constants.MAX_AMOUNT);
+						return inventoryItems.add(item.clone());
+					} else {
+						invItem.addAmount(item.getAmount());
+						return true;
+					}
 				}
 			}
 		}

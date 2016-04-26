@@ -150,7 +150,20 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 				}
 			}
 		}
-		
+
+		// Clearing out objects in surroundings from memory. Every object forgotten that is still in surroundings will be relearned.
+		LinkedList<ResourcePoint> removeList = new LinkedList<>();
+		resourceMemory.parallelStream()
+				.filter(o -> o != null)
+				.filter(o -> o.toBeRemoved() && Math.abs(o.getX()-getBody().getX()) < Constants.CHARACTER_SURROUNDING_RADIUS && Math.abs(o.getY()-getBody().getY()) < Constants.CHARACTER_SURROUNDING_RADIUS)
+				.forEach(removeList::add);
+		resourceMemory.parallelStream()
+				.filter(o -> o == null)
+				.forEach(removeList::add);
+		removeList.parallelStream()
+				.forEach(resourceMemory::remove);
+
+
 		body.getSurroundings().parallelStream()
 				.filter(o -> o.getClass().equals(ResourcePoint.class))
 				.map(o -> (ResourcePoint)o)

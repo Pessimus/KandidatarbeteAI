@@ -57,7 +57,6 @@ public class IdleState implements IState {
 				}
 			}
 		}
-
 			brain.setState(brain.getStateQueue().poll());
-		}
 	}
+}
