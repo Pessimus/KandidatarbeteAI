@@ -74,7 +74,7 @@ public final class Constants {
 	public static final			float		CHARACTER_RUN_SPEED					=	12f;
 	public static final 		int			CHARACTER_UPDATE_INTERVAL			=	60;
 
-	public static final			int			NUMBER_OF_NPCS						=	1; // Used in initialization of Controller to deterimine the number of NPCs to spawn
+	public static final			int			NUMBER_OF_NPCS						=	20; // Used in initialization of Controller to deterimine the number of NPCs to spawn
 
 	public static final			int			NUMBER_OF_FEMALE_NAMES				=	4275;
 	public static final			int			NUMBER_OF_MALE_NAMES				=	1219;
