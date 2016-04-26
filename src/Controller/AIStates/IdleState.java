@@ -2,10 +2,7 @@ package Controller.AIStates;
 
 import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
-import Model.ICharacterHandle;
-import Model.IResource;
-import Model.IStructure;
-import Model.Interaction;
+import Model.*;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -34,6 +31,7 @@ public class IdleState implements IState {
 				brain.stackStructureToBuild(IStructure.StructureType.HOUSE);
 				brain.stackState(brain.getBuildState());
 			} else{
+				System.out.println("SOCIAL : " + secondaryNeedsArray[0]);
 				if(secondaryNeedsArray[0] < 50){
 					brain.stackState(brain.getSocializeState());
 				} else {
@@ -42,16 +40,17 @@ public class IdleState implements IState {
 					if(d > 0.6  && !brain.getBody().hasFarm()) {
 						brain.stackStructureToBuild(IStructure.StructureType.FARM);
 						brain.stackState(brain.getBuildState());
-					} else if(d > 0.2 && !brain.getBody().hasStockPile()){
+					} else if(d < 0.6 && !brain.getBody().hasStockPile()){
 						brain.stackStructureToBuild(IStructure.StructureType.STOCKPILE);
 						brain.stackState(brain.getBuildState());
 					} else{
+						r = new Random();
 						d = r.nextDouble();
-						if (d > 0.8){
+						if (d > 0.7){
 							brain.stackState(brain.getGatherState());
-						} else if(d > 0.6){
+						} else if(d > 0.3){
 							brain.stackState(brain.getWorkFarmState());
-						} else{
+						} else {
 							brain.stackState(brain.getHuntingState());
 						}
 					}

@@ -193,12 +193,12 @@ public class CollisionList {
 					if (tmpNode.value.getX() + tmpNode.value.getCollisionRadius() >= collidable.getX() - collidable.getCollisionRadius()) {//Collision in x
 						if (tmpNode.value.getY() <= collidable.getY()) {//above
 							if (tmpNode.value.getY() + tmpNode.value.getCollisionRadius() >= collidable.getY() - collidable.getCollisionRadius()) {//Collision in y
-								System.out.println("1");
+								/*System.out.println("1");*/
 								return false;
 							}
 						} else {//below
 							if (tmpNode.value.getY() - tmpNode.value.getCollisionRadius() <= collidable.getY() + collidable.getCollisionRadius()) {
-								System.out.println("2");
+								/*System.out.println("2");*/
 								return false;
 							}
 						}
@@ -207,12 +207,12 @@ public class CollisionList {
 					if (tmpNode.value.getX() - tmpNode.value.getCollisionRadius() <= collidable.getX() + collidable.getCollisionRadius()) {//Collision in x
 						if (tmpNode.value.getY() <= collidable.getY()) {//above
 							if (tmpNode.value.getY() + tmpNode.value.getCollisionRadius() >= collidable.getY() - collidable.getCollisionRadius()) {//Collision in y
-								System.out.println("3");
+								/*System.out.println("3");*/
 								return false;
 							}
 						} else {//below
 							if (tmpNode.value.getY() - tmpNode.value.getCollisionRadius() <= collidable.getY() + collidable.getCollisionRadius()) {
-								System.out.println("4");
+								/*System.out.println("4");*/
 								return false;
 							}
 						}

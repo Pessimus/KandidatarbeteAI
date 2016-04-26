@@ -227,8 +227,6 @@ public class Controller implements PropertyChangeListener {
 						System.out.println("\nBuild stack:\n");
 						((ArtificialBrain)aiMap.get(currentCharacter)).getStructureStack().stream()
 								.forEach(o -> System.out.print("\t" + o));
-
-						System.out.println("State stack:");
 						System.out.println("Resource to find: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getResourceToFindStack());
 
 					}
