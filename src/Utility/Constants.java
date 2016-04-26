@@ -60,9 +60,9 @@ public final class Constants {
 	public static final 		boolean		GAME_GRAB_MOUSE						= 	false;
 	public static final 		boolean 	RUN_IN_FULLSCREEN 					= 	false;
 
-	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_NORMAL 	= 	60; // Updates per second
-	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_FASTER 	= 	120; // Updates per second
-	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_FASTEST 	= 	240; // Updates per second
+	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_NORMAL 	= 	240; // Updates per second
+	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_FASTER 	= 	360; // Updates per second
+	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_FASTEST 	= 	600; // Updates per second
 
 	public static final 		int 		WORLD_TILE_SIZE						= 	32;
 	public static final 		int 		VERTICAL_TILES						=	(int) (SCREEN_HEIGHT /WORLD_TILE_SIZE);
@@ -74,7 +74,7 @@ public final class Constants {
 	public static final			float		CHARACTER_RUN_SPEED					=	12f;
 	public static final 		int			CHARACTER_UPDATE_INTERVAL			=	60;
 
-	public static final			int			NUMBER_OF_NPCS						=	30; // Used in initialization of Controller to deterimine the number of NPCs to spawn
+	public static final			int			NUMBER_OF_NPCS						=	1; // Used in initialization of Controller to deterimine the number of NPCs to spawn
 
 	public static final			int			NUMBER_OF_FEMALE_NAMES				=	4275;
 	public static final			int			NUMBER_OF_MALE_NAMES				=	1219;

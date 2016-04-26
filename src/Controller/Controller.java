@@ -105,7 +105,7 @@ public class Controller implements PropertyChangeListener {
 				Random r = new Random();
 
 
-				for(int i = 3; i < Constants.NUMBER_OF_NPCS; i++) {
+				for(int i = 0; i < Constants.NUMBER_OF_NPCS; i++) {
 					Character character = gameModel.addCharacter(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
 					if(character != null) {
 						aiMap.put(character, new ArtificialBrain(gameModel, character));
@@ -147,17 +147,18 @@ public class Controller implements PropertyChangeListener {
 			public void run() {
 				update();
 			}
-		}, 0, 100 / gameSpeed);
+		}, 0, 1000 / gameSpeed);
 	}
 
 	private int updateCounter = 0;
-	private int updateCounterMax = 10;
+	private int updateCounterMax = 1;
 	private boolean paused = false;
 	public void update(){
 		updateInput();
 
-		updateCounter = (updateCounter+1)%updateCounterMax;
-		if(updateCounter == 0 && !paused) {
+		/*updateCounter = (updateCounter+1)%updateCounterMax;
+		if(updateCounter == 0 && !paused) {*/
+		if(!paused) {
 			player.update();
 			for (AbstractBrain brain : aiMap.values()) {
 				brain.update();

@@ -105,10 +105,15 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		body = c;
 		currentState = idleState;
 		c.addPropertyChangeListener(this);
+		time = System.currentTimeMillis();
 	}
+
+	long time;
 
 	@Override
 	public void update() {
+		System.out.println(System.currentTimeMillis() - time);
+		time = System.currentTimeMillis();
 		int[] needsArray = body.getNeeds();
 		int[] traits = body.getTraits();
 		int[] skills = body.getSkills();
@@ -150,13 +155,13 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			}
 		}
 		
-		body.getSurroundings().parallelStream()
+		body.getSurroundings().stream()
 				.filter(o -> o.getClass().equals(ResourcePoint.class))
 				.map(o -> (ResourcePoint)o)
 				.filter(o -> !resourceMemory.contains(o))
 				.forEach(resourceMemory::add);
 
-		body.getSurroundings().parallelStream()
+		body.getSurroundings().stream()
 				.filter(o -> o instanceof IStructure)
 				.map(o -> (IStructure)o)
 				.filter(o -> !structureMemory.contains(o))

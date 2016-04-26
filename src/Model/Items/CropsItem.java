@@ -114,8 +114,8 @@ public class CropsItem implements IItem {
     public int[] getNeedsChange() {
         int[] ret = new int[3]; //hunger, thirst, energy
         ret[0] = Constants.CROP_HUNGER_CHANGE_CONSUME;
-        ret[1] = Constants.CROP_HUNGER_CHANGE_CONSUME;
-        ret[2] = Constants.CROP_HUNGER_CHANGE_CONSUME;
+        ret[1] = Constants.CROP_THIRST_CHANGE_CONSUME;
+        ret[2] = Constants.CROP_ENERGY_CHANGE_CONSUME;
         return ret;
     }
 

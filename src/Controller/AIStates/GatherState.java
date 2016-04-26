@@ -87,13 +87,8 @@ public class GatherState implements IState{
 		ResourcePoint p = brain.getClosestResourcePoint(type);
 
 		if(p == null) {
-			if(type.equals(IResource.ResourceType.FOOD)){
-				brain.stackResourceToGather(IResource.ResourceType.MEAT);
-			}
-
 			switch (type) {
 				case MEAT:
-					brain.stackState(brain.getGatherMeatState());
 					brain.setState(brain.getHuntingState());
 					break;
 				case CROPS:
@@ -105,9 +100,13 @@ public class GatherState implements IState{
 				case STONE:
 				case GOLD:
 				case WOOD:
-				default:
 					brain.stackState(brain.getGatherState());
 					brain.stackResourceToFind((type.equals(IResource.ResourceType.FOOD)) ? IResource.ResourceType.WATER : type);
+					brain.setState(brain.getFindResourceState());
+					break;
+				default:
+					brain.stackState(brain.getGatherState());
+					brain.stackResourceToFind(type);
 					brain.setState(brain.getFindResourceState());
 					break;
 			}
