@@ -98,7 +98,7 @@ public class Controller implements PropertyChangeListener {
 				Character character3 = gameModel.addCharacter(1500, 2525);
 				aiMap.put(character3, new ArtificialBrain(gameModel, character3));*/
 
-				/*Character character4 = gameModel.addCharacter(1475, 2525);
+				/*Character character4 = gameModel.addCharacter(1470, 2525);
 				aiMap.put(character4, new ArtificialBrain(gameModel, character3));*/
 
 
@@ -227,6 +227,7 @@ public class Controller implements PropertyChangeListener {
 								.forEach(o -> System.out.print("\t" + o));
 						System.out.println("Resource to find: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getResourceToFindStack());
 						System.out.println("Resource to find: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getBody().isWaiting());
+						System.out.println("FOLLOWING: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getObjectToFollow());
 
 					}
 				}

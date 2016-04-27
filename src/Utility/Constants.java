@@ -74,7 +74,7 @@ public final class Constants {
 	public static final			float		CHARACTER_RUN_SPEED					=	12f;
 	public static final 		int			CHARACTER_UPDATE_INTERVAL			=	60;
 
-	public static final			int			NUMBER_OF_NPCS						=	20; // Used in initialization of Controller to deterimine the number of NPCs to spawn
+	public static final			int			NUMBER_OF_NPCS						=	10; // Used in initialization of Controller to deterimine the number of NPCs to spawn
 
 	public static final			int			NUMBER_OF_FEMALE_NAMES				=	4275;
 	public static final			int			NUMBER_OF_MALE_NAMES				=	1219;
@@ -143,10 +143,10 @@ public final class Constants {
 
 	public static final			int			HOUSE_WOOD_COST						=	4;
 	public static final			int			HOUSE_STONE_COST					=	2;
-	public static final			int			FARM_WOOD_COST						=	0;
+	public static final			int			FARM_WOOD_COST						=	80;
 	public static final			int			FARM_STONE_COST						=	20;
-	public static final			int			STOCKPILE_WOOD_COST					=	2;
-	public static final			int			STOCKPILE_STONE_COST				=	1;
+	public static final			int			STOCKPILE_WOOD_COST					=	20;
+	public static final			int			STOCKPILE_STONE_COST				=	5;
 
 	//----------- Animal Constants ------------- \\
 	public static final 		double		ANIMAL_COLLISION_RADIUS				=	30;
@@ -179,8 +179,8 @@ public final class Constants {
 	public static final 		float		TREE_COLLISION_RADIUS				=	75;
 	public static final			double		LAKE_COLLISION_RADIUS				=	100;
 	public static final			double		STONE_COLLISION_RADIUS				= 	10;
-	public static final			int 		WOOD_MAX_RESOURCES					=	10;
-	public static final			int 		WOOD_INITIAL_RESOURCES				=	10;
+	public static final			int 		WOOD_MAX_RESOURCES					=	20;
+	public static final			int 		WOOD_INITIAL_RESOURCES				=	20;
 	public static final 		int 		WOOD_RESOURCE_GAIN					=	1;
 
 	public static final			float 		CROPS_COLLISION_RADIUS 				=	40;
