@@ -3,7 +3,10 @@ package Controller.AIStates;
 import Controller.ArtificialBrain;
 import Controller.PathStep;
 import Model.ICollidable;
+import Model.IResource;
+import Model.IStructure;
 import Model.ResourcePoint;
+import Model.Structures.Farm;
 import Utility.Constants;
 
 import java.util.LinkedList;
@@ -23,6 +26,28 @@ public class FindResourceState implements IState {
 
 	@Override
 	public void run() {
+		for(IStructure structure : brain.getStructureMemory()) {
+			if (structure.getStructureType() == IStructure.StructureType.FARM && brain.getStructureStack().peek() == IStructure.StructureType.FARM) {
+				brain.getStructureStack().removeFirst();
+				for (IState state : brain.getStateQueue()) {
+					if (state == brain.getBuildState() || state == brain.getGatherState()) {
+						brain.getStateQueue().remove(state);
+					}
+				}
+				for (IResource.ResourceType resource : brain.getResourceToFindStack()) {
+					if (resource == IResource.ResourceType.WOOD || resource == IResource.ResourceType.STONE) {
+						brain.getResourceToFindStack().remove(resource);
+					}
+				}
+
+				for (IResource.ResourceType resource : brain.getGatherStack()) {
+					if (resource == IResource.ResourceType.WOOD || resource == IResource.ResourceType.STONE) {
+						brain.getGatherStack().remove(resource);
+					}
+				}
+				brain.setState(brain.getIdleState());
+			}
+		}
 		boolean foundObject = false;
 
 		for(ICollidable o : brain.getBody().getSurroundings()){

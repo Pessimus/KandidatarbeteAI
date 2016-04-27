@@ -143,8 +143,8 @@ public final class Constants {
 
 	public static final			int			HOUSE_WOOD_COST						=	4;
 	public static final			int			HOUSE_STONE_COST					=	2;
-	public static final			int			FARM_WOOD_COST						=	80;
-	public static final			int			FARM_STONE_COST						=	20;
+	public static final			int			FARM_WOOD_COST						=	10;
+	public static final			int			FARM_STONE_COST						=	10;
 	public static final			int			STOCKPILE_WOOD_COST					=	20;
 	public static final			int			STOCKPILE_STONE_COST				=	5;
 

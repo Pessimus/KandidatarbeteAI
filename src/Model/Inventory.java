@@ -38,7 +38,10 @@ public class Inventory{
 	 */
 	public boolean addItem(IItem item){
 		for (IItem invItem : inventoryItems) {
-			if (invItem != null && item.getType() != null) {
+			if(item == null) {
+				return false;
+			}
+			if (invItem != null && item != null) {
 				if (item.getType() == invItem.getType() && invItem.getAmount() < Constants.MAX_AMOUNT) {
 					if (invItem.getAmount() + item.getAmount() > Constants.MAX_AMOUNT) {
 						item.setAmount((invItem.getAmount() + item.getAmount()) % Constants.MAX_AMOUNT);
