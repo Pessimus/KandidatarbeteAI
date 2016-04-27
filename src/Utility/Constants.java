@@ -74,7 +74,7 @@ public final class Constants {
 	public static final			float		CHARACTER_RUN_SPEED					=	12f;
 	public static final 		int			CHARACTER_UPDATE_INTERVAL			=	60;
 
-	public static final			int			NUMBER_OF_NPCS						=	10; // Used in initialization of Controller to deterimine the number of NPCs to spawn
+	public static final			int			NUMBER_OF_NPCS						=	16; // Used in initialization of Controller to deterimine the number of NPCs to spawn
 
 	public static final			int			NUMBER_OF_FEMALE_NAMES				=	4275;
 	public static final			int			NUMBER_OF_MALE_NAMES				=	1219;
@@ -141,10 +141,10 @@ public final class Constants {
 	public static final			int			STOCKPILE_INTERACTION_TIME			=	0;
 	public static final			int			STOCKPILE_ATTACKED_TIME				=	1*60;
 
-	public static final			int			HOUSE_WOOD_COST						=	4;
-	public static final			int			HOUSE_STONE_COST					=	2;
-	public static final			int			FARM_WOOD_COST						=	10;
-	public static final			int			FARM_STONE_COST						=	10;
+	public static final			int			HOUSE_WOOD_COST						=	10;
+	public static final			int			HOUSE_STONE_COST					=	5;
+	public static final			int			FARM_WOOD_COST						=	30;
+	public static final			int			FARM_STONE_COST						=	30;
 	public static final			int			STOCKPILE_WOOD_COST					=	20;
 	public static final			int			STOCKPILE_STONE_COST				=	5;
 

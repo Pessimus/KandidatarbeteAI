@@ -53,6 +53,7 @@ public class StructureFactory {
 
 	public static LinkedList<IItem> getCost(StructureType typeToSpawn) {
 		LinkedList<IItem> cost = new LinkedList<>();
+		System.out.println(typeToSpawn == null);
 		switch (typeToSpawn){
 			case STOCKPILE:
 				cost.add(new StoneItem(Constants.STOCKPILE_STONE_COST));

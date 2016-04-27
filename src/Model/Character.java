@@ -441,6 +441,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	 * @param item The item to be added.
 	 */
 	public void addToInventory(IItem item){
+		if(item!=null)
 			inventory.addItem(item);
 	}
 
