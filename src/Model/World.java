@@ -290,6 +290,10 @@ public class World{
 		}
 	}
 
+	public void setPause(boolean b) {
+		pause = b;
+	}
+
 //-----------------------------------------ADD & REMOVE METHODS-------------------------------------------------------\\
 
 	//TODO check if place is available.

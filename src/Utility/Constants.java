@@ -60,8 +60,8 @@ public final class Constants {
 	public static final 		boolean		GAME_GRAB_MOUSE						= 	false;
 	public static final 		boolean 	RUN_IN_FULLSCREEN 					= 	false;
 
-	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_NORMAL 	= 	240; // Updates per second
-	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_FASTER 	= 	360; // Updates per second
+	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_NORMAL 	= 	60; // Updates per second
+	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_FASTER 	= 	240; // Updates per second
 	public static final 		int 		CONTROLLER_UPDATE_INTERVAL_FASTEST 	= 	600; // Updates per second
 
 	public static final 		int 		WORLD_TILE_SIZE						= 	32;

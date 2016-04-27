@@ -21,11 +21,13 @@ public class BuildTask implements ITask {
 		this.rhs = rhs;
 		this.waittime = waittime;
 		this.remove = false;
+		this.actor.setWaiting(true);
 	}
 
 	@Override
 	public void execute() {
 		actor.build(cost,rhs);
+		this.actor.setWaiting(false);
 	}
 
 	@Override

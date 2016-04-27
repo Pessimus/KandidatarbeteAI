@@ -143,11 +143,14 @@ public class Controller implements PropertyChangeListener {
 
 	private void runModel(){
 		timer = new Timer();
-		timer.scheduleAtFixedRate(new TimerTask() {
+
+		TimerTask task = new TimerTask() {
 			public void run() {
 				update();
 			}
-		}, 0, 1000 / gameSpeed);
+		};
+
+		timer.scheduleAtFixedRate(task, 0, 1000 / gameSpeed);
 	}
 
 	private int updateCounter = 0;
@@ -518,6 +521,54 @@ public class Controller implements PropertyChangeListener {
 								}
 							}
 							break;
+						case Input.KEY_F1:
+							if(gameSpeed != Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL) {
+								timer.cancel();
+								timer = new Timer();
+
+								TimerTask task = new TimerTask() {
+									@Override
+									public void run() {
+										update();
+									}
+								};
+
+								gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
+								timer.scheduleAtFixedRate(task, Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL, 1000 / gameSpeed);
+							}
+							break;
+						case Input.KEY_F2:
+							if(gameSpeed != Constants.CONTROLLER_UPDATE_INTERVAL_FASTER) {
+								timer.cancel();
+								timer = new Timer();
+
+								TimerTask task = new TimerTask() {
+									@Override
+									public void run() {
+										update();
+									}
+								};
+
+								gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_FASTER;
+								timer.scheduleAtFixedRate(task, Constants.CONTROLLER_UPDATE_INTERVAL_FASTER, 1000 / gameSpeed);
+							}
+							break;
+						case Input.KEY_F3:
+							if(gameSpeed != Constants.CONTROLLER_UPDATE_INTERVAL_FASTEST) {
+								timer.cancel();
+								timer = new Timer();
+
+								TimerTask task = new TimerTask() {
+									@Override
+									public void run() {
+										update();
+									}
+								};
+
+								gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_FASTEST;
+								timer.scheduleAtFixedRate(task, Constants.CONTROLLER_UPDATE_INTERVAL_FASTEST, 1000 / gameSpeed);
+							}
+							break;
 					}
 				}else if(clicks[0] == View.INPUT_ENUM.KEY_RELEASED.value){
 					switch (clicks[1]){
@@ -587,14 +638,12 @@ public class Controller implements PropertyChangeListener {
 					//The mouse button was pressed.
 					if(clicks[1] == Input.MOUSE_LEFT_BUTTON){
 						//The left mouse button was pressed.
-						//TODO WHAT SHOULD BE DONE HERE?!
 						double[] tempDoubles = convertFromViewToModelCoords((clicks[2]/Constants.GRAPHICS_SCALE_X)/Constants.ZOOM_LEVEL, (clicks[3]/Constants.GRAPHICS_SCALE_Y)/Constants.ZOOM_LEVEL);
 						player.moveToMouse(tempDoubles[0], tempDoubles[1]);
 					}
 
 					if(clicks[1] == Input.MOUSE_RIGHT_BUTTON){
 						//The right mouse button was pressed.
-						//TODO WHAT SHOULD BE DONE HERE?!
 					}
 				}
 				else if (clicks[0] == View.INPUT_ENUM.MOUSE_RELEASED.value) {
@@ -617,6 +666,7 @@ public class Controller implements PropertyChangeListener {
 				else if (clicks[0] == View.INPUT_ENUM.MOUSE_MOVED.value) {
 					mouseX = clicks[3];
 					mouseY = clicks[4];
+				} else if(clicks[0] == View.INPUT_ENUM.MOUSE_WHEEL_MOVED.value){
 				}
 			}
 		}
