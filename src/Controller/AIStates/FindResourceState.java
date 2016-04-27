@@ -9,6 +9,7 @@ import Model.ResourcePoint;
 import Model.Structures.Farm;
 import Utility.Constants;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -31,6 +32,35 @@ public class FindResourceState implements IState {
 		for(IStructure structure : brain.getStructureMemory()) {
 			if (structure.getStructureType() == IStructure.StructureType.FARM && brain.getStructureStack().peek() == IStructure.StructureType.FARM) {
 				brain.getStructureStack().removeFirst();
+
+				//brain.getGatherStack().removeFirstOccurrence()
+
+				/*Iterator<IState> iterator = brain.getStateQueue().iterator();
+
+				while(iterator.hasNext()){
+					IState tempState = iterator.next();
+					if (tempState == brain.getBuildState() || tempState == brain.getGatherState()) {
+						iterator.remove();
+					}
+				}
+
+				Iterator<IResource.ResourceType> iterator2 = brain.getResourceToFindStack().iterator();
+
+				while(iterator2.hasNext()){
+					IResource.ResourceType tempType = iterator2.next();
+					if (tempType == IResource.ResourceType.WOOD || tempType == IResource.ResourceType.STONE) {
+						iterator2.remove();
+					}
+				}
+
+				iterator2 = brain.getGatherStack().iterator();
+
+				while(iterator2.hasNext()){
+					IResource.ResourceType tempType = iterator2.next();
+					if (tempType == IResource.ResourceType.WOOD || tempType == IResource.ResourceType.STONE) {
+						iterator2.remove();
+					}
+				}*/
 				for (IState state : brain.getStateQueue()) {
 					if (state == brain.getBuildState() || state == brain.getGatherState()) {
 							statesToThrow.add(state);
@@ -67,15 +97,11 @@ public class FindResourceState implements IState {
 					for (IResource.ResourceType resource : resourcesToThrow) {
 						brain.getGatherStack().remove(resource);
 					}
-					resourcesToThrow.clear();
+
 				}
-				/*System.out.println("ENTERED CLEAN OF FARM");
-				System.out.println(brain.getStructureStack());
-				System.out.println(brain.getStructureMemory());
-				System.out.println(brain.getStateQueue());
-				System.out.println(brain.getGatherStack());
-				System.out.println(brain.getResourceToFindStack());
-				brain.setState(brain.getIdleState());*/
+
+				brain.setState(brain.getIdleState());
+
 			}
 		}
 		boolean foundObject = false;

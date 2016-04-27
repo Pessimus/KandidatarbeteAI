@@ -34,7 +34,7 @@ public class Wood extends RenewableResource {
     public Wood(int initial, int maxResources, int yield, double xPoss, double yPoss){
         super(initial, maxResources);
 		this.yield = yield;
-		this.updateCounter = (int)Math.random()*Constants.TREE_UPDATE_INTERVAL;
+		this.updateCounter = (int)(Math.random()*Constants.TREE_UPDATE_INTERVAL);
 		this.spawning = false;
 		this.xPoss = xPoss;
 		this.yPoss = yPoss;

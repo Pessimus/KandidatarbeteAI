@@ -24,6 +24,7 @@ public class EatState implements IState{
 	public void run() {
 		Iterator<IItem> iterator = brain.getBody().getInventory().iterator();
 		int currentIndex = 0;
+		boolean found = false;
 
 		while (iterator.hasNext()) {
 			IItem current = iterator.next();
@@ -32,11 +33,17 @@ public class EatState implements IState{
 				case MEAT_ITEM:
 				case FISH_ITEM:
 					bestIndex = currentIndex;
+					found = true;
 					break;
 			}
 
 			currentIndex++;
 		}
+
+		if(found){
+			brain.getBody().consumeItem(bestIndex);
+		}
+
 		brain.setState(brain.getIdleState());
 	}
 }
