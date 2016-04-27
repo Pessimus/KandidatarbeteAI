@@ -93,13 +93,13 @@ public class Controller implements PropertyChangeListener {
 
 				((Character)player.getBody()).godMode = true;
 
-				Character character2 = gameModel.addCharacter(1500, 2500);
+				/*Character character2 = gameModel.addCharacter(1500, 2500);
 				aiMap.put(character2, new ArtificialBrain(gameModel, character2));
 				Character character3 = gameModel.addCharacter(1500, 2525);
 				aiMap.put(character3, new ArtificialBrain(gameModel, character3));
 
 				Character character4 = gameModel.addCharacter(1470, 2550);
-				aiMap.put(character4, new ArtificialBrain(gameModel, character4));
+				aiMap.put(character4, new ArtificialBrain(gameModel, character4));*/
 
 
 				Random r = new Random();
@@ -214,7 +214,7 @@ public class Controller implements PropertyChangeListener {
 					playerYPos = currentCharacter.getY() + Constants.VIEW_BORDER_HEIGHT;
 					if(!currentCharacter.equals(player.getBody()) && currentCharacter.isAlive()){
 
-						System.out.println("Current state: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getCurrentState());
+						/*System.out.println("Current state: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getCurrentState());
 						System.out.println();
 						System.out.println("State stack:");
 						((ArtificialBrain)aiMap.get(currentCharacter)).getStateQueue().stream()
@@ -228,7 +228,7 @@ public class Controller implements PropertyChangeListener {
 						System.out.println("\nBuild stack: " +
 						((ArtificialBrain)aiMap.get(currentCharacter)).getStructureStack());
 						System.out.println("Resource to find: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getResourceToFindStack());
-						/*System.out.println("FARM?: " + ((ArtificialBrain) aiMap.get(currentCharacter)).getStructureMemory().contains(IStructure.StructureType.FARM));*/
+						*//*System.out.println("FARM?: " + ((ArtificialBrain) aiMap.get(currentCharacter)).getStructureMemory().contains(IStructure.StructureType.FARM));*/
 
 					}
 				}

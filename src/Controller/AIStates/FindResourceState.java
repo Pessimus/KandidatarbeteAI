@@ -19,6 +19,8 @@ public class FindResourceState implements IState {
 	private final ArtificialBrain brain;
 
 	private LinkedList<PathStep> currentPath = null;
+	private LinkedList<IState> statesToThrow = new LinkedList<>();
+	private LinkedList<IResource.ResourceType> resourcesToThrow = new LinkedList<>();
 	private double currentDirection = 0;
 
 	public FindResourceState(ArtificialBrain b){
@@ -33,7 +35,7 @@ public class FindResourceState implements IState {
 
 				//brain.getGatherStack().removeFirstOccurrence()
 
-				Iterator<IState> iterator = brain.getStateQueue().iterator();
+				/*Iterator<IState> iterator = brain.getStateQueue().iterator();
 
 				while(iterator.hasNext()){
 					IState tempState = iterator.next();
@@ -58,26 +60,48 @@ public class FindResourceState implements IState {
 					if (tempType == IResource.ResourceType.WOOD || tempType == IResource.ResourceType.STONE) {
 						iterator2.remove();
 					}
-				}
-
-				/*for (IState state : brain.getStateQueue()) {
+				}*/
+				for (IState state : brain.getStateQueue()) {
 					if (state == brain.getBuildState() || state == brain.getGatherState()) {
+							statesToThrow.add(state);
+					}
+				}
+				if (statesToThrow != null) {
+					for (IState state : statesToThrow) {
 						brain.getStateQueue().remove(state);
 					}
+					statesToThrow.clear();
 				}
+
 				for (IResource.ResourceType resource : brain.getResourceToFindStack()) {
 					if (resource == IResource.ResourceType.WOOD || resource == IResource.ResourceType.STONE) {
-						brain.getResourceToFindStack().remove(resource);
+						resourcesToThrow.add(resource);
 					}
 				}
+
+				if (resourcesToThrow != null) {
+					for (IResource.ResourceType resource : resourcesToThrow) {
+						brain.getResourceToFindStack().remove(resource);
+					}
+					resourcesToThrow.clear();
+				}
+
 
 				for (IResource.ResourceType resource : brain.getGatherStack()) {
 					if (resource == IResource.ResourceType.WOOD || resource == IResource.ResourceType.STONE) {
+						resourcesToThrow.add(resource);
+					}
+				}
+
+				if (resourcesToThrow != null) {
+					for (IResource.ResourceType resource : resourcesToThrow) {
 						brain.getGatherStack().remove(resource);
 					}
-				}*/
+
+				}
 
 				brain.setState(brain.getIdleState());
+
 			}
 		}
 		boolean foundObject = false;
