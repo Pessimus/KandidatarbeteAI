@@ -9,6 +9,7 @@ import Model.ResourcePoint;
 import Model.Structures.Farm;
 import Utility.Constants;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -29,7 +30,37 @@ public class FindResourceState implements IState {
 		for(IStructure structure : brain.getStructureMemory()) {
 			if (structure.getStructureType() == IStructure.StructureType.FARM && brain.getStructureStack().peek() == IStructure.StructureType.FARM) {
 				brain.getStructureStack().removeFirst();
-				for (IState state : brain.getStateQueue()) {
+
+				//brain.getGatherStack().removeFirstOccurrence()
+
+				Iterator<IState> iterator = brain.getStateQueue().iterator();
+
+				while(iterator.hasNext()){
+					IState tempState = iterator.next();
+					if (tempState == brain.getBuildState() || tempState == brain.getGatherState()) {
+						iterator.remove();
+					}
+				}
+
+				Iterator<IResource.ResourceType> iterator2 = brain.getResourceToFindStack().iterator();
+
+				while(iterator2.hasNext()){
+					IResource.ResourceType tempType = iterator2.next();
+					if (tempType == IResource.ResourceType.WOOD || tempType == IResource.ResourceType.STONE) {
+						iterator2.remove();
+					}
+				}
+
+				iterator2 = brain.getGatherStack().iterator();
+
+				while(iterator2.hasNext()){
+					IResource.ResourceType tempType = iterator2.next();
+					if (tempType == IResource.ResourceType.WOOD || tempType == IResource.ResourceType.STONE) {
+						iterator2.remove();
+					}
+				}
+
+				/*for (IState state : brain.getStateQueue()) {
 					if (state == brain.getBuildState() || state == brain.getGatherState()) {
 						brain.getStateQueue().remove(state);
 					}
@@ -44,7 +75,8 @@ public class FindResourceState implements IState {
 					if (resource == IResource.ResourceType.WOOD || resource == IResource.ResourceType.STONE) {
 						brain.getGatherStack().remove(resource);
 					}
-				}
+				}*/
+
 				brain.setState(brain.getIdleState());
 			}
 		}

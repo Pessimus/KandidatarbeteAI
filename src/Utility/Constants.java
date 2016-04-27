@@ -70,11 +70,11 @@ public final class Constants {
 
 	//----------- Character Constants ------------- \\
 	public static final			int			PLAYER_CHARACTER_KEY				= 	0;
-	public static final			float		CHARACTER_WALK_SPEED				=	6f;
-	public static final			float		CHARACTER_RUN_SPEED					=	12f;
+	public static final			float		CHARACTER_WALK_SPEED				=	4f;
+	public static final			float		CHARACTER_RUN_SPEED					=	7f;
 	public static final 		int			CHARACTER_UPDATE_INTERVAL			=	60;
 
-	public static final			int			NUMBER_OF_NPCS						=	10; // Used in initialization of Controller to deterimine the number of NPCs to spawn
+	public static final			int			NUMBER_OF_NPCS						=	20; // Used in initialization of Controller to deterimine the number of NPCs to spawn
 
 	public static final			int			NUMBER_OF_FEMALE_NAMES				=	4275;
 	public static final			int			NUMBER_OF_MALE_NAMES				=	1219;
@@ -131,22 +131,22 @@ public final class Constants {
 	public static final			int			MAX_INTEGRETY_HOUSE					=	10;
 	public static final			int			MAX_INTEGRETY_FARM					=	10;
 	public static final			int			MAX_INTEGRETY_STOCKPILE				=	10;
-	public static final			int 		FARM_BUILD_TIME						=	0;
+	public static final			int 		FARM_BUILD_TIME						=	60*CONTROLLER_UPDATE_INTERVAL_NORMAL;
 	public static final			int			FARM_INTERACTION_TIME				=	10*60;
 	public static final			int			FARM_ATTACKED_TIME					=	1*60;
-	public static final			int 		HOUSE_BUILD_TIME						=	0;
+	public static final			int 		HOUSE_BUILD_TIME					=	35*CONTROLLER_UPDATE_INTERVAL_NORMAL;
 	public static final			int			HOUSE_INTERACTION_TIME				=	20*60;
 	public static final			int			HOUSE_ATTACKED_TIME					=	1*60;
-	public static final			int 		STOCKPILE_BUILD_TIME						=	0;
+	public static final			int 		STOCKPILE_BUILD_TIME				=	20*CONTROLLER_UPDATE_INTERVAL_NORMAL;
 	public static final			int			STOCKPILE_INTERACTION_TIME			=	0;
 	public static final			int			STOCKPILE_ATTACKED_TIME				=	1*60;
 
-	public static final			int			HOUSE_WOOD_COST						=	4;
-	public static final			int			HOUSE_STONE_COST					=	2;
-	public static final			int			FARM_WOOD_COST						=	10;
+	public static final			int			HOUSE_WOOD_COST						=	60;
+	public static final			int			HOUSE_STONE_COST					=	40;
+	public static final			int			FARM_WOOD_COST						=	80;
 	public static final			int			FARM_STONE_COST						=	10;
-	public static final			int			STOCKPILE_WOOD_COST					=	20;
-	public static final			int			STOCKPILE_STONE_COST				=	5;
+	public static final			int			STOCKPILE_WOOD_COST					=	30;
+	public static final			int			STOCKPILE_STONE_COST				=	15;
 
 	//----------- Animal Constants ------------- \\
 	public static final 		double		ANIMAL_COLLISION_RADIUS				=	30;
@@ -155,9 +155,9 @@ public final class Constants {
 	public static final			int 		ANIMAL_MIN_STEP_AMOUNT				=	600;
 	public static final 		int			ANIMAL_STEP_AMOUNT_DIFF				=	60*5;
 
-	public static final 		int 		ANIMAL_INTERACTED_TIME				=	20*60;
+	public static final 		int 		ANIMAL_INTERACTED_TIME				=	20*CONTROLLER_UPDATE_INTERVAL_NORMAL;
 	public static final 		int			ANIMAL_CONSUMED_TIME				=	5*60;
-	public static final 		int			ANIMAL_ATTACKED_TIME				=	5*60;
+	public static final 		int			ANIMAL_ATTACKED_TIME				=	5*CONTROLLER_UPDATE_INTERVAL_NORMAL;
 
 	public static final 		int			ANIMAL_HUNGER_CHANGE_CONSUME		=	20;
 	public static final 		int			ANIMAL_ENERGY_CHANGE_CONSUME		=	-5;
@@ -187,24 +187,24 @@ public final class Constants {
 	public static final			int			CROPS_INITIAL_AMOUNT				=	100;
 	public static final			int			CROPS_YEILD_AMOUNT					=	10;
 
-	public static final			int			CROPS_INTERACTED_TIME				=	1*60;
-	public static final			int			CROPS_ATTACKED_TIME					=	1*60;
-	public static final			int			CROPS_CONSUMED_TIME					=	1*60;
-	public static final			int			GOLD_INTERACTED_TIME				=	1*60;
-	public static final			int			GOLD_ATTACKED_TIME					=	1*60;
-	public static final			int			GOLD_CONSUMED_TIME					=	1*60;
-	public static final			int			MEAT_INTERACTED_TIME				=	1*60;
-	public static final			int			MEAT_ATTACKED_TIME					=	1*60;
-	public static final			int			MEAT_CONSUMED_TIME					=	1*60;
-	public static final			int			STONE_INTERACTED_TIME				=	1*60;
-	public static final			int			STONE_ATTACKED_TIME					=	1*60;
-	public static final			int			STONE_CONSUMED_TIME					=	1*60;
-	public static final			int			WATER_INTERACTED_TIME				=	1*60;
-	public static final			int			WATER_ATTACKED_TIME					=	1*60;
-	public static final			int			WATER_CONSUMED_TIME					=	1*60;
-	public static final			int			WOOD_INTERACTED_TIME				=	1*60;
-	public static final			int			WOOD_ATTACKED_TIME					=	1*60;
-	public static final			int			WOOD_CONSUMED_TIME					=	1*60;
+	public static final			int			CROPS_INTERACTED_TIME				=	6*CONTROLLER_UPDATE_INTERVAL_NORMAL;
+	public static final			int			CROPS_ATTACKED_TIME					=	1*CONTROLLER_UPDATE_INTERVAL_NORMAL;
+	public static final			int			CROPS_CONSUMED_TIME					=	1*CONTROLLER_UPDATE_INTERVAL_NORMAL;
+	public static final			int			GOLD_INTERACTED_TIME				=	8*CONTROLLER_UPDATE_INTERVAL_NORMAL;
+	public static final			int			GOLD_ATTACKED_TIME					=	1*CONTROLLER_UPDATE_INTERVAL_NORMAL;
+	public static final			int			GOLD_CONSUMED_TIME					=	1*CONTROLLER_UPDATE_INTERVAL_NORMAL;
+	public static final			int			MEAT_INTERACTED_TIME				=	1*CONTROLLER_UPDATE_INTERVAL_NORMAL;
+	public static final			int			MEAT_ATTACKED_TIME					=	2*CONTROLLER_UPDATE_INTERVAL_NORMAL;
+	public static final			int			MEAT_CONSUMED_TIME					=	1*CONTROLLER_UPDATE_INTERVAL_NORMAL;
+	public static final			int			STONE_INTERACTED_TIME				=	7*CONTROLLER_UPDATE_INTERVAL_NORMAL;
+	public static final			int			STONE_ATTACKED_TIME					=	1*CONTROLLER_UPDATE_INTERVAL_NORMAL;
+	public static final			int			STONE_CONSUMED_TIME					=	1*CONTROLLER_UPDATE_INTERVAL_NORMAL;
+	public static final			int			WATER_INTERACTED_TIME				=	3*CONTROLLER_UPDATE_INTERVAL_NORMAL;
+	public static final			int			WATER_ATTACKED_TIME					=	1*CONTROLLER_UPDATE_INTERVAL_NORMAL;
+	public static final			int			WATER_CONSUMED_TIME					=	1*CONTROLLER_UPDATE_INTERVAL_NORMAL;
+	public static final			int			WOOD_INTERACTED_TIME				=	1*CONTROLLER_UPDATE_INTERVAL_NORMAL;
+	public static final			int			WOOD_ATTACKED_TIME					=	1*CONTROLLER_UPDATE_INTERVAL_NORMAL;
+	public static final			int			WOOD_CONSUMED_TIME					=	1*CONTROLLER_UPDATE_INTERVAL_NORMAL;
 
 
 	//------------------------------Item Constants------------------------------\\
@@ -301,14 +301,14 @@ public final class Constants {
 
 	// ----------- AI Constants ----------- \\
 
-	public static final			int			GATHER_CROPS_STATE_TIME				=	90;			// Number of updates ("frames") that the character will wait when gathering crops
+	public static final			int			GATHER_CROPS_STATE_TIME				=	5*CONTROLLER_UPDATE_INTERVAL_NORMAL;			// Number of updates ("frames") that the character will wait when gathering crops
 	public static final			int			GATHER_BERRIES_STATE_TIME			=	90;			// Number of updates ("frames") that the character will wait when gathering wild berries
-	public static final			int			GATHER_WATER_STATE_TIME				=	30;			// Number of updates ("frames") that the character will wait when gathering water
+	public static final			int			GATHER_WATER_STATE_TIME				=	3*CONTROLLER_UPDATE_INTERVAL_NORMAL;			// Number of updates ("frames") that the character will wait when gathering water
 	public static final			int			GATHER_MEAT_STATE_TIME				= 	60;			// Number of updates ("frames") that the character will wait when gathering meat
-	public static final			int			GATHER_FISH_STATE_TIME				= 	90;			// Number of updates ("frames") that the character will wait when gathering fish
-	public static final			int			GATHER_WOOD_STATE_TIME				= 	60;			// Number of updates ("frames") that the character will wait when gathering wood
-	public static final			int			GATHER_GOLD_STATE_TIME				=	60;			// Number of updates ("frames") that the character will wait when gathering gold
-	public static final			int			GATHER_STONE_STATE_TIME				=	60;			// Number of updates ("frames") that the character will wait when gathering stone
+	public static final			int			GATHER_FISH_STATE_TIME				= 	10*CONTROLLER_UPDATE_INTERVAL_NORMAL;			// Number of updates ("frames") that the character will wait when gathering fish
+	public static final			int			GATHER_WOOD_STATE_TIME				= 	5*CONTROLLER_UPDATE_INTERVAL_NORMAL;			// Number of updates ("frames") that the character will wait when gathering wood
+	public static final			int			GATHER_GOLD_STATE_TIME				=	8*CONTROLLER_UPDATE_INTERVAL_NORMAL;			// Number of updates ("frames") that the character will wait when gathering gold
+	public static final			int			GATHER_STONE_STATE_TIME				=	8*CONTROLLER_UPDATE_INTERVAL_NORMAL;			// Number of updates ("frames") that the character will wait when gathering stone
 	public static final			int			EAT_STATE_TIME						=	15;			// Number of updates ("frames") that the character will wait when eating something
 	public static final			int			DRINK_STATE_TIME					=	15;			// Number of updates ("frames") that the character will wait when drinking something
 
