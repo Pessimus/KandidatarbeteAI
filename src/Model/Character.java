@@ -117,6 +117,16 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	 * @param yPos the position on the y-axis
 	 * @param key a unique value to identify this character
 	 */
+
+	public Character (long l) {
+		this(50, 50,nexKey++);
+		this.genderMale = true;
+		this.name = "Saruman, the White";
+		this.renderObjectEnum = RenderObject.RENDER_OBJECT_ENUM.SARUMAN;
+		this.age = 70;
+		this.pride = 100;
+	}
+
 	public Character(double xPos, double yPos, int key){
 		this.alive = true;
 		this.age = 0;

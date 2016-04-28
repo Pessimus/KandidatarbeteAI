@@ -100,10 +100,12 @@ public class Controller implements PropertyChangeListener {
 
 				Character character4 = gameModel.addCharacter(1470, 2550);
 				aiMap.put(character4, new ArtificialBrain(gameModel, character4));*/
-
+				Character saruman = gameModel.addSaruman();
+				if(saruman != null) {
+					aiMap.put(saruman, new ArtificialBrain(gameModel, saruman));
+				}
 
 				Random r = new Random();
-
 
 				for(int i = 0; i < Constants.NUMBER_OF_NPCS; i++) {
 					Character character = gameModel.addCharacter(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));

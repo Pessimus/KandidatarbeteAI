@@ -303,6 +303,22 @@ public class World{
 	 * @param yPoss the position on the y axis.
 	 * @return the character that was just created.
 	 */
+
+	public Character addSaruman() {
+		Character character = new Character((long) 3.0);
+
+		if(collidables.canAdd(character)) {
+			this.collidablesR.add(character);
+			this.collidables.add(character);
+			this.timeables.add(character);
+			this.characters.put(character.getKey(), character);
+			nbrCharacters++;
+			return character;
+		}
+
+		return null;
+	}
+
 	public Character addCharacter(double xPoss, double yPoss) {
 		Character character = new Character(xPoss, yPoss);
 
