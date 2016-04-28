@@ -54,7 +54,7 @@ public class IdleState implements IState {
 						d = r.nextDouble();
 						if (d > 0.7){
 							brain.stackState(brain.getGatherState());
-						} else if(d > 0.3) {
+						} else if(d > 0.3 && d < 0.7) {
 							brain.stackState(brain.getHuntingState());
 						}else {
 							brain.stackState(brain.getWorkFarmState());
