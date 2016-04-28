@@ -4,6 +4,7 @@ import Controller.ArtificialBrain;
 import Controller.PathStep;
 import Model.ICharacterHandle;
 import Utility.Constants;
+import Utility.RenderObject;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -24,6 +25,13 @@ public class MovingState implements IState {
 
 	@Override
 	public void run() {
+		if (!brain.getStateQueue().isEmpty()) {
+			if (brain.getStateQueue().peek().getClass().equals(GatherWoodState.class)) {
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_FORESTING);
+			} else if (brain.getStateQueue().peek().getClass().equals(GatherStoneState.class)) {
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_PICKING);
+			}
+		}
 		LinkedList<PathStep> tempPath = brain.getNextPath();
 
 		if(tempPath != null){

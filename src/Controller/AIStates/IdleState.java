@@ -29,7 +29,6 @@ public class IdleState implements IState {
 
 
 		if(brain.getStateQueue().isEmpty()){
-			brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.EMPTY);
 			if (!brain.getBody().hasHome()){
 				brain.stackStructureToBuild(IStructure.StructureType.HOUSE);
 				brain.stackState(brain.getBuildState());
