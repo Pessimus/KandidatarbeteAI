@@ -684,13 +684,13 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 //		}
 
 		if(updateCounter % hungerUpdate == 0){
-			changeHunger(-Constants.CHARACTER_HUNGER_CHANGE + (social/Constants.CHARACTER_SOCIAL_NEEDS_MODIFIER));
+			changeHunger(-Constants.CHARACTER_HUNGER_CHANGE); // + (social/Constants.CHARACTER_SOCIAL_NEEDS_MODIFIER));
 		}
 		if(updateCounter % energyUpdate == 0){
-			changeEnergy(-Constants.CHARACTER_ENERGY_CHANGE + (social/Constants.CHARACTER_SOCIAL_NEEDS_MODIFIER));
+			changeEnergy(-Constants.CHARACTER_ENERGY_CHANGE); // + (social/Constants.CHARACTER_SOCIAL_NEEDS_MODIFIER));
 		}
 		if(updateCounter % Constants.CHARACTER_THIRST_UPDATE == 0){
-			changeThirst(-Constants.CHARACTER_THIRST_CHANGE + (social/Constants.CHARACTER_SOCIAL_NEEDS_MODIFIER));
+			changeThirst(-Constants.CHARACTER_THIRST_CHANGE); // + (social/Constants.CHARACTER_SOCIAL_NEEDS_MODIFIER));
 		}
 		/*if(updateCounter % Constants.CHARACTER_SOCIAL_UPDATE == 0){
 			changeSocial(-Constants.CHARACTER_SOCIAL_CHANGE);
