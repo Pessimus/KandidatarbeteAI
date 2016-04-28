@@ -5,6 +5,7 @@ import Controller.PathStep;
 import Model.ICollidable;
 import Model.ResourcePoint;
 import Utility.Constants;
+import Utility.RenderObject;
 
 import java.util.LinkedList;
 import java.util.Random;
@@ -23,6 +24,7 @@ public class ExploreState implements IState {
     private LinkedList<PathStep> currentPath = null;
     @Override
     public void run() {
+        brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.EMPTY);
         if(brain.getObjectToFind() != null) {
             boolean foundObject = false;
 

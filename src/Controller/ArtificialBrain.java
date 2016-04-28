@@ -122,6 +122,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			int minindex = 0;
 
 			if(needsArray[0] < 80 || needsArray[1] < 80 || needsArray[2] < 80) {
+				getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.EMPTY);
 				if (!stateQueue.contains(this.getHungryState()) && !stateQueue.contains(this.getThirstyState()) && !stateQueue.contains(this.getLowEnergyState())) {
 					for (int i = 0; i < needsArray.length; i++) {
 						if (needsArray[i] < minVal) {
