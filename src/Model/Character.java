@@ -33,6 +33,8 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	private RenderObject.RENDER_OBJECT_ENUM renderObjectEnum;
 
+	private RenderObject.RENDER_OBJECT_ENUM currentActivity = RenderObject.RENDER_OBJECT_ENUM.EMPTY;
+
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 	private Inventory inventory;
@@ -939,6 +941,14 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 
 	public boolean isWaiting(){
 		return waiting;
+	}
+
+	public RenderObject getCurrentActivityRenderObject() {
+		return new RenderObject(getX(), getY()-24, 16, currentActivity);
+	}
+
+	public void setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM render) {
+		currentActivity = render;
 	}
 
 

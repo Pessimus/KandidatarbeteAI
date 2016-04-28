@@ -2,6 +2,7 @@ package Controller.AIStates;
 
 import Controller.ArtificialBrain;
 import Model.*;
+import Utility.RenderObject;
 
 import java.util.Iterator;
 
@@ -30,6 +31,7 @@ public class GatherCropsState implements IState {
 				ResourcePoint tempPoint = (ResourcePoint) next;
 				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.CROPS)) {
 					brain.getBody().interactObject(i);
+					brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.FARMING);
 					brain.getGatherStack().remove();
 					found = true;
 					break;

@@ -530,7 +530,23 @@ public class World{
 		return renderObjects;
 		*/
 
-		return collidables.getRenderObjectsFromY();
+		RenderObject[] ret = new RenderObject[collidables.getSize() + characters.size()];
+		RenderObject[] temp = collidables.getRenderObjectsFromY();
+		int i = 0;
+		for (; i < collidables.getSize(); i++) {
+			ret[i] = temp[i];
+		}
+
+		for (Character c : characters.values()) {
+			if (c.getCurrentActivityRenderObject() == null) {
+				ret[i] = new RenderObject(0,0,0, RenderObject.RENDER_OBJECT_ENUM.EMPTY);
+			} else {
+				ret[i] = c.getCurrentActivityRenderObject();
+			}
+			i++;
+		}
+
+		return ret;
 
 	}
 

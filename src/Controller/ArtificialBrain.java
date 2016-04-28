@@ -5,6 +5,7 @@ import Model.*;
 import Model.Character;
 import Utility.Constants;
 import Model.ICharacterHandle;
+import Utility.RenderObject;
 
 //import java.awt.*;
 import java.awt.*;
@@ -114,6 +115,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		int[] skills = body.getSkills();
 
 		if(!body.isWaiting()) {
+
 			currentState.run();
 
 			int minVal = needsArray[0];

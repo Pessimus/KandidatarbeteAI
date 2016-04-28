@@ -203,10 +203,7 @@ public class Controller implements PropertyChangeListener {
 		int width = (int)gameModel.getWidth()+Constants.VIEW_BORDER_WIDTH*2;
 		int height = (int)gameModel.getHeight()+Constants.VIEW_BORDER_HEIGHT*2;
 
-		if(gameModel.getCharacterList().size()==0){
-			playerViewCentered = false;
-		}
-
+		playerViewCentered = !gameModel.getCharacterList().isEmpty();
 
 		//Centers the player in the middle of the screen
 		if(playerViewCentered) {

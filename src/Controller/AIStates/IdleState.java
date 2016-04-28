@@ -3,6 +3,7 @@ package Controller.AIStates;
 import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
 import Model.*;
+import Utility.RenderObject;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -26,7 +27,9 @@ public class IdleState implements IState {
 		int[] secondaryNeedsArray = brain.getBody().getSecondaryNeeds();
 
 
+
 		if(brain.getStateQueue().isEmpty()){
+			brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.EMPTY);
 			if (!brain.getBody().hasHome()){
 				brain.stackStructureToBuild(IStructure.StructureType.HOUSE);
 				brain.stackState(brain.getBuildState());

@@ -1,5 +1,7 @@
 package Model;
 
+import Utility.RenderObject;
+
 import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.util.List;
@@ -128,4 +130,6 @@ public interface ICharacterHandle {
 	String getName ();
 
 	int getAge ();
+
+	void setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM e);
 }

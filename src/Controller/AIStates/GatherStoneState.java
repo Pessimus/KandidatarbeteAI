@@ -4,6 +4,7 @@ import Controller.ArtificialBrain;
 import Model.ICollidable;
 import Model.IResource;
 import Model.ResourcePoint;
+import Utility.RenderObject;
 
 import java.util.Iterator;
 
@@ -32,6 +33,7 @@ public class GatherStoneState implements IState {
 				ResourcePoint tempPoint = (ResourcePoint) next;
 				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.STONE)) {
 					brain.getBody().interactObject(i);
+					brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.PICKING);
 					brain.getGatherStack().remove();
 					found = true;
 					break;

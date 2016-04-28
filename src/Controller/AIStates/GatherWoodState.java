@@ -4,6 +4,7 @@ import Controller.ArtificialBrain;
 import Model.ICollidable;
 import Model.IResource;
 import Model.ResourcePoint;
+import Utility.RenderObject;
 
 import java.util.Iterator;
 
@@ -34,6 +35,7 @@ public class GatherWoodState implements IState {
 				ResourcePoint tempPoint = (ResourcePoint) next;
 				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.WOOD)) {
 					brain.getBody().interactObject(i);
+					brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.FORESTING);
 					brain.getGatherStack().remove();
 					found = true;
 					break;

@@ -4,6 +4,7 @@ import Controller.ArtificialBrain;
 import Model.*;
 import Model.Structures.Farm;
 import Utility.Constants;
+import Utility.RenderObject;
 
 import java.awt.*;
 import java.util.*;
@@ -133,12 +134,15 @@ public class GatherState implements IState{
 					break;
 				case STONE:
 					brain.stackState(brain.getGatherStoneState());
+					brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_PICKING);
 					break;
 				case GOLD:
 					brain.stackState(brain.getGatherGoldState());
+					brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_PICKING);
 					break;
 				case WOOD:
 					brain.stackState(brain.getGatherWoodState());
+					brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_FORESTING);
 					break;
 			}
 

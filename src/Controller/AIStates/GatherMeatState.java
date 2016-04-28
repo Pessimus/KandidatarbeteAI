@@ -5,6 +5,7 @@ import Model.Animal;
 import Model.ICollidable;
 import Model.IResource;
 import Model.ResourcePoint;
+import Utility.RenderObject;
 
 import java.util.Iterator;
 
@@ -31,6 +32,7 @@ public class GatherMeatState implements IState {
 			ICollidable next = iterator.next();
 			if(next.getClass().equals(Animal.class)){
 				brain.getBody().attackObject(i);
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.HUNTING);
 				brain.getGatherStack().remove();
 				found = true;
 				break;

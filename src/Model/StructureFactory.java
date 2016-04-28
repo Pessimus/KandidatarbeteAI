@@ -7,6 +7,7 @@ import Model.Structures.Farm;
 import Model.Structures.House;
 import Model.Structures.Stockpile;
 import Utility.Constants;
+import Utility.RenderObject;
 
 import java.util.LinkedList;
 
