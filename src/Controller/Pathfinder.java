@@ -216,6 +216,7 @@ public class Pathfinder {
     private LinkedList<Tuple> helpPath (int startx, int starty, int endx, int endy) {
         //initialize the open list
         if (endx >= width || endy >= height || endx < 0 || endy < 0) {return null;}
+        if (startx >= width || starty >= height || startx < 0 || starty < 0) {return null;}
         if (!mask[endx][endy]) {return null;}
         if (startx == endx && starty == endy) {return null;}
         if (!mask[startx][starty]) {LinkedList<Tuple> ret = new LinkedList<>(); ret.add(new Tuple(startx+1, starty)); return ret;}
