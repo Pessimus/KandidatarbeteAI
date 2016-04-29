@@ -56,6 +56,7 @@ public class Controller implements PropertyChangeListener {
 	private boolean showingPlayerInventory = false;
 	private boolean showingBuildOptions = false;
 
+
 	private double playerXPos = 0, playerYPos = 0;
 
 	private int characterIndex = 0;
@@ -348,6 +349,9 @@ public class Controller implements PropertyChangeListener {
 				// clicks[1] = What key was pressed/released
 				if (clicks[0] == View.INPUT_ENUM.KEY_PRESSED.value) {
 					switch (clicks[1]) {
+						case Input.KEY_X:
+							this.gameModel.setShowingCurrentActivity();
+							break;
 						case Input.KEY_M:
 							System.out.println("+++++++++++++++++++++++");
 							this.updateCounterMax = 1;
