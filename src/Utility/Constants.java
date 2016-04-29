@@ -13,8 +13,20 @@ public final class Constants {
 	// ----------- Controller Constants ----------- \\
 
 
-	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2;
-	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2;
+	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()
+
+
+
+
+
+
+
+
+
+
+
+			;
 
     /*
     public static final         int         GRASS_START_PIXEL_X                 =   650;
@@ -240,6 +252,13 @@ public final class Constants {
 	public static final 		int			STONE_THIRST_CHANGE_ATTACK			=	0;
 
 	//GOLD\\
+
+
+
+
+
+
+
 	public static final 		int			GOLD_HUNGER_CHANGE_INTERACT			=	0;
 	public static final 		int			GOLD_ENERGY_CHANGE_INTERACT			=	0;
 	public static final 		int			GOLD_THIRST_CHANGE_INTERACT			=	0;

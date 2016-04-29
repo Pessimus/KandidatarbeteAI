@@ -30,6 +30,20 @@ public class MovingState implements IState {
 				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_FORESTING);
 			} else if (brain.getStateQueue().peek().getClass().equals(GatherStoneState.class)) {
 				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_PICKING);
+			} else if (brain.getStateQueue().peek().getClass().equals(GatherFishState.class)) {
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_FISHING);
+			} else if (brain.getStateQueue().peek().getClass().equals(GatherMeatState.class)) {
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_HUNTING);
+			} else if (brain.getStateQueue().peek().getClass().equals(SleepingState.class) || brain.getStateQueue().peek().getClass().equals(RestingState.class)) {
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_PICKING);
+			} else if (brain.getStateQueue().peek().getClass().equals(BuildingState.class)) {
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_BUILDING);
+			} else if (brain.getStateQueue().peek().getClass().equals(GatherCropsState.class)) {
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_FARMING);
+			} else if (brain.getStateQueue().peek().getClass().equals(GatherWaterState.class)) {
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_DRINKING);
+			} else if (!brain.getStateQueue().peek().getClass().equals(HuntingState.class) && !brain.getStateQueue().peek().getClass().equals(ExploreState.class)) {
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.EMPTY);
 			}
 		}
 		LinkedList<PathStep> tempPath = brain.getNextPath();
