@@ -296,14 +296,6 @@ public class World{
 
 //-----------------------------------------ADD & REMOVE METHODS-------------------------------------------------------\\
 
-	//TODO check if place is available.
-	/**
-	 * Adds a new character to the world at the specified position.
-	 * @param xPoss the position on the x axis.
-	 * @param yPoss the position on the y axis.
-	 * @return the character that was just created.
-	 */
-
 	public Character addSaruman() {
 		Character character = new Character((long) 3.0);
 
@@ -319,6 +311,12 @@ public class World{
 		return null;
 	}
 
+	/**
+	 * Adds a new character to the world at the specified position.
+	 * @param xPoss the position on the x axis.
+	 * @param yPoss the position on the y axis.
+	 * @return the character that was just created.
+	 */
 	public Character addCharacter(double xPoss, double yPoss) {
 		Character character = new Character(xPoss, yPoss);
 
@@ -344,7 +342,7 @@ public class World{
 			nbrAnimals++;
 			return animal;
 		}
-
+		animal.remove();
 		return null;
 
 	}
