@@ -119,22 +119,22 @@ public class GatherState implements IState{
 					break;
 				case CROPS:
 					brain.stackState(brain.getGatherCropsState());
-					brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.EMPTY);
+					brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_FARMING);
 					break;
 				case WATER:
 					// Since both Fish and Water are gathered from Lakes, some
 					// 'hacks' are needed to understand what what resource should be gathered.
 					if(type.resourceType.equals(IResource.ResourceType.FOOD)){
 						brain.stackState(brain.getGatherFishState());
-						brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.EMPTY);
+						brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_FISHING);
 					} else {
 						brain.stackState(brain.getGatherWaterState());
-						brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.EMPTY);
+						brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_DRINKING);
 					}
 					break;
 				case FISH:
 					brain.stackState(brain.getGatherFishState());
-					brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.EMPTY);
+					brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_FISHING);
 					break;
 				case STONE:
 					brain.stackState(brain.getGatherStoneState());

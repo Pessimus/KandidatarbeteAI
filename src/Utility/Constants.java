@@ -13,8 +13,8 @@ public final class Constants {
 	// ----------- Controller Constants ----------- \\
 
 
-	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2;
+	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2;
 
     /*
     public static final         int         GRASS_START_PIXEL_X                 =   650;
@@ -33,7 +33,7 @@ public final class Constants {
 
 
 	//Zoom level not final
-	public static 				int			ZOOM_LEVEL							= 	1;
+	public static 				double		ZOOM_LEVEL							= 	0.2;
 	public static final			int			FONT_SIZE							=	18;
 
 	//Temp constant for the scalar in controller
@@ -175,6 +175,7 @@ public final class Constants {
 
 	public static final 		int 		ANIMAL_MATING_COUNTER_MAX			=	2400;//60*60;
 	public static final 		int 		ANIMAL_MATING_COUNTER_INTERVALL		=	60*10;
+	public static final 		int			ANIMAL_MAX_POPULATION				=	200;
 
 	//-------------------------- Resource Constants -------------------------- \\
 	public static final 		int 		TREE_UPDATE_INTERVAL 				=	12000;
@@ -239,6 +240,13 @@ public final class Constants {
 	public static final 		int			STONE_THIRST_CHANGE_ATTACK			=	0;
 
 	//GOLD\\
+
+
+
+
+
+
+
 	public static final 		int			GOLD_HUNGER_CHANGE_INTERACT			=	0;
 	public static final 		int			GOLD_ENERGY_CHANGE_INTERACT			=	0;
 	public static final 		int			GOLD_THIRST_CHANGE_INTERACT			=	0;

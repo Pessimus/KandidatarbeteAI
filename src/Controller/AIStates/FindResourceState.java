@@ -8,6 +8,7 @@ import Model.IStructure;
 import Model.ResourcePoint;
 import Model.Structures.Farm;
 import Utility.Constants;
+import Utility.RenderObject;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -29,6 +30,7 @@ public class FindResourceState implements IState {
 
 	@Override
 	public void run() {
+		brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.EXPLORING);
 		for(IStructure structure : brain.getStructureMemory()) {
 			if (structure.getStructureType() == IStructure.StructureType.FARM && brain.getStructureStack().peek() == IStructure.StructureType.FARM) {
 				brain.getStructureStack().removeFirst();

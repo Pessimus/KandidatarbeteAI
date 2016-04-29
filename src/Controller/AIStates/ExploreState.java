@@ -24,7 +24,7 @@ public class ExploreState implements IState {
     private LinkedList<PathStep> currentPath = null;
     @Override
     public void run() {
-        brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.EMPTY);
+        brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.EXPLORING);
         if(brain.getObjectToFind() != null) {
             boolean foundObject = false;
 

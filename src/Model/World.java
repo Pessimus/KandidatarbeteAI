@@ -61,6 +61,7 @@ public class World{
 	//------------------Functionality-------------------\\
 	PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private boolean pause;
+	private boolean showingCurrentActivity = false;
 
 	//-----------------Characteristics------------------\\
 	private double width;
@@ -296,14 +297,6 @@ public class World{
 
 //-----------------------------------------ADD & REMOVE METHODS-------------------------------------------------------\\
 
-	//TODO check if place is available.
-	/**
-	 * Adds a new character to the world at the specified position.
-	 * @param xPoss the position on the x axis.
-	 * @param yPoss the position on the y axis.
-	 * @return the character that was just created.
-	 */
-
 	public Character addSaruman() {
 		Character character = new Character((long) 3.0);
 
@@ -319,6 +312,12 @@ public class World{
 		return null;
 	}
 
+	/**
+	 * Adds a new character to the world at the specified position.
+	 * @param xPoss the position on the x axis.
+	 * @param yPoss the position on the y axis.
+	 * @return the character that was just created.
+	 */
 	public Character addCharacter(double xPoss, double yPoss) {
 		Character character = new Character(xPoss, yPoss);
 
@@ -344,7 +343,7 @@ public class World{
 			nbrAnimals++;
 			return animal;
 		}
-
+		animal.remove();
 		return null;
 
 	}
@@ -530,20 +529,24 @@ public class World{
 		return renderObjects;
 		*/
 
-		RenderObject[] ret = new RenderObject[collidables.getSize() + characters.size()];
+		int size = collidables.getSize();
+		if (showingCurrentActivity) {size += characters.size();}
+		RenderObject[] ret = new RenderObject[size];
 		RenderObject[] temp = collidables.getRenderObjectsFromY();
 		int i = 0;
 		for (; i < collidables.getSize(); i++) {
 			ret[i] = temp[i];
 		}
 
-		for (Character c : characters.values()) {
-			if (c.getCurrentActivityRenderObject() == null) {
-				ret[i] = new RenderObject(0,0,0, RenderObject.RENDER_OBJECT_ENUM.EMPTY);
-			} else {
-				ret[i] = c.getCurrentActivityRenderObject();
+		if (showingCurrentActivity) {
+			for (Character c : characters.values()) {
+				if (c.getCurrentActivityRenderObject() == null){
+					ret[i] = new RenderObject(0, 0, 0, RenderObject.RENDER_OBJECT_ENUM.EMPTY);
+				}else{
+					ret[i] = c.getCurrentActivityRenderObject();
+				}
+				i++;
 			}
-			i++;
 		}
 
 		return ret;
@@ -609,6 +612,9 @@ public class World{
 		return charList;
 	}
 
+	public void setShowingCurrentActivity() {
+		this.showingCurrentActivity = !showingCurrentActivity;
+	}
 }
 
 

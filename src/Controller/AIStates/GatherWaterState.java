@@ -5,6 +5,7 @@ import Model.ICollidable;
 import Model.IItem;
 import Model.IResource;
 import Model.ResourcePoint;
+import Utility.RenderObject;
 
 import java.util.Iterator;
 
@@ -40,6 +41,7 @@ public class GatherWaterState implements IState {
 					ResourcePoint tempPoint = (ResourcePoint) next;
 					if (tempPoint.getResource().getResourceType().equals(IResource.ResourceType.WATER)) {
 						brain.getBody().interactObject(i);
+						brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.DRINKING);
 						found = true;
 						break;
 					}
