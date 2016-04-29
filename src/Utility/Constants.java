@@ -33,7 +33,7 @@ public final class Constants {
 
 
 	//Zoom level not final
-	public static 				int			ZOOM_LEVEL							= 	1;
+	public static 				double		ZOOM_LEVEL							= 	0.2;
 	public static final			int			FONT_SIZE							=	18;
 
 	//Temp constant for the scalar in controller
