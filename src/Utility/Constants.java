@@ -13,20 +13,8 @@ public final class Constants {
 	// ----------- Controller Constants ----------- \\
 
 
-	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()
-
-
-
-
-
-
-
-
-
-
-
-			;
+	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2;
+	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2;
 
     /*
     public static final         int         GRASS_START_PIXEL_X                 =   650;

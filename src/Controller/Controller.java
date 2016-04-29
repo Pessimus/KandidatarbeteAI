@@ -447,6 +447,9 @@ public class Controller implements PropertyChangeListener {
 			case Input.KEY_H:
 				gameView.toggleShowCommands();
 				break;
+			case Input.KEY_S:
+				gameView.toggleShowStats();
+				break;
 			case Input.KEY_1:
 				handleNumberPressed(1);
 				break;

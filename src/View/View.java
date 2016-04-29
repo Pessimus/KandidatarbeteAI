@@ -49,6 +49,7 @@ public class View extends BasicGameState implements InputListener{
 	private boolean displayPlayerNeeds = false;
 	private boolean displayPause = false;
 	private boolean displayCommands = false;
+	private boolean displayStats = false;
 	private boolean displayBuildingInProcess = false;
 
 	private final Semaphore semaphore = new Semaphore(1);
@@ -89,7 +90,6 @@ public class View extends BasicGameState implements InputListener{
 		}
 
 		awtFont  = new java.awt.Font("Verdana", java.awt.Font.BOLD, Constants.FONT_SIZE/Constants.ZOOM_LEVEL);
-//		awtFont  = new java.awt.Font("SWTOR Trajan", java.awt.Font.BOLD, Constants.FONT_SIZE/Constants.ZOOM_LEVEL);
 		font =  new TrueTypeFont(awtFont, false);
 
 		pcs.firePropertyChange("startController", false, true);
@@ -190,8 +190,6 @@ public class View extends BasicGameState implements InputListener{
 			this.displayNeeds(gameContainer, graphics);
 		}
 
-		// ----------- Temporary display of the inventory ----------- \\
-
 		if (displayInventory) {
 			this.displayInventory(gameContainer, graphics);
 		}
@@ -212,15 +210,26 @@ public class View extends BasicGameState implements InputListener{
 			this.displayBuildingInProcess(gameContainer, graphics);
 		}
 
+		if(displayStats){
+			this.displayStats(gameContainer, graphics);
+		}
+	}
 
-		float xPosText = gameContainer.getWidth()/(2*scaleGraphicsX)-halfTextWidth;
-		float yPosText = gameContainer.getHeight()/(4*scaleGraphicsY);
+	private void displayStats(GameContainer gameContainer, Graphics graphics) throws SlickException {
+		//float xPosText = gameContainer.getWidth()/(2*scaleGraphicsX)-halfTextWidth;
+		float xPosText = borderMargin;
+		//float yPosText = gameContainer.getHeight()/(4*scaleGraphicsY);
+		float yPosText = borderMargin*2;
 		float ydiff = graphics.getFont().getHeight("N");
-		graphics.drawString("Number of characters: "+ World.nbrCharacters	, xPosText, yPosText);
-		graphics.drawString("Number of Animals   : "+ World.nbrAnimals		, xPosText, yPosText+ydiff);
-		graphics.drawString("Number of trees     : "+ World.nbrTrees		, xPosText, yPosText+2*ydiff);
-		graphics.drawString("Number of structures: "+ World.nbrStructures	, xPosText, yPosText+3*ydiff);
-		graphics.drawString("Number of TIME	     : "+ World.nbrTime			, xPosText, yPosText+4*ydiff);
+		float xLength = (float)(graphics.getFont().getWidth("Number of structures: ")*1.5);
+		new Image("res/ui_needs.png").draw(xPosText-borderMargin,yPosText-borderMargin*2,xLength+borderMargin*2,ydiff*6+borderMargin*4);
+		graphics.setColor(Color.black);
+
+		graphics.drawString("Number of characters   :   "+ World.nbrCharacters	, xPosText, yPosText);
+		graphics.drawString("Number of Animals       :   "+ World.nbrAnimals		, xPosText, yPosText+ydiff);
+		graphics.drawString("Number of trees            :   "+ World.nbrTrees		, xPosText, yPosText+2*ydiff);
+		graphics.drawString("Number of structures   :   "+ World.nbrStructures	, xPosText, yPosText+3*ydiff);
+		graphics.drawString("Number of TIME	            :   "+ World.nbrTime			, xPosText, yPosText+4*ydiff);
 	}
 
 	private void displayBuildingInProcess(GameContainer gameContainer, Graphics graphics) throws SlickException {
@@ -229,16 +238,16 @@ public class View extends BasicGameState implements InputListener{
 		y=(int)(gameContainer.getHeight()/scaleGraphicsY)-x-borderMargin*2;
 		Image tmpImg = new Image("res/ui_building_options.png");
 
-		tmpImg.draw(x*3, y, x, x);
-		resourceMap.get(RenderObject.RENDER_OBJECT_ENUM.HOUSE).draw(x*3+x/4, y+x/4, x/2, x/2);
-		graphics.drawString("1", x*3+x/2-xDiffText, y+20);
+		tmpImg.draw(x * 3, y, x, x);
+		resourceMap.get(RenderObject.RENDER_OBJECT_ENUM.HOUSE).draw(x * 3 + x / 4, y + x / 4, x / 2, x / 2);
+		graphics.drawString("1", x * 3 + x / 2 - xDiffText, y + 20);
 
 		tmpImg.draw(x * 4, y, x, x);
-		resourceMap.get(RenderObject.RENDER_OBJECT_ENUM.FARM).draw(x*4+x/4, y+x/4, x/2, x/2);
-		graphics.drawString("2", x*4+x/2-xDiffText, y+20);
+		resourceMap.get(RenderObject.RENDER_OBJECT_ENUM.FARM).draw(x * 4 + x / 4, y + x / 4, x / 2, x / 2);
+		graphics.drawString("2", x * 4 + x / 2 - xDiffText, y + 20);
 
 		tmpImg.draw(x * 5, y, x, x);
-		resourceMap.get(RenderObject.RENDER_OBJECT_ENUM.STOCKPILE).draw(x*5+x/4, y+x/4, x/2, x/2);
+		resourceMap.get(RenderObject.RENDER_OBJECT_ENUM.STOCKPILE).draw(x * 5 + x / 4, y + x / 4, x / 2, x / 2);
 		graphics.drawString("3", x*5+x/2-xDiffText, y+20);
 	}
 
@@ -530,6 +539,10 @@ public class View extends BasicGameState implements InputListener{
 
 	public void toggleShowCommands() {
 		displayCommands = !displayCommands;
+	}
+
+	public void toggleShowStats(){
+		displayStats = !displayStats;
 	}
 
 }
