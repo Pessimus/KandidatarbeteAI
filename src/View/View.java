@@ -209,10 +209,7 @@ public class View extends BasicGameState implements InputListener{
 		}
 
 		if(displayBuildingInProcess){
-			halfTextWidth = graphics.getFont().getWidth("Building in process")/2;
-			float buildingWidth = gameContainer.getWidth()/(2*scaleGraphicsX)-halfTextWidth;
-			float buildingHeight = gameContainer.getHeight()/(4*scaleGraphicsY);
-			graphics.drawString("Building in process", buildingWidth, buildingHeight);
+			this.displayBuildingInProcess(gameContainer, graphics);
 		}
 
 
@@ -226,6 +223,24 @@ public class View extends BasicGameState implements InputListener{
 		graphics.drawString("Number of TIME	     : "+ World.nbrTime			, xPosText, yPosText+4*ydiff);
 	}
 
+	private void displayBuildingInProcess(GameContainer gameContainer, Graphics graphics) throws SlickException {
+		float xDiffText = graphics.getFont().getWidth("1")/2;
+		x=(int)(gameContainer.getWidth()/9/scaleGraphicsX);
+		y=(int)(gameContainer.getHeight()/scaleGraphicsY)-x-borderMargin*2;
+		Image tmpImg = new Image("res/ui_building_options.png");
+
+		tmpImg.draw(x*3, y, x, x);
+		resourceMap.get(RenderObject.RENDER_OBJECT_ENUM.HOUSE).draw(x*3+x/4, y+x/4, x/2, x/2);
+		graphics.drawString("1", x*3+x/2-xDiffText, y+20);
+
+		tmpImg.draw(x * 4, y, x, x);
+		resourceMap.get(RenderObject.RENDER_OBJECT_ENUM.FARM).draw(x*4+x/4, y+x/4, x/2, x/2);
+		graphics.drawString("2", x*4+x/2-xDiffText, y+20);
+
+		tmpImg.draw(x * 5, y, x, x);
+		resourceMap.get(RenderObject.RENDER_OBJECT_ENUM.STOCKPILE).draw(x*5+x/4, y+x/4, x/2, x/2);
+		graphics.drawString("3", x*5+x/2-xDiffText, y+20);
+	}
 
 	int borderMargin = 10;
 	private void drawInventoryBackground(GameContainer gameContainer, Graphics graphics) throws SlickException {
@@ -310,7 +325,7 @@ public class View extends BasicGameState implements InputListener{
 		float yPosText = ydiff;
 		new Image("res/ui_needs.png").draw(xPosText-borderMargin,yPosText-borderMargin*2,xLength+borderMargin*2,ydiff*6+borderMargin*4);
 		graphics.setColor(Color.black);
-		graphics.drawString("X     :  Show activity", 	xPosText, yPosText + 0 * ydiff);
+		graphics.drawString("X     :  Show activity", xPosText, yPosText + 0 * ydiff);
 		graphics.drawString("P     :  Pause", 			xPosText, yPosText + 1 * ydiff);
 		graphics.drawString("F1   :  Normal speed", 	xPosText, yPosText + 2 * ydiff);
 		graphics.drawString("F2   :  Faster speed", 	xPosText, yPosText + 3 * ydiff);
