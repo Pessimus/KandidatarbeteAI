@@ -2,6 +2,7 @@ package Controller.AIStates;
 
 import Controller.ArtificialBrain;
 import Model.ICollidable;
+import Model.IItem;
 import Model.IResource;
 import Model.ResourcePoint;
 import Utility.RenderObject;
@@ -24,28 +25,36 @@ public class GatherGoldState implements IState {
 
 	@Override
 	public void run() {
-		Iterator<ICollidable> iterator = brain.getBody().getInteractables().iterator();
-		int i = 0;
-		boolean found = false;
-		while (iterator.hasNext()) {
-			ICollidable next = iterator.next();
-			if(next.getClass().equals(ResourcePoint.class)){
-				ResourcePoint tempPoint = (ResourcePoint) next;
-				if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.GOLD)) {
-					brain.getBody().interactObject(i);
-					brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.PICKING);
-					brain.getGatherStack().remove();
-					found = true;
-					break;
+		int goldAmount = brain.getBody().getInventory()
+				.stream()
+				.filter(o -> o.getType().equals(IItem.Type.GOLD_ITEM))
+				.mapToInt(IItem::getAmount)
+				.sum();
+
+		if(goldAmount < brain.getNextResourceToGather().resourceAmount) {
+			Iterator<ICollidable> iterator = brain.getBody().getInteractables().iterator();
+			int i = 0;
+			boolean found = false;
+			while (iterator.hasNext()) {
+				ICollidable next = iterator.next();
+				if(next.getClass().equals(ResourcePoint.class)){
+					ResourcePoint tempPoint = (ResourcePoint) next;
+					if(tempPoint.getResource().getResourceType().equals(IResource.ResourceType.GOLD)) {
+						brain.getBody().interactObject(i);
+						brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.PICKING);
+						found = true;
+						break;
+					}
 				}
+
+				i++;
 			}
 
-			i++;
-		}
-
-		if(!found){
-			brain.setState(brain.getGatherState());
+			if (!found) {
+				brain.setState(brain.getGatherState());
+			}
 		} else {
+			brain.getGatherStack().remove();
 			brain.setState(brain.getIdleState());
 		}
 	}

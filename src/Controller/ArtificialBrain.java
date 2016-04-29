@@ -30,7 +30,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private LinkedList<LinkedList<PathStep>> pathStack = new LinkedList<>();
 	private LinkedList<Point> pointStack = new LinkedList<>();
 
-	private LinkedList<IResource.ResourceType> gatherStack = new LinkedList<>();
+	private LinkedList<ResourceTuple> gatherStack = new LinkedList<>();
 
 	private LinkedList<IResource.ResourceType> resourceToFindStack = new LinkedList<>();
 
@@ -317,15 +317,15 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return workFarmState;
 	}
 
-	public IResource.ResourceType getNextResourceToGather() {
+	public ResourceTuple getNextResourceToGather() {
 		return gatherStack.peek();
 	}
 
-	public LinkedList<IResource.ResourceType> getGatherStack(){
+	public LinkedList<ResourceTuple> getGatherStack(){
 		return gatherStack;
 	}
 
-	public void stackResourceToGather(IResource.ResourceType stackedResource){
+	public void stackResourceToGather(ResourceTuple stackedResource){
 		gatherStack.push(stackedResource);
 	}
 

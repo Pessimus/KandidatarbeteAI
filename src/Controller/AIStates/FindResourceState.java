@@ -20,7 +20,7 @@ public class FindResourceState implements IState {
 
 	private LinkedList<PathStep> currentPath = null;
 	private LinkedList<IState> statesToThrow = new LinkedList<>();
-	private LinkedList<IResource.ResourceType> resourcesToThrow = new LinkedList<>();
+	private LinkedList<ResourceTuple> resourcesToThrow = new LinkedList<>();
 	private double currentDirection = 0;
 
 	public FindResourceState(ArtificialBrain b){
@@ -67,37 +67,42 @@ public class FindResourceState implements IState {
 					}
 				}
 				if (statesToThrow != null) {
-					for (IState state : statesToThrow) {
-						brain.getStateQueue().remove(state);
+					if(!statesToThrow.isEmpty()) {
+						for (IState state : statesToThrow) {
+							brain.getStateQueue().remove(state);
+						}
+						statesToThrow.clear();
 					}
-					statesToThrow.clear();
 				}
 
 				for (IResource.ResourceType resource : brain.getResourceToFindStack()) {
 					if (resource == IResource.ResourceType.WOOD || resource == IResource.ResourceType.STONE) {
+						resourcesToThrow.add(new ResourceTuple(resource, 1));
+					}
+				}
+
+				if (resourcesToThrow != null) {
+					if(!resourcesToThrow.isEmpty()) {
+						for (ResourceTuple resource : resourcesToThrow) {
+							brain.getResourceToFindStack().remove(resource.resourceType);
+						}
+						resourcesToThrow.clear();
+					}
+				}
+
+
+				for (ResourceTuple resource : brain.getGatherStack()) {
+					if (resource.resourceType == IResource.ResourceType.WOOD || resource.resourceType == IResource.ResourceType.STONE) {
 						resourcesToThrow.add(resource);
 					}
 				}
 
 				if (resourcesToThrow != null) {
-					for (IResource.ResourceType resource : resourcesToThrow) {
-						brain.getResourceToFindStack().remove(resource);
+					if(!resourcesToThrow.isEmpty()) {
+						for (ResourceTuple resource : resourcesToThrow) {
+							brain.getGatherStack().remove(resource);
+						}
 					}
-					resourcesToThrow.clear();
-				}
-
-
-				for (IResource.ResourceType resource : brain.getGatherStack()) {
-					if (resource == IResource.ResourceType.WOOD || resource == IResource.ResourceType.STONE) {
-						resourcesToThrow.add(resource);
-					}
-				}
-
-				if (resourcesToThrow != null) {
-					for (IResource.ResourceType resource : resourcesToThrow) {
-						brain.getGatherStack().remove(resource);
-					}
-
 				}
 
 				brain.setState(brain.getIdleState());
