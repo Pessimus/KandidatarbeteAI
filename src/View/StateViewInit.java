@@ -139,4 +139,8 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 	public void hidePlayerInventory(){
 		view.hideInventory();
 	}
+
+	public void toggleShowCommands() {
+		view.toggleShowCommands();
+	}
 }

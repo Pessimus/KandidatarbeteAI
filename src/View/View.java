@@ -48,13 +48,14 @@ public class View extends BasicGameState implements InputListener{
 	private boolean displayInventory = false;
 	private boolean displayPlayerNeeds = false;
 	private boolean displayPause = false;
+	private boolean displayCommands = false;
 	private boolean displayBuildingInProcess = false;
 
 	private final Semaphore semaphore = new Semaphore(1);
 	private final Map<RenderObject.RENDER_OBJECT_ENUM, Image> resourceMap = new HashMap<>();
 	private final Map<Model.IItem.Type, Image> inventoryMap = new HashMap<>();
 
-    public enum INPUT_ENUM {
+	public enum INPUT_ENUM {
 		KEY_RELEASED(0), KEY_PRESSED(1),
 		MOUSE_RELEASED(0), MOUSE_PRESSED(1), MOUSE_MOVED(2),
 		MOUSE_WHEEL_MOVED(0);
@@ -195,6 +196,10 @@ public class View extends BasicGameState implements InputListener{
 			this.displayInventory(gameContainer, graphics);
 		}
 
+		if(displayCommands){
+			this.displayCommands(gameContainer, graphics);
+		}
+
 		if(displayPause){
 			halfTextWidth = graphics.getFont().getWidth("Paused")/2;
 			halfTextHeight = graphics.getFont().getHeight("Paused")/2;
@@ -295,6 +300,22 @@ public class View extends BasicGameState implements InputListener{
 				j--;
 			}
 		}
+	}
+
+	private void displayCommands(GameContainer gameContainer, Graphics graphics) throws SlickException {
+		float ydiff = graphics.getFont().getHeight("N");
+		float xLength = graphics.getFont().getWidth("TAB :  Change character")+5;
+
+		float xPosText =(int)(gameContainer.getWidth()/scaleGraphicsX)-xLength;
+		float yPosText = ydiff;
+		new Image("res/ui_needs.png").draw(xPosText-borderMargin,yPosText-borderMargin*2,xLength+borderMargin*2,ydiff*6+borderMargin*4);
+		graphics.setColor(Color.black);
+		graphics.drawString("X     :  Show activity", 	xPosText, yPosText + 0 * ydiff);
+		graphics.drawString("P     :  Pause", 			xPosText, yPosText + 1 * ydiff);
+		graphics.drawString("F1   :  Normal speed", 	xPosText, yPosText + 2 * ydiff);
+		graphics.drawString("F2   :  Faster speed", 	xPosText, yPosText + 3 * ydiff);
+		graphics.drawString("F3   :  Fastest speed", 	xPosText, yPosText + 4 * ydiff);
+		graphics.drawString("TAB :  Change character", 	xPosText, yPosText + 5 * ydiff);
 	}
 
 	private void displayNeeds(GameContainer gameContainer, Graphics graphics) throws SlickException {
@@ -488,10 +509,12 @@ public class View extends BasicGameState implements InputListener{
 		displayBuildingInProcess = !displayBuildingInProcess;
 	}
 
-
 	public void setItemInFocus(int index){
 		inventoryIndex = index;
 	}
 
+	public void toggleShowCommands() {
+		displayCommands = !displayCommands;
+	}
 
 }
