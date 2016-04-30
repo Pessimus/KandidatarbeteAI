@@ -61,7 +61,7 @@ public class View extends BasicGameState implements InputListener{
 	public enum INPUT_ENUM {
 		KEY_RELEASED(0), KEY_PRESSED(1),
 		MOUSE_RELEASED(0), MOUSE_PRESSED(1), MOUSE_MOVED(2),
-		MOUSE_WHEEL_MOVED(0);
+		MOUSE_WHEEL_MOVED(3);
 
         public int value;
         //String
@@ -78,6 +78,13 @@ public class View extends BasicGameState implements InputListener{
 		scaleGUIX = (float)(scaleX/Constants.ZOOM_LEVEL);
 		scaleGUIY = (float)(scaleY/Constants.ZOOM_LEVEL);
     }
+
+	public void setScale(float scaleX, float scaleY){
+		scaleGraphicsX = scaleX;
+		scaleGraphicsY = scaleY;
+		scaleGUIX = (float)(scaleX/Constants.ZOOM_LEVEL);
+		scaleGUIY = (float)(scaleY/Constants.ZOOM_LEVEL);
+	}
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {

@@ -5,6 +5,7 @@ import Model.Character;
 import Utility.Constants;
 import Utility.RenderObject;
 import View.*;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.lwjgl.Sys;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.BasicGameState;
@@ -157,14 +158,10 @@ public class Controller implements PropertyChangeListener {
 		timer.scheduleAtFixedRate(task, 0, 1000 / gameSpeed);
 	}
 
-	private int updateCounter = 0;
-	private int updateCounterMax = 1;
 	private boolean paused = false;
 	public void update(){
 		updateInput();
 
-		/*updateCounter = (updateCounter+1)%updateCounterMax;
-		if(updateCounter == 0 && !paused) {*/
 		if(!paused) {
 			player.update();
 			for (AbstractBrain brain : aiMap.values()) {
@@ -600,8 +597,25 @@ public class Controller implements PropertyChangeListener {
 					mouseX = clicks[3];
 					mouseY = clicks[4];
 				} else if(clicks[0] == View.INPUT_ENUM.MOUSE_WHEEL_MOVED.value){
+					this.changeZoom(clicks[1]);
 				}
 			}
+		}
+	}
+
+	private void changeZoom(int value) {
+		double zoom;
+		if(value>0){
+			zoom = Constants.ZOOM_LEVEL + 0.1;
+		}else {
+			zoom = Constants.ZOOM_LEVEL - 0.1;
+		}
+		System.out.println(zoom);
+		if(zoom >= 0.2 && zoom < 2) {
+			Constants.ZOOM_LEVEL = zoom;
+			scaleGraphicsX = Constants.SCREEN_WIDTH * Constants.ZOOM_LEVEL / Constants.STANDARD_SCREEN_WIDTH;
+			scaleGraphicsY = Constants.SCREEN_HEIGHT * Constants.ZOOM_LEVEL / Constants.STANDARD_SCREEN_HEIGHT;
+			gameView.setScale((float) scaleGraphicsX, (float) scaleGraphicsY);
 		}
 	}
 
@@ -633,7 +647,9 @@ public class Controller implements PropertyChangeListener {
 			Integer[] newValue = (Integer[]) evt.getNewValue();
 			keyboardInputQueue.offer(newValue);
 		}
-		else if(evt.getPropertyName().equals(View.INPUT_ENUM.MOUSE_PRESSED.toString()) || evt.getPropertyName().equals(View.INPUT_ENUM.MOUSE_RELEASED.toString())){
+		else if(evt.getPropertyName().equals(View.INPUT_ENUM.MOUSE_PRESSED.toString())
+				|| evt.getPropertyName().equals(View.INPUT_ENUM.MOUSE_RELEASED.toString())
+				|| evt.getPropertyName().equals(View.INPUT_ENUM.MOUSE_WHEEL_MOVED.toString())){
 			// If the View is sending 'Mouse'-inputs, put them in the correct queue.
 			Integer[] newValue = (Integer[]) evt.getNewValue();
 			mouseInputQueue.offer(newValue);

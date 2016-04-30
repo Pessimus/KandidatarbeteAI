@@ -148,4 +148,8 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 	public void toggleShowStats() {
 		view.toggleShowStats();
 	}
+
+	public void setScale(float scaleX, float scaleY){
+		view.setScale(scaleX,scaleY);
+	}
 }
