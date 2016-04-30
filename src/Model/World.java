@@ -246,22 +246,6 @@ public class World{
 		}
 	}
 
-	// Pause the game, if P is pressed, pause() will pause the update lopp
-	/**
-	 * Swaps the boolean value of 'pause', if 'pause' is true the update function wil not change the world.
-	 */
-	public void togglePause() {
-		if (!pause) {
-			pause = true;
-		} else {
-			pause = false;
-		}
-	}
-
-	public void setPause(boolean b) {
-		pause = b;
-	}
-
 //-----------------------------------------ADD & REMOVE METHODS-------------------------------------------------------\\
 
 	/**
