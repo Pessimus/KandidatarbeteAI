@@ -21,7 +21,8 @@ public class Schedule {
 	public static void executeTasks(){
 		//long time = (long)(System.currentTimeMillis()/1000+0.5)*1000;
 		LinkedList<ITask> rm = new LinkedList<>();
-		for(ITask task : tasks){
+		LinkedList<ITask> copy = (LinkedList<ITask>)tasks.clone();
+		for(ITask task : copy){
 			if(task.toBeRemoved()){
 				task.interrupt();
 				rm.add(task);

@@ -179,7 +179,7 @@ public class House implements IStructure {
 	@Override
 	/**{@inheritDoc}*/
 	public void interacted(Model.Character rhs) {
-		rhs.changeEnergy(Constants.CHARACTER_ENERGY_MAX);
+		//rhs.changeEnergy(Constants.CHARACTER_ENERGY_MAX);
 		rhs.enterHouse(this);
 		Schedule.addTask(new InteractTask(this,rhs,Constants.HOUSE_INTERACTION_TIME));
 	}
@@ -202,8 +202,14 @@ public class House implements IStructure {
 
 	@Override
 	public void interactedCommand(Character rhs) {
-		rhs.changeEnergy(Constants.CHARACTER_ENERGY_MAX);
-		rhs.exitHouse(this);
+		//rhs.changeEnergy(Constants.CHARACTER_ENERGY_MAX);
+		rhs.changeEnergy(Constants.HOUSE_ENERGY_CHANGE);
+		System.out.println(rhs.getNeeds()[2]);
+		if(rhs.getNeeds()[2]>90){
+			rhs.exitHouse(this);
+		}else{
+			Schedule.addTask(new InteractTask(this,rhs,Constants.HOUSE_INTERACTION_TIME));
+		}
 	}
 
 	@Override
