@@ -32,6 +32,7 @@ public class GatherMeatState implements IState {
 			ICollidable next = iterator.next();
 			if(next.getClass().equals(Animal.class)){
 				brain.getBody().attackObject(i);
+				brain.setAnimalTime(3000);
 				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.HUNTING);
 				brain.getGatherStack().remove();
 				found = true;

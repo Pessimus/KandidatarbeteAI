@@ -54,4 +54,10 @@ public class FollowState implements IState {
 			brain.setState(brain.getIdleState());
         }
     }
+
+    public void clearPath () {
+        currentPath = null;
+    }
+
+
 }

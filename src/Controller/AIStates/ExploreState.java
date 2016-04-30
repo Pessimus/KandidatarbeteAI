@@ -22,6 +22,9 @@ public class ExploreState implements IState {
         brain = b;
     }
     private LinkedList<PathStep> currentPath = null;
+    public void clearPath() {
+        currentPath = null;
+    }
     @Override
     public void run() {
         brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.EXPLORING);
@@ -64,4 +67,6 @@ public class ExploreState implements IState {
         currentPath = null;
         brain.setState(brain.getIdleState());
     }
+
+
 }

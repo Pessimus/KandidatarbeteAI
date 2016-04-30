@@ -89,6 +89,12 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private ICollidable objectToFollow = null;
 	private Class objectToFind = null;
 
+	private int timeSinceAnimalSighting = 1000; //a counter to keep track of the time since an animal was sighted. If it was a short time ago the chance that the AI will choose to hunt increases
+	public int getAnimalTime() {
+		return Math.min(timeSinceAnimalSighting, 3000)/7500;
+	}
+	public void setAnimalTime(int i) {timeSinceAnimalSighting = i;}
+
 	//Construction variables - What are we building?
 	private LinkedList<IStructure.StructureType> buildStack = new LinkedList<>();
 	
@@ -123,6 +129,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 			if(needsArray[0] < 80 || needsArray[1] < 80 || needsArray[2] < 80) {
 				if (!stateQueue.contains(this.getHungryState()) && !stateQueue.contains(this.getThirstyState()) && !stateQueue.contains(this.getLowEnergyState())) {
+					clearStatePaths();
 					getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.EMPTY);
 					for (int i = 0; i < needsArray.length; i++) {
 						if (needsArray[i] < minVal) {
@@ -178,6 +185,15 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 				.map(o -> (IStructure)o)
 				.filter(o -> !structureMemory.contains(o))
 				.forEach(structureMemory::add);
+
+		if (timeSinceAnimalSighting < 3000) {timeSinceAnimalSighting++;}
+		for (ICollidable c : body.getSurroundings()) {
+			if (c.getClass().equals(Animal.class)) {
+				timeSinceAnimalSighting = 0;
+				break;
+			}
+		}
+
 	}
 
 	@Override
@@ -514,6 +530,8 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return pointStack;
 	}
 
+	public Point getNextPoint() {return pointStack.peek();}
+
 	public void stackPoint(Point p) {
 		pointStack.offer(p);
 	}
@@ -534,6 +552,13 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return findCharacterState;
 	}
 
+	private void clearStatePaths() {
+		((ExploreState) this.getExploreState()).clearPath();
+		((FindCharacterState) this.getFindCharacterState()).clearPath();
+		((FindResourceState) this.getFindResourceState()).clearPath();
+		((FollowState) this.getFollowState()).clearPath();
+		((HuntingState) this.getHuntingState()).clearPath();
+	}
 	/*public void finalWords() {
 		int[] needs = body.getNeeds();
 		int age = body.getAge();

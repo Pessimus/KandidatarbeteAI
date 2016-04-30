@@ -23,8 +23,8 @@ public class HuntingState implements IState {
 
 	@Override
 	public void run() {
-		brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.HUNTING);
-		if (World.nbrAnimals > 9 && !brain.getStateQueue().contains(brain.getGatherMeatState())) {
+		brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_HUNTING);
+		if (World.nbrAnimals > 15 && !brain.getStateQueue().contains(brain.getGatherMeatState())) {
 			boolean foundObject = false;
 			for (ICollidable o : brain.getBody().getSurroundings()) {
 				if (o.getClass().equals(Animal.class)) {
@@ -64,4 +64,9 @@ public class HuntingState implements IState {
 			brain.setState(brain.getIdleState());
 		}
 	}
+
+	public void clearPath () {
+		currentPath = null;
+	}
+
 }

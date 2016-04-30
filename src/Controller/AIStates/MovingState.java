@@ -35,7 +35,7 @@ public class MovingState implements IState {
 			} else if (brain.getStateQueue().peek().getClass().equals(GatherMeatState.class)) {
 				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_HUNTING);
 			} else if (brain.getStateQueue().peek().getClass().equals(SleepingState.class) || brain.getStateQueue().peek().getClass().equals(RestingState.class)) {
-				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_PICKING);
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_SLEEPING);
 			} else if (brain.getStateQueue().peek().getClass().equals(BuildingState.class)) {
 				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_BUILDING);
 			} else if (brain.getStateQueue().peek().getClass().equals(GatherCropsState.class)) {

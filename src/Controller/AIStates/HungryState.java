@@ -37,8 +37,12 @@ public class HungryState implements IState {
 			brain.stackState(this);
 
 			if (best == null) {
-				brain.stackResourceToGather(IResource.ResourceType.FOOD);
-				brain.setState(brain.getGatherState());
+				if (Math.random() > brain.getAnimalTime()*4 && World.nbrAnimals > 15) {
+					brain.setState(brain.getHuntingState());
+				} else {
+					brain.stackResourceToGather(IResource.ResourceType.FOOD);
+					brain.setState(brain.getGatherState());
+				}
 			} else {
 				brain.setState(brain.getEatState());
 			}

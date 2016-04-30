@@ -52,10 +52,10 @@ public class IdleState implements IState {
 					} else{
 						r = new Random();
 						d = r.nextDouble();
-						if (d > 0.7){
-							brain.stackState(brain.getGatherState());
-						} else if(d > 0.3 && d < 0.7) {
+						if (d > 0.5+brain.getAnimalTime() && World.nbrAnimals > 15){
 							brain.stackState(brain.getHuntingState());
+						} else if(d > 0.4 && d < 0.5+brain.getAnimalTime()) {
+							brain.stackState(brain.getGatherState());
 						}else {
 							brain.stackState(brain.getWorkFarmState());
 						}

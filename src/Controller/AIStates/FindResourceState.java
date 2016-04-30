@@ -103,6 +103,7 @@ public class FindResourceState implements IState {
 				}
 
 				brain.setState(brain.getIdleState());
+				currentPath = null;
 
 			}
 		}
@@ -142,4 +143,9 @@ public class FindResourceState implements IState {
 			brain.setState(brain.getIdleState());
 		}
 	}
+
+	public void clearPath () {
+		currentPath = null;
+	}
+
 }
