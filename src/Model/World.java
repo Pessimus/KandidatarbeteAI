@@ -19,34 +19,6 @@ import java.util.LinkedList;
  * Created by Martin on 23/02/2016.
  */
 public class World{
-	//TODO-------------------------------????-------------------------------------------------------------------------\\
-//TODO REMOVE
-//	public enum GAMESPEED {
-//		NORMAL(1), FAST(1.5), FASTER(2);
-//
-//		private final double gameSpeed;
-//
-//		GAMESPEED(double gameSpeed) {
-//			this.gameSpeed = gameSpeed;
-//		}
-//
-//		public double getGameSpeed() {
-//			return gameSpeed;
-//		}
-//	}
-//
-//	private static double gameSpeed;
-//	public static double getGameSpeed() {
-//		return gameSpeed;
-//	}
-//	public static void setGameSpeed(double gs) {
-//		gameSpeed = gs;
-//	}
-
-//TODO REMOVE test method.
-//	public void hit() {
-//		this.characters.get(1).hit();
-//	}
 
 	public static int nbrCharacters = 0;
 	public static int nbrStructures = 0;
@@ -54,12 +26,10 @@ public class World{
 	public static int nbrAnimals = 0;
 	public static int nbrTime = 0;
 
-	//TODO-------------------------------END ????---------------------------------------------------------------------\\
-
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 
 	//------------------Functionality-------------------\\
-	PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+	//PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private boolean pause;
 	private boolean showingCurrentActivity = false;
 
@@ -205,8 +175,6 @@ public class World{
 
 			updateCharacters();
 
-			//TODO Code for updating the character (movement and actions?)
-
 		}
 	}
 
@@ -225,7 +193,6 @@ public class World{
 		}
 	}
 
-	//TODO Add parameter for fast-forward
 	/**
 	 * Private method for updating the values of all objects in the world that depend on time.
 	 */
@@ -296,21 +263,6 @@ public class World{
 	}
 
 //-----------------------------------------ADD & REMOVE METHODS-------------------------------------------------------\\
-
-	public Character addSaruman() {
-		Character character = new Character((long) 3.0);
-
-		if(collidables.canAdd(character)) {
-			this.collidablesR.add(character);
-			this.collidables.add(character);
-			this.timeables.add(character);
-			this.characters.put(character.getKey(), character);
-			nbrCharacters++;
-			return character;
-		}
-
-		return null;
-	}
 
 	/**
 	 * Adds a new character to the world at the specified position.
@@ -520,14 +472,6 @@ public class World{
 	 * @return a list of all objects in the world, represented as RenderObjects.
 	 */
 	public RenderObject[] getRenderObjects() {
-		/*TODO remove this
-		RenderObject[] renderObjects = new RenderObject[collidables.getSize()];
-
-		for (int i = 0; i < collidablesR.size(); i++) {
-			renderObjects[i] = collidablesR.get(i).getRenderObject();
-		}
-		return renderObjects;
-		*/
 
 		int size = collidables.getSize();
 		if (showingCurrentActivity) {size += characters.size();}
@@ -553,7 +497,6 @@ public class World{
 
 	}
 
-	//TODO better MVC praxis
 	/**
 	 * @return a list of all items in the player characters inventory, represented as InventoryRenders
 	 */
@@ -564,27 +507,6 @@ public class World{
 			return new LinkedList<>();
 		}
 	}
-
-
-//------------------------------------------------PCS METHODS---------------------------------------------------------\\
-
-	/**
-	 * Adds a property change listener to the world.
-	 * @param listener the listener to be added.
-	 */
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		pcs.addPropertyChangeListener(listener);
-	}
-
-	/**
-	 * Removes a property change listener from the world.
-	 * @param listener the listener to be removed.
-	 */
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		pcs.removePropertyChangeListener(listener);
-	}
-
-
 
 //---------------------------------------Getters & Setters------------------------------------------------------------\\
 

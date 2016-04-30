@@ -18,16 +18,6 @@ import java.util.*;
  * Created by Tobias on 2016-02-26.
  */
 public class Controller implements PropertyChangeListener {
-//TODO-----------------------------------????-------------------------------------------------------------------------\\
-
-//TODO REMOVE deprecated method
-//	private void handleModelEvent(PropertyChangeEvent evt){
-//		if(evt.getPropertyName().equals("update")){
-//			//updateView();
-//	}
-
-
-//TODO-----------------------------------END ????---------------------------------------------------------------------\\
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 
 	//-------------------MVC variables------------------\\
@@ -39,7 +29,6 @@ public class Controller implements PropertyChangeListener {
 	private HashMap<Character, AbstractBrain> aiMap = new HashMap<>();
 
 	//-----------------Model variables------------------\\
-	//TODO MEMO check what it affects
 	private int gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
 
 	private boolean playerViewCentered = true;
@@ -86,41 +75,28 @@ public class Controller implements PropertyChangeListener {
 
 		screenRect = new ModelToViewRectangle(Constants.DEFAULT_WORLD_VIEW_X, Constants.DEFAULT_WORLD_VIEW_Y, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
 
-		//TODO this is hardcoded testing code. Remove after Testing is done!!
-				Character pc;
-				do{
-					pc = gameModel.addCharacter(20, 20);
-				} while(pc == null);
-				pc.setKey(Constants.PLAYER_CHARACTER_KEY);
-				player = new PlayerBrain(pc);
+		//Add player character.
+		Character pc;
+		do{
+			pc = gameModel.addCharacter(20, 20);
+		} while(pc == null);
+		pc.setKey(Constants.PLAYER_CHARACTER_KEY);
+		player = new PlayerBrain(pc);
+		pc.godMode = true;
 
-				((Character)player.getBody()).godMode = true;
+		//Add AI characters.
+		Random r = new Random();
 
-				/*Character character2 = gameModel.addCharacter(1500, 2500);
-				aiMap.put(character2, new ArtificialBrain(gameModel, character2));
-				Character character3 = gameModel.addCharacter(1500, 2525);
-				aiMap.put(character3, new ArtificialBrain(gameModel, character3));
-
-				Character character4 = gameModel.addCharacter(1470, 2550);
-				aiMap.put(character4, new ArtificialBrain(gameModel, character4));*/
-				Character saruman = gameModel.addSaruman();
-				if(saruman != null) {
-					aiMap.put(saruman, new ArtificialBrain(gameModel, saruman));
-				}
-
-				Random r = new Random();
-
-				for(int i = 0; i < Constants.NUMBER_OF_NPCS; i++) {
-					Character character = gameModel.addCharacter(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
-					if(character != null) {
-						aiMap.put(character, new ArtificialBrain(gameModel, character));
-					}else {
-						i--;
-					}
-				}
-		if(gameModel.getCharacterList().size() > 0) {
-			currentCharacter = gameModel.getCharacterList().get(characterIndex);
+		for(int i = 0; i < Constants.NUMBER_OF_NPCS; i++) {
+			Character character = gameModel.addCharacter(r.nextInt((int)Constants.WORLD_WIDTH), r.nextInt((int)Constants.WORLD_HEIGHT));
+			if(character != null) {
+				aiMap.put(character, new ArtificialBrain(gameModel, character));
+			}else {
+				i--;
+			}
 		}
+
+		currentCharacter = gameModel.getCharacterList().get(characterIndex);
 
 	}
 
@@ -133,7 +109,6 @@ public class Controller implements PropertyChangeListener {
 
 	public void setModel(World model){
 		gameModel = model;
-		gameModel.addPropertyChangeListener(this);
 	}
 
 //----------------------------------------------Run methods-----------------------------------------------------------\\
@@ -314,7 +289,6 @@ public class Controller implements PropertyChangeListener {
 	 * Uses input from the View to manipulate the Model.
 	 */
 	private void updateInput(){
-		//TODO fix concurrency
 		Object[] tempList = keyboardInputQueue.toArray();
 		keyboardInputQueue.clear();
 
@@ -323,7 +297,6 @@ public class Controller implements PropertyChangeListener {
 			handleKeyboardInput(tempKeyList);
 		}
 
-		//TODO fix concurrency
 		tempList = mouseInputQueue.toArray();
 		mouseInputQueue.clear();
 
@@ -331,8 +304,6 @@ public class Controller implements PropertyChangeListener {
 			Integer[][] tempMouseList = Arrays.copyOf(tempList, tempList.length, Integer[][].class);
 			handleMouseInput(tempMouseList);
 		}
-
-//		gameModel.update();
 	}
 
 //--------------------------------------------Input Methods-----------------------------------------------------------\\
@@ -621,27 +592,8 @@ public class Controller implements PropertyChangeListener {
 
 //-------------------------------------Event handling methods---------------------------------------------------------\\
 
-	//TODO (if possible) add ENUMS for where from the update was sent.
-	//TODO Remove this step as there are no events from the model?
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if(evt != null){
-			if(evt.getPropertyName() != null){
-				if(evt.getSource() instanceof BasicGameState){
-					// If the source of the event is the 'View', handle that separately.
-					handleViewEvent(evt);
-				}
-//				if(evt.getSource().equals(gameModel)){
-//					// If the source of the event is the 'Model', handle that separately.
-//					handleModelEvent(evt);
-//				}
-			}
-		}
-	}
-
-	//TODO Comment and clean up.
-	private void handleViewEvent(PropertyChangeEvent evt) {
-
 		if (evt.getPropertyName().equals(View.INPUT_ENUM.KEY_PRESSED.toString()) || evt.getPropertyName().equals(View.INPUT_ENUM.KEY_RELEASED.toString())) {
 			// If the 'View' is sending 'Keyboard'-inputs, put them in the correct queue.
 			Integer[] newValue = (Integer[]) evt.getNewValue();
