@@ -58,10 +58,8 @@ public class Controller implements PropertyChangeListener {
 	public Controller(){
 		scaleGraphicsX = Constants.SCREEN_WIDTH*Constants.ZOOM_LEVEL/Constants.STANDARD_SCREEN_WIDTH;
 		scaleGraphicsY = Constants.SCREEN_HEIGHT*Constants.ZOOM_LEVEL/Constants.STANDARD_SCREEN_HEIGHT;
-		//setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT));
 
-		//TODO remove test
-			setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, 100, 20, 100, 200, 20));
+		setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, Constants.StartingNrTrees, Constants.StartingNrLakes, Constants.StartingNrStones, Constants.StartingNrGold, Constants.StartingNrAnimal));
 
 		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE,
 				Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT, (float)scaleGraphicsX, (float)scaleGraphicsY));
