@@ -54,7 +54,7 @@ public class HuntingState implements IState {
 				}
 			} else {
 				currentPath = null;
-				brain.stackResourceToGather(IResource.ResourceType.MEAT);
+				brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.MEAT, 1));
 				brain.stackState(brain.getGatherMeatState());
 				brain.stackState(brain.getFollowState());
 				brain.setState(brain.getIdleState());

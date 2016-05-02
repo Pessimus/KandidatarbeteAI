@@ -5,6 +5,7 @@ import Model.Character;
 import Utility.Constants;
 import Utility.RenderObject;
 import View.*;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.lwjgl.Sys;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.BasicGameState;
@@ -73,7 +74,8 @@ public class Controller implements PropertyChangeListener {
 		//TODO remove test
 			setModel(new World(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, 100, 20, 100, 200, 20));
 
-		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE, Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT, scaleGraphicsX, scaleGraphicsY));
+		setView(new StateViewInit(Constants.GAME_TITLE, Constants.RUN_IN_FULLSCREEN, Constants.GAME_GRAB_MOUSE,
+				Constants.TARGET_FRAMERATE, (int)Constants.SCREEN_WIDTH, (int)Constants.SCREEN_HEIGHT, (float)scaleGraphicsX, (float)scaleGraphicsY));
 
 
 		keyboardInputQueue = new LinkedList<>();
@@ -156,14 +158,10 @@ public class Controller implements PropertyChangeListener {
 		timer.scheduleAtFixedRate(task, 0, 1000 / gameSpeed);
 	}
 
-	private int updateCounter = 0;
-	private int updateCounterMax = 1;
 	private boolean paused = false;
 	public void update(){
 		updateInput();
 
-		/*updateCounter = (updateCounter+1)%updateCounterMax;
-		if(updateCounter == 0 && !paused) {*/
 		if(!paused) {
 			player.update();
 			for (AbstractBrain brain : aiMap.values()) {
@@ -348,280 +346,209 @@ public class Controller implements PropertyChangeListener {
 				// clicks[0] = Whether the key was pressed/released (1: Pressed, 0: Released)
 				// clicks[1] = What key was pressed/released
 				if (clicks[0] == View.INPUT_ENUM.KEY_PRESSED.value) {
-					switch (clicks[1]) {
-						case Input.KEY_X:
-							this.gameModel.setShowingCurrentActivity();
-							break;
-						case Input.KEY_M:
-							System.out.println("+++++++++++++++++++++++");
-							this.updateCounterMax = 1;
-							break;
-						case Input.KEY_N:
-							System.out.println("-----------------------");
-							this.updateCounterMax = 10;
-							break;
-						case Input.KEY_SPACE:
-							System.out.println("_______________________");
-							this.paused = !paused;
-						case Input.KEY_UP:
-							if(!gameModel.isPaused())
-								player.movePlayerUp();
-							break;
-						case Input.KEY_DOWN:
-							if(!gameModel.isPaused())
-								player.movePlayerDown();
-							break;
-						case Input.KEY_LEFT:
-							if(!gameModel.isPaused())
-								player.movePlayerLeft();
-							break;
-						case Input.KEY_RIGHT:
-							if(!gameModel.isPaused())
-								player.movePlayerRight();
-							break;
-						case Input.KEY_TAB:
-							if(characterIndex >= gameModel.getCharacterList().size()-1) {
-								characterIndex = 0;
-							}else if(gameModel.getCharacterList().size()>0){
-								characterIndex++;
-							}
-							if(gameModel.getCharacterList().size()>0)
-								currentCharacter = gameModel.getCharacterList().get(characterIndex);
-							break;
-						case Input.KEY_0:
-							if(((Character)player.getBody()).isAlive()) {
-								characterIndex = Constants.PLAYER_CHARACTER_KEY;
-								currentCharacter = gameModel.getCharacterList().get(characterIndex);
-							}
-							break;
-						case Input.KEY_R:
-							player.playerRunning();
-							break;
-						case Input.KEY_P:
-							gameModel.togglePause();
-							gameView.displayPause();
-							break;
-						case Input.KEY_Q:
-							if(!gameModel.isPaused())
-								player.attack();
-							break;
-						case Input.KEY_W:
-							if(!gameModel.isPaused())
-								player.interact();
-							break;
-						case Input.KEY_E:
-							if(!gameModel.isPaused())
-								player.consume();
-							break;
-						case Input.KEY_H:
-							if(!gameModel.isPaused())
-								player.reproduce();
-							break;
-						case Input.KEY_B:
-							if (playerViewCentered && showingPlayerInventory && !gameModel.isPaused()) {
-								itemHighlighted = -1;
-								gameView.highlightInventoryItem(0);
-							} else{
-								//TODO hide display
-								gameView.displayBuildingInProcess();
-								showingBuildOptions = !showingBuildOptions;
-							}
-							break;
-						case Input.KEY_C:
-							if (playerViewCentered && showingPlayerInventory && itemHighlighted >= 0 && !gameModel.isPaused()) {
-								player.getBody().consumeItem(itemHighlighted);
-							}
-							break;
-						case Input.KEY_D:
-							if (playerViewCentered && showingPlayerInventory && itemHighlighted >= 0 && !gameModel.isPaused()) {
-								player.getBody().getInventory().remove(itemHighlighted);
-								itemHighlighted = -1;
-							}
-							break;
-						case Input.KEY_1:
-							if (playerViewCentered && !gameModel.isPaused()) {
-								if(showingPlayerInventory && player.getBody().getInventory().size() >= 1){
-									gameView.highlightInventoryItem(1);
-									itemHighlighted = 0;
-								}else if(showingBuildOptions){
-									player.build(1);
-								}
-							}else{
-								gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
-							}
-							break;
-						case Input.KEY_2:
-							if (playerViewCentered && !gameModel.isPaused()) {
-								if(showingPlayerInventory && player.getBody().getInventory().size() >= 2){
-									gameView.highlightInventoryItem(2);
-									itemHighlighted = 1;
-								}else if(showingBuildOptions){
-									player.build(2);
-								}
-							}else{
-								gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_FASTER;
-							}
-							break;
-						case Input.KEY_3:
-							if(playerViewCentered && !gameModel.isPaused()){
-								if(showingPlayerInventory && player.getBody().getInventory().size() >= 3){
-									gameView.highlightInventoryItem(3);
-									itemHighlighted = 2;
-								}else if(showingBuildOptions){
-									player.build(3);
-								}
-							}else{
-								gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_FASTEST;
-							}
-							break;
-						case Input.KEY_4:
-							if(playerViewCentered && showingPlayerInventory && !gameModel.isPaused()){
-								if(player.getBody().getInventory().size() >= 4){
-									gameView.highlightInventoryItem(4);
-									itemHighlighted = 3;
-								}
-							}
-							break;
-						case Input.KEY_5:
-							if(playerViewCentered && showingPlayerInventory && !gameModel.isPaused()){
-								if(player.getBody().getInventory().size() >= 5){
-									gameView.highlightInventoryItem(5);
-									itemHighlighted = 4;
-								}
-							}
-							break;
-						case Input.KEY_6:
-							if(playerViewCentered && showingPlayerInventory && !gameModel.isPaused()){
-								if(player.getBody().getInventory().size() >= 6){
-									gameView.highlightInventoryItem(6);
-									itemHighlighted = 5;
-								}
-							}
-
-							break;
-						case Input.KEY_7:
-							if(playerViewCentered && showingPlayerInventory && !gameModel.isPaused()){
-								if(player.getBody().getInventory().size() >= 7){
-									gameView.highlightInventoryItem(7);
-									itemHighlighted = 6;
-								}
-							}
-
-							break;
-						case Input.KEY_8:
-							if(playerViewCentered && showingPlayerInventory && !gameModel.isPaused()) {
-								if (player.getBody().getInventory().size() >= 8) {
-									gameView.highlightInventoryItem(8);
-									itemHighlighted = 7;
-								}
-							}
-							break;
-						case Input.KEY_9:
-							if(playerViewCentered && showingPlayerInventory && !gameModel.isPaused()){
-								if(player.getBody().getInventory().size() >= 9){
-									gameView.highlightInventoryItem(9);
-									itemHighlighted = 8;
-								}
-							}
-							break;
-						case Input.KEY_F1:
-							if(gameSpeed != Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL) {
-								timer.cancel();
-								timer = new Timer();
-
-								TimerTask task = new TimerTask() {
-									@Override
-									public void run() {
-										update();
-									}
-								};
-
-								gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL;
-								timer.scheduleAtFixedRate(task, Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL, 1000 / gameSpeed);
-							}
-							break;
-						case Input.KEY_F2:
-							if(gameSpeed != Constants.CONTROLLER_UPDATE_INTERVAL_FASTER) {
-								timer.cancel();
-								timer = new Timer();
-
-								TimerTask task = new TimerTask() {
-									@Override
-									public void run() {
-										update();
-									}
-								};
-
-								gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_FASTER;
-								timer.scheduleAtFixedRate(task, Constants.CONTROLLER_UPDATE_INTERVAL_FASTER, 1000 / gameSpeed);
-							}
-							break;
-						case Input.KEY_F3:
-							if(gameSpeed != Constants.CONTROLLER_UPDATE_INTERVAL_FASTEST) {
-								timer.cancel();
-								timer = new Timer();
-
-								TimerTask task = new TimerTask() {
-									@Override
-									public void run() {
-										update();
-									}
-								};
-
-								gameSpeed = Constants.CONTROLLER_UPDATE_INTERVAL_FASTEST;
-								timer.scheduleAtFixedRate(task, Constants.CONTROLLER_UPDATE_INTERVAL_FASTEST, 1000 / gameSpeed);
-							}
-							break;
-					}
+					this.handleKeyPressed(clicks[1]);
 				}else if(clicks[0] == View.INPUT_ENUM.KEY_RELEASED.value){
-					switch (clicks[1]){
-						case Input.KEY_UP:
-							player.stopPlayerUp();
-							break;
-						case Input.KEY_DOWN:
-							player.stopPlayerDown();
-							break;
-						case Input.KEY_LEFT:
-							player.stopPlayerLeft();
-							break;
-						case Input.KEY_RIGHT:
-							player.stopPlayerRight();
-							break;
-						case Input.KEY_R:
-							player.playerWalking();
-							break;
-						case Input.KEY_I:
-							if(playerViewCentered) {
-								if(!gameModel.isPaused()) {
-									showingPlayerInventory = !showingPlayerInventory;
-									if (showingPlayerInventory) {
-										gameView.drawInventory(gameModel.displayPlayerInventory());
-									} else {
-										gameView.hidePlayerInventory();
-										gameView.highlightInventoryItem(0);
-										itemHighlighted = -1;
-									}
-								}
-							}else{
-								showingPlayerInventory = false;
-								gameView.hidePlayerInventory();
-							}
-							break;
-						case Input.KEY_V:
-							if(showingBuildOptions){
-								gameView.displayBuildingInProcess();
-								showingBuildOptions = false;
-							}
-							playerViewCentered = !playerViewCentered;
-							if(!playerViewCentered && showingPlayerInventory){
-								showingPlayerInventory = false;
-								gameView.hidePlayerInventory();
-								gameView.highlightInventoryItem(0);
-								itemHighlighted = -1;
-							}
-							break;
+					this.handleKeyReleased(clicks[1]);
+				}
+			}
+		}
+	}
+
+	private void handleKeyPressed(int pressedKey){
+		switch (pressedKey) {
+			case Input.KEY_X:
+				this.gameModel.setShowingCurrentActivity();
+				break;
+			case Input.KEY_P:
+				this.paused = !paused;
+				gameView.displayPause();
+				break;
+			case Input.KEY_UP:
+				player.movePlayerUp();
+				break;
+			case Input.KEY_DOWN:
+				player.movePlayerDown();
+				break;
+			case Input.KEY_LEFT:
+				player.movePlayerLeft();
+				break;
+			case Input.KEY_RIGHT:
+				player.movePlayerRight();
+				break;
+			case Input.KEY_TAB:
+				swapHighlightedCharacter();
+				break;
+			case Input.KEY_0:
+				highlightPlayerCharacter();
+				break;
+			case Input.KEY_R:
+				player.playerRunning();
+				break;
+			case Input.KEY_Q:
+				if(!paused)
+					player.attack();
+				break;
+			case Input.KEY_W:
+				if(!paused)
+					player.interact();
+				break;
+			case Input.KEY_E:
+				if(!paused)
+					player.consume();
+				break;
+			case Input.KEY_V:
+				if(showingBuildOptions){
+					gameView.displayBuildingInProcess();
+					showingBuildOptions = false;
+				}else if(showingPlayerInventory){
+					showingPlayerInventory = false;
+					gameView.hidePlayerInventory();
+					gameView.highlightInventoryItem(0);
+					itemHighlighted = -1;
+				}
+				playerViewCentered = !playerViewCentered;
+				break;
+			case Input.KEY_I:
+				if(playerViewCentered && !paused && !showingBuildOptions) {
+					showingPlayerInventory = !showingPlayerInventory;
+					if (showingPlayerInventory) {
+						gameView.drawInventory(gameModel.displayPlayerInventory());
+					} else {
+						gameView.hidePlayerInventory();
+						gameView.highlightInventoryItem(0);
+						itemHighlighted = -1;
 					}
 				}
+				break;
+			case Input.KEY_C:
+				if(playerViewCentered && !paused){
+					if(!showingPlayerInventory){
+						gameView.displayBuildingInProcess();
+						showingBuildOptions = !showingBuildOptions;
+					}else if(itemHighlighted >= 0) {
+						player.getBody().consumeItem(itemHighlighted);
+					}
+				}
+				break;
+			case Input.KEY_D:
+				if (playerViewCentered && showingPlayerInventory && itemHighlighted >= 0 && !paused) {
+					player.getBody().getInventory().remove(itemHighlighted);
+					itemHighlighted = -1;
+				}
+				break;
+			case Input.KEY_B:
+				if (playerViewCentered && showingPlayerInventory && itemHighlighted >= 0 && !paused) {
+					itemHighlighted = -1;
+					gameView.highlightInventoryItem(0);
+				}
+				break;
+			case Input.KEY_H:
+				gameView.toggleShowCommands();
+				break;
+			case Input.KEY_S:
+				gameView.toggleShowStats();
+				break;
+			case Input.KEY_1:
+				handleNumberPressed(1);
+				break;
+			case Input.KEY_2:
+				handleNumberPressed(2);
+				break;
+			case Input.KEY_3:
+				handleNumberPressed(3);
+				break;
+			case Input.KEY_4:
+				handleNumberPressed(4);
+				break;
+			case Input.KEY_5:
+				handleNumberPressed(5);
+				break;
+			case Input.KEY_6:
+				handleNumberPressed(6);
+				break;
+			case Input.KEY_7:
+				handleNumberPressed(7);
+				break;
+			case Input.KEY_8:
+				handleNumberPressed(8);
+				break;
+			case Input.KEY_9:
+				handleNumberPressed(9);
+				break;
+			case Input.KEY_F1:
+				changeSpeed(Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL);
+				break;
+			case Input.KEY_F2:
+				changeSpeed(Constants.CONTROLLER_UPDATE_INTERVAL_FASTER);
+				break;
+			case Input.KEY_F3:
+				changeSpeed(Constants.CONTROLLER_UPDATE_INTERVAL_FASTEST);
+				break;
+		}
+
+	}
+
+	private void handleKeyReleased(int releasedKey){
+		switch (releasedKey){
+			case Input.KEY_UP:
+				player.stopPlayerUp();
+				break;
+			case Input.KEY_DOWN:
+				player.stopPlayerDown();
+				break;
+			case Input.KEY_LEFT:
+				player.stopPlayerLeft();
+				break;
+			case Input.KEY_RIGHT:
+				player.stopPlayerRight();
+				break;
+			case Input.KEY_R:
+				player.playerWalking();
+				break;
+		}
+	}
+
+	private void swapHighlightedCharacter(){
+		if(characterIndex >= gameModel.getCharacterList().size()-1) {
+			characterIndex = 0;
+		}else if(gameModel.getCharacterList().size()>0){
+			characterIndex++;
+		}
+		if(gameModel.getCharacterList().size()>0)
+			currentCharacter = gameModel.getCharacterList().get(characterIndex);
+	}
+
+	private void highlightPlayerCharacter(){
+		if(((Character)player.getBody()).isAlive()) {
+			characterIndex = Constants.PLAYER_CHARACTER_KEY;
+			currentCharacter = gameModel.getCharacterList().get(characterIndex);
+		}
+	}
+
+	private void changeSpeed(int updateInterval){
+		if(gameSpeed != updateInterval) {
+			timer.cancel();
+			timer = new Timer();
+
+			TimerTask task = new TimerTask() {
+				@Override
+				public void run() {
+					update();
+				}
+			};
+
+			gameSpeed = updateInterval;
+			timer.scheduleAtFixedRate(task, updateInterval, 1000 / gameSpeed);
+		}
+	}
+
+	private void handleNumberPressed(int number){
+		if(playerViewCentered && !paused){
+			if(showingPlayerInventory && player.getBody().getInventory().size() >= number){
+				gameView.highlightInventoryItem(number);
+				itemHighlighted = number-1;
+			}else if(showingBuildOptions && number < 4){
+				player.build(number);
 			}
 		}
 	}
@@ -670,8 +597,25 @@ public class Controller implements PropertyChangeListener {
 					mouseX = clicks[3];
 					mouseY = clicks[4];
 				} else if(clicks[0] == View.INPUT_ENUM.MOUSE_WHEEL_MOVED.value){
+					this.changeZoom(clicks[1]);
 				}
 			}
+		}
+	}
+
+	private void changeZoom(int value) {
+		double zoom;
+		if(value>0){
+			zoom = Constants.ZOOM_LEVEL + 0.1;
+		}else {
+			zoom = Constants.ZOOM_LEVEL - 0.1;
+		}
+		System.out.println(zoom);
+		if(zoom >= 0.2 && zoom < 2) {
+			Constants.ZOOM_LEVEL = zoom;
+			scaleGraphicsX = Constants.SCREEN_WIDTH * Constants.ZOOM_LEVEL / Constants.STANDARD_SCREEN_WIDTH;
+			scaleGraphicsY = Constants.SCREEN_HEIGHT * Constants.ZOOM_LEVEL / Constants.STANDARD_SCREEN_HEIGHT;
+			gameView.setScale((float) scaleGraphicsX, (float) scaleGraphicsY);
 		}
 	}
 
@@ -703,7 +647,9 @@ public class Controller implements PropertyChangeListener {
 			Integer[] newValue = (Integer[]) evt.getNewValue();
 			keyboardInputQueue.offer(newValue);
 		}
-		else if(evt.getPropertyName().equals(View.INPUT_ENUM.MOUSE_PRESSED.toString()) || evt.getPropertyName().equals(View.INPUT_ENUM.MOUSE_RELEASED.toString())){
+		else if(evt.getPropertyName().equals(View.INPUT_ENUM.MOUSE_PRESSED.toString())
+				|| evt.getPropertyName().equals(View.INPUT_ENUM.MOUSE_RELEASED.toString())
+				|| evt.getPropertyName().equals(View.INPUT_ENUM.MOUSE_WHEEL_MOVED.toString())){
 			// If the View is sending 'Mouse'-inputs, put them in the correct queue.
 			Integer[] newValue = (Integer[]) evt.getNewValue();
 			mouseInputQueue.offer(newValue);

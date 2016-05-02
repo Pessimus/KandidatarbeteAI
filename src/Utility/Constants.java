@@ -13,20 +13,8 @@ public final class Constants {
 	// ----------- Controller Constants ----------- \\
 
 
-	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()
-
-
-
-
-
-
-
-
-
-
-
-			;
+	public static final 		double 		SCREEN_WIDTH 						= 	Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2;
+	public static final 		double 		SCREEN_HEIGHT 						= 	Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2;
 
     /*
     public static final         int         GRASS_START_PIXEL_X                 =   650;
@@ -45,7 +33,7 @@ public final class Constants {
 
 
 	//Zoom level not final
-	public static 				int			ZOOM_LEVEL							= 	1;
+	public static 				double		ZOOM_LEVEL							= 	1;
 	public static final			int			FONT_SIZE							=	18;
 
 	//Temp constant for the scalar in controller
@@ -149,11 +137,13 @@ public final class Constants {
 	public static final			int			FARM_INTERACTION_TIME				=	10*60;
 	public static final			int			FARM_ATTACKED_TIME					=	1*60;
 	public static final			int 		HOUSE_BUILD_TIME					=	35*CONTROLLER_UPDATE_INTERVAL_NORMAL;
-	public static final			int			HOUSE_INTERACTION_TIME				=	20*60;
+	public static final			int			HOUSE_INTERACTION_TIME				=	1*60;//20*60;
 	public static final			int			HOUSE_ATTACKED_TIME					=	1*60;
 	public static final			int 		STOCKPILE_BUILD_TIME				=	20*CONTROLLER_UPDATE_INTERVAL_NORMAL;
 	public static final			int			STOCKPILE_INTERACTION_TIME			=	0;
 	public static final			int			STOCKPILE_ATTACKED_TIME				=	1*60;
+
+	public static final 		int			HOUSE_ENERGY_CHANGE					=	10;
 
 
 	public static final			int			HOUSE_WOOD_COST						=	60;

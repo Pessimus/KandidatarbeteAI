@@ -58,25 +58,25 @@ public class GatherState implements IState{
 		} else {
 			switch (lowestType) {
 				case MEAT_ITEM:
-					brain.stackResourceToGather(IResource.ResourceType.MEAT);
-					break;
-				case CROPS_ITEM:
-					brain.stackResourceToGather(IResource.ResourceType.CROPS);
+					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.MEAT, 1));
 					break;
 				case FISH_ITEM:
-					brain.stackResourceToGather(IResource.ResourceType.FISH);
+					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.FISH, 1));
 					break;
 				case WATER_ITEM:
-					brain.stackResourceToGather(IResource.ResourceType.WATER);
+					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.WATER, 1));
 					break;
 				case WOOD_ITEM:
-					brain.stackResourceToGather(IResource.ResourceType.WOOD);
+					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.WOOD, 1));
 					break;
 				case STONE_ITEM:
-					brain.stackResourceToGather(IResource.ResourceType.STONE);
+					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.STONE, 1));
 					break;
 				case GOLD_ITEM:
-					brain.stackResourceToGather(IResource.ResourceType.GOLD);
+					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.GOLD, 1));
+					break;
+				case CROPS_ITEM:
+					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.CROPS, 1));
 					break;
 			}
 
@@ -84,11 +84,11 @@ public class GatherState implements IState{
 		}
 	}
 
-	private void gatherSpecificResource(IResource.ResourceType type){
-		ResourcePoint p = brain.getClosestResourcePoint(type);
+	private void gatherSpecificResource(ResourceTuple type){
+		ResourcePoint p = brain.getClosestResourcePoint(type.resourceType);
 
 		if(p == null) {
-			switch (type) {
+			switch (type.resourceType) {
 				case MEAT:
 					brain.setState(brain.getHuntingState());
 					break;
@@ -103,7 +103,7 @@ public class GatherState implements IState{
 				case WOOD:*/
 				default:
 					brain.stackState(brain.getGatherState());
-					brain.stackResourceToFind((type.equals(IResource.ResourceType.FOOD)) ? IResource.ResourceType.WATER : type);
+					brain.stackResourceToFind((type.resourceType.equals(IResource.ResourceType.FOOD)) ? IResource.ResourceType.WATER : type.resourceType);
 					brain.setState(brain.getFindResourceState());
 					break;
 			}
@@ -124,7 +124,7 @@ public class GatherState implements IState{
 				case WATER:
 					// Since both Fish and Water are gathered from Lakes, some
 					// 'hacks' are needed to understand what what resource should be gathered.
-					if(type.equals(IResource.ResourceType.FOOD)){
+					if(type.resourceType.equals(IResource.ResourceType.FOOD)){
 						brain.stackState(brain.getGatherFishState());
 						brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_FISHING);
 					} else {
@@ -162,7 +162,7 @@ public class GatherState implements IState{
 	 */
 	@Override
 	public void run() {
-		IResource.ResourceType resource = brain.getNextResourceToGather();
+		ResourceTuple resource = brain.getNextResourceToGather();
 
 		if(resource == null) {
 			gatherInterestingResource();
