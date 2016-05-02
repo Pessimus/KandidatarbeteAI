@@ -56,6 +56,13 @@ public final class Constants {
 
 	public static final			float		WORLD_WIDTH                         =   7980f;
 	public static final			float		WORLD_HEIGHT            			=	7980f;
+
+	public static final			int 		StartingNrTrees						=	100;
+	public static final			int 		StartingNrLakes						=	20;
+	public static final			int 		StartingNrStones					=	100;
+	public static final			int 		StartingNrGold						=	200;
+	public static final			int 		StartingNrAnimal					=	20;
+
 	public static final 		int 		TARGET_FRAMERATE 					= 	60;
 	public static final 		boolean		GAME_GRAB_MOUSE						= 	false;
 	public static final 		boolean 	RUN_IN_FULLSCREEN 					= 	false;
