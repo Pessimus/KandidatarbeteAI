@@ -4,10 +4,12 @@ import Controller.ArtificialBrain;
 import Model.*;
 import Utility.RenderObject;
 
+import java.awt.*;
 import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Tobias on 2016-03-29.
@@ -107,7 +109,8 @@ public class BuildState implements IState{
 			brain.stackState(brain.getBuildingState());
 
 			if(brain.getBody().hasHome()) {
-				brain.findPathTo(brain.getBody().getHome());
+				//brain.findPathTo(brain.getBody().getHome());
+				brain.stackResource(brain.getBody().getHome());
 				brain.stackState(brain.getMovingState());
 			}
 		}

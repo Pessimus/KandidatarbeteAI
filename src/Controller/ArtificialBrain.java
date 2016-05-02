@@ -29,6 +29,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	private LinkedList<LinkedList<PathStep>> pathStack = new LinkedList<>();
 	private LinkedList<Point> pointStack = new LinkedList<>();
+	private LinkedList<ICollidable> resourceStack = new LinkedList<>();
 
 	private LinkedList<ResourceTuple> gatherStack = new LinkedList<>();
 
@@ -536,6 +537,18 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		pointStack.offer(p);
 	}
 
+	public LinkedList<ICollidable> getResourceStack() {
+		return resourceStack;
+	}
+
+	public ICollidable getNextResource() {
+		return resourceStack.peek();
+	}
+
+	public void stackResource(ICollidable r) {
+		resourceStack.offer(r);
+	}
+
 	public void stackResourceToFind(IResource.ResourceType res){
 		resourceToFindStack.push(res);
 	}
@@ -558,6 +571,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		((FindResourceState) this.getFindResourceState()).clearPath();
 		((FollowState) this.getFollowState()).clearPath();
 		((HuntingState) this.getHuntingState()).clearPath();
+		((MovingState) this.getMovingState()).clearPath();
 	}
 	/*public void finalWords() {
 		int[] needs = body.getNeeds();

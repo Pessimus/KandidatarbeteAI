@@ -5,6 +5,7 @@ import Controller.PathStep;
 import Model.ICharacterHandle;
 import Utility.Constants;
 import Utility.RenderObject;
+import org.lwjgl.Sys;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -48,19 +49,23 @@ public class MovingState implements IState {
 		}
 		LinkedList<PathStep> tempPath = brain.getNextPath();
 
-		if(tempPath != null){
-			if(!tempPath.isEmpty()){
-				tempPath.getFirst().stepTowards(brain.getBody());
-				if(tempPath.getFirst().reached(brain.getBody())){
-					tempPath.removeFirst();
+		//currentPath = Constants.PATHFINDER_OBJECT.getPath(brain.getBody().getX(), brain.getBody().getY(), (double) (brain.getNextPoint().getX()), (double) (brain.getNextPoint().getY()));
+
+		if(currentPath != null){
+			if(!currentPath.isEmpty()){
+				currentPath.getFirst().stepTowards(brain.getBody());
+				if(currentPath.getFirst().reached(brain.getBody())){
+					currentPath.removeFirst();
 				}
 			} else{
-				brain.getPathStack().remove();
+				brain.getResourceStack().remove();
+				currentPath = null;
 				brain.setState(brain.getIdleState());
 			}
 		} else{
-			brain.getPathStack().remove();
-			brain.setState(brain.getIdleState());
+			currentPath = Constants.PATHFINDER_OBJECT.getPath(brain.getBody().getX(), brain.getBody().getY(), brain.getNextResource());
 		}
 	}
+
+	public void clearPath() {currentPath = null;}
 }

@@ -110,7 +110,9 @@ public class GatherState implements IState{
 		} else {
 			IResource.ResourceType selectType = p.getResource().getResourceType();
 
-			brain.findPathTo(p);
+			//brain.findPathTo(p);
+			//brain.stackPoint(new Point((int) p.getX(), (int) p.getY()));
+			brain.stackResource(p);
 
 			switch (selectType) {
 				case MEAT:

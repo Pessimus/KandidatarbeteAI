@@ -8,6 +8,7 @@ import Model.Structures.Farm;
 import Utility.Constants;
 import Utility.UniversalStaticMethods;
 
+import java.awt.*;
 import java.util.Iterator;
 
 /**
@@ -41,7 +42,8 @@ public class WorkFarmState implements IState {
 				if (tempC.getClass().equals(Farm.class)) {
 					Farm tempF = (Farm) tempC;
 					brain.stackState(this);
-					brain.findPathTo(tempF);
+					//brain.findPathTo(tempF);
+					brain.stackResource(tempF);
 					brain.setState(brain.getMovingState());
 					return;
 				}
