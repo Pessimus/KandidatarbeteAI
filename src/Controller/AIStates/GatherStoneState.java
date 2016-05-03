@@ -27,7 +27,7 @@ public class GatherStoneState implements IState {
     public void run() {
 		int waterAmount = brain.getBody().getInventory()
 				.stream()
-				.filter(o -> o.getType().equals(IItem.Type.WATER_ITEM))
+				.filter(o -> o.getType().equals(IItem.Type.STONE_ITEM))
 				.mapToInt(IItem::getAmount)
 				.sum();
 
