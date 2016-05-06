@@ -56,4 +56,10 @@ public class FindCharacterState implements IState {
 			brain.setState(brain.getIdleState());
 		}
 	}
+
+	public void clearPath () {
+		currentPath = null;
+	}
+
+
 }

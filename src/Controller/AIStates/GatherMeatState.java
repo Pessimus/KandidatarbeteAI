@@ -1,10 +1,7 @@
 package Controller.AIStates;
 
 import Controller.ArtificialBrain;
-import Model.Animal;
-import Model.ICollidable;
-import Model.IResource;
-import Model.ResourcePoint;
+import Model.*;
 import Utility.RenderObject;
 
 import java.util.Iterator;
@@ -25,25 +22,35 @@ public class GatherMeatState implements IState {
 
     @Override
     public void run() {
-		Iterator<ICollidable> iterator = brain.getBody().getInteractables().iterator();
-		int i = 0;
-		boolean found = false;
-		while (iterator.hasNext()) {
-			ICollidable next = iterator.next();
-			if(next.getClass().equals(Animal.class)){
-				brain.getBody().attackObject(i);
-				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.HUNTING);
-				brain.getGatherStack().remove();
-				found = true;
-				break;
+
+		int meatAmount = brain.getBody().getInventory()
+				.stream()
+				.filter(o -> o.getType().equals(IItem.Type.MEAT_ITEM))
+				.mapToInt(IItem::getAmount)
+				.sum();
+
+		if(meatAmount < brain.getNextResourceToGather().resourceAmount) {
+			Iterator<ICollidable> iterator = brain.getBody().getInteractables().iterator();
+			int i = 0;
+			boolean found = false;
+			while (iterator.hasNext()) {
+				ICollidable next = iterator.next();
+				if(next.getClass().equals(Animal.class)){
+					brain.getBody().attackObject(i);
+					brain.setAnimalTime(3000);
+					brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.HUNTING);
+					found = true;
+					break;
+				}
+
+				i++;
 			}
 
-			i++;
-		}
-
-		if(!found){
-			brain.setState(brain.getGatherState());
+			if (!found) {
+				brain.setState(brain.getGatherState());
+			}
 		} else {
+			brain.getGatherStack().remove();
 			brain.setState(brain.getIdleState());
 		}
     }

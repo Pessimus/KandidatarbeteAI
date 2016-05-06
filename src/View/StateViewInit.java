@@ -37,7 +37,7 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 	 * @param resWidth
 	 * @param resHeight
 	 */
-	public StateViewInit(String title, boolean fullscreen, boolean grabMouse, int targetFramerate, int resWidth, int resHeight, double scaleX, double scaleY){
+	public StateViewInit(String title, boolean fullscreen, boolean grabMouse, int targetFramerate, int resWidth, int resHeight, float scaleX, float scaleY){
 		super(title);
 
 		this.view = new View(PLAY_STATE, scaleX, scaleY);
@@ -48,6 +48,7 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 			gameContainer = new AppGameContainer(this, resWidth, resHeight, fullscreen);
 			gameContainer.setMouseGrabbed(grabMouse);
 			gameContainer.setTargetFrameRate(targetFramerate);
+			gameContainer.setShowFPS(false);
 		}
 		catch(SlickException e){
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Exception in StateViewInit constructor when creating AppGameContainer!", e);
@@ -138,5 +139,17 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 
 	public void hidePlayerInventory(){
 		view.hideInventory();
+	}
+
+	public void toggleShowCommands() {
+		view.toggleShowCommands();
+	}
+
+	public void toggleShowStats() {
+		view.toggleShowStats();
+	}
+
+	public void setScale(float scaleX, float scaleY){
+		view.setScale(scaleX,scaleY);
 	}
 }

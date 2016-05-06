@@ -33,7 +33,7 @@ public final class Constants {
 
 
 	//Zoom level not final
-	public static 				int			ZOOM_LEVEL							= 	1;
+	public static 				double		ZOOM_LEVEL							= 	1;
 	public static final			int			FONT_SIZE							=	18;
 
 	//Temp constant for the scalar in controller
@@ -56,6 +56,13 @@ public final class Constants {
 
 	public static final			float		WORLD_WIDTH                         =   7980f;
 	public static final			float		WORLD_HEIGHT            			=	7980f;
+
+	public static final			int 		StartingNrTrees						=	100;
+	public static final			int 		StartingNrLakes						=	20;
+	public static final			int 		StartingNrStones					=	100;
+	public static final			int 		StartingNrGold						=	200;
+	public static final			int 		StartingNrAnimal					=	20;
+
 	public static final 		int 		TARGET_FRAMERATE 					= 	60;
 	public static final 		boolean		GAME_GRAB_MOUSE						= 	false;
 	public static final 		boolean 	RUN_IN_FULLSCREEN 					= 	false;
@@ -137,11 +144,13 @@ public final class Constants {
 	public static final			int			FARM_INTERACTION_TIME				=	10*60;
 	public static final			int			FARM_ATTACKED_TIME					=	1*60;
 	public static final			int 		HOUSE_BUILD_TIME					=	35*CONTROLLER_UPDATE_INTERVAL_NORMAL;
-	public static final			int			HOUSE_INTERACTION_TIME				=	20*60;
+	public static final			int			HOUSE_INTERACTION_TIME				=	1*60;//20*60;
 	public static final			int			HOUSE_ATTACKED_TIME					=	1*60;
 	public static final			int 		STOCKPILE_BUILD_TIME				=	20*CONTROLLER_UPDATE_INTERVAL_NORMAL;
 	public static final			int			STOCKPILE_INTERACTION_TIME			=	0;
 	public static final			int			STOCKPILE_ATTACKED_TIME				=	1*60;
+
+	public static final 		int			HOUSE_ENERGY_CHANGE					=	10;
 
 
 	public static final			int			HOUSE_WOOD_COST						=	60;
@@ -175,6 +184,7 @@ public final class Constants {
 
 	public static final 		int 		ANIMAL_MATING_COUNTER_MAX			=	2400;//60*60;
 	public static final 		int 		ANIMAL_MATING_COUNTER_INTERVALL		=	60*10;
+	public static final 		int			ANIMAL_MAX_POPULATION				=	200;
 
 	//-------------------------- Resource Constants -------------------------- \\
 	public static final 		int 		TREE_UPDATE_INTERVAL 				=	12000;
@@ -239,6 +249,13 @@ public final class Constants {
 	public static final 		int			STONE_THIRST_CHANGE_ATTACK			=	0;
 
 	//GOLD\\
+
+
+
+
+
+
+
 	public static final 		int			GOLD_HUNGER_CHANGE_INTERACT			=	0;
 	public static final 		int			GOLD_ENERGY_CHANGE_INTERACT			=	0;
 	public static final 		int			GOLD_THIRST_CHANGE_INTERACT			=	0;

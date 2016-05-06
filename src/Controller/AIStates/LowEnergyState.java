@@ -3,6 +3,8 @@ package Controller.AIStates;
 import Controller.ArtificialBrain;
 import Model.ICollidable;
 
+import java.awt.*;
+
 /**
  * Created by Tobias on 2016-03-29.
  */
@@ -21,7 +23,8 @@ public class LowEnergyState implements IState{
 			if (brain.getBody().hasHome()) {
 				ICollidable home = brain.getBody().getHome();
 
-				brain.findPathTo(home);
+				//brain.findPathTo(home);
+				brain.stackResource(home);
 				brain.stackState(brain.getSleepingState());
 				brain.setState(brain.getMovingState());
 			} else {

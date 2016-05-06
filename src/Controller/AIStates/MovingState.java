@@ -5,6 +5,7 @@ import Controller.PathStep;
 import Model.ICharacterHandle;
 import Utility.Constants;
 import Utility.RenderObject;
+import org.lwjgl.Sys;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -30,23 +31,41 @@ public class MovingState implements IState {
 				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_FORESTING);
 			} else if (brain.getStateQueue().peek().getClass().equals(GatherStoneState.class)) {
 				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_PICKING);
+			} else if (brain.getStateQueue().peek().getClass().equals(GatherFishState.class)) {
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_FISHING);
+			} else if (brain.getStateQueue().peek().getClass().equals(GatherMeatState.class)) {
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_HUNTING);
+			} else if (brain.getStateQueue().peek().getClass().equals(SleepingState.class) || brain.getStateQueue().peek().getClass().equals(RestingState.class)) {
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_SLEEPING);
+			} else if (brain.getStateQueue().peek().getClass().equals(BuildingState.class)) {
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_BUILDING);
+			} else if (brain.getStateQueue().peek().getClass().equals(GatherCropsState.class)) {
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_FARMING);
+			} else if (brain.getStateQueue().peek().getClass().equals(GatherWaterState.class)) {
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_DRINKING);
+			} else if (!brain.getStateQueue().peek().getClass().equals(HuntingState.class) && !brain.getStateQueue().peek().getClass().equals(ExploreState.class)) {
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.EMPTY);
 			}
 		}
 		LinkedList<PathStep> tempPath = brain.getNextPath();
 
-		if(tempPath != null){
-			if(!tempPath.isEmpty()){
-				tempPath.getFirst().stepTowards(brain.getBody());
-				if(tempPath.getFirst().reached(brain.getBody())){
-					tempPath.removeFirst();
+		//currentPath = Constants.PATHFINDER_OBJECT.getPath(brain.getBody().getX(), brain.getBody().getY(), (double) (brain.getNextPoint().getX()), (double) (brain.getNextPoint().getY()));
+
+		if(currentPath != null){
+			if(!currentPath.isEmpty()){
+				currentPath.getFirst().stepTowards(brain.getBody());
+				if(currentPath.getFirst().reached(brain.getBody())){
+					currentPath.removeFirst();
 				}
 			} else{
-				brain.getPathStack().remove();
+				brain.getResourceStack().remove();
+				currentPath = null;
 				brain.setState(brain.getIdleState());
 			}
 		} else{
-			brain.getPathStack().remove();
-			brain.setState(brain.getIdleState());
+			currentPath = Constants.PATHFINDER_OBJECT.getPath(brain.getBody().getX(), brain.getBody().getY(), brain.getNextResource());
 		}
 	}
+
+	public void clearPath() {currentPath = null;}
 }

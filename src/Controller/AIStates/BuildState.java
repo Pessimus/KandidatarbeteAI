@@ -4,8 +4,12 @@ import Controller.ArtificialBrain;
 import Model.*;
 import Utility.RenderObject;
 
+import java.awt.*;
+import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Tobias on 2016-03-29.
@@ -23,10 +27,8 @@ public class BuildState implements IState{
 		this.brain = brain;
 	}
 
-	private List<IItem> getRemainingMaterials(IStructure.StructureType structureType){
+	private EnumMap<IItem.Type, Integer> getRemainingMaterials(IStructure.StructureType structureType){
 		List<IItem> cost = StructureFactory.getCost(structureType);
-
-		List<IItem> remainingItems = new LinkedList<>();
 
 		// Works if the inventory is of the type Inventory (and not List<IItem>)
 		/*for(IItem itemCost : cost){
@@ -35,20 +37,28 @@ public class BuildState implements IState{
 			}
 		}*/
 
+		EnumMap<IItem.Type, Integer> map = new EnumMap<>(IItem.Type.class);
+
 		for (IItem item : cost) {
 			boolean add = true;
+			int haveAmount = 0;
 			for (IItem tmpItem : brain.getBody().getInventory()) {
 				if (tmpItem.getType().equals(item.getType()) && tmpItem.getAmount() >= item.getAmount()) {
 					add = false;
+
 				}
 			}
 
 			if(add) {
-				remainingItems.add(item);
+				if(map.containsKey(item.getType())) {
+					map.put(item.getType(), map.get(item.getType()) + item.getAmount());
+				} else{
+					map.put(item.getType(), item.getAmount());
+				}
 			}
 		}
 
-		return remainingItems;
+		return map;
 	}
 
 	@Override
@@ -62,34 +72,34 @@ public class BuildState implements IState{
 
 		//CHECK WHAT MATERIALS WE NEED FOR nextStructureToBuild, DO WE HAVE THEM?
 		IStructure.StructureType type = brain.peekStructureStack();
-		List<IItem> remaining = getRemainingMaterials(type);
+		EnumMap<IItem.Type, Integer> remaining = getRemainingMaterials(type);
 
 		if(!remaining.isEmpty()){
 			//NO?
 			//FIND OUT WHAT WE ARE MISSING AND GO GATHER
 			brain.stackState(this);
-			for(IItem item : remaining){
-				switch (item.getType()) {
+			for(IItem.Type item : remaining.keySet()){
+				switch (item) {
 					case MEAT_ITEM:
-						brain.stackResourceToGather(IResource.ResourceType.MEAT);
+						brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.MEAT, remaining.get(item)));
 						break;
 					case FISH_ITEM:
-						brain.stackResourceToGather(IResource.ResourceType.FISH);
+						brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.FISH, remaining.get(item)));
 						break;
 					case WATER_ITEM:
-						brain.stackResourceToGather(IResource.ResourceType.WATER);
+						brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.WATER, remaining.get(item)));
 						break;
 					case WOOD_ITEM:
-						brain.stackResourceToGather(IResource.ResourceType.WOOD);
+						brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.WOOD, remaining.get(item)));
 						break;
 					case STONE_ITEM:
-						brain.stackResourceToGather(IResource.ResourceType.STONE);
+						brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.STONE, remaining.get(item)));
 						break;
 					case GOLD_ITEM:
-						brain.stackResourceToGather(IResource.ResourceType.GOLD);
+						brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.GOLD, remaining.get(item)));
 						break;
 					case CROPS_ITEM:
-						brain.stackResourceToGather(IResource.ResourceType.CROPS);
+						brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.CROPS, remaining.get(item)));
 						break;
 				}
 
@@ -99,7 +109,8 @@ public class BuildState implements IState{
 			brain.stackState(brain.getBuildingState());
 
 			if(brain.getBody().hasHome()) {
-				brain.findPathTo(brain.getBody().getHome());
+				//brain.findPathTo(brain.getBody().getHome());
+				brain.stackResource(brain.getBody().getHome());
 				brain.stackState(brain.getMovingState());
 			}
 		}

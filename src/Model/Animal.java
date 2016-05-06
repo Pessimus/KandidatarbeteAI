@@ -203,6 +203,7 @@ public class Animal implements ICollidable, ITimeable {
 		rhs.changeEnergy(Constants.ANIMAL_ENERGY_CHANGE_CONSUME);
 		rhs.changeThirst(Constants.ANIMAL_THIRST_CHANGE_CONSUME);
 		this.alive = false;
+		animals.remove(this);
 	}
 
 	@Override
@@ -212,6 +213,7 @@ public class Animal implements ICollidable, ITimeable {
 		rhs.changeThirst(Constants.ANIMAL_THIRST_CHANGE_ATTACK);
 		rhs.addToInventory(resource.gatherResource());
 		this.alive = false;
+		animals.remove(this);
 	}
 
 	@Override
@@ -387,6 +389,7 @@ public class Animal implements ICollidable, ITimeable {
 					this.spawning = true;
 					this.mate = tmpAnimal;
 					this.mating = false;
+					tmpAnimal.mating = false;
 					this.matingCounter = Constants.ANIMAL_MATING_COUNTER_MAX;
 				}
 			}
@@ -406,14 +409,20 @@ public class Animal implements ICollidable, ITimeable {
 
 	@Override
 	public void spawn(World rhs) {
-		rhs.addAnimal((this.xPoss+mate.xPoss)/2,
-				(this.yPoss+mate.yPoss)/2,
-				this.resource,
-				(this.territoryMinX+mate.territoryMinX)/2,
-				(this.territoryMinY+mate.territoryMinY)/2,
-				(this.territoryMaxX+mate.territoryMaxX)/2,
-				(this.territoryMaxY+mate.territoryMaxY)/2);
-		this.spawning = false;
+		if(animals.size()<Constants.ANIMAL_MAX_POPULATION && this.alive) {
+			Animal tmp = rhs.addAnimal((this.xPoss + mate.xPoss) / 2,
+					(this.yPoss + mate.yPoss) / 2,
+					this.resource,
+					(this.territoryMinX + mate.territoryMinX) / 2,
+					(this.territoryMinY + mate.territoryMinY) / 2,
+					(this.territoryMaxX + mate.territoryMaxX) / 2,
+					(this.territoryMaxY + mate.territoryMaxY) / 2);
+			this.spawning = false;
+		}
+	}
+
+	public void remove(){
+		animals.remove(this);
 	}
 
 //------------------------------------------------RENDER METHODS------------------------------------------------------\
