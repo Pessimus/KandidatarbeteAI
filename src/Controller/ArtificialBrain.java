@@ -4,16 +4,18 @@ import Controller.AIStates.*;
 import Model.*;
 import Model.Character;
 import Utility.Constants;
-import Model.ICharacterHandle;
 import Utility.RenderObject;
 
-//import java.awt.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+
+//import java.awt.*;
 
 /**
  * Created by Gustav on 2016-03-23.
@@ -69,6 +71,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private IState hungryState = new HungryState(this);
 	private IState huntingState = new HuntingState(this);
 	private IState idleState = new IdleState(this);
+	private IState dumpToStockpileState = new DumpToStockpileState(this);
 	private IState lowEnergyState = new LowEnergyState(this);
 	private IState movingState = new MovingState(this);
 	private IState restingState = new RestingState(this);
@@ -87,14 +90,20 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private Interaction currentInteraction;
 	private Character interactionCharacter;
 
+	private StockpileInteraction currentStockpileInteraction;
+
 	private ICollidable objectToFollow = null;
 	private Class objectToFind = null;
 
 	private int timeSinceAnimalSighting = 1000; //a counter to keep track of the time since an animal was sighted. If it was a short time ago the chance that the AI will choose to hunt increases
+
 	public int getAnimalTime() {
-		return Math.min(timeSinceAnimalSighting, 3000)/7500;
+		return Math.min(timeSinceAnimalSighting, 3000) / 7500;
 	}
-	public void setAnimalTime(int i) {timeSinceAnimalSighting = i;}
+
+	public void setAnimalTime(int i) {
+		timeSinceAnimalSighting = i;
+	}
 
 	//Construction variables - What are we building?
 	private LinkedList<IStructure.StructureType> buildStack = new LinkedList<>();
@@ -121,14 +130,14 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		int[] traits = body.getTraits();
 		int[] skills = body.getSkills();
 
-		if(!body.isWaiting()) {
+		if (!body.isWaiting()) {
 
 			currentState.run();
 
 			int minVal = needsArray[0];
 			int minindex = 0;
 
-			if(needsArray[0] < 80 || needsArray[1] < 80 || needsArray[2] < 80) {
+			if (needsArray[0] < 60 || needsArray[1] < 60 || needsArray[2] < 60) {
 				if (!stateQueue.contains(this.getHungryState()) && !stateQueue.contains(this.getThirstyState()) && !stateQueue.contains(this.getLowEnergyState())) {
 					clearStatePaths();
 					getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.EMPTY);
@@ -166,7 +175,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		LinkedList<ResourcePoint> removeList = new LinkedList<>();
 		resourceMemory.stream()
 				.filter(o -> o != null)
-				.filter(o -> o.toBeRemoved() && Math.abs(o.getX()-getBody().getX()) < Constants.CHARACTER_SURROUNDING_RADIUS && Math.abs(o.getY()-getBody().getY()) < Constants.CHARACTER_SURROUNDING_RADIUS)
+				.filter(o -> o.toBeRemoved() && Math.abs(o.getX() - getBody().getX()) < Constants.CHARACTER_SURROUNDING_RADIUS && Math.abs(o.getY() - getBody().getY()) < Constants.CHARACTER_SURROUNDING_RADIUS)
 				.forEach(removeList::add);
 		resourceMemory.stream()
 				.filter(o -> o == null)
@@ -177,17 +186,19 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 		body.getSurroundings().stream()
 				.filter(o -> o.getClass().equals(ResourcePoint.class))
-				.map(o -> (ResourcePoint)o)
+				.map(o -> (ResourcePoint) o)
 				.filter(o -> !resourceMemory.contains(o))
 				.forEach(resourceMemory::add);
 
 		body.getSurroundings().stream()
 				.filter(o -> o instanceof IStructure)
-				.map(o -> (IStructure)o)
+				.map(o -> (IStructure) o)
 				.filter(o -> !structureMemory.contains(o))
 				.forEach(structureMemory::add);
 
-		if (timeSinceAnimalSighting < 3000) {timeSinceAnimalSighting++;}
+		if (timeSinceAnimalSighting < 3000) {
+			timeSinceAnimalSighting++;
+		}
 		for (ICollidable c : body.getSurroundings()) {
 			if (c.getClass().equals(Animal.class)) {
 				timeSinceAnimalSighting = 0;
@@ -207,7 +218,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return body;
 	}
 
-	public IState getCurrentState(){
+	public IState getCurrentState() {
 		return currentState;
 	}
 
@@ -338,11 +349,11 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return gatherStack.peek();
 	}
 
-	public LinkedList<ResourceTuple> getGatherStack(){
+	public LinkedList<ResourceTuple> getGatherStack() {
 		return gatherStack;
 	}
 
-	public void stackResourceToGather(ResourceTuple stackedResource){
+	public void stackResourceToGather(ResourceTuple stackedResource) {
 		gatherStack.push(stackedResource);
 	}
 
@@ -350,11 +361,11 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return buildStack.peek();
 	}
 
-	public void stackStructureToBuild(IStructure.StructureType type){
+	public void stackStructureToBuild(IStructure.StructureType type) {
 		buildStack.push(type);
 	}
 
-	public LinkedList<IStructure.StructureType> getStructureStack(){
+	public LinkedList<IStructure.StructureType> getStructureStack() {
 		return buildStack;
 	}
 
@@ -400,10 +411,11 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	/**
 	 * Finds the closest object of the type 'ResourcePoint' to the character
+	 *
 	 * @param type The type of resource to look for
 	 * @return the 'ResourcePoint' which is closest, or null if none is found in memory
 	 */
-	public ResourcePoint getClosestResourcePoint(IResource.ResourceType type){
+	public ResourcePoint getClosestResourcePoint(IResource.ResourceType type) {
 		/*
 		if(USE_MEMORY) {
 
@@ -422,7 +434,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 			}
 
 */
-		if(type.equals(IResource.ResourceType.FOOD)){
+		if (type.equals(IResource.ResourceType.FOOD)) {
 			return resourceMemory.stream()
 					.filter(o -> o.getResource().getResourceType().equals(IResource.ResourceType.WATER) || o.getResource().getResourceType().equals(IResource.ResourceType.MEAT) || o.getResource().getResourceType().equals(IResource.ResourceType.CROPS))
 					.reduce((rp1, rp2) -> (Math.abs(getBody().getX() - rp1.getX()) < Math.abs(getBody().getX() - rp2.getX())
@@ -446,34 +458,33 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return interactionCharacter;
 	}
 
-	public LinkedList<Character> getBlackList(){
+	public LinkedList<Character> getBlackList() {
 		return blackList;
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if(evt.getPropertyName().equals("attacked")){
+		if (evt.getPropertyName().equals("attacked")) {
 			// TODO: Implement a proper response to being attacked
-		} else if(evt.getPropertyName().equals("startInteraction")){
-			Character other = (Character)evt.getNewValue();
-			Interaction interaction = (Interaction)evt.getOldValue();
+		} else if (evt.getPropertyName().equals("startInteraction")) {
+			Character other = (Character) evt.getNewValue();
+			Interaction interaction = (Interaction) evt.getOldValue();
 
-			if(		(currentInteraction == null || interactionCharacter == null) ||
+			if ((currentInteraction == null || interactionCharacter == null) ||
 					(currentInteraction.getCharacter1Key() == body.hashCode() && currentInteraction.getCharacter2Key() == interactionCharacter.hashCode()) ||
-					(currentInteraction.getCharacter2Key() == body.hashCode() && currentInteraction.getCharacter1Key() == interactionCharacter.hashCode())){
+					(currentInteraction.getCharacter2Key() == body.hashCode() && currentInteraction.getCharacter1Key() == interactionCharacter.hashCode())) {
 				currentInteraction = interaction;
 				interactionCharacter = other;
 
-				if(getCurrentState() != getSocializeState()) {
+				if (getCurrentState() != getSocializeState()) {
 					stackState(currentState);
 				}
 				setState(getSocializeState());
 
-			} else{
+			} else {
 				interaction.declineInteraction();
 			}
-		}
-		else if (interactionCharacter != null){
+		} else if (interactionCharacter != null) {
 
 			if (evt.getPropertyName().equals("itemAddedToOfferBy" + interactionCharacter.hashCode())) {
 				// TODO: What to do
@@ -502,10 +513,14 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 				interactionCharacter = null;
 				body.setInteractionType(null);
 			} else if (evt.getPropertyName().equals("interactionNotActive" + interactionCharacter.hashCode())) {
-				if(uninteractableCharacters.size() > 5) {
+				if (uninteractableCharacters.size() > 5) {
 					uninteractableCharacters.clear();
 				}
 				uninteractableCharacters.add(interactionCharacter);
+			}
+		} else if (evt.getPropertyName().equals("startStockpileInteraction")) {
+			if (currentStockpileInteraction == null) {
+				currentStockpileInteraction = (StockpileInteraction) evt.getOldValue();
 			}
 		}
 
@@ -531,7 +546,9 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		return pointStack;
 	}
 
-	public Point getNextPoint() {return pointStack.peek();}
+	public Point getNextPoint() {
+		return pointStack.peek();
+	}
 
 	public void stackPoint(Point p) {
 		pointStack.offer(p);
@@ -549,11 +566,11 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		resourceStack.offer(r);
 	}
 
-	public void stackResourceToFind(IResource.ResourceType res){
+	public void stackResourceToFind(IResource.ResourceType res) {
 		resourceToFindStack.push(res);
 	}
 
-	public LinkedList<IResource.ResourceType> getResourceToFindStack(){
+	public LinkedList<IResource.ResourceType> getResourceToFindStack() {
 		return resourceToFindStack;
 	}
 
@@ -572,6 +589,18 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 		((FollowState) this.getFollowState()).clearPath();
 		((HuntingState) this.getHuntingState()).clearPath();
 		((MovingState) this.getMovingState()).clearPath();
+	}
+
+	public IState getDumpToStockpileState() {
+		return dumpToStockpileState;
+	}
+
+	public StockpileInteraction getCurrentStockpileInteraction() {
+		return currentStockpileInteraction;
+	}
+
+	public void setCurrentStockpileInteraction(StockpileInteraction currentStockpileInteraction) {
+		this.currentStockpileInteraction = currentStockpileInteraction;
 	}
 	/*public void finalWords() {
 		int[] needs = body.getNeeds();
