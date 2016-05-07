@@ -546,11 +546,18 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	}
 
 	public void stackResource(ICollidable r) {
-		resourceStack.offer(r);
+		resourceStack.push(r);
 	}
 
 	public void stackResourceToFind(IResource.ResourceType res){
 		resourceToFindStack.push(res);
+	}
+
+	public String getThingMovingTowards() {
+		if (getNextResource().getClass().equals(ResourcePoint.class)) {
+			return ((ResourcePoint) getNextResource()).getResource().getResourceType().toString();
+		}
+		return "HOUSE";
 	}
 
 	public LinkedList<IResource.ResourceType> getResourceToFindStack(){

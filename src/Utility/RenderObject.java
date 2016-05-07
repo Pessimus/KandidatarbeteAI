@@ -21,7 +21,7 @@ public final class RenderObject{
 		EXPLORING("res/exploring.png"), BUILDING("res/building.png"), PICKING("res/picking.png"), FARMING("res/farming.png"),
 		THINK_FORESTING("res/forestingThink.png"),  THINK_PICKING("res/pickingThink.png"), THINK_FISHING("res/fishingThink.png"), THINK_EXPLORING("res/exploringThink.png"),
 		THINK_SLEEPING("res/sleepingThink.png"), THINK_FARMING("res/farmingThink.png"), THINK_BUILDING("res/buildingThink.png"), THINK_HUNTING("res/huntingThink.png"),
-		THINK_DRINKING("res/drinkingThink.png"), DRINKING("res/drinking.png"),
+		THINK_DRINKING("res/drinkingThink.png"), DRINKING("res/drinking.png"), THINK_SOWING("res/sowingThink.png"), SOWING("res/sowing.png"),
 		EMPTY("res/empty.png"),
 
 		// TODO: Hardcoded test enum
