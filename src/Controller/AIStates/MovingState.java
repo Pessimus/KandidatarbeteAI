@@ -43,9 +43,12 @@ public class MovingState implements IState {
 				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_FARMING);
 			} else if (brain.getStateQueue().peek().getClass().equals(GatherWaterState.class)) {
 				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_DRINKING);
+			} else if (brain.getStateQueue().peek().getClass().equals(WorkFarmState.class)) {
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_SOWING);
 			} else if (!brain.getStateQueue().peek().getClass().equals(HuntingState.class) && !brain.getStateQueue().peek().getClass().equals(ExploreState.class)) {
 				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.EMPTY);
 			}
+
 		}
 		LinkedList<PathStep> tempPath = brain.getNextPath();
 

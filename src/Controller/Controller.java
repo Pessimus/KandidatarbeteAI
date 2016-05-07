@@ -1,5 +1,6 @@
 package Controller;
 
+import Controller.AIStates.MovingState;
 import Model.*;
 import Model.Character;
 import Utility.Constants;
@@ -186,13 +187,16 @@ public class Controller implements PropertyChangeListener {
 					if(!currentCharacter.equals(player.getBody()) && currentCharacter.isAlive()){
 
 						System.out.println("Current state: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getCurrentState());
+						if (((ArtificialBrain)aiMap.get(currentCharacter)).getCurrentState().getClass().equals(MovingState.class)) {
+							System.out.println("Moving towards resource: " + ((ArtificialBrain) aiMap.get(currentCharacter)).getThingMovingTowards());
+						}
 						System.out.println();
 						System.out.println("State stack:");
 						((ArtificialBrain)aiMap.get(currentCharacter)).getStateQueue().stream()
 								.forEach(o -> System.out.print("\t" + o));
 						System.out.println("\nGather stack:");
 						((ArtificialBrain)aiMap.get(currentCharacter)).getGatherStack().stream()
-								.forEach(o -> System.out.print("\t" + o));
+								.forEach(o -> System.out.print("\t" + (o.resourceType)));
 						/*System.out.println("\nPath stack:\n");
 						((ArtificialBrain)aiMap.get(currentCharacter)).getPathStack().stream()
 								.forEach(o -> System.out.print("\t" + o));*/
@@ -200,6 +204,7 @@ public class Controller implements PropertyChangeListener {
 						((ArtificialBrain)aiMap.get(currentCharacter)).getStructureStack());
 						System.out.println("Resource to find: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getResourceToFindStack());
 						/*System.out.println("FARM?: " + ((ArtificialBrain) aiMap.get(currentCharacter)).getStructureMemory().contains(IStructure.StructureType.FARM));*/
+						System.out.println("___________________________________________________________________________________________\n");
 
 					}
 				}

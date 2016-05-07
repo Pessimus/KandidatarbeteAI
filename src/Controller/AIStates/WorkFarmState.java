@@ -6,6 +6,7 @@ import Model.IStructure;
 import Model.ResourcePoint;
 import Model.Structures.Farm;
 import Utility.Constants;
+import Utility.RenderObject;
 import Utility.UniversalStaticMethods;
 
 import java.awt.*;
@@ -31,6 +32,7 @@ public class WorkFarmState implements IState {
 			ICollidable tempC = iteratorC.next();
 			if(tempC.getClass().equals(Farm.class)){
 				System.out.println("Interacted with farm!");
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.SOWING);
 				brain.getBody().interactObject(i);
 				hasFound = true;
 				break;

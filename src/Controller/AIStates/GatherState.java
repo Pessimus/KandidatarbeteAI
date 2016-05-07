@@ -112,7 +112,6 @@ public class GatherState implements IState{
 
 			//brain.findPathTo(p);
 			//brain.stackPoint(new Point((int) p.getX(), (int) p.getY()));
-			brain.stackResource(p);
 
 			switch (selectType) {
 				case MEAT:
@@ -151,6 +150,8 @@ public class GatherState implements IState{
 					brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_FORESTING);
 					break;
 			}
+
+			brain.stackResource(p);
 
 			brain.setState(brain.getMovingState());
 		}
