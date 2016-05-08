@@ -4,6 +4,7 @@ import Controller.ArtificialBrain;
 import Controller.PathStep;
 import Model.*;
 import Model.Character;
+import Utility.Constants;
 import Utility.RenderObject;
 
 import java.util.LinkedList;
@@ -24,7 +25,7 @@ public class HuntingState implements IState {
 	@Override
 	public void run() {
 		brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_HUNTING);
-		if (World.nbrAnimals > 15 && !brain.getStateQueue().contains(brain.getGatherMeatState())) {
+		if (World.nbrAnimals > Constants.MIN_ANIMAL_COUNT && !brain.getStateQueue().contains(brain.getGatherMeatState())) {
 			boolean foundObject = false;
 			for (ICollidable o : brain.getBody().getSurroundings()) {
 				if (o.getClass().equals(Animal.class)) {
