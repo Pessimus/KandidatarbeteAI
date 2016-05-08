@@ -517,6 +517,12 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 					uninteractableCharacters.clear();
 				}
 				uninteractableCharacters.add(interactionCharacter);
+			} else if (evt.getPropertyName().equals("endStockpileInteraction")){
+				currentStockpileInteraction.removePropertyChangeListener(this);
+				currentStockpileInteraction = null;
+			} else if (evt.getPropertyName().equals("startStockpileInteraction")){
+				currentStockpileInteraction = (StockpileInteraction)evt.getNewValue();
+				currentStockpileInteraction.addPropertyChangeListener(this);
 			}
 		}
 
