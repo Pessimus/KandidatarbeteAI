@@ -45,7 +45,7 @@ public class DumpToStockpileState implements IState {
 
 				if (s != null) {
 					brain.stackState(this);
-					brain.findPathTo(s);
+					brain.stackResource(s);
 					brain.setState(brain.getMovingState());
 				} else {
 					brain.setState(brain.getIdleState());

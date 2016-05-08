@@ -90,7 +90,7 @@ public class GatherState implements IState{
 		if(p == null) {
 			switch (type.resourceType) {
 				case MEAT:
-					if (World.nbrAnimals > 15) {
+					if (World.nbrAnimals > Constants.MIN_ANIMAL_COUNT) {
 						brain.setState(brain.getHuntingState());
 					} else {
 						brain.getGatherStack().removeFirst();

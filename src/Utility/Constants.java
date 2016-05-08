@@ -327,6 +327,7 @@ public final class Constants {
 	public static final int GATHER_STONE_STATE_TIME = 8 * CONTROLLER_UPDATE_INTERVAL_NORMAL;            // Number of updates ("frames") that the character will wait when gathering stone
 	public static final int EAT_STATE_TIME = 15;            // Number of updates ("frames") that the character will wait when eating something
 	public static final int DRINK_STATE_TIME = 15;            // Number of updates ("frames") that the character will wait when drinking something
+	public static final int MIN_ANIMAL_COUNT = 15;		// the NPC will not begin to hunt if there are fewer (or equal) number of animals.
 
 	// ----------- PATHFINDER Constants ----------- \\
 
