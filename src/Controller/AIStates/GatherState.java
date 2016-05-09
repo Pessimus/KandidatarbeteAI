@@ -90,7 +90,13 @@ public class GatherState implements IState{
 		if(p == null) {
 			switch (type.resourceType) {
 				case MEAT:
-					brain.setState(brain.getHuntingState());
+					if (World.nbrAnimals > Constants.MIN_ANIMAL_COUNT) {
+						brain.setState(brain.getHuntingState());
+					} else {
+						brain.getGatherStack().removeFirst();
+						brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.FOOD, 1));
+						brain.setState(brain.getGatherState());
+					}
 					break;
 				case CROPS:
 					brain.stackState(brain.getGatherState());
@@ -112,7 +118,6 @@ public class GatherState implements IState{
 
 			//brain.findPathTo(p);
 			//brain.stackPoint(new Point((int) p.getX(), (int) p.getY()));
-			brain.stackResource(p);
 
 			switch (selectType) {
 				case MEAT:
@@ -150,6 +155,9 @@ public class GatherState implements IState{
 					brain.stackState(brain.getGatherWoodState());
 					brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.THINK_FORESTING);
 					break;
+			}
+			if (p != null) {
+				brain.stackResource(p);
 			}
 
 			brain.setState(brain.getMovingState());

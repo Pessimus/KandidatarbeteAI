@@ -75,6 +75,8 @@ public class StockpileInteraction {
 		stockpile = null;
 		stockpileInventory = null;
 
+		pcs.firePropertyChange("endStockpileInteraction", false, true);
+
 		PropertyChangeListener[] listeners = pcs.getPropertyChangeListeners();
 		int i = 0;
 		while(i < listeners.length){

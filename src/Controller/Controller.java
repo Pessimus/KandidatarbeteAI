@@ -1,5 +1,6 @@
 package Controller;
 
+import Controller.AIStates.MovingState;
 import Model.*;
 import Model.Character;
 import Utility.Constants;
@@ -175,7 +176,7 @@ public class Controller implements PropertyChangeListener {
 		int width = (int)gameModel.getWidth()+Constants.VIEW_BORDER_WIDTH*2;
 		int height = (int)gameModel.getHeight()+Constants.VIEW_BORDER_HEIGHT*2;
 
-		playerViewCentered = !gameModel.getCharacterList().isEmpty();
+		//playerViewCentered = !gameModel.getCharacterList().isEmpty();
 
 		//Centers the player in the middle of the screen
 		if(playerViewCentered) {
@@ -183,36 +184,40 @@ public class Controller implements PropertyChangeListener {
 				if(gameModel.getCharacterList().size() > 0) {
 					playerXPos = currentCharacter.getX() + Constants.VIEW_BORDER_WIDTH;
 					playerYPos = currentCharacter.getY() + Constants.VIEW_BORDER_HEIGHT;
+
+					//TODO remove --------------------------------------------------------------------------------------
 					if(!currentCharacter.equals(player.getBody()) && currentCharacter.isAlive()){
-
-						System.out.println("Current state: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getCurrentState());
-						System.out.println();
-						System.out.println("State stack:");
-						((ArtificialBrain)aiMap.get(currentCharacter)).getStateQueue().stream()
-								.forEach(o -> System.out.print("\t" + o));
-						System.out.println("\nGather stack:");
-						((ArtificialBrain)aiMap.get(currentCharacter)).getGatherStack().stream()
-								.forEach(o -> System.out.print("\t" + o));
-						/*System.out.println("\nPath stack:\n");
-						((ArtificialBrain)aiMap.get(currentCharacter)).getPathStack().stream()
-								.forEach(o -> System.out.print("\t" + o));*/
-						System.out.println("\nBuild stack: " +
-						((ArtificialBrain)aiMap.get(currentCharacter)).getStructureStack());
-						System.out.println("Resource to find: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getResourceToFindStack());
-						/*System.out.println("FARM?: " + ((ArtificialBrain) aiMap.get(currentCharacter)).getStructureMemory().contains(IStructure.StructureType.FARM));*/
-
-					}
+										System.out.println("Current state: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getCurrentState());
+										if (((ArtificialBrain)aiMap.get(currentCharacter)).getCurrentState().getClass().equals(MovingState.class)) {
+											System.out.println("Moving towards resource: " + ((ArtificialBrain) aiMap.get(currentCharacter)).getThingMovingTowards());
+										}
+										System.out.println();
+										System.out.println("State stack:");
+										((ArtificialBrain)aiMap.get(currentCharacter)).getStateQueue().stream()
+												.forEach(o -> System.out.print("\t" + o));
+										System.out.println("\nGather stack:");
+										((ArtificialBrain)aiMap.get(currentCharacter)).getGatherStack().stream()
+												.forEach(o -> System.out.print("\t" + (o.resourceType)));
+										/*System.out.println("\nPath stack:\n");
+										((ArtificialBrain)aiMap.get(currentCharacter)).getPathStack().stream()
+												.forEach(o -> System.out.print("\t" + o));*/
+										System.out.println("\nBuild stack: " +
+										((ArtificialBrain)aiMap.get(currentCharacter)).getStructureStack());
+										System.out.println("Resource to find: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getResourceToFindStack());
+										/*System.out.println("FARM?: " + ((ArtificialBrain) aiMap.get(currentCharacter)).getStructureMemory().contains(IStructure.StructureType.FARM));*/
+										System.out.println("___________________________________________________________________________________________\n");
+									}
+					//TODO remove --------------------------------------------------------------------------------------
 				}
-
-
 
 				if (playerXPos - Constants.SCREEN_WIDTH / (2 * scaleGraphicsX) > 0) {
 					if (playerXPos + Constants.SCREEN_WIDTH / (2 * scaleGraphicsX) < width) {
 						screenRect.setMinX(playerXPos - Constants.SCREEN_WIDTH / (2 * scaleGraphicsX));
-					} else {
-						screenRect.setMaxX(width);
+					} else {//Outside right edge
+						screenRect.setMinX(width - Constants.SCREEN_WIDTH / (scaleGraphicsX));
+						//screenRect.setMaxX(width);
 					}
-				} else {
+				} else {//Outside left edge
 					screenRect.setMinX(0);
 				}
 
@@ -220,44 +225,15 @@ public class Controller implements PropertyChangeListener {
 					if (playerYPos + Constants.SCREEN_HEIGHT / (2 * scaleGraphicsY) < height) {
 						screenRect.setMinY(playerYPos - Constants.SCREEN_HEIGHT / (2 * scaleGraphicsY));
 					} else {
-						screenRect.setMaxY(height);
+						screenRect.setMinY(height - Constants.SCREEN_HEIGHT / (scaleGraphicsX));
+						//screenRect.setMaxY(height);
 					}
 				} else {
 					screenRect.setMinY(0);
 				}
-				//Spectator mode: Choose where you want to be on the screen!
 			}
-		}else {
-
-			// Move the screen-view over the world if the mouse is close
-			// to either edge of the screen.
-			if (mouseX >= Constants.SCREEN_EDGE_TRIGGER_MAX_X) {
-				if (screenRect.getMaxX() < width) {
-					screenRect.translatePosition(Constants.SCREEN_SCROLL_SPEED_X / Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL, 0);
-				} else {
-					screenRect.setMaxX(width);
-				}
-			} else if (mouseX <= Constants.SCREEN_EDGE_TRIGGER_MIN_X) {
-				if (screenRect.getMinX() > 0) {
-					screenRect.translatePosition(-Constants.SCREEN_SCROLL_SPEED_X / Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL, 0);
-				} else {
-					screenRect.setMinX(0);
-				}
-			}
-
-			if (mouseY >= Constants.SCREEN_EDGE_TRIGGER_MAX_Y) {
-				if (screenRect.getMaxY() < height) {
-					screenRect.translatePosition(0, Constants.SCREEN_SCROLL_SPEED_Y / Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL);
-				} else {
-					screenRect.setMaxY(height);
-				}
-			} else if (mouseY <= Constants.SCREEN_EDGE_TRIGGER_MIN_Y) {
-				if (screenRect.getMinY() > 0) {
-					screenRect.translatePosition(0, -Constants.SCREEN_SCROLL_SPEED_Y / Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL);
-				} else {
-					screenRect.setMinY(0);
-				}
-			}
+		}else {//Spectator mode: Choose where you want to be on the screen!
+			this.spectatorModeUpdate();
 		}
 
 		// Get renderable objects from the model and proceed to
@@ -281,6 +257,41 @@ public class Controller implements PropertyChangeListener {
 			gameView.setCharacterAge(currentCharacter.getAge());
 		}
 
+	}
+
+	private void spectatorModeUpdate(){
+
+		int width = (int)gameModel.getWidth()+Constants.VIEW_BORDER_WIDTH*2;
+		int height = (int)gameModel.getHeight()+Constants.VIEW_BORDER_HEIGHT*2;
+		// Move the screen-view over the world if the mouse is close
+		// to either edge of the screen.
+		if (mouseX >= Constants.SCREEN_EDGE_TRIGGER_MAX_X) {
+			if (screenRect.getMinX() < width - Constants.SCREEN_WIDTH / (scaleGraphicsX)) {
+				screenRect.translatePosition(Constants.SCREEN_SCROLL_SPEED_X / Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL, 0);
+			} else {
+				screenRect.setMinX(width - Constants.SCREEN_WIDTH / (scaleGraphicsX));
+			}
+		} else if (mouseX <= Constants.SCREEN_EDGE_TRIGGER_MIN_X) {
+			if (screenRect.getMinX() > 0) {
+				screenRect.translatePosition(-Constants.SCREEN_SCROLL_SPEED_X / Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL, 0);
+			} else {
+				screenRect.setMinX(0);
+			}
+		}
+
+		if (mouseY >= Constants.SCREEN_EDGE_TRIGGER_MAX_Y) {
+			if (screenRect.getMinY() < height - Constants.SCREEN_HEIGHT / (scaleGraphicsY)) {
+				screenRect.translatePosition(0, Constants.SCREEN_SCROLL_SPEED_Y / Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL);
+			} else {
+				screenRect.setMinY(height - Constants.SCREEN_HEIGHT / (scaleGraphicsX));
+			}
+		} else if (mouseY <= Constants.SCREEN_EDGE_TRIGGER_MIN_Y) {
+			if (screenRect.getMinY() > 0) {
+				screenRect.translatePosition(0, -Constants.SCREEN_SCROLL_SPEED_Y / Constants.CONTROLLER_UPDATE_INTERVAL_NORMAL);
+			} else {
+				screenRect.setMinY(0);
+			}
+		}
 	}
 
 	/**
@@ -579,12 +590,22 @@ public class Controller implements PropertyChangeListener {
 		}else {
 			zoom = Constants.ZOOM_LEVEL - 0.1;
 		}
-		System.out.println(zoom);
-		if(zoom >= 0.2 && zoom < 2) {
+		if(zoom >= 0.3 && zoom < 2) {
 			Constants.ZOOM_LEVEL = zoom;
 			scaleGraphicsX = Constants.SCREEN_WIDTH * Constants.ZOOM_LEVEL / Constants.STANDARD_SCREEN_WIDTH;
 			scaleGraphicsY = Constants.SCREEN_HEIGHT * Constants.ZOOM_LEVEL / Constants.STANDARD_SCREEN_HEIGHT;
 			gameView.setScale((float) scaleGraphicsX, (float) scaleGraphicsY);
+			if(!playerViewCentered){
+				this.spectatorModeUpdate();
+				int width = (int)gameModel.getWidth()+Constants.VIEW_BORDER_WIDTH*2;
+				int height = (int)gameModel.getHeight()+Constants.VIEW_BORDER_HEIGHT*2;
+				if (!(screenRect.getMinX() < width - Constants.SCREEN_WIDTH / (scaleGraphicsX))) {
+					screenRect.setMinX(width - Constants.SCREEN_WIDTH / (scaleGraphicsX));
+				}
+				if (!(screenRect.getMinY() < height - Constants.SCREEN_HEIGHT / (scaleGraphicsY))) {
+					screenRect.setMinY(height - Constants.SCREEN_HEIGHT / (scaleGraphicsX));
+				}
+			}
 		}
 	}
 
