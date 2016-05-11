@@ -190,6 +190,7 @@ public final class Constants {
 
 	//-------------------------- Resource Constants -------------------------- \\
 	public static final int TREE_UPDATE_INTERVAL = 12000;
+	public static final int MAX_TREE_COUNT = 200;
 
 	public static final float TREE_SPAWN_RADIUS = 500;
 	public static final float TREE_COLLISION_RADIUS = 75;
