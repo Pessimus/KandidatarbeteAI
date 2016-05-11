@@ -2,6 +2,7 @@ package Model.Structures;
 
 import Model.*;
 import Model.Character;
+import Model.Items.WoodItem;
 import Model.Tasks.AttackTask;
 import Model.Tasks.InteractTask;
 import Utility.Constants;
@@ -204,6 +205,11 @@ public class Stockpile implements IStructure {
 	/**{@inheritDoc}*/
 	public RenderObject.RENDER_OBJECT_ENUM getRenderType() {
 		return renderObjectEnum;
+	}
+
+	@Override
+	public void setRenderType(RenderObject.RENDER_OBJECT_ENUM type) {
+		renderObjectEnum = type;
 	}
 }
 

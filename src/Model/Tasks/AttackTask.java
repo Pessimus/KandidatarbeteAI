@@ -32,6 +32,7 @@ public class AttackTask implements ITask {
 	public void execute() {
 		this.attackable.attackedCommand(this.actor);
 		this.actor.setWaiting(false);
+		actor.removePropertyChangeListener(this);
 	}
 
 	@Override
@@ -39,6 +40,7 @@ public class AttackTask implements ITask {
 		this.actor.setWaiting(false);
 		this.remove = true;
 		this.attackable.attackedInterrupted(this.actor);
+		actor.removePropertyChangeListener(this);
 	}
 
 	/*@Override

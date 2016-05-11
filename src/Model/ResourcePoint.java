@@ -192,6 +192,11 @@ public class ResourcePoint implements ICollidable {
 		return renderObjectEnum;
 	}
 
+	@Override
+	public void setRenderType(RenderObject.RENDER_OBJECT_ENUM type) {
+		renderObjectEnum = type;
+	}
+
 	public IResource getResource() {
 		return resource;
 	}

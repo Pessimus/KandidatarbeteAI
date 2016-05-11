@@ -272,5 +272,10 @@ public class Farm implements IStructure, ITimeable {
 		return renderObjectEnum;
 	}
 
+	@Override
+	public void setRenderType(RenderObject.RENDER_OBJECT_ENUM type) {
+		renderObjectEnum = type;
+	}
+
 
 }

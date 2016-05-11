@@ -724,6 +724,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return renderObjectEnum;
 	}
 
+	@Override
+	public void setRenderType(RenderObject.RENDER_OBJECT_ENUM type) {
+		renderObjectEnum = type;
+	}
+
 	/**
 	 * Returns a list containing all information necessary to view this characters inventory.
 	 * @return A list of InventoryRender, one for every item in the inventory.

@@ -3,6 +3,7 @@ package Controller;
 import Controller.AIStates.*;
 import Model.*;
 import Model.Character;
+import Model.Structures.Stockpile;
 import Utility.Constants;
 import Utility.RenderObject;
 
@@ -517,15 +518,14 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 					uninteractableCharacters.clear();
 				}
 				uninteractableCharacters.add(interactionCharacter);
-			} else if (evt.getPropertyName().equals("endStockpileInteraction")){
-				currentStockpileInteraction.removePropertyChangeListener(this);
-				currentStockpileInteraction = null;
-			} else if (evt.getPropertyName().equals("startStockpileInteraction")){
-				currentStockpileInteraction = (StockpileInteraction)evt.getNewValue();
-				currentStockpileInteraction.addPropertyChangeListener(this);
 			}
+		} else if (evt.getPropertyName().equals("endStockpileInteraction")){
+			currentStockpileInteraction.removePropertyChangeListener(this);
+			setCurrentStockpileInteraction(null);
+		} else if (evt.getPropertyName().equals("startStockpileInteraction")){
+			setCurrentStockpileInteraction((StockpileInteraction)evt.getOldValue());
+			currentStockpileInteraction.addPropertyChangeListener(this);
 		}
-
 	}
 
 	public ICollidable getObjectToFollow() {

@@ -436,4 +436,9 @@ public class Animal implements ICollidable, ITimeable {
 	public RenderObject.RENDER_OBJECT_ENUM getRenderType() {
 		return renderObjectEnum;
 	}
+
+	@Override
+	public void setRenderType(RenderObject.RENDER_OBJECT_ENUM type) {
+		renderObjectEnum = type;
+	}
 }

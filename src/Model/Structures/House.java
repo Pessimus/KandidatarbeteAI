@@ -262,5 +262,10 @@ public class House implements IStructure {
 		return renderObjectEnum;
 	}
 
+	@Override
+	public void setRenderType(RenderObject.RENDER_OBJECT_ENUM type) {
+		renderObjectEnum = type;
+	}
+
 }
 
