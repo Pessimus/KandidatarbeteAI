@@ -355,7 +355,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	}
 
 	public void stackResourceToGather(ResourceTuple stackedResource) {
-		if (gatherStack.isEmpty() || (!gatherStack.peek().resourceType.equals(stackedResource.resourceType) || !(gatherStack.peek().resourceAmount == stackedResource.resourceAmount))) {gatherStack.push(stackedResource);}
+		gatherStack.push(stackedResource);
 	}
 
 	public IStructure.StructureType peekStructureStack() {
