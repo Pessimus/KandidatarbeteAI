@@ -50,13 +50,12 @@ public class IdleState implements IState {
 						brain.stackState(brain.getBuildState());
 					} else {
 						d = r.nextDouble();
-						if (d > 0.5 + brain.getAnimalTime() && World.nbrAnimals > 15) {
+						if (brain.getAnimalTime() < 500 && World.nbrAnimals > 15) {
 							brain.stackState(brain.getHuntingState());
-						} else if (d > 0.4 && d < 0.5 + brain.getAnimalTime()) {
+						} else if (d > 0.7) {
 							brain.stackState(brain.getGatherState());
 						} else {
-							d = r.nextDouble();
-							if (d > 0.5) {
+							if (d > 0.4 && d <= 0.7) {
 								brain.stackState(brain.getDumpToStockpileState());
 							} else {
 								brain.stackState(brain.getWorkFarmState());
