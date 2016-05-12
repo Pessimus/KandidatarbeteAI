@@ -45,7 +45,7 @@ public class ThirstyState implements IState {
 			brain.stackState(this);
 
 			if (best == null) {
-				brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.WATER, 1));
+				brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.WATER, 3));
 				brain.setState(brain.getGatherState());
 			} else {
 				brain.setState(brain.getDrinkState());

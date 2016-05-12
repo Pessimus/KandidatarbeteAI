@@ -121,7 +121,11 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 
 	public ArtificialBrain(ICharacterHandle c) {
 		body = c;
-		currentState = idleState;
+		currentState = gatherState;
+		stackState(this.getGatherState());
+		stackResourceToGather(new ResourceTuple(IResource.ResourceType.FOOD, 3));
+		stackResourceToGather(new ResourceTuple(IResource.ResourceType.WATER, 3));
+
 		c.addPropertyChangeListener(this);
 	}
 
