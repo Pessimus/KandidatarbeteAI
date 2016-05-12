@@ -32,6 +32,7 @@ public class ConsumeTask implements ITask {
 	public void execute() {
 		this.consumable.consumedCommand(this.actor);
 		this.actor.setWaiting(false);
+		actor.removePropertyChangeListener(this);
 	}
 
 	@Override
@@ -39,6 +40,7 @@ public class ConsumeTask implements ITask {
 		this.actor.setWaiting(false);
 		this.remove = true;
 		this.consumable.consumedInterrupted(this.actor);
+		actor.removePropertyChangeListener(this);
 
 	}
 

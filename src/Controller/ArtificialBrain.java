@@ -3,6 +3,7 @@ package Controller;
 import Controller.AIStates.*;
 import Model.*;
 import Model.Character;
+import Model.Structures.Stockpile;
 import Utility.Constants;
 import Utility.RenderObject;
 
@@ -98,7 +99,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 	private int timeSinceAnimalSighting = 1000; //a counter to keep track of the time since an animal was sighted. If it was a short time ago the chance that the AI will choose to hunt increases
 
 	public int getAnimalTime() {
-		return Math.min(timeSinceAnimalSighting, 3000) / 7500;
+		return timeSinceAnimalSighting;
 	}
 
 	public void setAnimalTime(int i) {
@@ -196,7 +197,7 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 				.filter(o -> !structureMemory.contains(o))
 				.forEach(structureMemory::add);
 
-		if (timeSinceAnimalSighting < 3000) {
+		if (timeSinceAnimalSighting < 5000) {
 			timeSinceAnimalSighting++;
 		}
 		for (ICollidable c : body.getSurroundings()) {
@@ -517,15 +518,14 @@ public class ArtificialBrain implements AbstractBrain, PropertyChangeListener {
 					uninteractableCharacters.clear();
 				}
 				uninteractableCharacters.add(interactionCharacter);
-			} else if (evt.getPropertyName().equals("endStockpileInteraction")){
-				currentStockpileInteraction.removePropertyChangeListener(this);
-				currentStockpileInteraction = null;
-			} else if (evt.getPropertyName().equals("startStockpileInteraction")){
-				currentStockpileInteraction = (StockpileInteraction)evt.getNewValue();
-				currentStockpileInteraction.addPropertyChangeListener(this);
 			}
+		} else if (evt.getPropertyName().equals("endStockpileInteraction")){
+			currentStockpileInteraction.removePropertyChangeListener(this);
+			setCurrentStockpileInteraction(null);
+		} else if (evt.getPropertyName().equals("startStockpileInteraction")){
+			setCurrentStockpileInteraction((StockpileInteraction)evt.getOldValue());
+			currentStockpileInteraction.addPropertyChangeListener(this);
 		}
-
 	}
 
 	public ICollidable getObjectToFollow() {

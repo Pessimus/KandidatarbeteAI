@@ -20,11 +20,14 @@ public class ReproduceTask implements ITask{
 	@Override
 	public void execute() {
 		this.actor.reproduceCommand();
+		this.actor.setWaiting(false);
+		actor.removePropertyChangeListener(this);
 	}
 
 	@Override
 	public void interrupt() {
 		this.actor.setWaiting(false);
+		actor.removePropertyChangeListener(this);
 	}
 
 	@Override

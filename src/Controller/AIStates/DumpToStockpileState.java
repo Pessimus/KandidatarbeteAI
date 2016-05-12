@@ -59,9 +59,9 @@ public class DumpToStockpileState implements IState {
 
 			if (item != null) {
 				brain.getCurrentStockpileInteraction().addToStockpile(item);
-				brain.getCurrentStockpileInteraction().endInteraction();
 			}
 
+			brain.getCurrentStockpileInteraction().endInteraction();
 			brain.setState(brain.getIdleState());
 		}
 	}

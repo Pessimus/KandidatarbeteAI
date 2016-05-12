@@ -119,6 +119,7 @@ public final class Constants {
 	public static final int CHARACTER_HUNGER_CHANGE = 2;
 	public static final int CHARACTER_THIRST_CHANGE = 1;
 	public static final int CHARACTER_ENERGY_CHANGE = 1;
+	public static final int CHARACTER_SLEEP_CHANGE = 1;
 	public static final int CHARACTER_SOCIAL_CHANGE = 1;
 
 	//----------- Inventory Constants ------------- \\
@@ -134,6 +135,7 @@ public final class Constants {
 	//----------- Structure Constants ------------- \\
 	public static final double HOUSE_COLLISION_RADIUS = 50;
 	public static final double STOCKPILE_COLLISION_RADIUS = 50;
+	public static final double STOCKPILE_INTERACTION_RADIUS = 70;
 	public static final double FARM_COLLISION_RADIUS = 100;
 	public static final int HOUSE_MAX_CAPACITY = 2;
 
@@ -188,13 +190,14 @@ public final class Constants {
 
 	//-------------------------- Resource Constants -------------------------- \\
 	public static final int TREE_UPDATE_INTERVAL = 12000;
+	public static final int MAX_TREE_COUNT = 200;
 
 	public static final float TREE_SPAWN_RADIUS = 500;
 	public static final float TREE_COLLISION_RADIUS = 75;
 	public static final double LAKE_COLLISION_RADIUS = 100;
 	public static final double STONE_COLLISION_RADIUS = 10;
 	public static final int WOOD_MAX_RESOURCES = 70;
-	public static final int WOOD_INITIAL_RESOURCES = 40;
+	public static final int WOOD_INITIAL_RESOURCES = 70;
 	public static final int WOOD_RESOURCE_GAIN = 1;
 
 	public static final float CROPS_COLLISION_RADIUS = 40;

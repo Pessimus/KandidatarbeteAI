@@ -28,12 +28,14 @@ public class BuildTask implements ITask {
 	public void execute() {
 		actor.build(cost,rhs);
 		this.actor.setWaiting(false);
+		actor.removePropertyChangeListener(this);
 	}
 
 	@Override
 	public void interrupt() {
 		this.actor.setWaiting(false);
 		this.remove = true;
+		actor.removePropertyChangeListener(this);
 	}
 
 	@Override

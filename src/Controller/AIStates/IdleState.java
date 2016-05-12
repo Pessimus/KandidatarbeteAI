@@ -40,6 +40,7 @@ public class IdleState implements IState {
 						for (IStructure structure : brain.getStructureMemory()) {
 							if (structure.getStructureType() == IStructure.StructureType.FARM) {
 								brain.setState(brain.getIdleState());
+								brain.getBody().setHasFarm(true);
 							}
 						}
 						brain.stackStructureToBuild(IStructure.StructureType.FARM);

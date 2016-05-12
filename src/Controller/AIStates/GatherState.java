@@ -53,34 +53,33 @@ public class GatherState implements IState{
 		}
 
 		if (lowestType == null) {
-			System.out.println("SHOULD NEVER RUN!");
 			brain.setState(brain.getIdleState());
 		} else {
 			switch (lowestType) {
 				case MEAT_ITEM:
-					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.MEAT, 1));
+					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.MEAT, 2));
 					break;
 				case FISH_ITEM:
-					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.FISH, 1));
+					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.FISH, 2));
 					break;
 				case WATER_ITEM:
-					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.WATER, 1));
+					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.WATER, 2));
 					break;
 				case WOOD_ITEM:
-					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.WOOD, 1));
+					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.WOOD, 2));
 					break;
 				case STONE_ITEM:
-					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.STONE, 1));
+					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.STONE, 2));
 					break;
 				case GOLD_ITEM:
-					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.GOLD, 1));
+					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.GOLD, 2));
 					break;
 				case CROPS_ITEM:
-					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.CROPS, 1));
+					brain.stackResourceToGather(new ResourceTuple(IResource.ResourceType.CROPS, 2));
 					break;
 			}
 
-			brain.setState(brain.getGatherState());
+			brain.stackState(brain.getIdleState());
 		}
 	}
 

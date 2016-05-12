@@ -99,4 +99,9 @@ public class CollidableBlocker implements ICollidable{
 	public RenderObject.RENDER_OBJECT_ENUM getRenderType() {
 		return RenderObject.RENDER_OBJECT_ENUM.EMPTY;
 	}
+
+	@Override
+	public void setRenderType(RenderObject.RENDER_OBJECT_ENUM type) {
+		;
+	}
 }
