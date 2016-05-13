@@ -919,7 +919,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	/**{@inheritDoc}*/
 	public void sleep() {
 		pcs.firePropertyChange("",0,1);
-		if (this.updateCounter % this.energyUpdate/8 == 0) {
+		if (this.updateCounter % this.energyUpdate/10 == 0) {
 			this.energy += Constants.CHARACTER_SLEEP_CHANGE;
 			if (this.energy >= Constants.CHARACTER_ENERGY_MAX) {
 				this.energy = Constants.CHARACTER_ENERGY_MAX;

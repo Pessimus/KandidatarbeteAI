@@ -5,6 +5,7 @@ import Model.ICollidable;
 import Model.IItem;
 import Model.IStructure;
 import Model.Structures.Stockpile;
+import Utility.RenderObject;
 
 import java.util.Iterator;
 
@@ -36,6 +37,7 @@ public class DumpToStockpileState implements IState {
 			}
 
 			if (found) {
+				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.STORING);
 				brain.getBody().interactObject(i);
 			} else {
 				Stockpile s = (Stockpile) brain.getStructureMemory().stream()
