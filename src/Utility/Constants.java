@@ -7,13 +7,31 @@ import java.awt.*;
  * Created by Tobias on 2016-03-09.
  */
 public final class Constants {
+
+
+			/* ****************************************************************************************** */
+			/**/  																						/**/
+			/**/	public static final double 				windowSize 					= 		0.5;	/**/
+			/**/																						/**/
+			/**/	public static final int 				StartingNrTrees 			=		90;		/**/
+			/**/	public static final int 				StartingNrLakes 			= 		20;		/**/
+			/**/	public static final int 				StartingNrStones 			= 		100;	/**/
+			/**/	public static final int 				StartingNrGold 				= 		0;		/**/
+			/**/	public static final int 				StartingNrAnimal 			= 		20;		/**/
+			/**/																						/**/
+			/**/	public static final int 				NUMBER_OF_NPCS 				= 		20;		/**/
+			/**/																						/**/
+			/* ****************************************************************************************** */
+
+
+
 	public static final String GAME_TITLE = "AI for NPCs";
 
 	// ----------- Controller Constants ----------- \\
 
 
-	public static final double SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2;
-	public static final double SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2;
+	public static final double SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth() * windowSize;
+	public static final double SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight() * windowSize;
 
     /*
 	public static final         int         GRASS_START_PIXEL_X                 =   650;
@@ -56,12 +74,6 @@ public final class Constants {
 	public static final float WORLD_WIDTH = 7980f;
 	public static final float WORLD_HEIGHT = 7980f;
 
-	public static final int StartingNrTrees = 90;
-	public static final int StartingNrLakes = 20;
-	public static final int StartingNrStones = 100;
-	public static final int StartingNrGold = 200;
-	public static final int StartingNrAnimal = 20;
-
 	public static final int TARGET_FRAMERATE = 60;
 	public static final boolean GAME_GRAB_MOUSE = false;
 	public static final boolean RUN_IN_FULLSCREEN = false;
@@ -79,10 +91,6 @@ public final class Constants {
 	public static final float CHARACTER_WALK_SPEED = 4f;
 	public static final float CHARACTER_RUN_SPEED = 7f;
 	public static final int CHARACTER_UPDATE_INTERVAL = 60;
-
-
-	public static final int NUMBER_OF_NPCS = 20; // Used in initialization of Controller to deterimine the number of NPCs to spawn
-
 
 	public static final int NUMBER_OF_FEMALE_NAMES = 4275;
 	public static final int NUMBER_OF_MALE_NAMES = 1219;
