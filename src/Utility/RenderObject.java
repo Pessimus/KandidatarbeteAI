@@ -39,10 +39,7 @@ public final class RenderObject{
 		THINK_DRINKING("res/drinkingThink.png"), DRINKING("res/drinking.png"), THINK_SOWING("res/sowingThink.png"),
 		SOWING("res/sowing.png"), THINK_STORING("res/storingThink.png"),
 		EMPTY("res/empty.png"),
-
-		// TODO: Hardcoded test enum
 		MEAT("res/meat_item.png");
-		// TODO: Hardcoded test enum
 
 		public String pathToResource;
 
@@ -79,17 +76,4 @@ public final class RenderObject{
 		return objectType;
 	}
 
-/*//TODO check if safe to REMOVE!!
-	@Override
-	public boolean equals(Object o){
-		if ( this == o ) return true;
-		if ( !(o instanceof RenderObject) ) return false;
-
-		RenderObject temp = (RenderObject) o;
-		return temp.getX() == getX() && temp.getY() == getY() && temp.getRadius() == getRadius() && temp.getRenderType() == temp.getRenderType();
-	}
-
-	public boolean compare(ICollidable o){
-		return o.getX() == getX() && o.getY() == getY() && o.getCollisionRadius() == getRadius() && o.getRenderType() == getRenderType();
-	}*/
 }

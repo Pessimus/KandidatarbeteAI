@@ -1,7 +1,6 @@
 package Utility;
 
 import Controller.Pathfinder;
-
 import java.awt.*;
 
 /**

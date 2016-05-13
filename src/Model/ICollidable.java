@@ -108,7 +108,6 @@ public interface ICollidable {
 	/** @return a RenderObject representing this Collidable */
 	RenderObject getRenderObject();
 
-	//TODO remove?
 	RenderObject.RENDER_OBJECT_ENUM getRenderType();
 	void setRenderType(RenderObject.RENDER_OBJECT_ENUM type);
 }

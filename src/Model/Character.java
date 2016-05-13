@@ -1,16 +1,11 @@
 package Model;
 
-import Controller.ArtificialBrain;
-import Model.Structures.Farm;
 import Model.Structures.House;
 import Model.Structures.Stockpile;
 import Model.Tasks.*;
 import Utility.Constants;
 import Utility.InventoryRender;
 import Utility.RenderObject;
-import Utility.UniversalStaticMethods;
-import org.lwjgl.Sys;
-
 import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -239,7 +234,7 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 			din.close();
 			writer.close();
 		}catch(Exception e){//Catch exception if any
-			System.err.println("Error: " + e.getMessage());
+//			System.err.println("Error: " + e.getMessage());
 		}
 		return name;
 	}

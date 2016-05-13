@@ -4,7 +4,6 @@ import Model.Tasks.AttackTask;
 import Model.Tasks.InteractTask;
 import Utility.Constants;
 import Utility.RenderObject;
-
 import java.util.LinkedList;
 
 /**
