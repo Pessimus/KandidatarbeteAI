@@ -4,11 +4,7 @@ import Model.ICharacterHandle;
 import Model.IResource;
 import Model.ResourcePoint;
 import Utility.Constants;
-import org.lwjgl.Sys;
-
-import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Gustav on 2016-04-21.
@@ -20,14 +16,14 @@ public class ResourceMemory {
     private int size;
 
     public ResourceMemory () {
-        System.out.print("Initializing ResourceMemory");
+//		System.out.print("Initializing ResourceMemory");
         last = new Node();
         first = new Node();
         first.next = last;
         last.previous = first;
         current = first;
         size = 0;
-        System.out.print("ResourceMemory Online");
+//        System.out.print("ResourceMemory Online");
     }
 
     public void reset () {

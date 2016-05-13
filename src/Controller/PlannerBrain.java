@@ -3,7 +3,6 @@ package Controller;
 import Controller.AIStates.IState;
 import Model.ICharacterHandle;
 import java.util.LinkedList;
-
 import Model.ICollidable;
 import Model.IItem;
 import Model.ResourcePoint;

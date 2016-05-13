@@ -1,16 +1,11 @@
 package Controller;
 
-import Controller.AIStates.MovingState;
 import Model.*;
 import Model.Character;
 import Utility.Constants;
 import Utility.RenderObject;
 import View.*;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
-import org.lwjgl.Sys;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.state.BasicGameState;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
@@ -111,7 +106,7 @@ public class Controller implements PropertyChangeListener {
 	}
 
 //----------------------------------------------Run methods-----------------------------------------------------------\\
-	
+
 
 	public void start() {
 		//startViewUpdate();

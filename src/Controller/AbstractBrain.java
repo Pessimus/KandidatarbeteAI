@@ -1,7 +1,6 @@
 package Controller;
 
 import Controller.AIStates.IState;
-import Model.Character;
 import Model.ICharacterHandle;
 
 /**

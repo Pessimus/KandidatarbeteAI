@@ -3,10 +3,8 @@ package Controller;
 import Controller.AIStates.*;
 import Model.*;
 import Model.Character;
-import Model.Structures.Stockpile;
 import Utility.Constants;
 import Utility.RenderObject;
-
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -16,7 +14,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-//import java.awt.*;
 
 /**
  * Created by Gustav on 2016-03-23.
