@@ -2,7 +2,6 @@ package Model.Tasks;
 
 import Model.*;
 import Model.Character;
-
 import java.beans.PropertyChangeEvent;
 
 /**

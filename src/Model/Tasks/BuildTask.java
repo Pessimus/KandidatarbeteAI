@@ -1,7 +1,6 @@
 package Model.Tasks;
 
 import Model.*;
-
 import java.beans.PropertyChangeEvent;
 import java.util.LinkedList;
 

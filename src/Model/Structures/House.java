@@ -204,7 +204,7 @@ public class House implements IStructure {
 	public void interactedCommand(Character rhs) {
 		//rhs.changeEnergy(Constants.CHARACTER_ENERGY_MAX);
 		rhs.changeEnergy(Constants.HOUSE_ENERGY_CHANGE);
-		System.out.println(rhs.getNeeds()[2]);
+//		System.out.println(rhs.getNeeds()[2]);
 		if(rhs.getNeeds()[2]>90){
 			rhs.exitHouse(this);
 		}else{
