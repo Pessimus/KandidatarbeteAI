@@ -1,12 +1,9 @@
 package Controller.AIStates;
 
-import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
-import Model.*;
-import Utility.RenderObject;
+import Model.IStructure;
+import Model.World;
 
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Random;
 
 /**
@@ -27,42 +24,48 @@ public class IdleState implements IState {
 		int[] secondaryNeedsArray = brain.getBody().getSecondaryNeeds();
 
 
-
-		if(brain.getStateQueue().isEmpty()){
-			if (!brain.getBody().hasHome()){
+		// This 'if'-statement is used to determine what should be done
+		// when there is nothing important to do.
+		if (brain.getStateQueue().isEmpty()) {
+			if (!brain.getBody().hasHome()) {
 				brain.stackStructureToBuild(IStructure.StructureType.HOUSE);
 				brain.stackState(brain.getBuildState());
-			} else{
-				if(secondaryNeedsArray[0] < 50){
+			} else {
+				if (secondaryNeedsArray[0] < 50) {
 					brain.stackState(brain.getSocializeState());
 				} else {
 					Random r = new Random();
 					double d = r.nextDouble();
-					if(d > 0.9  && (!brain.getBody().hasFarm())) {
-						for(IStructure structure : brain.getStructureMemory()) {
-							if(structure.getStructureType() == IStructure.StructureType.FARM) {
+					if (d > 0.9 && (!brain.getBody().hasFarm())) {
+						for (IStructure structure : brain.getStructureMemory()) {
+							if (structure.getStructureType() == IStructure.StructureType.FARM) {
 								brain.setState(brain.getIdleState());
+								brain.getBody().setHasFarm(true);
 							}
 						}
 						brain.stackStructureToBuild(IStructure.StructureType.FARM);
 						brain.stackState(brain.getBuildState());
-					} else if(d > 0.8 && !brain.getBody().hasStockPile()){
+					} else if (d > 0.8 && !brain.getBody().hasStockPile()) {
 						brain.stackStructureToBuild(IStructure.StructureType.STOCKPILE);
 						brain.stackState(brain.getBuildState());
-					} else{
-						r = new Random();
+					} else {
 						d = r.nextDouble();
-						if (d > 0.5+brain.getAnimalTime() && World.nbrAnimals > 15){
+						if (brain.getAnimalTime() < 500 && World.nbrAnimals > 15) {
 							brain.stackState(brain.getHuntingState());
-						} else if(d > 0.4 && d < 0.5+brain.getAnimalTime()) {
+						} else if (d > 0.7) {
 							brain.stackState(brain.getGatherState());
-						}else {
-							brain.stackState(brain.getWorkFarmState());
+						} else {
+							if (d > 0.4 && d <= 0.7) {
+								brain.stackState(brain.getDumpToStockpileState());
+							} else {
+								brain.stackState(brain.getWorkFarmState());
+							}
 						}
 					}
 				}
 			}
 		}
-			brain.setState(brain.getStateQueue().poll());
+
+		brain.setState(brain.getStateQueue().poll());
 	}
 }

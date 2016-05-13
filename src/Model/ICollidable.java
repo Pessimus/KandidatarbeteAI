@@ -110,4 +110,5 @@ public interface ICollidable {
 
 	//TODO remove?
 	RenderObject.RENDER_OBJECT_ENUM getRenderType();
+	void setRenderType(RenderObject.RENDER_OBJECT_ENUM type);
 }

@@ -537,6 +537,11 @@ public class CollisionList {
 		public RenderObject.RENDER_OBJECT_ENUM getRenderType() {
 			return null;
 		}
+
+		@Override
+		public void setRenderType(RenderObject.RENDER_OBJECT_ENUM type) {
+			;
+		}
 	}
 
 //----------------------------Inner class used to create custom linked list-------------------------------------------\\

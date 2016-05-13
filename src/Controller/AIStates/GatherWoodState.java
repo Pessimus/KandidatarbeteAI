@@ -1,10 +1,7 @@
 package Controller.AIStates;
 
 import Controller.ArtificialBrain;
-import Model.ICollidable;
-import Model.IItem;
-import Model.IResource;
-import Model.ResourcePoint;
+import Model.*;
 import Utility.RenderObject;
 
 import java.util.Iterator;
@@ -32,28 +29,32 @@ public class GatherWoodState implements IState {
 				.filter(o -> o.getType().equals(IItem.Type.WOOD_ITEM))
 				.mapToInt(IItem::getAmount)
 				.sum();
-
-		if(woodAmount < brain.getNextResourceToGather().resourceAmount) {
-			Iterator<ICollidable> iterator = brain.getBody().getInteractables().iterator();
-			int i = 0;
-			boolean found = false;
-			while (iterator.hasNext()) {
-				ICollidable next = iterator.next();
-				if (next.getClass().equals(ResourcePoint.class)) {
-					ResourcePoint tempPoint = (ResourcePoint) next;
-					if (tempPoint.getResource().getResourceType().equals(IResource.ResourceType.WOOD)) {
-						brain.getBody().interactObject(i);
-						brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.FORESTING);
-						found = true;
-						break;
+		if(!(World.nbrTrees < 20)) {
+			if (woodAmount < brain.getNextResourceToGather().resourceAmount) {
+				Iterator<ICollidable> iterator = brain.getBody().getInteractables().iterator();
+				int i = 0;
+				boolean found = false;
+				while (iterator.hasNext()) {
+					ICollidable next = iterator.next();
+					if (next.getClass().equals(ResourcePoint.class)) {
+						ResourcePoint tempPoint = (ResourcePoint) next;
+						if (tempPoint.getResource().getResourceType().equals(IResource.ResourceType.WOOD)) {
+							brain.getBody().interactObject(i);
+							brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.FORESTING);
+							found = true;
+							break;
+						}
 					}
+
+					i++;
 				}
 
-				i++;
-			}
-
-			if (!found) {
-				brain.setState(brain.getGatherState());
+				if (!found) {
+					brain.setState(brain.getGatherState());
+				}
+			} else {
+				brain.getGatherStack().remove();
+				brain.setState(brain.getIdleState());
 			}
 		} else {
 			brain.getGatherStack().remove();

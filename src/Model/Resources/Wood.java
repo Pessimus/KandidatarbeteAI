@@ -113,7 +113,7 @@ public class Wood extends RenewableResource {
 	/**{@inheritDoc}*/
     public void updateTimeable() {
 		updateCounter = (updateCounter+1) % Constants.TREE_UPDATE_INTERVAL;
-		if(updateCounter == 0 && getResourcesLeft() > 0){// && getResourcesLeft()<getMaxResources()){
+		if(updateCounter == 0 && getResourcesLeft() > 0 && World.nbrTrees < Constants.MAX_TREE_COUNT) {// && getResourcesLeft()<getMaxResources()){
 			//setResourcesLeft(getResourcesLeft() + Constants.TREE_INCREASE_AMOUNT);
 			this.spawning = true;
 		}

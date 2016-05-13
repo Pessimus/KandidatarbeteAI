@@ -32,6 +32,7 @@ public class InteractTask implements ITask {
 	public void execute() {
 		this.interactable.interactedCommand(this.actor);
 		this.actor.setWaiting(false);
+		actor.removePropertyChangeListener(this);
 	}
 
 	@Override
@@ -39,6 +40,7 @@ public class InteractTask implements ITask {
 		this.actor.setWaiting(false);
 		this.remove = true;
 		this.interactable.interactedInterrupted(this.actor);
+		actor.removePropertyChangeListener(this);
 	}
 
 	/*@Override

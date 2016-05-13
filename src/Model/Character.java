@@ -724,6 +724,11 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		return renderObjectEnum;
 	}
 
+	@Override
+	public void setRenderType(RenderObject.RENDER_OBJECT_ENUM type) {
+		renderObjectEnum = type;
+	}
+
 	/**
 	 * Returns a list containing all information necessary to view this characters inventory.
 	 * @return A list of InventoryRender, one for every item in the inventory.
@@ -914,7 +919,12 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 	/**{@inheritDoc}*/
 	public void sleep() {
 		pcs.firePropertyChange("",0,1);
-		this.energy = 100;
+		if (this.updateCounter % this.energyUpdate/10 == 0) {
+			this.energy += Constants.CHARACTER_SLEEP_CHANGE;
+			if (this.energy >= Constants.CHARACTER_ENERGY_MAX) {
+				this.energy = Constants.CHARACTER_ENERGY_MAX;
+			}
+		}
 	}
 
 	@Override

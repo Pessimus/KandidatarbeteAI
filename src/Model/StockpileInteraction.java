@@ -2,6 +2,7 @@ package Model;
 
 import Model.Structures.Stockpile;
 import Utility.Constants;
+import Utility.RenderObject;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -32,8 +33,8 @@ public class StockpileInteraction {
 //---------------------------------------------Help Methods-----------------------------------------------------------\\
 
 	private boolean interactable(){
-		return (Math.abs(character.getX()-stockpile.getX())< Constants.CHARACTER_INTERACTION_RADIUS)
-				&& (Math.abs(character.getY()-stockpile.getY())<Constants.CHARACTER_INTERACTION_RADIUS);
+		return (Math.abs(character.getX()-stockpile.getX())< Constants.STOCKPILE_INTERACTION_RADIUS)
+				&& (Math.abs(character.getY()-stockpile.getY())<Constants.STOCKPILE_INTERACTION_RADIUS);
 	}
 
 	private boolean detectable(){
@@ -50,8 +51,10 @@ public class StockpileInteraction {
 					character.removeFromInventory(item);
 					stockpileInventory.addItem(item);
 				}
+			} else{
+				this.endInteraction();
 			}
-		}else{
+		} else{
 			this.endInteraction();
 		}
 	}
@@ -71,9 +74,24 @@ public class StockpileInteraction {
 
 
 	public void endInteraction(){
+		boolean hasWood = stockpileInventory.getItems().stream().filter(o -> o.getType().equals(IItem.Type.WOOD_ITEM)).findAny().isPresent();
+		boolean hasStone = stockpileInventory.getItems().stream().filter(o -> o.getType().equals(IItem.Type.STONE_ITEM)).findAny().isPresent();
+
+		if(hasWood && hasStone){
+			stockpile.setRenderType(RenderObject.RENDER_OBJECT_ENUM.STOCKPILE_FULL);
+		} else if(hasWood){
+			stockpile.setRenderType(RenderObject.RENDER_OBJECT_ENUM.STOCKPILE_WOOD);
+		} else if(hasStone){
+			stockpile.setRenderType(RenderObject.RENDER_OBJECT_ENUM.STOCKPILE_STONE);
+		} else{
+			stockpile.setRenderType(RenderObject.RENDER_OBJECT_ENUM.STOCKPILE);
+		}
+
 		character = null;
 		stockpile = null;
 		stockpileInventory = null;
+
+		pcs.firePropertyChange("endStockpileInteraction", false, true);
 
 		PropertyChangeListener[] listeners = pcs.getPropertyChangeListeners();
 		int i = 0;
