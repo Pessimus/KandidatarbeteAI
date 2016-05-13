@@ -26,6 +26,9 @@ public class World{
 	public static int nbrAnimals = 0;
 	public static int nbrTime = 0;
 
+	public static long fps = 0;
+	private long lastTime = 0;
+
 //-----------------------------------------------VARIABLES------------------------------------------------------------\\
 
 	//------------------Functionality-------------------\\
@@ -80,6 +83,8 @@ public class World{
 		Constants.PATHFINDER_OBJECT.updateMask(this.statics);
 
 		Schedule.init();
+
+		this.lastTime = System.currentTimeMillis();
 
 	}
 
@@ -176,6 +181,12 @@ public class World{
 			updateCharacters();
 
 		}
+
+		long t = System.currentTimeMillis();
+		long diff = t - this.lastTime;
+		this.lastTime = t;
+		World.fps = diff;
+
 	}
 
 	private void updateCharacters(){

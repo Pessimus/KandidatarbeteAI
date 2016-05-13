@@ -115,8 +115,24 @@ public class Controller implements PropertyChangeListener {
 
 
 	public void start() {
+		//startViewUpdate();
 		this.gameView.run();
 	}
+
+	Timer viewTimer;
+	private void startViewUpdate(){
+
+		viewTimer = new Timer();
+
+		TimerTask updateTask = new TimerTask() {
+			public void run() {
+				updateView();
+			}
+		};
+
+		viewTimer.scheduleAtFixedRate(updateTask, 0, 1000 / 60);
+	}
+
 
 	Timer timer;
 
@@ -142,7 +158,19 @@ public class Controller implements PropertyChangeListener {
 				brain.update();
 			}
 			gameModel.update();
-			updateView();
+
+			Thread t = new Thread(){
+				public void run(){
+					try {
+						updateView();
+					}catch (Exception e){
+						//The thread is deprecated, a newer thread is already updating.
+					}
+				}
+			};
+
+			t.start();
+
 			aiCleanup();
 		}
 	}
@@ -186,7 +214,7 @@ public class Controller implements PropertyChangeListener {
 					playerYPos = currentCharacter.getY() + Constants.VIEW_BORDER_HEIGHT;
 
 					//TODO remove --------------------------------------------------------------------------------------
-					if(!currentCharacter.equals(player.getBody()) && currentCharacter.isAlive()){
+					if(!currentCharacter.equals(player.getBody()) && currentCharacter.isAlive()  && false){
 										System.out.println("Current state: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getCurrentState());
 										if (((ArtificialBrain)aiMap.get(currentCharacter)).getCurrentState().getClass().equals(MovingState.class)) {
 											System.out.println("Moving towards resource: " + ((ArtificialBrain) aiMap.get(currentCharacter)).getThingMovingTowards());
@@ -590,7 +618,7 @@ public class Controller implements PropertyChangeListener {
 		}else {
 			zoom = Constants.ZOOM_LEVEL - 0.1;
 		}
-		if(zoom >= 0.3 && zoom < 2) {
+		if(zoom >= 0.2 && zoom < 2) {
 			Constants.ZOOM_LEVEL = zoom;
 			scaleGraphicsX = Constants.SCREEN_WIDTH * Constants.ZOOM_LEVEL / Constants.STANDARD_SCREEN_WIDTH;
 			scaleGraphicsY = Constants.SCREEN_HEIGHT * Constants.ZOOM_LEVEL / Constants.STANDARD_SCREEN_HEIGHT;
