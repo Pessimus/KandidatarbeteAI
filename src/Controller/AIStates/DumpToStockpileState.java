@@ -6,7 +6,6 @@ import Model.IItem;
 import Model.IStructure;
 import Model.Structures.Stockpile;
 import Utility.RenderObject;
-
 import java.util.Iterator;
 
 /**

@@ -4,7 +4,6 @@ import Controller.ArtificialBrain;
 import Controller.PathStep;
 import Model.*;
 import Utility.RenderObject;
-
 import java.util.Iterator;
 import java.util.List;
 

@@ -3,13 +3,8 @@ package Controller.AIStates;
 import Controller.ArtificialBrain;
 import Model.*;
 import Utility.RenderObject;
-
-import java.awt.*;
 import java.util.EnumMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import java.util.*;
 
 /**
  * Created by Tobias on 2016-03-29.

@@ -1,10 +1,7 @@
 package Controller.AIStates;
 
 import Controller.ArtificialBrain;
-import Utility.Constants;
 import Utility.RenderObject;
-
-import java.util.Random;
 
 /**
  * Created by Tobias on 2016-04-17.

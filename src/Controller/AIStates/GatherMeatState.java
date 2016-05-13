@@ -3,7 +3,6 @@ package Controller.AIStates;
 import Controller.ArtificialBrain;
 import Model.*;
 import Utility.RenderObject;
-
 import java.util.Iterator;
 
 /**

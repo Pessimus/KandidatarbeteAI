@@ -1,14 +1,10 @@
 package Controller.AIStates;
 
-import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
-import Model.ICharacterHandle;
 import Model.ICollidable;
 import Model.Character;
 import Model.Interaction;
 import Utility.Constants;
-
-import java.util.LinkedList;
 import java.util.List;
 
 /**

@@ -6,11 +6,7 @@ import Model.ICollidable;
 import Model.IResource;
 import Model.IStructure;
 import Model.ResourcePoint;
-import Model.Structures.Farm;
-import Utility.Constants;
 import Utility.RenderObject;
-
-import java.util.Iterator;
 import java.util.LinkedList;
 
 /**

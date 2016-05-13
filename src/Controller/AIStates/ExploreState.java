@@ -3,13 +3,8 @@ package Controller.AIStates;
 import Controller.ArtificialBrain;
 import Controller.PathStep;
 import Model.ICollidable;
-import Model.ResourcePoint;
-import Utility.Constants;
 import Utility.RenderObject;
-
 import java.util.LinkedList;
-import java.util.Random;
-import java.util.stream.IntStream;
 
 /**
  * Created by victo on 2016-04-20.
@@ -33,7 +28,7 @@ public class ExploreState implements IState {
 
             for (ICollidable o : brain.getBody().getSurroundings()) {
                 if (o.getClass().equals(brain.getObjectToFind())) {
-                    System.out.println("FOUND OBJECT WHILE EXPLORING");
+//                     System.out.println("FOUND OBJECT WHILE EXPLORING");
                     foundObject = true;
                     brain.setObjectToFind(null);
                     currentPath = null;

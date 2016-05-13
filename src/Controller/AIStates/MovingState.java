@@ -2,14 +2,9 @@ package Controller.AIStates;
 
 import Controller.ArtificialBrain;
 import Controller.PathStep;
-import Model.ICharacterHandle;
 import Utility.Constants;
 import Utility.RenderObject;
-import org.lwjgl.Sys;
-
-import java.awt.*;
 import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * Created by Tobias on 2016-03-31.

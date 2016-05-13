@@ -3,8 +3,6 @@ package Controller.AIStates;
 import Controller.ArtificialBrain;
 import Model.ICollidable;
 
-import java.awt.*;
-
 /**
  * Created by Tobias on 2016-03-29.
  */

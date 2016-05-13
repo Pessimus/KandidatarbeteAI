@@ -4,8 +4,6 @@ import Controller.ArtificialBrain;
 import Controller.PathStep;
 import Model.Character;
 import Model.ICollidable;
-import Model.ResourcePoint;
-
 import java.util.LinkedList;
 
 /**

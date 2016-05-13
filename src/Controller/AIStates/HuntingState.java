@@ -3,10 +3,8 @@ package Controller.AIStates;
 import Controller.ArtificialBrain;
 import Controller.PathStep;
 import Model.*;
-import Model.Character;
 import Utility.Constants;
 import Utility.RenderObject;
-
 import java.util.LinkedList;
 
 /**
