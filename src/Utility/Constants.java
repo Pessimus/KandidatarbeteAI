@@ -11,7 +11,7 @@ public final class Constants {
 
 			/* ****************************************************************************************** */
 			/**/  																						/**/
-			/**/	public static final double 				windowSize 					= 		0.5;	/**/
+			/**/	public static final double 				windowSize 					= 		1;	/**/
 			/**/																						/**/
 			/**/	public static final int 				StartingNrTrees 			=		90;		/**/
 			/**/	public static final int 				StartingNrLakes 			= 		20;		/**/

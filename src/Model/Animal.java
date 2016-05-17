@@ -1,5 +1,6 @@
 package Model;
 
+import Model.Resources.Meat;
 import Model.Tasks.AttackTask;
 import Model.Tasks.InteractTask;
 import Utility.Constants;
@@ -411,7 +412,7 @@ public class Animal implements ICollidable, ITimeable {
 		if(animals.size()<Constants.ANIMAL_MAX_POPULATION && this.alive) {
 			Animal tmp = rhs.addAnimal((this.xPoss + mate.xPoss) / 2,
 					(this.yPoss + mate.yPoss) / 2,
-					this.resource,
+					new Meat(10,10),    //this.resource,
 					(this.territoryMinX + mate.territoryMinX) / 2,
 					(this.territoryMinY + mate.territoryMinY) / 2,
 					(this.territoryMaxX + mate.territoryMaxX) / 2,
