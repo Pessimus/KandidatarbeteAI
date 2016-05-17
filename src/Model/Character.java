@@ -372,12 +372,12 @@ public class Character implements ICollidable, ITimeable, ICharacterHandle {
 		if(!this.genderMale && rhs.genderMale && !this.pregnant){
 			this.pregnant = true;
 			this.father = rhs;
-			Schedule.addTask(new ReproduceTask(this,Constants.CHARACTER_PREGNANCY_TIME));//TODO remove magic number
+			Schedule.addTask(new ReproduceTask(this,Constants.CHARACTER_PREGNANCY_TIME));
 			return true;
 		}else if(!rhs.genderMale && this.genderMale && !rhs.pregnant){
 			rhs.pregnant = true;
-			rhs.father = rhs;
-			Schedule.addTask(new ReproduceTask(rhs,Constants.CHARACTER_PREGNANCY_TIME));//TODO remove magic number
+			rhs.father = this;
+			Schedule.addTask(new ReproduceTask(rhs,Constants.CHARACTER_PREGNANCY_TIME));
 			return true;
 		}
 		return false;

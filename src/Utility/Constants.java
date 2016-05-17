@@ -108,7 +108,7 @@ public final class Constants {
 	public static final int CHARACTER_ENERGY_UPDATE = 200;
 	public static final int CHARACTER_SOCIAL_UPDATE = 300;
 
-	public static final int CHARACTER_AGE_UPDATE = 60 * 60 * 5;
+	public static final int CHARACTER_AGE_UPDATE = 60 * 60;// * 5;
 	public static final int CHARACTER_MIN_DEATH_AGE = 80;
 	public static final int CHARACTER_MAX_AGE = 100;
 	public static final int CHARACTER_DEATH_AGE_SPANN = CHARACTER_MAX_AGE - CHARACTER_MIN_DEATH_AGE;
