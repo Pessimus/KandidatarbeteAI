@@ -3,14 +3,7 @@ package Controller.AIStates;
 import Controller.ArtificialBrain;
 import Controller.PathStep;
 import java.util.LinkedList;
-import Controller.ArtificialBrain;
-import Controller.PathStep;
-import Model.ICharacterHandle;
-import Model.ICollidable;
 import Utility.Constants;
-
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * Created by victor on 2016-04-20.

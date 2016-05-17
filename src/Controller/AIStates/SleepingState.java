@@ -1,12 +1,8 @@
 package Controller.AIStates;
 
-import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
-import Model.ICharacterHandle;
 import Model.ICollidable;
-import Model.Structures.House;
 import Utility.RenderObject;
-
 import java.util.List;
 
 /**

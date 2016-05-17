@@ -1,7 +1,6 @@
 package Model.Tasks;
 
 import Model.ITask;
-
 import java.beans.PropertyChangeEvent;
 
 /**

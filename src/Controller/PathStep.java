@@ -1,6 +1,5 @@
 package Controller;
 
-import Model.Character;
 import Model.ICharacterHandle;
 
 /**

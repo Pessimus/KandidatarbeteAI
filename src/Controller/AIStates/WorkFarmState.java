@@ -3,13 +3,8 @@ package Controller.AIStates;
 import Controller.ArtificialBrain;
 import Model.ICollidable;
 import Model.IStructure;
-import Model.ResourcePoint;
 import Model.Structures.Farm;
-import Utility.Constants;
 import Utility.RenderObject;
-import Utility.UniversalStaticMethods;
-
-import java.awt.*;
 import java.util.Iterator;
 
 /**
@@ -31,7 +26,7 @@ public class WorkFarmState implements IState {
 			i++;
 			ICollidable tempC = iteratorC.next();
 			if(tempC.getClass().equals(Farm.class)){
-				System.out.println("Interacted with farm!");
+//				System.out.println("Interacted with farm!");
 				brain.getBody().setCurrentActivity(RenderObject.RENDER_OBJECT_ENUM.SOWING);
 				brain.getBody().interactObject(i);
 				hasFound = true;

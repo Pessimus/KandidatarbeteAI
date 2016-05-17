@@ -3,7 +3,6 @@ package Controller.AIStates;
 import Controller.ArtificialBrain;
 import Model.IStructure;
 import Model.World;
-
 import java.util.Random;
 
 /**

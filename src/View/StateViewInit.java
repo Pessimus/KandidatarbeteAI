@@ -6,7 +6,6 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
-
 import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -29,7 +28,6 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 	private AppGameContainer gameContainer;
 
 	/**
-	 * TODO: Javadoc!
 	 * @param title What the title of the window should be
 	 * @param fullscreen Wether the game should update in fullscreen/windowed mode
 	 * @param grabMouse Wether the mouse
@@ -49,6 +47,7 @@ public class StateViewInit extends StateBasedGame implements Runnable {
 			gameContainer.setMouseGrabbed(grabMouse);
 			gameContainer.setTargetFrameRate(targetFramerate);
 			gameContainer.setShowFPS(false);
+			gameContainer.setVerbose(false);
 		}
 		catch(SlickException e){
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Exception in StateViewInit constructor when creating AppGameContainer!", e);

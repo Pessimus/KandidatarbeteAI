@@ -1,8 +1,6 @@
 package Model;
 
 import Utility.RenderObject;
-
-import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
@@ -10,22 +8,6 @@ import java.util.List;
  * Created by Tobias on 2016-03-25.
  */
 public interface ICharacterHandle {
-
-	/*TODO REMOVE
-		void startWalkingUp();
-		void startWalkingDown();
-		void startWalkingLeft();
-		void startWalkingRight();
-		void stopWalkingUp();
-		void stopWalkingDown();
-		void stopWalkingLeft();
-		void stopWalkingRight();
-
-		void useItem(int inventoryIndex);
-		boolean interactWith(int interactiblesIndex);
-
-		void applyOutcome(Outcome outcome);
-	*/
 
 	/** @return a array containing the values of the characters needs. */
 	int[] getNeeds();
@@ -68,9 +50,9 @@ public interface ICharacterHandle {
 	/** @return A list containing all the items in the characters inventory.*/
 	List<IItem> getInventory();
 
-	//TODO add javadock
+
 	Outcome getOutcomeInventory(int inventoryIndex);
-	//TODO add javadock
+
 	Outcome getOutcomeInteractables(int interactablesIndex);
 
 	/**

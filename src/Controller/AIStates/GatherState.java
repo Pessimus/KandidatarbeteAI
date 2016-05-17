@@ -2,11 +2,8 @@ package Controller.AIStates;
 
 import Controller.ArtificialBrain;
 import Model.*;
-import Model.Structures.Farm;
 import Utility.Constants;
 import Utility.RenderObject;
-
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -121,7 +118,7 @@ public class GatherState implements IState{
 			switch (selectType) {
 				case MEAT:
 					// TODO: Since Animals currently aren't ResourcePoints, this shouldn't run!!
-					System.out.println("No action to do here...");
+//					System.out.println("No action to do here...");
 					break;
 				case CROPS:
 					brain.stackState(brain.getGatherCropsState());

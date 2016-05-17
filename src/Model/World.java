@@ -7,9 +7,6 @@ import Model.Structures.Stockpile;
 import Utility.Constants;
 import Utility.InventoryRender;
 import Utility.RenderObject;
-
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;

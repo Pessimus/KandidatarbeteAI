@@ -4,7 +4,6 @@ import Model.ICharacterHandle;
 import Model.IResource;
 import Model.ResourcePoint;
 import Utility.Constants;
-import org.lwjgl.Sys;
 
 /**
  * Created by Gustav on 2016-04-26.
@@ -47,9 +46,9 @@ public class MemoryUnit {
     }
 
     public boolean surrounding (ICharacterHandle c) {
-        if (item == null || type == null) {
-            System.out.println("################################################################");
-        }
+//        if (item == null || type == null) {
+//           System.out.println("################################################################");
+ //       }
         return Math.abs(c.getX()-getX()) < Constants.CHARACTER_SURROUNDING_RADIUS && Math.abs(c.getY()-getY()) < Constants.CHARACTER_SURROUNDING_RADIUS;
     }
 }

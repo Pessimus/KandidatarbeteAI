@@ -3,10 +3,8 @@ package Model;
 import Model.Structures.Stockpile;
 import Utility.Constants;
 import Utility.RenderObject;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.List;
 
 /**
  * Created by Martin on 2016-04-17.

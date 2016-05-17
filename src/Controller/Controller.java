@@ -1,16 +1,11 @@
 package Controller;
 
-import Controller.AIStates.MovingState;
 import Model.*;
 import Model.Character;
 import Utility.Constants;
 import Utility.RenderObject;
 import View.*;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
-import org.lwjgl.Sys;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.state.BasicGameState;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
@@ -113,26 +108,10 @@ public class Controller implements PropertyChangeListener {
 //----------------------------------------------Run methods-----------------------------------------------------------\\
 
 
-
 	public void start() {
 		//startViewUpdate();
 		this.gameView.run();
 	}
-
-	Timer viewTimer;
-	private void startViewUpdate(){
-
-		viewTimer = new Timer();
-
-		TimerTask updateTask = new TimerTask() {
-			public void run() {
-				updateView();
-			}
-		};
-
-		viewTimer.scheduleAtFixedRate(updateTask, 0, 1000 / 60);
-	}
-
 
 	Timer timer;
 
@@ -213,29 +192,27 @@ public class Controller implements PropertyChangeListener {
 					playerXPos = currentCharacter.getX() + Constants.VIEW_BORDER_WIDTH;
 					playerYPos = currentCharacter.getY() + Constants.VIEW_BORDER_HEIGHT;
 
-					//TODO remove --------------------------------------------------------------------------------------
-					if(!currentCharacter.equals(player.getBody()) && currentCharacter.isAlive()  && false){
-										System.out.println("Current state: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getCurrentState());
-										if (((ArtificialBrain)aiMap.get(currentCharacter)).getCurrentState().getClass().equals(MovingState.class)) {
-											System.out.println("Moving towards resource: " + ((ArtificialBrain) aiMap.get(currentCharacter)).getThingMovingTowards());
-										}
-										System.out.println();
-										System.out.println("State stack:");
-										((ArtificialBrain)aiMap.get(currentCharacter)).getStateQueue().stream()
-												.forEach(o -> System.out.print("\t" + o));
-										System.out.println("\nGather stack:");
-										((ArtificialBrain)aiMap.get(currentCharacter)).getGatherStack().stream()
-												.forEach(o -> System.out.print("\t" + (o.resourceType)));
-										/*System.out.println("\nPath stack:\n");
-										((ArtificialBrain)aiMap.get(currentCharacter)).getPathStack().stream()
-												.forEach(o -> System.out.print("\t" + o));*/
-										System.out.println("\nBuild stack: " +
-										((ArtificialBrain)aiMap.get(currentCharacter)).getStructureStack());
-										System.out.println("Resource to find: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getResourceToFindStack());
-										/*System.out.println("FARM?: " + ((ArtificialBrain) aiMap.get(currentCharacter)).getStructureMemory().contains(IStructure.StructureType.FARM));*/
-										System.out.println("___________________________________________________________________________________________\n");
-									}
-					//TODO remove --------------------------------------------------------------------------------------
+//					if(!currentCharacter.equals(player.getBody()) && currentCharacter.isAlive()  && false){
+//										System.out.println("Current state: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getCurrentState());
+//										if (((ArtificialBrain)aiMap.get(currentCharacter)).getCurrentState().getClass().equals(MovingState.class)) {
+//											System.out.println("Moving towards resource: " + ((ArtificialBrain) aiMap.get(currentCharacter)).getThingMovingTowards());
+//										}
+//										System.out.println();
+//										System.out.println("State stack:");
+//										((ArtificialBrain)aiMap.get(currentCharacter)).getStateQueue().stream()
+//												.forEach(o -> System.out.print("\t" + o));
+//										System.out.println("\nGather stack:");
+//										((ArtificialBrain)aiMap.get(currentCharacter)).getGatherStack().stream()
+//												.forEach(o -> System.out.print("\t" + (o.resourceType)));
+//										/*System.out.println("\nPath stack:\n");
+//										((ArtificialBrain)aiMap.get(currentCharacter)).getPathStack().stream()
+//												.forEach(o -> System.out.print("\t" + o));*/
+//										System.out.println("\nBuild stack: " +
+//										((ArtificialBrain)aiMap.get(currentCharacter)).getStructureStack());
+//										System.out.println("Resource to find: " + ((ArtificialBrain)aiMap.get(currentCharacter)).getResourceToFindStack());
+//										/*System.out.println("FARM?: " + ((ArtificialBrain) aiMap.get(currentCharacter)).getStructureMemory().contains(IStructure.StructureType.FARM));*/
+//										System.out.println("___________________________________________________________________________________________\n");
+//									}
 				}
 
 				if (playerXPos - Constants.SCREEN_WIDTH / (2 * scaleGraphicsX) > 0) {
@@ -634,6 +611,7 @@ public class Controller implements PropertyChangeListener {
 					screenRect.setMinY(height - Constants.SCREEN_HEIGHT / (scaleGraphicsX));
 				}
 			}
+			this.updateView();
 		}
 	}
 

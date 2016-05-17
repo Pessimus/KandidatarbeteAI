@@ -6,7 +6,6 @@ import Model.IItem;
 import Model.IResource;
 import Model.ResourcePoint;
 import Utility.RenderObject;
-
 import java.util.Iterator;
 
 /**

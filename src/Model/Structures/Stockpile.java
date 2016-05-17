@@ -2,7 +2,6 @@ package Model.Structures;
 
 import Model.*;
 import Model.Character;
-import Model.Items.WoodItem;
 import Model.Tasks.AttackTask;
 import Model.Tasks.InteractTask;
 import Utility.Constants;

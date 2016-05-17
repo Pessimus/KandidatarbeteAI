@@ -4,7 +4,6 @@ import Controller.AIStates.IState;
 import Model.*;
 import Model.Character;
 import Utility.Constants;
-
 import java.util.LinkedList;
 
 /**

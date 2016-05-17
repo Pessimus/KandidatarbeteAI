@@ -1,8 +1,6 @@
 package Controller.AIStates;
 
-import Controller.AbstractBrain;
 import Controller.ArtificialBrain;
-import Model.ICharacterHandle;
 
 /**
  * Created by Tobias on 2016-03-29.
